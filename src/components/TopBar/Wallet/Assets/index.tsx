@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Link, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
@@ -30,12 +30,18 @@ import { GetTokenPrice } from "../queries";
 import Balances from "./Balances";
 import { TransactionHistory } from "./TransactionHistory";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  selector: {
+const PREFIX = "AssetsIndex";
+
+const classes = {
+  selector: `${PREFIX}-selector`,
+  forecast: `${PREFIX}-forecast`,
+};
+
+const StyledFade = styled(Fade)(({ theme }) => ({
+  [`& .${classes.selector}`]: {
     "& p": {
       fontSize: "16px",
       fontWeight: 400,
-      fontFamily: "SquareMedium",
       lineHeight: "24px",
 
       cursor: "pointer",
@@ -48,11 +54,12 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginRight: 0,
     },
     "& .active": {
-      color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+      color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       textDecoration: "inherit",
     },
   },
-  forecast: {
+
+  [`& .${classes.forecast}`]: {
     textAlign: "right",
     "& .number": {
       fontWeight: 400,
@@ -121,34 +128,26 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
-  const totalAsSohm = totalGohmBalance
-    .mul(currentIndex)
-    .add(totalWsohmBalance.mul(currentIndex))
-    .add(sOhmBalance)
-    .add(v1SohmBalance);
-
-  const sOHMDailyForecast = formatNumber(totalAsSohm.toApproxNumber() * rebaseRate * 3, 2);
-  const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
 
   const tokenArray = [
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedohmBalance,
-      assetValue: Number(formattedohmBalance) * ohmPrice,
+      assetValue: ohmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
     },
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1OhmBalance,
       label: "(v1)",
-      assetValue: Number(formattedV1OhmBalance) * ohmPrice,
+      assetValue: v1OhmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedSOhmBalance) * ohmPrice,
+      assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
       lineThreeValue:
@@ -162,18 +161,18 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       label: "(v1)",
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedV1SohmBalance) * ohmPrice,
+      assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["wsOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedWsOhmBalance,
-      assetValue: gOhmPrice * Number(formattedWsOhmBalance),
+      assetValue: gOhmPrice * totalWsohmBalance.toApproxNumber(),
       geckoTicker: "governance-ohm",
     },
     {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
-      assetValue: gOhmPrice * Number(formattedgOhmBalance),
+      assetValue: gOhmPrice * totalGohmBalance.toApproxNumber(),
       pnl: formattedgOhmBalance ? 0 : formatCurrency(totalGohmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
       geckoTicker: "governance-ohm",
@@ -196,25 +195,17 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       geckoTicker: "governance-ohm",
     })) || [];
 
-  const classes = useStyles();
-
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
   return (
-    <Fade in={true}>
+    <StyledFade in={true}>
       <Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <WalletBalance
             title="Balance"
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-            underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
-          />
-          <WalletBalance
-            className={classes.forecast}
-            title="Today's Forecast"
-            usdBalance={`+ ${usdDailyForecast}`}
-            underlyingBalance={`+${sOHMDailyForecast} OHM`}
+            underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
@@ -240,7 +231,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           }
         })()}
       </Box>
-    </Fade>
+    </StyledFade>
   );
 };
 

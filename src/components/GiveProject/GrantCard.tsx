@@ -3,10 +3,10 @@ import "react-step-progress-bar/styles.css";
 import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -18,7 +18,6 @@ import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT } from "src/views/Give/constants";
@@ -34,6 +33,9 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { useAccount, useNetwork } from "wagmi";
+
+import { InPageConnectButton } from "../ConnectButton/ConnectButton";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -55,7 +57,9 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { address, connected, connect, networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { data: account } = useAccount();
+
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -66,10 +70,10 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   // Pulls a user's donation info
-  const rawDonationInfo = useDonationInfo().data;
+  const _useDonationInfo = useDonationInfo().data;
   const donationInfo = useMemo(() => {
-    return rawDonationInfo ? rawDonationInfo : [];
-  }, [rawDonationInfo]);
+    return _useDonationInfo ? _useDonationInfo : [];
+  }, [_useDonationInfo]);
   const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Gets the number of donors for a given grant's wallet
@@ -91,7 +95,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const dispatch = useAppDispatch();
 
   const userDonation: IUserDonationInfo | null = useMemo(() => {
-    if (donationId == NO_DONATION) return null;
+    if (donationId == NO_DONATION || donationInfo.length == 0) return null;
 
     return donationInfo[donationId];
   }, [donationInfo, donationId]);
@@ -108,14 +112,14 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
-  // Determine if the current user is donating to the project whose page they are
-  // currently viewing and if so tracks the index of the recipient in the user's
-  // donationInfo array
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [networkId]);
+  }, [activeChain.id]);
 
+  // Determine if the current user is donating to the project whose page they are
+  // currently viewing and if so tracks the index of the recipient in the user's
+  // donationInfo array
   useEffect(() => {
     if (isDonationInfoLoading || !donationInfo) return;
 
@@ -131,7 +135,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
 
   // Reset donation states when user switches network
   useEffect(() => {
@@ -168,7 +172,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       color: `${theme.palette.text.secondary}`,
     };
     const fillColour =
-      theme.palette.type === "dark" && theme.colors.primary[300]
+      theme.palette.mode === "dark" && theme.colors.primary[300]
         ? theme.colors.primary[300]
         : theme.palette.text.secondary;
 
@@ -251,7 +255,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 <Grid item>
                   <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
                     <Grid item>
-                      <Icon name="donors" />
+                      <Icon name="donors" sx={{ width: "21px", height: "19px" }} />
                     </Grid>
                     <Grid item className="metric">
                       {isDonationInfoLoading || donorCount === undefined ? (
@@ -272,7 +276,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 <Grid item xs={12}>
                   <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                     <Grid item>
-                      <Icon name="sohm-yield-goal" />
+                      <Icon name="sohm-yield-goal" sx={{ width: "18px", height: "19px" }} />
                     </Grid>
                     <Grid item className="metric">
                       {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
@@ -317,7 +321,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     }
 
     return (
-      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+      <Grid container alignContent="center" style={{ maxHeight: "187px", overflow: "hidden", borderRadius: "16px" }}>
         <Grid item xs>
           {imageElement}
         </Grid>
@@ -342,7 +346,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    giveMutation.mutate({
+    await giveMutation.mutate({
       amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
@@ -432,7 +436,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       category: "Olympus Give",
       action: "View Grants Project",
       label: title,
-      dimension1: address ?? "unknown",
+      dimension1: account?.address ?? "unknown",
       dimension2: source,
     });
   };
@@ -490,7 +494,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     href={`#/give/grants/${grant.slug}`}
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
-                    <TertiaryButton size="small" fullWidth>
+                    <TertiaryButton size="medium" fullWidth>
                       <Trans>View Details</Trans>
                     </TertiaryButton>
                   </Link>
@@ -543,30 +547,25 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={2} direction="column">
-                        <Grid item xs={12}>
-                          {renderDepositData()}
-                        </Grid>
-                        {/* This Grid item and the marginTop style keep the button bottom-aligned */}
-                        {isBreakpointMedium ? <Grid item xs={12} style={{ flexGrow: 1 }} /> : <></>}
-                        <Grid item xs={12} style={{ marginTop: "auto" }}>
-                          {!connected ? (
-                            <PrimaryButton onClick={connect} fullWidth>
-                              <Trans>Connect Wallet</Trans>
-                            </PrimaryButton>
-                          ) : isUserDonating ? (
-                            <></>
-                          ) : (
-                            <PrimaryButton
-                              onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(networkId)}
-                              fullWidth
-                            >
-                              <Trans>Donate Yield</Trans>
-                            </PrimaryButton>
-                          )}
-                        </Grid>
+                    <Grid container xs>
+                      <Grid item xs={12} spacing={3}>
+                        {renderDepositData()}
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
+                        {!account ? (
+                          <InPageConnectButton />
+                        ) : isUserDonating ? (
+                          <></>
+                        ) : (
+                          <PrimaryButton
+                            size="medium"
+                            onClick={() => handleGiveButtonClick()}
+                            disabled={!isSupportedChain(activeChain.id)}
+                            fullWidth
+                          >
+                            <Trans>Donate Yield</Trans>
+                          </PrimaryButton>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -577,7 +576,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
               ) : (
                 <Grid item xs={12}>
                   <Paper headerText={t`Your Donations`} fullWidth>
-                    <Grid container alignItems="flex-end">
+                    <Grid container alignItems="flex-end" spacing={2}>
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -613,8 +612,9 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       <Box width="100%" />
                       <Grid item xs={12}>
                         <PrimaryButton
+                          size="medium"
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
+                          disabled={!isSupportedChain(activeChain.id)}
                           style={{ marginTop: "24px" }}
                           fullWidth
                         >

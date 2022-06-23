@@ -1,35 +1,41 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import { WagmiConfig } from "wagmi";
 
 import App from "./App";
-import { Web3ContextProvider } from "./hooks/web3Context";
+import { chains, wagmiClient } from "./hooks/wagmi";
 import { ReactQueryProvider } from "./lib/react-query";
 import defaultStore from "./store";
 import { light as lightTheme } from "./themes/light.js";
 
 const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
   const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
-    <Web3ContextProvider>
-      <ReactQueryProvider>
-        <Provider store={store}>
-          <I18nProvider i18n={i18n}>
-            <HashRouter>
-              <ThemeProvider theme={lightTheme}>
-                <CssBaseline />
-                {children}
-              </ThemeProvider>
-            </HashRouter>
-          </I18nProvider>
-        </Provider>
-      </ReactQueryProvider>
-    </Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ReactQueryProvider>
+          <Provider store={store}>
+            <I18nProvider i18n={i18n}>
+              <HashRouter>
+                <StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={lightTheme}>
+                    <CssBaseline />
+                    {children}
+                  </ThemeProvider>
+                </StyledEngineProvider>
+              </HashRouter>
+            </I18nProvider>
+          </Provider>
+        </ReactQueryProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
   return render(ui, { wrapper: ProviderWrapper, ...options });
 };
@@ -38,17 +44,22 @@ const renderRoute = function (route: string, store = defaultStore) {
   const history = createMemoryHistory();
   history.push(route);
   return render(
-    <Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <HashRouter>
-              <App />
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={lightTheme}>
+                  <CssBaseline />
+                  <App />
+                </ThemeProvider>
+              </StyledEngineProvider>
             </HashRouter>
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>
-    </Web3ContextProvider>,
+    </WagmiConfig>,
   );
 };
 

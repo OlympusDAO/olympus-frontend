@@ -1,8 +1,7 @@
 import "./RebaseTimer.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 

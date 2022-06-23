@@ -1,6 +1,6 @@
 [![Lighthouse PWA Test](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
-[![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
+[![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/OlympusDAO)
 ![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__branches__heads_develop.json)
 ![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__lines__heads_develop.json)
 ![Statements Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__statements__heads_develop.json)
@@ -16,7 +16,7 @@ We are moving at web3 speed and we are looking for talented contributors to boos
 
 Required:
 
-- [Node v16](https://nodejs.org/download/release/latest-v16.x/)
+- [Node v16.15.0](https://nodejs.org/download/release/latest-v16.x/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 - [Git](https://git-scm.com/downloads)
 
@@ -160,7 +160,7 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 
 1. `create` [here](https://rinkeby.etherscan.io/address/0x22AE99D07584A2AE1af748De573c83f1B9Cdb4c0#writeContract)
 2. _token: `0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE` <- this is the payout token, the deposit token will be OHM
-3. _market: `[10000000000000000000000,25000000000000000,10000000000000000,10000]`
+3. _market: `[10000000000000000000000000,25000000000000000,10000000000000000,10000]`
 4. _intervals: `[14400,3600]`
 5. _conclusion: `1680760325` <- a unix timestamp
 
@@ -249,15 +249,15 @@ In order to mark text for translation you can use:
 
 ```JSX
 t({
- id: "do_bond",
+ message: "Bond",
  comment: "The action of bonding (verb)",
 })
 ```
 
-- Where a variable/javascript function is required within a block of translatable text, a different format is used:
+- Where a variable/javascript function is required within a block of translatable text, string interpolation can be used:
 
 ```JSX
-{`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
+{t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`}
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
@@ -348,4 +348,4 @@ Only the following people have merge access for the master branch.
 
 ## 🗣 Community
 
-- [Join our Discord](https://discord.gg/gGZUMVDuhQ) and ask how you can get involved with the DAO!
+- [Join our Discord](https://discord.gg/OlympusDAO) and ask how you can get involved with the DAO!

@@ -1,17 +1,18 @@
+import axios from "axios";
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useWeb3Context } from "src/hooks";
 import {
   useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
-  useStaticBobaChefContract,
-  useStaticBobaRewarderContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
+  useStaticCurveGaugeControllerContract,
+  useStaticCurveGaugeDepositContract,
+  useStaticCurvePoolContract,
   useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
@@ -21,6 +22,7 @@ import {
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { useProvider } from "wagmi";
 
 import { BalancerPoolTVL, useStakePoolTVL } from "./useStakePoolTVL";
 
@@ -105,7 +107,7 @@ export const BalancerPoolAPY = (pool: ExternalPool) => {
 
 export const BalancerSwapFees = (address: string) => {
   const blocksPerDay = 6646; //Average 13 blocks per second MAINNET
-  const { provider } = useWeb3Context();
+  const provider = useProvider();
   const balancerURL = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2";
   const {
     data = { dailyFees: 0, totalLiquidity: 0 },
@@ -143,20 +145,49 @@ export const BalancerSwapFees = (address: string) => {
   return { data, isFetched, isLoading };
 };
 
-export const BobaPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const bobaChef = useStaticBobaChefContract(pool.masterchef, pool.networkID);
-  const bobaRewarder = useStaticBobaRewarderContract(pool.rewarder, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await bobaChef.oolongPerSec(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await bobaRewarder.rewardRate(), 18);
-    const poolInfo = await bobaChef.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await bobaChef.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
+export const CurvePoolAPY = (pool: ExternalPool) => {
+  const { data: rewardAPY = 0 } = CurvePoolRewardAPY(pool);
+
+  const curveAPI = "https://api.curve.fi/api/getFactoryAPYs?version=crypto";
+  const {
+    data = { apy: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["CurvePoolBaseAPY"], async () => {
+    return await axios.get(curveAPI).then(res => {
+      const apy = res.data.data.poolDetails.find(
+        (pool: { poolAddress: string }) => pool.poolAddress == "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B",
+      );
+      return apy;
+    });
   });
-  const { data: apy = 0 } = APY(pool, tvl, data, pool.bonusGecko);
+  const apy = data.apy / 100 + rewardAPY;
   return { apy, isFetched, isLoading };
+};
+
+export const CurvePoolRewardAPY = (pool: ExternalPool) => {
+  const curvePoolContract = useStaticCurvePoolContract(pool.address, pool.networkID);
+  const curveGaugeControllerContract = useStaticCurveGaugeControllerContract(pool.masterchef, pool.networkID);
+  const curveGaugeDepositContract = useStaticCurveGaugeDepositContract(pool.rewarder, pool.networkID);
+
+  const { data, isFetched, isLoading } = useQuery(["CurvePoolRewardAPY"], async () => {
+    const curvePrice = await getTokenPrice(pool.rewardGecko);
+    const virtualPrice = parseBigNumber(await curvePoolContract.get_virtual_price(), 18);
+    const lpPrice = parseBigNumber(await curvePoolContract.price_oracle(), 18);
+    const inflationRate = parseBigNumber(await curveGaugeDepositContract.inflation_rate(), 18);
+    const relativeWeight = parseBigNumber(
+      await curveGaugeControllerContract["gauge_relative_weight(address)"](pool.rewarder),
+      18,
+    );
+    const workingSupply = parseBigNumber(await curveGaugeDepositContract.totalSupply(), 18);
+
+    //https://github.com/curvefi/brownie-tutorial/tree/main/lesson-19-applications-iii
+    const tAPY = (curvePrice * inflationRate * relativeWeight * 12614400) / (workingSupply * virtualPrice * lpPrice);
+
+    //scale down APY to mid range
+    return tAPY * 0.75;
+  });
+  return { data, isFetched, isLoading };
 };
 
 export const ZipPoolAPY = (pool: ExternalPool) => {
@@ -174,6 +205,7 @@ export const ZipPoolAPY = (pool: ExternalPool) => {
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
 };
+
 export const JonesPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
@@ -196,6 +228,35 @@ export const JonesPoolAPY = (pool: ExternalPool) => {
 
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
+};
+
+//Returns Convex Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
+export const ConvexPoolAPY = (pool: ExternalPool) => {
+  const convexAPI = "https://api.thegraph.com/subgraphs/name/convex-community/curve-pools";
+  const {
+    data = { cvxApr: 0, extraRewardsApr: 0, crvApr: 0, baseApr: 0, tvl: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery("ConvexPoolAPY", async () => {
+    const data = await request(
+      convexAPI,
+      gql`
+        { 
+          pool(id:${pool.poolId}) {
+            tvl
+            crvApr
+            cvxApr
+            extraRewardsApr
+            baseApr
+          }
+        }
+      `,
+    );
+    return data.pool;
+  });
+  const apy = Number(data.cvxApr) + Number(data.extraRewardsApr) + Number(data.crvApr) + Number(data.baseApr);
+  const tvl = data.tvl;
+  return { apy, tvl, isFetched, isLoading };
 };
 
 const APY = (

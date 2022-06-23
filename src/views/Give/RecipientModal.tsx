@@ -1,10 +1,10 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { Project } from "src/components/GiveProject/project.type";
@@ -14,9 +14,9 @@ import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/ad
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { useAccount, useNetwork } from "wagmi";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
@@ -48,8 +48,9 @@ export function RecipientModal({
   changeAssetType,
   project,
 }: RecipientModalProps) {
-  const { address, networkId } = useWeb3Context();
-
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
   const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
@@ -80,9 +81,9 @@ export function RecipientModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
 
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
@@ -101,7 +102,7 @@ export function RecipientModal({
   }, [isModalOpen]);
 
   const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useSohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -109,7 +110,7 @@ export function RecipientModal({
   }, [_useSohmBalance]);
 
   const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useGohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -157,15 +158,13 @@ export function RecipientModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${t` balance of `} ${getBalance().toString(
-          EXACT_FORMAT,
-        )}`}`,
+        t`Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
       );
       return;
     }
@@ -368,7 +367,7 @@ export function RecipientModal({
                 <Typography variant="body1" color="textSecondary">
                   {giveAssetType} <Trans>Deposit</Trans>
                   <InfoTooltip
-                    message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -459,7 +458,7 @@ export function RecipientModal({
               <Grid container justifyContent="center" alignContent="center">
                 <Grid item xs />
                 <Grid item xs={8}>
-                  <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                  <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleContinue} fullWidth>
                     <Trans>Continue</Trans>
                   </PrimaryButton>
                 </Grid>
@@ -494,7 +493,7 @@ export function RecipientModal({
                   <Typography variant="body1" className="grey-text">
                     {giveAssetType} <Trans>Deposit</Trans>
                     <InfoTooltip
-                      message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                      message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                       children={null}
                     />
                   </Typography>
@@ -541,11 +540,11 @@ export function RecipientModal({
             <Grid container>
               <Grid item xs />
               <Grid item xs={8}>
-                <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? `${`${t`Depositing `} ${giveAssetType}`}`
-                    : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
+                    ? t`Depositing ${giveAssetType}`
+                    : t`Confirm ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />

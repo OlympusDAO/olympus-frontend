@@ -115,19 +115,32 @@ export const jones_gohm_jgohm = new ExternalPool({
   networkID: NetworkId.ARBITRUM,
 });
 
-export const oolong_gohm_weth = new ExternalPool({
-  poolName: "wETH-gOHM",
-  icons: ["wETH", "gOHM"],
-  stakeOn: "OolongSwap",
+export const curve_ohm_eth = new ExternalPool({
+  poolName: "OHM-ETH",
+  icons: ["OHM", "ETH"],
+  stakeOn: "Curve",
   pairGecko: "ethereum",
-  rewardGecko: "oolongswap",
-  bonusGecko: "boba-network",
-  href: "https://oolongswap.com/#/farm/lp",
-  address: "0x82d5dce44eddb117f6cca21229ced03965c9e0bb",
-  masterchef: "0xd0e6dfA5E5511e138BfCDDaDdF70FDBa2Ab8396C",
-  rewarder: "0xfafF71171ED44d3b1E14f15EE7ee2E0fD2bF22Ae",
-  poolId: 12,
-  networkID: NetworkId.BOBA,
+  rewardGecko: "curve-dao-token",
+  href: "https://curve.fi/factory-crypto/21/deposit",
+  address: "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B", //Pool
+  masterchef: "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB", //Gauge Controller
+  rewarder: "0x8dF6FdAe05C9405853dd4cF2809D5dc2b5E77b0C", //Gauge Deposit
+  poolId: 21,
+  networkID: NetworkId.MAINNET,
+});
+
+export const convex_ohm_eth = new ExternalPool({
+  poolName: "OHM-ETH",
+  icons: ["OHM", "ETH"],
+  stakeOn: "Convex",
+  pairGecko: "ethereum",
+  rewardGecko: "curve-dao-token",
+  href: "https://www.convexfinance.com/stake",
+  address: "0x3660BD168494d61ffDac21E403d0F6356cF90fD7", //LP
+  masterchef: "0xF403C135812408BFbE8713b5A23a04b3D48AAE31", //deposit
+  rewarder: "0xd683C7051a28fA150EB3F4BD92263865D4a67778",
+  poolId: 92,
+  networkID: NetworkId.MAINNET,
 });
 
 export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
@@ -138,5 +151,6 @@ export const beetsPools = [beets_ftm_gohm_wFTM];
 export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
-export const bobaPools = [oolong_gohm_weth];
+export const curvePools = [curve_ohm_eth];
+export const convexPools = [convex_ohm_eth];
 export default allPools;

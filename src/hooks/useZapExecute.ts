@@ -8,6 +8,7 @@ import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 import { SOHM_ADDRESSES } from "../constants/addresses";
 import { DecimalBigNumber } from "../helpers/DecimalBigNumber/DecimalBigNumber";
@@ -15,7 +16,6 @@ import { Environment } from "../helpers/environment/Environment/Environment";
 import { Zap__factory } from "../typechain/factories/Zap__factory";
 import { balanceQueryKey } from "./useBalance";
 import { zapTokenBalancesKey } from "./useZapTokenBalances";
-import { useWeb3Context } from "./web3Context";
 
 interface ZapTransactionResponse {
   to: string;
@@ -44,8 +44,9 @@ interface ZapExecuteOptions {
 export const useZapExecute = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address, provider, networkId } = useWeb3Context();
-  const signer = provider.getSigner();
+  const { data: signer } = useSigner();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   return useMutation<ContractReceipt, Error, ZapExecuteOptions>(
     /**
@@ -58,31 +59,33 @@ export const useZapExecute = () => {
       if (!slippage || isNaN(Number(slippage))) throw new Error(t`Slippage should be a number`);
 
       if (!tokenAddress) throw new Error(t`The tokenAddress parameter must be set`);
+      if (!signer) throw new Error(t`Signer is not set`);
 
       const minimumAmountNumber = new DecimalBigNumber(minimumAmount);
       if (!minimumAmount || !minimumAmountNumber.gt("0")) throw new Error(t`Minimum amount must be greater than 0`);
 
-      if (!isSupportedChain(networkId)) {
+      if (!isSupportedChain(activeChain.id)) {
         dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));
         throw new Error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`);
       }
 
       // We only operate on Ethereum mainnet for the moment, so we can use a static contract
-      const contract = Zap__factory.connect(addresses[networkId].ZAP, signer);
-      if (!contract) throw new Error(t`Unable to access Zap contract on network ${networkId}`);
+      const contract = Zap__factory.connect(addresses[activeChain.id].ZAP, signer);
+      if (!contract) throw new Error(t`Unable to access Zap contract on network ${activeChain.id}`);
 
       const toToken = gOHM
-        ? GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-        : SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES];
+        ? GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES]
+        : SOHM_ADDRESSES[activeChain.id as keyof typeof SOHM_ADDRESSES];
       if (!toToken)
-        throw new Error(t`Unable to fetch address for token (${gOHM ? "gOHM" : "sOHM"}) on network ${networkId}`);
+        throw new Error(t`Unable to fetch address for token (${gOHM ? "gOHM" : "sOHM"}) on network ${activeChain.id}`);
 
       const additionalOptions = {
         ...(tokenAddress === ethers.constants.AddressZero && { value: sellAmount }),
       };
 
       console.debug("Fetching token swap data from Zapper");
-      const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
+      if (!account?.address) throw new Error(t`Account is not set`);
+      const swapData = await fetchSwapData(account?.address, sellAmount, tokenAddress, +slippage / 100);
 
       console.debug("Commencing Zap");
       const transaction = await contract.ZapStake(
@@ -92,7 +95,7 @@ export const useZapExecute = () => {
         ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
         swapData.to,
         swapData.data,
-        address,
+        account.address,
         additionalOptions,
       );
 
@@ -101,8 +104,9 @@ export const useZapExecute = () => {
     },
     {
       onError: (e, variables) => {
+        if (!account?.address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
-          address: address,
+          address: account.address,
           value: variables.sellAmount.toString(),
           token: variables.tokenAddress,
           type: "Zap Swap Failure",
@@ -133,9 +137,9 @@ export const useZapExecute = () => {
       },
       onSuccess: (_data, variables) => {
         console.debug("Zap successful");
-
+        if (!account?.address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
-          address: address,
+          address: account.address,
           value: variables.sellAmount.toString(),
           token: variables.tokenAddress,
           type: "Zap Swap Success",
@@ -152,9 +156,9 @@ export const useZapExecute = () => {
 
         // We force a refresh of balances, but don't wait on the result
         const keysToRefetch = [
-          balanceQueryKey(address, SOHM_ADDRESSES, NetworkId.MAINNET),
-          balanceQueryKey(address, GOHM_ADDRESSES, NetworkId.MAINNET),
-          zapTokenBalancesKey(address),
+          balanceQueryKey(account.address, SOHM_ADDRESSES, NetworkId.MAINNET),
+          balanceQueryKey(account.address, GOHM_ADDRESSES, NetworkId.MAINNET),
+          zapTokenBalancesKey(account.address),
         ];
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
         Promise.all(promises);

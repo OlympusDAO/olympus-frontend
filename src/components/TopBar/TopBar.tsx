@@ -2,19 +2,24 @@ import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Box, Button, SvgIcon, Toolbar } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
-import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
-import { useWeb3Context } from "src/hooks";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
+import ConnectButton from "../ConnectButton/ConnectButton";
 import ThemeSwitcher from "./ThemeSwitch";
 
-const useStyles = makeStyles(theme => ({
-  appBar: {
+const PREFIX = "TopBar";
+
+const classes = {
+  appBar: `${PREFIX}-appBar`,
+  menuButton: `${PREFIX}-menuButton`,
+};
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  [`&.${classes.appBar}`]: {
     [theme.breakpoints.up("sm")]: {
       width: "100%",
       padding: "10px",
@@ -25,7 +30,8 @@ const useStyles = makeStyles(theme => ({
     backdropFilter: "none",
     zIndex: 10,
   },
-  menuButton: {
+
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(981)]: {
       display: "none",
@@ -40,12 +46,8 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
-  const { connected } = useWeb3Context();
-  const classes = useStyles();
-  const location = useLocation();
-
   return (
-    <AppBar position="sticky" className={classes.appBar} elevation={0}>
+    <StyledAppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
         <Button
           id="hamburger"
@@ -59,12 +61,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex" alignItems="center">
-          <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
-            <Button variant="contained" color="secondary">
-              <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-              <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
-            </Button>
-          </Link>
+          <ConnectButton />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher
             initialLocale={i18n.locale}
@@ -74,7 +71,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           />
         </Box>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 }
 

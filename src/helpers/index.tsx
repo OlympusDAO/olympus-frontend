@@ -1,25 +1,18 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
-import { ethers } from "ethers";
+import { OHM_DAI_LP_TOKEN } from "src/constants/tokens";
 
-import { abi as PairContractABI } from "../abi/PairContract.json";
 import { NetworkId } from "../constants";
-import { PairContract } from "../typechain";
-import { ohm_dai } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
-import { Providers } from "./providers/Providers/Providers";
 
 /**
  * gets marketPrice from Ohm-DAI v2
  * @returns Number like 333.33
  */
 export async function getMarketPrice() {
-  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
-  // v2 price
-  const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
-  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
-  const reserves = await pairContract.getReserves();
+  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+  const reserves = await contract.getReserves();
 
   return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
@@ -42,28 +35,6 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     console.warn(`Error accessing coinGecko API for ${tokenId}`);
   }
   return tokenPrice;
-}
-
-/**
- * gets price of token from coingecko
- * @param contractAddress STRING representing address
- * @returns INTEGER usd value
- */
-export async function getTokenByContract(contractAddress: string): Promise<number> {
-  const downcasedAddress = contractAddress.toLowerCase();
-  const chainName = "ethereum";
-  try {
-    const resp = (await axios.get(
-      `https://api.coingecko.com/api/v3/simple/token_price/${chainName}?contract_addresses=${downcasedAddress}&vs_currencies=usd`,
-    )) as {
-      data: { [address: string]: { usd: number } };
-    };
-    const tokenPrice: number = resp.data[downcasedAddress].usd;
-    return tokenPrice;
-  } catch (e) {
-    // console.log("coingecko api error: ", e);
-    return 0;
-  }
 }
 
 export function shorten(str: string) {

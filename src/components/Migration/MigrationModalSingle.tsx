@@ -1,37 +1,37 @@
 import "./MigrationModal.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
-import { useWeb3Context } from "src/hooks";
 import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-
-const useStyles = makeStyles({
-  custom: {
-    color: "#00EE00",
-  },
-});
+import { AppDispatch } from "src/store";
+import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
 
 function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClose: any }) {
-  const dispatch = useDispatch();
-  const classes = useStyles();
+  const dispatch: AppDispatch = useDispatch();
+
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { provider, address, networkId } = useWeb3Context();
+
+  const provider = useProvider();
+  const { data: signer } = useSigner();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   let rows = [];
-
+  const address = account?.address ? account.address : "";
   const onSeekApproval = (token: string) => {
+    if (!signer) throw new Error("No signer");
     dispatch(
       changeMigrationApproval({
         address,
-        networkID: networkId,
+        networkID: activeChain.id,
         provider,
+        signer,
         token: token.toLowerCase(),
         displayName: token,
         insertName: true,
@@ -62,8 +62,10 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
     pendingTransactions,
   } = useMigrationData();
 
-  const onMigrate = (type: number, amount: string) =>
-    dispatch(migrateSingle({ provider, address, networkID: networkId, gOHM: isGOHM, type, amount }));
+  const onMigrate = (type: number, amount: string) => {
+    if (!signer) throw new Error("No signer");
+    dispatch(migrateSingle({ provider, address, signer, networkID: activeChain.id, gOHM: isGOHM, type, amount }));
+  };
 
   rows = [
     {
@@ -165,7 +167,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                     </Box>
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                       {!oldAssetsDetected ? (
-                        <Typography align="center" className={classes.custom}>
+                        <Typography align="center" sx={{ color: "#00EE00" }}>
                           <Trans>Migrated</Trans>
                         </Typography>
                       ) : row.fullApproval ? (
@@ -268,7 +270,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                       </TableCell>
                       <TableCell align="left">
                         {!oldAssetsDetected ? (
-                          <Typography align="center" className={classes.custom}>
+                          <Typography align="center" sx={{ color: "#00EE00" }}>
                             <Trans>Migrated</Trans>
                           </Typography>
                         ) : row.fullApproval ? (

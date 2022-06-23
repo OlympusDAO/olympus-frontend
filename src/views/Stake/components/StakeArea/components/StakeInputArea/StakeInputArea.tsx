@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Link, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
+import { Box, Grid, Link, Paper, Switch, Tab, Tabs } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -12,28 +13,40 @@ import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
 import { useUnstakeToken } from "./hooks/useUnstakeToken";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  inputRow: {
+const PREFIX = "StakeInputArea";
+
+const classes = {
+  inputRow: `${PREFIX}-inputRow`,
+  gridItem: `${PREFIX}-gridItem`,
+  input: `${PREFIX}-input`,
+  button: `${PREFIX}-button`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.inputRow}`]: {
     justifyContent: "space-around",
     alignItems: "center",
     height: "auto",
     marginTop: "4px",
   },
-  gridItem: {
+
+  [`& .${classes.gridItem}`]: {
     width: "100%",
     paddingRight: "5px",
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    [theme.breakpoints.down("sm")]: {
+
+  [`& .${classes.input}`]: {
+    [theme.breakpoints.down("md")]: {
       marginBottom: "10px",
     },
     [theme.breakpoints.up("sm")]: {
       marginBottom: "0",
     },
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     alignSelf: "center",
     width: "100%",
     minWidth: "163px",
@@ -43,7 +56,6 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
-  const classes = useStyles();
   const networks = useTestableNetworks();
   const [stakedAssetType, setStakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
   const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
@@ -71,7 +83,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const liveInverseBonds = bonds && bonds.length > 0;
 
   return (
-    <Box mb={3}>
+    <StyledBox mb={3}>
       {currentAction === "UNSTAKE" && liveInverseBonds && (
         <InfoNotification>
           {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
@@ -91,7 +103,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
         onChange={(_, view: number) => setCurrentAction(view === 0 ? "STAKE" : "UNSTAKE")}
       >
-        <Tab aria-label="stake-button" label={t({ id: "do_stake", comment: "The action of staking (verb)" })} />
+        <Tab aria-label="stake-button" label={t({ message: "Stake", comment: "The action of staking (verb)" })} />
 
         <Tab aria-label="unstake-button" label={t`Unstake`} />
       </Tabs>
@@ -121,7 +133,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
               <Grid item xs={12} sm={8} className={classes.gridItem}>
                 <Input
                   value={amount}
-                  labelWidth={0}
                   id="amount-input"
                   endString={t`Max`}
                   name="amount-input"
@@ -162,7 +173,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
             <Grid item>
               <Switch
-                color="primary"
                 disabled={isMutating}
                 className="stake-to-ohm-checkbox"
                 checked={stakedAssetType === "gOHM"}
@@ -186,7 +196,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           </Box>
         </Box>
       </Paper>
-    </Box>
+    </StyledBox>
   );
 };
 

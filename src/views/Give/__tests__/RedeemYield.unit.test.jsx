@@ -1,17 +1,17 @@
+import { wallet } from "@rainbow-me/rainbowkit";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
-import * as useWeb3Context from "src/hooks/web3Context";
 import {
+  connectWallet,
   mockCurrentIndex,
   mockRecipientInfo,
   mockRedeemableBalance,
   mockStakingRebaseRate,
-  mockTotalYieldDonated,
-  mockWeb3Context,
 } from "src/testHelpers";
 import * as useRedeem from "src/views/Give/hooks/useRedeem";
+import * as WAGMI from "wagmi";
 
 import { act, render, screen } from "../../../testUtils";
 import RedeemYield from "../RedeemYield";
@@ -19,15 +19,13 @@ import RedeemYield from "../RedeemYield";
 // TODO convert to typescript
 let context;
 let redeemData;
-let yieldData;
 let recipientData;
 let stakingData;
 
 beforeEach(() => {
-  context = jest.spyOn(useWeb3Context, "useWeb3Context");
+  const wallet = connectWallet();
 
   redeemData = "100.0";
-  yieldData = "10.0";
   recipientData = {
     sohmDebt: "1000.0",
     gohmDebt: "10.0",
@@ -44,16 +42,11 @@ describe("Redeem Yield", () => {
   beforeEach(() => {
     jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("100", 9)));
 
-    context.mockReturnValue(mockWeb3Context);
-
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
 
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
-
-    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
-    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
 
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
@@ -86,74 +79,34 @@ describe("Redeem Yield", () => {
     _recipientInfo.isLoading = true;
     recipientInfo.mockReturnValue(_recipientInfo);
 
-    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
-    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
-
-    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
-    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
-
     render(<RedeemYield />);
 
-    expect(screen.getByTestId("redeem-yield-button")).toBeDisabled();
+    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
   });
 
-  it("should have disabled redeem button when redeemable balance is 0", async () => {
+  it("should have disabled redeem button when recipient info is loading", async () => {
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance("0")); // Zero redeemable balance
 
-    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
-    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
-
-    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
-    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
-
     render(<RedeemYield />);
 
-    expect(screen.getByTestId("redeem-yield-button")).toBeDisabled();
+    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
   });
 
   it("should show redeemable balance as 100 sOHM", async () => {
-    const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
-    redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
+    render(<RedeemYield />);
 
-    const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
-    recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
-
-    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
-    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
-
-    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
-    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
-
-    let container;
-    await act(async () => {
-      ({ container } = render(<RedeemYield />)); //eslint-disable-line
-    });
-
-    expect(screen.getByTestId("redeemable-balance")).toHaveTextContent("100 sOHM");
-    expect(container).toMatchSnapshot();
+    expect(screen.getByTestId("data-redeemable-sohm")).toHaveTextContent("100 sOHM");
   });
 
   it("should show extra content if project wallet", async () => {
-    context.mockReturnValue({ ...mockWeb3Context, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" });
-
-    const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
-    redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
-
-    const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
-    recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
-
-    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
-    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
-
-    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
-    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
-
-    let container;
-    await act(async () => {
-      ({ container } = render(<RedeemYield />)); //eslint-disable-line
+    //@ts-ignore
+    WAGMI.useAccount = jest.fn(() => {
+      return { ...wallet, data: { ...wallet.data, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" } };
     });
-    expect(screen.getByText("% of sOHM Goal")).toBeInTheDocument();
-    expect(container).toMatchSnapshot();
+
+    const result = render(<RedeemYield />);
+    expect(screen.getByText("sOHM Goal")).toBeInTheDocument();
+    expect(result.container).toMatchSnapshot();
   });
 });

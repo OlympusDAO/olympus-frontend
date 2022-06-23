@@ -3,8 +3,8 @@ import { BigNumber, ethers } from "ethers";
 import { OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
 
-import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
+import ierc20ABI from "../abi/IERC20.json";
+import StakingHelperABI from "../abi/StakingHelper.json";
 import { addresses } from "../constants";
 import { trackGAEvent } from "../helpers/analytics/trackGAEvent";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
@@ -56,16 +56,24 @@ export const changeApproval = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const ohmContract = new ethers.Contract(
+      addresses[networkID].OHM_ADDRESS as string,
+      ierc20ABI.abi,
+      signer,
+    ) as IERC20;
+    const sohmContract = new ethers.Contract(
+      addresses[networkID].SOHM_ADDRESS as string,
+      ierc20ABI.abi,
+      signer,
+    ) as IERC20;
     const ohmV2Contract = new ethers.Contract(
       OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES] as string,
-      ierc20ABI,
+      ierc20ABI.abi,
       signer,
     ) as IERC20;
     const sohmV2Contract = new ethers.Contract(
       SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
-      ierc20ABI,
+      ierc20ABI.abi,
       signer,
     ) as IERC20;
     let approveTx;
@@ -174,7 +182,7 @@ export const changeStake = createAsyncThunk(
 
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
-      StakingHelperABI,
+      StakingHelperABI.abi,
       signer,
     ) as StakingHelper;
 

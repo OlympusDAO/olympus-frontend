@@ -3,24 +3,24 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const networks = useTestableNetworks();
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
   const addresses = fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -43,21 +43,28 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
       const trigger = false; // was true before the mint & sync distributor change
 
       const transaction = await contract.unstake(address, _amount.toBigNumber(), trigger, shouldRebase);
-      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async (_, amount) => {
+      onSuccess: async (tx, amount) => {
         trackGAEvent({
           category: "Staking",
           action: "unstake",
           label: `Unstake from ${fromToken}`,
           value: new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9).toApproxNumber(),
-          dimension1: txHash ?? "unknown",
+          dimension1: tx.transactionHash,
           dimension2: address,
+        });
+
+        trackGtagEvent("Unstake", {
+          event_category: "Staking",
+          value: new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9).toApproxNumber(),
+          address: address.slice(2),
+          txHash: tx.transactionHash.slice(2),
+          token: fromToken,
         });
 
         const keysToRefetch = [

@@ -1,10 +1,10 @@
 import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
-import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -17,7 +17,6 @@ import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
@@ -33,6 +32,19 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { useAccount, useConnect, useNetwork } from "wagmi";
+
+const PREFIX = "ProjectCard";
+
+const classes = {
+  progress: `${PREFIX}-progress`,
+};
+
+const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  [`& .${classes.progress}`]: {
+    backgroundColor: theme.palette.mode === "dark" ? theme.colors.primary[300] : theme.colors.gray[700],
+  },
+}));
 
 type CountdownProps = {
   total: number;
@@ -70,13 +82,9 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
-  const useStyles = makeStyles<Theme>(theme => ({
-    progress: {
-      backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
-    },
-  }));
-  const classes = useStyles();
-  const { address, connected, connect, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { isConnected, connect } = useConnect();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -146,7 +154,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [networkId]);
+  }, [activeChain.id]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -166,7 +174,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
 
   useEffect(() => {
     if (isGiveModalOpen) setIsGiveModalOpen(false);
@@ -192,18 +200,16 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
-        <>
-          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-            <Grid item>
-              <Typography variant="body2">00:00:00</Typography>
-            </Grid>
-            <Grid>
-              <Typography variant="body2">
-                <Trans>Completed</Trans>
-              </Typography>
-            </Grid>
+        <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
+          <Grid item>
+            <Typography variant="body2">00:00:00</Typography>
           </Grid>
-        </>
+          <Grid>
+            <Typography variant="body2">
+              <Trans>Completed</Trans>
+            </Typography>
+          </Grid>
+        </Grid>
       );
 
     return (
@@ -254,7 +260,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             {renderCountdownDetailed()}
           </Grid>
           <Grid item xs={11} sm={9} className="project-goal-progress">
-            <LinearProgress
+            <StyledLinearProgress
               classes={{ barColorPrimary: classes.progress }}
               variant="determinate"
               value={goalProgress}
@@ -282,14 +288,14 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           <Grid item xs={5}>
             <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
               <Grid item>
-                <Icon name="sohm-yield-sent" />
+                <Icon name="sohm-yield-sent" sx={{ width: "20px", height: "18px" }} />
               </Grid>
               <Grid item className="metric">
                 {totalDonatedIsLoading ? <Skeleton /> : totalYieldDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              {giveAssetType} <Trans>Yield</Trans>
+              {giveAssetType} <Trans>Yield Sent</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -298,7 +304,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-yield-goal" />
+                    <Icon name="sohm-yield-goal" sx={{ width: "21px", height: "18px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex).toString(
@@ -313,7 +319,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             </Grid>
           </Grid>
           <Grid item xs={12} className="project-goal-progress">
-            <LinearProgress
+            <StyledLinearProgress
               classes={{ barColorPrimary: classes.progress }}
               variant="determinate"
               value={goalProgress}
@@ -333,7 +339,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="donors" />
+                    <Icon name="donors" sx={{ width: "21px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {isDonationInfoLoading ? <Skeleton /> : donorCount}
@@ -350,7 +356,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="deposited" />
+                    <Icon name="deposited" sx={{ width: "18px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
@@ -387,7 +393,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     }
 
     return (
-      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+      <Grid container alignContent="center" style={{ maxHeight: "187px", overflow: "hidden", borderRadius: "16px" }}>
         <Grid item xs>
           {imageElement}
         </Grid>
@@ -494,7 +500,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       category: "Olympus Give",
       action: "View Project",
       label: title,
-      dimension1: address ?? "unknown",
+      dimension1: account?.address ?? "unknown",
       dimension2: source,
     });
   };
@@ -553,7 +559,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <TertiaryButton size="small" fullWidth>
+                  <TertiaryButton size="medium" fullWidth>
                     <Trans>View Details</Trans>
                   </TertiaryButton>
                 </Link>
@@ -612,24 +618,25 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                       {getProjectImage()}
                     </Grid>
                     <Grid item xs>
-                      <Grid container spacing={2}>
+                      <Grid container spacing={3}>
                         <Grid item xs={12}>
                           {renderDepositData()}
                         </Grid>
                         <Grid item xs={12}>
                           {renderGoalCompletionDetailed()}
                         </Grid>
-                        <Grid item xs={12}>
-                          {!connected ? (
-                            <PrimaryButton onClick={connect} fullWidth>
+                        <Grid item xs={12} style={{ paddingTop: "30px" }}>
+                          {!isConnected ? (
+                            <PrimaryButton size="medium" onClick={connect} fullWidth>
                               <Trans>Connect Wallet</Trans>
                             </PrimaryButton>
                           ) : isUserDonating ? (
                             <></>
                           ) : (
                             <PrimaryButton
+                              size="medium"
                               onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(networkId)}
+                              disabled={!isSupportedChain(activeChain.id)}
                               fullWidth
                             >
                               <Trans>Donate Yield</Trans>
@@ -681,8 +688,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                       </Grid>
                       <Grid item xs={12}>
                         <PrimaryButton
+                          size="medium"
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
+                          disabled={!isSupportedChain(activeChain.id)}
                           fullWidth
                         >
                           <Trans>Edit Donation</Trans>

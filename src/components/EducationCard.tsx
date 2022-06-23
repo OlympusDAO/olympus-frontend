@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Grid, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {
@@ -88,7 +88,7 @@ export function CompactYield({ quantity, isQuantityExact, asset }: EducationGrap
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
+      subtext={t`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }
@@ -97,7 +97,7 @@ export function ArrowGraphic({ fill, marginTop = "25px" }: ArrowGraphicProps) {
   return (
     <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} />{" "}
+        <Icon name="arrow-right" data-testid="arrow" style={{ fontSize: 70, fill: fill }} />{" "}
       </Grid>
     </Grid>
   );
@@ -122,7 +122,7 @@ function LargeGraphic({ title, icon, subtitle, subtext }: LargeGraphicProps) {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="body2" align="center">
+        <Typography variant="body2" align="center" sx={{ lineHeight: "1.5" }}>
           {subtext}
         </Typography>
       </Grid>

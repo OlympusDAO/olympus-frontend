@@ -5,7 +5,6 @@ import * as useBalance from "src/hooks/useBalance";
 import * as useContractAllowance from "src/hooks/useContractAllowance";
 import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
-import * as useWeb3Context from "src/hooks/web3Context";
 import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
 import {
@@ -14,16 +13,11 @@ import {
   mockGohmBalance,
   mockRecipientInfo,
   mockSohmBalance,
-  mockWeb3Context,
 } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 
 import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "../Interfaces";
 import { ManageDonationModal } from "../ManageDonationModal";
-
-beforeEach(() => {
-  jest.spyOn(useWeb3Context, "useWeb3Context").mockReturnValue(mockWeb3Context);
-});
 
 describe("ManageDonationModal", () => {
   let submitFunc: SubmitEditCallback;
@@ -389,10 +383,10 @@ describe("ManageDonationModal", () => {
     );
 
     expect(screen.getByTestId("edit-donation")).toBeInTheDocument();
-    expect(screen.getByTestId("edit-donation").innerHTML).toEqual('<span class="MuiButton-label">Edit Donation</span>');
+    expect(screen.getByTestId("edit-donation").innerHTML).toEqual("Edit Donation");
 
     expect(screen.getByTestId("stop-donation")).toBeInTheDocument();
-    expect(screen.getByTestId("stop-donation").innerHTML).toEqual('<span class="MuiButton-label">Stop Donation</span>');
+    expect(screen.getByTestId("stop-donation").innerHTML).toEqual("Stop Donation");
   });
 
   it("Should have correct button options on edit screen", async () => {

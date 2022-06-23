@@ -1,12 +1,12 @@
 import { t, Trans } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Grid, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { ArrowGraphic } from "src/components/EducationCard";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { useAccount } from "wagmi";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -36,16 +36,16 @@ export function RedeemYieldModal({
   redeemableBalance,
   isMutationLoading,
 }: RedeemModalProps) {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const theme = useTheme();
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const canSubmit = () => {
-    if (!address) return false;
+    if (!account?.address) return false;
     if (isMutationLoading) return false;
     if (redeemableBalance.lt(new DecimalBigNumber("0"))) return false;
 
@@ -61,31 +61,35 @@ export function RedeemYieldModal({
 
   return (
     <Modal open={isModalOpen} onClose={cancelFunc} headerText={t`Redeem Yield`} closePosition="left" minHeight="200px">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={4}>
-              <Typography variant="body1" className="grey-text">
-                <Trans>Redeemable Yield</Trans>
-              </Typography>
-              <Typography variant="h6">
-                {redeemableBalance.toString(DECIMAL_FORMAT)} {t` sOHM`}
-              </Typography>
-            </Grid>
-            <Grid item sm={4}>
-              <ArrowGraphic fill={themedArrow} marginTop="0px" />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
-                    whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
-                    alignment accordingly. */}
-              <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                <Grid item xs={12}>
-                  <Typography variant="body1" className="grey-text">
-                    <Trans>My Wallet Address</Trans>
-                  </Typography>
-                  <Typography variant="h6">{shorten(address)}</Typography>
-                </Grid>
+      <>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={4}>
+                <Typography variant="body1" className="grey-text">
+                  <Trans>Redeemable Yield</Trans>
+                </Typography>
+                <Typography variant="h6">
+                  {redeemableBalance.toString(DECIMAL_FORMAT)} {t` sOHM`}
+                </Typography>
+              </Grid>
+              <Grid item sm={4}>
+                <ArrowGraphic fill={themedArrow} marginTop="0px" />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
+                {account?.address && (
+                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                    <Grid item xs={12}>
+                      <Typography variant="body1" className="grey-text">
+                        <Trans>My Wallet Address</Trans>
+                      </Typography>
+                      <Typography variant="h6">{shorten(account.address)}</Typography>
+                    </Grid>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -103,7 +107,7 @@ export function RedeemYieldModal({
             <Grid item xs />
           </Grid>
         </Grid>
-      </Grid>
+      </>
     </Modal>
   );
 }

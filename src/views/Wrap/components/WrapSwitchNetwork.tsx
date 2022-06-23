@@ -1,18 +1,15 @@
 import { Trans } from "@lingui/macro";
-import { Button, Typography } from "@material-ui/core";
-import { NETWORKS } from "src/constants";
-import { useWeb3Context } from "src/hooks";
-import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
+import { Button, Typography } from "@mui/material";
+import { Token } from "@olympusdao/component-library";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 export const WrapSwitchNetwork = () => {
-  const { mutate } = useSwitchNetwork();
   const networks = useTestableNetworks();
 
-  const { networkId } = useWeb3Context();
-  const isMainnet = networkId === networks.MAINNET;
-
+  const { activeChain = { id: 1 }, switchNetwork } = useNetwork();
+  const isMainnet = activeChain.id === networks.MAINNET;
   if (!isMainnet)
     return (
       <>
@@ -20,16 +17,11 @@ export const WrapSwitchNetwork = () => {
           Back to Ethereum Mainnet
         </Typography>
 
-        <Button onClick={() => mutate(NetworkId.MAINNET)} variant="outlined">
-          <img
-            height="28px"
-            width="28px"
-            src={String(NETWORKS[NetworkId.MAINNET].image)}
-            alt={NETWORKS[NetworkId.MAINNET].imageAltText}
-          />
+        <Button onClick={() => switchNetwork?.(NetworkId.MAINNET)} variant="outlined" color="secondary">
+          <Token name="ETH" style={{ fontSize: "28px" }} />
 
           <Typography variant="h6" style={{ marginLeft: "8px" }}>
-            {NETWORKS[NetworkId.MAINNET].chainName}
+            Ethereum
           </Typography>
         </Button>
       </>
@@ -43,29 +35,29 @@ export const WrapSwitchNetwork = () => {
         </Trans>
       </Typography>
 
-      <Button onClick={() => mutate(NetworkId.AVALANCHE)} variant="outlined" style={{ margin: "0.3rem" }}>
-        <img
-          height="28px"
-          width="28px"
-          alt={NETWORKS[NetworkId.AVALANCHE].imageAltText}
-          src={String(NETWORKS[NetworkId.AVALANCHE].image)}
-        />
+      <Button
+        onClick={() => switchNetwork?.(NetworkId.AVALANCHE)}
+        variant="outlined"
+        color="secondary"
+        style={{ margin: "0.3rem" }}
+      >
+        <Token name="AVALANCHE" style={{ fontSize: "28px" }} />
 
         <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          {NETWORKS[NetworkId.AVALANCHE].chainName}
+          Avalanche
         </Typography>
       </Button>
 
-      <Button onClick={() => mutate(NetworkId.ARBITRUM)} variant="outlined" style={{ margin: "0.3rem" }}>
-        <img
-          height="28px"
-          width="28px"
-          alt={NETWORKS[NetworkId.ARBITRUM].imageAltText}
-          src={String(NETWORKS[NetworkId.ARBITRUM].image)}
-        />
+      <Button
+        onClick={() => switchNetwork?.(NetworkId.ARBITRUM)}
+        variant="outlined"
+        color="secondary"
+        style={{ margin: "0.3rem" }}
+      >
+        <Token name="ARBITRUM" style={{ fontSize: "28px" }} />
 
         <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          {NETWORKS[NetworkId.ARBITRUM].chainName}
+          Arbitrum
         </Typography>
       </Button>
     </>

@@ -1,4 +1,9 @@
 // Keeps styling consistent across grant and project pages
+.give-container {
+  max-width: 833px;
+  margin: auto;
+}
+
 .project-content {
   line-height: 20px;
   font-size: 16px;
@@ -49,13 +54,13 @@ div.grey-box {
   // Restrict the height of the tab bar, so the indicator is 4px away
   height: 40px;
 
-  .MuiTab-wrapper {
-    font-size: 24px;
+  .MuiTab-root {
+    font-size: 20px;
   }
 }
 
 .give-tab-buttons-xs {
-  .MuiTab-wrapper {
+  .MuiTab-root {
     font-size: 14px;
   }
 }
@@ -71,4 +76,10 @@ div.grey-box {
   // We want the cards on CausesDashboard to be closer to the edges
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.redeem-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }

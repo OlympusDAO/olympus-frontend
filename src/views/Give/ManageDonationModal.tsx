@@ -1,9 +1,9 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
+import { ChevronLeft } from "@mui/icons-material";
+import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -16,9 +16,9 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useAccount, useNetwork } from "wagmi";
 
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
 import { GohmToggle } from "./GohmToggle";
@@ -65,7 +65,8 @@ export function ManageDonationModal({
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -78,6 +79,7 @@ export function ManageDonationModal({
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
+  const address = account?.address ? account.address : "";
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
@@ -117,15 +119,15 @@ export function ManageDonationModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
   const boxBorder = theme.palette.grey[500];
 
   const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useSohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -133,7 +135,7 @@ export function ManageDonationModal({
   }, [_useSohmBalance]);
 
   const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useGohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");
@@ -286,15 +288,15 @@ export function ManageDonationModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${` balance of `} ${getMaximumDepositAmount().toString(
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
-        )}`}`,
+        )}`,
       );
       return;
     }
@@ -393,14 +395,14 @@ export function ManageDonationModal({
             <Grid item xs={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6}>
-                  <PrimaryButton data-testid="edit-donation" size="small" onClick={() => setIsEditing(true)} fullWidth>
+                  <PrimaryButton data-testid="edit-donation" size="medium" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TertiaryButton
                     data-testid="stop-donation"
-                    size="small"
+                    size="medium"
                     onClick={() => setIsWithdrawing(true)}
                     fullWidth
                   >
@@ -451,7 +453,7 @@ export function ManageDonationModal({
           </Grid>
           <Grid item xs={4}>
             <Typography variant="h6" align="center" className="subtext">
-              {isSmallScreen ? "% of Goal" : "% of sOHM Goal"}
+              {isSmallScreen ? "% of Goal" : `% of ${giveAssetType} Goal`}
             </Typography>
             <Typography data-testid="goal-completion" variant="h5" align="center">
               {project
@@ -605,7 +607,7 @@ export function ManageDonationModal({
           />
         </Grid>
         <Grid item xs={12}>
-          <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
+          <PrimaryButton size="medium" disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
             <Trans>Continue</Trans>
           </PrimaryButton>
         </Grid>
@@ -670,7 +672,7 @@ export function ManageDonationModal({
             <Grid item xs={4}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <PrimaryButton size="small" disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
+                  <PrimaryButton size="medium" disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
                     {isMutationLoading
                       ? `${`${t`Withdrawing `} ${giveAssetType}`}`
                       : `${`${t`Approve 0.00 `} ${giveAssetType}`}`}
@@ -692,7 +694,7 @@ export function ManageDonationModal({
           {getDonationConfirmationElement()}
         </Grid>
         <Grid item xs={12}>
-          <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
+          <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
             {isMutationLoading
               ? `${`${t`Editing `} ${giveAssetType}`}`
               : `${`${t`Approve `} ${depositAmount.toString()} ${giveAssetType}`}`}

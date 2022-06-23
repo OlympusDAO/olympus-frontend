@@ -1,5 +1,5 @@
-import { Box, Button, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { TransactionRow } from "@olympusdao/component-library";
 import { FC, useMemo, useRef, useState } from "react";
 import { GOHM_TOKEN, OHM_TOKEN, SOHM_TOKEN, V1_OHM_TOKEN, V1_SOHM_TOKEN, WSOHM_TOKEN } from "src/constants/tokens";
@@ -9,8 +9,20 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 import useIntersectionObserver from "../helpers";
 import { useTransactionHistory, useTransferHistory } from "../queries";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  tabNav: {
+const PREFIX = "TransactionHistory";
+
+const classes = {
+  tabNav: `${PREFIX}-tabNav`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled("div")(({ theme }) => ({
+  "&.transaction-container": {
+    "&>*:nth-child(odd) .row-details": {
+      background: "transparent",
+    },
+  },
+  [`& .${classes.tabNav}`]: {
     "& p": {
       "&:first-child": {
         paddingLeft: "0px",
@@ -20,7 +32,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.colors.gray[90],
       padding: "8px 18px 10px 18px",
       "&.active": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
         textDecoration: "underline",
         textUnderlineOffset: ".23rem",
       },
@@ -38,7 +50,6 @@ const filters: Array<{ label: string; value: "all" | Transaction["type"] }> = [
 ];
 
 export const TransactionHistory: FC = () => {
-  const classes = useStyles();
   const loadMoreButtonRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState<"all" | Transaction["type"]>("all");
 
@@ -83,7 +94,7 @@ export const TransactionHistory: FC = () => {
   if (!allLoaded) return null;
 
   return (
-    <>
+    <Root className="transaction-container">
       <Box display="flex" flexDirection="row" className={classes.tabNav} mb="18px">
         {filters.map(({ label, value }, index) => (
           <Typography
@@ -95,7 +106,6 @@ export const TransactionHistory: FC = () => {
           </Typography>
         ))}
       </Box>
-
       {filtered.map((transaction, index) => (
         <TransactionRow
           key={index}
@@ -106,7 +116,6 @@ export const TransactionHistory: FC = () => {
           quantity={transaction.value.toString({ decimals: 4, format: true, trim: false })}
         />
       ))}
-
       {filtered.length === 0 ? (
         <Box display="flex" justifyContent="center">
           <Typography variant="body1" color="textSecondary">
@@ -128,6 +137,6 @@ export const TransactionHistory: FC = () => {
           </Button>
         </Box>
       )}
-    </>
+    </Root>
   );
 };

@@ -1,12 +1,11 @@
 import { isTestnet } from "src/helpers";
-
-import { useWeb3Context } from ".";
+import { useNetwork } from "wagmi";
 
 /**
  * Returns a boolean indicating whether the user's wallet is connected to a testnet.
  */
 export const useTestMode = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
 
-  return isTestnet(networkId);
+  return isTestnet(activeChain.id);
 };

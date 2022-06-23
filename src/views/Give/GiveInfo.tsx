@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { LargeVault, LargeWallet, LargeYield } from "src/components/EducationCard";
 
@@ -20,7 +20,7 @@ export function GiveInfo() {
           <Grid item xs />
           <Grid item xs={3} container justifyContent="center">
             <TertiaryButton
-              size="small"
+              size="medium"
               fullWidth
               href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
               target="_blank"

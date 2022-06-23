@@ -3,22 +3,22 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
-  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -41,21 +41,28 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const claim = true; // was true before the mint & sync distributor change
 
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
-      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async (_, amount) => {
+      onSuccess: async (tx, amount) => {
         trackGAEvent({
           category: "Staking",
           action: "stake",
           label: `Stake to ${toToken}`,
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
-          dimension1: txHash ?? "unknown",
+          dimension1: tx.transactionHash,
           dimension2: address,
+        });
+
+        trackGtagEvent("Stake Test 2", {
+          event_category: "Staking",
+          value: new DecimalBigNumber(amount, 9).toApproxNumber(),
+          address: address.slice(2),
+          txHash: tx.transactionHash.slice(2),
+          token: toToken,
         });
 
         const keysToRefetch = [

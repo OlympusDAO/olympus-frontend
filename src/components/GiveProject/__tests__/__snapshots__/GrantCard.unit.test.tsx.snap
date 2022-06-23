@@ -3,94 +3,97 @@
 exports[`<GrantCard/> should render card 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-1"
-    style="width: 100%; border-radius: 10px; margin-bottom: 60px;"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      class="MuiBox-root css-0"
+      style="width: 100%; border-radius: 10px; margin-bottom: 60px;"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-      >
-        <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-          href="#/give/grants/grant-1"
-        >
-          <h4
-            class="MuiTypography-root MuiTypography-h4"
-          >
-            <strong>
-              Grant Owner - some grant
-            </strong>
-          </h4>
-        </a>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        >
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+            href="#/give/grants/grant-1"
+          >
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
+            >
+              <strong>
+                Grant Owner - some grant
+              </strong>
+            </h4>
+          </a>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
           >
-            <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="#/give/grants/grant-1"
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             >
-              <img
-                src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                width="100%"
-              />
-            </a>
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                href="#/give/grants/grant-1"
+              >
+                <img
+                  src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
+                  width="100%"
+                />
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1"
-            style="line-height: 20px;"
-          >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
-          </p>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-          />
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
-            <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="#/give/grants/grant-1"
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+              style="line-height: 20px;"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-2 makeStyles-root-3 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
-                tabindex="0"
-                type="button"
+              <div>
+                <p>
+                  A short description for the card
+                </p>
+                
+
+              </div>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                href="#/give/grants/grant-1"
               >
-                <span
-                  class="MuiButton-label"
+                <button
+                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
                 >
                   View Details
-                </span>
-              </button>
-            </a>
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -102,89 +105,92 @@ exports[`<GrantCard/> should render card 1`] = `
 exports[`<GrantCard/> should render card without image 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-7"
-    style="width: 100%; border-radius: 10px; margin-bottom: 60px;"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      class="MuiBox-root css-0"
+      style="width: 100%; border-radius: 10px; margin-bottom: 60px;"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-      >
-        <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-          href="#/give/grants/grant-1"
-        >
-          <h4
-            class="MuiTypography-root MuiTypography-h4"
-          >
-            <strong>
-              Grant Owner - some grant
-            </strong>
-          </h4>
-        </a>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        >
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+            href="#/give/grants/grant-1"
+          >
+            <h4
+              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
+            >
+              <strong>
+                Grant Owner - some grant
+              </strong>
+            </h4>
+          </a>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
           >
-            <img
-              height="100%"
-              src=""
-            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            >
+              <img
+                height="100%"
+                src=""
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1"
-            style="line-height: 20px;"
-          >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
-          </p>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-          />
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
-            <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="#/give/grants/grant-1"
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+              style="line-height: 20px;"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-8 makeStyles-root-9 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
-                tabindex="0"
-                type="button"
+              <div>
+                <p>
+                  A short description for the card
+                </p>
+                
+
+              </div>
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                href="#/give/grants/grant-1"
               >
-                <span
-                  class="MuiButton-label"
+                <button
+                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
                 >
                   View Details
-                </span>
-              </button>
-            </a>
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -196,135 +202,139 @@ exports[`<GrantCard/> should render card without image 1`] = `
 exports[`<GrantCard/> should render page 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
-        style="margin-bottom: -24px;"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
+          style="margin-bottom: -24px;"
         >
           <div
-            class="MuiPaper-root makeStyles-root-13 makeStyles-root-14  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-15"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="top-left"
+                    class="MuiBox-root css-gg4vpm"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="top-left"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="width: 12px; height: 12px;"
-                            viewBox="6 6 12 12"
-                          >
-                            <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5"
-                        >
-                          Grant Owner - some grant
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants/grant-1"
-                        >
-                          <img
-                            src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                            width="100%"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              data-testid="ChevronLeftIcon"
+                              focusable="false"
+                              style="width: 12px; height: 12px;"
+                              viewBox="6 6 12 12"
+                            >
+                              <path
+                                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <h5
+                            class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+                          >
+                            Grant Owner - some grant
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+                        style="max-height: 187px; overflow: hidden; border-radius: 16px;"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants/grant-1"
+                          >
+                            <img
+                              src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-grid-xs-true css-v5sff1-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                           style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-52xdcz-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -379,39 +389,39 @@ exports[`<GrantCard/> should render page 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                                 >
                                   Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -434,14 +444,14 @@ exports[`<GrantCard/> should render page 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       100
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                   style="text-align: right;"
                                 >
                                   Total Milestone Amount
@@ -450,10 +460,10 @@ exports[`<GrantCard/> should render page 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root MuiBox-root-17"
+                            class="MuiBox-root css-8atqhb"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <div
                               class="project-milestone-progress"
@@ -487,20 +497,20 @@ exports[`<GrantCard/> should render page 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        style="margin-top: auto;"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 45px;"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          style=""
                         >
-                          <span
-                            class="MuiButton-label"
+                          <button
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-glhrg6-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             Connect Wallet
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -509,123 +519,123 @@ exports[`<GrantCard/> should render page 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-uzpiw1-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-13 makeStyles-root-20  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-21"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-22"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      Milestones
-                    </h5>
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+                      >
+                        Milestones
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
                   </div>
-                  <div
-                    class="top-right"
-                  />
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="milestone-deliverables"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <div>
-                    <h6
-                      class="MuiTypography-root MuiTypography-h6"
-                    >
-                      Milestone 1: 100 sOHM
-                    </h6>
+                  <div
+                    class="milestone-deliverables"
+                  >
                     <div>
-                      <p>
-                        Achieve 1, Achieve B, Achieve Z
-                      </p>
-                      
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                      >
+                        Milestone 1: 100 sOHM
+                      </h6>
+                      <div>
+                        <p>
+                          Achieve 1, Achieve B, Achieve Z
+                        </p>
+                        
 
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
           <div
-            class="MuiPaper-root makeStyles-root-13 makeStyles-root-23  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-24"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-25"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      About
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="https://grant.co"
-                      target="_blank"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                        focusable="false"
-                        viewBox="0 0 20 20"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                       >
-                        <path
-                          d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
-                        />
-                      </svg>
-                    </a>
+                        About
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                        href="https://grant.co"
+                        target="_blank"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="project-content"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <p>
-                    A longer description for the profile
-                  </p>
-                  
+                  <div
+                    class="project-content"
+                  >
+                    <p>
+                      A longer description for the profile
+                    </p>
+                    
 
+                  </div>
                 </div>
               </div>
             </div>
@@ -640,135 +650,139 @@ exports[`<GrantCard/> should render page 1`] = `
 exports[`<GrantCard/> should render page with multiple milestones 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
-        style="margin-bottom: -24px;"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
+          style="margin-bottom: -24px;"
         >
           <div
-            class="MuiPaper-root makeStyles-root-61 makeStyles-root-62  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-63"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="top-left"
+                    class="MuiBox-root css-gg4vpm"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="top-left"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="width: 12px; height: 12px;"
-                            viewBox="6 6 12 12"
-                          >
-                            <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5"
-                        >
-                          Grant Owner - some grant
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants/grant-1"
-                        >
-                          <img
-                            src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                            width="100%"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              data-testid="ChevronLeftIcon"
+                              focusable="false"
+                              style="width: 12px; height: 12px;"
+                              viewBox="6 6 12 12"
+                            >
+                              <path
+                                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <h5
+                            class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+                          >
+                            Grant Owner - some grant
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+                        style="max-height: 187px; overflow: hidden; border-radius: 16px;"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants/grant-1"
+                          >
+                            <img
+                              src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-grid-xs-true css-v5sff1-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                           style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-52xdcz-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -823,39 +837,39 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                                 >
                                   Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -878,14 +892,14 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       300
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                   style="text-align: right;"
                                 >
                                   Total Milestone Amount
@@ -894,10 +908,10 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root MuiBox-root-65"
+                            class="MuiBox-root css-8atqhb"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <div
                               class="project-milestone-progress"
@@ -942,20 +956,20 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        style="margin-top: auto;"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 45px;"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-66 makeStyles-root-67 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          style=""
                         >
-                          <span
-                            class="MuiButton-label"
+                          <button
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-glhrg6-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             Connect Wallet
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -964,137 +978,137 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-uzpiw1-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-61 makeStyles-root-68  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-69"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-70"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      Milestones
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="milestone-deliverables"
-                >
-                  <div>
-                    <h6
-                      class="MuiTypography-root MuiTypography-h6"
-                    >
-                      Milestone 1: 100 sOHM
-                    </h6>
-                    <div>
-                      <p>
-                        Achieve 1, Achieve B, Achieve Z
-                      </p>
-                      
-
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+                      >
+                        Milestones
+                      </h5>
                     </div>
+                    <div
+                      class="top-right"
+                    />
                   </div>
-                  <div>
-                    <h6
-                      class="MuiTypography-root MuiTypography-h6"
-                    >
-                      Milestone 2: 200 sOHM
-                    </h6>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="milestone-deliverables"
+                  >
                     <div>
-                      <p>
-                        Achieve 3, Achieve 4, Achieve 5
-                      </p>
-                      
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                      >
+                        Milestone 1: 100 sOHM
+                      </h6>
+                      <div>
+                        <p>
+                          Achieve 1, Achieve B, Achieve Z
+                        </p>
+                        
 
+                      </div>
+                    </div>
+                    <div>
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                      >
+                        Milestone 2: 200 sOHM
+                      </h6>
+                      <div>
+                        <p>
+                          Achieve 3, Achieve 4, Achieve 5
+                        </p>
+                        
+
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
           <div
-            class="MuiPaper-root makeStyles-root-61 makeStyles-root-71  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-72"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-73"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      About
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="https://grant.co"
-                      target="_blank"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                        focusable="false"
-                        viewBox="0 0 20 20"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                       >
-                        <path
-                          d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
-                        />
-                      </svg>
-                    </a>
+                        About
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                        href="https://grant.co"
+                        target="_blank"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="project-content"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <p>
-                    A longer description for the profile
-                  </p>
-                  
+                  <div
+                    class="project-content"
+                  >
+                    <p>
+                      A longer description for the profile
+                    </p>
+                    
 
+                  </div>
                 </div>
               </div>
             </div>
@@ -1109,130 +1123,134 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
 exports[`<GrantCard/> should render page without image 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
-        style="margin-bottom: -24px;"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
+          style="margin-bottom: -24px;"
         >
           <div
-            class="MuiPaper-root makeStyles-root-29 makeStyles-root-30  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-31"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="top-left"
+                    class="MuiBox-root css-gg4vpm"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="top-left"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="width: 12px; height: 12px;"
-                            viewBox="6 6 12 12"
-                          >
-                            <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5"
-                        >
-                          Grant Owner - some grant
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                      >
-                        <img
-                          height="100%"
-                          src=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              data-testid="ChevronLeftIcon"
+                              focusable="false"
+                              style="width: 12px; height: 12px;"
+                              viewBox="6 6 12 12"
+                            >
+                              <path
+                                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <h5
+                            class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+                          >
+                            Grant Owner - some grant
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+                        style="max-height: 187px; overflow: hidden; border-radius: 16px;"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+                        >
+                          <img
+                            height="100%"
+                            src=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-grid-xs-true css-v5sff1-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                           style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-52xdcz-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1287,39 +1305,39 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                                 >
                                   Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1342,14 +1360,14 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       100
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                   style="text-align: right;"
                                 >
                                   Total Milestone Amount
@@ -1358,10 +1376,10 @@ exports[`<GrantCard/> should render page without image 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root MuiBox-root-33"
+                            class="MuiBox-root css-8atqhb"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <div
                               class="project-milestone-progress"
@@ -1395,20 +1413,20 @@ exports[`<GrantCard/> should render page without image 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        style="margin-top: auto;"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 45px;"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-34 makeStyles-root-35 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          style=""
                         >
-                          <span
-                            class="MuiButton-label"
+                          <button
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-glhrg6-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             Connect Wallet
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1417,123 +1435,123 @@ exports[`<GrantCard/> should render page without image 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-uzpiw1-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-29 makeStyles-root-36  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-37"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-38"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      Milestones
-                    </h5>
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+                      >
+                        Milestones
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
                   </div>
-                  <div
-                    class="top-right"
-                  />
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="milestone-deliverables"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <div>
-                    <h6
-                      class="MuiTypography-root MuiTypography-h6"
-                    >
-                      Milestone 1: 100 sOHM
-                    </h6>
+                  <div
+                    class="milestone-deliverables"
+                  >
                     <div>
-                      <p>
-                        Achieve 1, Achieve B, Achieve Z
-                      </p>
-                      
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                      >
+                        Milestone 1: 100 sOHM
+                      </h6>
+                      <div>
+                        <p>
+                          Achieve 1, Achieve B, Achieve Z
+                        </p>
+                        
 
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
           <div
-            class="MuiPaper-root makeStyles-root-29 makeStyles-root-39  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-40"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-41"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      About
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="https://grant.co"
-                      target="_blank"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                        focusable="false"
-                        viewBox="0 0 20 20"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                       >
-                        <path
-                          d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
-                        />
-                      </svg>
-                    </a>
+                        About
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                        href="https://grant.co"
+                        target="_blank"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="project-content"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <p>
-                    A longer description for the profile
-                  </p>
-                  
+                  <div
+                    class="project-content"
+                  >
+                    <p>
+                      A longer description for the profile
+                    </p>
+                    
 
+                  </div>
                 </div>
               </div>
             </div>
@@ -1548,135 +1566,139 @@ exports[`<GrantCard/> should render page without image 1`] = `
 exports[`<GrantCard/> should render page without milestone description 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
-        style="margin-bottom: -24px;"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
+          style="margin-bottom: -24px;"
         >
           <div
-            class="MuiPaper-root makeStyles-root-77 makeStyles-root-78  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-79"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="top-left"
+                    class="MuiBox-root css-gg4vpm"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="top-left"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="width: 12px; height: 12px;"
-                            viewBox="6 6 12 12"
-                          >
-                            <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5"
-                        >
-                          Grant Owner - some grant
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants/grant-1"
-                        >
-                          <img
-                            src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                            width="100%"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              data-testid="ChevronLeftIcon"
+                              focusable="false"
+                              style="width: 12px; height: 12px;"
+                              viewBox="6 6 12 12"
+                            >
+                              <path
+                                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <h5
+                            class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+                          >
+                            Grant Owner - some grant
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+                        style="max-height: 187px; overflow: hidden; border-radius: 16px;"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants/grant-1"
+                          >
+                            <img
+                              src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-grid-xs-true css-v5sff1-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                           style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-52xdcz-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1731,39 +1753,39 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                                 >
                                   Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1786,14 +1808,14 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       100
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                   style="text-align: right;"
                                 >
                                   Total Milestone Amount
@@ -1802,10 +1824,10 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root MuiBox-root-81"
+                            class="MuiBox-root css-8atqhb"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <div
                               class="project-milestone-progress"
@@ -1839,20 +1861,20 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        style="margin-top: auto;"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 45px;"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-82 makeStyles-root-83 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          style=""
                         >
-                          <span
-                            class="MuiButton-label"
+                          <button
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-glhrg6-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             Connect Wallet
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1861,123 +1883,123 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-uzpiw1-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-77 makeStyles-root-84  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-85"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-86"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      Milestones
-                    </h5>
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+                      >
+                        Milestones
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
                   </div>
-                  <div
-                    class="top-right"
-                  />
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="milestone-deliverables"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <div>
-                    <h6
-                      class="MuiTypography-root MuiTypography-h6"
-                    >
-                      Milestone 1: 100 sOHM
-                    </h6>
+                  <div
+                    class="milestone-deliverables"
+                  >
                     <div>
-                      <p>
-                        No milestone information.
-                      </p>
-                      
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                      >
+                        Milestone 1: 100 sOHM
+                      </h6>
+                      <div>
+                        <p>
+                          No milestone information.
+                        </p>
+                        
 
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
           <div
-            class="MuiPaper-root makeStyles-root-77 makeStyles-root-87  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-88"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-89"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      About
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="https://grant.co"
-                      target="_blank"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                        focusable="false"
-                        viewBox="0 0 20 20"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                       >
-                        <path
-                          d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
-                        />
-                      </svg>
-                    </a>
+                        About
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                        href="https://grant.co"
+                        target="_blank"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="project-content"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <p>
-                    A longer description for the profile
-                  </p>
-                  
+                  <div
+                    class="project-content"
+                  >
+                    <p>
+                      A longer description for the profile
+                    </p>
+                    
 
+                  </div>
                 </div>
               </div>
             </div>
@@ -1992,135 +2014,139 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
 exports[`<GrantCard/> should render page without milestones 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    data-rk=""
   >
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
-        style="margin-bottom: -24px;"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
+          style="margin-bottom: -24px;"
         >
           <div
-            class="MuiPaper-root makeStyles-root-45 makeStyles-root-46  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-47"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="top-left"
+                    class="MuiBox-root css-gg4vpm"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="top-left"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="width: 12px; height: 12px;"
-                            viewBox="6 6 12 12"
-                          >
-                            <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item"
-                      >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5"
-                        >
-                          Grant Owner - some grant
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="top-right"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                      >
-                        <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/grants/grant-1"
-                        >
-                          <img
-                            src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                            width="100%"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              data-testid="ChevronLeftIcon"
+                              focusable="false"
+                              style="width: 12px; height: 12px;"
+                              viewBox="6 6 12 12"
+                            >
+                              <path
+                                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                        >
+                          <h5
+                            class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+                          >
+                            Grant Owner - some grant
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
+                        style="max-height: 187px; overflow: hidden; border-radius: 16px;"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+                        >
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                            href="#/give/grants/grant-1"
+                          >
+                            <img
+                              src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-grid-xs-true css-v5sff1-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                           style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-u6nsm1-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-52xdcz-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -2175,39 +2201,39 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                                 >
                                   Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1aue8j3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                   >
                                     <div
-                                      class="MuiGrid-root MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -2230,14 +2256,14 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                       </svg>
                                     </div>
                                     <div
-                                      class="MuiGrid-root metric MuiGrid-item"
+                                      class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                     >
                                       0
                                     </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                   style="text-align: right;"
                                 >
                                   Total Milestone Amount
@@ -2246,13 +2272,13 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root MuiBox-root-49"
+                            class="MuiBox-root css-8atqhb"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                             >
                               No milestones are defined for this grant.
                             </p>
@@ -2260,20 +2286,20 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        style="margin-top: auto;"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 45px;"
                       >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-50 makeStyles-root-51 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                          tabindex="0"
-                          type="button"
+                        <div
+                          style=""
                         >
-                          <span
-                            class="MuiButton-label"
+                          <button
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-glhrg6-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             Connect Wallet
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2282,104 +2308,104 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
-      >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-uzpiw1-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-45 makeStyles-root-52  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-53"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-54"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      Milestones
-                    </h5>
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+                      >
+                        Milestones
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    />
                   </div>
-                  <div
-                    class="top-right"
-                  />
                 </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                />
               </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              />
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        >
           <div
-            class="MuiPaper-root makeStyles-root-45 makeStyles-root-55  MuiPaper-elevation0 MuiPaper-rounded"
-            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1dpley9-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-56"
+                  class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-57"
+                    class="MuiBox-root css-gg4vpm"
                   >
-                    <h5
-                      class="MuiTypography-root header-text MuiTypography-h5"
+                    <div
+                      class="MuiBox-root css-1xhj18k"
                     >
-                      About
-                    </h5>
-                  </div>
-                  <div
-                    class="top-right"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="https://grant.co"
-                      target="_blank"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                        focusable="false"
-                        viewBox="0 0 20 20"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                       >
-                        <path
-                          d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
-                        />
-                      </svg>
-                    </a>
+                        About
+                      </h5>
+                    </div>
+                    <div
+                      class="top-right"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                        href="https://grant.co"
+                        target="_blank"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9.991 0 C 4.471 0 0 4.48 0 10 C 0 15.52 4.471 20 9.991 20 C 15.521 20 20 15.52 20 10 C 20 4.48 15.521 0 9.991 0 Z M 16.921 6 L 13.971 6 C 13.651 4.751 13.191 3.551 12.591 2.44 C 14.431 3.071 15.961 4.351 16.921 6 Z M 10.001 2.04 C 10.831 3.24 11.481 4.571 11.911 6 L 8.091 6 C 8.521 4.571 9.171 3.24 10.001 2.04 Z M 2.26 12 C 2.101 11.36 2.001 10.691 2.001 10 C 2.001 9.311 2.101 8.64 2.26 8 L 5.641 8 C 5.561 8.66 5.501 9.32 5.501 10 C 5.501 10.68 5.561 11.34 5.641 12 L 2.26 12 Z M 3.081 14 L 6.031 14 C 6.351 15.251 6.811 16.451 7.411 17.56 C 5.571 16.931 4.041 15.66 3.081 14 Z M 6.031 6 L 3.081 6 C 4.041 4.34 5.571 3.071 7.411 2.44 C 6.811 3.551 6.351 4.751 6.031 6 Z M 10.001 17.96 C 9.171 16.76 8.521 15.431 8.091 14 L 11.911 14 C 11.481 15.431 10.831 16.76 10.001 17.96 Z M 12.341 12 L 7.661 12 C 7.571 11.34 7.501 10.68 7.501 10 C 7.501 9.32 7.571 8.651 7.661 8 L 12.341 8 C 12.431 8.651 12.501 9.32 12.501 10 C 12.501 10.68 12.431 11.34 12.341 12 Z M 12.591 17.56 C 13.191 16.451 13.651 15.251 13.971 14 L 16.921 14 C 15.961 15.651 14.431 16.931 12.591 17.56 Z M 14.361 12 C 14.441 11.34 14.501 10.68 14.501 10 C 14.501 9.32 14.441 8.66 14.361 8 L 17.741 8 C 17.9 8.64 18.001 9.311 18.001 10 C 18.001 10.691 17.9 11.36 17.741 12 L 14.361 12 Z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item"
-              >
                 <div
-                  class="project-content"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
-                  <p>
-                    A longer description for the profile
-                  </p>
-                  
+                  <div
+                    class="project-content"
+                  >
+                    <p>
+                      A longer description for the profile
+                    </p>
+                    
 
+                  </div>
                 </div>
               </div>
             </div>

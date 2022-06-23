@@ -3,8 +3,7 @@ import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
+import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import {
@@ -21,8 +20,7 @@ import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
 
 beforeEach(() => {
-  const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-  data.mockReturnValue(mockWeb3Context);
+  connectWallet();
 
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
@@ -105,7 +103,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
 
     expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
+    expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
   });
 });
 
@@ -129,7 +127,7 @@ describe("Bond Modal", () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Instant Payout")).toBeInTheDocument();
+    expect(await screen.findByText("Instantly")).toBeInTheDocument();
     // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)
     expect(await screen.findByText("0 DAI")).toBeInTheDocument();
   });
