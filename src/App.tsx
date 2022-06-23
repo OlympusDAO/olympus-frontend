@@ -246,7 +246,7 @@ function App() {
 
               <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
                 <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div></div>}>
                   <Routes>
                     <Route path="/" element={<Navigate to="/stake" />} />
                     <Route

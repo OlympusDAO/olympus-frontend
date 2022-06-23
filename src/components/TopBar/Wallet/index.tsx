@@ -2,14 +2,14 @@ import { Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useConnect, useDisconnect } from "wagmi";
 
-import Assets from "./Assets";
-import GetOhm from "./GetOhm";
-import { Info } from "./Info";
+const Assets = lazy(() => import("./Assets"));
+const GetOhm = lazy(() => import("./GetOhm"));
+const Info = lazy(() => import("./Info"));
 
 const PREFIX = "Wallet";
 
@@ -124,30 +124,32 @@ export function Wallet(props: { open?: boolean; component?: string }) {
             mb={"18px"}
           />
         </Box>
-        <Box
-          style={{
-            height: "100vh",
-            display: "block",
-            overflowY: "scroll",
-            overflowX: "hidden",
-            paddingBottom: "calc(85%)",
-          }}
-        >
-          {(() => {
-            switch (props.component) {
-              case "info":
-                return <Info />;
-              case "utility":
-                return <GetOhm />;
-              case "wallet":
-                return <>{!isConnected ? <ConnectMessage /> : <Assets />}</>;
-              case "wallet/history":
-                return <Assets path="history" />;
-              default:
-                <></>;
-            }
-          })()}
-        </Box>
+        <Suspense fallback={<div></div>}>
+          <Box
+            style={{
+              height: "100vh",
+              display: "block",
+              overflowY: "scroll",
+              overflowX: "hidden",
+              paddingBottom: "calc(85%)",
+            }}
+          >
+            {(() => {
+              switch (props.component) {
+                case "info":
+                  return <Info />;
+                case "utility":
+                  return <GetOhm />;
+                case "wallet":
+                  return <>{!isConnected ? <ConnectMessage /> : <Assets />}</>;
+                case "wallet/history":
+                  return <Assets path="history" />;
+                default:
+                  <></>;
+              }
+            })()}
+          </Box>
+        </Suspense>
       </Box>
       <Box
         display="flex"

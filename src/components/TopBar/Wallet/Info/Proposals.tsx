@@ -8,7 +8,7 @@ import { ActiveProposals } from "../queries";
 /**
  * Component for displaying proposals
  */
-export const Proposals: FC = () => {
+const Proposals: FC = () => {
   const { data, isFetched } = ActiveProposals();
 
   const truncate = (str: string) => {
@@ -52,3 +52,5 @@ export const Proposals: FC = () => {
     </Fade>
   );
 };
+
+export default Proposals;

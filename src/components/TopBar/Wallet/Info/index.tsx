@@ -1,25 +1,27 @@
 import { Box, Fade, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { FC } from "react";
+import { FC, lazy, Suspense } from "react";
 import { Navigate, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-import Faq from "./Faq";
-import News from "./News";
-import { Proposals } from "./Proposals";
+const Faq = lazy(() => import("./Faq"));
+const News = lazy(() => import("./News"));
+const Proposals = lazy(() => import("./Proposals"));
 
 /**
  * Component for displaying info
  */
-export const Info: FC = () => (
+const Info: FC = () => (
   <>
-    <Routes>
-      <Route path="/" element={<InfoContainer />}>
-        <Route path="news" element={<News />} />
-        <Route path="proposals" element={<Proposals />} />
-        <Route path="faq" element={<Faq />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<div></div>}>
+      <Routes>
+        <Route path="/" element={<InfoContainer />}>
+          <Route path="news" element={<News />} />
+          <Route path="proposals" element={<Proposals />} />
+          <Route path="faq" element={<Faq />} />
+        </Route>
+      </Routes>
+    </Suspense>
   </>
 );
 
@@ -73,3 +75,5 @@ const InfoContainer = () => {
     </Root>
   );
 };
+
+export default Info;
