@@ -156,6 +156,10 @@ export const dark = responsiveFontSizes(
                 "&.active": {
                   color: colors.gray[10],
                   textDecoration: "underline",
+                  "&:hover": {
+                    color: colors.primary[300],
+                    textDecoration: "none",
+                  },
                 },
               },
             },
