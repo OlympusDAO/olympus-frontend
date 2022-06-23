@@ -162,7 +162,7 @@ const commonSettings = {
     MuiDrawer: {
       styleOverrides: {
         root: {
-          width: "312px",
+          width: "264px",
           flexShrink: 0,
         },
         paper: {
@@ -234,7 +234,7 @@ const commonSettings = {
           minWidth: "min-content !important",
           padding: "0px",
           margin: "0px 10px",
-          fontWeight: 700,
+          fontWeight: 500,
           fontStyle: "normal",
           lineHeight: "30px",
           opacity: 1,

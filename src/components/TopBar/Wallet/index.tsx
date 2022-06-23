@@ -23,7 +23,7 @@ const classes = {
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   [`& .${classes.networkSelector}`]: {
-    background: theme.colors.paper.card,
+    background: theme.colors.gray[700],
     minHeight: "39px",
     borderRadius: "6px",
     padding: "9px 18px",
@@ -31,9 +31,9 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   },
 
   [`& .${classes.connectButton}`]: {
-    background: theme.colors.paper.card,
+    background: theme.colors.gray[600],
     "&:hover": {
-      background: theme.colors.paper.cardHover,
+      background: theme.colors.gray[600],
     },
   },
 
@@ -44,7 +44,7 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
 
   [`& .${classes.paper}`]: {
     maxWidth: "100%",
-    background: theme.colors.paper.background,
+    background: theme.colors.gray[600],
   },
 }));
 

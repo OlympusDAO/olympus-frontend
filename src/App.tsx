@@ -89,7 +89,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.notification}`]: {
-    marginLeft: "312px",
+    marginLeft: "264px",
   },
 }));
 
@@ -101,7 +101,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
-const drawerWidth = 312;
+const drawerWidth = 264;
 const transitionDuration = 969;
 
 const MULTIFARM_API_KEY = getMultiFarmApiKey();

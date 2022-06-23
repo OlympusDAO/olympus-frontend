@@ -16,7 +16,7 @@ const StyledNotification = styled("div")(() => ({
   },
 
   [`& .${classes.notification}`]: {
-    marginLeft: "312px",
+    marginLeft: "264px",
   },
 }));
 

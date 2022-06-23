@@ -17,11 +17,14 @@ export const lightPalette = {
     600: "#A3A3A3",
     500: "#676B74",
     90: "#3F4552",
-    40: "#292C32",
+    40: "#20222A",
     10: "#181A1D",
   },
   primary: {
     300: "#F8CC82",
     100: "#EAD8B8",
+  },
+  special: {
+    olyZaps: "#8977F5",
   },
 };

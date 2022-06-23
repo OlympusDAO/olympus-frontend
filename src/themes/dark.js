@@ -48,12 +48,7 @@ export const dark = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background:${colors.background};
-              background-color:${colors.backgroundColor};
-              background-repeat:no-repeat;
-              background-attachment:fixed;
-              font-size:0.75rem;
-              font-weight:400;
+              background-color:${colors.gray[700]};
             }
             `,
           },
@@ -264,6 +259,7 @@ export const dark = responsiveFontSizes(
                 height: "39px",
                 background: colors.paper.background,
                 color: colors.gray[10],
+                fontWeight: 500,
                 "&:hover": {
                   background: `${colors.paper.cardHover} !important`,
                 },

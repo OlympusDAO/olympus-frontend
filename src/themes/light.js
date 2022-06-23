@@ -51,11 +51,7 @@ export const light = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background:${colors.background};
-              background-repeat:no-repeat;
-              background-attachment:fixed;
-              font-size:0.75rem;
-              font-weight:400;
+              background-color:${colors.gray[700]};
             }
             `,
           },
@@ -129,7 +125,7 @@ export const light = responsiveFontSizes(
           MuiDrawer: {
             styleOverrides: {
               paper: {
-                background: colors.paper.background,
+                background: colors.gray[700],
                 zIndex: 7,
               },
             },
@@ -227,7 +223,7 @@ export const light = responsiveFontSizes(
           MuiToggleButton: {
             styleOverrides: {
               root: {
-                background: colors.paper.card,
+                background: colors.paper.background,
                 "&:hover": {
                   background: colors.paper.cardHover,
                 },
@@ -282,18 +278,23 @@ export const light = responsiveFontSizes(
               },
               containedSecondary: {
                 height: "39px",
+                background: colors.paper.background,
                 color: colors.gray[10],
-                background: colors.paper.card,
-                fontWeight: 700,
+                fontWeight: 500,
                 "&:hover": {
+                  background: `${colors.paper.cardHover} !important`,
+                },
+                "&:active": {
                   background: colors.paper.cardHover,
+                },
+                "&:focus": {
+                  background: colors.paper.background,
                 },
                 "@media (hover:none)": {
                   color: colors.gray[10],
-                  background: colors.paper.card,
-                  fontWeight: 700,
+                  background: colors.paper.background,
                   "&:hover": {
-                    background: colors.paper.cardHover,
+                    background: `${colors.paper.cardHover} !important`,
                   },
                 },
               },

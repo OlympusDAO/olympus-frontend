@@ -23,7 +23,7 @@ export const darkPalette = {
   },
   gray: {
     700: "#151721",
-    600: "#292C32",
+    600: "#20222A",
     500: "#3F4552",
     90: "#676B74",
     40: "#BBBDC0",
@@ -32,5 +32,8 @@ export const darkPalette = {
   primary: {
     300: "#F8CC82",
     100: "#EAD8B8",
+  },
+  special: {
+    olyZaps: "#8977F5",
   },
 };

@@ -12,7 +12,6 @@ import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { useNetwork } from "wagmi";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 
 const PREFIX = "NavContent";
 
@@ -38,13 +37,14 @@ const NavContent: React.VFC = () => {
             <Link href="https://olympusdao.finance" target="_blank">
               <SvgIcon
                 color="primary"
-                viewBox="0 0 151 100"
+                viewBox="0 0 50 50"
                 component={OlympusIcon}
-                style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
+                style={{ minWidth: "51px", minHeight: "51px", width: "51px" }}
               />
+              <Typography fontSize="24px" fontWeight="700" lineHeight="32px">
+                Olympus
+              </Typography>
             </Link>
-
-            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
