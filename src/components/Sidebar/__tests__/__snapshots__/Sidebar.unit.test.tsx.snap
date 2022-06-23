@@ -13,10 +13,10 @@ exports[`<Sidebar/> should render component 1`] = `
       id="sidebarContent"
     >
       <div
-        class="MuiDrawer-root MuiDrawer-docked css-6mamqx-MuiDrawer-docked"
+        class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-xfqbx9-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-upn5zt-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-1kx48wt-MuiPaper-root"
@@ -31,7 +31,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   class="branding-header MuiBox-root css-0"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                     href="https://olympusdao.finance"
                     target="_blank"
                   >
@@ -39,11 +39,16 @@ exports[`<Sidebar/> should render component 1`] = `
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
                       focusable="false"
-                      style="min-width: 151px; min-height: 98px; width: 151px;"
-                      viewBox="0 0 151 100"
+                      style="min-width: 51px; min-height: 51px; width: 51px;"
+                      viewBox="0 0 50 50"
                     >
                       olympus-nav-header.svg
                     </svg>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1v1in9t-MuiTypography-root"
+                    >
+                      Olympus
+                    </p>
                   </a>
                 </div>
                 <div
@@ -54,10 +59,10 @@ exports[`<Sidebar/> should render component 1`] = `
                     id="navbarNav"
                   >
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/dashboard"
                       >
                         <div
@@ -88,7 +93,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-y4zw2u-MuiPaper-root-MuiAccordion-root"
@@ -103,7 +108,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
                           >
                             <a
-                              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                               href="#/bonds"
                             >
                               <div
@@ -171,10 +176,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/stake"
                       >
                         <div
@@ -203,10 +208,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/zap"
                       >
                         <div
@@ -235,10 +240,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/give"
                       >
                         <div
@@ -267,10 +272,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/wrap"
                       >
                         <div
@@ -304,10 +309,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/bridge"
                       >
                         <div
@@ -366,10 +371,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       />
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://pro.olympusdao.finance/"
                         target="_blank"
                       >
@@ -416,10 +421,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       />
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://forum.olympusdao.finance/"
                         target="_blank"
                       >
@@ -461,10 +466,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://vote.olympusdao.finance/"
                         target="_blank"
                       >
@@ -506,10 +511,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://docs.olympusdao.finance/"
                         target="_blank"
                       >
@@ -551,10 +556,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://immunefi.com/bounty/olympus/"
                         target="_blank"
                       >
@@ -594,10 +599,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1kcsrti"
+                      class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="https://grants.olympusdao.finance/"
                         target="_blank"
                       >
@@ -645,7 +650,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 class="MuiBox-root css-1j242jx"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://github.com/OlympusDAO"
                   target="_blank"
                 >
@@ -661,7 +666,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://olympusdao.medium.com/"
                   target="_blank"
                 >
@@ -677,7 +682,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://twitter.com/OlympusDAO"
                   target="_blank"
                 >
@@ -693,7 +698,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://discord.gg/OlympusDAO"
                   target="_blank"
                 >

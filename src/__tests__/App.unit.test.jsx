@@ -114,7 +114,7 @@ describe("Staging Notification Checks", () => {
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     connectWallet();
     render(<App />);
-    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "312px" });
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "264px" });
     expect(
       screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
     ).toBeInTheDocument();

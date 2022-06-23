@@ -35,7 +35,7 @@ exports[`<Zap/> should render component 1`] = `
                     style=""
                   >
                     <button
-                      class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -44,7 +44,7 @@ exports[`<Zap/> should render component 1`] = `
                   </div>
                 </div>
                 <h6
-                  class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                 >
                   Connect your wallet to use Zap
                 </h6>
@@ -139,7 +139,7 @@ exports[`<Zap/> should render component 1`] = `
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-2qeqlh-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-1qdqi8r-MuiTypography-root"
               >
                 You Give
               </p>
@@ -148,12 +148,12 @@ exports[`<Zap/> should render component 1`] = `
               class="ZapInfo-infoBody MuiBox-root css-0"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-p35pu2-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-haqq9q-MuiTypography-root"
               >
                 Zap is a swap
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1jqpfap-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1t6ukz-MuiTypography-root"
               >
                 A zap swap is a series of smart contracts that deploys one asset to another protocol to handle a trusted transaction.
               </p>
@@ -186,7 +186,7 @@ exports[`<Zap/> should render component 1`] = `
                 />
               </svg>
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-2qeqlh-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-1qdqi8r-MuiTypography-root"
               >
                 All-in-one zap contracts
               </p>
@@ -195,12 +195,12 @@ exports[`<Zap/> should render component 1`] = `
               class="ZapInfo-infoBody MuiBox-root css-0"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-p35pu2-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-haqq9q-MuiTypography-root"
               >
                 All-in-one easy staking
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1jqpfap-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1t6ukz-MuiTypography-root"
               >
                 OlyZap reduces complexity, saves you time and keeps you here on Olympus.
               </p>
@@ -309,7 +309,7 @@ exports[`<Zap/> should render component 1`] = `
                 </svg>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-2qeqlh-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-1qdqi8r-MuiTypography-root"
               >
                 You Choose
               </p>
@@ -318,12 +318,12 @@ exports[`<Zap/> should render component 1`] = `
               class="ZapInfo-infoBody MuiBox-root css-0"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-p35pu2-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-haqq9q-MuiTypography-root"
               >
                 Staking
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1jqpfap-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-alignLeft oly-info-body css-1t6ukz-MuiTypography-root"
               >
                 Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an equal value of sOHM or gOHM.
               </p>
@@ -334,13 +334,13 @@ exports[`<Zap/> should render component 1`] = `
           class="button-box MuiBox-root css-0"
         >
           <a
-            class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root learn-more-button css-2gvxvl-MuiButtonBase-root-MuiButton-root"
+            class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root learn-more-button css-8nixbj-MuiButtonBase-root-MuiButton-root"
             href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
             tabindex="0"
             target="_blank"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
             >
               Learn More
             </p>

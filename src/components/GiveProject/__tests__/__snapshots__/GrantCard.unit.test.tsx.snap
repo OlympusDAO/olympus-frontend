@@ -19,11 +19,11 @@ exports[`<GrantCard/> should render card 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
             href="#/give/grants/grant-1"
           >
             <h4
-              class="MuiTypography-root MuiTypography-h4 css-1lzk0a8-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
             >
               <strong>
                 Grant Owner - some grant
@@ -42,7 +42,7 @@ exports[`<GrantCard/> should render card 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
             >
               <a
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/grants/grant-1"
               >
                 <img
@@ -60,7 +60,7 @@ exports[`<GrantCard/> should render card 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
               style="line-height: 20px;"
             >
               <div>
@@ -82,11 +82,11 @@ exports[`<GrantCard/> should render card 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4 css-14ydw7s-MuiGrid-root"
             >
               <a
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/grants/grant-1"
               >
                 <button
-                  class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -121,11 +121,11 @@ exports[`<GrantCard/> should render card without image 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
             href="#/give/grants/grant-1"
           >
             <h4
-              class="MuiTypography-root MuiTypography-h4 css-1lzk0a8-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
             >
               <strong>
                 Grant Owner - some grant
@@ -157,7 +157,7 @@ exports[`<GrantCard/> should render card without image 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
               style="line-height: 20px;"
             >
               <div>
@@ -179,11 +179,11 @@ exports[`<GrantCard/> should render card without image 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4 css-14ydw7s-MuiGrid-root"
             >
               <a
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/grants/grant-1"
               >
                 <button
-                  class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -242,7 +242,7 @@ exports[`<GrantCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants"
                           >
                             <svg
@@ -263,7 +263,7 @@ exports[`<GrantCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             Grant Owner - some grant
                           </h5>
@@ -292,7 +292,7 @@ exports[`<GrantCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants/grant-1"
                           >
                             <img
@@ -474,7 +474,7 @@ exports[`<GrantCard/> should render page 1`] = `
                                 >
                                   <div
                                     class="step-label"
-                                    style="color: rgb(41, 44, 50);"
+                                    style="color: rgb(32, 34, 42);"
                                   >
                                     100
                                   </div>
@@ -496,7 +496,7 @@ exports[`<GrantCard/> should render page 1`] = `
                           style=""
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -537,7 +537,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -555,7 +555,7 @@ exports[`<GrantCard/> should render page 1`] = `
                   >
                     <div>
                       <h6
-                        class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
                       </h6>
@@ -592,7 +592,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -601,7 +601,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="top-right"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
                         target="_blank"
                       >
@@ -685,7 +685,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants"
                           >
                             <svg
@@ -706,7 +706,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             Grant Owner - some grant
                           </h5>
@@ -735,7 +735,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants/grant-1"
                           >
                             <img
@@ -917,7 +917,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                 >
                                   <div
                                     class="step-label"
-                                    style="color: rgb(41, 44, 50);"
+                                    style="color: rgb(32, 34, 42);"
                                   >
                                     100
                                   </div>
@@ -928,7 +928,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                 >
                                   <div
                                     class="step-label"
-                                    style="color: rgb(41, 44, 50);"
+                                    style="color: rgb(32, 34, 42);"
                                   >
                                     200
                                   </div>
@@ -950,7 +950,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                           style=""
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -991,7 +991,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1009,7 +1009,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                   >
                     <div>
                       <h6
-                        class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
                       </h6>
@@ -1023,7 +1023,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     </div>
                     <div>
                       <h6
-                        class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                       >
                         Milestone 2: 200 sOHM
                       </h6>
@@ -1060,7 +1060,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1069,7 +1069,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="top-right"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
                         target="_blank"
                       >
@@ -1153,7 +1153,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants"
                           >
                             <svg
@@ -1174,7 +1174,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             Grant Owner - some grant
                           </h5>
@@ -1380,7 +1380,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                 >
                                   <div
                                     class="step-label"
-                                    style="color: rgb(41, 44, 50);"
+                                    style="color: rgb(32, 34, 42);"
                                   >
                                     100
                                   </div>
@@ -1402,7 +1402,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                           style=""
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1443,7 +1443,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1461,7 +1461,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                   >
                     <div>
                       <h6
-                        class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
                       </h6>
@@ -1498,7 +1498,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1507,7 +1507,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="top-right"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
                         target="_blank"
                       >
@@ -1591,7 +1591,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants"
                           >
                             <svg
@@ -1612,7 +1612,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             Grant Owner - some grant
                           </h5>
@@ -1641,7 +1641,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants/grant-1"
                           >
                             <img
@@ -1823,7 +1823,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                 >
                                   <div
                                     class="step-label"
-                                    style="color: rgb(41, 44, 50);"
+                                    style="color: rgb(32, 34, 42);"
                                   >
                                     100
                                   </div>
@@ -1845,7 +1845,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                           style=""
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1886,7 +1886,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1904,7 +1904,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                   >
                     <div>
                       <h6
-                        class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
                       </h6>
@@ -1941,7 +1941,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1950,7 +1950,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="top-right"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
                         target="_blank"
                       >
@@ -2034,7 +2034,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants"
                           >
                             <svg
@@ -2055,7 +2055,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             Grant Owner - some grant
                           </h5>
@@ -2084,7 +2084,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/grants/grant-1"
                           >
                             <img
@@ -2250,7 +2250,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                             >
                               No milestones are defined for this grant.
                             </p>
@@ -2265,7 +2265,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                           style=""
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1uzmwy4-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -2306,7 +2306,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -2342,7 +2342,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -2351,7 +2351,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="top-right"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
                         target="_blank"
                       >

@@ -15,11 +15,11 @@ exports[`<ProjectCard/> should render card 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
           href="#/give/projects/project-1"
         >
           <h4
-            class="MuiTypography-root MuiTypography-h4 css-1lzk0a8-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
           >
             <strong>
               project Owner - some project
@@ -38,7 +38,7 @@ exports[`<ProjectCard/> should render card 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
               href="#/give/projects/project-1"
             >
               <img
@@ -56,7 +56,7 @@ exports[`<ProjectCard/> should render card 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 project-content css-p35pu2-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
           >
             <div>
               <p>
@@ -93,7 +93,7 @@ exports[`<ProjectCard/> should render card 1`] = `
                       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-16dm3cb-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-1q88hoi-MuiTypography-root"
                       >
                         00:00:00
                       </p>
@@ -102,7 +102,7 @@ exports[`<ProjectCard/> should render card 1`] = `
                       class="MuiGrid-root css-vj1n65-MuiGrid-root"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-16dm3cb-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-1q88hoi-MuiTypography-root"
                       >
                         Completed
                       </p>
@@ -141,11 +141,11 @@ exports[`<ProjectCard/> should render card 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-1m1ik-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-20z02r-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -175,11 +175,11 @@ exports[`<ProjectCard/> should render card without image 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
           href="#/give/projects/project-1"
         >
           <h4
-            class="MuiTypography-root MuiTypography-h4 css-1lzk0a8-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
           >
             <strong>
               project Owner - some project
@@ -211,7 +211,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 project-content css-p35pu2-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
           >
             <div>
               <p>
@@ -248,7 +248,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-16dm3cb-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-1q88hoi-MuiTypography-root"
                       >
                         00:00:00
                       </p>
@@ -257,7 +257,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                       class="MuiGrid-root css-vj1n65-MuiGrid-root"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-16dm3cb-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-1q88hoi-MuiTypography-root"
                       >
                         Completed
                       </p>
@@ -296,11 +296,11 @@ exports[`<ProjectCard/> should render card without image 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-1m1ik-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-20z02r-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -358,7 +358,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give"
                           >
                             <svg
@@ -379,7 +379,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             project Owner - some project
                           </h5>
@@ -408,7 +408,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/project-1"
                           >
                             <img
@@ -713,7 +713,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -751,7 +751,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                     >
                       About
                     </p>
@@ -760,7 +760,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                     class="top-right"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
                       target="_blank"
                     >
@@ -843,7 +843,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give"
                           >
                             <svg
@@ -864,7 +864,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             project Owner - some project
                           </h5>
@@ -893,7 +893,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1z0dvx8-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/project-1"
                           >
                             <img
@@ -1198,7 +1198,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1236,7 +1236,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                     >
                       About
                     </p>
@@ -1245,7 +1245,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     class="top-right"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
                       target="_blank"
                     >
@@ -1328,7 +1328,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                             href="#/give"
                           >
                             <svg
@@ -1349,7 +1349,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <h5
-                            class="MuiTypography-root MuiTypography-h5 css-b7lwiu-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
                           >
                             project Owner - some project
                           </h5>
@@ -1678,7 +1678,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1716,7 +1716,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                     >
                       About
                     </p>
@@ -1725,7 +1725,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     class="top-right"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
                       target="_blank"
                     >
