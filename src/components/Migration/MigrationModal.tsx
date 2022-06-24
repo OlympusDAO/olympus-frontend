@@ -71,7 +71,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   useEffect(() => {
     if (
-      isChainEthereum(activeChain.id, true) &&
+      isChainEthereum({ chainId: activeChain.id, includeTestnets: true }) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {

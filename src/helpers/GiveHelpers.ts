@@ -9,8 +9,7 @@ export const ACTION_GIVE_WITHDRAW = "endGive";
 export const isSupportedChain = (chainID?: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1), rinkeby (4), and goerli (5) for the moment.
   const displayChain = chainID ? chainID : 1;
-  if (isChainEthereum(displayChain, true)) return true;
-
+  if (isChainEthereum({ chainId: displayChain, includeTestnets: true })) return true;
   return false;
 };
 
