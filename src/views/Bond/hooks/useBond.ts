@@ -67,7 +67,7 @@ export interface Bond {
 export interface UseBondOptions {
   id: string;
   isInverseBond?: boolean;
-  networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY;
+  networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY | NetworkId.TESTNET_GOERLI;
 }
 
 export const bondQueryKey = (options: UseBondOptions) => ["useBond", options] as const;

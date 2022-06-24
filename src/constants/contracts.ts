@@ -5,6 +5,8 @@ import {
   CrossChainMigrator__factory,
   FiatDAOContract__factory,
   FuseProxy__factory,
+  OlympusGiving__factory,
+  OlympusGivingOld__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   PrizePool__factory,
@@ -13,15 +15,19 @@ import {
   RangePrice__factory,
   Zap__factory,
 } from "src/typechain";
+import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 import {
   BALANCER_VAULT_ADDRESSSES,
   BOND_DEPOSITORY_ADDRESSES,
+  DEV_FAUCET,
   FIATDAO_WSOHM_ADDRESSES,
   FUSE_POOL_6_ADDRESSES,
   FUSE_POOL_18_ADDRESSES,
   FUSE_POOL_36_ADDRESSES,
+  GIVE_ADDRESSES,
   MIGRATOR_ADDRESSES,
+  OLD_GIVE_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   PT_PRIZE_POOL_ADDRESSES,
   RANGE_ADDRESSES,
@@ -102,13 +108,32 @@ export const RANGE_OPERATOR_CONTRACT = new Contract({
   name: "Range Operator Contract",
   addresses: RANGE_OPERATOR_ADDRESSES,
 });
+
 export const RANGE_PRICE_CONTRACT = new Contract({
   factory: RangePrice__factory,
   name: "Range Price Contract",
   addresses: RANGE_PRICE_ADDRESSES,
 });
+
 export const RANGE_CONTRACT = new Contract({
   factory: Range__factory,
   name: "Range Contract",
   addresses: RANGE_ADDRESSES,
+});
+export const FAUCET = new Contract({
+  factory: DevFaucet__factory,
+  name: "Goerli Faucet Contract",
+  addresses: DEV_FAUCET,
+});
+
+export const GIVE_CONTRACT = new Contract({
+  factory: OlympusGiving__factory,
+  name: "Olympus Give Contract",
+  addresses: GIVE_ADDRESSES,
+});
+
+export const OLD_GIVE_CONTRACT = new Contract({
+  factory: OlympusGivingOld__factory,
+  name: "Olympus Give Contract V1",
+  addresses: OLD_GIVE_ADDRESSES,
 });

@@ -7,7 +7,12 @@ export const useOldAssetsDetected = () => {
   const { activeChain = { id: 1 } } = useNetwork();
 
   return useAppSelector(state => {
-    if (activeChain.id && (activeChain.id === NetworkId.MAINNET || activeChain.id === NetworkId.TESTNET_RINKEBY)) {
+    if (
+      activeChain.id &&
+      (activeChain.id === NetworkId.MAINNET ||
+        activeChain.id === NetworkId.TESTNET_RINKEBY ||
+        activeChain.id === NetworkId.TESTNET_GOERLI)
+    ) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
