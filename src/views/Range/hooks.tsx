@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 // import { RANGE_OPERATOR_CONTRACT } from "src/constants/contracts";
@@ -6,7 +6,8 @@ import { useQuery } from "react-query";
 // import { NetworkId } from "src/networkDetails";
 // import { IERC20__factory } from "src/typechain";
 //RANGE_CONTRACT
-import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
+import { BOND_AGGREGATOR_CONTRACT, RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
+import { parseBigNumber } from "src/helpers";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { IERC20__factory } from "src/typechain";
 import { useNetwork } from "wagmi";
@@ -163,8 +164,8 @@ export const RangeData = (address: string) => {
 
   const {
     data = {
-      high: { active: false as boolean, market: BigNumber.from(0) },
-      low: { active: false as boolean, market: BigNumber.from(0) },
+      high: { active: false as boolean, market: BigNumber.from(-1) },
+      low: { active: false as boolean, market: BigNumber.from(-1) },
       wall: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
       cushion: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
     },
@@ -174,5 +175,24 @@ export const RangeData = (address: string) => {
     const range = await contract.range();
     return range;
   });
+  return { data, isFetched, isLoading };
+};
+
+export const RangeBondPrice = (id: BigNumber) => {
+  const { activeChain = { id: 1 } } = useNetwork();
+  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(activeChain.id);
+  const { data, isFetched, isLoading } = useQuery(
+    ["RangeBondAggregator", id],
+    async () => {
+      const bondPrice = await contract.marketPrice(id).catch(e => {
+        return BigNumber.from(-1);
+      });
+
+      return parseBigNumber(bondPrice, 36);
+    },
+    {
+      enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
+    }, //Disable this query for negative markets (default value) or Max Integer (market not active from range call)
+  );
   return { data, isFetched, isLoading };
 };

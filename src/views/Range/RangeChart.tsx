@@ -33,6 +33,7 @@ const RangeChart = (props: {
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory(reserveSymbol);
   console.log(rangeData, "rangedata");
+  console.log(sellActive, askPrice, "test");
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -102,7 +103,10 @@ const RangeChart = (props: {
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
         <XAxis reversed scale="auto" dataKey="timestamp" />
-        <YAxis scale="auto" domain={[(dataMin: number) => dataMin, "dataMax"]} />
+        <YAxis
+          scale="auto"
+          domain={[(dataMin: number) => dataMin * 0.98, (dataMax: number) => trim(dataMax * 1.02, 2)]}
+        />
         <Tooltip content={<TooltipContent />} />
         <Area
           type="monotone"

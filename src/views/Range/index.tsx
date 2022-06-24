@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import React, { useState } from "react";
 import { DAI_ADDRESSES, OHM_ADDRESSES, RANGE_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
@@ -11,7 +11,7 @@ import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useNetwork } from "wagmi";
 
-import { OperatorReserveSymbol, RangeData } from "./hooks";
+import { OperatorReserveSymbol, RangeBondPrice, RangeData } from "./hooks";
 import RangeChart from "./RangeChart";
 import RangeConfirmationModal from "./RangeConfirmationModal";
 import RangeInputForm from "./RangeInputForm";
@@ -36,7 +36,10 @@ const Range = () => {
   const address = RANGE_ADDRESSES[activeChain.id as keyof typeof RANGE_ADDRESSES];
   const { data: rangeData } = RangeData(address);
   const { data: reserveSymbol } = OperatorReserveSymbol(address);
-  console.log(reserveSymbol, "reserveToken");
+
+  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market);
+  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market);
+
   const [sellActive, setSellActive] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [reserveAmount, setReserveAmount] = useState("");
@@ -47,7 +50,6 @@ const Range = () => {
 
   const { data: currentPrice = 18.15 } = useOhmPrice();
 
-  //TODO: Remove. used for mocking state
   const maxOhm = reserveBalance
     ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())).toString({ decimals: 2 })
     : 0;
@@ -67,9 +69,8 @@ const Range = () => {
     if (props.active) {
       if (props.currentPrice <= parseBigNumber(props.low, 18)) {
         return parseBigNumber(props.low, 18);
-      } else if (props.market.gt(0)) {
-        //TODO: query for bond market price
-        return 15.15;
+      } else if (props.market.gt(-1) && props.market.lt(ethers.constants.MaxUint256)) {
+        return lowerBondMarket;
       } else {
         return parseBigNumber(props.high, 18);
       }
@@ -86,9 +87,8 @@ const Range = () => {
     if (props.active) {
       if (props.currentPrice >= parseBigNumber(props.high, 18)) {
         return parseBigNumber(props.high, 18);
-      } else if (props.market.gt(0)) {
-        //TODO: query for bond market price
-        return 20.22;
+      } else if (props.market.gt(-1) && props.market.lt(ethers.constants.MaxUint256)) {
+        return upperBondMarket;
       } else {
         return parseBigNumber(props.low, 18);
       }
@@ -112,17 +112,12 @@ const Range = () => {
     market: rangeData.low.market,
   });
 
-  console.log(askPrice, "askPrice");
-
   const discount = (currentPrice - (sellActive ? bidPrice : askPrice)) / (sellActive ? -currentPrice : currentPrice);
 
   const handleSubmit = (event: React.FormEvent) => {
-    console.log(event);
     event.preventDefault();
     setModalOpen(true);
   };
-
-  //TODO: Swap for Current Price
 
   const handleChangeOhmAmount = (value: any) => {
     const reserveValue = value * currentPrice;

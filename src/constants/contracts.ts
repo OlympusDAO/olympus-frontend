@@ -1,6 +1,7 @@
 import { Contract } from "src/helpers/contracts/Contract";
 import {
   BalancerVault__factory,
+  BondAggregator__factory,
   BondDepository__factory,
   CrossChainMigrator__factory,
   FiatDAOContract__factory,
@@ -19,6 +20,7 @@ import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 import {
   BALANCER_VAULT_ADDRESSSES,
+  BOND_AGGREGATOR_ADDRESSES,
   BOND_DEPOSITORY_ADDRESSES,
   DEV_FAUCET,
   FIATDAO_WSOHM_ADDRESSES,
@@ -119,6 +121,12 @@ export const RANGE_CONTRACT = new Contract({
   factory: Range__factory,
   name: "Range Contract",
   addresses: RANGE_ADDRESSES,
+});
+
+export const BOND_AGGREGATOR_CONTRACT = new Contract({
+  factory: BondAggregator__factory,
+  name: "Bond Aggregator Contract",
+  addresses: BOND_AGGREGATOR_ADDRESSES,
 });
 export const FAUCET = new Contract({
   factory: DevFaucet__factory,
