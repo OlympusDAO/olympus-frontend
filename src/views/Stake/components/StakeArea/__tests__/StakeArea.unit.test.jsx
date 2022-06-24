@@ -3,8 +3,7 @@ import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useAppro
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
+import { connectWallet } from "src/testHelpers";
 import { act, fireEvent, render, screen } from "src/testUtils";
 
 import { StakeArea } from "../StakeArea";
@@ -18,8 +17,6 @@ afterEach(() => {
 
 describe("<StakeArea/> Disconnected", () => {
   beforeEach(async () => {
-    data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue({ ...mockWeb3Context, connected: false });
     render(<StakeArea />);
   });
   it("should ask user to connect wallet", () => {
@@ -31,8 +28,7 @@ describe("<StakeArea/> Connected no Approval", () => {
   jest.mock("src/components/TokenAllowanceGuard/hooks/useApproveToken");
   let approval;
   beforeEach(async () => {
-    data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
+    connectWallet();
     approval = jest.spyOn(ApproveToken, "useApproveToken");
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
     render(<StakeArea />);
@@ -58,8 +54,7 @@ describe("<StakeArea/> Connected no Approval", () => {
 
 describe("<StakeArea/> Connected with Approval", () => {
   beforeEach(async () => {
-    data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
+    connectWallet();
     useContractAllowance.mockReturnValue({ data: BigNumber.from(1000) });
     Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     render(<StakeArea />);

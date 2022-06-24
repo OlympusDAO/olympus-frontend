@@ -17,8 +17,8 @@ import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useAccount } from "wagmi";
 
-import { useWeb3Context } from ".";
 import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
 import { useTestMode } from "./useTestMode";
 
@@ -31,7 +31,8 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
   const isTestMode = useTestMode();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const contracts = useMultipleTokenContracts(tokenAddressMap);
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
@@ -61,7 +62,8 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
  */
 export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address].filter(nonNullable);
 export const useFuseBalance = () => {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const pool6Contract = useStaticFuseContract(FUSE_POOL_6_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);

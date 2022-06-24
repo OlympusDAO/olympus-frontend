@@ -5,23 +5,23 @@ import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers/types/assert";
-import { useWeb3Context } from "src/hooks";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useNetwork } from "wagmi";
 
 import { useMigrateWsohm } from "./hooks/useMigrateWsohm";
 
 export const MigrateInputArea = () => {
   const networks = useTestableNetworks();
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   // Max balance stuff
   assert(
-    networkId === networks.ARBITRUM || networkId === networks.AVALANCHE,
+    activeChain.id === networks.ARBITRUM || activeChain.id === networks.AVALANCHE,
     "Component should only be mounted when connected to Arbitrum or Avalanche",
   );
   const [amount, setAmount] = useState("");
-  const balance = useBalance(WSOHM_ADDRESSES)[networkId].data;
+  const balance = useBalance(WSOHM_ADDRESSES)[activeChain.id].data;
   const setMax = () => balance && setAmount(balance.toString());
 
   // Mutation stuff

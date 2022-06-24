@@ -25,10 +25,10 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
-import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 import { trim } from "../../helpers";
 import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
@@ -43,7 +43,11 @@ function V1Stake({ setMigrationModalOpen }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const oldAssetsDetected = useOldAssetsDetected();
-  const { provider, address, networkId } = useWeb3Context();
+  const provider = useProvider();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { isConnected } = useConnect();
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -111,7 +115,7 @@ function V1Stake({ setMigrationModalOpen }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: false }));
+    await dispatch(changeApproval({ address, token, provider, networkID: activeChain.id, version2: false }));
   };
 
   const onChangeStake = async action => {
@@ -132,7 +136,14 @@ function V1Stake({ setMigrationModalOpen }) {
     }
 
     await dispatch(
-      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: false }),
+      changeStake({
+        address,
+        action,
+        value: quantity.toString(),
+        provider,
+        networkID: activeChain.id,
+        version2: false,
+      }),
     );
   };
 
@@ -202,10 +213,10 @@ function V1Stake({ setMigrationModalOpen }) {
           </Grid>
 
           <div className="staking-area">
-            {!address ? (
+            {!isConnected ? (
               <div className="stake-wallet-notification">
                 <div className="wallet-menu" id="wallet-menu">
-                  <ConnectButton />
+                  <InPageConnectButton />
                 </div>
                 <Typography variant="h6">
                   <Trans>Connect your wallet to stake OHM</Trans>
@@ -243,7 +254,7 @@ function V1Stake({ setMigrationModalOpen }) {
                   </Box>
 
                   <Box className="stake-action-row v1-row " display="flex" alignItems="center">
-                    {address && !isAllowanceDataLoading ? (
+                    {isConnected && !isAllowanceDataLoading ? (
                       !hasAllowance("sohm") && view === 1 ? (
                         <Box mt={"10px"}>
                           <Typography variant="body1" className="stake-note" color="textSecondary">
@@ -312,7 +323,7 @@ function V1Stake({ setMigrationModalOpen }) {
                     <TabPanel value={view} index={1}>
                       {isAllowanceDataLoading ? (
                         <Skeleton />
-                      ) : address && hasAllowance("sohm") ? (
+                      ) : isConnected && hasAllowance("sohm") ? (
                         <Button
                           className="stake-button"
                           variant="contained"
