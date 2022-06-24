@@ -128,3 +128,15 @@ export const isTestnet = (networkId: NetworkId) => {
 
   return testnets.includes(networkId);
 };
+
+export const isChainEthereum = ({
+  chainId,
+  includeTestnets,
+}: {
+  chainId: number;
+  includeTestnets: boolean;
+}): boolean => {
+  if (!includeTestnets) return chainId === NetworkId.MAINNET;
+
+  return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_RINKEBY || chainId === NetworkId.TESTNET_GOERLI;
+};
