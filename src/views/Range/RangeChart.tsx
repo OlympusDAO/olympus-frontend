@@ -32,8 +32,6 @@ const RangeChart = (props: {
   const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory(reserveSymbol);
-  console.log(rangeData, "rangedata");
-  console.log(sellActive, askPrice, "test");
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -62,8 +60,6 @@ const RangeChart = (props: {
       lv: [formattedWallLow, formattedCushionLow],
     },
   );
-
-  console.log(chartData);
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
