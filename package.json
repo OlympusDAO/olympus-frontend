@@ -89,7 +89,7 @@
     "@lingui/cli": "^3.13.3",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.13.3",
-    "@testing-library/dom": "^8.13.0",
+    "@testing-library/dom": "^8.14.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
     "@typechain/ethers-v5": "^8.0.2",
