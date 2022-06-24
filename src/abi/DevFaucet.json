@@ -1,0 +1,170 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "dai_", "type": "address" },
+        { "internalType": "address", "name": "ohmV1_", "type": "address" },
+        { "internalType": "address", "name": "ohmV2_", "type": "address" },
+        { "internalType": "address", "name": "wsOHM_", "type": "address" },
+        { "internalType": "address", "name": "stakingV1_", "type": "address" },
+        { "internalType": "address", "name": "stakingV2_", "type": "address" },
+        { "internalType": "address", "name": "authority_", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "name": "CanOnlyMintOnceADay", "type": "error" },
+    { "inputs": [], "name": "MintTooLarge", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "contract IOlympusAuthority", "name": "authority", "type": "address" }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "DAI",
+      "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "ohm_", "type": "address" }],
+      "name": "addOHM",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "staking_", "type": "address" }],
+      "name": "addStaking",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "ohm_", "type": "address" },
+        { "internalType": "address", "name": "staking_", "type": "address" }
+      ],
+      "name": "approveStaking",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [{ "internalType": "contract IOlympusAuthority", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "futureStaking",
+      "outputs": [{ "internalType": "contract IStaking", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "name": "lastMint",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "mintDAI", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "amount_", "type": "uint256" }],
+      "name": "mintETH",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "mintGOHM", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "ohmIndex_", "type": "uint256" }],
+      "name": "mintOHM",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "ohmIndex_", "type": "uint256" }],
+      "name": "mintSOHM",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "mintWSOHM", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "mintable",
+      "outputs": [{ "internalType": "contract IFaucet", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract IOlympusAuthority", "name": "_newAuthority", "type": "address" }],
+      "name": "setAuthority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "dai_", "type": "address" }],
+      "name": "setDAI",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "ohmIndex_", "type": "uint256" },
+        { "internalType": "address", "name": "ohm_", "type": "address" }
+      ],
+      "name": "setOHM",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "stakingV1_", "type": "address" }],
+      "name": "setStakingV1",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "stakingV2_", "type": "address" }],
+      "name": "setStakingV2",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakingV1",
+      "outputs": [{ "internalType": "contract IStakingV1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stakingV2",
+      "outputs": [{ "internalType": "contract IStaking", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "wsOHM",
+      "outputs": [{ "internalType": "contract IWOHM", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "stateMutability": "payable", "type": "receive" }
+  ]
+}

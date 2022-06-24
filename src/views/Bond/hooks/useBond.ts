@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
+import { EthereumNetwork, NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
@@ -67,7 +67,7 @@ export interface Bond {
 export interface UseBondOptions {
   id: string;
   isInverseBond?: boolean;
-  networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY;
+  networkId: EthereumNetwork;
 }
 
 export const bondQueryKey = (options: UseBondOptions) => ["useBond", options] as const;
