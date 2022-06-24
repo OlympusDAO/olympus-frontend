@@ -17,6 +17,7 @@ const RangeConfirmationModal = (props: {
   reserveAmount: string;
   swapPrice: string;
   discount: number;
+  reserveSymbol: string;
 }) => {
   const isMutating = useIsMutating();
   const theme = useTheme();
@@ -50,7 +51,7 @@ const RangeConfirmationModal = (props: {
           <Box display="flex" flexDirection="column" textAlign="right">
             <Typography>
               {props.sellActive
-                ? `${formatNumber(Number(props.reserveAmount), 2)} DAI`
+                ? `${formatNumber(Number(props.reserveAmount), 2)} ${props.reserveSymbol}`
                 : `${formatNumber(Number(props.ohmAmount), 2)} OHM`}
             </Typography>
           </Box>
@@ -61,7 +62,7 @@ const RangeConfirmationModal = (props: {
             <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
               {props.sellActive
                 ? `${formatNumber(Number(props.ohmAmount), 2)} OHM`
-                : `${formatNumber(Number(props.reserveAmount), 2)} DAI`}
+                : `${formatNumber(Number(props.reserveAmount), 2)} ${props.reserveSymbol}`}
             </Typography>
           </Box>
         </Box>
@@ -79,13 +80,14 @@ const RangeConfirmationModal = (props: {
           isVertical
           message={
             <>
-              <Trans>First time swapping</Trans> <strong>DAI</strong>? <br />
-              <Trans>Please approve Olympus DAO to use your</Trans> <strong>DAI</strong> <Trans>for swapping</Trans>.
+              <Trans>First time swapping</Trans> <strong>{props.reserveSymbol}</strong>? <br />
+              <Trans>Please approve Olympus DAO to use your</Trans> <strong>{props.reserveSymbol} </strong>
+              <Trans>for swapping</Trans>.
             </>
           }
           tokenAddressMap={DAI_ADDRESSES}
           spenderAddressMap={BOND_DEPOSITORY_ADDRESSES}
-          approvalText={t`Approve DAI for Swap`}
+          approvalText={t`Approve ${props.reserveSymbol} for Swap`}
         >
           <PrimaryButton fullWidth>Confirm Swap</PrimaryButton>
         </TokenAllowanceGuard>

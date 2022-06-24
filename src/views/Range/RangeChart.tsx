@@ -1,7 +1,7 @@
 import { styled, useTheme } from "@mui/material/styles";
 import { DataRow, Paper } from "@olympusdao/component-library";
 import { Area, ComposedChart, Label, Line, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { formatCurrency } from "src/helpers";
+import { formatCurrency, parseBigNumber, trim } from "src/helpers";
 
 import { PriceHistory } from "./hooks";
 
@@ -27,16 +27,22 @@ const RangeChart = (props: {
   bidPrice: number;
   askPrice: number;
   sellActive: boolean;
+  reserveSymbol: string;
 }) => {
-  const { rangeData, currentPrice, bidPrice, askPrice, sellActive } = props;
+  const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
-  const { data: priceData } = PriceHistory("DAI");
+  const { data: priceData } = PriceHistory(reserveSymbol);
+  console.log(rangeData, "rangedata");
 
+  const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
+  const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
+  const formattedCushionHigh = trim(parseBigNumber(rangeData.cushion.high.price, 18), 2);
+  const formattedCushionLow = trim(parseBigNumber(rangeData.cushion.low.price, 18), 2);
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
-      uv: [rangeData.wall.high.price, rangeData.cushion.high.price],
-      lv: [rangeData.wall.low.price, rangeData.cushion.low.price],
+      uv: [formattedWallHigh, formattedCushionHigh],
+      lv: [formattedWallLow, formattedCushionLow],
     };
   });
 
@@ -45,16 +51,18 @@ const RangeChart = (props: {
    */
   chartData.unshift(
     {
-      uv: [rangeData.wall.high.price, rangeData.cushion.high.price],
-      lv: [rangeData.wall.low.price, rangeData.cushion.low.price],
+      uv: [formattedWallHigh, formattedCushionHigh],
+      lv: [formattedWallLow, formattedCushionLow],
     },
     {
       price: currentPrice,
       timestamp: "now",
-      uv: [rangeData.wall.high.price, rangeData.cushion.high.price],
-      lv: [rangeData.wall.low.price, rangeData.cushion.low.price],
+      uv: [formattedWallHigh, formattedCushionHigh],
+      lv: [formattedWallLow, formattedCushionLow],
     },
   );
+
+  console.log(chartData);
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
@@ -82,10 +90,10 @@ const RangeChart = (props: {
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`} childPaperBackground>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
-      <DataRow title="Upper Wall" balance={formatCurrency(rangeData.wall.high.price, 2)} />
-      <DataRow title="Upper Cushion" balance={formatCurrency(rangeData.cushion.high.price, 2)} />
-      <DataRow title="Lower Cushion" balance={formatCurrency(rangeData.cushion.low.price, 2)} />
-      <DataRow title="Lower Wall" balance={formatCurrency(rangeData.wall.low.price, 2)} />
+      <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
+      <DataRow title="Upper Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)} />
+      <DataRow title="Lower Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)} />
+      <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
     </Paper>
   );
 
@@ -94,7 +102,7 @@ const RangeChart = (props: {
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
         <XAxis reversed scale="auto" dataKey="timestamp" />
-        <YAxis scale="auto" domain={["dataMin", "dataMax"]} />
+        <YAxis scale="auto" domain={[(dataMin: number) => dataMin, "dataMax"]} />
         <Tooltip content={<TooltipContent />} />
         <Area
           type="monotone"

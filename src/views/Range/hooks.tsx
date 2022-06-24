@@ -1,10 +1,15 @@
+import { BigNumber } from "ethers";
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 // import { RANGE_OPERATOR_CONTRACT } from "src/constants/contracts";
 // import { Providers } from "src/helpers/providers/Providers/Providers";
 // import { NetworkId } from "src/networkDetails";
 // import { IERC20__factory } from "src/typechain";
-//import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
+//RANGE_CONTRACT
+import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { IERC20__factory } from "src/typechain";
+import { useNetwork } from "wagmi";
 // import { NetworkId } from "src/networkDetails";
 
 const RangeMock = {
@@ -113,20 +118,21 @@ export const PriceHistory = (reserveToken: string) => {
   return { data, isFetched, isLoading };
 };
 
+//TODO: PROBABLY REMOVE THIS
 /**
  * @param address
  * @returns Returns the current price of the Operator at the given address
  */
 export const OperatorPrice = (address: string) => {
-  //const contract = RANGE_PRICE_CONTRACT.getEthersContract(NetworkId.MAINNET);
+  const { activeChain = { id: 1 } } = useNetwork();
+
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(activeChain.id);
   const {
     data = 0,
     isFetched,
     isLoading,
   } = useQuery(["OperatorPrice", address], async () => {
-    //contract.getCurrentPrice();
-    //TODO: REMOVE STUB RESPONSE
-    return "$15.50";
+    return await contract.getCurrentPrice();
   });
   return { data, isFetched, isLoading };
 };
@@ -135,33 +141,38 @@ export const OperatorPrice = (address: string) => {
  * @param address
  * @returns Returns the reserve contract address on the Operator
  */
-export const OperatorReserveToken = (address: string) => {
-  //const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(NetworkId.MAINNET);
+export const OperatorReserveSymbol = (address: string) => {
+  const { activeChain = { id: 1 } } = useNetwork();
+  const contract = RANGE_CONTRACT.getEthersContract(activeChain.id);
   const {
     data = "",
     isFetched,
     isLoading,
   } = useQuery(["OperatorReserve", address], async () => {
-    // const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    // const TokenContract = IERC20__factory.connect(await contract.reserve(), provider);
-    // const symbol = await TokenContract.symbol();
-    // return symbol;
-    //TODO: REMOVE STUB RESPONSE
-    return "DAI";
+    const provider = Providers.getStaticProvider(activeChain.id);
+    const TokenContract = IERC20__factory.connect(await contract.reserve(), provider);
+    const symbol = await TokenContract.symbol();
+    return symbol;
   });
   return { data, isFetched, isLoading };
 };
 
 export const RangeData = (address: string) => {
-  //const contract = RANGE_CONTRACT.getEthersContract(NetworkId.MAINNET);
+  const { activeChain = { id: 1 } } = useNetwork();
+  const contract = RANGE_CONTRACT.getEthersContract(activeChain.id);
 
   const {
-    data = RangeMock,
+    data = {
+      high: { active: false as boolean, market: BigNumber.from(0) },
+      low: { active: false as boolean, market: BigNumber.from(0) },
+      wall: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
+      cushion: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
+    },
     isFetched,
     isLoading,
   } = useQuery(["RangeData", address], async () => {
-    //const range = await contract.range();
-    return RangeMock;
+    const range = await contract.range();
+    return range;
   });
   return { data, isFetched, isLoading };
 };

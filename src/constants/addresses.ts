@@ -179,7 +179,7 @@ export const RANGE_ADDRESSES = {
 
 export const RANGE_PRICE_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "0x69a3c50efD5214538389dd7443a0325be55D9D51F",
+  [NetworkId.TESTNET_GOERLI]: "0x69a3c50efD5214538389dd7443a0325be55D9D51",
 };
 
 export const DEV_FAUCET = {
