@@ -1,13 +1,15 @@
 import { NetworkId } from "src/networkDetails";
 
+import { isChainEthereum } from ".";
+
 export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
 export const isSupportedChain = (chainID?: NetworkId): boolean => {
-  // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
-  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY || chainID === NetworkId.TESTNET_GOERLI)
-    return true;
+  // Give is only supported on Ethereum mainnet (1), rinkeby (4), and goerli (5) for the moment.
+  const displayChain = chainID ? chainID : 1;
+  if (isChainEthereum(displayChain, true)) return true;
 
   return false;
 };

@@ -242,7 +242,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
-        {activeChain.id === 5 && (
+        {activeChain.id === NetworkId.TESTNET_GOERLI && (
           <>
             <Typography variant="h5">Faucet</Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">

@@ -10,12 +10,12 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
-import { shorten } from "src/helpers";
+import { isChainEthereum, shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
-import { NetworkId } from "src/networkDetails";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useAccount, useNetwork } from "wagmi";
@@ -67,6 +67,7 @@ export function ManageDonationModal({
 }: ManageModalProps) {
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
+  const networks = useTestableNetworks();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -125,28 +126,15 @@ export function ManageDonationModal({
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
-  const _useSohmBalance =
-    useSohmBalance()[
-      activeChain.id == NetworkId.MAINNET
-        ? NetworkId.MAINNET
-        : activeChain.id === NetworkId.TESTNET_GOERLI
-        ? NetworkId.TESTNET_GOERLI
-        : NetworkId.TESTNET_RINKEBY
-    ];
+  const _useSohmBalance = useSohmBalance()[isChainEthereum(activeChain.id, true) ? networks.MAINNET : 1];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
 
-  const _useGohmBalance =
-    useGohmBalance()[
-      activeChain.id == NetworkId.MAINNET
-        ? NetworkId.MAINNET
-        : activeChain.id === NetworkId.TESTNET_GOERLI
-        ? NetworkId.TESTNET_GOERLI
-        : NetworkId.TESTNET_RINKEBY
-    ];
+  // Setting this to only read Ethereum or Ethereum testnet balances, but not sure if that is the right behavior
+  const _useGohmBalance = useGohmBalance()[isChainEthereum(activeChain.id, true) ? networks.MAINNET : 1];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");

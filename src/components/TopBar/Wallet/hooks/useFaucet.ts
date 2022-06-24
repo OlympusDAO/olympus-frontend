@@ -13,9 +13,7 @@ export const useFaucet = () => {
   return useMutation<ContractReceipt, Error, string>(
     async token_ => {
       if (!contract)
-        throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
-        );
+        throw new Error(t`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
 
       let transaction;
       if (token_ === "OHM V1") {

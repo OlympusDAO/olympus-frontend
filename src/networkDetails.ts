@@ -22,6 +22,8 @@ export enum NetworkId {
   BOBA_TESTNET = 28,
 }
 
+export type EthereumNetwork = NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY | NetworkId.TESTNET_GOERLI;
+
 interface IAddresses {
   [key: number]: { [key: string]: string };
 }
