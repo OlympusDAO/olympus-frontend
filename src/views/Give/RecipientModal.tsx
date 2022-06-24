@@ -9,11 +9,11 @@ import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-
 import { useEffect, useMemo, useState } from "react";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 import { useAccount, useNetwork } from "wagmi";
@@ -102,7 +102,13 @@ export function RecipientModal({
   }, [isModalOpen]);
 
   const _useSohmBalance =
-    useSohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useSohmBalance()[
+      activeChain.id == NetworkId.MAINNET
+        ? NetworkId.MAINNET
+        : activeChain.id === NetworkId.TESTNET_GOERLI
+        ? NetworkId.TESTNET_GOERLI
+        : NetworkId.TESTNET_RINKEBY
+    ];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -110,7 +116,13 @@ export function RecipientModal({
   }, [_useSohmBalance]);
 
   const _useGohmBalance =
-    useGohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useGohmBalance()[
+      activeChain.id == NetworkId.MAINNET
+        ? NetworkId.MAINNET
+        : activeChain.id === NetworkId.TESTNET_GOERLI
+        ? NetworkId.TESTNET_GOERLI
+        : NetworkId.TESTNET_RINKEBY
+    ];
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data === undefined) return new DecimalBigNumber("0");
 

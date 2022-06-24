@@ -13,14 +13,12 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useAccount } from "wagmi";
 
 import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
-import { useTestMode } from "./useTestMode";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
@@ -30,7 +28,6 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  * @param addressMap Address map of the token you want the balance of.
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
-  const isTestMode = useTestMode();
   const { data: account } = useAccount();
   const address = account?.address ? account.address : "";
   const contracts = useMultipleTokenContracts(tokenAddressMap);
@@ -40,7 +37,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
   const results = useQueries(
     networkIds.map(networkId => ({
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
-      enabled: !!address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
+      enabled: !!address,
       queryFn: async () => {
         const contract = contracts[networkId as NetworkId];
         console.debug("Refetching balance");
