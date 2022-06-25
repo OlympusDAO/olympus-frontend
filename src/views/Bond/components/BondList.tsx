@@ -83,7 +83,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
         <Box display="flex" flexDirection="column" ml="8px">
           <Typography>{bond.quoteToken.name}</Typography>
 
-          <Link href={bond.quoteToken.purchaseUrl} target="_blank">
+          <Link href={bond.quoteToken.purchaseUrl} target="_blank" rel="noopener noreferrer">
             <Box display="flex" alignItems="center">
               <Typography>
                 <Trans>Get Asset</Trans>
@@ -268,6 +268,7 @@ const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, ex
         <Link
           color="primary"
           target="_blank"
+          rel="noopener noreferrer"
           href={explorer ? `https://etherscan.io/token/${token.addresses[NetworkId.MAINNET]}` : token.purchaseUrl}
         >
           <Box display="flex" alignItems="center">
