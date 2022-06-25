@@ -86,7 +86,7 @@
     "@chainsafe/dappeteer": "^2.4.1",
     "@ethersproject/abi": "^5.6.3",
     "@ethersproject/bytes": "^5.6.1",
-    "@lingui/cli": "^3.13.3",
+    "@lingui/cli": "^3.14.0",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.13.3",
     "@testing-library/dom": "^8.14.0",
