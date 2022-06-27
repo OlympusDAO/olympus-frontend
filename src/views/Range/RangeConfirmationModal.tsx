@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography, useTheme } from "@mui/material";
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
+import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
@@ -35,7 +36,7 @@ const RangeConfirmationModal = (props: {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [slippage, setSlippage] = useState("0.5");
   const [recipientAddress, setRecipientAddress] = useState("");
-
+  const [checked, setChecked] = useState(false);
   return (
     <Modal
       topLeft={<Icon name="settings" sx={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
@@ -114,6 +115,24 @@ const RangeConfirmationModal = (props: {
           spenderAddressMap={props.contract === "bond" ? BOND_DEPOSITORY_ADDRESSES : RANGE_OPERATOR_ADDRESSES}
           approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
+          {props.discount < 0 && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={event => setChecked(event.target.checked)}
+                  icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                  checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                />
+              }
+              label={
+                props.sellActive
+                  ? t`I understand that I am selling at a discount to current market price`
+                  : t`I understand that I am buying at a premium to current market price`
+              }
+            />
+          )}
+
           <PrimaryButton
             fullWidth
             onClick={() =>
@@ -130,6 +149,7 @@ const RangeConfirmationModal = (props: {
                 recipientAddress: recipientAddress,
               })
             }
+            disabled={props.discount < 0 && !checked}
           >
             Confirm Swap
           </PrimaryButton>

@@ -11,7 +11,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
  */
 const RangeInputForm = (props: {
   reserveSymbol: OHMTokenProps["name"];
-  currentPrice: number;
   sellActive: boolean;
   reserveBalance?: DecimalBigNumber;
   ohmBalance?: DecimalBigNumber;
@@ -23,7 +22,6 @@ const RangeInputForm = (props: {
 }) => {
   const {
     reserveSymbol,
-    currentPrice,
     sellActive,
     reserveBalance,
     ohmBalance,
@@ -34,10 +32,6 @@ const RangeInputForm = (props: {
   } = props;
   const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
-
-  const setMax = () => {
-    return "max";
-  };
 
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;
   if (sellActive === true) {
@@ -91,7 +85,7 @@ const RangeInputForm = (props: {
           {sellActive ? OhmInput() : ReserveInput()}
         </Box>
         <Box mt="8px">
-          <PrimaryButton fullWidth type="submit">
+          <PrimaryButton fullWidth type="submit" disabled={!ohmAmount || !reserveAmount}>
             {swapButtonText}
           </PrimaryButton>
         </Box>

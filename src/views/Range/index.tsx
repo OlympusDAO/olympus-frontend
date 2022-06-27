@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -53,6 +53,12 @@ const Range = () => {
   if (sellActive === true) {
     maxString = t`Max You Can Sell`;
   }
+
+  useEffect(() => {
+    if (reserveAmount && ohmAmount) {
+      handleChangeReserveAmount(reserveAmount);
+    }
+  }, [sellActive]);
 
   /**
    *
@@ -110,6 +116,7 @@ const Range = () => {
   const swapPrice = sellActive ? formatNumber(bidPrice.price, 2) : formatNumber(askPrice.price, 2);
   const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
   console.log(rangeData);
+
   return (
     <div id="stake-view">
       <Paper headerText="Range Swap">
@@ -129,11 +136,22 @@ const Range = () => {
           />
         </Box>
         <Tabs centered value={sellActive}>
-          <Tab label="Buy" value={false} onClick={() => setSellActive(false)} />
-          <Tab label="Sell" value={true} onClick={() => setSellActive(true)} />
+          <Tab
+            label="Buy"
+            value={false}
+            onClick={() => {
+              setSellActive(false);
+            }}
+          />
+          <Tab
+            label="Sell"
+            value={true}
+            onClick={() => {
+              setSellActive(true);
+            }}
+          />
         </Tabs>
         <RangeInputForm
-          currentPrice={currentPrice}
           reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
           sellActive={sellActive}
           reserveBalance={reserveBalance}
