@@ -1,7 +1,7 @@
-import { Box, Fade, Link, Typography } from "@mui/material";
+import { Box, Fade, FormControl, Link, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
-import { FC } from "react";
+import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/component-library";
+import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
@@ -25,7 +25,9 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
+import { useNetwork } from "wagmi";
 
+import { useFaucet } from "../hooks/useFaucet";
 import { GetTokenPrice } from "../queries";
 import Balances from "./Balances";
 import { TransactionHistory } from "./TransactionHistory";
@@ -35,6 +37,7 @@ const PREFIX = "AssetsIndex";
 const classes = {
   selector: `${PREFIX}-selector`,
   forecast: `${PREFIX}-forecast`,
+  faucet: `${PREFIX}-faucet`,
 };
 
 const StyledFade = styled(Fade)(({ theme }) => ({
@@ -68,6 +71,10 @@ const StyledFade = styled(Fade)(({ theme }) => ({
       justifyContent: "flex-end",
     },
   },
+
+  [`& .${classes.faucet}`]: {
+    width: "30%",
+  },
 }));
 
 /**
@@ -80,6 +87,7 @@ export interface OHMAssetsProps {
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
@@ -93,6 +101,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gohmBalances = useGohmBalance();
   const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+  const [faucetToken, setFaucetToken] = useState("OHM V2");
 
   const gohmTokens = [
     gohmFuseBalance,
@@ -198,6 +207,9 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
+  const faucetMutation = useFaucet();
+  const isFaucetLoading = faucetMutation.isLoading;
+
   return (
     <StyledFade in={true}>
       <Box>
@@ -230,6 +242,34 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
+        {activeChain.id === NetworkId.TESTNET_GOERLI && (
+          <>
+            <Typography variant="h5">Faucet</Typography>
+            <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
+              <FormControl className={classes.faucet}>
+                <Select
+                  label="Contract"
+                  disableUnderline
+                  id="contract-select"
+                  value={faucetToken}
+                  onChange={event => setFaucetToken(event.target.value)}
+                >
+                  <MenuItem value="OHM V1">OHM V1</MenuItem>
+                  <MenuItem value="OHM V2">OHM V2</MenuItem>
+                  <MenuItem value="sOHM V1">sOHM V1</MenuItem>
+                  <MenuItem value="sOHM V2">sOHM V2</MenuItem>
+                  <MenuItem value="wsOHM">wsOHM</MenuItem>
+                  <MenuItem value="gOHM">gOHM</MenuItem>
+                  <MenuItem value="DAI">DAI</MenuItem>
+                  <MenuItem value="ETH">ETH</MenuItem>
+                </Select>
+              </FormControl>
+              <SecondaryButton onClick={() => faucetMutation.mutate(faucetToken)}>
+                {isFaucetLoading ? "Loading..." : "Get Tokens"}
+              </SecondaryButton>
+            </Box>
+          </>
+        )}
       </Box>
     </StyledFade>
   );

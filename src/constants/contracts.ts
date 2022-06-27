@@ -5,20 +5,26 @@ import {
   CrossChainMigrator__factory,
   FiatDAOContract__factory,
   FuseProxy__factory,
+  OlympusGiving__factory,
+  OlympusGivingOld__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   PrizePool__factory,
   Zap__factory,
 } from "src/typechain";
+import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 import {
   BALANCER_VAULT_ADDRESSSES,
   BOND_DEPOSITORY_ADDRESSES,
+  DEV_FAUCET,
   FIATDAO_WSOHM_ADDRESSES,
   FUSE_POOL_6_ADDRESSES,
   FUSE_POOL_18_ADDRESSES,
   FUSE_POOL_36_ADDRESSES,
+  GIVE_ADDRESSES,
   MIGRATOR_ADDRESSES,
+  OLD_GIVE_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   PT_PRIZE_POOL_ADDRESSES,
   STAKING_ADDRESSES,
@@ -89,4 +95,22 @@ export const BALANCER_VAULT = new Contract({
   factory: BalancerVault__factory,
   name: "Balancer Vault Contract",
   addresses: BALANCER_VAULT_ADDRESSSES,
+});
+
+export const FAUCET = new Contract({
+  factory: DevFaucet__factory,
+  name: "Goerli Faucet Contract",
+  addresses: DEV_FAUCET,
+});
+
+export const GIVE_CONTRACT = new Contract({
+  factory: OlympusGiving__factory,
+  name: "Olympus Give Contract",
+  addresses: GIVE_ADDRESSES,
+});
+
+export const OLD_GIVE_CONTRACT = new Contract({
+  factory: OlympusGivingOld__factory,
+  name: "Olympus Give Contract V1",
+  addresses: OLD_GIVE_ADDRESSES,
 });

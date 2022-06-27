@@ -166,6 +166,7 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
           color="secondary"
           href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
           target="_blank"
+          rel="noopener noreferrer"
           className="learn-more-button"
           onClick={() => {
             trackClick(account?.address);

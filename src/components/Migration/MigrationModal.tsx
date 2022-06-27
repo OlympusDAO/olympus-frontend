@@ -6,8 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { NetworkId } from "src/constants";
-import { trim } from "src/helpers";
+import { isChainEthereum, trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
 import { useAppSelector } from "src/hooks";
 import { info } from "src/slices/MessagesSlice";
@@ -72,7 +71,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   useEffect(() => {
     if (
-      (activeChain.id === NetworkId.MAINNET || activeChain.id === NetworkId.TESTNET_RINKEBY) &&
+      isChainEthereum({ chainId: activeChain.id, includeTestnets: true }) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
@@ -142,7 +141,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   target="_blank"
                   color="inherit"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="docs-link"
                 >
                   <u>
