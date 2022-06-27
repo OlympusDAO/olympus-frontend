@@ -159,7 +159,7 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
  * @param address The address we would like to fetch the redeemable balance for
  * @returns query object in which the data attribute holds the redeemable balance
  *
- *          redeemableBalance: quantity of yield that has been sent to the recipient and
+ *          redeemableBalance: quantity of rebases that has been sent to the recipient and
  *                             can be redeemed (returned as gOHM)
  */
 export const useRedeemableBalance = (address: string) => {
@@ -258,7 +258,7 @@ export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
  * @returns query object in which the data attribute holds the
  * recipient info object
  *
- *          sohmDebt: total amount of sOHM principal earning yield for the recipient
+ *          sohmDebt: total amount of sOHM principal earning rebases for the recipient
  *          gohmDebt: gOHM equivalent of sOHM debt
  */
 export const useRecipientInfo = (address: string) => {

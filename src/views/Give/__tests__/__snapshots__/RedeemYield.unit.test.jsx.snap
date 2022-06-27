@@ -13,6 +13,7 @@ exports[`Redeem Rebases should render Redeem Rebases Screen 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        data-testid="redeemable-balance"
       >
         <div
           class="Metric-root  css-1xkrsym"
@@ -193,10 +194,7 @@ exports[`Redeem Rebases should render Redeem Rebases Screen 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                style="width: 80px;"
-              />
+              100 sOHM
             </p>
           </div>
         </div>
@@ -225,6 +223,7 @@ exports[`Redeem Rebases should show extra content if project wallet 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        data-testid="redeemable-balance"
       >
         <div
           class="Metric-root  css-1xkrsym"
@@ -405,10 +404,7 @@ exports[`Redeem Rebases should show extra content if project wallet 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
-              <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                style="width: 80px;"
-              />
+              100 sOHM
             </p>
           </div>
         </div>

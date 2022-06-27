@@ -40,7 +40,7 @@ export default function RedeemRebases() {
   const redeemableBalance: DecimalBigNumber = useMemo(() => {
     if (_useRedeemableBalance.isLoading || _useRedeemableBalance.data === undefined) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(_useRedeemableBalance.data, "gOHM", currentIndex);
+    return GetCorrectContractUnits(_useRedeemableBalance.data, "sOHM", currentIndex);
   }, [_useRedeemableBalance, currentIndex]);
 
   const _useV1RedeemableBalance = useV1RedeemableBalance();
@@ -80,7 +80,7 @@ export default function RedeemRebases() {
   const totalDonated: DecimalBigNumber = useMemo(() => {
     if (_useRebasesDonated.isLoading || _useRebasesDonated.data == undefined) return new DecimalBigNumber("0");
 
-    return new DecimalBigNumber(_useRebasesDonated.data);
+    return GetCorrectContractUnits(_useRebasesDonated.data, "sOHM", currentIndex);
   }, [_useRebasesDonated]);
 
   const stakingRebasePercentage = stakingRebase.mul(new DecimalBigNumber("100"));
@@ -178,7 +178,7 @@ export default function RedeemRebases() {
           </Box>
         </Grid>
       )}
-      <Grid item xs={12}>
+      <Grid item xs={12} data-testid="redeemable-balance">
         <Metric label={t`Redeemable Amount`} metric={`${getRedeemableBalance().toString(DECIMAL_FORMAT)} sOHM`} />
       </Grid>
       <Grid item xs={12}>
