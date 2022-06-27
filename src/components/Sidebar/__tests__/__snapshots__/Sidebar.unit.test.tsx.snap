@@ -33,6 +33,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://olympusdao.finance"
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     <svg
@@ -599,6 +600,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="https://github.com/OlympusDAO"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <svg
@@ -615,6 +617,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="https://olympusdao.medium.com/"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <svg
@@ -631,6 +634,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="https://twitter.com/OlympusDAO"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <svg
@@ -647,6 +651,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="https://discord.gg/OlympusDAO"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <svg

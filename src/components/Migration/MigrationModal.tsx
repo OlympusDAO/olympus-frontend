@@ -141,7 +141,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   target="_blank"
                   color="inherit"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="docs-link"
                 >
                   <u>
