@@ -89,9 +89,9 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
             <Typography variant="body1">
               <Trans>
                 Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
-                is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
-                other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
-                mission.
+                is rewarded every 8 hours through the rebases your grant generates; you then can also receive support
+                from other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of
+                your mission.
               </Trans>
             </Typography>
           </Grid>

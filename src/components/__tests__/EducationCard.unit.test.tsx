@@ -1,12 +1,12 @@
 import { render, screen } from "../../testUtils";
 import {
   ArrowGraphic,
+  CompactRebases,
   CompactVault,
   CompactWallet,
-  CompactYield,
+  LargeRebases,
   LargeVault,
   LargeWallet,
-  LargeYield,
 } from "../EducationCard";
 
 describe("<ArrowGraphic/>", () => {
@@ -16,17 +16,17 @@ describe("<ArrowGraphic/>", () => {
   });
 });
 
-describe("<CompactYield/>", () => {
+describe("<CompactRebases/>", () => {
   const giveAssetType = "sOHM";
 
   it("should render component with quantity 1 exact", () => {
-    render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
-    expect(screen.getByText("Receives yield from 1 sOHM"));
+    render(<CompactRebases quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
+    expect(screen.getByText("Receives sOHM rebases from 1 sOHM"));
   });
 
   it("should render component with quantity not exact", () => {
-    render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
-    expect(screen.getByText("Receives yield from ≈ 1 sOHM"));
+    render(<CompactRebases quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
+    expect(screen.getByText("Receives sOHM rebases from ≈ 1 sOHM"));
   });
 });
 
@@ -72,9 +72,9 @@ describe("<LargeVault/>", () => {
   });
 });
 
-describe("<LargeYield/>", () => {
+describe("<LargeRebases/>", () => {
   it("should render component", () => {
-    render(<LargeYield />);
+    render(<LargeRebases />);
     expect(screen.getByText("Recipient earns sOHM rebases"));
   });
 });

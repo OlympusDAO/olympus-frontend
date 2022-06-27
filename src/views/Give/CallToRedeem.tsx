@@ -8,7 +8,7 @@ export const CallToRedeem = () => {
   return (
     <InfoNotification dismissable="true">
       <Typography variant="h6">
-        <Trans>You have redeemable yield on the old contract</Trans>
+        <Trans>You have redeemable rebases on the old contract</Trans>
       </Typography>
     </InfoNotification>
   );

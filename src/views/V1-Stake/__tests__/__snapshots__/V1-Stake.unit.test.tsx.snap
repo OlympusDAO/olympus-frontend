@@ -3343,7 +3343,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Reward Rate
                       </p>
                     </div>
                     <p
@@ -6685,7 +6685,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Reward Rate
                       </p>
                     </div>
                     <p
@@ -10027,7 +10027,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Reward Rate
                       </p>
                     </div>
                     <p

@@ -11,7 +11,7 @@ import CausesDashboard from "../CausesDashboard";
 import { DepositTableRow } from "../DepositRow";
 import Give from "../Give";
 import GrantsDashboard from "../GrantsDashboard";
-import YieldRecipients from "../YieldRecipients";
+import RebaseRecipients from "../RebaseRecipients";
 
 const project = {
   title: "Angel Protocol",
@@ -76,12 +76,16 @@ describe("Give View Disconnected", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("should render Yield Recipients Screen with Donate to a cause button", async () => {
+  it("should render Rebase Recipients Screen with Donate to a cause button", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = await render(
-        <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} changeView={() => null} />,
+        <RebaseRecipients
+          giveAssetType={giveAssetType}
+          changeAssetType={changeGiveAssetType}
+          changeView={() => null}
+        />,
       ));
     });
 
@@ -132,7 +136,7 @@ describe("Give View Connected", () => {
     connectWallet();
   });
 
-  it("should render project card with Donate Yield Button", async () => {
+  it("should render project card with Donate Rebase Button", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
@@ -147,7 +151,7 @@ describe("Give View Connected", () => {
         store,
       ));
     });
-    expect(await screen.getByText("Donate Yield")).toBeInTheDocument();
+    expect(await screen.getByText("Donate Rebases")).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 
@@ -160,7 +164,7 @@ describe("Give View Connected", () => {
       date: "03/16/2022",
       deposit: "1.2",
       recipient: "0x8A8b5a97978dB4a54367D7DCF6a50980990F2373",
-      yieldDonated: "0.1",
+      donated: "0.1",
     };
 
     await act(async () => {
@@ -174,7 +178,7 @@ describe("Give View Connected", () => {
     });
 
     expect(screen.getByTestId("1-deposit").innerHTML).toEqual("120.00 sOHM");
-    expect(screen.getByTestId("1-yield-donated").innerHTML).toEqual("10.00 sOHM");
+    expect(screen.getByTestId("1-donated").innerHTML).toEqual("10.00 sOHM");
   });
 
   it("should render gOHM units on Deposits Row", async () => {
@@ -186,7 +190,7 @@ describe("Give View Connected", () => {
       date: "03/16/2022",
       deposit: "1.2",
       recipient: "0x8A8b5a97978dB4a54367D7DCF6a50980990F2373",
-      yieldDonated: "0.1",
+      donated: "0.1",
     };
 
     await act(async () => {
@@ -200,7 +204,7 @@ describe("Give View Connected", () => {
     });
 
     expect(screen.getByTestId("1-deposit").innerHTML).toEqual("1.20 gOHM");
-    expect(screen.getByTestId("1-yield-donated").innerHTML).toEqual("0.10 gOHM");
+    expect(screen.getByTestId("1-donated").innerHTML).toEqual("0.10 gOHM");
   });
 
   /*
@@ -220,7 +224,7 @@ describe("Give View Connected", () => {
     const currentWalletAddress = "0x8A8b5a97978dB4a54367D7DCF6a50980990F2373";
     const currentDepositAmount = "1.2";
     const depositDate = "03/16/2022";
-    const yieldSent = "0.1";
+    const rebasesSent = "0.1";
 
     await act(async () => {
       render(
@@ -236,7 +240,7 @@ describe("Give View Connected", () => {
           depositDate={depositDate}
           giveAssetType={giveAssetType}
           changeAssetType={changeGiveAssetType}
-          yieldSent={yieldSent}
+          rebasesSent={rebasesSent}
         />,
         store,
       );
@@ -268,7 +272,7 @@ describe("Give View Connected", () => {
           depositDate={depositDate}
           giveAssetType={giveAssetType}
           changeAssetType={changeGiveAssetType}
-          yieldSent={yieldSent}
+          rebasesSent={rebasesSent}
         />,
         store,
       );
@@ -288,8 +292,8 @@ describe("Give View Connected", () => {
     expect(pctOfGoal).toBeInTheDocument();
     expect(sohmPctGoalText).toBeInTheDocument();
 
-    const sohmYield = await screen.getByText("10 sOHM");
-    expect(sohmYield).toBeInTheDocument();
+    const sohmRebases = await screen.getByText("10 sOHM");
+    expect(sohmRebases).toBeInTheDocument();
   });
   */
 });

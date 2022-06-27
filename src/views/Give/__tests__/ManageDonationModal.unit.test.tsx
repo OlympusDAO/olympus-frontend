@@ -103,7 +103,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -128,7 +128,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="gOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -153,7 +153,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -177,7 +177,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="gOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -200,7 +200,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.000123"}
         depositDate={""}
         giveAssetType="gOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -223,7 +223,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.00000000000000011223"}
         depositDate={""}
         giveAssetType="gOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -248,7 +248,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.1234000010000011223"}
         depositDate={""}
         giveAssetType="gOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -273,7 +273,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -298,7 +298,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -324,7 +324,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -350,7 +350,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -376,7 +376,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,
@@ -403,7 +403,7 @@ describe("ManageDonationModal", () => {
         currentDepositAmount={"1.0"}
         depositDate={""}
         giveAssetType="sOHM"
-        yieldSent={"0"}
+        rebasesSent={"0"}
         changeAssetType={changeAssetType}
         project={project}
       />,

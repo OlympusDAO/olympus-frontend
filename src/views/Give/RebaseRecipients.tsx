@@ -1,4 +1,4 @@
-import "./YieldRecipients.scss";
+import "./RebaseRecipients.scss";
 
 import { Trans } from "@lingui/macro";
 import { Divider, Grid, Link, Typography, useTheme } from "@mui/material";
@@ -17,7 +17,7 @@ type RecipientModalProps = {
   changeAssetType: ChangeAssetType;
 };
 
-export default function YieldRecipients({ giveAssetType, changeAssetType }: RecipientModalProps) {
+export default function RebaseRecipients({ giveAssetType, changeAssetType }: RecipientModalProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -75,7 +75,7 @@ export default function YieldRecipients({ giveAssetType, changeAssetType }: Reci
         {!isSmallScreen && (
           <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
             <Typography variant="body1" className="grey">
-              <Trans>Yield Sent</Trans>
+              <Trans>Donated</Trans>
             </Typography>
           </Grid>
         )}

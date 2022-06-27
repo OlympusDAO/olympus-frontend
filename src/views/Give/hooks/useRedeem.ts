@@ -14,7 +14,7 @@ import { useAccount } from "wagmi";
 import { RedeemData } from "../Interfaces";
 
 /**
- * @notice Redeems all available yield
+ * @notice Redeems all available rebases
  * @returns ContractReceipt for the redemption
  */
 export const useRedeem = () => {
@@ -69,7 +69,7 @@ export const useRedeem = () => {
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 
-        dispatch(createInfoToast(t`Successfully redeemed all available yield`));
+        dispatch(createInfoToast(t`Successfully redeemed all available rebases`));
       },
     },
   );

@@ -16,7 +16,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
+import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
@@ -111,13 +111,13 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const recipientInfoIsLoading = _useRecipientInfo.isLoading;
   const donorCount = useDonorNumbers(wallet).data;
 
-  const _useTotalYieldDonated = useTotalYieldDonated(wallet);
-  const totalYieldDonated: DecimalBigNumber = useMemo(() => {
-    if (_useTotalYieldDonated.isLoading || _useTotalYieldDonated.data === undefined) return new DecimalBigNumber("0");
+  const _useTotalDonated = useTotalDonated(wallet);
+  const totalDonated: DecimalBigNumber = useMemo(() => {
+    if (_useTotalDonated.isLoading || _useTotalDonated.data === undefined) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(_useTotalYieldDonated.data, giveAssetType, currentIndex);
-  }, [_useTotalYieldDonated.data, _useTotalYieldDonated.isLoading, currentIndex, giveAssetType]);
-  const totalDonatedIsLoading = useTotalYieldDonated(wallet).isLoading;
+    return GetCorrectContractUnits(_useTotalDonated.data, giveAssetType, currentIndex);
+  }, [_useTotalDonated.data, _useTotalDonated.isLoading, currentIndex, giveAssetType]);
+  const totalDonatedIsLoading = useTotalDonated(wallet).isLoading;
 
   // Contract interactions: new donation, increase donation, decrease donation
   const giveMutation = useGive();
@@ -145,10 +145,10 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
-  const userYieldDonated: DecimalBigNumber = useMemo(() => {
+  const userDonated: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(userDonation.donated, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
   useEffect(() => {
@@ -291,11 +291,11 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 <Icon name="sohm-yield-sent" sx={{ width: "20px", height: "18px" }} />
               </Grid>
               <Grid item className="metric">
-                {totalDonatedIsLoading ? <Skeleton /> : totalYieldDonated.toString(DEFAULT_FORMAT)}
+                {totalDonatedIsLoading ? <Skeleton /> : totalDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              {giveAssetType} <Trans>Yield Sent</Trans>
+              {giveAssetType} <Trans>Sent</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -639,7 +639,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                               disabled={!isSupportedChain(activeChain.id)}
                               fullWidth
                             >
-                              <Trans>Donate Yield</Trans>
+                              <Trans>Donate Rebases</Trans>
                             </PrimaryButton>
                           )}
                         </Grid>
@@ -677,12 +677,12 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item className="metric">
-                                {isDonationInfoLoading ? <Skeleton /> : userYieldDonated.toString(DEFAULT_FORMAT)}
+                                {isDonationInfoLoading ? <Skeleton /> : userDonated.toString(DEFAULT_FORMAT)}
                               </Grid>
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Yield Sent</Trans>
+                            {giveAssetType} <Trans>Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -740,7 +740,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             currentDepositId={userDonation.id}
             currentDepositAmount={userDonation.deposit.toString()}
             depositDate={userDonation.date}
-            yieldSent={userDonation.yieldDonated}
+            rebasesSent={userDonation.donated}
             project={project}
             key={"manage-modal-" + userDonation.recipient}
           />

@@ -39,7 +39,7 @@ type ManageModalProps = {
   depositDate: string;
   giveAssetType: string;
   changeAssetType: ChangeAssetType;
-  yieldSent: string;
+  rebasesSent: string;
   recordType?: string;
 };
 
@@ -62,7 +62,7 @@ export function ManageDonationModal({
   depositDate,
   giveAssetType,
   changeAssetType,
-  yieldSent,
+  rebasesSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
   const { data: account } = useAccount();
@@ -248,8 +248,8 @@ export function ManageDonationModal({
     return giveAssetType === "sOHM" ? sohmBalance : gohmBalance;
   };
 
-  const getYieldSent = (): DecimalBigNumber => {
-    return GetCorrectContractUnits(yieldSent, giveAssetType, currentIndex);
+  const getRebasesSent = (): DecimalBigNumber => {
+    return GetCorrectContractUnits(rebasesSent, giveAssetType, currentIndex);
   };
 
   /**
@@ -419,7 +419,7 @@ export function ManageDonationModal({
   };
 
   /**
-   * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
+   * Elements to display project statistics, such as donation sOHM, rebases and goal achievement.
    */
   const getProjectStats = () => {
     // Has to have a default value of 1 because it is used in division
@@ -484,9 +484,9 @@ export function ManageDonationModal({
           balance={`${getCurrentDepositAmount().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
         />
         <DataRow
-          title={t`Yield Sent`}
-          id="yield-sent"
-          balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
+          title={t`Donated`}
+          id="rebases-sent"
+          balance={`${getRebasesSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
         />
       </>
     );

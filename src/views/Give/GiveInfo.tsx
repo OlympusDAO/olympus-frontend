@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { Grid } from "@mui/material";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
-import { LargeVault, LargeWallet, LargeYield } from "src/components/EducationCard";
+import { LargeRebases, LargeVault, LargeWallet } from "src/components/EducationCard";
 
 export function GiveInfo() {
   return (
@@ -15,7 +15,7 @@ export function GiveInfo() {
             <LargeVault />
           </Grid>
           <Grid item xs={12} md={4}>
-            <LargeYield />
+            <LargeRebases />
           </Grid>
           <Grid item xs />
           <Grid item xs={3} container justifyContent="center">

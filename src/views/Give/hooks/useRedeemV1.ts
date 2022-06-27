@@ -11,7 +11,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork } from "wagmi";
 /**
- * @notice Redeems all available yield
+ * @notice Redeems all available rebases
  * @returns ContractReceipt for the redemption
  */
 export const useOldRedeem = () => {
@@ -71,7 +71,7 @@ export const useOldRedeem = () => {
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 
-        dispatch(createInfoToast(t`Successfully redeemed all yield off the old contract`));
+        dispatch(createInfoToast(t`Successfully redeemed all rebases off the old contract`));
       },
     },
   );

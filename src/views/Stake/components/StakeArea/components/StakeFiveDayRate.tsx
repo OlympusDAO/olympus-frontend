@@ -3,13 +3,15 @@ import { DataRow } from "@olympusdao/component-library";
 import { formatNumber } from "src/helpers";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 
-export const StakeRebaseYield = () => {
+export const StakeFiveDayRate = () => {
   const { data: rebaseRate } = useStakingRebaseRate();
 
-  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Yield` };
+  const props: PropsOf<typeof DataRow> = { title: t`ROI (5-Day Rate)` };
 
-  if (rebaseRate) props.balance = `${formatNumber(rebaseRate * 100, 4)}%`;
-  else props.isLoading = true;
+  if (rebaseRate) {
+    const fiveDayRate = (Math.pow(1 + rebaseRate, 5 * 3) - 1) * 100;
+    props.balance = `${formatNumber(fiveDayRate, 4)}%`;
+  } else props.isLoading = true;
 
   return <DataRow {...props} />;
 };

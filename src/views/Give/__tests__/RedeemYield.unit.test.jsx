@@ -14,7 +14,7 @@ import * as useRedeem from "src/views/Give/hooks/useRedeem";
 import * as WAGMI from "wagmi";
 
 import { act, render, screen } from "../../../testUtils";
-import RedeemYield from "../RedeemYield";
+import RedeemRebases from "../RedeemRebases";
 
 // TODO convert to typescript
 let context;
@@ -38,7 +38,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe("Redeem Yield", () => {
+describe("Redeem Rebases", () => {
   beforeEach(() => {
     jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("100", 9)));
 
@@ -55,10 +55,10 @@ describe("Redeem Yield", () => {
     redeem.mockReturnValue({ isLoading: false });
   });
 
-  it("should render Redeem Yield Screen", async () => {
+  it("should render Redeem Rebases Screen", async () => {
     let container;
     await act(async () => {
-      ({ container } = render(<RedeemYield />));
+      ({ container } = render(<RedeemRebases />));
     });
     expect(container).toMatchSnapshot();
   });
@@ -66,9 +66,9 @@ describe("Redeem Yield", () => {
   it("should have disabled redeem button when there are pending transaction(s)", async () => {
     jest.spyOn(useRedeem, "useRedeem").mockReturnValue({ isLoading: true });
 
-    render(<RedeemYield />);
+    render(<RedeemRebases />);
 
-    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
+    expect(screen.getByText("Redeem sOHM").closest("button")).toBeDisabled();
   });
 
   it("should have disabled redeem button when recipient info is loading", async () => {
@@ -79,22 +79,22 @@ describe("Redeem Yield", () => {
     _recipientInfo.isLoading = true;
     recipientInfo.mockReturnValue(_recipientInfo);
 
-    render(<RedeemYield />);
+    render(<RedeemRebases />);
 
-    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
+    expect(screen.getByText("Redeem sOHM").closest("button")).toBeDisabled();
   });
 
   it("should have disabled redeem button when recipient info is loading", async () => {
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance("0")); // Zero redeemable balance
 
-    render(<RedeemYield />);
+    render(<RedeemRebases />);
 
-    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
+    expect(screen.getByText("Redeem sOHM").closest("button")).toBeDisabled();
   });
 
   it("should show redeemable balance as 100 sOHM", async () => {
-    render(<RedeemYield />);
+    render(<RedeemRebases />);
 
     expect(screen.getByTestId("data-redeemable-sohm")).toHaveTextContent("100 sOHM");
   });
@@ -105,8 +105,8 @@ describe("Redeem Yield", () => {
       return { ...wallet, data: { ...wallet.data, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" } };
     });
 
-    const result = render(<RedeemYield />);
-    expect(screen.getByText("sOHM Goal")).toBeInTheDocument();
+    const result = render(<RedeemRebases />);
+    expect(screen.getByText("% of sOHM Goal")).toBeInTheDocument();
     expect(result.container).toMatchSnapshot();
   });
 });

@@ -106,10 +106,10 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
-  const userYieldDonated: DecimalBigNumber = useMemo(() => {
+  const userDonated: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(userDonation.donated, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
   useEffect(() => {
@@ -563,7 +563,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             disabled={!isSupportedChain(activeChain.id)}
                             fullWidth
                           >
-                            <Trans>Donate Yield</Trans>
+                            <Trans>Donate Rebases</Trans>
                           </PrimaryButton>
                         )}
                       </Grid>
@@ -600,12 +600,12 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item className="metric">
-                                {isDonationInfoLoading ? <Skeleton /> : userYieldDonated.toString(DEFAULT_FORMAT)}
+                                {isDonationInfoLoading ? <Skeleton /> : userDonated.toString(DEFAULT_FORMAT)}
                               </Grid>
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Yield Sent</Trans>
+                            {giveAssetType} <Trans>Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -673,7 +673,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
             currentWalletAddress={donationInfo[donationId].recipient}
             currentDepositAmount={userDeposit.toString()}
             depositDate={donationInfo[donationId].date}
-            yieldSent={donationInfo[donationId].yieldDonated}
+            rebasesSent={donationInfo[donationId].donated}
             project={grant}
             currentDepositId={donationInfo[donationId].id}
             recordType={RecordType.GRANT}

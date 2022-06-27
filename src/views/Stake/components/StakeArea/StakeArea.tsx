@@ -7,10 +7,10 @@ import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/Treasur
 
 import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
 import { StakeBalances } from "./components/StakeBalances";
-import { StakeFiveDayYield } from "./components/StakeFiveDayYield";
+import { StakeFiveDayRate } from "./components/StakeFiveDayRate";
 import { StakeInputArea } from "./components/StakeInputArea/StakeInputArea";
 import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
-import { StakeRebaseYield } from "./components/StakeRebaseYield";
+import { StakeRebaseRate } from "./components/StakeRebaseRate";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
@@ -36,9 +36,9 @@ export const StakeArea: React.FC = () => {
 
         <StakeNextRebaseAmount />
 
-        <StakeRebaseYield />
+        <StakeRebaseRate />
 
-        <StakeFiveDayYield />
+        <StakeFiveDayRate />
       </WalletConnectedGuard>
     </Paper>
   );

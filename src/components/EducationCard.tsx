@@ -83,12 +83,12 @@ export function CompactVault({
   );
 }
 
-export function CompactYield({ quantity, isQuantityExact, asset }: EducationGraphicProps) {
+export function CompactRebases({ quantity, isQuantityExact, asset }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={t`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
+      subtext={t`Receives sOHM rebases from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }
@@ -136,7 +136,7 @@ export function LargeWallet() {
       icon={<Icon name="vault-wallet" fontSize="large" />}
       title={t`Wallet`}
       subtitle={t`Deposit sOHM from wallet`}
-      subtext={t`Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.`}
+      subtext={t`Olympus Give is a means of directing the rebases accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.`}
     />
   );
 }
@@ -153,7 +153,7 @@ export function LargeVault() {
   );
 }
 
-export function LargeYield() {
+export function LargeRebases() {
   return (
     <LargeGraphic
       icon={<Icon name="vault-recipient" fontSize="large" />}

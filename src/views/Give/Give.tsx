@@ -20,8 +20,8 @@ import { GohmToggle } from "./GohmToggle";
 import GrantInfo from "./GrantInfo";
 import GrantsDashboard from "./GrantsDashboard";
 import ProjectInfo from "./ProjectInfo";
-import RedeemYield from "./RedeemYield";
-import YieldRecipients from "./YieldRecipients";
+import RebaseRecipients from "./RebaseRecipients";
+import RedeemRebases from "./RedeemRebases";
 
 function Give({ selectedIndex = 0 }) {
   const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
@@ -113,7 +113,7 @@ function Give({ selectedIndex = 0 }) {
             element={
               <TabPanel value={2} index={2}>
                 {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
-                <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                <RebaseRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </TabPanel>
             }
           />
@@ -122,7 +122,7 @@ function Give({ selectedIndex = 0 }) {
             path="redeem"
             element={
               <TabPanel value={3} index={3}>
-                <RedeemYield />
+                <RedeemRebases />
               </TabPanel>
             }
           />

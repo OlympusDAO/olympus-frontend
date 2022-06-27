@@ -399,7 +399,7 @@ function V1Stake({ setMigrationModalOpen }) {
                   <Divider />
                   <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
-                    title={t`Next Reward Yield`}
+                    title={t`Next Reward Rate`}
                     balance={`${stakingRebasePercentage}%`}
                     isLoading={isAppLoading}
                   />

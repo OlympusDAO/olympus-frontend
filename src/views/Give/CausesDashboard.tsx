@@ -105,7 +105,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" align="center">
-                  <Trans>You can direct your yield to a recipient of your choice</Trans>
+                  <Trans>You can direct your rebases to a recipient of your choice</Trans>
                 </Typography>
               </Grid>
               <Grid item xs />

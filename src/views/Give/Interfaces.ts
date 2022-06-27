@@ -59,5 +59,5 @@ export interface IUserDonationInfo {
   date: string;
   deposit: string;
   recipient: string;
-  yieldDonated: string;
+  donated: string;
 }

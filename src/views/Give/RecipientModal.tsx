@@ -18,7 +18,7 @@ import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 import { useAccount, useNetwork } from "wagmi";
 
-import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
+import { ArrowGraphic, CompactRebases, CompactVault, CompactWallet } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
 import { checkDecimalLength } from "./helpers/checkDecimalLength";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
@@ -211,7 +211,7 @@ export function RecipientModal({
   };
 
   const getTitle = (): string => {
-    return t`Donate Yield`;
+    return t`Donate Rebases`;
   };
 
   /**
@@ -243,7 +243,7 @@ export function RecipientModal({
   /**
    * Indicates the amount retained in the user's wallet after a deposit to the vault.
    *
-   * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
+   * If a rebase direction is being created, it returns the current sOHM balance minus the entered deposit.
    *
    * @returns DecimalBigNumber instance
    */
@@ -443,7 +443,7 @@ export function RecipientModal({
                     <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
-                    <CompactYield
+                    <CompactRebases
                       quantity={getDepositAmount().toString(EXACT_FORMAT)}
                       isQuantityExact={true}
                       asset={giveAssetType}
@@ -521,7 +521,7 @@ export function RecipientModal({
                     <Typography variant="body1" className="grey-text">
                       <Trans>Recipient Address</Trans>
                       <InfoTooltip
-                        message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                        message={t`The specified wallet address will receive the rebases from the amount that you deposit.`}
                         children={null}
                       />
                     </Typography>
