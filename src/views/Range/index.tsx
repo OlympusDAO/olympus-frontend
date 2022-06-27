@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
@@ -30,6 +30,7 @@ const Range = () => {
   const {
     data: { symbol: reserveSymbol, reserveAddress },
   } = OperatorReserveSymbol();
+  const theme = useTheme();
 
   const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market);
   const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market);
@@ -168,7 +169,14 @@ const Range = () => {
             reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
           } ${reserveSymbol})`}
         />
-        <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
+        <DataRow
+          title={sellActive ? t`Premium` : t`Discount`}
+          balance={
+            <Typography sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}>
+              {formatNumber(discount * 100, 2)}%
+            </Typography>
+          }
+        />
         <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
       </Paper>
       <RangeConfirmationModal

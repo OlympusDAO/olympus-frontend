@@ -91,7 +91,9 @@ const RangeConfirmationModal = (props: {
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
-          <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Discount</Typography>
+          <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+            {props.sellActive ? t`Premium` : t`Discount`}
+          </Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
             <Typography
               sx={{ color: props.discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
