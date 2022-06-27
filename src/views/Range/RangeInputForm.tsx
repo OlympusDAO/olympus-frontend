@@ -46,6 +46,7 @@ const RangeInputForm = (props: {
 
   const OhmInput = () => (
     <Input
+      key="reserveAmount"
       type="string"
       name="reserveAmount"
       value={reserveAmount}
@@ -62,6 +63,7 @@ const RangeInputForm = (props: {
 
   const ReserveInput = () => (
     <Input
+      key="ohmAmount"
       type="string"
       name="ohmAmount"
       value={ohmAmount}
@@ -80,13 +82,13 @@ const RangeInputForm = (props: {
     <form onSubmit={props.onFormSubmit}>
       <Box display="flex" flexDirection="column">
         <Box display="flex" flexDirection="column">
-          {sellActive ? <ReserveInput /> : <OhmInput />}
+          {sellActive ? ReserveInput() : OhmInput()}
           <Box display="flex" flexDirection="row" mt={2} justifyContent="center">
             <Box style={{ backgroundColor: "#3F4552" }} p={"10px"} borderRadius="9px">
               <Icon name="arrow-down" />
             </Box>
           </Box>
-          {sellActive ? <OhmInput /> : <ReserveInput />}
+          {sellActive ? OhmInput() : ReserveInput()}
         </Box>
         <Box mt="8px">
           <PrimaryButton fullWidth type="submit">

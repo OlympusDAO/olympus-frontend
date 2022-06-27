@@ -101,7 +101,7 @@ const RangeChart = (props: {
         <XAxis reversed scale="auto" dataKey="timestamp" />
         <YAxis
           scale="auto"
-          domain={[(dataMin: number) => dataMin * 0.98, (dataMax: number) => trim(dataMax * 1.02, 2)]}
+          domain={[(dataMin: number) => trim(dataMin * 0.98, 2), (dataMax: number) => trim(dataMax * 1.02, 2)]}
         />
         <Tooltip content={<TooltipContent />} />
         <Area
@@ -137,7 +137,6 @@ const RangeChart = (props: {
         {!sellActive && (
           <ReferenceDot
             x={chartData.length > 1 && chartData[1].timestamp}
-            //TODO: replace w/ bond price if were in the cushion
             y={askPrice}
             shape={CustomReferenceDot}
             fill="#F8CC82"
@@ -150,7 +149,6 @@ const RangeChart = (props: {
         {sellActive && (
           <ReferenceDot
             x={chartData.length > 1 && chartData[1].timestamp}
-            //TODO: replace w/ bond price if were in the cushion
             y={bidPrice}
             shape={CustomReferenceDot}
             fill="#F8CC82"

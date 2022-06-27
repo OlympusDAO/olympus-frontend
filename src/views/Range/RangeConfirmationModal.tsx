@@ -1,10 +1,16 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { BigNumber } from "ethers";
+import { useState } from "react";
 import { useIsMutating } from "react-query";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { BOND_DEPOSITORY_ADDRESSES, DAI_ADDRESSES } from "src/constants/addresses";
+import { BOND_DEPOSITORY_ADDRESSES, OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
+import { useNetwork } from "wagmi";
+
+import { BondSettingsModal } from "../Bond/components/BondModal/components/BondSettingsModal";
+import { RangeSwap } from "./hooks";
 
 /**
  * Component for Displaying RangeModal
@@ -18,12 +24,21 @@ const RangeConfirmationModal = (props: {
   swapPrice: string;
   discount: number;
   reserveSymbol: string;
+  reserveAddress: string;
+  contract: "swap" | "bond";
+  market: BigNumber;
 }) => {
   const isMutating = useIsMutating();
   const theme = useTheme();
+  const rangeSwap = RangeSwap();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const [isSettingsOpen, setSettingsOpen] = useState(false);
+  const [slippage, setSlippage] = useState("0.5");
+  const [recipientAddress, setRecipientAddress] = useState("");
+
   return (
     <Modal
-      topLeft={<Icon name="settings" />}
+      topLeft={<Icon name="settings" sx={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
       headerContent={
         <Box display="flex" flexDirection="row">
           <Typography variant="h5">Confirm Swap</Typography>
@@ -34,6 +49,14 @@ const RangeConfirmationModal = (props: {
       minHeight={"100px"}
     >
       <Box display="flex" flexDirection="column">
+        <BondSettingsModal
+          slippage={slippage}
+          open={isSettingsOpen}
+          recipientAddress={recipientAddress}
+          handleClose={() => setSettingsOpen(false)}
+          onRecipientAddressChange={event => setRecipientAddress(event.currentTarget.value)}
+          onSlippageChange={event => setSlippage(event.currentTarget.value)}
+        />
         {isMutating > 0 && (
           <InfoNotification>
             Please don't close this modal until all wallet transactions are confirmed.
@@ -80,16 +103,36 @@ const RangeConfirmationModal = (props: {
           isVertical
           message={
             <>
-              <Trans>First time swapping</Trans> <strong>{props.reserveSymbol}</strong>? <br />
-              <Trans>Please approve Olympus DAO to use your</Trans> <strong>{props.reserveSymbol} </strong>
+              <Trans>First time swapping</Trans> <strong>{props.sellActive ? "OHM" : props.reserveSymbol}</strong>?
+              <br />
+              <Trans>Please approve Olympus DAO to use your</Trans>{" "}
+              <strong>{props.sellActive ? "OHM" : props.reserveSymbol} </strong>
               <Trans>for swapping</Trans>.
             </>
           }
-          tokenAddressMap={DAI_ADDRESSES}
-          spenderAddressMap={BOND_DEPOSITORY_ADDRESSES}
-          approvalText={t`Approve ${props.reserveSymbol} for Swap`}
+          tokenAddressMap={props.sellActive ? OHM_ADDRESSES : { [activeChain.id]: props.reserveAddress }}
+          spenderAddressMap={props.contract === "bond" ? BOND_DEPOSITORY_ADDRESSES : RANGE_OPERATOR_ADDRESSES}
+          approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
-          <PrimaryButton fullWidth>Confirm Swap</PrimaryButton>
+          <PrimaryButton
+            fullWidth
+            onClick={() =>
+              rangeSwap.mutate({
+                market: props.market,
+                tokenAddress: props.sellActive
+                  ? OHM_ADDRESSES[activeChain.id as keyof typeof OHM_ADDRESSES]
+                  : props.reserveAddress,
+                amount: props.sellActive ? props.ohmAmount : props.reserveAmount,
+                swapType: props.contract,
+                swapPricePerOhm: props.swapPrice,
+                sellActive: props.sellActive,
+                slippage: slippage,
+                recipientAddress: recipientAddress,
+              })
+            }
+          >
+            Confirm Swap
+          </PrimaryButton>
         </TokenAllowanceGuard>
       </Box>
     </Modal>

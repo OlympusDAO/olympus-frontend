@@ -1,46 +1,24 @@
-import { BigNumber, ethers } from "ethers";
+import { t } from "@lingui/macro";
+import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
-import { useQuery } from "react-query";
-// import { RANGE_OPERATOR_CONTRACT } from "src/constants/contracts";
-// import { Providers } from "src/helpers/providers/Providers/Providers";
-// import { NetworkId } from "src/networkDetails";
-// import { IERC20__factory } from "src/typechain";
-//RANGE_CONTRACT
-import { BOND_AGGREGATOR_CONTRACT, RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
+import { useMutation, useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
+import {
+  BOND_AGGREGATOR_CONTRACT,
+  RANGE_CONTRACT,
+  RANGE_OPERATOR_CONTRACT,
+  RANGE_PRICE_CONTRACT,
+} from "src/constants/contracts";
 import { parseBigNumber } from "src/helpers";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { IERC20__factory } from "src/typechain";
-import { useNetwork } from "wagmi";
-// import { NetworkId } from "src/networkDetails";
-
-const RangeMock = {
-  low: {
-    active: true,
-    lastActive: "temp",
-    capacity: 100000,
-    threshold: 100000,
-    market: 1,
-    lastMarketCapacity: 100000,
-  },
-  high: {
-    active: false,
-    lastActive: "temp",
-    capacity: 100000,
-    threshold: 100000,
-    market: 1,
-    lastMarketCapacity: 100000,
-  },
-  cushion: {
-    low: { price: 15 },
-    high: { price: 20 },
-    spread: 5,
-  },
-  wall: {
-    low: { price: 10 },
-    high: { price: 25 },
-    spread: 5,
-  },
-};
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { BondTeller__factory, IERC20__factory } from "src/typechain";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
 export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
@@ -119,46 +97,47 @@ export const PriceHistory = (reserveToken: string) => {
   return { data, isFetched, isLoading };
 };
 
-//TODO: PROBABLY REMOVE THIS
 /**
- * @param address
- * @returns Returns the current price of the Operator at the given address
+ * Returns the current price of the Operator at the given address
  */
-export const OperatorPrice = (address: string) => {
+export const OperatorPrice = () => {
   const { activeChain = { id: 1 } } = useNetwork();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(activeChain.id);
   const {
-    data = 0,
+    data = 1,
     isFetched,
     isLoading,
-  } = useQuery(["OperatorPrice", address], async () => {
-    return await contract.getCurrentPrice();
+  } = useQuery(["OperatorPrice"], async () => {
+    return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
 };
 
 /**
- * @param address
- * @returns Returns the reserve contract address on the Operator
+ * Returns the reserve contract address on the Operator
  */
-export const OperatorReserveSymbol = (address: string) => {
+export const OperatorReserveSymbol = () => {
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = RANGE_CONTRACT.getEthersContract(activeChain.id);
   const {
-    data = "",
+    data = { symbol: "", reserveAddress: "" },
     isFetched,
     isLoading,
-  } = useQuery(["OperatorReserve", address], async () => {
+  } = useQuery(["OperatorReserve"], async () => {
     const provider = Providers.getStaticProvider(activeChain.id);
-    const TokenContract = IERC20__factory.connect(await contract.reserve(), provider);
+    const reserveAddress = await contract.reserve();
+    const TokenContract = IERC20__factory.connect(reserveAddress, provider);
     const symbol = await TokenContract.symbol();
-    return symbol;
+    return { reserveAddress, symbol };
   });
   return { data, isFetched, isLoading };
 };
 
-export const RangeData = (address: string) => {
+/**
+ * Returns Range Data from range contract
+ */
+export const RangeData = () => {
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = RANGE_CONTRACT.getEthersContract(activeChain.id);
 
@@ -171,13 +150,17 @@ export const RangeData = (address: string) => {
     },
     isFetched,
     isLoading,
-  } = useQuery(["RangeData", address], async () => {
+  } = useQuery(["RangeData"], async () => {
     const range = await contract.range();
     return range;
   });
   return { data, isFetched, isLoading };
 };
 
+/**
+ * Returns the market price for the given bond market
+ * @param id Bond Market ID
+ */
 export const RangeBondPrice = (id: BigNumber) => {
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(activeChain.id);
@@ -195,4 +178,95 @@ export const RangeBondPrice = (id: BigNumber) => {
     }, //Disable this query for negative markets (default value) or Max Integer (market not active from range call)
   );
   return { data, isFetched, isLoading };
+};
+
+/**
+ * Executes Range Swap Transaction and routes it to the appropriate contract.
+ * Either Swap on the operator, or purchase on the bond teller.
+ */
+export const RangeSwap = () => {
+  const dispatch = useDispatch();
+  const networks = useTestableNetworks();
+  const { data: account } = useAccount();
+  const { data: signer } = useSigner();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
+  const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+
+  return useMutation<
+    ContractReceipt,
+    Error,
+    {
+      market: BigNumber;
+      tokenAddress: string;
+      amount: string;
+      swapType: "bond" | "swap";
+      swapPricePerOhm: string;
+      sellActive: boolean;
+      slippage: string;
+      recipientAddress: string;
+    }
+  >(
+    async ({ market, tokenAddress, swapType, amount, swapPricePerOhm, sellActive, slippage, recipientAddress }) => {
+      const decimals = tokenAddress === OHM_ADDRESSES[activeChain.id as keyof typeof OHM_ADDRESSES] ? 9 : 18;
+      console.log(decimals, "decimals");
+      if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
+      if (activeChain.id !== networks.MAINNET)
+        throw new Error(
+          typeof activeChain.id === "undefined"
+            ? t`Please switch to the Ethereum network to use Range Swap`
+            : t`Please switch to the Ethereum network to use Range Swap`,
+        );
+      if (!isValidAddress(address) || !address) throw new Error(t`Invalid address`);
+      const swapAmount = new DecimalBigNumber(amount, decimals);
+      if (swapType === "swap") {
+        const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+        const transaction = await contract.swap(tokenAddress, swapAmount.toBigNumber());
+        return transaction.wait();
+      }
+
+      //first get the bond teller address from the aggregator, then purchase bond on returned address.
+      const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+      const tellerAddress = await contract.getTeller(market);
+      const parsedSlippage = new DecimalBigNumber(slippage, decimals);
+      const slippageAsPercent = parsedSlippage.div("100");
+      const swapPricePerOhmBN = new DecimalBigNumber(swapPricePerOhm, 18);
+
+      const maxPrice = sellActive
+        ? swapAmount.mul(new DecimalBigNumber("1").sub(slippageAsPercent))
+        : swapPricePerOhmBN.mul(slippageAsPercent.add("1"));
+      const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
+      const transaction = await tellerContract.purchase(
+        recipientAddress ? recipientAddress : address,
+        referrer,
+        market,
+        amount,
+        maxPrice.toBigNumber(),
+      );
+      return transaction.wait();
+    },
+    {
+      onError: error => {
+        dispatch(createErrorToast(error.message));
+      },
+      onSuccess: async (tx, { market }) => {
+        trackGAEvent({
+          category: "Range",
+          action: "Swap",
+          label: market.toString() ?? "unknown",
+          dimension1: tx.transactionHash,
+          dimension2: address,
+        });
+
+        trackGtagEvent("Range", {
+          event_category: "Swap",
+          event_label: market.toString() ?? "unknown",
+          address: address.slice(2),
+          txHash: tx.transactionHash.slice(2),
+        });
+
+        dispatch(createInfoToast(typeof market === "undefined" ? t`Range Swap Successful ` : t`Range Swap Successful`));
+      },
+    },
+  );
 };
