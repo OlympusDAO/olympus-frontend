@@ -16,6 +16,7 @@ exports[`<NotFound/> should render component 1`] = `
       >
         <a
           href="https://olympusdao.finance"
+          rel="noopener noreferrer"
           target="_blank"
         >
           <img

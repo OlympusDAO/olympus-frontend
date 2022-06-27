@@ -20,6 +20,7 @@ import CROSS_CHAIN_MIGRATOR_ABI from "src/abi/CrossChainMigrator.json";
 import CURVE_GAUGE_CONTROLLER_ABI from "src/abi/CurveGaugeController.json";
 import CURVE_GAUGE_DEPOSIT_ABI from "src/abi/CurveGaugeDeposit.json";
 import CURVE_POOL_ABI from "src/abi/CurvePool.json";
+import DEV_FAUCET from "src/abi/DevFaucet.json";
 import FUSE_PROXY_ABI from "src/abi/FuseProxy.json";
 import GAUGE_ABI from "src/abi/Gauge.json";
 import IERC20_ABI from "src/abi/IERC20.json";
@@ -43,6 +44,7 @@ import {
   BondDepository,
   CrossChainMigrator,
   CurvePool,
+  DevFaucet,
   FuseProxy,
   IERC20,
   Jones,
@@ -161,6 +163,7 @@ export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI.abi);
 export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI.abi);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI.abi);
+export const useDynamicFaucetContract = createDynamicContract<DevFaucet>(DEV_FAUCET.abi);
 
 // Multiple static contracts
 export const useMultipleTokenContracts = createMultipleStaticContracts<IERC20>(IERC20_ABI.abi);

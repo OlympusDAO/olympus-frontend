@@ -705,7 +705,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Paper
                 headerText="About"
                 topRight={
-                  <Link href={project.website} target="_blank">
+                  <Link href={project.website} target="_blank" rel="noopener noreferrer">
                     <Icon name="website" />
                   </Link>
                 }

@@ -763,6 +763,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       <svg
@@ -1249,6 +1250,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       <svg
@@ -1730,6 +1732,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                       href="https://project.co"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       <svg

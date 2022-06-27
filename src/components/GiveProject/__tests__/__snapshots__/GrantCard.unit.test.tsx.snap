@@ -608,6 +608,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
+                        rel="noopener noreferrer"
                         target="_blank"
                       >
                         <svg
@@ -1081,6 +1082,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
+                        rel="noopener noreferrer"
                         target="_blank"
                       >
                         <svg
@@ -1524,6 +1526,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
+                        rel="noopener noreferrer"
                         target="_blank"
                       >
                         <svg
@@ -1972,6 +1975,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
+                        rel="noopener noreferrer"
                         target="_blank"
                       >
                         <svg
@@ -2378,6 +2382,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                         href="https://grant.co"
+                        rel="noopener noreferrer"
                         target="_blank"
                       >
                         <svg
