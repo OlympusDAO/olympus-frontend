@@ -11,6 +11,7 @@ const query = `
       nextDistributedOhm
       nextEpochRebase
       ohmCirculatingSupply
+      ohmFloatingSupply
       ohmPrice
       runway10k
       runway20k
@@ -29,6 +30,7 @@ const query = `
       treasuryFraxMarketValue
       treasuryFraxRiskFreeValue
       treasuryLiquidBacking
+      treasuryLiquidBackingPerOhmFloating
       treasuryLPValue
       treasuryLusdMarketValue
       treasuryLusdRiskFreeValue
@@ -56,6 +58,7 @@ interface ProtocolMetrics {
   nextDistributedOhm: string;
   nextEpochRebase: string;
   ohmCirculatingSupply: string;
+  ohmFloatingSupply: string;
   ohmPrice: string;
   runway10k: string;
   runway20k: string;
@@ -74,6 +77,7 @@ interface ProtocolMetrics {
   treasuryFraxMarketValue: string;
   treasuryFraxRiskFreeValue: string;
   treasuryLiquidBacking: string;
+  treasuryLiquidBackingPerOhmFloating: string;
   treasuryLPValue: string;
   treasuryLusdMarketValue: string;
   treasuryLusdRiskFreeValue: string;
@@ -120,4 +124,7 @@ export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].tot
 export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
 export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
 export const useTreasuryLiquidBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryLiquidBacking);
+export const useTreasuryLiquidBackingPerOhmFloating = () =>
+  useProtocolMetrics(metrics => metrics[0].treasuryLiquidBackingPerOhmFloating);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
+export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmFloatingSupply);

@@ -6,9 +6,10 @@ import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useMarketCap,
   useOhmCirculatingSupply,
+  useOhmFloatingSupply,
   useTotalSupply,
   useTotalValueDeposited,
-  useTreasuryLiquidBacking,
+  useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
@@ -74,17 +75,28 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
-  const { data: circSupply } = useOhmCirculatingSupply();
-  const { data: treasuryBacking } = useTreasuryLiquidBacking();
+  const { data: floatingSupply } = useOhmFloatingSupply();
+  /**
+   * Liquid backing per OHM floating is used as the metric here.
+   * Liquid backing does not include OHM in protocol-owned liquidity,
+   * so it makes sense to do the same for the denominator, and floating supply
+   * is circulating supply - OHM in liquidity.
+   */
+  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating();
+
+  // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
+  const tooltip = t`Liquid Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc). Floating OHM (${
+    floatingSupply ? formatNumber(floatingSupply) : "Loading..."
+  }) is the circulating supply of OHM minus OHM in protocol-owned liquidity.
+  `;
 
   const _props: MetricProps = {
     ...props,
     label: t`Liquid Backing per OHM`,
-    tooltip: t`Liquid Treasury Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc)
-    `,
+    tooltip: tooltip,
   };
 
-  if (circSupply && treasuryBacking) _props.metric = `${formatCurrency(treasuryBacking / circSupply, 2)}`;
+  if (liquidBackingPerOhmFloating) _props.metric = `${formatCurrency(liquidBackingPerOhmFloating, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
