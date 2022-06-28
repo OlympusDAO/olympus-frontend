@@ -184,7 +184,7 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: [t`Total Value Deposited`],
-  liqb: [t`Liquid Backing`],
+  liqb: [t`Liquid Treasury`],
   marketValueComponents: [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`],
   coin: ["DAI", "FRAX", "ETH", "LUSD", "BTC", "UST", "Other"],
   rfv: ["DAI", "FRAX", "LUSD", "UST"],
