@@ -48,43 +48,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             </a>
             <a
               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-              href="#/dashboard/treasury"
-              textcolor="primary"
-              value="1"
-            >
-              <button
-                aria-controls="simple-tabpanel-undefined"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
-                id="simple-tab-undefined"
-                role="tab"
-                tabindex="-1"
-                type="button"
-              >
-                Treasury
-              </button>
-            </a>
-            <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-              href="#/dashboard/revenue"
-              textcolor="primary"
-              value="2"
-            >
-              <button
-                aria-controls="simple-tabpanel-undefined"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
-                id="simple-tab-undefined"
-                role="tab"
-                tabindex="-1"
-                type="button"
-              >
-                Revenue
-              </button>
-            </a>
-            <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/dashboard/olympuspro"
               textcolor="primary"
-              value="3"
+              value="1"
             >
               <button
                 aria-controls="simple-tabpanel-undefined"
@@ -102,7 +68,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/dashboard/proteus"
               textcolor="primary"
-              value="4"
+              value="2"
             >
               <button
                 aria-controls="simple-tabpanel-undefined"
