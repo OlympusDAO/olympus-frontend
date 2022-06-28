@@ -13,8 +13,6 @@ import {
   MarketValueGraph,
   OHMStakedGraph,
   ProtocolOwnedLiquidityGraph,
-  RiskFreeValueGraph,
-  RunwayAvailableGraph,
 } from "./components/Graph/Graph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
@@ -49,7 +47,7 @@ const MetricsDashboard = () => (
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <Paper className="ohm-card ohm-chart-card">
-          <RiskFreeValueGraph />
+          <OHMStakedGraph />
         </Paper>
       </Grid>
 
@@ -83,18 +81,6 @@ const MetricsDashboard = () => (
               />
             </Paper>
           </Grid> */}
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <OHMStakedGraph />
-        </Paper>
-      </Grid>
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <RunwayAvailableGraph />
-        </Paper>
-      </Grid>
     </Grid>
   </>
 );
