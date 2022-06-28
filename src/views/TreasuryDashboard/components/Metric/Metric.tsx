@@ -23,6 +23,9 @@ export const MarketCap: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`Market Cap`,
+    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply.
+
+    Note: other sources may be inaccurate.`,
   };
 
   if (marketCap) _props.metric = formatCurrency(marketCap, 0);
@@ -66,6 +69,7 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`Circulating Supply (total)`,
+    tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -85,9 +89,11 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating();
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = t`Liquid Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc). Floating OHM (${
+  const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
+  
+  Floating supply of OHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
     floatingSupply ? formatNumber(floatingSupply) : "Loading..."
-  }) is the circulating supply of OHM minus OHM in protocol-owned liquidity.
+  }
   `;
 
   const _props: MetricProps = {
