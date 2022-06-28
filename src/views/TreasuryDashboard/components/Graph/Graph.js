@@ -40,7 +40,7 @@ export const LiquidBackingGraph = () => {
       itemType={itemType.dollar}
       itemNames={tooltipItems.liqb}
       dataKey={["treasuryLiquidBacking"]}
-      headerText={t`Liquid Backing`}
+      headerText={t`Liquid Treasury`}
       stopColor={[["#768299", "#98B3E9"]]}
       bulletpointColors={bulletpoints.tvl}
       infoTooltipMessage={tooltipInfoMessages().liqb}
