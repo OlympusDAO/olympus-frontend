@@ -38,7 +38,7 @@
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.6.8",
     "@ledgerhq/iframe-provider": "^0.4.2",
-    "@lingui/react": "^3.13.3",
+    "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@multifarm/widget": "^0.0.159",
