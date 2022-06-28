@@ -129,12 +129,12 @@ const PageWrapper = () => {
             <Link to="/dashboard" end component={NavLink}>
               <Tab label={t`Dashboard`} />
             </Link>
-            <Link to="/dashboard/treasury" component={NavLink}>
+            {/* <Link to="/dashboard/treasury" component={NavLink}>
               <Tab label={t`Treasury`} />
             </Link>
             <Link to="/dashboard/revenue" component={NavLink}>
               <Tab label={t`Revenue`} />
-            </Link>
+            </Link> */}
             <Link to="/dashboard/olympuspro" component={NavLink}>
               <Tab label={t`Olympus Pro`} style={{ whiteSpace: "nowrap" }} />
             </Link>
