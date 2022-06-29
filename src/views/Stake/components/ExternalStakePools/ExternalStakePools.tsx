@@ -149,8 +149,8 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
     <TableRow>
       <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-          <TokenStack tokens={props.pool.icons} />
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
+          <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "14px", marginRight: "10px" }}>
             {props.pool.poolName}
           </Typography>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
@@ -199,7 +199,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
   return (
     <Paper>
       <StyledPoolInfo className={classes.poolPair}>
-        <TokenStack tokens={props.pool.icons} />
+        <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
 
         <div className={classes.poolName}>
           <Typography>{props.pool.poolName}</Typography>

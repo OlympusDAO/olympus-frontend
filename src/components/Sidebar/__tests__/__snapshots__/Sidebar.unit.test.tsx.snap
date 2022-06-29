@@ -16,10 +16,10 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-178n096-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-jk4qzk-MuiPaper-root-MuiDrawer-paper"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-1kx48wt-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-14vh17f-MuiPaper-root"
           >
             <div
               class="dapp-sidebar-inner MuiBox-root css-155ff3i"
@@ -97,7 +97,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       class="NavItem-root nav-item-container css-1l68yb7"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-y4zw2u-MuiPaper-root-MuiAccordion-root"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-u06kr9-MuiPaper-root-MuiAccordion-root"
                       >
                         <div
                           aria-expanded="true"

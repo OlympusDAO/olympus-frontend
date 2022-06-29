@@ -95,7 +95,7 @@ const commonSettings = {
           "&.ohm-card": {
             padding: "20px 30px 30px 30px",
             borderRadius: "var(--ohm-card-border-radius)",
-            maxWidth: "833px",
+            maxWidth: "900px",
             width: "97%",
             marginBottom: "1.8rem",
             overflow: "hidden",
@@ -168,7 +168,6 @@ const commonSettings = {
         paper: {
           width: "inherit",
           padding: 0,
-          zIndex: 7,
         },
       },
     },

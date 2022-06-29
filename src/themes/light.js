@@ -51,7 +51,7 @@ export const light = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background-color:${colors.gray[700]};
+              background-color:"#FCF7EF";
             }
             `,
           },

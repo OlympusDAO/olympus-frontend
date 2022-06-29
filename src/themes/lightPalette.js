@@ -1,7 +1,7 @@
 export const lightPalette = {
   paper: {
     background: "linear-gradient(65.7deg, #F5F5F5 8.35%, #FFFFFF 100%)",
-    card: "#F0F0F0",
+    card: "#EFEAE0",
     cardHover: "#FFFBF5",
   },
   background: "linear-gradient(180.37deg, #B3BFC5 0.49%, #D1D5D4 26.3%, #EEEAE3 99.85%)",

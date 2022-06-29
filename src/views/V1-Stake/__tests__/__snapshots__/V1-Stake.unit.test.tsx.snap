@@ -12,7 +12,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -196,7 +196,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -275,7 +275,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -324,7 +324,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -369,7 +369,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -760,7 +760,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -809,7 +809,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -854,7 +854,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -949,7 +949,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -998,7 +998,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -1013,7 +1013,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
                     </p>
@@ -1112,7 +1112,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1161,7 +1161,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1208,7 +1208,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-FTM
                     </p>
@@ -1339,7 +1339,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1388,7 +1388,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1435,7 +1435,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
                     </p>
@@ -1566,7 +1566,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1615,7 +1615,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -1660,7 +1660,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -1765,7 +1765,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <svg
@@ -1897,7 +1897,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -1945,7 +1945,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
                     </p>
@@ -2336,7 +2336,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -2354,7 +2354,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -2372,7 +2372,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -2417,7 +2417,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
                     </p>
@@ -2546,7 +2546,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -2564,7 +2564,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -2609,7 +2609,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -2738,7 +2738,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -2756,7 +2756,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -2801,7 +2801,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -2933,7 +2933,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -3218,7 +3218,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                   </div>
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1o32gyl-MuiPaper-root-MuiAccordion-root"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-w5x1nb-MuiPaper-root-MuiAccordion-root"
                   >
                     <div
                       aria-expanded="false"
@@ -3416,7 +3416,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -3502,7 +3502,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -3551,7 +3551,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -3596,7 +3596,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -4001,7 +4001,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4050,7 +4050,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -4095,7 +4095,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -4204,7 +4204,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4253,7 +4253,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -4268,7 +4268,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
                     </p>
@@ -4381,7 +4381,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4430,7 +4430,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4477,7 +4477,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-FTM
                     </p>
@@ -4622,7 +4622,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4671,7 +4671,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4718,7 +4718,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
                     </p>
@@ -4863,7 +4863,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -4912,7 +4912,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -4957,7 +4957,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -5076,7 +5076,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <svg
@@ -5208,7 +5208,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -5256,7 +5256,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
                     </p>
@@ -5661,7 +5661,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -5679,7 +5679,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -5697,7 +5697,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -5742,7 +5742,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
                     </p>
@@ -5885,7 +5885,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -5903,7 +5903,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -5948,7 +5948,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -6091,7 +6091,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -6109,7 +6109,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -6154,7 +6154,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -6300,7 +6300,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -6585,7 +6585,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                   </div>
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1o32gyl-MuiPaper-root-MuiAccordion-root"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-w5x1nb-MuiPaper-root-MuiAccordion-root"
                   >
                     <div
                       aria-expanded="false"
@@ -6783,7 +6783,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -6869,7 +6869,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -6918,7 +6918,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -6963,7 +6963,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -7368,7 +7368,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -7417,7 +7417,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -7462,7 +7462,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -7571,7 +7571,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -7620,7 +7620,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -7635,7 +7635,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
                     </p>
@@ -7748,7 +7748,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -7797,7 +7797,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -7844,7 +7844,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-FTM
                     </p>
@@ -7989,7 +7989,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -8038,7 +8038,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -8085,7 +8085,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
                     </p>
@@ -8230,7 +8230,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -8279,7 +8279,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -8324,7 +8324,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -8443,7 +8443,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <svg
@@ -8575,7 +8575,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -8623,7 +8623,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
                     </p>
@@ -9028,7 +9028,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -9046,7 +9046,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -9064,7 +9064,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -9109,7 +9109,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
                     </p>
@@ -9252,7 +9252,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -9270,7 +9270,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -9315,7 +9315,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -9458,7 +9458,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -9476,7 +9476,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -9521,7 +9521,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -9667,7 +9667,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -9952,7 +9952,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                   </div>
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1o32gyl-MuiPaper-root-MuiAccordion-root"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-w5x1nb-MuiPaper-root-MuiAccordion-root"
                   >
                     <div
                       aria-expanded="false"
@@ -10150,7 +10150,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-nu85zw-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -10236,7 +10236,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -10285,7 +10285,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -10330,7 +10330,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -10735,7 +10735,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -10784,7 +10784,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -10829,7 +10829,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -10938,7 +10938,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -10987,7 +10987,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -11002,7 +11002,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
                     </p>
@@ -11115,7 +11115,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11164,7 +11164,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11211,7 +11211,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-FTM
                     </p>
@@ -11356,7 +11356,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11405,7 +11405,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11452,7 +11452,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
                     </p>
@@ -11597,7 +11597,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11646,7 +11646,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -11691,7 +11691,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
                     </p>
@@ -11810,7 +11810,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <svg
@@ -11942,7 +11942,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <defs>
@@ -11990,7 +11990,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
                     </p>
@@ -12395,7 +12395,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -12413,7 +12413,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -12431,7 +12431,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -12476,7 +12476,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
                     </p>
@@ -12619,7 +12619,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -12637,7 +12637,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -12682,7 +12682,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
@@ -12825,7 +12825,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="z-index: 1;"
+                        style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <path
@@ -12843,7 +12843,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
                         focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
                       >
                         <circle
@@ -12888,7 +12888,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                      style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                      style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
                     </p>
