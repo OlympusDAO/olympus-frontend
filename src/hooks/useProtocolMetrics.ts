@@ -52,6 +52,20 @@ const query = `
   }
 `;
 
+const liquidBackingPerOhmQuery = `
+  query LiquidBackingPerOhm {
+    protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+      id
+      block
+      gOhmPrice
+      ohmPrice
+      timestamp
+      timestampISO8901
+      treasuryLiquidBackingPerOhmFloating
+    }
+  }
+`;
+
 interface ProtocolMetrics {
   id: string;
   block: string;
@@ -99,9 +113,10 @@ interface ProtocolMetrics {
   treasuryXsushiMarketValue: string;
 }
 
-type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
+export type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
 
 export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
+export const protocolMetricsLiquidBackingPerOhmQueryKey = () => ["useProtocolMetricsLiquidBackingPerOhm"];
 
 export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
   return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
@@ -135,3 +150,25 @@ export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[
 export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
 export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
 export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);
+
+export const useLiquidBackingPerOhm = <TSelectData = unknown>(
+  select?: (data: ProtocolMetricsNumbers[]) => TSelectData,
+) => {
+  return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
+    protocolMetricsLiquidBackingPerOhmQueryKey(),
+    async () => {
+      const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(liquidBackingPerOhmQuery);
+
+      if (!response) throw new Error("No response from TheGraph");
+
+      // Convert all strings to numbers
+      return response.data.protocolMetrics.map(metric =>
+        Object.entries(metric).reduce(
+          (obj, [key, value]) => Object.assign(obj, { [key]: parseFloat(value) }),
+          {} as ProtocolMetricsNumbers,
+        ),
+      );
+    },
+    { select },
+  );
+};

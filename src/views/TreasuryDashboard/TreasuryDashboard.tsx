@@ -8,12 +8,8 @@ import { memo } from "react";
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-import {
-  LiquidBackingGraph,
-  MarketValueGraph,
-  OHMStakedGraph,
-  ProtocolOwnedLiquidityGraph,
-} from "./components/Graph/Graph";
+import { MarketValueGraph, OHMStakedGraph, ProtocolOwnedLiquidityGraph } from "./components/Graph/Graph";
+import { LiquidBackingPerOhmComparisonGraph } from "./components/Graph/TreasuryGraph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
@@ -35,7 +31,8 @@ const MetricsDashboard = () => (
     <Grid container spacing={2} className="data-grid">
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <Paper className="ohm-card ohm-chart-card">
-          <LiquidBackingGraph />
+          <LiquidBackingPerOhmComparisonGraph />
+          {/* <LiquidBackingGraph /> */}
         </Paper>
       </Grid>
 

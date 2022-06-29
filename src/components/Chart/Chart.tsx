@@ -234,8 +234,8 @@ const renderLineChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
-  scale: string,
   margin: CategoricalChartProps["margin"],
+  scale?: string,
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -280,6 +280,7 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
+  itemDecimals?: number,
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -302,7 +303,14 @@ const renderMultiLineChart = (
       allowDataOverflow={false}
     />
     <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          itemDecimals={itemDecimals}
+        />
+      }
     />
     <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
     <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
@@ -377,10 +385,11 @@ function Chart({
     bottom: 0,
     left: 0,
   },
+  itemDecimals,
 }: {
   type: string;
   data: any[];
-  scale: string;
+  scale?: string;
   dataKey: string[];
   color: string;
   stopColor: string[][];
@@ -396,6 +405,7 @@ function Chart({
   expandedGraphStrokeColor: string;
   isPOL: boolean;
   margin?: CategoricalChartProps["margin"];
+  itemDecimals?: number;
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -421,8 +431,8 @@ function Chart({
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
-        scale,
         margin,
+        scale,
       );
     if (type === "area")
       return renderAreaChart(
@@ -467,6 +477,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         margin,
+        itemDecimals,
       );
 
     if (type === "bar")

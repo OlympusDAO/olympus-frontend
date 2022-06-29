@@ -2,6 +2,7 @@ import "./customtooltip.scss";
 
 import { Box, Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
+import { formatCurrency } from "src/helpers";
 
 interface TooltipPayloadItem {
   value: number;
@@ -22,9 +23,9 @@ const renderDate = (index: number, payload: TooltipPayloadItem[], item: TooltipP
   );
 };
 
-const renderItem = (type: string, item: number) => {
+const renderItem = (type: string, item: number, decimals = 0) => {
   return type === "$" ? (
-    <Typography variant="body2">{`${type}${Math.round(item).toLocaleString("en-US")}`}</Typography>
+    <Typography variant="body2">{`${formatCurrency(item, decimals)}`}</Typography>
   ) : (
     <Typography variant="body2">{`${Math.round(item).toLocaleString("en-US")}${type}`}</Typography>
   );
@@ -37,6 +38,7 @@ const renderTooltipItems = (
   itemType: string,
   isStaked = false,
   isPOL = false,
+  itemDecimals = 0,
 ) => {
   return isStaked ? (
     <Box>
@@ -84,7 +86,7 @@ const renderTooltipItems = (
               {`${itemNames[index]}`}
             </Typography>
           </Box>
-          <span style={{ marginLeft: "20px" }}>{renderItem(itemType, item.value)}</span>
+          <span style={{ marginLeft: "20px" }}>{renderItem(itemType, item.value, itemDecimals)}</span>
         </Box>
         <Box>{renderDate(index, payload, item)}</Box>
       </Box>
@@ -99,6 +101,7 @@ function CustomTooltip({
   itemType,
   isStaked,
   isPOL,
+  itemDecimals,
 }: {
   active?: boolean;
   payload?: TooltipPayloadItem[];
@@ -107,11 +110,12 @@ function CustomTooltip({
   itemType: string;
   isStaked?: boolean;
   isPOL?: boolean;
+  itemDecimals?: number;
 }) {
   if (active && payload && payload.length) {
     return (
       <Paper className={`ohm-card tooltip-container`}>
-        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked, isPOL)}
+        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked, isPOL, itemDecimals)}
       </Paper>
     );
   }
