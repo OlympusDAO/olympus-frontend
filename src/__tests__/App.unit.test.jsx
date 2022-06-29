@@ -3,7 +3,7 @@ import "src/helpers/index";
 import * as EthersContract from "@ethersproject/contracts";
 import { BigNumber } from "ethers";
 import App from "src/App";
-import { connectWallet, createMatchMedia, disconnectedWallet } from "src/testHelpers";
+import { connectWallet, disconnectedWallet } from "src/testHelpers";
 import * as Contract from "src/typechain";
 
 import { act, render, renderRoute, screen } from "../testUtils";
@@ -114,16 +114,6 @@ describe("Staging Notification Checks", () => {
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     connectWallet();
     render(<App />);
-    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "264px" });
-    expect(
-      screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
-    ).toBeInTheDocument();
-  });
-  it("Should display no left Margin on Mobile", async () => {
-    connectWallet();
-    window.matchMedia = createMatchMedia("300px");
-    render(<App />);
-    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "0px" });
     expect(
       screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
     ).toBeInTheDocument();
