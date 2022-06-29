@@ -2,7 +2,7 @@ export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olympusdao/
 export const SUBGRAPH_URL_STAGING_STUB = "https://api.thegraph.com/subgraphs/id/";
 
 /**
- * Returns the subgraph URL.
+ * Returns the subgraph URL
  *
  * By default, this is the production URL, defined by {SUBGRAPH_URL}.
  *
