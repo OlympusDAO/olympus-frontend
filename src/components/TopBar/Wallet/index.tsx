@@ -44,7 +44,7 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
 
   [`& .${classes.paper}`]: {
     maxWidth: "100%",
-    background: theme.colors.gray[600],
+    background: theme.colors.gray[700],
   },
 }));
 

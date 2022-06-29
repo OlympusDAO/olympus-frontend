@@ -1,8 +1,8 @@
 export const darkPalette = {
   paper: {
     background: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
-    card: "#151721",
-    cardHover: "#343C49",
+    card: "#20222A",
+    cardHover: "#3F4552",
   },
   background: `
   linear-gradient(180deg, rgba(8, 15, 53, 0), rgba(0, 0, 10, 0.9)),
