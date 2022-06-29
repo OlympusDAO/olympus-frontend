@@ -8,7 +8,7 @@ import { memo } from "react";
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-import { MarketValueGraph, OHMStakedGraph, ProtocolOwnedLiquidityGraph } from "./components/Graph/Graph";
+import { MarketValueGraph } from "./components/Graph/Graph";
 import { LiquidBackingPerOhmComparisonGraph } from "./components/Graph/TreasuryGraph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
@@ -29,55 +29,18 @@ const MetricsDashboard = () => (
       </Paper>
     </Box>
     <Grid container spacing={2} className="data-grid">
-      <Grid item lg={6} md={6} sm={12} xs={12}>
+      <Grid item xs={12}>
         <Paper className="ohm-card ohm-chart-card">
           <LiquidBackingPerOhmComparisonGraph />
           {/* <LiquidBackingGraph /> */}
         </Paper>
       </Grid>
 
-      <Grid item lg={6} md={6} sm={12} xs={12}>
+      <Grid item xs={12}>
         <Paper className="ohm-card ohm-chart-card">
           <MarketValueGraph />
         </Paper>
       </Grid>
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <OHMStakedGraph />
-        </Paper>
-      </Grid>
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <ProtocolOwnedLiquidityGraph />
-        </Paper>
-      </Grid>
-
-      {/*  Temporarily removed until correct data is in the graph */}
-      {/* <Grid item lg={6} md={12} sm={12} xs={12}>
-            <Paper className="ohm-card">
-              <Chart
-                type="bar"
-                data={data}
-                dataKey={["holders"]}
-                headerText="Holders"
-                stroke={[theme.palette.text.secondary]}
-                headerSubText={`${data.length > 0 && data[0].holders}`}
-                bulletpointColors={bulletpoints.holder}
-                itemNames={tooltipItems.holder}
-                itemType={undefined}
-                infoTooltipMessage={tooltipInfoMessages().holder}
-                expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-                scale={undefined}
-                color={undefined}
-                stroke={undefined}
-                dataFormat={undefined}
-                isPOL={undefined}
-                isStaked={undefined}
-              />
-            </Paper>
-          </Grid> */}
     </Grid>
   </>
 );
