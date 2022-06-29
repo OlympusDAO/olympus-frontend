@@ -6,6 +6,12 @@ import { ProtocolMetricsNumbers, useLiquidBackingPerOhm } from "src/hooks/usePro
 
 import { bulletpoints, itemType, tooltipInfoMessages } from "../../treasuryData";
 
+/**
+ * React Component that displays a line graph comparing the
+ * OHM price and liquid backing per floating OHM.
+ *
+ * @returns
+ */
 export const LiquidBackingPerOhmComparisonGraph = () => {
   const theme = useTheme();
   const hook = useLiquidBackingPerOhm();

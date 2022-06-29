@@ -151,6 +151,14 @@ export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPri
 export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
 export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);
 
+/**
+ * Fetches the OHM price and liquid backing per (floating) OHM.
+ *
+ * This is preferable to using {useProtocolMetrics}, which could
+ * fetch considerably more data.
+ *
+ * @returns
+ */
 export const useLiquidBackingPerOhm = <TSelectData = unknown>(
   select?: (data: ProtocolMetricsNumbers[]) => TSelectData,
 ) => {

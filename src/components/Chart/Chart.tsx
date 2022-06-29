@@ -33,6 +33,8 @@ const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
 };
 
+// TODO extract function to render numbers consistently. Handle millions, thousands, %, $
+
 const renderAreaChart = (
   data: any[],
   dataKey: string[],
@@ -290,6 +292,7 @@ const renderMultiLineChart = (
       tickCount={3}
       tickLine={false}
       reversed={true}
+      // TODO extract into function
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
