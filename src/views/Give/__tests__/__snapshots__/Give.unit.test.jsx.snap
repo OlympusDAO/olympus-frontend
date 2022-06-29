@@ -1137,7 +1137,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         >
           <div
             class="MuiBox-root css-0"
-            style="background-color: rgb(239, 234, 224); border-radius: 10px;"
+            style="background-color: rgb(240, 240, 240); border-radius: 10px;"
           >
             <div
               class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
@@ -2019,7 +2019,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       >
                         <div
                           class="MuiBox-root css-0"
-                          style="background-color: rgb(239, 234, 224); border-radius: 10px;"
+                          style="background-color: rgb(240, 240, 240); border-radius: 10px;"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
