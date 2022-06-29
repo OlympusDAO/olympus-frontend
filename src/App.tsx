@@ -134,7 +134,7 @@ function App() {
     setMigrationModalOpen(false);
   };
 
-  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 1047px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   async function loadDetails(whichDetails: string) {
