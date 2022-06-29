@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import Chart from "src/components/Chart/Chart";
+import { formatCurrency } from "src/helpers";
 import { ProtocolMetricsNumbers, useLiquidBackingPerOhm } from "src/hooks/useProtocolMetrics";
 
 import { bulletpoints, itemType, tooltipInfoMessages } from "../../treasuryData";
@@ -25,7 +26,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       stroke={colors}
       stopColor={[[]]}
       headerText={t`OHM Backing`}
-      headerSubText=""
+      headerSubText={`${data && formatCurrency(data[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
       dataFormat=""
       bulletpointColors={runwayBulletpoints}
       itemNames={itemNames}
