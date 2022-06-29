@@ -182,7 +182,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <TertiaryButton target="_blank" href={props.pool.href} fullWidth>
+        <TertiaryButton target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
           {t`Stake on`} {props.pool.stakeOn}
         </TertiaryButton>
       </TableCell>

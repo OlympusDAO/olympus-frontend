@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import gOHM from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
+import { GIVE_CONTRACT } from "src/constants/contracts";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -52,10 +53,9 @@ export const useDonationInfo = () => {
   const { activeChain = { id: 1 } } = useNetwork();
   const address = account?.address ? account.address : "";
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
   const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
     donationInfoQueryKey(address, activeChain.id),
@@ -165,9 +165,9 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
 export const useRedeemableBalance = (address: string) => {
   const { activeChain = { id: 1 } } = useNetwork();
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<string, Error>(
     redeemableBalanceQueryKey(address, activeChain.id),
@@ -221,7 +221,7 @@ export const useV1RedeemableBalance = () => {
       // If no contract is established throw an error to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          t`Give V1 is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Set default redeemable balance value
@@ -350,9 +350,9 @@ export const useTotalYieldDonated = (address: string) => {
   // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   // Filter to search through event logs and find all redeemed events for a given address
   const filter = {
@@ -426,9 +426,9 @@ export const useDonorNumbers = (address: string) => {
   // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   // Filter to search through event logs and find all Deposited events for a given address as recipient
   const filter = {

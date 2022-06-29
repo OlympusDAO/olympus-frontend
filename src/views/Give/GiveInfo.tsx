@@ -23,6 +23,7 @@ export function GiveInfo() {
               fullWidth
               href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <Trans>Learn More</Trans>
             </TertiaryButton>

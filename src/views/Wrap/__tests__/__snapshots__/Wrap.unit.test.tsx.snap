@@ -40,6 +40,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >
@@ -774,6 +775,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >
@@ -1025,6 +1027,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >
@@ -1475,6 +1478,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >

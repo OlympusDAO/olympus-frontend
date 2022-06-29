@@ -34,7 +34,7 @@ const NavContent: React.VFC = () => {
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
-            <Link href="https://olympusdao.finance" target="_blank">
+            <Link href="https://olympusdao.finance" target="_blank" rel="noopener noreferrer">
               <SvgIcon
                 color="primary"
                 viewBox="0 0 50 50"
@@ -100,19 +100,19 @@ const NavContent: React.VFC = () => {
         </div>
 
         <StyledBox display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
-          <Link href="https://github.com/OlympusDAO" target="_blank">
+          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
             <Icon name="github" className={classes.gray} />
           </Link>
 
-          <Link href="https://olympusdao.medium.com/" target="_blank">
+          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
             <Icon name="medium" className={classes.gray} />
           </Link>
 
-          <Link href="https://twitter.com/OlympusDAO" target="_blank">
+          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord.gg/OlympusDAO" target="_blank">
+          <Link href="https://discord.gg/OlympusDAO" target="_blank" rel="noopener noreferrer">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>

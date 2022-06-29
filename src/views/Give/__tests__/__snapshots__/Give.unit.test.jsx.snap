@@ -454,6 +454,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                       href="https://www.angelprotocol.io/"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       <svg
@@ -2307,6 +2308,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
+                    rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
                   >
@@ -2879,6 +2881,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                       href="https://www.angelprotocol.io/"
+                      rel="noopener noreferrer"
                       target="_blank"
                     >
                       <svg

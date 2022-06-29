@@ -43,6 +43,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >
@@ -844,6 +845,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   aria-label="wsohm-wut"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                   href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  rel="noopener noreferrer"
                   style="text-decoration: none;"
                   target="_blank"
                 >

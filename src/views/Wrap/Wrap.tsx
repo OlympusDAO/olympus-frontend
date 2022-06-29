@@ -48,6 +48,7 @@ const Wrap: React.FC = () => {
 const GOHMExternalLink = () => (
   <Link
     target="_blank"
+    rel="noopener noreferrer"
     aria-label="wsohm-wut"
     style={{ textDecoration: "none" }}
     href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"

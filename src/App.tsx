@@ -10,7 +10,7 @@ import {
   lightTheme as rainbowLightTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
@@ -38,9 +38,16 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
-import { Bond, Give, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
-import NotFound from "./views/404/NotFound";
-import Bridge from "./views/Bridge";
+
+// Dynamic Imports for code splitting
+const Bond = lazy(() => import("./views/Bond"));
+const Bridge = lazy(() => import("./views/Bridge"));
+const Give = lazy(() => import("./views/Give/Give"));
+const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
+const NotFound = lazy(() => import("./views/404/NotFound"));
+const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
+const Wrap = lazy(() => import("./views/Wrap/Wrap"));
+const Zap = lazy(() => import("./views/Zap/Zap"));
 
 const PREFIX = "App";
 
@@ -239,34 +246,35 @@ function App() {
 
               <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
                 <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
+                <Suspense fallback={<div></div>}>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/stake" />} />
+                    <Route
+                      path="/stake"
+                      element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
+                    />
+                    <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
+                    <Route path="/give/*" element={<Give />} />
 
-                <Routes>
-                  <Route path="/" element={<Navigate to="/stake" />} />
-                  <Route
-                    path="/stake"
-                    element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
-                  />
-                  <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/give/*" element={<Give />} />
+                    <Route path="/olympusgive" element={<Navigate to="/give" />} />
+                    <Route path="/olygive" element={<Navigate to="/give" />} />
+                    <Route path="/tyche" element={<Navigate to="/give" />} />
+                    <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
+                    <Route path="/ohmgive" element={<Navigate to="/give" />} />
 
-                  <Route path="/olympusgive" element={<Navigate to="/give" />} />
-                  <Route path="/olygive" element={<Navigate to="/give" />} />
-                  <Route path="/tyche" element={<Navigate to="/give" />} />
-                  <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-                  <Route path="/ohmgive" element={<Navigate to="/give" />} />
+                    <Route path="/wrap" element={<Wrap />} />
+                    <Route path="/zap" element={<Zap />} />
+                    <Route path="/bonds/*" element={<Bond />} />
+                    <Route path="/bridge" element={<Bridge />} />
+                    <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
-                  <Route path="/wrap" element={<Wrap />} />
-                  <Route path="/zap" element={<Zap />} />
-                  <Route path="/bonds/*" element={<Bond />} />
-                  <Route path="/bridge" element={<Bridge />} />
-                  <Route path="/dashboard/*" element={<TreasuryDashboard />} />
-
-                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                    <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
+                    <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
+                    <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
+                    <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
               </div>
             </div>
 
