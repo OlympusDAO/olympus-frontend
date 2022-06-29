@@ -99,20 +99,20 @@ const NavContent: React.VFC = () => {
           </div>
         </div>
 
-        <StyledBox display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
-          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+        <StyledBox display="flex" paddingX="17.84px" paddingY="24px">
+          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="github" className={classes.gray} />
           </Link>
 
-          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="medium" className={classes.gray} />
           </Link>
 
-          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord.gg/OlympusDAO" target="_blank" rel="noopener noreferrer">
+          <Link href="https://discord.gg/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>

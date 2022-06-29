@@ -6,7 +6,7 @@ const StagingNotification = () => {
   return (
     <>
       {Environment.getStagingFlag() === "true" && (
-        <Box style={{ marginTop: "0px" }} data-testid="staging-notification">
+        <Box style={{ marginTop: "0px" }} data-testid="staging-notification" sx={{ zIndex: 10 }}>
           <WarningNotification dismissible={true}>
             You are on the staging site. Any interaction could result in loss of assets.{" "}
             <a href="https://app.olympusdao.finance">Exit Here</a>
