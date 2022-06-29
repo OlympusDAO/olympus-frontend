@@ -84,6 +84,8 @@ const RangeChart = (props: {
     );
   };
 
+  const capacityFormatter = Intl.NumberFormat("en", { notation: "compact" });
+
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`} childPaperBackground>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
@@ -91,6 +93,14 @@ const RangeChart = (props: {
       <DataRow title="Upper Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)} />
       <DataRow title="Lower Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)} />
       <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
+      <DataRow
+        title="Lower Capacity"
+        balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+      />
+      <DataRow
+        title="Upper Capacity"
+        balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 18))} OHM`}
+      />
     </Paper>
   );
 
@@ -142,7 +152,7 @@ const RangeChart = (props: {
             fill="#F8CC82"
           >
             <Label className={classes.currentPrice} color="#fff" position={"right"}>
-              Ask: {formatCurrency(askPrice, 2)}
+              {`Ask: ${formatCurrency(askPrice, 2)}`}
             </Label>
           </ReferenceDot>
         )}
@@ -154,7 +164,7 @@ const RangeChart = (props: {
             fill="#F8CC82"
           >
             <Label className={classes.currentPrice} color="#fff" position={"right"}>
-              Bid: {formatCurrency(bidPrice, 2)}
+              {`Bid: ${formatCurrency(bidPrice, 2)}`}
             </Label>
           </ReferenceDot>
         )}

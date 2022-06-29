@@ -143,9 +143,12 @@ export const RangeData = () => {
 
   const {
     data = {
-      high: { active: false as boolean, market: BigNumber.from(-1) },
-      low: { active: false as boolean, market: BigNumber.from(-1) },
-      wall: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
+      high: { active: false as boolean, market: BigNumber.from(-1), capacity: BigNumber.from(0) },
+      low: { active: false as boolean, market: BigNumber.from(-1), capacity: BigNumber.from(0) },
+      wall: {
+        low: { price: BigNumber.from(0) },
+        high: { price: BigNumber.from(0) },
+      },
       cushion: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
     },
     isFetched,
