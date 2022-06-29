@@ -4,9 +4,11 @@ import apollo from "src/lib/apolloClient";
 const query = `
   query ProtcolMetrics {
     protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+      id
       block
       currentAPY
-      id
+      currentIndex
+      gOhmPrice
       marketCap
       nextDistributedOhm
       nextEpochRebase
@@ -51,9 +53,11 @@ const query = `
 `;
 
 interface ProtocolMetrics {
+  id: string;
   block: string;
   currentAPY: string;
-  id: string;
+  currentIndex: string;
+  gOhmPrice: string;
   marketCap: string;
   nextDistributedOhm: string;
   nextEpochRebase: string;
@@ -128,3 +132,6 @@ export const useTreasuryLiquidBackingPerOhmFloating = () =>
   useProtocolMetrics(metrics => metrics[0].treasuryLiquidBackingPerOhmFloating);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
 export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmFloatingSupply);
+export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
+export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);

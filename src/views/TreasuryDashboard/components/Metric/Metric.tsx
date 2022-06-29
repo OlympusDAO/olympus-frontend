@@ -1,12 +1,13 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
+  useCurrentIndex,
+  useGOhmPrice,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
+  useOhmPrice,
   useTotalSupply,
   useTotalValueDeposited,
   useTreasuryLiquidBackingPerOhmFloating,
@@ -117,14 +118,14 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
     tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) _props.metric = `${currentIndex.toString({ decimals: 2, trim: false, format: true })} sOHM`;
+  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} sOHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
 };
 
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: gOhmPrice } = useGohmPrice();
+  const { data: gOhmPrice } = useGOhmPrice();
 
   const _props: MetricProps = {
     ...props,
