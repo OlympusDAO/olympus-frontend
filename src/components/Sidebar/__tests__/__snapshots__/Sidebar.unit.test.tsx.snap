@@ -16,7 +16,7 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-upn5zt-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-178n096-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-1kx48wt-MuiPaper-root"
