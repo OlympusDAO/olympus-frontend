@@ -648,10 +648,10 @@ exports[`<Sidebar/> should render component 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-1j242jx"
+                class="MuiBox-root css-1xvyr95"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
                   href="https://github.com/OlympusDAO"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -668,7 +668,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
                   href="https://olympusdao.medium.com/"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -685,7 +685,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
                   href="https://twitter.com/OlympusDAO"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -702,7 +702,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   </svg>
                 </a>
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
                   href="https://discord.gg/OlympusDAO"
                   rel="noopener noreferrer"
                   target="_blank"
