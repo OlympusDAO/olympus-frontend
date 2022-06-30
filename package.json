@@ -43,7 +43,7 @@
     "@mui/material": "^5.8.3",
     "@multifarm/widget": "^0.0.159",
     "@olympusdao/component-library": "^2.0.4",
-    "@rainbow-me/rainbowkit": "^0.3.3",
+    "@rainbow-me/rainbowkit": "^0.3.7",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.7.8",
