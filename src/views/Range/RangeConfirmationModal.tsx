@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
-import { Icon, InfoNotification, Modal, PrimaryButton, SuccessNotification } from "@olympusdao/component-library";
+import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
 import { useIsMutating } from "react-query";
@@ -37,6 +37,11 @@ const RangeConfirmationModal = (props: {
   const [slippage, setSlippage] = useState("0.5");
   const [recipientAddress, setRecipientAddress] = useState("");
   const [checked, setChecked] = useState(false);
+
+  if (rangeSwap.isSuccess) {
+    rangeSwap.reset();
+    props.onClose();
+  }
   return (
     <Modal
       topLeft={
@@ -69,7 +74,6 @@ const RangeConfirmationModal = (props: {
             Please don't close this modal until all wallet transactions are confirmed.
           </InfoNotification>
         )}
-        {rangeSwap.isSuccess && <SuccessNotification>Swap Complete</SuccessNotification>}
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Price of OHM</Typography>

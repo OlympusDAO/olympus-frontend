@@ -18,6 +18,7 @@ import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { BondTeller__factory, IERC20__factory } from "src/typechain";
+import { BandStruct, LineStruct, RangeStructOutput, SideStruct } from "src/typechain/Range";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
@@ -108,7 +109,7 @@ export const OperatorPrice = () => {
     data = 1,
     isFetched,
     isLoading,
-  } = useQuery(["OperatorPrice"], async () => {
+  } = useQuery(["OperatorPrice", activeChain], async () => {
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
@@ -124,7 +125,7 @@ export const OperatorReserveSymbol = () => {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
     isLoading,
-  } = useQuery(["OperatorReserve"], async () => {
+  } = useQuery(["OperatorReserve", activeChain], async () => {
     const provider = Providers.getStaticProvider(activeChain.id);
     const reserveAddress = await contract.reserve();
     const TokenContract = IERC20__factory.connect(reserveAddress, provider);
@@ -137,27 +138,43 @@ export const OperatorReserveSymbol = () => {
 /**
  * Returns Range Data from range contract
  */
+
 export const RangeData = () => {
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = RANGE_CONTRACT.getEthersContract(activeChain.id);
 
   const {
     data = {
-      high: { active: false as boolean, market: BigNumber.from(-1), capacity: BigNumber.from(0) },
-      low: { active: false as boolean, market: BigNumber.from(-1), capacity: BigNumber.from(0) },
-      wall: {
-        low: { price: BigNumber.from(0) },
-        high: { price: BigNumber.from(0) },
-      },
-      cushion: { low: { price: BigNumber.from(0) }, high: { price: BigNumber.from(0) } },
-    },
+      high: sideStruct,
+      low: sideStruct,
+      wall: band,
+      cushion: band,
+    } as RangeStructOutput,
     isFetched,
     isLoading,
-  } = useQuery(["RangeData"], async () => {
+  } = useQuery(["RangeData", activeChain.id], async () => {
     const range = await contract.range();
     return range;
   });
   return { data, isFetched, isLoading };
+};
+
+const sideStruct: SideStruct = {
+  active: false,
+  lastActive: 0,
+  capacity: BigNumber.from(0),
+  threshold: BigNumber.from(0),
+  market: BigNumber.from(0),
+  lastMarketCapacity: BigNumber.from(0),
+};
+const line: LineStruct = {
+  price: BigNumber.from(0),
+};
+
+const band: BandStruct = {
+  high: line,
+  low: line,
+  spread: BigNumber.from(0),
 };
 
 /**
@@ -168,7 +185,7 @@ export const RangeBondPrice = (id: BigNumber) => {
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(activeChain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondAggregator", id],
+    ["RangeBondAggregator", id, activeChain],
     async () => {
       const bondPrice = await contract.marketPrice(id).catch(e => {
         return BigNumber.from(-1);
@@ -212,7 +229,6 @@ export const RangeSwap = () => {
   >(
     async ({ market, tokenAddress, swapType, amount, swapPricePerOhm, sellActive, slippage, recipientAddress }) => {
       const decimals = tokenAddress === OHM_ADDRESSES[activeChain.id as keyof typeof OHM_ADDRESSES] ? 9 : 18;
-      console.log(decimals, "decimals");
       if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
       if (activeChain.id !== networks.MAINNET)
         throw new Error(

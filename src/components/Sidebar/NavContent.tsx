@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { useNetwork } from "wagmi";
@@ -56,24 +57,17 @@ const NavContent: React.VFC = () => {
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
-                  <NavItem to="/range" icon="bond" label={t`Range`} />
-
+                  {/* TODO: Replace w/ mainnet when contracts are on more than one network. */}
+                  {activeChain.id === NetworkId.TESTNET_GOERLI && <NavItem to="/range" icon="bond" label={t`Range`} />})
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
-
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
-
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
-
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-
                   <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} />
-
                   <Box className="menu-divider">
                     <Divider />
                   </Box>

@@ -3,10 +3,12 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useNetwork } from "wagmi";
 
@@ -23,10 +25,12 @@ import RangeInputForm from "./RangeInputForm";
 type RangeContracts = "swap" | "bond";
 
 const Range = () => {
+  const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { activeChain = { id: 1 } } = useNetwork();
-  console.log(activeChain, "activeChain");
   const { data: rangeData } = RangeData();
+  usePathForNetwork({ pathName: "range", networkID: activeChain.id, navigate });
+
   const {
     data: { symbol: reserveSymbol, reserveAddress },
   } = OperatorReserveSymbol();
