@@ -41,7 +41,7 @@
     "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
-    "@multifarm/widget": "^0.0.159",
+    "@multifarm/widget": "^0.0.168",
     "@olympusdao/component-library": "^2.0.4",
     "@rainbow-me/rainbowkit": "^0.3.7",
     "@reduxjs/toolkit": "^1.8.2",
