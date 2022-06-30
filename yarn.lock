@@ -2797,9 +2797,9 @@
     fastq "^1.6.0"
 
 "@olympusdao/component-library@^2.0.4-beta.0":
-  version "2.0.4-beta.0"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.0.4-beta.0.tgz#f4137e7b688a4b2dcb6a40437bc525d619f9ac61"
-  integrity sha512-xb9Ztb42/KBIWNIHNI7rxoOKUqg6VSaPxZ1joNU5c8YHBI5U6Fk0sfRPBF7nzzTI8zvwll1BZvjIz+jsokqN9A==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.1.tgz#ac783b1392999e37512ecddc529c418246ee578a"
+  integrity sha512-its4KxsiC8wXDZWSKYVnY2Oai9Ai77yaeXP2nsfhIDMzJu8xOtqXSAkCFtTRFEAPtCtI3btMNlJvxjps9e2riw==
   dependencies:
     "@react-spring/web" "^9.4.5"
 
