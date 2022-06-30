@@ -39,7 +39,13 @@ const RangeConfirmationModal = (props: {
   const [checked, setChecked] = useState(false);
   return (
     <Modal
-      topLeft={<Icon name="settings" sx={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
+      topLeft={
+        props.contract == "bond" ? (
+          <Icon name="settings" sx={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />
+        ) : (
+          <></>
+        )
+      }
       headerContent={
         <Box display="flex" flexDirection="row">
           <Typography variant="h5">Confirm Swap</Typography>
@@ -151,9 +157,9 @@ const RangeConfirmationModal = (props: {
                 recipientAddress: recipientAddress,
               })
             }
-            disabled={props.discount < 0 && !checked}
+            disabled={(props.discount < 0 && !checked) || rangeSwap.isLoading}
           >
-            Confirm Swap
+            {rangeSwap.isLoading ? "Pending..." : "Confirm Swap"}
           </PrimaryButton>
         </TokenAllowanceGuard>
       </Box>
