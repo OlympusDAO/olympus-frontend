@@ -86,6 +86,11 @@
     "@chainsafe/dappeteer": "^2.4.1",
     "@ethersproject/abi": "^5.6.3",
     "@ethersproject/bytes": "^5.6.1",
+    "@graphql-codegen/cli": "2.6.4",
+    "@graphql-codegen/typescript": "2.5.1",
+    "@graphql-codegen/typescript-operations": "^2.4.2",
+    "@graphql-codegen/typescript-react-apollo": "3.2.16",
+    "@graphql-codegen/typescript-react-query": "^3.5.14",
     "@lingui/cli": "^3.14.0",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.13.3",
@@ -174,7 +179,8 @@
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "yarn lingui:prepare || exit 0",
     "postinstall": "yarn typechain:build && yarn lingui:compile",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "graphql-codegen": "graphql-codegen --config codegen.yml"
   },
   "resolutions": {
     "**/prompts": "2.4.2",

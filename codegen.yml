@@ -1,0 +1,12 @@
+overwrite: true
+schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics"
+documents: "src/hooks/useProtocolMetrics.ts"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "typescript-react-query"
+    config:
+      withHooks: true
