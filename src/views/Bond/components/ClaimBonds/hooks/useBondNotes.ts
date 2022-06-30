@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
+import { EthereumNetwork, NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
@@ -40,7 +40,7 @@ export const useBondNotes = () => {
   return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!account?.address });
 };
 
-export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address?: string) => {
+export const fetchBondNotes = async (networkId: EthereumNetwork, address?: string) => {
   if (!address) throw new Error("Invalid address");
   const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
 

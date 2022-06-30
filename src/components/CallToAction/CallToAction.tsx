@@ -11,6 +11,7 @@ export const LearnMoreButton = () => (
     color="secondary"
     href="https://docs.olympusdao.finance/main/basics/migration"
     target="_blank"
+    rel="noopener noreferrer"
     className="learn-more-button"
   >
     <Typography variant="body1">

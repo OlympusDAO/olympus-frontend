@@ -1,10 +1,9 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
-
-import { THE_GRAPH_URL } from "../constants";
+import { getSubgraphUrl } from "src/constants";
 
 const client = () =>
   new ApolloClient({
-    uri: THE_GRAPH_URL,
+    uri: getSubgraphUrl(),
     cache: new InMemoryCache(),
   });
 

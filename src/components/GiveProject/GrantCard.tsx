@@ -620,7 +620,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 <Paper
                   headerText="About"
                   topRight={
-                    <Link href={grant.website} target="_blank">
+                    <Link href={grant.website} target="_blank" rel="noopener noreferrer">
                       <Icon name="website" />
                     </Link>
                   }
