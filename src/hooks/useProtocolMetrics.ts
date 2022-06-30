@@ -5,78 +5,98 @@ const query = `
   query ProtcolMetrics {
     protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
       id
-      runway5k
-      timestamp
+      block
+      currentAPY
+      currentIndex
+      gOhmPrice
+      marketCap
+      nextDistributedOhm
+      nextEpochRebase
+      ohmCirculatingSupply
+      ohmFloatingSupply
       ohmPrice
       runway10k
       runway20k
-      runway50k
-      marketCap
-      currentAPY
-      totalSupply
-      runway7dot5k
       runway2dot5k
+      runway50k
+      runway5k
+      runway7dot5k
       runwayCurrent
-      nextEpochRebase
+      sOhmCirculatingSupply
+      timestamp
+      timestampISO8901
+      totalSupply
       totalValueLocked
+      treasuryDaiMarketValue
+      treasuryDaiRiskFreeValue
+      treasuryFraxMarketValue
+      treasuryFraxRiskFreeValue
+      treasuryLiquidBacking
+      treasuryLiquidBackingPerOhmFloating
+      treasuryLPValue
+      treasuryLusdMarketValue
+      treasuryLusdRiskFreeValue
+      treasuryMarketValue
       treasuryOhmDaiPOL
       treasuryOhmFraxPOL
-      nextDistributedOhm
-      treasuryMarketValue
-      treasuryTotalBacking
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      treasuryRiskFreeValue
-      treasuryDaiMarketValue
-      treasuryUstMarketValue
-      treasuryFraxMarketValue
-      treasuryWETHMarketValue
-      treasuryLusdMarketValue
-      treasuryWBTCMarketValue
-      treasuryDaiRiskFreeValue
       treasuryOtherMarketValue
-      treasuryLusdRiskFreeValue
+      treasuryRiskFreeValue
+      treasuryStableValue
+      treasuryTotalBacking
+      treasuryUstMarketValue
+      treasuryVolatileValue
+      treasuryWBTCMarketValue
+      treasuryWETHMarketValue
       treasuryXsushiMarketValue
-      treasuryFraxRiskFreeValue
     }
   }
 `;
 
 interface ProtocolMetrics {
   id: string;
-  runway5k: string;
-  timestamp: string;
+  block: string;
+  currentAPY: string;
+  currentIndex: string;
+  gOhmPrice: string;
+  marketCap: string;
+  nextDistributedOhm: string;
+  nextEpochRebase: string;
+  ohmCirculatingSupply: string;
+  ohmFloatingSupply: string;
   ohmPrice: string;
   runway10k: string;
   runway20k: string;
-  runway50k: string;
-  marketCap: string;
-  currentAPY: string;
-  totalSupply: string;
-  runway7dot5k: string;
   runway2dot5k: string;
+  runway50k: string;
+  runway5k: string;
+  runway7dot5k: string;
   runwayCurrent: string;
-  nextEpochRebase: string;
+  sOhmCirculatingSupply: string;
+  timestamp: string;
+  timestampISO8901: string;
+  totalSupply: string;
   totalValueLocked: string;
+  treasuryDaiMarketValue: string;
+  treasuryDaiRiskFreeValue: string;
+  treasuryFraxMarketValue: string;
+  treasuryFraxRiskFreeValue: string;
+  treasuryLiquidBacking: string;
+  treasuryLiquidBackingPerOhmFloating: string;
+  treasuryLPValue: string;
+  treasuryLusdMarketValue: string;
+  treasuryLusdRiskFreeValue: string;
+  treasuryMarketValue: string;
   treasuryOhmDaiPOL: string;
   treasuryOhmFraxPOL: string;
-  nextDistributedOhm: string;
-  treasuryMarketValue: string;
-  treasuryTotalBacking: string;
-  ohmCirculatingSupply: string;
-  sOhmCirculatingSupply: string;
-  treasuryRiskFreeValue: string;
-  treasuryDaiMarketValue: string;
-  treasuryUstMarketValue: string;
-  treasuryFraxMarketValue: string;
-  treasuryWETHMarketValue: string;
-  treasuryLusdMarketValue: string;
-  treasuryWBTCMarketValue: string;
-  treasuryDaiRiskFreeValue: string;
   treasuryOtherMarketValue: string;
-  treasuryLusdRiskFreeValue: string;
+  treasuryRiskFreeValue: string;
+  treasuryStableValue: string;
+  treasuryTotalBacking: string;
+  treasuryUstMarketValue: string;
+  treasuryVolatileValue: string;
+  treasuryWBTCMarketValue: string;
+  treasuryWETHMarketValue: string;
   treasuryXsushiMarketValue: string;
-  treasuryFraxRiskFreeValue: string;
 }
 
 type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
@@ -107,5 +127,11 @@ export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marke
 export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
 export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
 export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
-export const useTreasuryTotalBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryTotalBacking);
+export const useTreasuryLiquidBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryLiquidBacking);
+export const useTreasuryLiquidBackingPerOhmFloating = () =>
+  useProtocolMetrics(metrics => metrics[0].treasuryLiquidBackingPerOhmFloating);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
+export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmFloatingSupply);
+export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
+export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);
