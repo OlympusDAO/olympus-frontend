@@ -68,7 +68,7 @@ const renderTooltipItems = (
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
           <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
-          {itemNames[1]}
+          <span className="tooltip-name">{itemNames[1]}</span>
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
       </Box>
@@ -84,7 +84,7 @@ const renderTooltipItems = (
               {`${itemNames[index]}`}
             </Typography>
           </Box>
-          {renderItem(itemType, item.value)}
+          <span style={{ marginLeft: "20px" }}>{renderItem(itemType, item.value)}</span>
         </Box>
         <Box>{renderDate(index, payload, item)}</Box>
       </Box>

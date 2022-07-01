@@ -1,15 +1,17 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
+  useCurrentIndex,
+  useGOhmPrice,
   useMarketCap,
   useOhmCirculatingSupply,
+  useOhmFloatingSupply,
+  useOhmPrice,
   useTotalSupply,
   useTotalValueDeposited,
+  useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
-  useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 
@@ -22,6 +24,9 @@ export const MarketCap: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`Market Cap`,
+    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply.
+
+    Note: other sources may be inaccurate.`,
   };
 
   if (marketCap) _props.metric = formatCurrency(marketCap, 0);
@@ -65,6 +70,7 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`Circulating Supply (total)`,
+    tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -74,17 +80,30 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
-  const { data: circSupply } = useOhmCirculatingSupply();
-  const { data: treasuryBacking } = useTreasuryTotalBacking();
+  const { data: floatingSupply } = useOhmFloatingSupply();
+  /**
+   * Liquid backing per OHM floating is used as the metric here.
+   * Liquid backing does not include OHM in protocol-owned liquidity,
+   * so it makes sense to do the same for the denominator, and floating supply
+   * is circulating supply - OHM in liquidity.
+   */
+  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating();
+
+  // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
+  const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
+  
+  Floating supply of OHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
+    floatingSupply ? formatNumber(floatingSupply) : "Loading..."
+  }
+  `;
 
   const _props: MetricProps = {
     ...props,
     label: t`Liquid Backing per OHM`,
-    tooltip: t`Liquid Treasury Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc)
-    `,
+    tooltip: tooltip,
   };
 
-  if (circSupply && treasuryBacking) _props.metric = `${formatCurrency(treasuryBacking / circSupply, 2)}`;
+  if (liquidBackingPerOhmFloating) _props.metric = `${formatCurrency(liquidBackingPerOhmFloating, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
@@ -99,14 +118,14 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
     tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) _props.metric = `${currentIndex.toString({ decimals: 2, trim: false, format: true })} sOHM`;
+  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} sOHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
 };
 
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: gOhmPrice } = useGohmPrice();
+  const { data: gOhmPrice } = useGOhmPrice();
 
   const _props: MetricProps = {
     ...props,
