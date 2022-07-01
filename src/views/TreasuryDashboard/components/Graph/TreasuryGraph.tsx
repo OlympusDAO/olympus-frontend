@@ -1,5 +1,4 @@
 import { t } from "@lingui/macro";
-import { Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Chart from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
@@ -24,13 +23,10 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
   const colors = runwayBulletpoints.map(b => b.background);
   const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
 
-  // TODO adjust typing to handle loading data
-  if (!data) return <Skeleton />;
-
   return (
     <Chart
       type="multi"
-      data={data.protocolMetrics}
+      data={data ? data.protocolMetrics : []}
       dataKey={["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]}
       itemType={itemType.dollar}
       color={theme.palette.text.primary}
@@ -55,9 +51,6 @@ export const MarketValueGraph = () => {
   const theme = useTheme();
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
 
-  // TODO adjust typing to handle loading data
-  if (!data) return <Skeleton />;
-
   const [current, ...others] = bulletpoints.runway;
   const runwayBulletpoints = [{ ...current, background: theme.palette.text.primary }, ...others];
   const colors = runwayBulletpoints.map(b => b.background);
@@ -65,7 +58,7 @@ export const MarketValueGraph = () => {
   return (
     <Chart
       type="stack"
-      data={data.protocolMetrics}
+      data={data ? data.protocolMetrics : []}
       dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
       color={theme.palette.text.primary}
       stopColor={[
