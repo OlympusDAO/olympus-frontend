@@ -8,8 +8,7 @@ import { memo } from "react";
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-import { MarketValueGraph } from "./components/Graph/Graph";
-import { LiquidBackingPerOhmComparisonGraph } from "./components/Graph/TreasuryGraph";
+import { LiquidBackingPerOhmComparisonGraph, MarketValueGraph } from "./components/Graph/TreasuryGraph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };

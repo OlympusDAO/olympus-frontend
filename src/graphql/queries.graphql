@@ -17,3 +17,16 @@ query KeyMetrics {
     treasuryMarketValue
   }
 }
+
+query MarketValueMetrics {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryMarketValue
+    treasuryStableValue
+    treasuryVolatileValue
+    treasuryLPValue
+  }
+}

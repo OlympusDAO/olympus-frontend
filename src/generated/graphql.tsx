@@ -2139,6 +2139,23 @@ export type KeyMetricsQuery = {
   }>;
 };
 
+export type MarketValueMetricsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MarketValueMetricsQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    timestamp: any;
+    timestampISO8901: string;
+    treasuryMarketValue: any;
+    treasuryStableValue: any;
+    treasuryVolatileValue: any;
+    treasuryLPValue: any;
+  }>;
+};
+
 export const KeyMetricsDocument = `
     query KeyMetrics {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
@@ -2171,6 +2188,35 @@ export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
       KeyMetricsDocument,
+      variables,
+    ),
+    options,
+  );
+export const MarketValueMetricsDocument = `
+    query MarketValueMetrics {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryMarketValue
+    treasuryStableValue
+    treasuryVolatileValue
+    treasuryLPValue
+  }
+}
+    `;
+export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: MarketValueMetricsQueryVariables,
+  options?: UseQueryOptions<MarketValueMetricsQuery, TError, TData>,
+) =>
+  useQuery<MarketValueMetricsQuery, TError, TData>(
+    variables === undefined ? ["MarketValueMetrics"] : ["MarketValueMetrics", variables],
+    fetcher<MarketValueMetricsQuery, MarketValueMetricsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      MarketValueMetricsDocument,
       variables,
     ),
     options,
