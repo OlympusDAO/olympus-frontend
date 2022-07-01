@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { Icon, Input, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
+import { BigNumber } from "ethers/lib/ethers";
 import React from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
@@ -19,6 +20,7 @@ const RangeInputForm = (props: {
   onFormSubmit: (event: React.FormEvent) => void;
   onChangeReserveAmount: (value: any) => void;
   onChangeOhmAmount: (value: any) => void;
+  threshold: BigNumber;
 }) => {
   const {
     reserveSymbol,
@@ -29,6 +31,7 @@ const RangeInputForm = (props: {
     ohmAmount,
     onChangeReserveAmount,
     onChangeOhmAmount,
+    threshold,
   } = props;
   const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
@@ -85,7 +88,15 @@ const RangeInputForm = (props: {
           {sellActive ? OhmInput() : ReserveInput()}
         </Box>
         <Box mt="8px">
-          <PrimaryButton fullWidth type="submit" disabled={!ohmAmount || !reserveAmount}>
+          <PrimaryButton
+            fullWidth
+            type="submit"
+            disabled={
+              !ohmAmount || !reserveAmount || sellActive
+                ? BigNumber.from(reserveAmount).gt(threshold)
+                : BigNumber.from(ohmAmount).gt(threshold)
+            }
+          >
             {swapButtonText}
           </PrimaryButton>
         </Box>
