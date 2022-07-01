@@ -175,49 +175,49 @@ const renderStackedAreaChart = (
     <Area
       dataKey={dataKey[0]}
       stroke={stroke ? stroke[0] : "none"}
-      fill={`url(#color-${dataKey[0]})`}
+      fill={stroke ? stroke[0] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[1]}
       stroke={stroke ? stroke[1] : "none"}
-      fill={`url(#color-${dataKey[1]})`}
+      fill={stroke ? stroke[1] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[2]}
       stroke={stroke ? stroke[2] : "none"}
-      fill={`url(#color-${dataKey[2]})`}
+      fill={stroke ? stroke[2] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[3]}
       stroke={stroke ? stroke[3] : "none"}
-      fill={`url(#color-${dataKey[3]})`}
+      fill={stroke ? stroke[3] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[4]}
       stroke={stroke ? stroke[4] : "none"}
-      fill={`url(#color-${dataKey[4]})`}
+      fill={stroke ? stroke[4] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[5]}
       stroke={stroke ? stroke[5] : "none"}
-      fill={`url(#color-${dataKey[5]})`}
+      fill={stroke ? stroke[5] : "none"}
       fillOpacity={1}
       stackId="1"
     />
     <Area
       dataKey={dataKey[6]}
       stroke={stroke ? stroke[6] : "none"}
-      fill={`url(#color-${dataKey[6]})`}
+      fill={stroke ? stroke[6] : "none"}
       fillOpacity={1}
       stackId="1"
     />
