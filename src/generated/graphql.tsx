@@ -2177,6 +2177,35 @@ export type MarketValueMetricsQuery = {
   }>;
 };
 
+export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProtocolOwnedLiquidityComponentsQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    timestamp: any;
+    timestampISO8901: string;
+    treasuryLPValueComponents: {
+      __typename?: "TokenRecords";
+      value: any;
+      records: Array<{
+        __typename?: "TokenRecord";
+        id: string;
+        token: string;
+        tokenAddress: string;
+        source: string;
+        sourceAddress: string;
+        balance: any;
+        rate: any;
+        multiplier: any;
+        value: any;
+      }>;
+    };
+  }>;
+};
+
 export const MetricsBarLatestOnlyDocument = `
     query MetricsBarLatestOnly {
   protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
@@ -2271,6 +2300,48 @@ export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TErr
       dataSource.endpoint,
       dataSource.fetchParams || {},
       MarketValueMetricsDocument,
+      variables,
+    ),
+    options,
+  );
+export const ProtocolOwnedLiquidityComponentsDocument = `
+    query ProtocolOwnedLiquidityComponents {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryLPValueComponents {
+      value
+      records {
+        id
+        token
+        tokenAddress
+        source
+        sourceAddress
+        balance
+        rate
+        multiplier
+        value
+      }
+    }
+  }
+}
+    `;
+export const useProtocolOwnedLiquidityComponentsQuery = <
+  TData = ProtocolOwnedLiquidityComponentsQuery,
+  TError = unknown,
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: ProtocolOwnedLiquidityComponentsQueryVariables,
+  options?: UseQueryOptions<ProtocolOwnedLiquidityComponentsQuery, TError, TData>,
+) =>
+  useQuery<ProtocolOwnedLiquidityComponentsQuery, TError, TData>(
+    variables === undefined ? ["ProtocolOwnedLiquidityComponents"] : ["ProtocolOwnedLiquidityComponents", variables],
+    fetcher<ProtocolOwnedLiquidityComponentsQuery, ProtocolOwnedLiquidityComponentsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ProtocolOwnedLiquidityComponentsDocument,
       variables,
     ),
     options,

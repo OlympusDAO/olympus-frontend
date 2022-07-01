@@ -47,3 +47,26 @@ query MarketValueMetrics {
     treasuryLPValue
   }
 }
+
+query ProtocolOwnedLiquidityComponents {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryLPValueComponents {
+      value
+      records {
+        id
+        token
+        tokenAddress
+        source
+        sourceAddress
+        balance
+        rate
+        multiplier
+        value
+      }
+    }
+  }
+}
