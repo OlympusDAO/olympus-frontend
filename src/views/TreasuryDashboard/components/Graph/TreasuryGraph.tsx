@@ -40,6 +40,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       data={data ? data.protocolMetrics : []}
       dataKey={["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]}
       itemType={itemType.dollar}
+      // TODO what is this?
       color={theme.palette.text.primary}
       stopColor={defaultStopColours}
       stroke={defaultColors}
@@ -50,6 +51,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       itemNames={itemNames}
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().backingPerOhm}
+      // TODO what is this?
       expandedGraphStrokeColor={theme.palette.primary.contrastText}
       isPOL={false}
       isStaked={false}
@@ -137,6 +139,7 @@ const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undef
   metrics.protocolMetrics.forEach(metric => {
     const tokenValues: TokenValues = {};
 
+    // TODO extract this into a generalisable function, since we have many *components properties
     metric.treasuryLPValueComponents.records.forEach(record => {
       const currentValue: number = tokenValues[record.token];
       const recordValue: number = typeof record.value === "number" ? record.value : parseFloat(record.value);
