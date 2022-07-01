@@ -2115,6 +2115,27 @@ export enum _SubgraphErrorPolicy_ {
   Deny = "deny",
 }
 
+export type MetricsBarLatestOnlyQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MetricsBarLatestOnlyQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    currentIndex: any;
+    gOhmPrice: any;
+    marketCap: any;
+    ohmCirculatingSupply: any;
+    ohmFloatingSupply: any;
+    ohmPrice: any;
+    totalSupply: any;
+    totalValueLocked: any;
+    treasuryMarketValue: any;
+    treasuryLiquidBackingPerOhmFloating: any;
+  }>;
+};
+
 export type KeyMetricsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type KeyMetricsQuery = {
@@ -2156,6 +2177,39 @@ export type MarketValueMetricsQuery = {
   }>;
 };
 
+export const MetricsBarLatestOnlyDocument = `
+    query MetricsBarLatestOnly {
+  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    currentIndex
+    gOhmPrice
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
+    totalSupply
+    totalValueLocked
+    treasuryMarketValue
+    treasuryLiquidBackingPerOhmFloating
+  }
+}
+    `;
+export const useMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: MetricsBarLatestOnlyQueryVariables,
+  options?: UseQueryOptions<MetricsBarLatestOnlyQuery, TError, TData>,
+) =>
+  useQuery<MetricsBarLatestOnlyQuery, TError, TData>(
+    variables === undefined ? ["MetricsBarLatestOnly"] : ["MetricsBarLatestOnly", variables],
+    fetcher<MetricsBarLatestOnlyQuery, MetricsBarLatestOnlyQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      MetricsBarLatestOnlyDocument,
+      variables,
+    ),
+    options,
+  );
 export const KeyMetricsDocument = `
     query KeyMetrics {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {

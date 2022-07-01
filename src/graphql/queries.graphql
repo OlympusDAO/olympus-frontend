@@ -1,3 +1,20 @@
+query MetricsBarLatestOnly {
+  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    currentIndex
+    gOhmPrice
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
+    totalSupply
+    totalValueLocked
+    treasuryMarketValue
+    treasuryLiquidBackingPerOhmFloating
+  }
+}
+
 query KeyMetrics {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
     id
