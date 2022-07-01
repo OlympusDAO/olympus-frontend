@@ -11,3 +11,6 @@ generates:
     config:
       withHooks: true
       preResolveTypes: true
+    hooks:
+      afterOneFileWrite:
+        - yarn eslint --config ./.eslintrc.js --fix
