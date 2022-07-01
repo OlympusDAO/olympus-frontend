@@ -20,7 +20,7 @@ const RangeInputForm = (props: {
   onFormSubmit: (event: React.FormEvent) => void;
   onChangeReserveAmount: (value: any) => void;
   onChangeOhmAmount: (value: any) => void;
-  threshold: BigNumber;
+  capacity: BigNumber;
 }) => {
   const {
     reserveSymbol,
@@ -31,10 +31,15 @@ const RangeInputForm = (props: {
     ohmAmount,
     onChangeReserveAmount,
     onChangeOhmAmount,
-    threshold,
+    capacity,
   } = props;
   const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
+
+  const ohmAmountAsNumber = new DecimalBigNumber(ohmAmount, 9);
+  const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
+  const capacityBN = new DecimalBigNumber(capacity, 18);
+  const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
 
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;
   if (sellActive === true) {
@@ -88,16 +93,8 @@ const RangeInputForm = (props: {
           {sellActive ? OhmInput() : ReserveInput()}
         </Box>
         <Box mt="8px">
-          <PrimaryButton
-            fullWidth
-            type="submit"
-            disabled={
-              !ohmAmount || !reserveAmount || sellActive
-                ? BigNumber.from(reserveAmount).gt(threshold)
-                : BigNumber.from(ohmAmount).gt(threshold)
-            }
-          >
-            {swapButtonText}
+          <PrimaryButton fullWidth type="submit" disabled={!ohmAmount || !reserveAmount || amountAboveCapacity}>
+            {amountAboveCapacity ? `Amount exceeds capacity` : swapButtonText}
           </PrimaryButton>
         </Box>
       </Box>

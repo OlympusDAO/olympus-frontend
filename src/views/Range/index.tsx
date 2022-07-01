@@ -166,7 +166,7 @@ const Range = () => {
           onChangeOhmAmount={handleChangeOhmAmount}
           ohmAmount={ohmAmount}
           reserveAmount={reserveAmount}
-          threshold={sellActive ? rangeData.low.threshold : rangeData.high.threshold}
+          capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
         />
         <DataRow
           title={maxString}
