@@ -1,12 +1,9 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
 import { useQuery, UseQueryOptions } from "react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {} as const;
 
 function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
@@ -2118,129 +2115,62 @@ export enum _SubgraphErrorPolicy_ {
   Deny = "deny",
 }
 
-export type ProtocolOwnedLiquidityQueryVariables = Exact<{ [key: string]: never }>;
+export type KeyMetricsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProtocolOwnedLiquidityQuery = {
+export type KeyMetricsQuery = {
   __typename?: "Query";
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
     block: any;
+    currentIndex: any;
+    gOhmPrice: any;
+    marketCap: any;
+    ohmCirculatingSupply: any;
+    ohmFloatingSupply: any;
+    ohmPrice: any;
     timestamp: any;
     timestampISO8901: string;
-    treasuryLPValueComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{
-        __typename?: "TokenRecord";
-        source: string;
-        sourceAddress: string;
-        token: string;
-        tokenAddress: string;
-        balance: any;
-        rate: any;
-        multiplier: any;
-        value: any;
-      }>;
-    };
+    totalSupply: any;
+    totalValueLocked: any;
+    treasuryLiquidBacking: any;
+    treasuryLiquidBackingPerOhmFloating: any;
+    treasuryMarketValue: any;
   }>;
 };
 
-export const ProtocolOwnedLiquidityDocument = gql`
-  query ProtocolOwnedLiquidity {
-    protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
-      id
-      block
-      timestamp
-      timestampISO8901
-      treasuryLPValueComponents {
-        records {
-          source
-          sourceAddress
-          token
-          tokenAddress
-          balance
-          rate
-          multiplier
-          value
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useProtocolOwnedLiquidityQuery__
- *
- * To run a query within a React component, call `useProtocolOwnedLiquidityQuery` and pass it any options that fit your needs.
- * When your component renders, `useProtocolOwnedLiquidityQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProtocolOwnedLiquidityQuery({
- *   variables: {
- *   },
- * });
- */
-export function useProtocolOwnedLiquidityQuery(
-  baseOptions?: Apollo.QueryHookOptions<ProtocolOwnedLiquidityQuery, ProtocolOwnedLiquidityQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProtocolOwnedLiquidityQuery, ProtocolOwnedLiquidityQueryVariables>(
-    ProtocolOwnedLiquidityDocument,
-    options,
-  );
-}
-export function useProtocolOwnedLiquidityLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<ProtocolOwnedLiquidityQuery, ProtocolOwnedLiquidityQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProtocolOwnedLiquidityQuery, ProtocolOwnedLiquidityQueryVariables>(
-    ProtocolOwnedLiquidityDocument,
-    options,
-  );
-}
-export type ProtocolOwnedLiquidityQueryHookResult = ReturnType<typeof useProtocolOwnedLiquidityQuery>;
-export type ProtocolOwnedLiquidityLazyQueryHookResult = ReturnType<typeof useProtocolOwnedLiquidityLazyQuery>;
-export type ProtocolOwnedLiquidityQueryResult = Apollo.QueryResult<
-  ProtocolOwnedLiquidityQuery,
-  ProtocolOwnedLiquidityQueryVariables
->;
-
-export const ProtocolOwnedLiquidityDocument = `
-    query ProtocolOwnedLiquidity {
+export const KeyMetricsDocument = `
+    query KeyMetrics {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
     id
     block
+    currentIndex
+    gOhmPrice
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
     timestamp
     timestampISO8901
-    treasuryLPValueComponents {
-      records {
-        source
-        sourceAddress
-        token
-        tokenAddress
-        balance
-        rate
-        multiplier
-        value
-      }
-    }
+    totalSupply
+    totalValueLocked
+    treasuryLiquidBacking
+    treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
   }
 }
     `;
-export const useProtocolOwnedLiquidityQuery = <TData = ProtocolOwnedLiquidityQuery, TError = unknown>(
+export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: ProtocolOwnedLiquidityQueryVariables,
-  options?: UseQueryOptions<ProtocolOwnedLiquidityQuery, TError, TData>,
+  variables?: KeyMetricsQueryVariables,
+  options?: UseQueryOptions<KeyMetricsQuery, TError, TData>,
 ) =>
-  useQuery<ProtocolOwnedLiquidityQuery, TError, TData>(
-    variables === undefined ? ["ProtocolOwnedLiquidity"] : ["ProtocolOwnedLiquidity", variables],
-    fetcher<ProtocolOwnedLiquidityQuery, ProtocolOwnedLiquidityQueryVariables>(
+  useQuery<KeyMetricsQuery, TError, TData>(
+    variables === undefined ? ["KeyMetrics"] : ["KeyMetrics", variables],
+    fetcher<KeyMetricsQuery, KeyMetricsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      ProtocolOwnedLiquidityDocument,
+      KeyMetricsDocument,
       variables,
     ),
     options,

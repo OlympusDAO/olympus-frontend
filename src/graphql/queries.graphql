@@ -1,0 +1,19 @@
+query KeyMetrics {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    currentIndex
+    gOhmPrice
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
+    timestamp
+    timestampISO8901
+    totalSupply
+    totalValueLocked
+    treasuryLiquidBacking
+    treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
+  }
+}

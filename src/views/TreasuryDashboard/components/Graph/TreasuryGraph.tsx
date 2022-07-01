@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import Chart from "src/components/Chart/Chart";
+import { useKeyMetricsQuery } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { ProtocolMetricsNumbers, useLiquidBackingPerOhm } from "src/hooks/useProtocolMetrics";
 
 import { bulletpoints, itemType, tooltipInfoMessages } from "../../treasuryData";
 
@@ -14,8 +14,8 @@ import { bulletpoints, itemType, tooltipInfoMessages } from "../../treasuryData"
  */
 export const LiquidBackingPerOhmComparisonGraph = () => {
   const theme = useTheme();
-  const hook = useLiquidBackingPerOhm();
-  const data = hook.data as ProtocolMetricsNumbers[];
+  const { data } = useKeyMetricsQuery();
+
   // These colours are temporary
   const [current, ...others] = bulletpoints.runway;
   const runwayBulletpoints = [{ ...current, background: theme.palette.text.primary }, ...others];
