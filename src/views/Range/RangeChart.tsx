@@ -33,6 +33,8 @@ const RangeChart = (props: {
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory(reserveSymbol);
 
+  console.log(priceData, "priceData");
+
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
   const formattedCushionHigh = trim(parseBigNumber(rangeData.cushion.high.price, 18), 2);

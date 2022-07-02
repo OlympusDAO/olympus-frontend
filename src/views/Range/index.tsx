@@ -24,7 +24,7 @@ import RangeInputForm from "./RangeInputForm";
  */
 type RangeContracts = "swap" | "bond";
 
-const Range = () => {
+export const Range = () => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { activeChain = { id: 1 } } = useNetwork();
@@ -35,7 +35,6 @@ const Range = () => {
     data: { symbol: reserveSymbol, reserveAddress },
   } = OperatorReserveSymbol();
   const theme = useTheme();
-
   const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market);
   const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market);
 
@@ -47,7 +46,7 @@ const Range = () => {
   const reserveBalance = useBalance(DAI_ADDRESSES)[networks.MAINNET].data;
   const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
 
-  const { data: currentPrice = 1 } = OperatorPrice();
+  const { data: currentPrice } = OperatorPrice();
 
   const maxOhm = reserveBalance
     ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())).toString({ decimals: 2 })
@@ -126,9 +125,13 @@ const Range = () => {
     <div id="stake-view">
       <Paper headerText="Range Swap">
         <MetricCollection>
-          <Metric label="Current OHM Price" metric={formatCurrency(currentPrice, 2)} />
-          <Metric label="Lower Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
-          <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
+          <Metric label="Current OHM Price" data-testid="ohm-price" metric={formatCurrency(currentPrice, 2)} />
+          <div data-testid="lower-wall">
+            <Metric label="Lower Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
+          </div>
+          <div data-testid="upper-wall">
+            <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
+          </div>
         </MetricCollection>
         <Box mt={"20px"}>
           <RangeChart
@@ -142,6 +145,7 @@ const Range = () => {
         </Box>
         <Tabs centered value={sellActive}>
           <Tab
+            data-testid="buy-tab"
             label="Buy"
             value={false}
             onClick={() => {
@@ -149,6 +153,7 @@ const Range = () => {
             }}
           />
           <Tab
+            data-testid="sell-tab"
             label="Sell"
             value={true}
             onClick={() => {
@@ -168,20 +173,24 @@ const Range = () => {
           reserveAmount={reserveAmount}
           capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
         />
-        <DataRow
-          title={maxString}
-          balance={`${maxOhm} OHM (${
-            reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
-          } ${reserveSymbol})`}
-        />
-        <DataRow
-          title={sellActive ? t`Premium` : t`Discount`}
-          balance={
-            <Typography sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}>
-              {formatNumber(discount * 100, 2)}%
-            </Typography>
-          }
-        />
+        <div data-testid="max-row">
+          <DataRow
+            title={maxString}
+            balance={`${maxOhm} OHM (${
+              reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
+            } ${reserveSymbol})`}
+          />
+        </div>
+        <div data-testid="premium-discount">
+          <DataRow
+            title={sellActive ? t`Premium` : t`Discount`}
+            balance={
+              <Typography sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}>
+                {formatNumber(discount * 100, 2)}%
+              </Typography>
+            }
+          />
+        </div>
         <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
       </Paper>
       <RangeConfirmationModal

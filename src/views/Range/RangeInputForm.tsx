@@ -50,6 +50,7 @@ const RangeInputForm = (props: {
     <Input
       key="reserveAmount"
       type="string"
+      inputProps={{ "data-testid": "reserve-amount" }}
       name="reserveAmount"
       value={reserveAmount}
       endString={t`Max`}
@@ -67,6 +68,7 @@ const RangeInputForm = (props: {
     <Input
       key="ohmAmount"
       type="string"
+      inputProps={{ "data-testid": "ohm-amount" }}
       name="ohmAmount"
       value={ohmAmount}
       endString={t`Max`}
