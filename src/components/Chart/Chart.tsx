@@ -142,10 +142,13 @@ const renderAreaChart = (
   </AreaChart>
 );
 
+const getValidCSSSelector = (value: string): string => {
+  return value.replaceAll(" ", "-");
+};
+
 const renderStackedAreaChart = (
   data: any[],
   dataKey: string[],
-  stopColor: string[][],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
@@ -159,9 +162,9 @@ const renderStackedAreaChart = (
     <defs>
       {dataKey.map((value: string, index: number) => {
         return (
-          <linearGradient id={`color-${value}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={stopColor[index][0]} stopOpacity={1} />
-            <stop offset="90%" stopColor={stopColor[index][1]} stopOpacity={0.9} />
+          <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
+            <stop offset="100%" stopColor={stroke[index]} stopOpacity={0.2} />
           </linearGradient>
         );
       })}
@@ -193,7 +196,7 @@ const renderStackedAreaChart = (
         <Area
           dataKey={value}
           stroke={stroke ? stroke[index] : "none"}
-          fill={stroke ? stroke[index] : "none"}
+          fill={`url(#color-${getValidCSSSelector(value)})`}
           fillOpacity={1}
           stackId="1"
         />
@@ -431,7 +434,6 @@ function Chart({
       return renderStackedAreaChart(
         data,
         dataKey,
-        stopColor,
         stroke,
         dataFormat,
         bulletpointColors,

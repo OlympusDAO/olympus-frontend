@@ -25,7 +25,6 @@ function adjustColor(color: string, amount: number) {
 
 // These constants are used by charts to have consistent colours
 const defaultColors: string[] = ["#FFBF00", "#FF7F50", "#DE3163", "#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF"];
-const defaultStopColours: string[][] = defaultColors.map(value => [adjustColor(value, 50), value]);
 const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
   return {
     background: value,
@@ -52,7 +51,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       itemType={itemType.dollar}
       // TODO what is this?
       color={theme.palette.text.primary}
-      stopColor={defaultStopColours}
+      stopColor={[[]]}
       stroke={defaultColors}
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
@@ -74,15 +73,13 @@ export const MarketValueGraph = () => {
   const theme = useTheme();
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
 
-  console.log("colours = " + JSON.stringify(defaultStopColours));
-
   return (
     <Chart
       type="stack"
       data={data ? data.protocolMetrics : []}
       dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
       color={theme.palette.text.primary}
-      stopColor={defaultStopColours}
+      stopColor={[[]]}
       stroke={defaultColors}
       dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
@@ -188,7 +185,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       data={flatData}
       dataKey={tokenDataKeys}
       color={theme.palette.text.primary}
-      stopColor={defaultStopColours}
+      stopColor={[[]]}
       stroke={defaultColors}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
