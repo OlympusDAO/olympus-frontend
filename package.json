@@ -141,7 +141,6 @@
     "prop-types": "^15.8.1",
     "puppeteer": "^15.2.0",
     "react-app-rewired": "^2.2.1",
-    "resize-observer-polyfill": "^1.5.1",
     "sass": "^1.53.0",
     "shelljs": "^0.8.5",
     "stream-browserify": "^3.0.0",
@@ -193,11 +192,6 @@
     "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write"
-    ]
-  },
-  "majestic": {
-    "args": [
-      "--maxWorkers=2 --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\""
     ]
   }
 }
