@@ -33,8 +33,6 @@ const RangeChart = (props: {
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory(reserveSymbol);
 
-  console.log(priceData, "priceData");
-
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
   const formattedCushionHigh = trim(parseBigNumber(rangeData.cushion.high.price, 18), 2);
@@ -147,16 +145,19 @@ const RangeChart = (props: {
           </Label>
         </ReferenceDot>
         {!sellActive && (
-          <ReferenceDot
-            x={chartData.length > 1 && chartData[1].timestamp}
-            y={askPrice}
-            shape={CustomReferenceDot}
-            fill="#F8CC82"
-          >
-            <Label className={classes.currentPrice} color="#fff" position={"right"}>
-              {`Ask: ${formatCurrency(askPrice, 2)}`}
-            </Label>
-          </ReferenceDot>
+          <div data-testid="ask-price">
+            <ReferenceDot
+              x={chartData.length > 1 && chartData[1].timestamp}
+              y={askPrice}
+              shape={CustomReferenceDot}
+              fill="#F8CC82"
+              data-testid="ask-price"
+            >
+              <Label className={classes.currentPrice} color="#fff" position={"right"}>
+                {`Ask: ${formatCurrency(askPrice, 2)}`}
+              </Label>
+            </ReferenceDot>
+          </div>
         )}
         {sellActive && (
           <ReferenceDot
@@ -164,6 +165,7 @@ const RangeChart = (props: {
             y={bidPrice}
             shape={CustomReferenceDot}
             fill="#F8CC82"
+            data-testid="bid-price"
           >
             <Label className={classes.currentPrice} color="#fff" position={"right"}>
               {`Bid: ${formatCurrency(bidPrice, 2)}`}

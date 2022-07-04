@@ -1,7 +1,7 @@
 {
   "name": "@scaffold-eth/react-app",
   "version": "1.1.0",
-  "homepage": ".",
+  "homepage": "./",
   "browserslist": [
     ">0.2% or last 2 versions",
     "not dead",
@@ -192,6 +192,11 @@
     "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write"
+    ]
+  },
+  "majestic": {
+    "args": [
+      "--transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\""
     ]
   }
 }

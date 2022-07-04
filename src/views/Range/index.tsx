@@ -48,10 +48,6 @@ export const Range = () => {
 
   const { data: currentPrice } = OperatorPrice();
 
-  const maxOhm = reserveBalance
-    ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())).toString({ decimals: 2 })
-    : 0;
-
   let maxString = t`Max You Can Buy`;
 
   if (sellActive === true) {
@@ -78,11 +74,11 @@ export const Range = () => {
    **/
 
   const determinePrice = (bidOrAsk: "bid" | "ask") => {
-    const sideActive = bidOrAsk === "ask" ? rangeData.low.active : rangeData.high.active;
-    const market = bidOrAsk === "ask" ? rangeData.low.market : rangeData.high.market;
+    const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
+    const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
     const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
     if (sideActive && activeBondMarket) {
-      return { price: bidOrAsk === "ask" ? lowerBondMarket : upperBondMarket, contract: "bond" as RangeContracts };
+      return { price: bidOrAsk === "ask" ? upperBondMarket : lowerBondMarket, contract: "bond" as RangeContracts };
     } else {
       return {
         price:
@@ -96,7 +92,10 @@ export const Range = () => {
 
   const bidPrice = determinePrice("bid");
   const askPrice = determinePrice("ask");
-
+  const maxOhm =
+    reserveBalance && bidPrice.price > 0 && askPrice.price > 0
+      ? reserveBalance.div(sellActive ? bidPrice.price.toString() : askPrice.price.toString())
+      : new DecimalBigNumber("0");
   const discount =
     (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);
 
@@ -119,7 +118,6 @@ export const Range = () => {
 
   const swapPrice = sellActive ? formatNumber(bidPrice.price, 2) : formatNumber(askPrice.price, 2);
   const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
-  console.log(rangeData);
 
   return (
     <div id="stake-view">
@@ -176,7 +174,7 @@ export const Range = () => {
         <div data-testid="max-row">
           <DataRow
             title={maxString}
-            balance={`${maxOhm} OHM (${
+            balance={`${maxOhm.toString({ decimals: 2 })} OHM (${
               reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
             } ${reserveSymbol})`}
           />
@@ -191,7 +189,9 @@ export const Range = () => {
             }
           />
         </div>
-        <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+        <div data-testid="swap-price">
+          <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+        </div>
       </Paper>
       <RangeConfirmationModal
         open={modalOpen}

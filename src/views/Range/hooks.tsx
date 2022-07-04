@@ -77,8 +77,6 @@ export const ReservePriceHistory = (reserveToken: string) => {
 export const PriceHistory = (reserveToken: string) => {
   const { data: ohmPriceData } = OHMPriceHistory();
   const { data: reservePriceData } = ReservePriceHistory(reserveToken);
-  console.log(ohmPriceData, "ohmpricehistory");
-  console.log(reservePriceData, "reservepricehistory");
   const {
     data = [],
     isFetched,
@@ -111,7 +109,6 @@ export const OperatorPrice = () => {
     isFetched,
     isLoading,
   } = useQuery(["OperatorPrice", activeChain], async () => {
-    console.log(await contract.getCurrentPrice(), "current price");
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
@@ -184,17 +181,14 @@ const band: BandStruct = {
  * @param id Bond Market ID
  */
 export const RangeBondPrice = (id: BigNumber) => {
-  console.log("here we are");
   const { activeChain = { id: 1 } } = useNetwork();
   const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(activeChain.id);
   const { data, isFetched, isLoading } = useQuery(
     ["RangeBondAggregator", id, activeChain],
     async () => {
-      const bondPrice = await contract.marketPrice(id).catch(e => {
-        return BigNumber.from(-1);
-      });
+      const bondPrice = await contract.marketPrice(id);
 
-      return parseBigNumber(bondPrice, 36);
+      return parseBigNumber(bondPrice, 18);
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),

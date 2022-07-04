@@ -57,6 +57,18 @@ describe("Default Main Range View", () => {
   });
 });
 
+describe("No Balances Loaded", () => {
+  beforeEach(() => {
+    connectWallet();
+    //@ts-expect-error
+    Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: undefined } });
+    render(<Range />);
+  });
+
+  it("Should Load page without error. With 0.00 placeholder", async () => {
+    expect(await screen.findByTestId("max-row")).toHaveTextContent("0.00");
+  });
+});
 describe("Sell Tab Main Range View", () => {
   beforeEach(() => {
     connectWallet();
