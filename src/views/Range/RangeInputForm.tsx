@@ -25,22 +25,22 @@ const RangeInputForm = (props: {
   const {
     reserveSymbol,
     sellActive,
-    reserveBalance,
-    ohmBalance,
+    reserveBalance = new DecimalBigNumber("0", 18),
+    ohmBalance = new DecimalBigNumber("0", 9),
     reserveAmount,
     ohmAmount,
     onChangeReserveAmount,
     onChangeOhmAmount,
     capacity,
   } = props;
-  const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
-  const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
+  const trimmedOhmBalance = ohmBalance.toString({ decimals: 2 });
+  const trimmedReserveBalance = reserveBalance.toString({ decimals: 2 });
 
   const ohmAmountAsNumber = new DecimalBigNumber(ohmAmount, 9);
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
   const capacityBN = new DecimalBigNumber(capacity, 18);
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
-
+  const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;
   if (sellActive === true) {
     swapButtonText = ` Swap OHM for ${reserveSymbol}`;
@@ -54,7 +54,7 @@ const RangeInputForm = (props: {
       name="reserveAmount"
       value={reserveAmount}
       endString={t`Max`}
-      endStringOnClick={() => onChangeReserveAmount(reserveBalance)}
+      endStringOnClick={() => onChangeReserveAmount(reserveBalance.toString())}
       id="reserve-amount"
       onChange={event => onChangeReserveAmount(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of ${reserveSymbol} to Receive` : t`Enter Amount of ${reserveSymbol} to Spend`}
@@ -72,7 +72,7 @@ const RangeInputForm = (props: {
       name="ohmAmount"
       value={ohmAmount}
       endString={t`Max`}
-      endStringOnClick={() => onChangeOhmAmount(ohmBalance)}
+      endStringOnClick={() => onChangeOhmAmount(ohmBalance.toString())}
       id="ohm-amount"
       onChange={event => onChangeOhmAmount(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of OHM to Spend` : t`Enter Amount of OHM to Receive`}
@@ -95,8 +95,17 @@ const RangeInputForm = (props: {
           {sellActive ? OhmInput() : ReserveInput()}
         </Box>
         <Box mt="8px">
-          <PrimaryButton fullWidth type="submit" disabled={!ohmAmount || !reserveAmount || amountAboveCapacity}>
-            {amountAboveCapacity ? `Amount exceeds capacity` : swapButtonText}
+          <PrimaryButton
+            data-testid="range-submit"
+            fullWidth
+            type="submit"
+            disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
+          >
+            {amountAboveCapacity
+              ? `Amount exceeds capacity`
+              : amountAboveBalance
+              ? `Amount exceeds balance`
+              : swapButtonText}
           </PrimaryButton>
         </Box>
       </Box>

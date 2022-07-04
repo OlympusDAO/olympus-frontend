@@ -55,6 +55,38 @@ describe("Default Main Range View", () => {
     fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "6" } });
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("145.05432383169222");
   });
+
+  it("Should open the confirmation modal when Reserve amount is lower than balance", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    expect(await screen.getByText("Confirm Swap")).toBeInTheDocument();
+  });
+
+  it("Should close the confirmation modal when clicking the close button", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    expect(await screen.getByText("Confirm Swap")).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("close"));
+    expect(await screen.queryByText("Confirm Swap")).not.toBeInTheDocument();
+  });
+
+  it("Should display Amount exceeds balance when DAI amount entered exceeds balance", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "11" } });
+    expect(await screen.getByText("Amount exceeds balance")).toBeInTheDocument();
+  });
+  it("Should display Amount exceeds capacity message when DAI amount entered exceeds available OHM capacity", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "20000000" } });
+    expect(await screen.getByText("Amount exceeds capacity")).toBeInTheDocument();
+  });
+  it("Should populate input with max balance (10 DAI) when clicking Max button", async () => {
+    render(<Range />);
+    fireEvent.click(screen.getAllByText("Max")[0]);
+    expect(await screen.findByTestId("reserve-amount")).toHaveValue("10");
+  });
 });
 
 describe("No Balances Loaded", () => {
@@ -104,5 +136,18 @@ describe("Sell Tab Main Range View", () => {
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("100");
     fireEvent.click(screen.getByTestId("buy-tab"));
     expect(await screen.findByTestId("ohm-amount")).toHaveValue("4.136381351142522");
+  });
+
+  it("Should display Amount exceeds balance when OHM amount entered exceeds balance", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "11" } });
+    expect(await screen.getByText("Amount exceeds balance")).toBeInTheDocument();
+  });
+  it("Should display Amount exceeds capacity message when OHM amount entered exceeds available DAI capacity", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "1000000" } });
+    expect(await screen.getByText("Amount exceeds capacity")).toBeInTheDocument();
+  });
+  it("Should populate input with max balance (10 OHM) when clicking Max button", async () => {
+    fireEvent.click(screen.getAllByText("Max")[0]);
+    expect(await screen.findByTestId("ohm-amount")).toHaveValue("10");
   });
 });

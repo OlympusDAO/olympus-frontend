@@ -111,7 +111,9 @@ export const Range = () => {
   };
 
   const handleChangeReserveAmount = (value: any) => {
+    console.log(value, "value");
     const ohmValue = value / (sellActive ? bidPrice.price : askPrice.price);
+    console.log(ohmValue, "ohmValue");
     setOhmAmount(ohmValue.toString());
     setReserveAmount(value);
   };
