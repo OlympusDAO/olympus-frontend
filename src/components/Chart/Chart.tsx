@@ -29,6 +29,8 @@ import ExpandedChart from "./ExpandedChart";
 const tickCount = 3;
 const expandedTickCount = 5;
 const xAxisRightPadding = 30;
+const xAxisInterval = 10;
+const lineChartStrokeWidth = 2;
 
 export enum DataFormat {
   Currency,
@@ -82,9 +84,6 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 
   return "";
 };
-
-const xAxisInterval = 10;
-const lineChartStrokeWidth = 2;
 
 const renderAreaChart = (
   data: any[],
@@ -158,34 +157,14 @@ const renderStackedAreaChart = (
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
-      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[1]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[1][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[1][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[2]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[2][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[2][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[3]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[3][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[3][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[4]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[4][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[4][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[5]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[5][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[5][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[6]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[6][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[6][1]} stopOpacity={0.9} />
-      </linearGradient>
+      {dataKey.map((value: string, index: number) => {
+        return (
+          <linearGradient id={`color-${dataKey[index]}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={stopColor[index][0]} stopOpacity={1} />
+            <stop offset="90%" stopColor={stopColor[index][1]} stopOpacity={0.9} />
+          </linearGradient>
+        );
+      })}
     </defs>
     <XAxis
       dataKey="timestamp"

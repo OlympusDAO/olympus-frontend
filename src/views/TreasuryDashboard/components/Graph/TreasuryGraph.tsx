@@ -13,9 +13,19 @@ import { formatCurrency } from "src/helpers";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 
+// Source: https://stackoverflow.com/a/57401891
+function adjustColor(color: string, amount: number) {
+  return (
+    "#" +
+    color
+      .replace(/^#/, "")
+      .replace(/../g, color => ("0" + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2))
+  );
+}
+
 // These constants are used by charts to have consistent colours
 const defaultColors: string[] = ["#FFBF00", "#FF7F50", "#DE3163", "#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF"];
-const defaultStopColours: string[][] = defaultColors.map(value => [value, value]);
+const defaultStopColours: string[][] = defaultColors.map(value => [adjustColor(value, 50), value]);
 const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
   return {
     background: value,
@@ -63,6 +73,8 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
 export const MarketValueGraph = () => {
   const theme = useTheme();
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
+
+  console.log("colours = " + JSON.stringify(defaultStopColours));
 
   return (
     <Chart
