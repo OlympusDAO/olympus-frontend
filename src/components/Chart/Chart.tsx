@@ -29,11 +29,47 @@ import ExpandedChart from "./ExpandedChart";
 const tickCount = 3;
 const expandedTickCount = 5;
 
+export enum DataFormat {
+  Currency,
+  Percentage,
+  None,
+}
+
 const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
 };
 
-// TODO extract function to render numbers consistently. Handle millions, thousands, %, $
+export const formatCurrencyTick = (value: unknown): string => {
+  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+
+  if (!valueNum) return "";
+
+  if (valueNum > 1000000) {
+    return `${formatCurrency(valueNum / 1000000)}M`;
+  }
+
+  if (valueNum > 1000) {
+    return `${formatCurrency(valueNum / 1000)}k`;
+  }
+
+  return formatCurrency(valueNum, 2);
+};
+
+export const formatPercentTick = (value: unknown): string => {
+  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+
+  if (!valueNum) return "";
+
+  return trim(valueNum, 2) + "%";
+};
+
+const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
+  if (dataFormat == DataFormat.Currency) return formatCurrencyTick(value);
+
+  if (dataFormat == DataFormat.Percentage) return formatPercentTick(value);
+
+  return "";
+};
 
 const xAxisInterval = 10;
 const lineChartStrokeWidth = 2;
@@ -43,7 +79,7 @@ const renderAreaChart = (
   dataKey: string[],
   stopColor: string[][],
   stroke: string[],
-  dataFormat: string,
+  dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
@@ -73,14 +109,8 @@ const renderAreaChart = (
       tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
-      width={dataFormat === "percent" ? 33 : 55}
-      tickFormatter={number =>
-        number !== 0
-          ? dataFormat !== "percent"
-            ? `${formatCurrency(parseFloat(number) / 1000000)}M`
-            : `${trim(parseFloat(number), 2)}%`
-          : ""
-      }
+      width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
       dx={3}
       allowDataOverflow={false}
@@ -106,7 +136,7 @@ const renderStackedAreaChart = (
   dataKey: string[],
   stopColor: string[][],
   stroke: string[],
-  dataFormat: string,
+  dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
@@ -158,16 +188,8 @@ const renderStackedAreaChart = (
       tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
-      width={dataFormat === "percent" ? 33 : 55}
-      tickFormatter={number => {
-        if (number !== 0) {
-          if (dataFormat === "percent") {
-            return `${trim(parseFloat(number), 2)}%`;
-          } else if (dataFormat === "k") return `${formatCurrency(parseFloat(number) / 1000)}k`;
-          else return `${formatCurrency(parseFloat(number) / 1000000)}M`;
-        }
-        return "";
-      }}
+      width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
       allowDataOverflow={false}
     />
@@ -233,7 +255,7 @@ const renderLineChart = (
   dataKey: string[],
   stroke: string[],
   color: string,
-  dataFormat: string,
+  dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
@@ -259,9 +281,7 @@ const renderLineChart = (
       tickLine={false}
       width={32}
       scale={() => scale}
-      tickFormatter={number =>
-        number !== 0 ? (dataFormat !== "percent" ? `${number}` : `${parseFloat(number) / 1000}k`) : ""
-      }
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[scale == "log" ? "dataMin" : 0, "auto"]}
       allowDataOverflow={false}
     />
@@ -278,7 +298,7 @@ const renderMultiLineChart = (
   dataKey: string[],
   stroke: string[],
   color: string,
-  dataFormat: string,
+  dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
@@ -304,7 +324,7 @@ const renderMultiLineChart = (
       axisLine={false}
       tickLine={false}
       width={25}
-      tickFormatter={number => (number !== 0 ? `${trim(parseFloat(number), 2)}` : "")}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
       allowDataOverflow={false}
     />
@@ -331,7 +351,7 @@ const renderBarChart = (
   data: any[],
   dataKey: string[],
   stroke: string[],
-  dataFormat: string,
+  dataFormat: DataFormat,
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
@@ -401,7 +421,7 @@ function Chart({
   stopColor: string[][];
   stroke: string[];
   headerText: string;
-  dataFormat: string;
+  dataFormat: DataFormat;
   headerSubText: string;
   bulletpointColors: CSSProperties[];
   itemNames: string[];

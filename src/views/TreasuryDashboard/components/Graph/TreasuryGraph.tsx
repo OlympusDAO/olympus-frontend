@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import { CSSProperties } from "react";
-import Chart from "src/components/Chart/Chart";
+import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   ProtocolOwnedLiquidityComponentsQuery,
@@ -46,7 +46,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       stroke={defaultColors}
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
-      dataFormat=""
+      dataFormat={DataFormat.Currency}
       bulletpointColors={defaultBulletpointColours}
       itemNames={itemNames}
       margin={{ left: 30 }}
@@ -72,7 +72,7 @@ export const MarketValueGraph = () => {
       color={theme.palette.text.primary}
       stopColor={defaultStopColours}
       stroke={defaultColors}
-      dataFormat=""
+      dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryMarketValue)}`}
       bulletpointColors={defaultBulletpointColours}
@@ -178,7 +178,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       color={theme.palette.text.primary}
       stopColor={defaultStopColours}
       stroke={defaultColors}
-      dataFormat=""
+      dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
       bulletpointColors={defaultBulletpointColours}
