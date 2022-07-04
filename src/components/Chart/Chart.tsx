@@ -28,10 +28,12 @@ import ExpandedChart from "./ExpandedChart";
 
 const tickCount = 3;
 const expandedTickCount = 5;
+const xAxisRightPadding = 30;
 
 export enum DataFormat {
   Currency,
   Percentage,
+  DateMonth,
   None,
 }
 
@@ -63,10 +65,20 @@ export const formatPercentTick = (value: unknown): string => {
   return trim(valueNum, 2) + "%";
 };
 
+export const formatDateMonthTick = (value: unknown): string => {
+  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+
+  if (!valueNum) return "";
+
+  return format(new Date(valueNum * 1000), "MMM dd");
+};
+
 const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
   if (dataFormat == DataFormat.Currency) return formatCurrencyTick(value);
 
   if (dataFormat == DataFormat.Percentage) return formatPercentTick(value);
+
+  if (dataFormat == DataFormat.DateMonth) return formatDateMonthTick(value);
 
   return "";
 };
@@ -101,9 +113,9 @@ const renderAreaChart = (
       interval={30}
       axisLine={false}
       tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
-      padding={{ right: 20 }}
+      padding={{ right: xAxisRightPadding }}
     />
     <YAxis
       tickCount={isExpanded ? expandedTickCount : tickCount}
@@ -180,9 +192,9 @@ const renderStackedAreaChart = (
       interval={xAxisInterval}
       axisLine={false}
       tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
-      padding={{ right: 20 }}
+      padding={{ right: xAxisRightPadding }}
     />
     <YAxis
       tickCount={isExpanded ? expandedTickCount : tickCount}
@@ -272,8 +284,8 @@ const renderLineChart = (
       tickCount={3}
       tickLine={false}
       reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      padding={{ right: xAxisRightPadding }}
     />
     <YAxis
       tickCount={scale == "log" ? 1 : isExpanded ? expandedTickCount : tickCount}
@@ -315,9 +327,8 @@ const renderMultiLineChart = (
       tickCount={3}
       tickLine={false}
       reversed={true}
-      // TODO extract into function
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      padding={{ right: xAxisRightPadding }}
     />
     <YAxis
       tickCount={isExpanded ? expandedTickCount : tickCount}
@@ -367,8 +378,8 @@ const renderBarChart = (
       tickCount={tickCount}
       tickLine={false}
       reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      padding={{ right: xAxisRightPadding }}
     />
     <YAxis
       axisLine={false}
