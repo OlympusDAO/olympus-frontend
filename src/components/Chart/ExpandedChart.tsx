@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
 import React from "react";
 import { ResponsiveContainer } from "recharts";
@@ -31,14 +31,12 @@ function ExpandedChart({
       minHeight={"50%"}
       maxWidth={"90%"}
       headerContent={
-        <div className="chart-card-header">
-          <Box display="flex">
-            <Box display="flex" alignItems="center" style={{ width: "max-content", whiteSpace: "nowrap" }}>
-              <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400 }}>
-                {headerText}
-              </Typography>
-            </Box>
-          </Box>
+        <Grid className="chart-card-header" container width="100%">
+          <Grid alignItems="center" width="maxContent" container item whiteSpace="nowrap">
+            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400 }}>
+              {headerText}
+            </Typography>
+          </Grid>
           <Box display="flex" flexWrap="wrap">
             <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
               {headerSubText}
@@ -48,21 +46,21 @@ function ExpandedChart({
               <Trans>Today</Trans>
             </Typography>
           </Box>
-        </div>
+        </Grid>
       }
     >
-      <div>
-        <Box minWidth={300} width="100%">
+      <Grid container direction="column">
+        <Grid item xs={10}>
           {data && data.length > 0 && (
             <ResponsiveContainer minHeight={260} minWidth={300}>
               {renderChart}
             </ResponsiveContainer>
           )}
-        </Box>
-        <Box display="flex" style={{ width: "100%", margin: "15px" }}>
+        </Grid>
+        <Grid item xs={2}>
           <Typography variant="h6">{infoTooltipMessage}</Typography>
-        </Box>
-      </div>
+        </Grid>
+      </Grid>
     </Modal>
   );
 }
