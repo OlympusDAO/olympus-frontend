@@ -11,7 +11,7 @@ import { ohmPriceHistory, RangeData, reservePriceHistory } from "../__mocks__/mo
 import * as RangeHooks from "../hooks";
 import { Range } from "../index";
 
-//@ts-ignore
+global.ResizeObserver = require("resize-observer-polyfill");
 
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {

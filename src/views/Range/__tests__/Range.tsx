@@ -10,6 +10,8 @@ import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory
 import { RangeData } from "../__mocks__/mockRangeCalls";
 import { Range } from "../index";
 
+global.ResizeObserver = require("resize-observer-polyfill");
+
 describe("Default Main Range View", () => {
   beforeEach(() => {
     connectWallet();
