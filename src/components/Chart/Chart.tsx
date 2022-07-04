@@ -35,6 +35,8 @@ const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
 
 // TODO extract function to render numbers consistently. Handle millions, thousands, %, $
 
+const xAxisInterval = 10;
+
 const renderAreaChart = (
   data: any[],
   dataKey: string[],
@@ -144,7 +146,7 @@ const renderStackedAreaChart = (
     </defs>
     <XAxis
       dataKey="timestamp"
-      interval={30}
+      interval={xAxisInterval}
       axisLine={false}
       tickLine={false}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
@@ -287,7 +289,7 @@ const renderMultiLineChart = (
   <LineChart data={data} margin={margin}>
     <XAxis
       dataKey="timestamp"
-      interval={30}
+      interval={xAxisInterval}
       axisLine={false}
       tickCount={3}
       tickLine={false}
