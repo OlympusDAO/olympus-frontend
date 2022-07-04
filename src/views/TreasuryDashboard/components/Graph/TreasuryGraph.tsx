@@ -1,5 +1,4 @@
 import { t } from "@lingui/macro";
-import { useTheme } from "@mui/material/styles";
 import { CSSProperties } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
@@ -12,16 +11,6 @@ import {
 import { formatCurrency } from "src/helpers";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
-
-// Source: https://stackoverflow.com/a/57401891
-function adjustColor(color: string, amount: number) {
-  return (
-    "#" +
-    color
-      .replace(/^#/, "")
-      .replace(/../g, color => ("0" + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2))
-  );
-}
 
 // These constants are used by charts to have consistent colours
 const defaultColors: string[] = ["#FFBF00", "#FF7F50", "#DE3163", "#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF"];
@@ -38,7 +27,6 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
  * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = () => {
-  const theme = useTheme();
   const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() });
 
   const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
@@ -49,8 +37,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       data={data ? data.protocolMetrics : []}
       dataKey={["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]}
       itemType={itemType.dollar}
-      // TODO what is this?
-      color={theme.palette.text.primary}
+      color={""}
       stopColor={[[]]}
       stroke={defaultColors}
       headerText={t`OHM Backing`}
@@ -60,8 +47,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       itemNames={itemNames}
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().backingPerOhm}
-      // TODO what is this?
-      expandedGraphStrokeColor={theme.palette.primary.contrastText}
+      expandedGraphStrokeColor={""}
       isPOL={false}
       isStaked={false}
       itemDecimals={2}
@@ -70,7 +56,6 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
 };
 
 export const MarketValueGraph = () => {
-  const theme = useTheme();
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
 
   return (
@@ -78,7 +63,7 @@ export const MarketValueGraph = () => {
       type="stack"
       data={data ? data.protocolMetrics : []}
       dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
-      color={theme.palette.text.primary}
+      color={""}
       stopColor={[[]]}
       stroke={defaultColors}
       dataFormat={DataFormat.Currency}
@@ -88,7 +73,7 @@ export const MarketValueGraph = () => {
       itemNames={tooltipItems.marketValueComponents}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
-      expandedGraphStrokeColor={theme.palette.primary.contrastText}
+      expandedGraphStrokeColor={""}
       isPOL={false}
       isStaked={false}
       itemDecimals={0}
@@ -168,7 +153,6 @@ const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undef
 };
 
 export const ProtocolOwnedLiquidityGraph = () => {
-  const theme = useTheme();
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() });
 
   // Extract out unique categories
@@ -184,7 +168,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       type="stack"
       data={flatData}
       dataKey={tokenDataKeys}
-      color={theme.palette.text.primary}
+      color={""}
       stopColor={[[]]}
       stroke={defaultColors}
       dataFormat={DataFormat.Currency}
@@ -194,7 +178,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       itemNames={tokenCategories}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
-      expandedGraphStrokeColor={theme.palette.primary.contrastText}
+      expandedGraphStrokeColor={""}
       isPOL={false}
       isStaked={false}
       itemDecimals={0}

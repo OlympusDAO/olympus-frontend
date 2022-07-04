@@ -155,7 +155,6 @@ const renderStackedAreaChart = (
   itemNames: string[],
   itemType: string,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
 ) => (
   <AreaChart data={data} margin={margin}>
@@ -179,10 +178,10 @@ const renderStackedAreaChart = (
       padding={{ right: xAxisRightPadding }}
     />
     <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
-      tickLine={false}
       width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
+      tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
       allowDataOverflow={false}
@@ -202,7 +201,6 @@ const renderStackedAreaChart = (
         />
       );
     })}
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
 );
 
@@ -258,7 +256,6 @@ const renderMultiLineChart = (
   itemNames: string[],
   itemType: string,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   itemDecimals?: number,
 ) => (
@@ -267,9 +264,9 @@ const renderMultiLineChart = (
       dataKey="timestamp"
       interval={xAxisInterval}
       axisLine={false}
-      tickCount={3}
-      tickLine={false}
       reversed={true}
+      tickCount={tickCount}
+      tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       padding={{ right: xAxisRightPadding }}
     />
@@ -295,7 +292,6 @@ const renderMultiLineChart = (
     {dataKey.map((value: string, index: number) => {
       return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
     })}
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
 
@@ -439,7 +435,6 @@ function Chart({
         itemNames,
         itemType,
         isExpanded,
-        expandedGraphStrokeColor,
         margin,
       );
     if (type === "multi")
@@ -452,7 +447,6 @@ function Chart({
         itemNames,
         itemType,
         isExpanded,
-        expandedGraphStrokeColor,
         margin,
         itemDecimals,
       );
