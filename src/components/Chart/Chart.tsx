@@ -12,6 +12,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  ComposedChart,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -247,6 +248,96 @@ const renderLineChart = (
   </LineChart>
 );
 
+const getDataWithRange = (data: any[], dataKey: string[]): any[] => {
+  return data.map((value: any) => ({
+    ...value,
+    range:
+      value[dataKey[0]] !== undefined && value[dataKey[1]] !== undefined ? [value[dataKey[0]], value[dataKey[1]]] : [],
+  }));
+};
+
+type IntersectType = {
+  x?: number;
+  y?: number;
+  line1isHigher?: boolean;
+  line1isHigherNext?: boolean;
+};
+
+// line intercept math by Paul Bourke http://paulbourke.net/geometry/pointlineplane/
+// Determine the intersection point of two line segments
+// Return {} if the lines don't intersect
+function intersect(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  x3: number,
+  y3: number,
+  x4: number,
+  y4: number,
+): IntersectType {
+  // Check if none of the lines are of length 0
+  if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
+    return {};
+  }
+
+  const denominator = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+
+  // Lines are parallel
+  if (denominator === 0) {
+    return {};
+  }
+
+  const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
+  const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
+
+  // is the intersection along the segments
+  if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
+    return {};
+  }
+
+  // Return a object with the x and y coordinates of the intersection
+  const x = x1 + ua * (x2 - x1);
+  const y = y1 + ua * (y2 - y1);
+
+  const line1isHigher = y1 > y3;
+  const line1isHigherNext = y2 > y4;
+
+  return { x, y, line1isHigher, line1isHigherNext };
+}
+
+const getDataIntersections = (data: any[], dataKey: string[]): any[] => {
+  // need to find intersections as points where we to change fill color
+  const intersections: IntersectType[] = data
+    .map((value: any, index: number) =>
+      intersect(
+        index,
+        value[dataKey[0]],
+        index + 1,
+        data[index + 1] && data[index + 1][dataKey[0]],
+        index,
+        value[dataKey[1]],
+        index + 1,
+        data[index + 1] && data[index + 1][dataKey[1]],
+      ),
+    )
+    .filter(value => value && value.x && !isNaN(value.x));
+
+  const filteredIntersections = intersections.filter(
+    (d, i) => i === intersections.length - 1 || d.x !== intersections[i - 1]?.x,
+  );
+
+  return filteredIntersections;
+};
+
+const getIntersectionColor = (_intersection: IntersectType, isLast: boolean) => {
+  if (isLast) {
+    return _intersection.line1isHigherNext ? "green" : "red";
+  }
+
+  return _intersection.line1isHigher ? "red" : "green";
+};
+
 const renderMultiLineChart = (
   data: any[],
   dataKey: string[],
@@ -258,42 +349,80 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   itemDecimals?: number,
-) => (
-  <LineChart data={data} margin={margin}>
-    <XAxis
-      dataKey="timestamp"
-      interval={xAxisInterval}
-      axisLine={false}
-      reversed={true}
-      tickCount={tickCount}
-      tickLine={false}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: xAxisRightPadding }}
-    />
-    <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
-      axisLine={false}
-      tickLine={false}
-      width={25}
-      tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, "auto"]}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      content={
-        <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
-          itemType={itemType}
-          itemDecimals={itemDecimals}
-        />
-      }
-    />
-    {dataKey.map((value: string, index: number) => {
-      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
-    })}
-  </LineChart>
-);
+  highlightDifference = true,
+) => {
+  const dataWithRange = getDataWithRange(data, dataKey);
+  const intersections = getDataIntersections(data, dataKey);
+
+  return (
+    <ComposedChart data={dataWithRange} margin={margin}>
+      <defs>
+        <linearGradient id="range">
+          {intersections.length ? (
+            intersections.map((intersection, index) => {
+              const nextIntersection = intersections[index + 1];
+
+              const isLast = index == intersections.length - 1;
+              const closeColor = getIntersectionColor(intersection, false);
+              const startColor = isLast
+                ? getIntersectionColor(intersection, true)
+                : getIntersectionColor(nextIntersection, false);
+
+              const offset =
+                intersection.x /
+                (data.filter(value => value[dataKey[0]] !== undefined && value[dataKey[1]] != undefined).length - 1);
+
+              console.log("offset " + offset);
+              console.log("start " + startColor + ", close " + closeColor);
+
+              return (
+                <>
+                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.9} />
+                  <stop offset={offset} stopColor={startColor} stopOpacity={0.9} />
+                </>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </linearGradient>
+      </defs>
+      <XAxis
+        dataKey="timestamp"
+        interval={xAxisInterval}
+        axisLine={false}
+        reversed={true}
+        tickCount={tickCount}
+        tickLine={false}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: xAxisRightPadding }}
+      />
+      <YAxis
+        tickCount={isExpanded ? expandedTickCount : tickCount}
+        axisLine={false}
+        tickLine={false}
+        width={25}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[0, "auto"]}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            bulletpointColors={bulletpointColors}
+            itemNames={itemNames}
+            itemType={itemType}
+            itemDecimals={itemDecimals}
+          />
+        }
+      />
+      <Area dataKey="range" stroke={stroke[0]} fill={`url(#range)`} />
+      {dataKey.map((value: string, index: number) => {
+        return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+      })}
+    </ComposedChart>
+  );
+};
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
