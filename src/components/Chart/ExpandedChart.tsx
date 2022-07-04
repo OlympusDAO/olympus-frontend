@@ -1,6 +1,5 @@
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { Modal } from "@olympusdao/component-library";
 import React from "react";
 import { ResponsiveContainer } from "recharts";
@@ -29,23 +28,14 @@ function ExpandedChart({
       open={open}
       onClose={handleClose}
       closePosition={"right"}
-      minHeight={"450px"}
+      minHeight={"50%"}
+      maxWidth={"90%"}
       headerContent={
         <div className="chart-card-header">
           <Box display="flex">
             <Box display="flex" alignItems="center" style={{ width: "max-content", whiteSpace: "nowrap" }}>
               <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400 }}>
                 {headerText}
-              </Typography>
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              style={{ width: "100%", marginLeft: "5px" }}
-            >
-              <Typography variant="h6" style={{ cursor: "pointer" }}>
-                <InfoTooltip message={infoTooltipMessage} />
               </Typography>
             </Box>
           </Box>
