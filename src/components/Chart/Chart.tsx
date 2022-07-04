@@ -36,6 +36,7 @@ const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
 // TODO extract function to render numbers consistently. Handle millions, thousands, %, $
 
 const xAxisInterval = 10;
+const lineChartStrokeWidth = 2;
 
 const renderAreaChart = (
   data: any[],
@@ -317,10 +318,10 @@ const renderMultiLineChart = (
         />
       }
     />
-    <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
-    <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
-    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;
-    <Line dataKey={dataKey[3]} stroke={stroke[3]} dot={false} />;
+    <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    <Line dataKey={dataKey[3]} stroke={stroke[3]} dot={false} strokeWidth={lineChartStrokeWidth} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
