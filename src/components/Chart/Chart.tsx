@@ -159,7 +159,7 @@ const renderStackedAreaChart = (
     <defs>
       {dataKey.map((value: string, index: number) => {
         return (
-          <linearGradient id={`color-${dataKey[index]}`} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={`color-${value}`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={stopColor[index][0]} stopOpacity={1} />
             <stop offset="90%" stopColor={stopColor[index][1]} stopOpacity={0.9} />
           </linearGradient>
@@ -188,55 +188,17 @@ const renderStackedAreaChart = (
       formatter={(value: string) => trim(parseFloat(value), 2)}
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Area
-      dataKey={dataKey[0]}
-      stroke={stroke ? stroke[0] : "none"}
-      fill={stroke ? stroke[0] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[1]}
-      stroke={stroke ? stroke[1] : "none"}
-      fill={stroke ? stroke[1] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[2]}
-      stroke={stroke ? stroke[2] : "none"}
-      fill={stroke ? stroke[2] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[3]}
-      stroke={stroke ? stroke[3] : "none"}
-      fill={stroke ? stroke[3] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[4]}
-      stroke={stroke ? stroke[4] : "none"}
-      fill={stroke ? stroke[4] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[5]}
-      stroke={stroke ? stroke[5] : "none"}
-      fill={stroke ? stroke[5] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[6]}
-      stroke={stroke ? stroke[6] : "none"}
-      fill={stroke ? stroke[6] : "none"}
-      fillOpacity={1}
-      stackId="1"
-    />
+    {dataKey.map((value: string, index: number) => {
+      return (
+        <Area
+          dataKey={value}
+          stroke={stroke ? stroke[index] : "none"}
+          fill={stroke ? stroke[index] : "none"}
+          fillOpacity={1}
+          stackId="1"
+        />
+      );
+    })}
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
 );
@@ -328,10 +290,9 @@ const renderMultiLineChart = (
         />
       }
     />
-    <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} strokeWidth={lineChartStrokeWidth} />;
-    <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} strokeWidth={lineChartStrokeWidth} />;
-    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} strokeWidth={lineChartStrokeWidth} />;
-    <Line dataKey={dataKey[3]} stroke={stroke[3]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    {dataKey.map((value: string, index: number) => {
+      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    })}
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
