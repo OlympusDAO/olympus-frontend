@@ -19,9 +19,8 @@ export const usePurchaseBond = (bond: Bond) => {
   const client = useQueryClient();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { chain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
 
   return useMutation<
@@ -66,7 +65,7 @@ export const usePurchaseBond = (bond: Bond) => {
 
       if (!signer) throw new Error(t`Please connect a wallet to purchase a bond`);
 
-      if (activeChain.id !== networks.MAINNET)
+      if (chain.id !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
       const slippageAsPercent = parsedSlippage.div("100");

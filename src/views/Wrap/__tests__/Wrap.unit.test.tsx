@@ -20,7 +20,7 @@ describe("<Wrap/>", () => {
     //@ts-ignore
     WAGMI.useNetwork = jest.fn(() => {
       return {
-        activeChain: {
+        chain: {
           id: 43114,
         },
       };
@@ -37,7 +37,7 @@ describe("<Wrap/>", () => {
     //@ts-ignore
     WAGMI.useNetwork = jest.fn(() => {
       return {
-        activeChain: {
+        chain: {
           id: 42161,
         },
       };
@@ -55,7 +55,7 @@ describe("<Wrap/>", () => {
     //@ts-ignore
     WAGMI.useNetwork = jest.fn(() => {
       return {
-        activeChain: {
+        chain: {
           id: 1,
         },
       };

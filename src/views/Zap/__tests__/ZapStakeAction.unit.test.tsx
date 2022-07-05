@@ -155,7 +155,7 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
     //@ts-ignore
     WAGMI.useNetwork = jest.fn(() => {
       return {
-        activeChain: {
+        chain: {
           id: 123,
         },
       };

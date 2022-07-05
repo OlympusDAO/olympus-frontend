@@ -69,7 +69,7 @@ type ZapInfoProps = {
 };
 
 const ZapInfo: React.FC<ZapInfoProps> = () => {
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const trackClick = (address?: string) => {
     const uaData = {
       address,
@@ -169,7 +169,7 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
           rel="noopener noreferrer"
           className="learn-more-button"
           onClick={() => {
-            trackClick(account?.address);
+            trackClick(address);
           }}
         >
           <Typography variant="body1">Learn More</Typography>

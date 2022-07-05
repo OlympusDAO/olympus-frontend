@@ -25,7 +25,7 @@ type CausesDashboardProps = {
 const ZERO_NUMBER = new DecimalBigNumber("0");
 
 export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
 
@@ -110,12 +110,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
-                <PrimaryButton
-                  fullWidth
-                  size="small"
-                  onClick={() => handleCustomGiveButtonClick()}
-                  disabled={!account?.address}
-                >
+                <PrimaryButton fullWidth size="small" onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
                   <Trans>Select Custom Recipient</Trans>
                 </PrimaryButton>
               </Grid>

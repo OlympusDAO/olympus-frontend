@@ -87,7 +87,7 @@ export interface OHMAssetsProps {
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
@@ -242,7 +242,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
-        {activeChain.id === NetworkId.TESTNET_GOERLI && (
+        {chain.id === NetworkId.TESTNET_GOERLI && (
           <>
             <Typography variant="h5">Faucet</Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
