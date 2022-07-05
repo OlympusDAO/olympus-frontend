@@ -1,7 +1,9 @@
+export const RANGE_KEY = "range";
+
 export const getDataWithRange = (data: any[], dataKey: string[]): any[] => {
   return data.map((value: any) => ({
     ...value,
-    range:
+    [RANGE_KEY]:
       value[dataKey[0]] !== undefined && value[dataKey[1]] !== undefined ? [value[dataKey[0]], value[dataKey[1]]] : [],
   }));
 };

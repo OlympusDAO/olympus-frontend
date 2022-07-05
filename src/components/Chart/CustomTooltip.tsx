@@ -5,6 +5,7 @@ import { CSSProperties } from "react";
 import { formatCurrency } from "src/helpers";
 
 interface TooltipPayloadItem {
+  dataKey: string;
   value: number;
   payload: {
     timestamp: number;
@@ -36,10 +37,13 @@ const renderTooltipItems = (
   bulletpointColors: CSSProperties[],
   itemNames: string[],
   itemType: string,
+  dataKey: string[],
   isStaked = false,
   isPOL = false,
   itemDecimals = 0,
 ) => {
+  let ignoredIndex = 0;
+
   return isStaked ? (
     <Box>
       <Box className="item" display="flex" justifyContent="space-between">
@@ -77,20 +81,33 @@ const renderTooltipItems = (
       <Box>{renderDate(0, payload, payload[0])}</Box>
     </Box>
   ) : (
-    payload.map((item, index) => (
-      <Box key={index}>
-        <Box className="item" display="flex">
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="body2">
-              <span className="tooltip-bulletpoint" style={bulletpointColors[index]}></span>
-              {`${itemNames[index]}`}
-            </Typography>
+    payload.map((item, index) => {
+      /**
+       * The "range" area element triggers showing a tooltip. To avoid this,
+       * we restrict the tooltips to those included in the {dataKey} array.
+       */
+      if (!dataKey.includes(item.dataKey)) {
+        ignoredIndex++;
+        return <></>;
+      }
+
+      const adjustedIndex = index - ignoredIndex;
+
+      return (
+        <Box key={adjustedIndex}>
+          <Box className="item" display="flex">
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2">
+                <span className="tooltip-bulletpoint" style={bulletpointColors[adjustedIndex]}></span>
+                {`${itemNames[adjustedIndex]}`}
+              </Typography>
+            </Box>
+            <span style={{ marginLeft: "20px" }}>{renderItem(itemType, item.value, itemDecimals)}</span>
           </Box>
-          <span style={{ marginLeft: "20px" }}>{renderItem(itemType, item.value, itemDecimals)}</span>
+          <Box>{renderDate(adjustedIndex, payload, item)}</Box>
         </Box>
-        <Box>{renderDate(index, payload, item)}</Box>
-      </Box>
-    ))
+      );
+    })
   );
 };
 function CustomTooltip({
@@ -99,6 +116,7 @@ function CustomTooltip({
   bulletpointColors,
   itemNames,
   itemType,
+  dataKey,
   isStaked,
   isPOL,
   itemDecimals,
@@ -108,6 +126,7 @@ function CustomTooltip({
   bulletpointColors: CSSProperties[];
   itemNames: string[];
   itemType: string;
+  dataKey: string[];
   isStaked?: boolean;
   isPOL?: boolean;
   itemDecimals?: number;
@@ -115,7 +134,7 @@ function CustomTooltip({
   if (active && payload && payload.length) {
     return (
       <Paper className={`ohm-card tooltip-container`}>
-        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked, isPOL, itemDecimals)}
+        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, dataKey, isStaked, isPOL, itemDecimals)}
       </Paper>
     );
   }

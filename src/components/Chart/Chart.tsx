@@ -27,7 +27,7 @@ import { formatCurrency, trim } from "src/helpers";
 
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
-import { getDataIntersections, getDataWithRange, getIntersectionColor } from "./IntersectionHelper";
+import { getDataIntersections, getDataWithRange, getIntersectionColor, RANGE_KEY } from "./IntersectionHelper";
 
 const tickCount = 3;
 const expandedTickCount = 5;
@@ -137,6 +137,7 @@ const renderAreaChart = (
           itemType={itemType}
           isStaked={isStaked}
           isPOL={isPOL}
+          dataKey={dataKey}
         />
       }
     />
@@ -191,7 +192,14 @@ const renderStackedAreaChart = (
     />
     <Tooltip
       formatter={(value: string) => trim(parseFloat(value), 2)}
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     {dataKey.map((value: string, index: number) => {
       return (
@@ -243,7 +251,14 @@ const renderLineChart = (
       allowDataOverflow={false}
     />
     <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke[0] : "none"} color={color} dot={false} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
@@ -282,7 +297,7 @@ const renderComposedChart = (
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
       <defs>
-        <linearGradient id="range">
+        <linearGradient id={RANGE_KEY}>
           {intersections.length ? (
             intersections.map((intersection, index) => {
               const nextIntersection = intersections[index + 1];
@@ -336,10 +351,11 @@ const renderComposedChart = (
             itemNames={itemNames}
             itemType={itemType}
             itemDecimals={itemDecimals}
+            dataKey={dataKey}
           />
         }
       />
-      <Area dataKey="range" stroke={stroke[0]} fill={`url(#range)`} />
+      <Area dataKey={RANGE_KEY} stroke={stroke[0]} fill={`url(#range)`} />
       {dataKey.map((value: string, index: number) => {
         return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
       })}
@@ -386,6 +402,7 @@ const renderMultiLineChart = (
           itemNames={itemNames}
           itemType={itemType}
           itemDecimals={itemDecimals}
+          dataKey={dataKey}
         />
       }
     />
@@ -429,7 +446,14 @@ const renderBarChart = (
       tickFormatter={number => (number !== 0 ? number : "")}
     />
     <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
