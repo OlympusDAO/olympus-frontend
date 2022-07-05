@@ -389,3 +389,10 @@
     }
   }
 }
+
+// Improves the spacing in the date filter
+.date-filter {
+  .MuiToggleButton-root {
+    margin: 2px;
+  }
+}

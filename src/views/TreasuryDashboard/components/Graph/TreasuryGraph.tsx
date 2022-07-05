@@ -22,9 +22,14 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
     background: value,
   };
 });
+export const defaultRecordsCount = 90;
 
 const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
   return `${getSubgraphUrl()}/graphql?query=${encodeURIComponent(queryDocument)}`;
+};
+
+type GraphProps = {
+  count?: number;
 };
 
 /**
@@ -33,8 +38,8 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
  *
  * @returns
  */
-export const LiquidBackingPerOhmComparisonGraph = () => {
-  const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() });
+export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
 
   const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
@@ -64,8 +69,8 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
   );
 };
 
-export const MarketValueGraph = () => {
-  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
+export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
   return (
@@ -152,8 +157,8 @@ const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undef
   return flattenedData;
 };
 
-export const ProtocolOwnedLiquidityGraph = () => {
-  const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() });
+export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
   // Extract out unique categories

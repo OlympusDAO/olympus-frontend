@@ -1,14 +1,15 @@
 import "./TreasuryDashboard.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Container, Grid, Link, useMediaQuery } from "@mui/material";
+import { Box, Container, Grid, Link, ToggleButton, ToggleButtonGroup, useMediaQuery } from "@mui/material";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
+  defaultRecordsCount,
   LiquidBackingPerOhmComparisonGraph,
   MarketValueGraph,
   ProtocolOwnedLiquidityGraph,
@@ -17,42 +18,70 @@ import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
-const MetricsDashboard = () => (
-  <>
-    <Box className="hero-metrics">
-      <Paper className="ohm-card">
-        <MetricCollection>
-          <MarketCap {...sharedMetricProps} />
-          <OHMPrice {...sharedMetricProps} />
-          <GOHMPrice {...sharedMetricProps} className="wsoprice" />
-          <CircSupply {...sharedMetricProps} />
-          <BackingPerOHM {...sharedMetricProps} />
-          <CurrentIndex {...sharedMetricProps} />
-        </MetricCollection>
-      </Paper>
-    </Box>
-    <Grid container spacing={2} className="data-grid">
-      <Grid item xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <LiquidBackingPerOhmComparisonGraph />
-          {/* <LiquidBackingGraph /> */}
-        </Paper>
-      </Grid>
+const MetricsDashboard = () => {
+  // State variable for the number of records shown, which is passed to the respective charts
+  const [recordCount, setRecordCount] = useState(defaultRecordsCount.toString());
+  const handleButtonGroupOnClick = (_event: unknown, value: unknown) => {
+    if (typeof value === "string") {
+      setRecordCount(value);
+    }
+  };
 
-      <Grid item xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <MarketValueGraph />
+  return (
+    <>
+      <Box className="hero-metrics">
+        <Paper className="ohm-card">
+          <MetricCollection>
+            <MarketCap {...sharedMetricProps} />
+            <OHMPrice {...sharedMetricProps} />
+            <GOHMPrice {...sharedMetricProps} className="wsoprice" />
+            <CircSupply {...sharedMetricProps} />
+            <BackingPerOHM {...sharedMetricProps} />
+            <CurrentIndex {...sharedMetricProps} />
+          </MetricCollection>
         </Paper>
-      </Grid>
+      </Box>
+      <Grid container spacing={2} className="data-grid">
+        <Grid item xs={12} container>
+          <Grid item xs={4} />
+          <Grid item xs={4} textAlign="center">
+            <ToggleButtonGroup
+              className="date-filter"
+              value={recordCount}
+              color="warning" // TODO adjust this to theme
+              exclusive
+              onChange={handleButtonGroupOnClick}
+              style={{ height: "40px" }}
+            >
+              <ToggleButton value="7">7d</ToggleButton>
+              <ToggleButton value="30">30d</ToggleButton>
+              <ToggleButton value="90">90d</ToggleButton>
+              <ToggleButton value="1000">Max</ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+          <Grid item xs={4} />
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className="ohm-card ohm-chart-card">
+            <LiquidBackingPerOhmComparisonGraph count={parseInt(recordCount)} />
+          </Paper>
+        </Grid>
 
-      <Grid item xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <ProtocolOwnedLiquidityGraph />
-        </Paper>
+        <Grid item xs={12}>
+          <Paper className="ohm-card ohm-chart-card">
+            <MarketValueGraph count={parseInt(recordCount)} />
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Paper className="ohm-card ohm-chart-card">
+            <ProtocolOwnedLiquidityGraph count={parseInt(recordCount)} />
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
-  </>
-);
+    </>
+  );
+};
 
 const PageWrapper = () => {
   //const [view, setView] = useState(activeView);

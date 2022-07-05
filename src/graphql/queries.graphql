@@ -15,8 +15,8 @@ query MetricsBarLatestOnly {
   }
 }
 
-query KeyMetrics {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+query KeyMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     currentIndex
@@ -35,8 +35,8 @@ query KeyMetrics {
   }
 }
 
-query MarketValueMetrics {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+query MarketValueMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     timestamp
@@ -48,8 +48,8 @@ query MarketValueMetrics {
   }
 }
 
-query ProtocolOwnedLiquidityComponents {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+query ProtocolOwnedLiquidityComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     timestamp

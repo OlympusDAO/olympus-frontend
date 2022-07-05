@@ -2136,7 +2136,9 @@ export type MetricsBarLatestOnlyQuery = {
   }>;
 };
 
-export type KeyMetricsQueryVariables = Exact<{ [key: string]: never }>;
+export type KeyMetricsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
 
 export type KeyMetricsQuery = {
   __typename?: "Query";
@@ -2160,7 +2162,9 @@ export type KeyMetricsQuery = {
   }>;
 };
 
-export type MarketValueMetricsQueryVariables = Exact<{ [key: string]: never }>;
+export type MarketValueMetricsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
 
 export type MarketValueMetricsQuery = {
   __typename?: "Query";
@@ -2177,7 +2181,9 @@ export type MarketValueMetricsQuery = {
   }>;
 };
 
-export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{ [key: string]: never }>;
+export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
 
 export type ProtocolOwnedLiquidityComponentsQuery = {
   __typename?: "Query";
@@ -2240,8 +2246,8 @@ export const useMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, 
     options,
   );
 export const KeyMetricsDocument = `
-    query KeyMetrics {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    query KeyMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     currentIndex
@@ -2276,8 +2282,8 @@ export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
     options,
   );
 export const MarketValueMetricsDocument = `
-    query MarketValueMetrics {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    query MarketValueMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     timestamp
@@ -2305,8 +2311,8 @@ export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TErr
     options,
   );
 export const ProtocolOwnedLiquidityComponentsDocument = `
-    query ProtocolOwnedLiquidityComponents {
-  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+    query ProtocolOwnedLiquidityComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id
     block
     timestamp
