@@ -38,6 +38,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
+import { ProposalsDashboard } from "./views/Governance/ProposalsDashboard";
 
 // Dynamic Imports for code splitting
 const Bond = lazy(() => import("./views/Bond"));
@@ -273,6 +274,8 @@ function App() {
                     <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
                     <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
                     <Route path="*" element={<NotFound />} />
+
+                    <Route path="/governancetest" element={<ProposalsDashboard />} />
                   </Routes>
                 </Suspense>
               </div>

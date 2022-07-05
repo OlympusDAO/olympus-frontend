@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useQuery } from "react-query";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
@@ -30,22 +31,22 @@ export const activeProposal = 3;
 /// Mock mapping data for proposalMetadata in Governance.sol
 export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
   0: {
-    proposalName: "0x4f49502d310000000000000000000000000000000000000000000000000000",
+    proposalName: "0x4f49502d31000000000000000000000000000000000000000000000000000000",
     proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
     submissionTimestamp: "1653948322",
   },
   1: {
-    proposalName: "0x4f49502d320000000000000000000000000000000000000000000000000000",
+    proposalName: "0x4f49502d32000000000000000000000000000000000000000000000000000000",
     proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
     submissionTimestamp: "1655157922",
   },
   2: {
-    proposalName: "0x4f49502d330000000000000000000000000000000000000000000000000000",
+    proposalName: "0x4f49502d33000000000000000000000000000000000000000000000000000000",
     proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
     submissionTimestamp: "1655503522",
   },
   3: {
-    proposalName: "0x4f49502d340000000000000000000000000000000000000000000000000000",
+    proposalName: "0x4f49502d34000000000000000000000000000000000000000000000000000000",
     proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
     submissionTimestamp: "1656626722",
   },
@@ -85,10 +86,10 @@ export const mockNoVotesForProposal: { [key: number]: number } = {
 
 /// Mock IPFS URI values by proposal bytes32 name
 export const mockProposalURIs: { [key: string]: string } = {
-  "0x4f49502d310000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberone",
-  "0x4f49502d320000000000000000000000000000000000000000000000000000": "ipfs://proposalnumbertwo",
-  "0x4f49502d330000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberthree",
-  "0x4f49502d340000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberfour",
+  "0x4f49502d31000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberone",
+  "0x4f49502d32000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumbertwo",
+  "0x4f49502d33000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberthree",
+  "0x4f49502d34000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberfour",
 };
 
 /// Mock content stores by IPFS URI
@@ -175,7 +176,7 @@ export const useProposals = () => {
         const proposalContent = mockGetProposalContent(proposalURI);
 
         const currentProposal = {
-          proposalName: proposal.proposalName,
+          proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
           proposer: proposal.proposer,
           submissionTimestamp: proposal.submissionTimestamp,
           isActive: isActive,
