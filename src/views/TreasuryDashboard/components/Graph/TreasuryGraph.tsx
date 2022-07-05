@@ -41,7 +41,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
 
   return (
     <Chart
-      type="multi"
+      type="composed"
       data={data ? data.protocolMetrics : []}
       dataKey={["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]}
       itemType={itemType.dollar}

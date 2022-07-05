@@ -339,7 +339,7 @@ const getIntersectionColor = (_intersection: IntersectType, isLast: boolean) => 
   return _intersection.line1isHigher ? "red" : "green";
 };
 
-const renderMultiLineChart = (
+const renderComposedChart = (
   data: any[],
   dataKey: string[],
   stroke: string[],
@@ -350,7 +350,6 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   itemDecimals?: number,
-  highlightDifference = true,
 ) => {
   const dataWithRange = getDataWithRange(data, dataKey);
   const intersections = getDataIntersections(data, dataKey);
@@ -424,6 +423,54 @@ const renderMultiLineChart = (
     </ComposedChart>
   );
 };
+
+const renderMultiLineChart = (
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  dataFormat: DataFormat,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  itemDecimals?: number,
+) => (
+  <LineChart data={data} margin={margin}>
+    <XAxis
+      dataKey="timestamp"
+      interval={xAxisInterval}
+      axisLine={false}
+      reversed={true}
+      tickCount={tickCount}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      padding={{ right: xAxisRightPadding }}
+    />
+    <YAxis
+      tickCount={isExpanded ? expandedTickCount : tickCount}
+      axisLine={false}
+      tickLine={false}
+      width={25}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
+      domain={[0, "auto"]}
+      allowDataOverflow={false}
+    />
+    <Tooltip
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          itemDecimals={itemDecimals}
+        />
+      }
+    />
+    {dataKey.map((value: string, index: number) => {
+      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+    })}
+  </LineChart>
+);
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
@@ -571,6 +618,19 @@ function Chart({
       );
     if (type === "multi")
       return renderMultiLineChart(
+        data,
+        dataKey,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+        isExpanded,
+        margin,
+        itemDecimals,
+      );
+    if (type === "composed")
+      return renderComposedChart(
         data,
         dataKey,
         stroke,
