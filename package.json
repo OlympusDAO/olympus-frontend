@@ -126,7 +126,7 @@
     "hardhat": "^2.9.9",
     "https-browserify": "^1.0.0",
     "husky": "^8.0.1",
-    "jest": "^28.1.1",
+    "jest": "^28.1.2",
     "jest-extended": "^2.0.0",
     "jest-puppeteer": "^6.1.0",
     "jest-when": "^3.5.1",
