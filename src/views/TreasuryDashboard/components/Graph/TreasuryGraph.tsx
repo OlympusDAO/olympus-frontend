@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { CSSProperties } from "react";
-import Chart, { DataFormat } from "src/components/Chart/Chart";
+import Chart, { ChartData, DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -106,15 +106,6 @@ const getUniqueTokens = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefi
   return Array.from(tokenNames);
 };
 
-type TokenValues = {
-  [token: string]: number;
-};
-
-type FlatProtocolOwnedLiquidity = {
-  timestamp: string;
-  tokens: TokenValues;
-};
-
 /**
  * Flattens the component values in `treasuryLPValueComponents`.
  *
@@ -132,31 +123,29 @@ type FlatProtocolOwnedLiquidity = {
  * ```
  *
  * This is difficult for the charting library to handle, so the values are
- * summed and grouped under each token, as defined in {FlatProtocolOwnedLiquidity}.
+ * summed and grouped under each token.
  *
  * @param metrics The query result
  * @returns array of FlatProtocolOwnedLiquidity elements
  */
-const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): FlatProtocolOwnedLiquidity[] => {
-  const flattenedData: FlatProtocolOwnedLiquidity[] = [];
+const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): ChartData[] => {
+  const flattenedData: ChartData[] = [];
   if (!metrics) return flattenedData;
 
   metrics.protocolMetrics.forEach(metric => {
-    const tokenValues: TokenValues = {};
+    const flatData: ChartData = {
+      timestamp: metric.timestamp,
+    };
 
     // TODO extract this into a generalisable function, since we have many *components properties
     metric.treasuryLPValueComponents.records.forEach(record => {
-      const currentValue: number = tokenValues[record.token];
+      const currentValue: string = flatData[record.token];
       const recordValue: number = typeof record.value === "number" ? record.value : parseFloat(record.value);
-      const newValue: number = currentValue ? currentValue + recordValue : recordValue;
+      const newValue: number = currentValue ? parseFloat(currentValue) + recordValue : recordValue;
 
-      tokenValues[record.token] = newValue;
+      flatData[record.token] = newValue.toString();
     });
 
-    const flatData: FlatProtocolOwnedLiquidity = {
-      timestamp: metric.timestamp,
-      tokens: tokenValues,
-    };
     flattenedData.push(flatData);
   });
 
@@ -169,8 +158,6 @@ export const ProtocolOwnedLiquidityGraph = () => {
 
   // Extract out unique categories
   const tokenCategories = getUniqueTokens(data);
-  // Data keys require a prefix
-  const tokenDataKeys = tokenCategories.map(value => "tokens." + value);
 
   // Flatten the token values
   const flatData = getFlattenedData(data);
@@ -179,7 +166,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
     <Chart
       type="stack"
       data={flatData}
-      dataKey={tokenDataKeys}
+      dataKey={tokenCategories}
       color={""}
       stopColor={[[]]}
       stroke={defaultColors}
