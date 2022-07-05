@@ -3,6 +3,9 @@ import { CSSProperties } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
+  KeyMetricsDocument,
+  MarketValueMetricsDocument,
+  ProtocolOwnedLiquidityComponentsDocument,
   ProtocolOwnedLiquidityComponentsQuery,
   useKeyMetricsQuery,
   useMarketValueMetricsQuery,
@@ -20,6 +23,10 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
   };
 });
 
+const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
+  return `${getSubgraphUrl()}/graphql?query=${encodeURIComponent(queryDocument)}`;
+};
+
 /**
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per floating OHM.
@@ -28,6 +35,7 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
  */
 export const LiquidBackingPerOhmComparisonGraph = () => {
   const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() });
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
 
   const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
 
@@ -51,12 +59,14 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={2}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };
 
 export const MarketValueGraph = () => {
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
   return (
     <Chart
@@ -77,6 +87,7 @@ export const MarketValueGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };
@@ -154,6 +165,7 @@ const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undef
 
 export const ProtocolOwnedLiquidityGraph = () => {
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() });
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
   // Extract out unique categories
   const tokenCategories = getUniqueTokens(data);
@@ -182,6 +194,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };

@@ -1,7 +1,7 @@
 import "./chart.scss";
 
 import { t } from "@lingui/macro";
-import { Box, CircularProgress, SvgIcon, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Link, SvgIcon, Tooltip as MuiTooltip, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
@@ -22,6 +22,7 @@ import {
 } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
+import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 import { formatCurrency, trim } from "src/helpers";
 
 import CustomTooltip from "./CustomTooltip";
@@ -490,6 +491,7 @@ function Chart({
     left: 0,
   },
   itemDecimals,
+  subgraphQueryUrl,
 }: {
   type: string;
   data: any[];
@@ -510,6 +512,7 @@ function Chart({
   isPOL: boolean;
   margin?: CategoricalChartProps["margin"];
   itemDecimals?: number;
+  subgraphQueryUrl?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -630,12 +633,29 @@ function Chart({
           </Box>
           {/* could make this svgbutton */}
 
-          <SvgIcon
-            component={Fullscreen}
-            color="primary"
-            onClick={handleOpen}
-            style={{ fontSize: "1rem", cursor: "pointer" }}
-          />
+          <Grid item>
+            <Grid container spacing={1}>
+              <Grid item>
+                {subgraphQueryUrl && (
+                  <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
+                    <MuiTooltip title={t`Open Subgraph Query`}>
+                      <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
+                    </MuiTooltip>
+                  </Link>
+                )}
+              </Grid>
+              <Grid item>
+                <MuiTooltip title={t`Open in expanded view`}>
+                  <SvgIcon
+                    component={Fullscreen}
+                    color="primary"
+                    onClick={handleOpen}
+                    style={{ fontSize: "1rem", cursor: "pointer" }}
+                  />
+                </MuiTooltip>
+              </Grid>
+            </Grid>
+          </Grid>
           <ExpandedChart
             open={open}
             handleClose={handleClose}
@@ -644,6 +664,7 @@ function Chart({
             infoTooltipMessage={infoTooltipMessage}
             headerText={headerText}
             headerSubText={headerSubText}
+            subgraphQueryUrl={subgraphQueryUrl}
           />
         </Box>
         {loading ? (
