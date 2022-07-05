@@ -12,6 +12,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  ComposedChart,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -26,6 +27,7 @@ import { formatCurrency, trim } from "src/helpers";
 
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
+import { getDataIntersections, getDataWithRange, getIntersectionColor, RANGE_KEY } from "./IntersectionHelper";
 
 const tickCount = 3;
 const expandedTickCount = 5;
@@ -135,6 +137,7 @@ const renderAreaChart = (
           itemType={itemType}
           isStaked={isStaked}
           isPOL={isPOL}
+          dataKey={dataKey}
         />
       }
     />
@@ -189,7 +192,14 @@ const renderStackedAreaChart = (
     />
     <Tooltip
       formatter={(value: string) => trim(parseFloat(value), 2)}
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     {dataKey.map((value: string, index: number) => {
       return (
@@ -241,12 +251,117 @@ const renderLineChart = (
       allowDataOverflow={false}
     />
     <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke[0] : "none"} color={color} dot={false} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
+
+const renderComposedChart = (
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  dataFormat: DataFormat,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  itemDecimals?: number,
+) => {
+  // Intersections code from: https://codesandbox.io/s/qdlyi?file=/src/tests/ComparisonChart.js
+  /**
+   * We add the "range" key to the incoming data.
+   * This contains the lower and higher values for the contents of {dataKey}.
+   */
+  const dataWithRange = getDataWithRange(data, dataKey);
+  /**
+   * This obtains the points where any line intersects with the other,
+   * which is used to fill an Area element.
+   *
+   * The data we receive from the subgraph is in reverse-chronological order.
+   * The intersections code relies on the data being in chronological order,
+   * so we need to reverse the order of the array without mutating the original
+   * one.
+   */
+  const intersections = getDataIntersections(data.slice().reverse(), dataKey);
+
+  return (
+    <ComposedChart data={dataWithRange} margin={margin}>
+      <defs>
+        <linearGradient id={RANGE_KEY}>
+          {intersections.length ? (
+            intersections.map((intersection, index) => {
+              const nextIntersection = intersections[index + 1];
+
+              const isLast = index === intersections.length - 1;
+              const closeColor = getIntersectionColor(intersection, false);
+              const startColor = isLast
+                ? getIntersectionColor(intersection, true)
+                : getIntersectionColor(nextIntersection, false);
+
+              // Determine the offset from the start of the x-axis
+              const offset =
+                intersection.x /
+                (data.filter(value => value[dataKey[0]] !== undefined && value[dataKey[1]] != undefined).length - 1);
+
+              return (
+                <>
+                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.3} />
+                  <stop offset={offset} stopColor={startColor} stopOpacity={0.3} />
+                </>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </linearGradient>
+      </defs>
+      <XAxis
+        dataKey="timestamp"
+        interval={xAxisInterval}
+        axisLine={false}
+        reversed={true}
+        tickCount={tickCount}
+        tickLine={false}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: xAxisRightPadding }}
+      />
+      <YAxis
+        tickCount={isExpanded ? expandedTickCount : tickCount}
+        axisLine={false}
+        tickLine={false}
+        width={25}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[0, "auto"]}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            bulletpointColors={bulletpointColors}
+            itemNames={itemNames}
+            itemType={itemType}
+            itemDecimals={itemDecimals}
+            dataKey={dataKey}
+          />
+        }
+      />
+      <Area dataKey={RANGE_KEY} stroke={stroke[0]} fill={`url(#range)`} />
+      {dataKey.map((value: string, index: number) => {
+        return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+      })}
+    </ComposedChart>
+  );
+};
 
 const renderMultiLineChart = (
   data: any[],
@@ -287,6 +402,7 @@ const renderMultiLineChart = (
           itemNames={itemNames}
           itemType={itemType}
           itemDecimals={itemDecimals}
+          dataKey={dataKey}
         />
       }
     />
@@ -330,7 +446,14 @@ const renderBarChart = (
       tickFormatter={number => (number !== 0 ? number : "")}
     />
     <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          dataKey={dataKey}
+        />
+      }
     />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
@@ -442,6 +565,19 @@ function Chart({
       );
     if (type === "multi")
       return renderMultiLineChart(
+        data,
+        dataKey,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+        isExpanded,
+        margin,
+        itemDecimals,
+      );
+    if (type === "composed")
+      return renderComposedChart(
         data,
         dataKey,
         stroke,
