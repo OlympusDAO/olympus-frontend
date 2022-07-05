@@ -61,7 +61,7 @@ function ExpandedChart({
         </Grid>
       }
     >
-      <Grid container direction="column">
+      <Grid container direction="column" style={{ height: "600px" }}>
         <Grid item xs={10}>
           {data && data.length > 0 && (
             <ResponsiveContainer minHeight={260} minWidth={300}>
