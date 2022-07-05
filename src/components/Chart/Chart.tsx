@@ -271,9 +271,13 @@ const renderComposedChart = (
   /**
    * This obtains the points where any line intersects with the other,
    * which is used to fill an Area element.
+   *
+   * The data we receive from the subgraph is in reverse-chronological order.
+   * The intersections code relies on the data being in chronological order,
+   * so we need to reverse the order of the array without mutating the original
+   * one.
    */
-  const intersections = getDataIntersections(data, dataKey);
-  console.log("*********");
+  const intersections = getDataIntersections(data.slice().reverse(), dataKey);
 
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
@@ -289,17 +293,15 @@ const renderComposedChart = (
                 ? getIntersectionColor(intersection, true)
                 : getIntersectionColor(nextIntersection, false);
 
-              console.log("close = " + closeColor + ", start = " + startColor);
-              console.log("intersection = " + JSON.stringify(intersection, null, 2));
-
+              // Determine the offset from the start of the x-axis
               const offset =
                 intersection.x /
                 (data.filter(value => value[dataKey[0]] !== undefined && value[dataKey[1]] != undefined).length - 1);
 
               return (
                 <>
-                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.5} />
-                  <stop offset={offset} stopColor={startColor} stopOpacity={0.5} />
+                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.3} />
+                  <stop offset={offset} stopColor={startColor} stopOpacity={0.3} />
                 </>
               );
             })

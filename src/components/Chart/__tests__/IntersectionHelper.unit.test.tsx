@@ -48,8 +48,12 @@ describe("getDataIntersections", () => {
         key2: 2.0,
       },
       {
-        key1: 1.0,
-        key2: 2.0,
+        key1: 1.1,
+        key2: 2.1,
+      },
+      {
+        key1: 1.2,
+        key2: 2.2,
       },
       {
         key1: 2.0,
@@ -70,18 +74,18 @@ describe("getDataIntersections", () => {
     /**
      * Data has two intersections.
      *
-     * Between 1 and 2, halfway between 1.0 and 2.0
+     * Between 3 and 4, halfway between 1.2 and 2.0
      *
-     * Between 3 and 4, halfway between 2.0 and 1.0
+     * Between 5 and 6, halfway between 2.0 and 1.0
      */
     expect(intersections[0]).toEqual({
-      x: 1.5,
-      y: 1.5,
+      x: 2.5,
+      y: 1.6,
       line1isHigher: false,
       line1isHigherNext: true,
     });
     expect(intersections[1]).toEqual({
-      x: 3.5,
+      x: 4.5,
       y: 1.5,
       line1isHigher: true,
       line1isHigherNext: false,
