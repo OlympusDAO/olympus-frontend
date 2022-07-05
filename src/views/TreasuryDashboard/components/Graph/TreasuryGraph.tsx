@@ -59,6 +59,7 @@ export const LiquidBackingPerOhmComparisonGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={2}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };
@@ -86,6 +87,7 @@ export const MarketValueGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };
@@ -192,6 +194,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       isPOL={false}
       isStaked={false}
       itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
     />
   );
 };
