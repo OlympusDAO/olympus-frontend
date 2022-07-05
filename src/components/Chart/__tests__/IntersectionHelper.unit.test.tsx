@@ -89,6 +89,38 @@ describe("getDataIntersections", () => {
     expect(intersections.length).toEqual(2);
   });
 
+  test("one intersections, line 1 higher", () => {
+    const data = [
+      {
+        key1: 1.0,
+        key2: 2.0,
+      },
+      {
+        key1: 2.0,
+        key2: 1.0,
+      },
+      {
+        key1: 2.0,
+        key2: 1.0,
+      },
+    ];
+
+    const intersections = getDataIntersections(data, ["key1", "key2"]);
+
+    /**
+     * Data has one intersection.
+     *
+     * Between 0 and 1, halfway between 1.0 and 2.0
+     */
+    expect(intersections[0]).toEqual({
+      x: 0.5,
+      y: 1.5,
+      line1isHigher: false,
+      line1isHigherNext: true,
+    });
+    expect(intersections.length).toEqual(1);
+  });
+
   test("no intersections", () => {
     const data = [
       {

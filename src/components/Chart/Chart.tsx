@@ -273,6 +273,7 @@ const renderComposedChart = (
    * which is used to fill an Area element.
    */
   const intersections = getDataIntersections(data, dataKey);
+  console.log("*********");
 
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
@@ -287,6 +288,9 @@ const renderComposedChart = (
               const startColor = isLast
                 ? getIntersectionColor(intersection, true)
                 : getIntersectionColor(nextIntersection, false);
+
+              console.log("close = " + closeColor + ", start = " + startColor);
+              console.log("intersection = " + JSON.stringify(intersection, null, 2));
 
               const offset =
                 intersection.x /

@@ -9,7 +9,13 @@ export const getDataWithRange = (data: any[], dataKey: string[]): any[] => {
 type IntersectType = {
   x?: number;
   y?: number;
+  /**
+   * true if line1 is currently higher than line2
+   */
   line1isHigher?: boolean;
+  /**
+   * true if line1 will be higher than line2 after this intersection
+   */
   line1isHigherNext?: boolean;
 };
 
