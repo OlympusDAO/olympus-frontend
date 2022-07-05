@@ -83,6 +83,7 @@ const connectors = connectorsForWallets([
     groupName: "Recommended",
     wallets: [
       wallet.metaMask({ chains, shimDisconnect: true }),
+      wallet.brave({ chains, shimDisconnect: true }),
       wallet.rainbow({ chains }),
       wallet.walletConnect({ chains }),
       wallet.coinbase({ appName: "Olympus DAO", chains }),

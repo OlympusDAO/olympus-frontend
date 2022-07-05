@@ -14,8 +14,7 @@ import { useAccount } from "wagmi";
 export const useUnwrapGohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
   const balance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);

@@ -15,14 +15,13 @@ export const useClaimBonds = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const { data: signer } = useSigner();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { chain = { id: 1 } } = useNetwork();
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
       if (!signer) throw new Error(t`Please connect a wallet to claim bonds`);
-      if (activeChain.id !== networks.MAINNET)
+      if (chain.id !== networks.MAINNET)
         throw new Error(
           typeof id === "undefined"
             ? t`Please switch to the Ethereum network to claim all bonds`

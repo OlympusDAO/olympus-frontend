@@ -8,16 +8,16 @@ import { useNavigate } from "react-router";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
-import { useConnect, useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 import ZapInfo from "./ZapInfo";
 import ZapStakeAction from "./ZapStakeAction";
 
 const Zap: React.FC = () => {
-  const { isConnected } = useConnect();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { isConnected } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const navigate = useNavigate();
-  usePathForNetwork({ pathName: "zap", networkID: activeChain.id, navigate });
+  usePathForNetwork({ pathName: "zap", networkID: chain.id, navigate });
 
   const zapTokenBalances = useZapTokenBalances();
   const tokens = zapTokenBalances.data?.balances;

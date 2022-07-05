@@ -12,7 +12,7 @@ const GA4_API_KEY = Environment.getGA4ApiKey();
 const useGoogleAnalytics = () => {
   const location = useLocation();
 
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
 
   useEffect(() => {
     const path = location.pathname + location.hash + location.search;
@@ -20,7 +20,7 @@ const useGoogleAnalytics = () => {
       {
         cookieFlags: "SameSite=Strict; Secure",
       },
-      account?.address ? { userId: account.address } : {},
+      address ? { userId: address } : {},
     );
     if (process.env.NODE_ENV !== "test") {
       if (GA4_API_KEY && GA4_API_KEY.length > 1) {

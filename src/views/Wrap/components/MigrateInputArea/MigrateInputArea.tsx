@@ -13,15 +13,15 @@ import { useMigrateWsohm } from "./hooks/useMigrateWsohm";
 
 export const MigrateInputArea = () => {
   const networks = useTestableNetworks();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   // Max balance stuff
   assert(
-    activeChain.id === networks.ARBITRUM || activeChain.id === networks.AVALANCHE,
+    chain.id === networks.ARBITRUM || chain.id === networks.AVALANCHE,
     "Component should only be mounted when connected to Arbitrum or Avalanche",
   );
   const [amount, setAmount] = useState("");
-  const balance = useBalance(WSOHM_ADDRESSES)[activeChain.id].data;
+  const balance = useBalance(WSOHM_ADDRESSES)[chain.id].data;
   const setMax = () => balance && setAmount(balance.toString());
 
   // Mutation stuff

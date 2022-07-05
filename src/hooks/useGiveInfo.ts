@@ -48,19 +48,18 @@ export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
  *          yieldDonated: quantity of yield sent to recipient so far (returned as gOHM)
  */
 export const useDonationInfo = () => {
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const provider = useProvider();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { chain = { id: 1 } } = useNetwork();
 
   // Establish contract
   const networks = useTestableNetworks();
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(address, activeChain.id),
+    donationInfoQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], donationInfoQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], donationInfoQueryKey(address, chain.id));
 
       // Set default return value
       const donationInfo: IUserDonationInfo[] = [];
@@ -163,16 +162,16 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
  *                             can be redeemed (returned as gOHM)
  */
 export const useRedeemableBalance = (address: string) => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   // Establish contract
   const networks = useTestableNetworks();
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<string, Error>(
-    redeemableBalanceQueryKey(address, activeChain.id),
+    redeemableBalanceQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], redeemableBalanceQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], redeemableBalanceQueryKey(address, chain.id));
 
       // If no contract is established throw an error to switch to ETH
       if (!contract)
@@ -204,18 +203,17 @@ export const v1RedeemableBalanceQueryKey = (address: string, networkId: NetworkI
   ["useV1RedeemableBalance", address, networkId].filter(nonNullable);
 
 export const useV1RedeemableBalance = () => {
-  const { activeChain = { id: 1 } } = useNetwork();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { chain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
 
   // Hook to establish static old Give contract
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
   const query = useQuery<string, Error>(
-    v1RedeemableBalanceQueryKey(address, activeChain.id),
+    v1RedeemableBalanceQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], v1RedeemableBalanceQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], v1RedeemableBalanceQueryKey(address, chain.id));
 
-      if (activeChain.id != 1)
+      if (chain.id != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
 
       // If no contract is established throw an error to switch to ETH
@@ -262,21 +260,21 @@ export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
  *          gohmDebt: gOHM equivalent of sOHM debt
  */
 export const useRecipientInfo = (address: string) => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
   // Hook to establish dynamic contract, meaning it will connect to the network
   // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const gohmContract = new ethers.Contract(
-    GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
+    GOHM_ADDRESSES[chain.id as keyof typeof GOHM_ADDRESSES],
     gOHM.abi,
     signer ? signer : undefined,
   );
 
   const query = useQuery<IUserRecipientInfo, Error>(
-    recipientInfoQueryKey(address, activeChain.id),
+    recipientInfoQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], recipientInfoQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], recipientInfoQueryKey(address, chain.id));
 
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
@@ -344,7 +342,7 @@ export const totalYieldDonatedQueryKey = (address: string, networkId: NetworkId)
  */
 export const useTotalYieldDonated = (address: string) => {
   const provider = useProvider();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   // Event logs use data values that are padded with zeros, so to match that we
   // pad the given wallet address with zeros
@@ -363,9 +361,9 @@ export const useTotalYieldDonated = (address: string) => {
   };
 
   const query = useQuery<string, Error>(
-    totalYieldDonatedQueryKey(address, activeChain.id),
+    totalYieldDonatedQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], totalYieldDonatedQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], totalYieldDonatedQueryKey(address, chain.id));
 
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
@@ -420,7 +418,7 @@ export const donorNumbersQueryKey = (address: string, networkId: NetworkId) =>
  * donor numbers
  */
 export const useDonorNumbers = (address: string) => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const provider = useProvider();
   // Event logs use data values that are padded with zeros, so to match that we
   // pad the given wallet address with zeros
@@ -439,9 +437,9 @@ export const useDonorNumbers = (address: string) => {
   };
 
   const query = useQuery<number, Error>(
-    donorNumbersQueryKey(address, activeChain.id),
+    donorNumbersQueryKey(address, chain.id),
     async () => {
-      queryAssertion([address, activeChain.id], donorNumbersQueryKey(address, activeChain.id));
+      queryAssertion([address, chain.id], donorNumbersQueryKey(address, chain.id));
 
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)

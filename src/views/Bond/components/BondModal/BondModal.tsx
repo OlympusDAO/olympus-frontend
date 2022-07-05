@@ -22,9 +22,9 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { id } = useParams<{ id: string }>();
-  usePathForNetwork({ pathName: "bonds", networkID: activeChain.id, navigate });
+  usePathForNetwork({ pathName: "bonds", networkID: chain.id, navigate });
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
@@ -40,7 +40,7 @@ export const BondModalContainer: React.VFC = () => {
 const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const isInverseBond: boolean = pathname.includes("/inverse/");
 
   const [slippage, setSlippage] = useState("0.5");
@@ -57,8 +57,8 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   }, [navigate, isSettingsOpen]);
 
   useEffect(() => {
-    if (account?.address) setRecipientAddress(account.address);
-  }, [account?.address]);
+    if (address) setRecipientAddress(address);
+  }, [address]);
 
   return (
     <Modal
