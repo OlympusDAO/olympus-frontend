@@ -1,12 +1,13 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
+  useGOhmPrice,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
+  useOhmPrice,
   useTotalSupply,
   useTotalValueDeposited,
   useTreasuryLiquidBackingPerOhmFloating,
@@ -123,7 +124,7 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: gOhmPrice } = useGohmPrice();
+  const { data: gOhmPrice } = useGOhmPrice();
 
   const _props: MetricProps = {
     ...props,
