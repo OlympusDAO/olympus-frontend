@@ -2,6 +2,7 @@ import { BigNumber } from "ethers";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
+import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
@@ -12,11 +13,15 @@ import * as RangeHooks from "../hooks";
 import { Range } from "../index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
+jest.mock("src/hooks/useContractAllowance");
 
 describe("Lower Wall Active Bond Market", () => {
   beforeEach(() => {
     const rangeData = jest.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
     const bondData = jest.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
+    //@ts-ignore
+    useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+
     connectWallet();
 
     console.log("range buy view");
@@ -58,5 +63,15 @@ describe("Lower Wall Active Bond Market", () => {
     render(<Range />);
     fireEvent.click(screen.getByTestId("sell-tab"));
     expect(await screen.findByTestId("swap-price")).toHaveTextContent("10.12");
+  });
+
+  it("Should have a disclaimer notifying a sell below current market price ($13.20)", async () => {
+    render(<Range />);
+    fireEvent.click(screen.getByTestId("sell-tab"));
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    expect(
+      await screen.findByText("I understand that I am selling at a discount to current market price"),
+    ).toBeInTheDocument();
   });
 });

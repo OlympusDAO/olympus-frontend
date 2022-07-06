@@ -2,6 +2,7 @@ import { BigNumber } from "ethers";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
+import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
@@ -12,14 +13,15 @@ import * as RangeHooks from "../hooks";
 import { Range } from "../index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
+jest.mock("src/hooks/useContractAllowance");
 
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {
     const rangeData = jest.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
     const bondData = jest.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
     connectWallet();
-
-    console.log("range buy view");
+    //@ts-ignore
+    useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
 
     IERC20Factory.IERC20__factory.connect = jest.fn().mockReturnValue({
       symbol: jest.fn().mockReturnValue("DAI"),
@@ -57,5 +59,39 @@ describe("Upper Wall Active Bond Market", () => {
     render(<Range />);
     fireEvent.click(screen.getByTestId("sell-tab"));
     expect(await screen.findByTestId("swap-price")).toHaveTextContent("16.12");
+  });
+
+  it("Should Show Confirmation modal with additional settings for recipient and slippage", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    expect(await screen.findByTestId("transaction-settings")).toBeInTheDocument();
+  });
+
+  it("Should properly open Additional Settings Modal", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(await screen.findByTestId("transaction-settings"));
+    expect(await screen.findByText("Slippage")).toBeInTheDocument();
+  });
+
+  it("Should properly close Additional Settings Modal", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(await screen.findByTestId("transaction-settings"));
+    expect(await screen.findByText("Slippage")).toBeInTheDocument();
+    fireEvent.click(screen.getAllByLabelText("close")[1]);
+    expect(await screen.getAllByText("Confirm Swap")[0]).toBeInTheDocument();
+  });
+
+  it("Should have a disclaimer notifying a buy above current market price ($13.20)", async () => {
+    render(<Range />);
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    expect(screen.getByTestId("disclaimer")).toHaveTextContent(
+      "I understand that I am buying at a premium to current market price",
+    );
   });
 });

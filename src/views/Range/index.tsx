@@ -133,7 +133,7 @@ export const Range = () => {
             <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
           </div>
         </MetricCollection>
-        <Box mt={"20px"}>
+        <Box mt={"20px"} data-testid="range-chart">
           <RangeChart
             rangeData={rangeData}
             reserveSymbol={reserveSymbol}

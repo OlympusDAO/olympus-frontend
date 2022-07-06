@@ -37,7 +37,7 @@ const RangeConfirmationModal = (props: {
   const [slippage, setSlippage] = useState("0.5");
   const [recipientAddress, setRecipientAddress] = useState("");
   const [checked, setChecked] = useState(false);
-
+  console.log(props.discount, "discount", props.swapPrice);
   if (rangeSwap.isSuccess) {
     rangeSwap.reset();
     props.onClose();
@@ -46,7 +46,12 @@ const RangeConfirmationModal = (props: {
     <Modal
       topLeft={
         props.contract == "bond" ? (
-          <Icon name="settings" sx={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />
+          <Icon
+            name="settings"
+            sx={{ cursor: "pointer" }}
+            data-testid="transaction-settings"
+            onClick={() => setSettingsOpen(true)}
+          />
         ) : (
           <></>
         )
@@ -129,21 +134,24 @@ const RangeConfirmationModal = (props: {
           approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
           {props.discount < 0 && (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={event => setChecked(event.target.checked)}
-                  icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-                  checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-                />
-              }
-              label={
-                props.sellActive
-                  ? t`I understand that I am selling at a discount to current market price`
-                  : t`I understand that I am buying at a premium to current market price`
-              }
-            />
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={event => setChecked(event.target.checked)}
+                    icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                    checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                  />
+                }
+                label={
+                  props.sellActive
+                    ? t`I understand that I am selling at a discount to current market price`
+                    : t`I understand that I am buying at a premium to current market price`
+                }
+                data-testid="disclaimer"
+              />
+            </div>
           )}
 
           <PrimaryButton

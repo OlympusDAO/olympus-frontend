@@ -12,6 +12,19 @@ import { Range } from "../index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
+jest.mock("recharts", () => {
+  const OriginalModule = jest.requireActual("recharts");
+
+  return {
+    ...OriginalModule,
+    ResponsiveContainer: ({ height, children }) => (
+      <OriginalModule.ResponsiveContainer width={800} height={height}>
+        {children}
+      </OriginalModule.ResponsiveContainer>
+    ),
+  };
+});
+
 describe("Default Main Range View", () => {
   beforeEach(() => {
     connectWallet();
@@ -82,12 +95,24 @@ describe("Default Main Range View", () => {
   it("Should display Amount exceeds capacity message when DAI amount entered exceeds available OHM capacity", async () => {
     render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "20000000" } });
-    expect(await screen.getByText("Amount exceeds capacity")).toBeInTheDocument();
+    expect(screen.getByText("Amount exceeds capacity")).toBeInTheDocument();
   });
+
   it("Should populate input with max balance (10 DAI) when clicking Max button", async () => {
     render(<Range />);
     fireEvent.click(screen.getAllByText("Max")[0]);
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("10");
+  });
+
+  it("Should render tooltip with correct data", async () => {
+    render(<Range />);
+    expect(await screen.findByText("Upper Cushion"));
+    expect(await screen.findByText("Lower Cushion"));
+  });
+
+  it("Should render with Ask price of $24.18 on chart", async () => {
+    render(<Range />);
+    expect(await screen.findByText("Ask: $24.18"));
   });
 });
 
@@ -151,5 +176,10 @@ describe("Sell Tab Main Range View", () => {
   it("Should populate input with max balance (10 OHM) when clicking Max button", async () => {
     fireEvent.click(screen.getAllByText("Max")[0]);
     expect(await screen.findByTestId("ohm-amount")).toHaveValue("10");
+  });
+
+  it("Should render with Bid price of $16.12 on chart", async () => {
+    render(<Range />);
+    expect(await screen.findByText("Bid: $16.12"));
   });
 });
