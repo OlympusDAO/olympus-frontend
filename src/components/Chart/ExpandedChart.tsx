@@ -64,7 +64,12 @@ function ExpandedChart({
       <Grid container direction="column" style={{ height: "600px" }}>
         <Grid item xs={10}>
           {data && data.length > 0 && (
-            <ResponsiveContainer minHeight={260} minWidth={300}>
+            /**
+             * Setting the width to 99% ensures that the chart resizes correctly.
+             *
+             * Source: https://stackoverflow.com/a/53205850
+             */
+            <ResponsiveContainer width="99%" minHeight={260} minWidth={300}>
               {renderChart}
             </ResponsiveContainer>
           )}

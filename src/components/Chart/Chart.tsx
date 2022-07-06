@@ -695,7 +695,12 @@ function Chart({
       </div>
       <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
         {loading || (data && data.length > 0) ? (
-          <ResponsiveContainer minHeight={260} width="100%">
+          /**
+           * Setting the width to 99% ensures that the chart resizes correctly.
+           *
+           * Source: https://stackoverflow.com/a/53205850
+           */
+          <ResponsiveContainer minHeight={260} width="99%">
             {renderChart(type, false)}
           </ResponsiveContainer>
         ) : (
