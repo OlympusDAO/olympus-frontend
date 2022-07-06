@@ -4,8 +4,8 @@ import { t } from "@lingui/macro";
 import { Box, Container, Grid, Link, ToggleButton, ToggleButtonGroup, useMediaQuery } from "@mui/material";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
-import { memo, useState } from "react";
-import { NavLink, Outlet, Route, Routes } from "react-router-dom";
+import { memo, useEffect, useState } from "react";
+import { NavLink, Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
@@ -17,13 +17,41 @@ import {
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
+const QUERY_DAYS_AGO = "daysAgo";
 
+/**
+ * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
+ *
+ * @returns
+ */
 const MetricsDashboard = () => {
   // State variable for the number of records shown, which is passed to the respective charts
-  const [recordCount, setRecordCount] = useState(defaultRecordsCount.toString());
-  const handleButtonGroupOnClick = (_event: unknown, value: unknown) => {
+  const [recordCount, setRecordCount] = useState("");
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    // Get the record count from the URL query parameters, or use the default
+    const queryRecordCount = searchParams.get(QUERY_DAYS_AGO) || defaultRecordsCount.toString();
+    setRecordCount(queryRecordCount);
+  }, [searchParams]);
+
+  /**
+   * Adds the days ago filter to the search parameters, which in turn updates the state variable
+   * and triggers an update to the charts.
+   *
+   * @param _event unused
+   * @param value string value representing the number of days ago to fetch
+   */
+  const handleDaysAgoButtonGroupClick = (_event: unknown, value: unknown) => {
     if (typeof value === "string") {
-      setRecordCount(value);
+      // Load the existing search params and update the value, so that other params are not overwritten
+      const updatedSearchParams = new URLSearchParams(searchParams.toString());
+      updatedSearchParams.set(QUERY_DAYS_AGO, value);
+      setSearchParams(updatedSearchParams.toString());
+    } else {
+      throw new Error(
+        `handleDaysAgoButtonGroupClick: expected string value as input, but received type ${typeof value} and value ${value}`,
+      );
     }
   };
 
@@ -50,7 +78,7 @@ const MetricsDashboard = () => {
               value={recordCount}
               color="warning" // TODO adjust this to theme
               exclusive
-              onChange={handleButtonGroupOnClick}
+              onChange={handleDaysAgoButtonGroupClick}
               style={{ height: "40px" }}
             >
               <ToggleButton value="7">7d</ToggleButton>
