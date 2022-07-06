@@ -10,7 +10,7 @@
 html,
 body,
 #root {
-  font-family: "Square";
+  font-family: "NHassGrotesk";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
@@ -34,7 +34,7 @@ body {
   flex-direction: column;
   z-index: 1;
   background-size: cover;
-  font-family: "Square";
+  font-family: "NHassGrotesk";
   overflow: hidden;
   transition: all ease 0.33ms;
 }
@@ -65,7 +65,7 @@ body {
 }
 
 .ohm-card {
-  max-width: 833px;
+  max-width: 900px;
   .card-header {
     width: 100%;
     min-height: 33px;

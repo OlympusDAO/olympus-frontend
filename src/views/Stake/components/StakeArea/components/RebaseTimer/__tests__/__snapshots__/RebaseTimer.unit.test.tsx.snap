@@ -12,7 +12,7 @@ exports[`<RebaseTimer/> should render component 1`] = `
       class="rebase-timer MuiBox-root css-0"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"

@@ -1,42 +1,19 @@
-import { Box, useMediaQuery } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box } from "@mui/material";
 import { WarningNotification } from "@olympusdao/component-library";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-const PREFIX = "StagingNotification";
-
-const classes = {
-  contentShift: `${PREFIX}-contentShift`,
-  notification: `${PREFIX}-notification`,
-};
-
-const StyledNotification = styled("div")(() => ({
-  [`& .${classes.contentShift}`]: {
-    marginLeft: 0,
-  },
-
-  [`& .${classes.notification}`]: {
-    marginLeft: "312px",
-  },
-}));
-
 const StagingNotification = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
-    <StyledNotification>
+    <>
       {Environment.getStagingFlag() === "true" && (
-        <Box
-          style={{ marginTop: "0px" }}
-          className={`${isSmallScreen ? classes.contentShift : classes.notification}`}
-          data-testid="staging-notification"
-        >
+        <Box style={{ marginTop: "0px" }} data-testid="staging-notification" sx={{ zIndex: 10 }}>
           <WarningNotification dismissible={true}>
             You are on the staging site. Any interaction could result in loss of assets.{" "}
             <a href="https://app.olympusdao.finance">Exit Here</a>
           </WarningNotification>
         </Box>
       )}
-    </StyledNotification>
+    </>
   );
 };
 

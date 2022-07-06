@@ -44,7 +44,13 @@ function ExpandedChart({
               alignItems="center"
               style={{ width: "100%", marginLeft: "5px" }}
             >
-              <Typography variant="h6" style={{ cursor: "pointer" }}>
+              <Typography
+                variant="h6"
+                style={{ cursor: "pointer" }}
+                color="textSecondary"
+                display="flex"
+                alignItems="center"
+              >
                 <InfoTooltip message={infoTooltipMessage} />
               </Typography>
             </Box>

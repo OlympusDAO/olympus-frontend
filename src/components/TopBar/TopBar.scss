@@ -7,11 +7,11 @@
     overflow: hidden !important;
     margin: 6px;
     min-width: fit-content !important;
-    min-height: 40px !important;
     &#hamburger {
       padding: 11px !important;
     }
     &.toggle-button {
+      height: 39px;
       padding: 9.5px !important;
     }
     text-decoration: none;
@@ -29,13 +29,6 @@
     transition: all 0.33s ease-out;
     font-size: 14px;
     font-weight: 500;
-  }
-}
-#ohm-popper-pending {
-  .MuiPaper-root.ohm-menu {
-    a {
-      padding-right: 20px !important;
-    }
   }
 }
 .caret-down {

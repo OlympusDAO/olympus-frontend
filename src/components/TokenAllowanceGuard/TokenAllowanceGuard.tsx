@@ -70,7 +70,7 @@ export const TokenAllowanceGuard: React.FC<{
 
   if (allowance.eq(0))
     return (
-      <Grid container>
+      <Grid container alignItems="center">
         <Grid item xs={12} sm={isVertical ? 12 : 8}>
           <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
             <Typography variant="body1" color="textSecondary">

@@ -3,7 +3,15 @@ import { Box, Table, TableCell, TableHead, TableRow, Typography } from "@mui/mat
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
+import {
+  DataRow,
+  OHMTokenProps,
+  Paper,
+  SecondaryButton,
+  TertiaryButton,
+  Token,
+  TokenStack,
+} from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
@@ -141,8 +149,8 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
     <TableRow>
       <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-          <TokenStack tokens={props.pool.icons} />
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
+          <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "14px", marginRight: "10px" }}>
             {props.pool.poolName}
           </Typography>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
@@ -174,9 +182,9 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <SecondaryButton size="small" target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
+        <TertiaryButton target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
           {t`Stake on`} {props.pool.stakeOn}
-        </SecondaryButton>
+        </TertiaryButton>
       </TableCell>
     </TableRow>
   );
@@ -191,7 +199,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
   return (
     <Paper>
       <StyledPoolInfo className={classes.poolPair}>
-        <TokenStack tokens={props.pool.icons} />
+        <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
 
         <div className={classes.poolName}>
           <Typography>{props.pool.poolName}</Typography>

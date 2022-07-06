@@ -513,7 +513,7 @@ function Chart({
             >
               {headerText}
             </Typography>
-            <Typography variant={"h6"} color="textSecondary">
+            <Typography display="flex" variant={"h6"} color="textSecondary" alignItems="center">
               <InfoTooltip message={infoTooltipMessage} />
             </Typography>
           </Box>
