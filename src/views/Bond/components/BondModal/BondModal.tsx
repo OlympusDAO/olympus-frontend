@@ -7,6 +7,7 @@ import { NetworkId } from "src/constants";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { useAccount, useNetwork } from "wagmi";
@@ -21,9 +22,9 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();
-  const { chain = { id: 1 } } = useNetwork();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { id } = useParams<{ id: string }>();
-  usePathForNetwork({ pathName: "bonds", networkID: chain.id, navigate });
+  usePathForNetwork({ pathName: "bonds", networkID: activeChain.id, navigate });
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
@@ -39,7 +40,7 @@ export const BondModalContainer: React.VFC = () => {
 const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { address = "" } = useAccount();
+  const { data: account } = useAccount();
   const isInverseBond: boolean = pathname.includes("/inverse/");
 
   const [slippage, setSlippage] = useState("0.5");
@@ -56,8 +57,8 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   }, [navigate, isSettingsOpen]);
 
   useEffect(() => {
-    if (address) setRecipientAddress(address);
-  }, [address]);
+    if (account?.address) setRecipientAddress(account.address);
+  }, [account?.address]);
 
   return (
     <Modal
@@ -92,7 +93,10 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
             metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
           />
-          <Metric label={t`Market Price`} metric={<TokenPrice token={bond.baseToken} />} />
+          <Metric
+            label={t`Market Price`}
+            metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
+          />
           <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
@@ -153,6 +157,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
 const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ token, isInverseBond }) => {
   const { data: priceToken = new DecimalBigNumber("0") } = useTokenPrice({ token, networkId: NetworkId.MAINNET });
-  const price = priceToken;
+  const { data: ohmPrice = 0 } = useOhmPrice();
+  const price = isInverseBond ? priceToken.mul(new DecimalBigNumber(ohmPrice.toString())) : priceToken;
   return price ? <>${price.toString({ decimals: 2, format: true, trim: false })}</> : <Skeleton width={60} />;
 };
