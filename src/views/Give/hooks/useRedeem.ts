@@ -20,10 +20,9 @@ import { RedeemData } from "../Interfaces";
 export const useRedeem = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const address = account?.address ? account.address : "";
 
   return useMutation<ContractReceipt, Error, RedeemData>(
     async ({ token: token_ }) => {

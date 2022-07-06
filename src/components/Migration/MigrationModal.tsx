@@ -24,10 +24,10 @@ const classes = {
 function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch: AppDispatch = useDispatch();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const provider = useProvider();
   const { data: signer } = useSigner();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   const {
     view,
@@ -53,13 +53,12 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   let rows: any[] = [];
   const isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
-  const address = account?.address ? account.address : "";
   const onSeekApproval = (token: string) => {
     if (!signer) throw new Error("No signer");
     dispatch(
       changeMigrationApproval({
         address,
-        networkID: activeChain.id,
+        networkID: chain.id,
         provider,
         signer,
         token: token.toLowerCase(),
@@ -71,7 +70,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   useEffect(() => {
     if (
-      isChainEthereum({ chainId: activeChain.id, includeTestnets: true }) &&
+      isChainEthereum({ chainId: chain.id, includeTestnets: true }) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
@@ -81,7 +80,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   const onMigrate = () => {
     if (!signer) throw new Error("No signer");
-    dispatch(migrateAll({ provider, signer, address, networkID: activeChain.id, gOHM: isGOHM }));
+    dispatch(migrateAll({ provider, signer, address, networkID: chain.id, gOHM: isGOHM }));
   };
   rows = [
     {

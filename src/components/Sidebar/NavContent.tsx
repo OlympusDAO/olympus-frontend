@@ -28,7 +28,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const NavContent: React.VFC = () => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
 
   return (
@@ -50,7 +50,7 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {activeChain.id === networks.MAINNET ? (
+              {chain.id === networks.MAINNET ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>

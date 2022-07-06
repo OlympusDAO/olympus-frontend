@@ -84,22 +84,21 @@ export const transactionHistoryQueryKey = (options: UseTransactionHistoryOptions
   ["useTransactionHistory", options] as const;
 
 export const useTransactionHistory = () => {
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction[]>(
-    transactionHistoryQueryKey({ address, networkId: activeChain.id }),
+    transactionHistoryQueryKey({ address, networkId: chain.id }),
     ({ pageParam = 0 }) => {
       return covalent.transactions.listAll({
         address,
-        networkId: activeChain.id,
+        networkId: chain.id,
         pageSize: 300,
         pageNumber: pageParam,
       });
     },
     {
-      enabled: !!address && !!activeChain.id,
+      enabled: !!address && !!chain.id,
       select: ({ pages, pageParams }) => ({
         pageParams,
         pages: pages.map(page => interpretTransaction(page.items, address)),
@@ -121,24 +120,23 @@ interface UseTransferHistoryOptions {
 export const transferHistoryQueryKey = (options: UseTransferHistoryOptions) => ["useTransferHistory", options] as const;
 
 export const useTransferHistory = <TToken extends Token>(token: TToken) => {
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const contractAddress = token.getAddress(activeChain.id);
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
+  const contractAddress = token.getAddress(chain.id);
 
   return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction[]>(
-    transferHistoryQueryKey({ address, networkId: activeChain.id, contractAddress }),
+    transferHistoryQueryKey({ address, networkId: chain.id, contractAddress }),
     async ({ pageParam = 0 }) => {
       return covalent.transfers.listAll({
         address,
-        networkId: activeChain.id,
+        networkId: chain.id,
         pageSize: 300,
         contractAddress,
         pageNumber: pageParam,
       });
     },
     {
-      enabled: !!address && !!activeChain.id && !!contractAddress,
+      enabled: !!address && !!chain.id && !!contractAddress,
       select: ({ pages, pageParams }) => ({
         pageParams,
         pages: pages.map(page =>
