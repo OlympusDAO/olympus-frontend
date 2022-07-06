@@ -514,6 +514,7 @@ function Chart({
   subgraphQueryUrl?: string;
 }) {
   const [open, setOpen] = useState(false);
+  // TODO this loading status doesn't really work
   const [loading, setLoading] = useState(true);
 
   const handleOpen = () => {
@@ -684,7 +685,7 @@ function Chart({
         ) : (
           <Box display="flex">
             <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-              {headerSubText}
+              {headerSubText !== "undefined" ? headerSubText : <Skeleton variant="text" width={100} />}
             </Typography>
             <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
               {type !== "multi" && t`Today`}
