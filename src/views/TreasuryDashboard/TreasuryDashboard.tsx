@@ -17,7 +17,7 @@ import {
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
-const QUERY_DAYS_AGO = "daysAgo";
+const QUERY_RECORD_COUNT = "recordCount";
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
@@ -31,26 +31,26 @@ const MetricsDashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
-    const queryRecordCount = searchParams.get(QUERY_DAYS_AGO) || defaultRecordsCount.toString();
+    const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || defaultRecordsCount.toString();
     setRecordCount(queryRecordCount);
   }, [searchParams]);
 
   /**
-   * Adds the days ago filter to the search parameters, which in turn updates the state variable
+   * Adds the record count filter to the search parameters, which in turn updates the state variable
    * and triggers an update to the charts.
    *
    * @param _event unused
-   * @param value string value representing the number of days ago to fetch
+   * @param value string value representing the number of records to fetch
    */
-  const handleDaysAgoButtonGroupClick = (_event: unknown, value: unknown) => {
+  const handleRecordCountButtonGroupClick = (_event: unknown, value: unknown) => {
     if (typeof value === "string") {
       // Load the existing search params and update the value, so that other params are not overwritten
       const updatedSearchParams = new URLSearchParams(searchParams.toString());
-      updatedSearchParams.set(QUERY_DAYS_AGO, value);
+      updatedSearchParams.set(QUERY_RECORD_COUNT, value);
       setSearchParams(updatedSearchParams.toString());
     } else {
       throw new Error(
-        `handleDaysAgoButtonGroupClick: expected string value as input, but received type ${typeof value} and value ${value}`,
+        `handleRecordCountButtonGroupClick: expected string value as input, but received type ${typeof value} and value ${value}`,
       );
     }
   };
@@ -78,7 +78,7 @@ const MetricsDashboard = () => {
               value={recordCount}
               color="warning" // TODO adjust this to theme
               exclusive
-              onChange={handleDaysAgoButtonGroupClick}
+              onChange={handleRecordCountButtonGroupClick}
               style={{ height: "40px" }}
             >
               <ToggleButton value="7">7d</ToggleButton>
