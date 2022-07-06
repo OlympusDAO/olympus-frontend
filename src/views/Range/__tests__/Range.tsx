@@ -125,7 +125,7 @@ describe("Default Main Range View", () => {
       expect(
         await screen.findByText("Please don't close this modal until all wallet transactions are confirmed."),
       ).toBeInTheDocument();
-    }, 1000);
+    }, 10000);
   });
 
   it("Should close the confirmation modal when clicking the close button", async () => {
