@@ -74,7 +74,7 @@ export function disconnectedWallet() {
   WAGMI.useAccount = jest.fn(() => {
     return {
       isConnected: false,
-      address: "",
+      address: undefined,
       connector: mockConnector,
       error: null,
       fetchStatus: "idle",

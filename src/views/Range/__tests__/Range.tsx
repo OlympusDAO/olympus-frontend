@@ -1,17 +1,21 @@
 import { BigNumber } from "ethers";
+import Messages from "src/components/Messages/Messages";
+import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
-import { connectWallet } from "src/testHelpers";
+import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { connectWallet, disconnectedWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
 import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
+import * as WAGMI from "wagmi";
 
 import { RangeData } from "../__mocks__/mockRangeCalls";
 import { Range } from "../index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
-
+jest.mock("src/hooks/useContractAllowance");
 jest.mock("recharts", () => {
   const OriginalModule = jest.requireActual("recharts");
 
@@ -25,21 +29,35 @@ jest.mock("recharts", () => {
   };
 });
 
+const defaultStatesWithApproval = () => {
+  const rangeOperator = jest.spyOn(Contract.RANGE_OPERATOR_CONTRACT, "getEthersContract");
+  RangeFactory.Range__factory.connect = jest.fn().mockReturnValue({
+    range: jest.fn().mockReturnValue(RangeData),
+    reserve: jest.fn().mockReturnValue("address"),
+  });
+  IERC20Factory.IERC20__factory.connect = jest.fn().mockReturnValue({
+    symbol: jest.fn().mockReturnValue("DAI"),
+  });
+  RANGEPriceContract.RangePrice__factory.connect = jest.fn().mockReturnValue({
+    getCurrentPrice: jest.fn().mockReturnValue(BigNumber.from("13209363085060059262")),
+  });
+  //@ts-ignore
+  rangeOperator.mockReturnValue({
+    connect: jest.fn().mockReturnValue({
+      swap: jest.fn().mockReturnValue({
+        wait: jest.fn().mockResolvedValue(true),
+      }),
+    }),
+  });
+  //@ts-expect-error
+  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  //@ts-expect-error
+  Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+};
 describe("Default Main Range View", () => {
   beforeEach(() => {
     connectWallet();
-    RangeFactory.Range__factory.connect = jest.fn().mockReturnValue({
-      range: jest.fn().mockReturnValue(RangeData),
-      reserve: jest.fn().mockReturnValue("address"),
-    });
-    IERC20Factory.IERC20__factory.connect = jest.fn().mockReturnValue({
-      symbol: jest.fn().mockReturnValue("DAI"),
-    });
-    RANGEPriceContract.RangePrice__factory.connect = jest.fn().mockReturnValue({
-      getCurrentPrice: jest.fn().mockReturnValue(BigNumber.from("13209363085060059262")),
-    });
-    //@ts-expect-error
-    Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+    defaultStatesWithApproval();
   });
 
   it("Should Load Correct Upper Wall Price", async () => {
@@ -75,14 +93,46 @@ describe("Default Main Range View", () => {
     render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
-    expect(await screen.getByText("Confirm Swap")).toBeInTheDocument();
+    expect(await screen.getAllByText("Confirm Swap")[0]).toBeInTheDocument();
+  });
+
+  it("Should Successfully execute a buy swap", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
+  });
+  it("Should Show a message when mutating", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    //waiting for isMutating to be caught
+    setTimeout(async () => {
+      expect(
+        await screen.findByText("Please don't close this modal until all wallet transactions are confirmed."),
+      ).toBeInTheDocument();
+    }, 1000);
   });
 
   it("Should close the confirmation modal when clicking the close button", async () => {
     render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
-    expect(await screen.getByText("Confirm Swap")).toBeInTheDocument();
+    expect(await screen.getAllByText("Confirm Swap")[0]).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText("close"));
     expect(await screen.queryByText("Confirm Swap")).not.toBeInTheDocument();
   });
@@ -128,6 +178,7 @@ describe("No Balances Loaded", () => {
     expect(await screen.findByTestId("max-row")).toHaveTextContent("0.00");
   });
 });
+
 describe("Sell Tab Main Range View", () => {
   beforeEach(() => {
     connectWallet();
@@ -181,5 +232,47 @@ describe("Sell Tab Main Range View", () => {
   it("Should render with Bid price of $16.12 on chart", async () => {
     render(<Range />);
     expect(await screen.findByText("Bid: $16.12"));
+  });
+});
+
+describe("Error Checks Disconnected", () => {
+  beforeEach(() => {
+    defaultStatesWithApproval();
+    disconnectedWallet();
+  });
+
+  it("Should render an error when empty/invalid address", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Invalid address")).toBeInTheDocument();
+  });
+
+  it("Should render an error when ther is an invalid signer", async () => {
+    disconnectedWallet();
+    //@ts-ignore
+    WAGMI.useSigner = jest.fn(() => {
+      return {
+        data: undefined,
+      };
+    });
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Please connect a wallet to Range Swap")).toBeInTheDocument();
   });
 });

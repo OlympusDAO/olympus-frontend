@@ -58,7 +58,7 @@ const NavContent: React.VFC = () => {
                     <InverseBonds />
                   </NavItem>
                   {/* TODO: Replace w/ mainnet when contracts are on more than one network. */}
-                  {activeChain.id === NetworkId.TESTNET_GOERLI && <NavItem to="/range" icon="bond" label={t`Range`} />})
+                  {chain.id === NetworkId.TESTNET_GOERLI && <NavItem to="/range" icon="bond" label={t`Range`} />})
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}

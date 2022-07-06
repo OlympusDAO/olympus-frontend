@@ -27,9 +27,9 @@ type RangeContracts = "swap" | "bond";
 export const Range = () => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { data: rangeData } = RangeData();
-  usePathForNetwork({ pathName: "range", networkID: activeChain.id, navigate });
+  usePathForNetwork({ pathName: "range", networkID: chain.id, navigate });
 
   const {
     data: { symbol: reserveSymbol, reserveAddress },

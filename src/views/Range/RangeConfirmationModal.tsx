@@ -3,12 +3,12 @@ import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsMutating } from "react-query";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { BOND_DEPOSITORY_ADDRESSES, OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 import { BondSettingsModal } from "../Bond/components/BondModal/components/BondSettingsModal";
 import { RangeSwap } from "./hooks";
@@ -32,7 +32,8 @@ const RangeConfirmationModal = (props: {
   const isMutating = useIsMutating();
   const theme = useTheme();
   const rangeSwap = RangeSwap();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [slippage, setSlippage] = useState("0.5");
   const [recipientAddress, setRecipientAddress] = useState("");
@@ -42,6 +43,11 @@ const RangeConfirmationModal = (props: {
     rangeSwap.reset();
     props.onClose();
   }
+
+  useEffect(() => {
+    if (address) setRecipientAddress(address);
+  }, [address]);
+
   return (
     <Modal
       topLeft={
@@ -129,7 +135,7 @@ const RangeConfirmationModal = (props: {
               <Trans>for swapping</Trans>.
             </>
           }
-          tokenAddressMap={props.sellActive ? OHM_ADDRESSES : { [activeChain.id]: props.reserveAddress }}
+          tokenAddressMap={props.sellActive ? OHM_ADDRESSES : { [chain.id]: props.reserveAddress }}
           spenderAddressMap={props.contract === "bond" ? BOND_DEPOSITORY_ADDRESSES : RANGE_OPERATOR_ADDRESSES}
           approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
@@ -142,6 +148,7 @@ const RangeConfirmationModal = (props: {
                     onChange={event => setChecked(event.target.checked)}
                     icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
                     checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                    data-testid="disclaimer-checkbox"
                   />
                 }
                 label={
@@ -155,12 +162,13 @@ const RangeConfirmationModal = (props: {
           )}
 
           <PrimaryButton
+            data-testid="range-confirm-submit"
             fullWidth
             onClick={() =>
               rangeSwap.mutate({
                 market: props.market,
                 tokenAddress: props.sellActive
-                  ? OHM_ADDRESSES[activeChain.id as keyof typeof OHM_ADDRESSES]
+                  ? OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES]
                   : props.reserveAddress,
                 amount: props.sellActive ? props.ohmAmount : props.reserveAmount,
                 swapType: props.contract,
