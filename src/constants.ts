@@ -19,7 +19,7 @@ export const getSubgraphUrl = () => {
    * as the "#" in the URL causes everything to be included in window.location.hash.
    */
   const source = window.location.hash.split("subgraphId=");
-  const subgraphId = source.length > 1 && source[1] ? source[1] : null;
+  const subgraphId = source.length > 1 && source[1] ? source[1].split("&")[0] : null;
 
   // If the "staging" parameter is specified, use the staging subgraph
   if (subgraphId) {
