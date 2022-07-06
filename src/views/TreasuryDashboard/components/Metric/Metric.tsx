@@ -41,6 +41,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
+    tooltip: t`This price is sourced from the subgraph, so will lag the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -69,7 +70,7 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`Circulating Supply (total)`,
+    label: t`Circulating Supply / Total`,
     tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
   };
 
