@@ -138,7 +138,7 @@ export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[
  * Please avoid using this method unless you are intentionally trying to read from subgraph.
  * You should typically be using `useOhmPrice` from `src/hooks/usePrices.ts`... as subgraph has an indexing delay
  */
-export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+export const useOHMPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
 
 /**
  * @deprecated
