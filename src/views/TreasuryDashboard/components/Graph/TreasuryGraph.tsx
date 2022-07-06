@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { CSSProperties } from "react";
-import Chart, { ChartData, DataFormat } from "src/components/Chart/Chart";
+import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -12,6 +13,7 @@ import {
   useProtocolOwnedLiquidityComponentsQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
+import { ChartData } from "src/helpers/ProtocolMetricsHelper";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 
@@ -188,5 +190,36 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
     />
+  );
+};
+
+export const AssetsTable = () => {
+  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
+  // TODO look at caching
+  const rows = [{ token: "foo", value: "1000.01", category: "Stablecoins", blockchain: "Ethereum" }];
+
+  return (
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Asset</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Blockchain</TableCell>
+            <TableCell>Value</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, index) => (
+            <TableRow key={index}>
+              <TableCell>{row.token}</TableCell>
+              <TableCell>{row.category}</TableCell>
+              <TableCell>{row.blockchain}</TableCell>
+              <TableCell>{formatCurrency(parseFloat(row.value))}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };

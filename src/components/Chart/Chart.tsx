@@ -24,6 +24,7 @@ import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalC
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 import { formatCurrency, trim } from "src/helpers";
+import { ChartData } from "src/helpers/ProtocolMetricsHelper";
 
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
@@ -41,11 +42,6 @@ export enum DataFormat {
   DateMonth,
   None,
 }
-
-export type ChartData = {
-  timestamp: string;
-  [key: string]: string;
-};
 
 const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
