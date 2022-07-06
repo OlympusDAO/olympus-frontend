@@ -38,7 +38,7 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  * {
  *   timestamp: "1229930",
  *   tokens: [
- *     { token: "DAI", value: "150.0" },
+ *     { token: "DAI", category: "stablecoins", value: "150.0" },
  *   ]
  * }
  * ```
@@ -49,6 +49,8 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  */
 export const getByTokenSummary = (metrics: unknown[] | undefined, keys: string[]): ChartData[] => {
   if (!metrics) return [];
+
+  // change type to ProtocolMetrics?
 
   const chartData: ChartData[] = [];
 
