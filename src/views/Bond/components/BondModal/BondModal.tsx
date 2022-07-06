@@ -22,9 +22,9 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { id } = useParams<{ id: string }>();
-  usePathForNetwork({ pathName: "bonds", networkID: activeChain.id, navigate });
+  usePathForNetwork({ pathName: "bonds", networkID: chain.id, navigate });
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
