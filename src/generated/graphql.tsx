@@ -2181,6 +2181,33 @@ export type MarketValueMetricsQuery = {
   }>;
 };
 
+export type MarketValueMetricsComponentsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type MarketValueMetricsComponentsQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    timestamp: any;
+    timestampISO8901: string;
+    treasuryStableValueComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+    treasuryVolatileValueComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+    treasuryLPValueComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+  }>;
+};
+
 export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{
   records?: InputMaybe<Scalars["Int"]>;
 }>;
@@ -2306,6 +2333,49 @@ export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TErr
       dataSource.endpoint,
       dataSource.fetchParams || {},
       MarketValueMetricsDocument,
+      variables,
+    ),
+    options,
+  );
+export const MarketValueMetricsComponentsDocument = `
+    query MarketValueMetricsComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryStableValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryVolatileValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLPValueComponents {
+      records {
+        token
+        value
+      }
+    }
+  }
+}
+    `;
+export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsComponentsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: MarketValueMetricsComponentsQueryVariables,
+  options?: UseQueryOptions<MarketValueMetricsComponentsQuery, TError, TData>,
+) =>
+  useQuery<MarketValueMetricsComponentsQuery, TError, TData>(
+    variables === undefined ? ["MarketValueMetricsComponents"] : ["MarketValueMetricsComponents", variables],
+    fetcher<MarketValueMetricsComponentsQuery, MarketValueMetricsComponentsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      MarketValueMetricsComponentsDocument,
       variables,
     ),
     options,

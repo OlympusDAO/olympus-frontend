@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
@@ -8,11 +9,17 @@ import {
   MarketValueMetricsDocument,
   ProtocolOwnedLiquidityComponentsDocument,
   useKeyMetricsQuery,
+  useMarketValueMetricsComponentsQuery,
   useMarketValueMetricsQuery,
   useProtocolOwnedLiquidityComponentsQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { getDataKeysFromTokens, getKeysTokenSummary, getTokensFromKey } from "src/helpers/ProtocolMetricsHelper";
+import {
+  getDataKeysFromTokens,
+  getKeysTokenSummary,
+  getTokensFromKey,
+  reduceKeysTokenSummary,
+} from "src/helpers/ProtocolMetricsHelper";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 
@@ -136,32 +143,34 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
 };
 
 export const AssetsTable = () => {
-  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() });
+  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
+
+  if (!data) return <Skeleton />;
+
+  const keys = ["treasuryStableValueComponents", "treasuryVolatileValueComponents", "treasuryLPValueComponents"];
+  const tokenSummary = getKeysTokenSummary(data?.protocolMetrics, keys, [
+    "Stablecoins",
+    "Volatile",
+    "Protocol-Owned Liquidity",
+  ]);
+  const reducedTokens = reduceKeysTokenSummary(tokenSummary, keys);
+  const currentMetric = reducedTokens[0];
   // TODO look at caching
-  const rows = [{ token: "foo", value: "1000.01", category: "Stablecoins", blockchain: "Ethereum" }];
+  // TODO handle date scrubbing
+
+  const columns: GridColDef[] = [
+    { field: "token", headerName: "Asset" },
+    { field: "category", headerName: "Category" },
+    {
+      field: "value",
+      headerName: "Value",
+      valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
+    },
+  ];
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Asset</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Blockchain</TableCell>
-            <TableCell>Value</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.token}</TableCell>
-              <TableCell>{row.category}</TableCell>
-              <TableCell>{row.blockchain}</TableCell>
-              <TableCell>{formatCurrency(parseFloat(row.value))}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ height: 800, width: "100%" }}>
+      <DataGrid rows={currentMetric.tokens} columns={columns} pageSize={10} getRowId={row => row.token} />;
+    </div>
   );
 };

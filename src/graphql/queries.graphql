@@ -48,6 +48,33 @@ query MarketValueMetrics($records: Int = 100) {
   }
 }
 
+query MarketValueMetricsComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryStableValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryVolatileValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLPValueComponents {
+      records {
+        token
+        value
+      }
+    }
+  }
+}
+
 query ProtocolOwnedLiquidityComponents($records: Int = 100) {
   protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
     id

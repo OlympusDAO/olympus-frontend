@@ -182,7 +182,7 @@ type MetricRow = {
  * @param keys
  * @returns
  */
-export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: string[]): any[] => {
+export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: string[]): MetricRow[] => {
   if (!metrics) return [];
 
   const reducedData: MetricRow[] = [];
