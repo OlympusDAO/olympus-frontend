@@ -47,7 +47,7 @@ function Give({ selectedIndex = 0 }) {
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <Paper
                   headerText={t`Give`}
-                  childPaperBackground={true}
+                  // childPaperBackground={true}
                   fullWidth
                   className="no-container-padding"
                   zoom={false}
