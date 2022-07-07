@@ -158,6 +158,9 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ token, isInverseBond }) => {
   const { data: priceToken = new DecimalBigNumber("0") } = useTokenPrice({ token, networkId: NetworkId.MAINNET });
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const price = isInverseBond ? new DecimalBigNumber(ohmPrice.toString()) : priceToken;
-  return price ? <>${price.toString({ decimals: 2, format: true, trim: false })}</> : <Skeleton width={60} />;
+  const price = isInverseBond
+    ? formatCurrency(ohmPrice, 2)
+    : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
+  return price ? <>{price}</> : <Skeleton width={60} />;
+};
 };
