@@ -8,6 +8,7 @@ import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
+  MarketValueMetricsComponentsDocument,
   MarketValueMetricsDocument,
   ProtocolOwnedLiquidityComponentsDocument,
   useKeyMetricsQuery,
@@ -146,6 +147,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
 
 export const AssetsTable = () => {
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
   if (!data) return <Skeleton />;
 
@@ -182,7 +184,6 @@ export const AssetsTable = () => {
   ];
 
   const headerText = "Holdings";
-  const subgraphQueryUrl = null;
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
@@ -211,8 +212,8 @@ export const AssetsTable = () => {
           <Grid item>
             <Grid container spacing={1}>
               <Grid item>
-                {subgraphQueryUrl && (
-                  <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
+                {queryExplorerUrl && (
+                  <Link href={queryExplorerUrl} target="_blank" rel="noopener noreferrer">
                     <Tooltip title={t`Open Subgraph Query`}>
                       <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                     </Tooltip>
