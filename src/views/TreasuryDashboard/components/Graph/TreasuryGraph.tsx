@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Skeleton } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridComparatorFn, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
@@ -155,22 +155,47 @@ export const AssetsTable = () => {
   ]);
   const reducedTokens = reduceKeysTokenSummary(tokenSummary, keys);
   const currentMetric = reducedTokens[0];
+
+  const currencySortComparator: GridComparatorFn<string> = (v1, v2) => {
+    // Get rid of all non-number characters
+    const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+    return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+  };
+
   // TODO look at caching
   // TODO handle date scrubbing
 
   const columns: GridColDef[] = [
-    { field: "token", headerName: "Asset" },
-    { field: "category", headerName: "Category" },
+    { field: "token", headerName: "Asset", flex: 1 },
+    { field: "category", headerName: "Category", flex: 1 },
     {
       field: "value",
       headerName: "Value",
+      flex: 1,
+      type: "string",
+      sortComparator: currencySortComparator,
       valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
     },
   ];
 
   return (
-    <div style={{ height: 800, width: "100%" }}>
-      <DataGrid rows={currentMetric.tokens} columns={columns} pageSize={10} getRowId={row => row.token} />;
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={currentMetric.tokens}
+        columns={columns}
+        pageSize={10}
+        getRowId={row => row.token}
+        // Sort by value descending
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "value", sort: "desc" }],
+          },
+        }}
+        // Only ascending or descending sort
+        sortingOrder={["desc", "asc"]}
+      />
+      ;
     </div>
   );
 };

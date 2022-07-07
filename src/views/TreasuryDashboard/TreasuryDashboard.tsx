@@ -103,7 +103,7 @@ const MetricsDashboard = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
+          <Paper className="ohm-card ohm-chart-card" style={{ height: "600px" }}>
             <AssetsTable />
           </Paper>
         </Grid>
