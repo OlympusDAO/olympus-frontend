@@ -193,6 +193,7 @@ export const AssetsTable = () => {
     >
       <DataGrid
         autoHeight
+        disableSelectionOnClick
         rows={currentMetric.tokens}
         rowHeight={40}
         columns={columns}
@@ -232,6 +233,10 @@ export const AssetsTable = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "0px",
+          },
+          // Disables outline on clicked cells
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
           },
         }}
       />
