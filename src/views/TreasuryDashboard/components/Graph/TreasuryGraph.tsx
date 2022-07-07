@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { CSSProperties } from "react";
-import Chart, { ChartData, DataFormat } from "src/components/Chart/Chart";
+import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -134,12 +134,12 @@ const getUniqueTokens = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefi
  * @param metrics The query result
  * @returns array of FlatProtocolOwnedLiquidity elements
  */
-const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): ChartData[] => {
-  const flattenedData: ChartData[] = [];
+const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): any[] => {
+  const flattenedData: any[] = [];
   if (!metrics) return flattenedData;
 
   metrics.protocolMetrics.forEach(metric => {
-    const flatData: ChartData = {
+    const flatData: any = {
       timestamp: metric.timestamp,
     };
 

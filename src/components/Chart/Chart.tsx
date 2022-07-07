@@ -42,11 +42,6 @@ export enum DataFormat {
   None,
 }
 
-export type ChartData = {
-  timestamp: string;
-  [key: string]: string;
-};
-
 const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
 };
@@ -94,7 +89,7 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 };
 
 const renderAreaChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stopColor: string[][],
   stroke: string[],
@@ -156,7 +151,7 @@ const getValidCSSSelector = (value: string): string => {
 };
 
 const renderStackedAreaChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -221,7 +216,7 @@ const renderStackedAreaChart = (
 );
 
 const renderLineChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   color: string,
@@ -271,7 +266,7 @@ const renderLineChart = (
 );
 
 const renderComposedChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -369,7 +364,7 @@ const renderComposedChart = (
 };
 
 const renderMultiLineChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -419,7 +414,7 @@ const renderMultiLineChart = (
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -493,7 +488,7 @@ function Chart({
   subgraphQueryUrl,
 }: {
   type: string;
-  data: ChartData[];
+  data: any[];
   scale?: string;
   dataKey: string[];
   color: string;
