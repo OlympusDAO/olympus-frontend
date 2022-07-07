@@ -1,3 +1,5 @@
+import "src/components/Chart/chart.scss";
+
 import { t } from "@lingui/macro";
 import { Box, Grid, Link, Skeleton, SvgIcon, Tooltip, Typography } from "@mui/material";
 import { InfoTooltip } from "@olympusdao/component-library";

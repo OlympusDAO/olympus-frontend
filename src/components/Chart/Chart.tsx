@@ -1,5 +1,3 @@
-import "./chart.scss";
-
 import { format } from "date-fns";
 import { CSSProperties, useEffect, useState } from "react";
 import {
