@@ -210,12 +210,28 @@ export const AssetsTable = () => {
           "& .MuiDataGrid-columnHeaders": {
             fontSize: "16px",
             height: "40px",
+            borderBottom: "0px",
           },
           "& .MuiDataGrid-columnHeaderTitle": {
             fontWeight: 800,
           },
           "& .MuiDataGrid-cellContent": {
             fontSize: "14px",
+          },
+          // "& .MuiDataGrid-root" doesn't work here, for some reason
+          "&.MuiDataGrid-root": {
+            paddingLeft: "12px",
+            paddingRight: "12px",
+            border: "0px",
+          },
+          "& .MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "0px",
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "0px",
           },
         }}
       />
