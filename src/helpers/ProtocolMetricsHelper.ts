@@ -4,11 +4,8 @@ type TokenRow = {
   value: string;
 };
 
-export type TokenRows = {
-  timestamp: string;
-  tokens: {
-    [key: string]: TokenRow;
-  };
+type TokenRows = {
+  [key: string]: TokenRow;
 };
 
 const objectHasProperty = (object: unknown, property: string): boolean => {
@@ -36,40 +33,75 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  * ```
  * {
  *   timestamp: "1229930",
- *   tokens: [
- *     { token: "DAI", category: "stablecoins", value: "150.0" },
- *   ]
+ *   ...
+ *   treasuryLPValueComponents {
+ *     records: [
+ *       { token: "DAI", value: "100.0" },
+ *       { token: "DAI", value: "50.0" },
+ *     ],
+ *     tokens: {
+ *       DAI: { token: "DAI", category: "stablecoins", value: "150.0" },
+ *     }
+ *   }
  * }
  * ```
  *
+ * Note: {keys} and {categories} must have the same number of elements.
+ *
  * @param metrics
- * @param keys
+ * @param keys properties to fetch from the {metrics} parameter
+ * @param categories applies the given categories to the tokens that are returned, corresponding to the keys parameter
  * @returns
  */
-export const getByTokenSummary = (metrics: unknown[] | undefined, keys: string[]): TokenRows[] => {
+export const getKeysTokenSummary = (metrics: any[] | undefined, keys: string[], categories: string[]): any[] => {
+  if (keys.length != categories.length) {
+    throw new Error(
+      `The length of the keys (${JSON.stringify(keys)}) and categories (${JSON.stringify(
+        categories,
+      )}) parameters must match`,
+    );
+  }
+
   if (!metrics) return [];
 
-  // change type to ProtocolMetrics?
+  const updatedData = metrics.slice();
 
-  const chartData: TokenRows[] = [];
-
-  metrics.forEach(metric => {
+  updatedData.forEach(metric => {
     if (!objectHasProperty(metric, "timestamp")) {
       throw new Error("Unable to access timestamp property in metrics element");
     }
 
-    // const record: TokenRows = {
-    //   timestamp:
-    //     typeof metric === "object" && metric !== null && metric.hasOwnProperty("timestamp") && metric.timestamp,
-    //   tokens: {},
-    // };
-
-    keys.forEach(key => {
+    keys.forEach((key, index) => {
       if (!(typeof metric === "object" && metric !== null && key in metric)) {
         throw new Error(`Unable to access specified key ${key} in metrics element`);
       }
+
+      const components = metric[key];
+      if (!(typeof components === "object" && components !== null && "records" in components)) {
+        throw new Error(`Unable to access records property in ${key} element`);
+      }
+
+      // Create the destination data structure first
+      components.tokens = {} as TokenRows;
+
+      const currentCategory = categories[index];
+
+      components["records"].forEach((record: { token: string; value: string }) => {
+        const currentTokenRecord = components.tokens[record.token];
+        const currentTokenValue: string = currentTokenRecord ? currentTokenRecord.value : "0";
+        const recordValue: number = typeof record.value === "number" ? record.value : parseFloat(record.value);
+        const newValue: number = parseFloat(currentTokenValue) + recordValue;
+
+        const tokenRecord: TokenRow = {
+          token: record.token,
+          category: currentCategory,
+          value: newValue.toString(),
+        };
+
+        components.tokens[record.token] = tokenRecord;
+      });
     });
   });
 
-  return chartData;
+  return updatedData;
 };
