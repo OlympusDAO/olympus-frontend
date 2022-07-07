@@ -204,7 +204,9 @@ export const AssetsTable = () => {
               {headerText}
             </Typography>
             <Typography variant={"h6"} color="textSecondary">
-              <InfoTooltip message={""} />
+              <InfoTooltip
+                message={t`This table lists the details of the treasury assets that make up the market value`}
+              />
             </Typography>
           </Box>
           {/* could make this svgbutton */}
