@@ -1,7 +1,9 @@
 import { t } from "@lingui/macro";
-import { Skeleton } from "@mui/material";
+import { Box, Grid, Link, Skeleton, SvgIcon, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridComparatorFn, GridValueGetterParams } from "@mui/x-data-grid";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { CSSProperties } from "react";
+import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
@@ -179,23 +181,78 @@ export const AssetsTable = () => {
     },
   ];
 
+  const headerText = "Holdings";
+  const subgraphQueryUrl = null;
+
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={currentMetric.tokens}
-        columns={columns}
-        pageSize={10}
-        getRowId={row => row.token}
-        // Sort by value descending
-        initialState={{
-          sorting: {
-            sortModel: [{ field: "value", sort: "desc" }],
-          },
-        }}
-        // Only ascending or descending sort
-        sortingOrder={["desc", "asc"]}
-      />
-      ;
-    </div>
+    <Box style={{ width: "100%", height: "100%" }}>
+      <div className="chart-card-header">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          style={{ width: "100%", overflow: "hidden" }}
+        >
+          <Box display="flex" width="90%" alignItems="center">
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              className="card-title-text"
+              style={{ fontWeight: 400, overflow: "hidden" }}
+            >
+              {headerText}
+            </Typography>
+            <Typography variant={"h6"} color="textSecondary">
+              <InfoTooltip message={""} />
+            </Typography>
+          </Box>
+          {/* could make this svgbutton */}
+
+          <Grid item>
+            <Grid container spacing={1}>
+              <Grid item>
+                {subgraphQueryUrl && (
+                  <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
+                    <Tooltip title={t`Open Subgraph Query`}>
+                      <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
+                    </Tooltip>
+                  </Link>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>{" "}
+      </div>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={currentMetric.tokens}
+          rowHeight={40}
+          columns={columns}
+          pageSize={10}
+          getRowId={row => row.token}
+          // Sort by value descending
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "value", sort: "desc" }],
+            },
+          }}
+          // Only ascending or descending sort
+          sortingOrder={["desc", "asc"]}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              fontSize: "16px",
+              height: "40px",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 800,
+            },
+            "& .MuiDataGrid-cellContent": {
+              fontSize: "14px",
+            },
+          }}
+        />
+        ;
+      </div>
+    </Box>
   );
 };

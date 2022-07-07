@@ -613,6 +613,9 @@ function Chart({
     }
   }, [data]);
 
+  {
+    /* TODO shift into component */
+  }
   return loading ? (
     <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <CircularProgress />
