@@ -1,4 +1,9 @@
-import { getKeysTokenSummary, reduceKeysTokenSummary } from "../ProtocolMetricsHelper";
+import {
+  getDataKeysFromTokens,
+  getKeysTokenSummary,
+  getTokensFromKey,
+  reduceKeysTokenSummary,
+} from "../ProtocolMetricsHelper";
 
 const getTokenRecord = (token: string, value: string) => {
   return {
@@ -140,5 +145,39 @@ describe("reduceKeysTokenSummary", () => {
     expect(() => {
       reduceKeysTokenSummary(metrics, ["treasuryLPValueComponents"]);
     }).toThrow();
+  });
+});
+
+describe("getTokensFromKey", () => {
+  test("works as expected", () => {
+    const timestamp = "1122200";
+    const metrics = [
+      {
+        timestamp: timestamp,
+        treasuryLPValueComponents: {
+          tokens: {
+            DAI: { token: "DAI", category: "Stablecoins", value: "100.0" },
+            LUSD: { token: "LUSD", category: "Stablecoins", value: "150.0" },
+          },
+        },
+      },
+    ];
+
+    const tokenNames = getTokensFromKey(metrics, "treasuryLPValueComponents");
+
+    expect(tokenNames).toEqual(["DAI", "LUSD"]);
+  });
+});
+
+describe("getDataKeysFromTokens", () => {
+  test("works as expected", () => {
+    const tokenNames = ["DAI", "LUSD"];
+
+    const dataKeys = getDataKeysFromTokens(tokenNames, "treasuryLPValueComponents");
+
+    expect(dataKeys).toEqual([
+      "treasuryLPValueComponents.tokens.DAI.value",
+      "treasuryLPValueComponents.tokens.LUSD.value",
+    ]);
   });
 });
