@@ -14,8 +14,7 @@ import { useAccount } from "wagmi";
 export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 

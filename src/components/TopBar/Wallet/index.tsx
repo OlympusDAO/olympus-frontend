@@ -5,7 +5,7 @@ import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
-import { useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
@@ -64,7 +64,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const navigate = useNavigate();
 
-  const { isConnected } = useConnect();
+  const { isConnected } = useAccount();
 
   // only enable backdrop transition on ios devices,
   // because we can assume IOS is hosted on hight-end devices and will not drop frames

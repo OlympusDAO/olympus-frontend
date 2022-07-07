@@ -65,7 +65,6 @@ export function disconnectedWallet() {
   //@ts-ignore
   WAGMI.useConnect = jest.fn(() => {
     return {
-      isConnected: false,
       activeConnector: mockConnector,
       connectors: [mockConnector],
     };
@@ -74,10 +73,9 @@ export function disconnectedWallet() {
   //@ts-ignore
   WAGMI.useAccount = jest.fn(() => {
     return {
-      data: {
-        address: "",
-        connector: mockConnector,
-      },
+      isConnected: false,
+      address: "",
+      connector: mockConnector,
       error: null,
       fetchStatus: "idle",
       internal: {
@@ -115,7 +113,6 @@ export function connectWallet() {
   //@ts-ignore
   WAGMI.useConnect = jest.fn(() => {
     return {
-      isConnected: true,
       activeConnector: mockConnector,
       connectors: [mockConnector],
     };
@@ -124,10 +121,9 @@ export function connectWallet() {
   //@ts-ignore
   WAGMI.useAccount = jest.fn(() => {
     return {
-      data: {
-        address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        connector: mockConnector,
-      },
+      address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      connector: mockConnector,
+      isConnected: true,
       error: null,
       fetchStatus: "idle",
       internal: {

@@ -21,10 +21,9 @@ import { GiveData } from "../Interfaces";
 export const useGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const address = account?.address ? account.address : "";
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, GiveData>(

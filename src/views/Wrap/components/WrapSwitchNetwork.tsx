@@ -3,13 +3,14 @@ import { Button, Typography } from "@mui/material";
 import { TertiaryButton, Token } from "@olympusdao/component-library";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
-import { useNetwork } from "wagmi";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 
 export const WrapSwitchNetwork = () => {
   const networks = useTestableNetworks();
 
-  const { activeChain = { id: 1 }, switchNetwork } = useNetwork();
-  const isMainnet = activeChain.id === networks.MAINNET;
+  const { chain = { id: 1 } } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork();
+  const isMainnet = chain.id === networks.MAINNET;
   if (!isMainnet)
     return (
       <>

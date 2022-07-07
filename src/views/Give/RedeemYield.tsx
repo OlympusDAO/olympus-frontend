@@ -27,8 +27,7 @@ const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));

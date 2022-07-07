@@ -16,9 +16,8 @@ export const useMigrateWsohm = () => {
   const networks = useTestableNetworks();
   const balances = useBalance(WSOHM_ADDRESSES);
 
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   const contract = useDynamicMigratorContract(MIGRATOR_ADDRESSES, true);
 
@@ -30,10 +29,10 @@ export const useMigrateWsohm = () => {
 
       if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
-      if (!contract || (activeChain.id !== networks.AVALANCHE && activeChain.id !== networks.ARBITRUM))
+      if (!contract || (chain.id !== networks.AVALANCHE && chain.id !== networks.ARBITRUM))
         throw new Error(t`Please switch to the Abritrum or Avalanche networks to migrate`);
 
-      const balance = balances[activeChain.id].data;
+      const balance = balances[chain.id].data;
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
@@ -54,8 +53,8 @@ export const useMigrateWsohm = () => {
         });
 
         const keysToRefetch = [
-          balanceQueryKey(address, WSOHM_ADDRESSES, activeChain.id),
-          balanceQueryKey(address, GOHM_ADDRESSES, activeChain.id),
+          balanceQueryKey(address, WSOHM_ADDRESSES, chain.id),
+          balanceQueryKey(address, GOHM_ADDRESSES, chain.id),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
