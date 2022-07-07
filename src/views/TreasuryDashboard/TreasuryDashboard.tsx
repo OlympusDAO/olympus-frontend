@@ -9,6 +9,7 @@ import { NavLink, Outlet, Route, Routes, useSearchParams } from "react-router-do
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
+  AssetsTable,
   defaultRecordsCount,
   LiquidBackingPerOhmComparisonGraph,
   MarketValueGraph,
@@ -98,6 +99,12 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper className="ohm-card ohm-chart-card">
             <MarketValueGraph count={parseInt(recordCount)} />
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Paper className="ohm-card ohm-chart-card" style={{ height: "600px" }}>
+            <AssetsTable />
           </Paper>
         </Grid>
 

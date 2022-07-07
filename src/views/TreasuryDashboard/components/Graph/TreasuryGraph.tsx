@@ -1,19 +1,29 @@
 import { t } from "@lingui/macro";
-import { CSSProperties } from "react";
-import Chart, { ChartData, DataFormat } from "src/components/Chart/Chart";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { CSSProperties, useMemo, useState } from "react";
+import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
+  MarketValueMetricsComponentsDocument,
   MarketValueMetricsDocument,
   ProtocolOwnedLiquidityComponentsDocument,
-  ProtocolOwnedLiquidityComponentsQuery,
   useKeyMetricsQuery,
+  useMarketValueMetricsComponentsQuery,
   useMarketValueMetricsQuery,
   useProtocolOwnedLiquidityComponentsQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
+import {
+  getDataKeysFromTokens,
+  getKeysTokenSummary,
+  getTokensFromKey,
+  MetricRow,
+  reduceKeysTokenSummary,
+} from "src/helpers/ProtocolMetricsHelper";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
+import { ChartCard } from "./ChartCard";
 
 // These constants are used by charts to have consistent colours
 const defaultColors: string[] = ["#FFBF00", "#FF7F50", "#DE3163", "#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF"];
@@ -97,81 +107,24 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
   );
 };
 
-const getUniqueTokens = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): string[] => {
-  const tokenNames = new Set<string>();
-
-  if (metrics) {
-    metrics.protocolMetrics.forEach(metric => {
-      metric.treasuryLPValueComponents.records.forEach(record => {
-        if (!tokenNames.has(record.token)) tokenNames.add(record.token);
-      });
-    });
-  }
-
-  return Array.from(tokenNames);
-};
-
-/**
- * Flattens the component values in `treasuryLPValueComponents`.
- *
- * The data structure is as follows:
- * ```
- * metrics.protocolMetrics {
- *  timestamp
- *  treasuryLPValueComponents {
- *    records {
- *      token
- *      value
- *    }
- *  }
- * }
- * ```
- *
- * This is difficult for the charting library to handle, so the values are
- * summed and grouped under each token.
- *
- * @param metrics The query result
- * @returns array of FlatProtocolOwnedLiquidity elements
- */
-const getFlattenedData = (metrics: ProtocolOwnedLiquidityComponentsQuery | undefined): ChartData[] => {
-  const flattenedData: ChartData[] = [];
-  if (!metrics) return flattenedData;
-
-  metrics.protocolMetrics.forEach(metric => {
-    const flatData: ChartData = {
-      timestamp: metric.timestamp,
-    };
-
-    // TODO extract this into a generalisable function, since we have many *components properties
-    metric.treasuryLPValueComponents.records.forEach(record => {
-      const currentValue: string = flatData[record.token];
-      const recordValue: number = typeof record.value === "number" ? record.value : parseFloat(record.value);
-      const newValue: number = currentValue ? parseFloat(currentValue) + recordValue : recordValue;
-
-      flatData[record.token] = newValue.toString();
-    });
-
-    flattenedData.push(flatData);
-  });
-
-  return flattenedData;
-};
-
 export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: GraphProps) => {
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
-  // Extract out unique categories
-  const tokenCategories = getUniqueTokens(data);
+  const tokenSummary = getKeysTokenSummary(
+    data?.protocolMetrics,
+    ["treasuryLPValueComponents"],
+    ["Protocol-Owned Liquidity"],
+  );
 
-  // Flatten the token values
-  const flatData = getFlattenedData(data);
+  const tokenCategories = getTokensFromKey(tokenSummary, "treasuryLPValueComponents");
+  const dataKeys = getDataKeysFromTokens(tokenCategories, "treasuryLPValueComponents");
 
   return (
     <Chart
       type="stack"
-      data={flatData}
-      dataKey={tokenCategories}
+      data={tokenSummary}
+      dataKey={dataKeys}
       color={""}
       stopColor={[[]]}
       stroke={defaultColors}
@@ -188,5 +141,128 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
     />
+  );
+};
+
+export const AssetsTable = () => {
+  const keys: readonly string[] = [
+    "treasuryStableValueComponents",
+    "treasuryVolatileValueComponents",
+    "treasuryLPValueComponents",
+  ];
+  const categories: readonly string[] = ["Stablecoins", "Volatile", "Protocol-Owned Liquidity"];
+
+  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
+
+  // State variables used for rendering
+  const initialTokenSummary: any[] = [];
+  const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
+  const initialReducedTokens: MetricRow[] = [];
+  const [reducedTokens, setReducedTokens] = useState(initialReducedTokens);
+  const [currentMetric, setCurrentMetric] = useState<MetricRow | null>(null);
+
+  /**
+   * We derive reducedTokens and currentMetric from {data}. They only need to be re-calculated
+   * when {data} changes, so they get wrapped in `useMemo`.
+   */
+  useMemo(() => {
+    console.log("data = " + data === undefined);
+    if (!data) {
+      setTokenSummary([]);
+      setReducedTokens([]);
+      setCurrentMetric(null);
+      return;
+    }
+
+    const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
+    const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
+    const newCurrentMetric = newReducedTokens[0];
+
+    setTokenSummary(newTokenSummary);
+    setReducedTokens(newReducedTokens);
+    setCurrentMetric(newCurrentMetric);
+  }, [data]);
+
+  // TODO handle date scrubbing
+
+  const columns: GridColDef[] = [
+    { field: "token", headerName: "Asset", flex: 1 },
+    { field: "category", headerName: "Category", flex: 1 },
+    {
+      field: "value",
+      headerName: "Value",
+      flex: 1,
+      type: "string",
+      sortComparator: (v1, v2) => {
+        // Get rid of all non-number characters
+        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+      },
+      valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
+    },
+  ];
+
+  const headerText = "Holdings";
+
+  return (
+    <ChartCard
+      headerText={headerText}
+      headerTooltip={t`This table lists the details of the treasury assets that make up the market value`}
+      subgraphQueryUrl={queryExplorerUrl}
+      isLoading={false}
+    >
+      <DataGrid
+        autoHeight
+        loading={!data}
+        disableSelectionOnClick
+        rows={currentMetric ? currentMetric.tokens : []}
+        rowHeight={40}
+        columns={columns}
+        pageSize={10}
+        getRowId={row => row.token}
+        // Sort by value descending
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "value", sort: "desc" }],
+          },
+        }}
+        // Only ascending or descending sort
+        sortingOrder={["desc", "asc"]}
+        sx={{
+          "& .MuiDataGrid-columnHeaders": {
+            fontSize: "16px",
+            height: "40px",
+            borderBottom: "0px",
+          },
+          "& .MuiDataGrid-columnHeaderTitle": {
+            fontWeight: 800,
+          },
+          "& .MuiDataGrid-cellContent": {
+            fontSize: "14px",
+          },
+          // "& .MuiDataGrid-root" doesn't work here, for some reason
+          "&.MuiDataGrid-root": {
+            paddingLeft: "12px",
+            paddingRight: "12px",
+            border: "0px",
+          },
+          "& .MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "0px",
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "0px",
+          },
+          // Disables outline on clicked cells
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+        }}
+      />
+    </ChartCard>
   );
 };

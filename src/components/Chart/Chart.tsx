@@ -1,9 +1,3 @@
-import "./chart.scss";
-
-import { t } from "@lingui/macro";
-import { Box, CircularProgress, Grid, Link, SvgIcon, Tooltip as MuiTooltip, Typography } from "@mui/material";
-import { Skeleton } from "@mui/material";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
 import { CSSProperties, useEffect, useState } from "react";
 import {
@@ -21,9 +15,8 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
-import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
-import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 import { formatCurrency, trim } from "src/helpers";
+import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
@@ -41,11 +34,6 @@ export enum DataFormat {
   DateMonth,
   None,
 }
-
-export type ChartData = {
-  timestamp: string;
-  [key: string]: string;
-};
 
 const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
@@ -94,7 +82,7 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 };
 
 const renderAreaChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stopColor: string[][],
   stroke: string[],
@@ -156,7 +144,7 @@ const getValidCSSSelector = (value: string): string => {
 };
 
 const renderStackedAreaChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -221,7 +209,7 @@ const renderStackedAreaChart = (
 );
 
 const renderLineChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   color: string,
@@ -271,7 +259,7 @@ const renderLineChart = (
 );
 
 const renderComposedChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -369,7 +357,7 @@ const renderComposedChart = (
 };
 
 const renderMultiLineChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -419,7 +407,7 @@ const renderMultiLineChart = (
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
-  data: ChartData[],
+  data: any[],
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
@@ -493,7 +481,7 @@ function Chart({
   subgraphQueryUrl,
 }: {
   type: string;
-  data: ChartData[];
+  data: any[];
   scale?: string;
   dataKey: string[];
   color: string;
@@ -618,96 +606,39 @@ function Chart({
     }
   }, [data]);
 
-  return loading ? (
-    <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <CircularProgress />
-    </Box>
-  ) : (
-    <Box style={{ width: "100%", height: "100%" }}>
-      <div className="chart-card-header">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          style={{ width: "100%", overflow: "hidden" }}
-        >
-          <Box display="flex" width="90%" alignItems="center">
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              className="card-title-text"
-              style={{ fontWeight: 400, overflow: "hidden" }}
-            >
-              {headerText}
-            </Typography>
-            <Typography variant={"h6"} color="textSecondary">
-              <InfoTooltip message={infoTooltipMessage} />
-            </Typography>
-          </Box>
-          {/* could make this svgbutton */}
+  const expandedChart = (
+    <ExpandedChart
+      open={open}
+      handleClose={handleClose}
+      renderChart={renderChart(type, true)}
+      data={data}
+      infoTooltipMessage={infoTooltipMessage}
+      headerText={headerText}
+      headerSubText={headerSubText}
+      subgraphQueryUrl={subgraphQueryUrl}
+    />
+  );
 
-          <Grid item>
-            <Grid container spacing={1}>
-              <Grid item>
-                {subgraphQueryUrl && (
-                  <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                    <MuiTooltip title={t`Open Subgraph Query`}>
-                      <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
-                    </MuiTooltip>
-                  </Link>
-                )}
-              </Grid>
-              <Grid item>
-                <MuiTooltip title={t`Open in expanded view`}>
-                  <SvgIcon
-                    component={Fullscreen}
-                    color="primary"
-                    onClick={handleOpen}
-                    style={{ fontSize: "1rem", cursor: "pointer" }}
-                  />
-                </MuiTooltip>
-              </Grid>
-            </Grid>
-          </Grid>
-          <ExpandedChart
-            open={open}
-            handleClose={handleClose}
-            renderChart={renderChart(type, true)}
-            data={data}
-            infoTooltipMessage={infoTooltipMessage}
-            headerText={headerText}
-            headerSubText={headerSubText}
-            subgraphQueryUrl={subgraphQueryUrl}
-          />
-        </Box>
-        {loading ? (
-          <Skeleton variant="text" width={100} />
-        ) : (
-          <Box display="flex">
-            <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-              {headerSubText !== "undefined" ? headerSubText : <Skeleton variant="text" width={100} />}
-            </Typography>
-            <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              {type !== "multi" && t`Today`}
-            </Typography>
-          </Box>
-        )}
-      </div>
-      <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
-        {loading || (data && data.length > 0) ? (
-          /**
-           * Setting the width to 99% ensures that the chart resizes correctly.
-           *
-           * Source: https://stackoverflow.com/a/53205850
-           */
-          <ResponsiveContainer minHeight={260} width="99%">
-            {renderChart(type, false)}
-          </ResponsiveContainer>
-        ) : (
-          <Skeleton variant="rectangular" width="100%" height={260} />
-        )}
-      </Box>
-    </Box>
+  // TODO consider turning chart into a component placed within ChartCard
+  /**
+   * Setting the width to 99% ensures that the chart resizes correctly.
+   *
+   * Source: https://stackoverflow.com/a/53205850
+   */
+  return (
+    <ChartCard
+      headerText={headerText}
+      headerTooltip={infoTooltipMessage}
+      headerSubtext={headerSubText}
+      subgraphQueryUrl={subgraphQueryUrl}
+      expandedChart={expandedChart}
+      handleOpenExpandedChart={handleOpen}
+      isLoading={!data}
+    >
+      <ResponsiveContainer minHeight={260} width="99%">
+        {renderChart(type, false)}
+      </ResponsiveContainer>
+    </ChartCard>
   );
 }
 
