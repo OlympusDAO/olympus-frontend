@@ -4,6 +4,7 @@ import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
+import { formatCurrency } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
@@ -162,5 +163,4 @@ const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ toke
     ? formatCurrency(ohmPrice, 2)
     : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
   return price ? <>{price}</> : <Skeleton width={60} />;
-};
 };
