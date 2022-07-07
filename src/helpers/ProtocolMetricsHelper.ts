@@ -106,6 +106,39 @@ export const getKeysTokenSummary = (metrics: any[] | undefined, keys: string[], 
   return updatedData;
 };
 
+/**
+ * Collapses the tokens underneath {key} into a string array.
+ *
+ * This makes it easy to use for key and name parameters for charts.
+ *
+ * @param metrics
+ * @param key
+ * @returns
+ */
+export const getTokensFromKey = (metrics: any[] | undefined, key: string): string[] => {
+  if (!metrics) return [];
+
+  const tokenNames = new Set<string>();
+  metrics.forEach(metric => {
+    if (!(typeof metric === "object" && metric !== null && key in metric)) {
+      throw new Error(`Unable to access specified key ${key} in metrics element`);
+    }
+
+    const components = metric[key];
+    if (!(typeof components === "object" && components !== null && "tokens" in components)) {
+      throw new Error(`Unable to access tokens property in ${key} element`);
+    }
+
+    Object.keys(components["tokens"]).forEach(tokenKey => tokenNames.add(tokenKey));
+  });
+
+  return Array.from(tokenNames);
+};
+
+export const getDataKeysFromTokens = (tokens: string[], key: string): string[] => {
+  return tokens.map(value => `${key}.tokens.${value}.value`);
+};
+
 type MetricRow = {
   timestamp: string;
   tokens: TokenRow[];
