@@ -254,7 +254,6 @@ export const AssetsTable = () => {
             },
           }}
         />
-        ;
       </div>
     </Box>
   );
