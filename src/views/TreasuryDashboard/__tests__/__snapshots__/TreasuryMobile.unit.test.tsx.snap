@@ -99,7 +99,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             class="hero-metrics MuiBox-root css-0"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card css-diduwf-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card css-1px9s0k-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
@@ -118,17 +118,21 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root  css-1xkrsym"
+                          class="Metric-root  css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              Market Cap
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                Market Cap
+                              </p>
                               <div
-                                class="MuiBox-root css-w341jy"
+                                class="Metric-label MuiBox-root css-70qvj9"
                                 style="font-size: 14px;"
                               >
                                 <div
@@ -148,9 +152,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                   </svg>
                                 </div>
                               </div>
-                            </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -165,18 +169,22 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root  css-1xkrsym"
+                          class="Metric-root  css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              OHM Price
-                            </p>
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                OHM Price
+                              </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -191,17 +199,21 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root wsoprice css-1xkrsym"
+                          class="Metric-root wsoprice css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              gOHM Price
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                gOHM Price
+                              </p>
                               <div
-                                class="MuiBox-root css-w341jy"
+                                class="Metric-label MuiBox-root css-70qvj9"
                                 style="font-size: 14px;"
                               >
                                 <div
@@ -221,9 +233,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                   </svg>
                                 </div>
                               </div>
-                            </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -238,17 +250,21 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root  css-1xkrsym"
+                          class="Metric-root  css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              Circulating Supply (total)
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                Circulating Supply (total)
+                              </p>
                               <div
-                                class="MuiBox-root css-w341jy"
+                                class="Metric-label MuiBox-root css-70qvj9"
                                 style="font-size: 14px;"
                               >
                                 <div
@@ -268,9 +284,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                   </svg>
                                 </div>
                               </div>
-                            </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -285,17 +301,21 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root  css-1xkrsym"
+                          class="Metric-root  css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              Liquid Backing per OHM
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                Liquid Backing per OHM
+                              </p>
                               <div
-                                class="MuiBox-root css-w341jy"
+                                class="Metric-label MuiBox-root css-70qvj9"
                                 style="font-size: 14px;"
                               >
                                 <div
@@ -315,9 +335,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                   </svg>
                                 </div>
                               </div>
-                            </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -332,17 +352,21 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <div
-                          class="Metric-root  css-1xkrsym"
+                          class="Metric-root  css-17kya8e"
                         >
                           <div
                             class="MuiBox-root css-g45inh"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            <div
+                              class="MuiBox-root css-1n2mv2k"
                             >
-                              Current Index
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              >
+                                Current Index
+                              </p>
                               <div
-                                class="MuiBox-root css-w341jy"
+                                class="Metric-label MuiBox-root css-70qvj9"
                                 style="font-size: 14px;"
                               >
                                 <div
@@ -362,9 +386,9 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                   </svg>
                                 </div>
                               </div>
-                            </p>
+                            </div>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                               style="width: 100%;"
                             >
                               <span
@@ -388,7 +412,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-1m6pi2w-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-diduwf-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-q5kzo8-MuiPaper-root"
                 style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
               >
                 <div
@@ -429,7 +453,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-1m6pi2w-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-diduwf-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-q5kzo8-MuiPaper-root"
                 style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
               >
                 <div
@@ -470,7 +494,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-1m6pi2w-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-diduwf-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-q5kzo8-MuiPaper-root"
                 style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
               >
                 <div
@@ -511,7 +535,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-1m6pi2w-MuiGrid-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-diduwf-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-q5kzo8-MuiPaper-root"
                 style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
               >
                 <div

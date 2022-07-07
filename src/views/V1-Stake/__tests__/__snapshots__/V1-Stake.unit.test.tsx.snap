@@ -12,7 +12,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -25,13 +25,13 @@ exports[`<Stake/> should render component. not connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Single Stake (3, 3)
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -73,18 +73,22 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-apy css-1xkrsym"
+                        class="Metric-root stake-apy css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            APY (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              APY (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -99,18 +103,22 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-1xkrsym"
+                        class="Metric-root stake-tvl css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            TVL (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              TVL (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -125,18 +133,22 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-index css-1xkrsym"
+                        class="Metric-root stake-index css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Current Index (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Current Index (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -164,7 +176,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       style=""
                     >
                       <button
-                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1t3upfu-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >
@@ -184,7 +196,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -197,13 +209,13 @@ exports[`<Stake/> should render component. not connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Farm Pool
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -704,7 +716,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -893,7 +905,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1056,7 +1068,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1283,7 +1295,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1510,7 +1522,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1709,7 +1721,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2280,7 +2292,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2490,7 +2502,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2682,7 +2694,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2874,7 +2886,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2921,7 +2933,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2934,13 +2946,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Single Stake (3, 3)
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -2982,18 +2994,22 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-apy css-1xkrsym"
+                        class="Metric-root stake-apy css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            APY (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              APY (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3008,18 +3024,22 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-1xkrsym"
+                        class="Metric-root stake-tvl css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            TVL (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              TVL (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3034,18 +3054,22 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-index css-1xkrsym"
+                        class="Metric-root stake-index css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Current Index (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Current Index (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3121,7 +3145,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     class="stake-action-row v1-row  MuiBox-root css-70qvj9"
                   >
                     <a
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-94iemo-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-60u5o6-MuiButtonBase-root-MuiButton-root"
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       style="margin-right: 10.5px;"
                       tabindex="0"
@@ -3180,13 +3204,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Unstaked Balance (v1)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       id="user-balance"
                       style="text-align: right;"
                     >
@@ -3212,13 +3236,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                             class="MuiBox-root css-1xhj18k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             >
                               Total Staked Balance
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
@@ -3267,13 +3291,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v1)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -3287,13 +3311,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -3307,13 +3331,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     gOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 gOHM
@@ -3335,13 +3359,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Amount
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN sOHM
@@ -3354,13 +3378,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Yield
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -3373,13 +3397,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         ROI (5-Day Rate)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -3392,7 +3416,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -3405,13 +3429,13 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Farm Pool
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -3933,7 +3957,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4136,7 +4160,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4313,7 +4337,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4554,7 +4578,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4795,7 +4819,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5008,7 +5032,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5593,7 +5617,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5817,7 +5841,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -6023,7 +6047,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -6229,7 +6253,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -6276,7 +6300,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -6289,13 +6313,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Single Stake (3, 3)
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -6337,18 +6361,22 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-apy css-1xkrsym"
+                        class="Metric-root stake-apy css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            APY (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              APY (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -6363,18 +6391,22 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-1xkrsym"
+                        class="Metric-root stake-tvl css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            TVL (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              TVL (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -6389,18 +6421,22 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-index css-1xkrsym"
+                        class="Metric-root stake-index css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Current Index (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Current Index (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -6476,7 +6512,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     class="stake-action-row v1-row  MuiBox-root css-70qvj9"
                   >
                     <a
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-94iemo-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-60u5o6-MuiButtonBase-root-MuiButton-root"
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       style="margin-right: 10.5px;"
                       tabindex="0"
@@ -6535,13 +6571,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Unstaked Balance (v1)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       id="user-balance"
                       style="text-align: right;"
                     >
@@ -6567,13 +6603,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                             class="MuiBox-root css-1xhj18k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             >
                               Total Staked Balance
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
@@ -6622,13 +6658,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v1)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -6642,13 +6678,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -6662,13 +6698,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     gOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 gOHM
@@ -6690,13 +6726,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Amount
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN sOHM
@@ -6709,13 +6745,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Yield
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -6728,13 +6764,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         ROI (5-Day Rate)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -6747,7 +6783,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -6760,13 +6796,13 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Farm Pool
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -7288,7 +7324,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -7491,7 +7527,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -7668,7 +7704,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -7909,7 +7945,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -8150,7 +8186,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -8363,7 +8399,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -8948,7 +8984,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -9172,7 +9208,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -9378,7 +9414,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -9584,7 +9620,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -9631,7 +9667,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
       id="v1-stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -9644,13 +9680,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Single Stake (3, 3)
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -9692,18 +9728,22 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-apy css-1xkrsym"
+                        class="Metric-root stake-apy css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            APY (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              APY (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -9718,18 +9758,22 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-1xkrsym"
+                        class="Metric-root stake-tvl css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            TVL (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              TVL (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -9744,18 +9788,22 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-index css-1xkrsym"
+                        class="Metric-root stake-index css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Current Index (v1)
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Current Index (v1)
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -9831,7 +9879,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     class="stake-action-row v1-row  MuiBox-root css-70qvj9"
                   >
                     <a
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-94iemo-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-60u5o6-MuiButtonBase-root-MuiButton-root"
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       style="margin-right: 10.5px;"
                       tabindex="0"
@@ -9890,13 +9938,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Unstaked Balance (v1)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       id="user-balance"
                       style="text-align: right;"
                     >
@@ -9922,13 +9970,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                             class="MuiBox-root css-1xhj18k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             >
                               Total Staked Balance
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
@@ -9977,13 +10025,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v1)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -9997,13 +10045,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     sOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 sOHM
@@ -10017,13 +10065,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiBox-root css-1xhj18k"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   >
                                     gOHM Balance (v2)
                                   </p>
                                 </div>
                                 <p
-                                  class="MuiTypography-root MuiTypography-body2 css-pjfbbh-MuiTypography-root"
+                                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                                   style="text-align: right;"
                                 >
                                   0.0000 gOHM
@@ -10045,13 +10093,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Amount
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN sOHM
@@ -10064,13 +10112,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         Next Reward Yield
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -10083,13 +10131,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiBox-root css-1xhj18k"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       >
                         ROI (5-Day Rate)
                       </p>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                       style="text-align: right;"
                     >
                       NaN%
@@ -10102,7 +10150,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -10115,13 +10163,13 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Farm Pool
-                </h5>
+                </p>
               </div>
               <div
                 class="top-right"
@@ -10643,7 +10691,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -10846,7 +10894,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -11023,7 +11071,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -11264,7 +11312,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -11505,7 +11553,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -11718,7 +11766,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -12303,7 +12351,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -12527,7 +12575,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -12733,7 +12781,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -12939,7 +12987,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
