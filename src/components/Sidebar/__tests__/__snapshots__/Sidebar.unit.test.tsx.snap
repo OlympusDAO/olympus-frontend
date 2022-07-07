@@ -176,7 +176,6 @@ exports[`<Sidebar/> should render component 1`] = `
                         </div>
                       </div>
                     </div>
-                    )
                     <div
                       class="NavItem-root nav-item-container css-1l68yb7"
                     >
