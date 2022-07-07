@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { CSSProperties } from "react";
-import Chart, { DataFormat } from "src/components/Chart/Chart";
+import Chart, { ChartData, DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -13,7 +13,6 @@ import {
   useProtocolOwnedLiquidityComponentsQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { ChartData } from "src/helpers/ProtocolMetricsHelper";
 
 import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 

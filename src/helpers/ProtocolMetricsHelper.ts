@@ -4,12 +4,11 @@ type TokenRow = {
   value: string;
 };
 
-export type ChartData = {
+export type TokenRows = {
   timestamp: string;
   tokens: {
     [key: string]: TokenRow;
   };
-  [key: string]: string;
 };
 
 const objectHasProperty = (object: unknown, property: string): boolean => {
@@ -47,23 +46,23 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  * @param keys
  * @returns
  */
-export const getByTokenSummary = (metrics: unknown[] | undefined, keys: string[]): ChartData[] => {
+export const getByTokenSummary = (metrics: unknown[] | undefined, keys: string[]): TokenRows[] => {
   if (!metrics) return [];
 
   // change type to ProtocolMetrics?
 
-  const chartData: ChartData[] = [];
+  const chartData: TokenRows[] = [];
 
   metrics.forEach(metric => {
     if (!objectHasProperty(metric, "timestamp")) {
       throw new Error("Unable to access timestamp property in metrics element");
     }
 
-    const record: ChartData = {
-      timestamp:
-        typeof metric === "object" && metric !== null && metric.hasOwnProperty("timestamp") && metric.timestamp,
-      tokens: {},
-    };
+    // const record: TokenRows = {
+    //   timestamp:
+    //     typeof metric === "object" && metric !== null && metric.hasOwnProperty("timestamp") && metric.timestamp,
+    //   tokens: {},
+    // };
 
     keys.forEach(key => {
       if (!(typeof metric === "object" && metric !== null && key in metric)) {
