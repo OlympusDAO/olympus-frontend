@@ -53,7 +53,11 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  * @param categories applies the given categories to the tokens that are returned, corresponding to the keys parameter
  * @returns
  */
-export const getKeysTokenSummary = (metrics: any[] | undefined, keys: string[], categories: string[]): any[] => {
+export const getKeysTokenSummary = (
+  metrics: any[] | undefined,
+  keys: readonly string[],
+  categories: readonly string[],
+): any[] => {
   if (keys.length != categories.length) {
     throw new Error(
       `The length of the keys (${JSON.stringify(keys)}) and categories (${JSON.stringify(
@@ -139,7 +143,7 @@ export const getDataKeysFromTokens = (tokens: string[], key: string): string[] =
   return tokens.map(value => `${key}.tokens.${value}.value`);
 };
 
-type MetricRow = {
+export type MetricRow = {
   timestamp: string;
   tokens: TokenRow[];
 };
@@ -182,7 +186,7 @@ type MetricRow = {
  * @param keys
  * @returns
  */
-export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: string[]): MetricRow[] => {
+export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonly string[]): MetricRow[] => {
   if (!metrics) return [];
 
   const reducedData: MetricRow[] = [];

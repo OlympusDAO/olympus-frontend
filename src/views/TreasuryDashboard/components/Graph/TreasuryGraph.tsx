@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
-import { Skeleton } from "@mui/material";
-import { DataGrid, GridColDef, GridComparatorFn, GridValueGetterParams } from "@mui/x-data-grid";
-import { CSSProperties } from "react";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { CSSProperties, useMemo, useState } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
 import { getSubgraphUrl } from "src/constants";
 import {
@@ -19,6 +18,7 @@ import {
   getDataKeysFromTokens,
   getKeysTokenSummary,
   getTokensFromKey,
+  MetricRow,
   reduceKeysTokenSummary,
 } from "src/helpers/ProtocolMetricsHelper";
 
@@ -145,28 +145,45 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
 };
 
 export const AssetsTable = () => {
+  const keys: readonly string[] = [
+    "treasuryStableValueComponents",
+    "treasuryVolatileValueComponents",
+    "treasuryLPValueComponents",
+  ];
+  const categories: readonly string[] = ["Stablecoins", "Volatile", "Protocol-Owned Liquidity"];
+
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
-  if (!data) return <Skeleton />;
+  // State variables used for rendering
+  const initialTokenSummary: any[] = [];
+  const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
+  const initialReducedTokens: MetricRow[] = [];
+  const [reducedTokens, setReducedTokens] = useState(initialReducedTokens);
+  const [currentMetric, setCurrentMetric] = useState<MetricRow | null>(null);
 
-  const keys = ["treasuryStableValueComponents", "treasuryVolatileValueComponents", "treasuryLPValueComponents"];
-  const tokenSummary = getKeysTokenSummary(data?.protocolMetrics, keys, [
-    "Stablecoins",
-    "Volatile",
-    "Protocol-Owned Liquidity",
-  ]);
-  const reducedTokens = reduceKeysTokenSummary(tokenSummary, keys);
-  const currentMetric = reducedTokens[0];
+  /**
+   * We derive reducedTokens and currentMetric from {data}. They only need to be re-calculated
+   * when {data} changes, so they get wrapped in `useMemo`.
+   */
+  useMemo(() => {
+    console.log("data = " + data === undefined);
+    if (!data) {
+      setTokenSummary([]);
+      setReducedTokens([]);
+      setCurrentMetric(null);
+      return;
+    }
 
-  const currencySortComparator: GridComparatorFn<string> = (v1, v2) => {
-    // Get rid of all non-number characters
-    const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+    const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
+    const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
+    const newCurrentMetric = newReducedTokens[0];
 
-    return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-  };
+    setTokenSummary(newTokenSummary);
+    setReducedTokens(newReducedTokens);
+    setCurrentMetric(newCurrentMetric);
+  }, [data]);
 
-  // TODO look at caching
   // TODO handle date scrubbing
 
   const columns: GridColDef[] = [
@@ -177,7 +194,12 @@ export const AssetsTable = () => {
       headerName: "Value",
       flex: 1,
       type: "string",
-      sortComparator: currencySortComparator,
+      sortComparator: (v1, v2) => {
+        // Get rid of all non-number characters
+        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+      },
       valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
     },
   ];
@@ -193,8 +215,9 @@ export const AssetsTable = () => {
     >
       <DataGrid
         autoHeight
+        loading={!data}
         disableSelectionOnClick
-        rows={currentMetric.tokens}
+        rows={currentMetric ? currentMetric.tokens : []}
         rowHeight={40}
         columns={columns}
         pageSize={10}
