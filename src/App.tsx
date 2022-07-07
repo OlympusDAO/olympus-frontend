@@ -122,12 +122,11 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { data: account } = useAccount();
-  const { isConnected, error: errorMessage, isReconnecting } = useConnect();
-  const address = account?.address ? account.address : "";
+  const { address = "", isConnected, isReconnecting } = useAccount();
+  const { error: errorMessage } = useConnect();
 
   const provider = useProvider();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -158,17 +157,17 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: activeChain.id, provider: loadProvider }));
+      dispatch(loadAppDetails({ networkID: chain.id, provider: loadProvider }));
     },
-    [activeChain.id, address],
+    [chain.id, address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: activeChain.id, provider, address }));
-      dispatch(getMigrationAllowances({ address, provider, networkID: activeChain.id }));
+      dispatch(loadAccountDetails({ networkID: chain.id, provider, address }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: chain.id }));
     },
-    [activeChain.id, address],
+    [chain.id, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -190,7 +189,7 @@ function App() {
     if (isConnected && provider) {
       loadDetails("account");
     }
-  }, [isConnected, activeChain.id, provider]);
+  }, [isConnected, chain.id, provider]);
 
   useEffect(() => {
     if (errorMessage) dispatch(error(errorMessage.message));

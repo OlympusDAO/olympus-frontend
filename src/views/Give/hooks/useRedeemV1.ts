@@ -17,15 +17,14 @@ import { useAccount, useNetwork } from "wagmi";
 export const useOldRedeem = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
-  const address = account?.address ? account.address : "";
 
   return useMutation<ContractReceipt, Error>(
     async () => {
-      if (activeChain.id != 1)
+      if (chain.id != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
 
       if (!contract)

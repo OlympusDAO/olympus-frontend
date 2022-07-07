@@ -28,8 +28,7 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  * @param addressMap Address map of the token you want the balance of.
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
   const contracts = useMultipleTokenContracts(tokenAddressMap);
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
@@ -59,8 +58,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
  */
 export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address].filter(nonNullable);
 export const useFuseBalance = () => {
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
   const pool6Contract = useStaticFuseContract(FUSE_POOL_6_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);

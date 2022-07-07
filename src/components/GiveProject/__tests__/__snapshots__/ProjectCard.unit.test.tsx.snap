@@ -145,7 +145,7 @@ exports[`<ProjectCard/> should render card 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -300,7 +300,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1pbk2fm-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -336,7 +336,7 @@ exports[`<ProjectCard/> should render page 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
@@ -713,7 +713,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-d8tw8x-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -735,7 +735,7 @@ exports[`<ProjectCard/> should render page 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-1hmc9od-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -748,13 +748,13 @@ exports[`<ProjectCard/> should render page 1`] = `
                   class="MuiBox-root css-gg4vpm"
                 >
                   <div
-                    class="MuiBox-root css-u4p24i"
+                    class="MuiBox-root css-1xhj18k"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                     >
                       About
-                    </p>
+                    </h5>
                   </div>
                   <div
                     class="top-right"
@@ -822,7 +822,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
@@ -1199,7 +1199,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-d8tw8x-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1221,7 +1221,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-1hmc9od-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -1234,13 +1234,13 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                   class="MuiBox-root css-gg4vpm"
                 >
                   <div
-                    class="MuiBox-root css-u4p24i"
+                    class="MuiBox-root css-1xhj18k"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                     >
                       About
-                    </p>
+                    </h5>
                   </div>
                   <div
                     class="top-right"
@@ -1308,7 +1308,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
@@ -1680,7 +1680,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-d8tw8x-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1702,7 +1702,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-1hmc9od-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -1715,13 +1715,13 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                   class="MuiBox-root css-gg4vpm"
                 >
                   <div
-                    class="MuiBox-root css-u4p24i"
+                    class="MuiBox-root css-1xhj18k"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                     >
                       About
-                    </p>
+                    </h5>
                   </div>
                   <div
                     class="top-right"

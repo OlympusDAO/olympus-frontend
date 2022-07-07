@@ -12,7 +12,7 @@ exports[`<Zap/> should render component 1`] = `
       id="zap-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -35,7 +35,7 @@ exports[`<Zap/> should render component 1`] = `
                     style=""
                   >
                     <button
-                      class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1t3upfu-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >

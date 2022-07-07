@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -54,9 +54,7 @@ export const zapTokenBalancesKey = (address: string) => ["zapTokenBalances", add
  * @returns react-query result
  */
 export const useZapTokenBalances = () => {
-  const { isConnected } = useConnect();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "", isConnected } = useAccount();
 
   const key = zapTokenBalancesKey(address);
   return useQuery<ZapHelperBalancesResponse, Error>(

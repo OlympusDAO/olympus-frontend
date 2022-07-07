@@ -14,8 +14,7 @@ import { useAccount } from "wagmi";
 export const useWrapSohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
 
   const networks = useTestableNetworks();
   const balance = useBalance(SOHM_ADDRESSES)[networks.MAINNET].data;

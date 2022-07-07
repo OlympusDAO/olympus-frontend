@@ -12,7 +12,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -25,13 +25,13 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
+                class="MuiBox-root css-1xhj18k"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                 >
                   Wrap / Unwrap
-                </p>
+                </h5>
               </div>
               <div
                 class="top-right"
@@ -88,22 +88,18 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              sOHM Price
-                            </p>
-                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -118,21 +114,17 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              Current Index
-                            </p>
+                            Current Index
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -152,9 +144,9 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -169,21 +161,17 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              gOHM Price
-                            </p>
+                            gOHM Price
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -203,9 +191,9 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -337,13 +325,13 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   sOHM Balance
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -359,13 +347,13 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   gOHM Balance
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -387,7 +375,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1yyqz5n-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1l4bofz-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -411,7 +399,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1yyqz5n-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1l4bofz-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -747,7 +735,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -760,13 +748,13 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
+                class="MuiBox-root css-1xhj18k"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                 >
                   Wrap / Unwrap
-                </p>
+                </h5>
               </div>
               <div
                 class="top-right"
@@ -823,22 +811,18 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              sOHM Price
-                            </p>
-                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -853,21 +837,17 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              Current Index
-                            </p>
+                            Current Index
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -887,9 +867,9 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -904,21 +884,17 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              gOHM Price
-                            </p>
+                            gOHM Price
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -938,9 +914,9 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -965,7 +941,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                   style=""
                 >
                   <button
-                    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1t3upfu-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -999,7 +975,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1012,13 +988,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
+                class="MuiBox-root css-1xhj18k"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                 >
                   Wrap / Unwrap
-                </p>
+                </h5>
               </div>
               <div
                 class="top-right"
@@ -1075,22 +1051,18 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              sOHM Price
-                            </p>
-                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1105,21 +1077,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              Current Index
-                            </p>
+                            Current Index
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -1139,9 +1107,9 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1156,21 +1124,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              gOHM Price
-                            </p>
+                            gOHM Price
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -1190,9 +1154,9 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1322,13 +1286,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   wsOHM Balance (Arbitrum)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1344,13 +1308,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   gOHM Balance (Arbitrum)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1450,7 +1414,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1463,13 +1427,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
+                class="MuiBox-root css-1xhj18k"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
                 >
                   Wrap / Unwrap
-                </p>
+                </h5>
               </div>
               <div
                 class="top-right"
@@ -1526,22 +1490,18 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              sOHM Price
-                            </p>
-                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1556,21 +1516,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              Current Index
-                            </p>
+                            Current Index
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -1590,9 +1546,9 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1607,21 +1563,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root  css-17kya8e"
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <div
-                            class="MuiBox-root css-1n2mv2k"
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                           >
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
-                            >
-                              gOHM Price
-                            </p>
+                            gOHM Price
                             <div
-                              class="Metric-label MuiBox-root css-70qvj9"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
@@ -1641,9 +1593,9 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                                 </svg>
                               </div>
                             </div>
-                          </div>
+                          </p>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1773,13 +1725,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   wsOHM Balance (Avalanche)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1795,13 +1747,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 >
                   gOHM Balance (Avalanche)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span

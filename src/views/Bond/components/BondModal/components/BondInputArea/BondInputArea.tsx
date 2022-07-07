@@ -28,7 +28,7 @@ export const BondInputArea: React.VFC<{
   const { pathname } = useLocation();
   const isInverseBond: boolean = pathname.includes("inverse");
 
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
 
   const currentIndex = useCurrentIndex().data;
@@ -197,7 +197,7 @@ export const BondInputArea: React.VFC<{
           />
         )}
 
-        {props.recipientAddress !== account?.address && (
+        {props.recipientAddress !== address && (
           <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />
         )}
       </Box>

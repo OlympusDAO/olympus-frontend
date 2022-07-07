@@ -18,7 +18,7 @@ beforeEach(async () => {
   connectWallet();
   WAGMI.useNetwork = jest.fn(() => {
     return {
-      activeChain: {
+      chain: {
         id: 43114,
       },
     };
@@ -51,7 +51,7 @@ describe("Check Migrate to gOHM Error Messages", () => {
   it("Should error when not on Avalanche or Arbitrum", async () => {
     WAGMI.useNetwork = jest.fn(() => {
       return {
-        activeChain: {
+        chain: {
           id: 137, //polygon isnt supported for wsOHM to gOHM
         },
       };
