@@ -4,17 +4,17 @@ import { shorten } from "src/helpers";
 import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
 
 export default function WalletAddressEns() {
-  const { data: account } = useAccount();
-  const { data: ensName } = useEnsName({ address: account?.address });
-  const { data: ensAvatar } = useEnsAvatar({ addressOrName: account?.address });
+  const { address = "" } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { data: ensAvatar } = useEnsAvatar({ addressOrName: address });
 
-  if (!account?.address) return null;
+  if (!address) return null;
 
   return (
     <div className="wallet-link">
-      {ensAvatar && <img className="avatar" src={ensAvatar} alt={account.address} />}
+      {ensAvatar && <img className="avatar" src={ensAvatar} alt={address} />}
       <Link to="/wallet" component={RouterLink}>
-        {ensName || shorten(account.address)}
+        {ensName || shorten(address)}
       </Link>
     </div>
   );

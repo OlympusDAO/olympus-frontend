@@ -48,9 +48,8 @@ export function RecipientModal({
   changeAssetType,
   project,
 }: RecipientModalProps) {
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
@@ -103,9 +102,9 @@ export function RecipientModal({
 
   const _useSohmBalance =
     useSohmBalance()[
-      activeChain.id == NetworkId.MAINNET
+      chain.id == NetworkId.MAINNET
         ? NetworkId.MAINNET
-        : activeChain.id === NetworkId.TESTNET_GOERLI
+        : chain.id === NetworkId.TESTNET_GOERLI
         ? NetworkId.TESTNET_GOERLI
         : NetworkId.TESTNET_RINKEBY
     ];
@@ -117,9 +116,9 @@ export function RecipientModal({
 
   const _useGohmBalance =
     useGohmBalance()[
-      activeChain.id == NetworkId.MAINNET
+      chain.id == NetworkId.MAINNET
         ? NetworkId.MAINNET
-        : activeChain.id === NetworkId.TESTNET_GOERLI
+        : chain.id === NetworkId.TESTNET_GOERLI
         ? NetworkId.TESTNET_GOERLI
         : NetworkId.TESTNET_RINKEBY
     ];

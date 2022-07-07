@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import { useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 
 import { InPageConnectButton } from "./ConnectButton/ConnectButton";
 
 export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
-  const { isConnected } = useConnect();
+  const { isConnected } = useAccount();
   if (!isConnected)
     return (
       <Box display="flex" flexDirection="column" alignItems="center">

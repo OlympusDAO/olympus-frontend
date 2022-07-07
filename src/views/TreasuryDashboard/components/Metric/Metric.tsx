@@ -1,13 +1,14 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
+import { useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
   useGOhmPrice,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
-  useOhmPrice,
+  useOHMPrice,
   useTotalSupply,
   useTotalValueDeposited,
   useTreasuryLiquidBackingPerOhmFloating,
@@ -35,9 +36,11 @@ export const MarketCap: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
+/**
+ * same as OHMPriceFromSubgraph but uses OHM-DAI on-chain price
+ */
 export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   const { data: ohmPrice } = useOhmPrice();
-
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
@@ -49,8 +52,27 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
+/**
+ * same as OHMPrice but uses Subgraph price
+ */
+export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
+  const { data: ohmPrice } = useOHMPrice();
+  const _props: MetricProps = {
+    ...props,
+    label: "OHM " + t`Price`,
+  };
+
+  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+/**
+ * uses Subgraph price
+ */
 export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOhmPrice();
+  const { data: ohmPrice } = useOHMPrice();
 
   const _props: MetricProps = {
     ...props,
@@ -124,6 +146,9 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
+/**
+ * uses Subgraph price
+ */
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
   const { data: gOhmPrice } = useGOhmPrice();
 

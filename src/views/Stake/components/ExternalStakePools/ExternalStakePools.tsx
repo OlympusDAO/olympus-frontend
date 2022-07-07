@@ -26,7 +26,7 @@ import {
 } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
-import { useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 
 import {
   BalancerPoolAPY,
@@ -73,7 +73,7 @@ const StyledPoolInfo = styled("div")(() => ({
 }));
 
 export const ExternalStakePools = () => {
-  const { isConnected } = useConnect();
+  const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   return (
     <>
@@ -140,7 +140,7 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
 );
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const { isConnected } = useConnect();
+  const { isConnected } = useAccount();
 
   const userBalances = useStakePoolBalance(props.pool);
   const userBalance = userBalances[props.pool.networkID].data;
@@ -191,7 +191,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 };
 
 const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const { isConnected } = useConnect();
+  const { isConnected } = useAccount();
 
   const userBalances = useStakePoolBalance(props.pool);
   const userBalance = userBalances[props.pool.networkID].data;
