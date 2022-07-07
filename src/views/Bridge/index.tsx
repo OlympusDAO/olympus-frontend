@@ -24,7 +24,7 @@ const Bridge = () => {
   return (
     <div id="stake-view">
       {open && (
-        <Paper>
+        <Paper enableBackground>
           <StyledBox display="flex" flexDirection="row" justifyContent="flex-end">
             <Icon data-testid="dismiss" className={classes.dismiss} name="x" onClick={() => setOpen(false)} />
           </StyledBox>

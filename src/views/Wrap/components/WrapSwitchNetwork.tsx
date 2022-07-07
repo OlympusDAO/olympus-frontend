@@ -1,6 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
-import { Token } from "@olympusdao/component-library";
+import { TertiaryButton, Token } from "@olympusdao/component-library";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useNetwork, useSwitchNetwork } from "wagmi";
@@ -36,31 +36,15 @@ export const WrapSwitchNetwork = () => {
         </Trans>
       </Typography>
 
-      <Button
-        onClick={() => switchNetwork?.(NetworkId.AVALANCHE)}
-        variant="outlined"
-        color="secondary"
-        style={{ margin: "0.3rem" }}
-      >
-        <Token name="AVALANCHE" style={{ fontSize: "28px" }} />
+      <TertiaryButton size="large" onClick={() => switchNetwork?.(NetworkId.AVALANCHE)} style={{ margin: "0.3rem" }}>
+        <Token name="AVALANCHE" style={{ marginRight: "8px" }} />
+        Avalanche
+      </TertiaryButton>
 
-        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          Avalanche
-        </Typography>
-      </Button>
-
-      <Button
-        onClick={() => switchNetwork?.(NetworkId.ARBITRUM)}
-        variant="outlined"
-        color="secondary"
-        style={{ margin: "0.3rem" }}
-      >
-        <Token name="ARBITRUM" style={{ fontSize: "28px" }} />
-
-        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          Arbitrum
-        </Typography>
-      </Button>
+      <TertiaryButton size="large" onClick={() => switchNetwork?.(NetworkId.ARBITRUM)} style={{ margin: "0.3rem" }}>
+        <Token name="ARBITRUM" style={{ marginRight: "8px" }} />
+        Arbitrum
+      </TertiaryButton>
     </>
   );
 };

@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, Token } from "@olympusdao/component-library";
+import { Icon, PrimaryButton, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -499,11 +499,8 @@ const ZapStakeAction: React.FC = () => {
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Button
+            <PrimaryButton
               fullWidth
-              className="zap-stake-button"
-              variant="contained"
-              color="primary"
               disabled={
                 zapToken == null ||
                 outputGOHM == null ||
@@ -515,7 +512,7 @@ const ZapStakeAction: React.FC = () => {
               classes={approveMutation.isSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-              <Box display="flex" flexDirection="row">
+              <Box display="flex" flexDirection="row" alignItems="center">
                 {approveMutation.isSuccess ? (
                   <>
                     <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
@@ -526,20 +523,16 @@ const ZapStakeAction: React.FC = () => {
                 ) : (
                   <>
                     <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                    <Typography>
-                      {approveMutation.isLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
-                    </Typography>
+
+                    {approveMutation.isLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
                   </>
                 )}
               </Box>
-            </Button>
+            </PrimaryButton>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Button
+            <PrimaryButton
               fullWidth
-              className="zap-stake-button"
-              variant="contained"
-              color="primary"
               disabled={
                 !hasTokenAllowance ||
                 zapExecute.isLoading ||
@@ -551,17 +544,15 @@ const ZapStakeAction: React.FC = () => {
             >
               <Box display="flex" flexDirection="row" alignItems="center">
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                <Typography>
-                  {outputQuantity === "" ? (
-                    <Trans>Enter Amount</Trans>
-                  ) : +outputQuantity >= 0.5 || outputGOHM ? (
-                    <Trans>Zap-Stake</Trans>
-                  ) : (
-                    <Trans>Minimum Output Amount: 0.5</Trans>
-                  )}
-                </Typography>
+                {outputQuantity === "" ? (
+                  <Trans>Enter Amount</Trans>
+                ) : +outputQuantity >= 0.5 || outputGOHM ? (
+                  <Trans>Zap-Stake</Trans>
+                ) : (
+                  <Trans>Minimum Output Amount: 0.5</Trans>
+                )}
               </Box>
-            </Button>
+            </PrimaryButton>
           </Grid>
         </Grid>
       )}
