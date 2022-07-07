@@ -89,7 +89,7 @@ describe("Bond Swap Transaction", () => {
     connectWallet();
     setupTest();
   });
-  it("Should Successfully execute a buy bond", async () => {
+  it("Should Successfully execute a buy inverse bond", async () => {
     render(
       <>
         <Messages />
@@ -100,6 +100,42 @@ describe("Bond Swap Transaction", () => {
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
+  });
+
+  it("Should successfully change recipient address, and throw invalid address error", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.click(screen.getByTestId("sell-tab"));
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(await screen.findByTestId("transaction-settings"));
+    fireEvent.input(await screen.findByTestId("recipient"), { target: { value: "invalidAddress" } });
+    fireEvent.click(screen.getAllByLabelText("close")[1]);
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Invalid address")).toBeInTheDocument();
+  });
+
+  it("Should successfully change slippage amount and complete transaction", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.click(screen.getByTestId("sell-tab"));
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(await screen.findByTestId("transaction-settings"));
+    fireEvent.input(await screen.findByTestId("slippage"), { target: { value: "0.1" } });
+    fireEvent.click(screen.getAllByLabelText("close")[1]);
     fireEvent.click(screen.getByTestId("range-confirm-submit"));
     expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
   });

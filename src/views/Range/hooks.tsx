@@ -224,12 +224,6 @@ export const RangeSwap = () => {
     async ({ market, tokenAddress, swapType, amount, swapPricePerOhm, sellActive, slippage, recipientAddress }) => {
       const decimals = tokenAddress === OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES] ? 9 : 18;
       if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
-      if (chain.id !== networks.MAINNET)
-        throw new Error(
-          typeof chain.id === "undefined"
-            ? t`Please switch to the Ethereum network to use Range Swap`
-            : t`Please switch to the Ethereum network to use Range Swap`,
-        );
 
       if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(t`Invalid address`);
       const swapAmount = new DecimalBigNumber(amount, decimals);
@@ -249,6 +243,7 @@ export const RangeSwap = () => {
       const maxPrice = sellActive
         ? swapAmount.mul(new DecimalBigNumber("1").sub(slippageAsPercent))
         : swapPricePerOhmBN.mul(slippageAsPercent.add("1"));
+
       const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
       const transaction = await tellerContract.purchase(
         recipientAddress,

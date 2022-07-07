@@ -38,7 +38,6 @@ const RangeConfirmationModal = (props: {
   const [slippage, setSlippage] = useState("0.5");
   const [recipientAddress, setRecipientAddress] = useState("");
   const [checked, setChecked] = useState(false);
-  console.log(props.discount, "discount", props.swapPrice);
   if (rangeSwap.isSuccess) {
     rangeSwap.reset();
     props.onClose();

@@ -1,10 +1,12 @@
 import { BigNumber } from "ethers";
+import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
+import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
 
@@ -29,6 +31,12 @@ describe("Upper Wall Active Bond Market", () => {
     RANGEPriceContract.RangePrice__factory.connect = jest.fn().mockReturnValue({
       getCurrentPrice: jest.fn().mockReturnValue(BigNumber.from("13209363085060059262")),
     });
+    //@ts-ignore
+    BondTellerContract.BondTeller__factory.connect = jest.fn().mockReturnValue({
+      purchase: jest.fn().mockReturnValue({
+        wait: jest.fn().mockResolvedValue(true),
+      }),
+    });
     //@ts-expect-error
     RangeHooks.OHMPriceHistory = jest.fn().mockReturnValue({ data: ohmPriceHistory });
     //@ts-expect-error
@@ -43,6 +51,9 @@ describe("Upper Wall Active Bond Market", () => {
     });
     //@ts-expect-error
     bondData.mockReturnValue({
+      connect: jest.fn().mockReturnValue({
+        getTeller: jest.fn().mockReturnValue("address"),
+      }),
       marketPrice: jest.fn().mockReturnValue(BigNumber.from("20120000000000000000")),
     });
   });
@@ -93,5 +104,19 @@ describe("Upper Wall Active Bond Market", () => {
     expect(screen.getByTestId("disclaimer")).toHaveTextContent(
       "I understand that I am buying at a premium to current market price",
     );
+  });
+
+  it("Should successfully complete buy regular bond transaction", async () => {
+    render(
+      <>
+        <Messages />
+        <Range />
+      </>,
+    );
+    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+    fireEvent.click(screen.getByTestId("range-confirm-submit"));
+    expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
   });
 });
