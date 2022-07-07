@@ -1,4 +1,4 @@
-import { getKeysTokenSummary } from "../ProtocolMetricsHelper";
+import { getKeysTokenSummary, reduceKeysTokenSummary } from "../ProtocolMetricsHelper";
 
 const getTokenRecord = (token: string, value: string) => {
   return {
@@ -91,5 +91,28 @@ describe("getKeysTokenSummary", () => {
     expect(() => {
       getKeysTokenSummary(metrics, ["sometoken"], ["somecategory"]);
     }).toThrow();
+  });
+});
+
+describe("reduceKeysTokenSummary", () => {
+  test("works as expected", () => {
+    const timestamp = "1122200";
+    const metrics = [
+      {
+        timestamp: timestamp,
+        treasuryLPValueComponents: {
+          tokens: {
+            DAI: { token: "DAI", category: "Stablecoins", value: "100.0" },
+            LUSD: { token: "LUSD", category: "Stablecoins", value: "150.0" },
+          },
+        },
+      },
+    ];
+
+    const reducedData = reduceKeysTokenSummary(metrics, ["treasuryLPValueComponents"]);
+
+    expect(reducedData[0]["tokens"][0].token).toEqual("DAI");
+    expect(reducedData[0]["tokens"][1].token).toEqual("LUSD");
+    expect(reducedData[0]["tokens"].length).toEqual(2);
   });
 });

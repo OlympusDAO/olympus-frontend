@@ -4,7 +4,7 @@ type TokenRow = {
   value: string;
 };
 
-type TokenRows = {
+type TokenMap = {
   [key: string]: TokenRow;
 };
 
@@ -82,7 +82,7 @@ export const getKeysTokenSummary = (metrics: any[] | undefined, keys: string[], 
       }
 
       // Create the destination data structure first
-      components.tokens = {} as TokenRows;
+      components.tokens = {} as TokenMap;
 
       const currentCategory = categories[index];
 
@@ -104,4 +104,69 @@ export const getKeysTokenSummary = (metrics: any[] | undefined, keys: string[], 
   });
 
   return updatedData;
+};
+
+type MetricRow = {
+  timestamp: string;
+  tokens: TokenRow[];
+};
+
+/**
+ * Combines the tokens underneath each of the elements specified by {keys},
+ * and reduces them into a single array.
+ *
+ * For example:
+ * ```
+ * {
+ *   timestamp: "1229930",
+ *   ...
+ *   treasuryLPValueComponents {
+ *     tokens: {
+ *       DAI: { token: "DAI", category: "stablecoins", value: "150.0" },
+ *     }
+ *   }
+ *   treasuryStableValueComponents {
+ *     tokens: {
+ *       DAI: { token: "LUSD", category: "stablecoins", value: "200.0" },
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * Will be transformed into:
+ * ```
+ * {
+ *   timestamp: "1229930",
+ *   ...
+ *   tokens: [
+ *     { token: "DAI", category: "stablecoins", value: "150.0" },
+ *     { token: "LUSD", category: "stablecoins", value: "200.0" },
+ *   ]
+ * }
+ * ```
+ *
+ * @param metrics
+ * @param keys
+ * @returns
+ */
+export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: string[]): any[] => {
+  if (!metrics) return [];
+
+  const reducedData: MetricRow[] = [];
+  metrics.forEach(metric => {
+    const reducedDataRow: MetricRow = {
+      timestamp: metric["timestamp"],
+      tokens: [],
+    };
+
+    keys.forEach(key => {
+      // Collapse the contents of the `tokens` property (map-like) underneath the given {key}
+      const tokenRecords = metric[key]["tokens"] as TokenMap;
+      Object.keys(tokenRecords).forEach((tokenKey: string) => reducedDataRow.tokens.push(tokenRecords[tokenKey]));
+    });
+
+    reducedData.push(reducedDataRow);
+  });
+
+  return reducedData;
 };
