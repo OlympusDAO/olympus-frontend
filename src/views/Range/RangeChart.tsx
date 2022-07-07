@@ -87,7 +87,7 @@ const RangeChart = (props: {
   const capacityFormatter = Intl.NumberFormat("en", { notation: "compact" });
 
   const TooltipContent = () => (
-    <Paper className={`ohm-card tooltip-container`} childPaperBackground>
+    <Paper className={`ohm-card tooltip-container`}>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
       <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
       <DataRow title="Upper Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)} />
