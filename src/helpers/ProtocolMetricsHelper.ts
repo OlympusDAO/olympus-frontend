@@ -154,14 +154,27 @@ export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: string[
 
   const reducedData: MetricRow[] = [];
   metrics.forEach(metric => {
+    if (!objectHasProperty(metric, "timestamp")) {
+      throw new Error("Unable to access timestamp property in metrics element");
+    }
+
     const reducedDataRow: MetricRow = {
       timestamp: metric["timestamp"],
       tokens: [],
     };
 
     keys.forEach(key => {
+      if (!(typeof metric === "object" && metric !== null && key in metric)) {
+        throw new Error(`Unable to access specified key ${key} in metrics element`);
+      }
+
+      const components = metric[key];
+      if (!(typeof components === "object" && components !== null && "tokens" in components)) {
+        throw new Error(`Unable to access tokens property in ${key} element`);
+      }
+
       // Collapse the contents of the `tokens` property (map-like) underneath the given {key}
-      const tokenRecords = metric[key]["tokens"] as TokenMap;
+      const tokenRecords = components["tokens"] as TokenMap;
       Object.keys(tokenRecords).forEach((tokenKey: string) => reducedDataRow.tokens.push(tokenRecords[tokenKey]));
     });
 

@@ -115,4 +115,30 @@ describe("reduceKeysTokenSummary", () => {
     expect(reducedData[0]["tokens"][1].token).toEqual("LUSD");
     expect(reducedData[0]["tokens"].length).toEqual(2);
   });
+
+  test("missing tokens property", () => {
+    const timestamp = "1122200";
+    const metrics = [
+      {
+        timestamp: timestamp,
+        treasuryLPValueComponents: {
+          tokens2: {
+            DAI: { token: "DAI", category: "stable", value: "100.0" },
+          }, // Should be `tokens`
+        },
+      },
+    ];
+
+    expect(() => {
+      reduceKeysTokenSummary(metrics, ["treasuryLPValueComponents"]);
+    }).toThrow();
+  });
+
+  test("incorrect key", () => {
+    const metrics = [{}];
+
+    expect(() => {
+      reduceKeysTokenSummary(metrics, ["treasuryLPValueComponents"]);
+    }).toThrow();
+  });
 });
