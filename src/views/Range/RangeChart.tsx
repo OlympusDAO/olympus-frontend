@@ -108,6 +108,14 @@ const RangeChart = (props: {
   return (
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
+        <defs>
+          <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#8B5559" strokeWidth="1" />
+          </pattern>
+          <pattern id="diagonalHatchLow" patternUnits="userSpaceOnUse" width="4" height="4">
+            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#596D66" strokeWidth="1" />
+          </pattern>
+        </defs>
         <XAxis reversed scale="auto" dataKey="timestamp" />
         <YAxis
           scale="auto"
@@ -124,8 +132,27 @@ const RangeChart = (props: {
           fillOpacity={0.4}
         />
         <Area
+          type="monotone"
+          dataKey="uv"
+          fill="url(#diagonalHatch)"
+          stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
+          strokeDasharray={"6 3"}
+          strokeWidth={2}
+          fillOpacity={0.4}
+        />
+        <Area
           type="linear"
           fill={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
+          dataKey="lv"
+          stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
+          dot={false}
+          fillOpacity={0.4}
+          strokeDasharray="6 3"
+          strokeWidth={2}
+        />
+        <Area
+          type="linear"
+          fill="url(#diagonalHatchLow)"
           dataKey="lv"
           stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
           dot={false}
@@ -133,14 +160,14 @@ const RangeChart = (props: {
           strokeWidth={2}
           fillOpacity={0.4}
         />
-        <Line type="monotone" dataKey="price" stroke="#fafafa" dot={false} strokeWidth={4} />
+        <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
         <ReferenceDot
           x={chartData.length > 1 && chartData[1].timestamp}
           y={chartData.length > 1 && chartData[1].price}
           shape={CustomReferenceDot}
-          fill="#ffffff"
+          fill={theme.colors.gray[10]}
         >
-          <Label className={classes.currentPrice} color="#fff" position={"right"}>
+          <Label className={classes.currentPrice} position={"right"}>
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
@@ -151,7 +178,7 @@ const RangeChart = (props: {
             shape={CustomReferenceDot}
             fill="#F8CC82"
           >
-            <Label className={classes.currentPrice} color="#fff" position={"right"}>
+            <Label className={classes.currentPrice} position={"right"}>
               {`Ask: ${formatCurrency(askPrice, 2)}`}
             </Label>
           </ReferenceDot>
@@ -161,9 +188,9 @@ const RangeChart = (props: {
             x={chartData.length > 1 && chartData[1].timestamp}
             y={bidPrice}
             shape={CustomReferenceDot}
-            fill="#F8CC82"
+            fill={theme.colors.primary[300]}
           >
-            <Label className={classes.currentPrice} color="#fff" position={"right"}>
+            <Label className={classes.currentPrice} position={"right"}>
               {`Bid: ${formatCurrency(bidPrice, 2)}`}
             </Label>
           </ReferenceDot>
