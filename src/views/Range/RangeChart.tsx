@@ -116,10 +116,12 @@ const RangeChart = (props: {
             <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#596D66" strokeWidth="1" />
           </pattern>
         </defs>
-        <XAxis reversed scale="auto" dataKey="timestamp" />
+        <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd"></XAxis>
         <YAxis
           scale="auto"
+          orientation="right"
           domain={[(dataMin: number) => trim(dataMin * 0.98, 2), (dataMax: number) => trim(dataMax * 1.02, 2)]}
+          width={38}
         />
         <Tooltip content={<TooltipContent />} />
         <Area
