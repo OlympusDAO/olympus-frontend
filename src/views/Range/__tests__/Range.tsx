@@ -4,7 +4,7 @@ import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import { connectWallet, disconnectedWallet } from "src/testHelpers";
+import { connectWallet, invalidAddress } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
@@ -238,7 +238,7 @@ describe("Sell Tab Main Range View", () => {
 describe("Error Checks Disconnected", () => {
   beforeEach(() => {
     defaultStatesWithApproval();
-    disconnectedWallet();
+    invalidAddress();
   });
 
   it("Should render an error when empty/invalid address", async () => {
@@ -256,7 +256,7 @@ describe("Error Checks Disconnected", () => {
   });
 
   it("Should render an error when ther is an invalid signer", async () => {
-    disconnectedWallet();
+    connectWallet();
     //@ts-ignore
     WAGMI.useSigner = jest.fn(() => {
       return {

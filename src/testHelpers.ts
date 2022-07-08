@@ -109,6 +109,55 @@ export function disconnectedWallet() {
     };
   });
 }
+
+export function invalidAddress() {
+  //@ts-ignore
+  WAGMI.useConnect = jest.fn(() => {
+    return {
+      activeConnector: mockConnector,
+      connectors: [mockConnector],
+    };
+  });
+
+  //@ts-ignore
+  WAGMI.useAccount = jest.fn(() => {
+    return {
+      isConnected: true,
+      address: undefined,
+      connector: mockConnector,
+      error: null,
+      fetchStatus: "idle",
+      internal: {
+        dataUpdatedAt: 1654570110046,
+        errorUpdatedAt: 0,
+        failureCount: 0,
+        isFetchedAfterMount: true,
+        isLoadingError: false,
+        isPaused: false,
+        isPlaceholderData: false,
+        isPreviousData: false,
+        isRefetchError: false,
+        isStale: true,
+      },
+      isError: false,
+      isFetched: true,
+      isFetching: false,
+      isIdle: false,
+      isLoading: false,
+      isRefetching: false,
+      isSuccess: true,
+      refetch: jest.fn(),
+      status: "success",
+    };
+  });
+
+  //@ts-ignore
+  WAGMI.useSigner = jest.fn(() => {
+    return {
+      data: getSigners()[0],
+    };
+  });
+}
 export function connectWallet() {
   //@ts-ignore
   WAGMI.useConnect = jest.fn(() => {

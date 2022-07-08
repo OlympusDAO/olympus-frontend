@@ -4,6 +4,7 @@ import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } fr
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -28,7 +29,7 @@ export const Range = () => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
-  const { data: rangeData } = RangeData();
+  const { data: rangeData, isLoading: rangeDataLoading } = RangeData();
   usePathForNetwork({ pathName: "range", networkID: chain.id, navigate });
 
   const {
@@ -131,16 +132,18 @@ export const Range = () => {
             <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
           </div>
         </MetricCollection>
-        <Box mt={"20px"} data-testid="range-chart">
-          <RangeChart
-            rangeData={rangeData}
-            reserveSymbol={reserveSymbol}
-            currentPrice={currentPrice}
-            bidPrice={bidPrice.price}
-            askPrice={askPrice.price}
-            sellActive={sellActive}
-          />
-        </Box>
+        {!rangeDataLoading && (
+          <Box mt={"20px"} data-testid="range-chart">
+            <RangeChart
+              rangeData={rangeData}
+              reserveSymbol={reserveSymbol}
+              currentPrice={currentPrice}
+              bidPrice={bidPrice.price}
+              askPrice={askPrice.price}
+              sellActive={sellActive}
+            />
+          </Box>
+        )}
         <Tabs centered value={sellActive} TabIndicatorProps={{ style: { display: "none" } }}>
           <Tab
             data-testid="buy-tab"
@@ -159,18 +162,20 @@ export const Range = () => {
             }}
           />
         </Tabs>
-        <RangeInputForm
-          reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
-          sellActive={sellActive}
-          reserveBalance={reserveBalance}
-          ohmBalance={ohmBalance}
-          onFormSubmit={handleSubmit}
-          onChangeReserveAmount={handleChangeReserveAmount}
-          onChangeOhmAmount={handleChangeOhmAmount}
-          ohmAmount={ohmAmount}
-          reserveAmount={reserveAmount}
-          capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
-        />
+        <WalletConnectedGuard message="Connect your wallet to use Range Swap">
+          <RangeInputForm
+            reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
+            sellActive={sellActive}
+            reserveBalance={reserveBalance}
+            ohmBalance={ohmBalance}
+            onFormSubmit={handleSubmit}
+            onChangeReserveAmount={handleChangeReserveAmount}
+            onChangeOhmAmount={handleChangeOhmAmount}
+            ohmAmount={ohmAmount}
+            reserveAmount={reserveAmount}
+            capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
+          />
+        </WalletConnectedGuard>
         <div data-testid="max-row">
           <DataRow
             title={maxString}
