@@ -141,7 +141,7 @@ export const Range = () => {
             sellActive={sellActive}
           />
         </Box>
-        <Tabs centered value={sellActive}>
+        <Tabs centered value={sellActive} TabIndicatorProps={{ style: { display: "none" } }}>
           <Tab
             data-testid="buy-tab"
             label="Buy"
