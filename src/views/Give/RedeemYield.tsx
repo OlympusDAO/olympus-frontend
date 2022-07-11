@@ -240,7 +240,7 @@ export default function RedeemYield() {
             data-testid="data-redeemable-balance"
           />
           <DataRow
-            title={t`Next Rebase Amount`}
+            title={t`Your Next Rebase`}
             balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-amount"

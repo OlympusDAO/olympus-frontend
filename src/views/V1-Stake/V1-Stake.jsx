@@ -395,7 +395,7 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-                  <DataRow title={t`Next Rebase Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
+                  <DataRow title={t`Your Next Rebase`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
                     title={t`Next Rebase Yield`}
                     balance={`${stakingRebasePercentage}%`}
