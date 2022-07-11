@@ -12,8 +12,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       id="stake-view"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
-        headerchip="(3,3)"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -26,13 +25,26 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-1xhj18k"
+                class="MuiBox-root css-u4p24i"
               >
-                <h5
-                  class="MuiTypography-root MuiTypography-h5 header-text css-grjkp8-MuiTypography-root"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Single Stake
-                </h5>
+                </p>
+                <div
+                  class="MuiBox-root css-1isemmb"
+                >
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault Chip-chip css-q07b3o-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                    >
+                      (3,3)
+                    </span>
+                  </div>
+                </div>
               </div>
               <div
                 class="top-right"
@@ -74,18 +86,22 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-apy css-1xkrsym"
+                        class="Metric-root stake-apy css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            APY
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              APY
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -100,18 +116,22 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-1xkrsym"
+                        class="Metric-root stake-tvl css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Total Value Deposited
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Total Value Deposited
+                            </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -126,17 +146,21 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-index css-1xkrsym"
+                        class="Metric-root stake-index css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          <div
+                            class="MuiBox-root css-1n2mv2k"
                           >
-                            Current Index
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                            >
+                              Current Index
+                            </p>
                             <div
-                              class="MuiBox-root css-w341jy"
+                              class="Metric-label MuiBox-root css-70qvj9"
                               style="font-size: 14px;"
                             >
                               <div
@@ -156,9 +180,9 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                                 </svg>
                               </div>
                             </div>
-                          </p>
+                          </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-haqq9q-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -183,7 +207,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                   style=""
                 >
                   <button
-                    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1t3upfu-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1d0yu0y-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -201,7 +225,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -641,13 +665,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -663,13 +687,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -679,7 +703,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://app.sushi.com/farm?filter=2x"
               tabindex="0"
               target="_blank"
@@ -706,7 +730,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -850,13 +874,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -872,13 +896,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -888,7 +912,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://app.sushi.com/farm?filter=2x"
               tabindex="0"
               target="_blank"
@@ -915,7 +939,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1033,13 +1057,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1055,13 +1079,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1071,7 +1095,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
               tabindex="0"
               target="_blank"
@@ -1098,7 +1122,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1280,13 +1304,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1302,13 +1326,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1318,7 +1342,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://app.spiritswap.finance/#/farms/allfarms"
               tabindex="0"
               target="_blank"
@@ -1345,7 +1369,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1527,13 +1551,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1549,13 +1573,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1565,7 +1589,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
               tabindex="0"
               target="_blank"
@@ -1592,7 +1616,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1746,13 +1770,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1768,13 +1792,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1784,7 +1808,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
               tabindex="0"
               target="_blank"
@@ -1811,7 +1835,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2337,13 +2361,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2359,13 +2383,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2375,7 +2399,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://jonesdao.io/farms"
               tabindex="0"
               target="_blank"
@@ -2402,7 +2426,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2567,13 +2591,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2589,13 +2613,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2605,7 +2629,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
               tabindex="0"
               target="_blank"
@@ -2632,7 +2656,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2779,13 +2803,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2801,13 +2825,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2817,7 +2841,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://curve.fi/factory-crypto/21/deposit"
               tabindex="0"
               target="_blank"
@@ -2844,7 +2868,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-diduwf-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2991,13 +3015,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -3013,13 +3037,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1evh6e7-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -3029,7 +3053,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1bb2s4u-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-elwz1i-MuiButtonBase-root-MuiButton-root"
               href="https://www.convexfinance.com/stake"
               tabindex="0"
               target="_blank"
