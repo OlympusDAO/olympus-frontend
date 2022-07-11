@@ -206,7 +206,7 @@ export const tooltipInfoMessages = () => {
     holder: t`Holders, represents the total number of Ohmies (sOHM holders)`,
     staked: t`OHM Staked is the ratio of sOHM to circulating supply of OHM (staked vs total)`,
     apy: t`Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that Rebase Rates provided are rather ballpark level indicators and not so much precise future results.`,
-    runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway`,
+    runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower Annualized Rebases  = longer runway`,
   };
 };
 
