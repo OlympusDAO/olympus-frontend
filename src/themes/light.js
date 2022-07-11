@@ -98,7 +98,7 @@ export const light = responsiveFontSizes(
             styleOverrides: {
               root: {
                 ".MuiPaper-root": {
-                  background: colors.paper.card,
+                  background: colors.gray[700],
                 },
               },
             },
