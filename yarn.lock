@@ -2806,10 +2806,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@multifarm/widget@^0.0.159":
-  version "0.0.159"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.159.tgz#be2ca5b6c76c731ed8039648a76481923e532e9e"
-  integrity sha512-Q/VrgF3Spc8HtmBznwa9sA3Zx0vbC1QAoxwo1bvQUmIgafcOeFvJMnlrVz1lh5KF/hDemqlErn8x0Hx9r3oK8g==
+"@multifarm/widget@^0.0.176":
+  version "0.0.176"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.176.tgz#6b417b427662ede1507883d6ce4a0f98939dd1bb"
+  integrity sha512-xH2JaN25MCvyW/yZ1E81INBX3gpjkMW6vwbKMrEwtMRUj7ShH5G9j1Ea8iGWOsp79FC7B67HpXjU6JdZoh3aYA==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
