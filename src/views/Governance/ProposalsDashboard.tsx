@@ -13,7 +13,7 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  const _useProposals = useProposals();
+  const _useProposals = useProposals({ isActive: false });
   const allProposalsData: ProposalType[] = useMemo(() => {
     if (_useProposals.isLoading || !_useProposals.data) return [];
     return _useProposals.data;

@@ -144,7 +144,13 @@ export const mockGetProposalContent = (uri: string): string => {
  * Query key for useProposals. Doesn't need to be refreshed on address or network changes
  * Proposals should be fetched no matter what.
  */
-export const proposalsQueryKey = () => ["useProposals"].filter(nonNullable);
+export const proposalsQueryKey = (filters: { isActive?: boolean }) => {
+  if (filters) {
+    return ["useProposals", filters].filter(nonNullable);
+  } else {
+    return ["useProposals"].filter(nonNullable);
+  }
+};
 
 /**
  * @notice  Fetches proposals from Governance policy, the related endorsements, yes votes,
@@ -153,13 +159,13 @@ export const proposalsQueryKey = () => ["useProposals"].filter(nonNullable);
  * @returns Query object in which the data attribute holds an array of Proposal objects for
  *          all proposals in the Governance policy contract
  */
-export const useProposals = () => {
+export const useProposals = (filters: { isActive?: boolean }) => {
   /// const INSTRContract = "";
   /// const IPFSDContract = "";
   /// const governanceContract = "";
 
   const query = useQuery<Proposal[], Error>(
-    proposalsQueryKey(),
+    proposalsQueryKey(filters),
     async () => {
       /// Get total number of proposal through INSTR module contract's totalInstructions variable
       const numberOfProposals = mockGetTotalInstructions();
@@ -189,8 +195,11 @@ export const useProposals = () => {
 
         allProposals.push(currentProposal);
       }
-
-      return allProposals;
+      if (filters) {
+        return allProposals.filter(proposal => proposal.isActive === filters.isActive);
+      } else {
+        return allProposals;
+      }
     },
     { enabled: true },
   );

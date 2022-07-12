@@ -85,7 +85,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
             label={t`Closed`}
           />
         </Box>
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" mt="28px">
           <SecondaryButton template="secondary" sx={{ flexGrow: "1" }}>
             Cancel
           </SecondaryButton>
