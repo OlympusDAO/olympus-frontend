@@ -11,13 +11,24 @@ interface TooltipPayloadItem {
     timestamp: number;
   };
 }
+
+/**
+ * Renders the date in the format: "May 30, 2022"
+ *
+ * @param index
+ * @param payload
+ * @param item
+ * @returns
+ */
 const renderDate = (index: number, payload: TooltipPayloadItem[], item: TooltipPayloadItem) => {
+  const date = new Date(item.payload.timestamp * 1000);
+
   return index === payload.length - 1 ? (
     <div className="tooltip-date">
-      {new Date(item.payload.timestamp * 1000).toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
-      {new Date(item.payload.timestamp * 1000).toLocaleString("default", { month: "long" }).slice(1)}
+      {date.toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
+      {date.toLocaleString("default", { month: "long" }).slice(1)}
       &nbsp;
-      {new Date(item.payload.timestamp * 1000).getDate()}, {new Date(item.payload.timestamp * 1000).getFullYear()}
+      {date.getDate()}, {date.getFullYear()}
     </div>
   ) : (
     ""
