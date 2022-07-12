@@ -87,7 +87,7 @@ exports[`Redeem Rebases should render Redeem Rebases Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                Next Reward Amount
+                Your Next Rebase
               </p>
             </div>
             <p
@@ -110,7 +110,7 @@ exports[`Redeem Rebases should render Redeem Rebases Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                Next Reward Rate
+                Next Rebase Rate
               </p>
             </div>
             <p
@@ -133,14 +133,14 @@ exports[`Redeem Rebases should render Redeem Rebases Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                ROI (5-Day Rate)
+                Rebases (5-Day Rate)
               </p>
             </div>
             <p
               class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
-              3.2692 %
+              3.2692%
             </p>
           </div>
         </div>
@@ -297,7 +297,7 @@ exports[`Redeem Rebases should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                Next Reward Amount
+                Your Next Rebase
               </p>
             </div>
             <p
@@ -320,7 +320,7 @@ exports[`Redeem Rebases should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                Next Reward Rate
+                Next Rebase Rate
               </p>
             </div>
             <p
@@ -343,14 +343,14 @@ exports[`Redeem Rebases should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
-                ROI (5-Day Rate)
+                Rebases (5-Day Rate)
               </p>
             </div>
             <p
               class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
-              3.2692 %
+              3.2692%
             </p>
           </div>
         </div>

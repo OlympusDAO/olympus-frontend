@@ -65,7 +65,7 @@ const StyledBox = styled(Box)(() => ({
  * Component for Displaying GetOhm
  */
 const GetOhm: FC = () => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const { data: supplyRate } = SupplyRatePerBlock();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const ethMantissa = 1e18;
@@ -99,7 +99,7 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-        {NetworkId.MAINNET === activeChain.id && (
+        {NetworkId.MAINNET === chain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
               Zap

@@ -65,8 +65,8 @@ export function ManageDonationModal({
   rebasesSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
@@ -80,7 +80,6 @@ export function ManageDonationModal({
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
-  const address = account?.address ? account.address : "";
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
@@ -128,7 +127,7 @@ export function ManageDonationModal({
   const boxBorder = theme.palette.grey[500];
 
   const _useSohmBalance =
-    useSohmBalance()[isChainEthereum({ chainId: activeChain.id, includeTestnets: true }) ? networks.MAINNET : 1];
+    useSohmBalance()[isChainEthereum({ chainId: chain.id, includeTestnets: true }) ? networks.MAINNET : 1];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -137,7 +136,7 @@ export function ManageDonationModal({
 
   // Setting this to only read Ethereum or Ethereum testnet balances, but not sure if that is the right behavior
   const _useGohmBalance =
-    useGohmBalance()[isChainEthereum({ chainId: activeChain.id, includeTestnets: true }) ? networks.MAINNET : 1];
+    useGohmBalance()[isChainEthereum({ chainId: chain.id, includeTestnets: true }) ? networks.MAINNET : 1];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");
@@ -579,10 +578,10 @@ export function ManageDonationModal({
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography align="right" variant="body1" className="subtext">{t`Balance: ${sohmBalance.toString({
+          <Typography align="right" variant="body1" className="subtext">{t`Balance: ${getBalance().toString({
             decimals: DECIMAL_PLACES,
             format: true,
-          })} sOHM`}</Typography>
+          })} ${giveAssetType}`}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Input

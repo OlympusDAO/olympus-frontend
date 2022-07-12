@@ -57,8 +57,8 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { activeChain = { id: 1 } } = useNetwork();
-  const { data: account } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
 
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
@@ -115,7 +115,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [activeChain.id]);
+  }, [chain.id]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -135,7 +135,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, chain.id, wallet]);
 
   // Reset donation states when user switches network
   useEffect(() => {
@@ -436,7 +436,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       category: "Olympus Give",
       action: "View Grants Project",
       label: title,
-      dimension1: account?.address ?? "unknown",
+      dimension1: address ?? "unknown",
       dimension2: source,
     });
   };
@@ -552,7 +552,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                         {renderDepositData()}
                       </Grid>
                       <Grid item xs={12} style={{ paddingTop: "45px" }}>
-                        {!account ? (
+                        {!address ? (
                           <InPageConnectButton />
                         ) : isUserDonating ? (
                           <></>
@@ -560,7 +560,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                           <PrimaryButton
                             size="medium"
                             onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(activeChain.id)}
+                            disabled={!isSupportedChain(chain.id)}
                             fullWidth
                           >
                             <Trans>Donate Rebases</Trans>
@@ -614,7 +614,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                         <PrimaryButton
                           size="medium"
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(activeChain.id)}
+                          disabled={!isSupportedChain(chain.id)}
                           style={{ marginTop: "24px" }}
                           fullWidth
                         >

@@ -82,9 +82,9 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
-  const { data: account } = useAccount();
-  const { isConnected, connect } = useConnect();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "", isConnected } = useAccount();
+  const { connect } = useConnect();
+  const { chain = { id: 1 } } = useNetwork();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -109,6 +109,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo.data, _useRecipientInfo.isLoading, currentIndex, giveAssetType]);
   const recipientInfoIsLoading = _useRecipientInfo.isLoading;
+
   const donorCount = useDonorNumbers(wallet).data;
 
   const _useTotalDonated = useTotalDonated(wallet);
@@ -154,7 +155,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [activeChain.id]);
+  }, [chain.id]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -174,7 +175,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, chain.id, wallet]);
 
   useEffect(() => {
     if (isGiveModalOpen) setIsGiveModalOpen(false);
@@ -500,7 +501,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       category: "Olympus Give",
       action: "View Project",
       label: title,
-      dimension1: account?.address ?? "unknown",
+      dimension1: address ?? "unknown",
       dimension2: source,
     });
   };
@@ -636,7 +637,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             <PrimaryButton
                               size="medium"
                               onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(activeChain.id)}
+                              disabled={!isSupportedChain(chain.id)}
                               fullWidth
                             >
                               <Trans>Donate Rebases</Trans>
@@ -690,7 +691,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                         <PrimaryButton
                           size="medium"
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(activeChain.id)}
+                          disabled={!isSupportedChain(chain.id)}
                           fullWidth
                         >
                           <Trans>Edit Donation</Trans>

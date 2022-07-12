@@ -45,8 +45,8 @@ export const useZapExecute = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const { data: signer } = useSigner();
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   return useMutation<ContractReceipt, Error, ZapExecuteOptions>(
     /**
@@ -64,28 +64,28 @@ export const useZapExecute = () => {
       const minimumAmountNumber = new DecimalBigNumber(minimumAmount);
       if (!minimumAmount || !minimumAmountNumber.gt("0")) throw new Error(t`Minimum amount must be greater than 0`);
 
-      if (!isSupportedChain(activeChain.id)) {
+      if (!isSupportedChain(chain.id)) {
         dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));
         throw new Error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`);
       }
 
       // We only operate on Ethereum mainnet for the moment, so we can use a static contract
-      const contract = Zap__factory.connect(addresses[activeChain.id].ZAP, signer);
-      if (!contract) throw new Error(t`Unable to access Zap contract on network ${activeChain.id}`);
+      const contract = Zap__factory.connect(addresses[chain.id].ZAP, signer);
+      if (!contract) throw new Error(t`Unable to access Zap contract on network ${chain.id}`);
 
       const toToken = gOHM
-        ? GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES]
-        : SOHM_ADDRESSES[activeChain.id as keyof typeof SOHM_ADDRESSES];
+        ? GOHM_ADDRESSES[chain.id as keyof typeof GOHM_ADDRESSES]
+        : SOHM_ADDRESSES[chain.id as keyof typeof SOHM_ADDRESSES];
       if (!toToken)
-        throw new Error(t`Unable to fetch address for token (${gOHM ? "gOHM" : "sOHM"}) on network ${activeChain.id}`);
+        throw new Error(t`Unable to fetch address for token (${gOHM ? "gOHM" : "sOHM"}) on network ${chain.id}`);
 
       const additionalOptions = {
         ...(tokenAddress === ethers.constants.AddressZero && { value: sellAmount }),
       };
 
       console.debug("Fetching token swap data from Zapper");
-      if (!account?.address) throw new Error(t`Account is not set`);
-      const swapData = await fetchSwapData(account?.address, sellAmount, tokenAddress, +slippage / 100);
+      if (!address) throw new Error(t`Account is not set`);
+      const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
 
       console.debug("Commencing Zap");
       const transaction = await contract.ZapStake(
@@ -95,7 +95,7 @@ export const useZapExecute = () => {
         ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
         swapData.to,
         swapData.data,
-        account.address,
+        address,
         additionalOptions,
       );
 
@@ -104,9 +104,9 @@ export const useZapExecute = () => {
     },
     {
       onError: (e, variables) => {
-        if (!account?.address) throw new Error(t`Account is not set`);
+        if (!address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
-          address: account.address,
+          address,
           value: variables.sellAmount.toString(),
           token: variables.tokenAddress,
           type: "Zap Swap Failure",
@@ -137,9 +137,9 @@ export const useZapExecute = () => {
       },
       onSuccess: (_data, variables) => {
         console.debug("Zap successful");
-        if (!account?.address) throw new Error(t`Account is not set`);
+        if (!address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
-          address: account.address,
+          address,
           value: variables.sellAmount.toString(),
           token: variables.tokenAddress,
           type: "Zap Swap Success",
@@ -156,9 +156,9 @@ export const useZapExecute = () => {
 
         // We force a refresh of balances, but don't wait on the result
         const keysToRefetch = [
-          balanceQueryKey(account.address, SOHM_ADDRESSES, NetworkId.MAINNET),
-          balanceQueryKey(account.address, GOHM_ADDRESSES, NetworkId.MAINNET),
-          zapTokenBalancesKey(account.address),
+          balanceQueryKey(address, SOHM_ADDRESSES, NetworkId.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, NetworkId.MAINNET),
+          zapTokenBalancesKey(address),
         ];
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
         Promise.all(promises);

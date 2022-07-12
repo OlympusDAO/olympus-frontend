@@ -112,7 +112,7 @@ describe("Redeem Rebases", () => {
   it("should show extra content if project wallet", async () => {
     //@ts-ignore
     WAGMI.useAccount = jest.fn(() => {
-      return { ...wallet, data: { ...wallet.data, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" } };
+      return { ...wallet, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" };
     });
 
     const result = render(<RedeemRebases />);

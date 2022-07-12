@@ -13,8 +13,8 @@ import { WrapSwitchNetwork } from "./components/WrapSwitchNetwork";
 
 const Wrap: React.FC = () => {
   const networks = useTestableNetworks();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const isMigrating = activeChain.id === networks.ARBITRUM || activeChain.id === networks.AVALANCHE;
+  const { chain = { id: 1 } } = useNetwork();
+  const isMigrating = chain.id === networks.ARBITRUM || chain.id === networks.AVALANCHE;
 
   return (
     <div id="stake-view">

@@ -36,7 +36,7 @@ export function RedeemRebasesModal({
   redeemableBalance,
   isMutationLoading,
 }: RedeemModalProps) {
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const theme = useTheme();
   const themedArrow =
     theme.palette.mode === "dark" && theme.colors.primary[300]
@@ -45,7 +45,7 @@ export function RedeemRebasesModal({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const canSubmit = () => {
-    if (!account?.address) return false;
+    if (!address) return false;
     if (isMutationLoading) return false;
     if (redeemableBalance.lt(new DecimalBigNumber("0"))) return false;
 
@@ -84,15 +84,15 @@ export function RedeemRebasesModal({
               </Grid>
               <Grid item xs={12} sm={4}>
                 {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
-                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
-                      alignment accordingly. */}
-                {account?.address && (
+                    whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                    alignment accordingly. */}
+                {address && (
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                     <Grid item xs={12}>
                       <Typography variant="body1" className="grey-text">
                         <Trans>My Wallet Address</Trans>
                       </Typography>
-                      <Typography variant="h6">{shorten(account.address)}</Typography>
+                      <Typography variant="h6">{shorten(address)}</Typography>
                     </Grid>
                   </Grid>
                 )}

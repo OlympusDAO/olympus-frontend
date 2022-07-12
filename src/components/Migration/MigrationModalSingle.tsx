@@ -19,17 +19,16 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
 
   const provider = useProvider();
   const { data: signer } = useSigner();
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   let rows = [];
-  const address = account?.address ? account.address : "";
   const onSeekApproval = (token: string) => {
     if (!signer) throw new Error("No signer");
     dispatch(
       changeMigrationApproval({
         address,
-        networkID: activeChain.id,
+        networkID: chain.id,
         provider,
         signer,
         token: token.toLowerCase(),
@@ -64,7 +63,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
 
   const onMigrate = (type: number, amount: string) => {
     if (!signer) throw new Error("No signer");
-    dispatch(migrateSingle({ provider, address, signer, networkID: activeChain.id, gOHM: isGOHM, type, amount }));
+    dispatch(migrateSingle({ provider, address, signer, networkID: chain.id, gOHM: isGOHM, type, amount }));
   };
 
   rows = [

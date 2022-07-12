@@ -24,9 +24,8 @@ const ZERO_NUMBER = new DecimalBigNumber("0");
 const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMAL_FORMAT = { format: true };
 
-export default function RedeemRebases() {
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
+export default function RedeemYield() {
+  const { address = "" } = useAccount();
   const [isRedeemRebasesModalOpen, setIsRedeemRebasesModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -205,7 +204,7 @@ export default function RedeemRebases() {
         </Grid>
         <Grid item xs={12}>
           <DataRow
-            title={t`Next Reward Amount`}
+            title={t`Your Next Rebase`}
             balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-amount"
@@ -213,7 +212,7 @@ export default function RedeemRebases() {
         </Grid>
         <Grid item xs={12}>
           <DataRow
-            title={t`Next Reward Rate`}
+            title={t`Next Rebase Rate`}
             balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)} %`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-rate"
@@ -221,8 +220,8 @@ export default function RedeemRebases() {
         </Grid>
         <Grid item xs={12}>
           <DataRow
-            title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)} %`}
+            title={t`Rebases (5-Day Rate)`}
+            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-roi"
           />

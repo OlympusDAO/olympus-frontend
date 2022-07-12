@@ -9,14 +9,19 @@ import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
+  LiquidBackingGraph,
   MarketValueGraph,
   OHMStakedGraph,
   ProtocolOwnedLiquidityGraph,
-  RiskFreeValueGraph,
-  RunwayAvailableGraph,
-  TotalValueDepositedGraph,
 } from "./components/Graph/Graph";
-import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
+import {
+  BackingPerOHM,
+  CircSupply,
+  CurrentIndex,
+  GOHMPrice,
+  MarketCap,
+  OHMPriceFromSubgraph,
+} from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -26,7 +31,7 @@ const MetricsDashboard = () => (
       <Paper className="ohm-card">
         <MetricCollection>
           <MarketCap {...sharedMetricProps} />
-          <OHMPrice {...sharedMetricProps} />
+          <OHMPriceFromSubgraph {...sharedMetricProps} />
           <GOHMPrice {...sharedMetricProps} className="wsoprice" />
           <CircSupply {...sharedMetricProps} />
           <BackingPerOHM {...sharedMetricProps} />
@@ -37,7 +42,7 @@ const MetricsDashboard = () => (
     <Grid container spacing={2} className="data-grid">
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <Paper className="ohm-card ohm-chart-card">
-          <TotalValueDepositedGraph />
+          <LiquidBackingGraph />
         </Paper>
       </Grid>
 
@@ -49,7 +54,7 @@ const MetricsDashboard = () => (
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <Paper className="ohm-card ohm-chart-card">
-          <RiskFreeValueGraph />
+          <OHMStakedGraph />
         </Paper>
       </Grid>
 
@@ -83,18 +88,6 @@ const MetricsDashboard = () => (
               />
             </Paper>
           </Grid> */}
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <OHMStakedGraph />
-        </Paper>
-      </Grid>
-
-      <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
-          <RunwayAvailableGraph />
-        </Paper>
-      </Grid>
     </Grid>
   </>
 );
@@ -129,12 +122,12 @@ const PageWrapper = () => {
             <Link to="/dashboard" end component={NavLink}>
               <Tab label={t`Dashboard`} />
             </Link>
-            <Link to="/dashboard/treasury" component={NavLink}>
+            {/* <Link to="/dashboard/treasury" component={NavLink}>
               <Tab label={t`Treasury`} />
             </Link>
             <Link to="/dashboard/revenue" component={NavLink}>
               <Tab label={t`Revenue`} />
-            </Link>
+            </Link> */}
             <Link to="/dashboard/olympuspro" component={NavLink}>
               <Tab label={t`Olympus Pro`} style={{ whiteSpace: "nowrap" }} />
             </Link>

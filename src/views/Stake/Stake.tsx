@@ -10,8 +10,8 @@ import { StakeArea } from "./components/StakeArea/StakeArea";
 
 const Stake: React.FC = () => {
   const navigate = useNavigate();
-  const { activeChain = { id: 1 } } = useNetwork();
-  usePathForNetwork({ pathName: "stake", networkID: activeChain.id, navigate });
+  const { chain = { id: 1 } } = useNetwork();
+  usePathForNetwork({ pathName: "stake", networkID: chain.id, navigate });
 
   return (
     <div id="stake-view">
