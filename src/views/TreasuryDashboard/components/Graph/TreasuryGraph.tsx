@@ -222,7 +222,7 @@ export const AssetsTable = () => {
         loading={!data}
         disableSelectionOnClick
         rows={currentMetric ? currentMetric.tokens : []}
-        rowHeight={40}
+        rowHeight={30}
         columns={columns}
         pageSize={10}
         getRowId={row => row.token}
