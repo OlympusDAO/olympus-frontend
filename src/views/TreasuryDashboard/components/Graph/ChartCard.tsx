@@ -75,19 +75,13 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
         ) : (
           <Box display="flex">
             <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-              {props.headerSubtext}
-            </Typography>
-            <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              {/* TODO enable this */}
-              {/* {type !== "multi" && t`Today`} */}
+              {props.isLoading ? <Skeleton variant="text" /> : props.headerSubtext}
             </Typography>
           </Box>
         )}
       </div>
       <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
-        {/* TODO fix loading status */}
-        {props.children}
-        {/* {props.isLoading ? props.children : <Skeleton variant="rectangular" width="100%" height={260} />} */}
+        {props.isLoading ? <Skeleton variant="rectangular" width="100%" height={260} /> : props.children}
       </Box>
     </Box>
   );

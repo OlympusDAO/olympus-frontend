@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -471,6 +471,7 @@ function Chart({
   infoTooltipMessage,
   expandedGraphStrokeColor,
   isPOL,
+  isLoading,
   margin = {
     top: 0,
     right: 0,
@@ -497,13 +498,12 @@ function Chart({
   infoTooltipMessage: string;
   expandedGraphStrokeColor: string;
   isPOL: boolean;
+  isLoading: boolean;
   margin?: CategoricalChartProps["margin"];
   itemDecimals?: number;
   subgraphQueryUrl?: string;
 }) {
   const [open, setOpen] = useState(false);
-  // TODO this loading status doesn't really work
-  const [loading, setLoading] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -600,12 +600,6 @@ function Chart({
     return <></>;
   };
 
-  useEffect(() => {
-    if (data) {
-      setLoading(false);
-    }
-  }, [data]);
-
   const expandedChart = (
     <ExpandedChart
       open={open}
@@ -633,7 +627,7 @@ function Chart({
       subgraphQueryUrl={subgraphQueryUrl}
       expandedChart={expandedChart}
       handleOpenExpandedChart={handleOpen}
-      isLoading={!data}
+      isLoading={isLoading}
     >
       <ResponsiveContainer minHeight={260} width="99%">
         {renderChart(type, false)}
