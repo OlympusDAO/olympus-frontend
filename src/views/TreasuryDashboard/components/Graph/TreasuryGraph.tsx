@@ -105,6 +105,7 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
       isStaked={false}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
+      displayTooltipTotal={true}
     />
   );
 };
@@ -143,6 +144,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       isStaked={false}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
+      displayTooltipTotal={true}
     />
   );
 };

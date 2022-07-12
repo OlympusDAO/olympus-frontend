@@ -95,6 +95,7 @@ const renderAreaChart = (
   expandedGraphStrokeColor: string,
   isPOL: boolean,
   margin: CategoricalChartProps["margin"],
+  displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -131,6 +132,7 @@ const renderAreaChart = (
           isStaked={isStaked}
           isPOL={isPOL}
           dataKey={dataKey}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
@@ -153,6 +155,7 @@ const renderStackedAreaChart = (
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
+  displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -191,6 +194,7 @@ const renderStackedAreaChart = (
           itemNames={itemNames}
           itemType={itemType}
           dataKey={dataKey}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
@@ -221,6 +225,7 @@ const renderLineChart = (
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   scale?: string,
+  displayTooltipTotal?: boolean,
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -250,6 +255,7 @@ const renderLineChart = (
           itemNames={itemNames}
           itemType={itemType}
           dataKey={dataKey}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
@@ -269,6 +275,7 @@ const renderComposedChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   itemDecimals?: number,
+  displayTooltipTotal?: boolean,
 ) => {
   // Intersections code from: https://codesandbox.io/s/qdlyi?file=/src/tests/ComparisonChart.js
   /**
@@ -345,6 +352,7 @@ const renderComposedChart = (
             itemType={itemType}
             itemDecimals={itemDecimals}
             dataKey={dataKey}
+            displayTotal={displayTooltipTotal}
           />
         }
       />
@@ -367,6 +375,7 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   itemDecimals?: number,
+  displayTooltipTotal?: boolean,
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -396,6 +405,7 @@ const renderMultiLineChart = (
           itemType={itemType}
           itemDecimals={itemDecimals}
           dataKey={dataKey}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
@@ -417,6 +427,7 @@ const renderBarChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
+  displayTooltipTotal?: boolean,
 ) => (
   <BarChart data={data} margin={margin}>
     <XAxis
@@ -445,6 +456,7 @@ const renderBarChart = (
           itemNames={itemNames}
           itemType={itemType}
           dataKey={dataKey}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
@@ -480,6 +492,7 @@ function Chart({
   },
   itemDecimals,
   subgraphQueryUrl,
+  displayTooltipTotal,
 }: {
   type: string;
   data: any[];
@@ -502,6 +515,7 @@ function Chart({
   margin?: CategoricalChartProps["margin"];
   itemDecimals?: number;
   subgraphQueryUrl?: string;
+  displayTooltipTotal?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -528,6 +542,7 @@ function Chart({
         expandedGraphStrokeColor,
         margin,
         scale,
+        displayTooltipTotal,
       );
     if (type === "area")
       return renderAreaChart(
@@ -544,6 +559,7 @@ function Chart({
         expandedGraphStrokeColor,
         isPOL,
         margin,
+        displayTooltipTotal,
       );
     if (type === "stack")
       return renderStackedAreaChart(
@@ -556,6 +572,7 @@ function Chart({
         itemType,
         isExpanded,
         margin,
+        displayTooltipTotal,
       );
     if (type === "multi")
       return renderMultiLineChart(
@@ -569,6 +586,7 @@ function Chart({
         isExpanded,
         margin,
         itemDecimals,
+        displayTooltipTotal,
       );
     if (type === "composed")
       return renderComposedChart(
@@ -582,6 +600,7 @@ function Chart({
         isExpanded,
         margin,
         itemDecimals,
+        displayTooltipTotal,
       );
 
     if (type === "bar")
@@ -596,6 +615,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         margin,
+        displayTooltipTotal,
       );
     return <></>;
   };
