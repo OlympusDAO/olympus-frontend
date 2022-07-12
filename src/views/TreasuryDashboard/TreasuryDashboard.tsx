@@ -1,7 +1,16 @@
 import "./TreasuryDashboard.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Container, Grid, Link, ToggleButton, ToggleButtonGroup, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Link,
+  ToggleButton as MuiToggleButton,
+  ToggleButtonGroup,
+  useMediaQuery,
+} from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
@@ -26,6 +35,14 @@ const QUERY_RECORD_COUNT = "recordCount";
  * @returns
  */
 const MetricsDashboard = () => {
+  const theme = useTheme();
+
+  const ToggleButton = styled(MuiToggleButton)({
+    "&.Mui-selected": {
+      color: theme.colors.primary[300],
+    },
+  });
+
   // State variable for the number of records shown, which is passed to the respective charts
   const [recordCount, setRecordCount] = useState("");
 
@@ -77,10 +94,11 @@ const MetricsDashboard = () => {
             <ToggleButtonGroup
               className="date-filter"
               value={recordCount}
-              color="warning" // TODO adjust this to theme
               exclusive
               onChange={handleRecordCountButtonGroupClick}
-              style={{ height: "40px" }}
+              style={{
+                height: "40px",
+              }}
             >
               <ToggleButton value="7">7d</ToggleButton>
               <ToggleButton value="30">30d</ToggleButton>
