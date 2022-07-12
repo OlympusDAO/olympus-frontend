@@ -107,6 +107,20 @@ export const DAI_TOKEN = new Token({
 });
 
 /**
+ * We have to add the custom pricing func after
+ * the token has been initialised to prevent
+ * circular references during initialisation.
+ */
+DAI_TOKEN.customPricingFunc = async () => {
+  // WHY DO WE FIX DAI to $1 in BOND PRICING?
+  // because we are trying to give the user a price in USD and
+  // there is no such thing as USD on chain. If we wanted to be
+  // more precise we could give a price in DAI like 13.59 DAI
+  // rather than $13.59
+  return new DecimalBigNumber("1", 18);
+};
+
+/**
  * For inverse bonds, we have to use a different DAI testnet token
  * for compatability. Reason why has something to do with how the
  * treasury was set up on the rinkeby contract.
@@ -122,6 +136,15 @@ export const TEST_DAI_TOKEN = new Token({
   factory: IERC20__factory,
   purchaseUrl: "",
 });
+
+/**
+ * We have to add the custom pricing func after
+ * the token has been initialised to prevent
+ * circular references during initialisation.
+ */
+TEST_DAI_TOKEN.customPricingFunc = async () => {
+  return new DecimalBigNumber("1", 18);
+};
 
 export const LUSD_TOKEN = new Token({
   icons: ["LUSD"],

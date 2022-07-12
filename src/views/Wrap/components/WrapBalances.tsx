@@ -6,7 +6,7 @@ import { useNetwork } from "wagmi";
 
 export const WrapBalances = () => {
   const networks = useTestableNetworks();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const sohmBalance = useSohmBalance()[networks.MAINNET].data;
 
   const gohmBalances = useGohmBalance();
@@ -18,7 +18,7 @@ export const WrapBalances = () => {
   const wsohmArb = wsohmBalances[networks.ARBITRUM].data;
   const wsohmAvax = wsohmBalances[networks.AVALANCHE].data;
 
-  if (activeChain.id === networks.AVALANCHE)
+  if (chain.id === networks.AVALANCHE)
     return (
       <>
         <DataRow
@@ -34,7 +34,7 @@ export const WrapBalances = () => {
       </>
     );
 
-  if (activeChain.id === networks.ARBITRUM)
+  if (chain.id === networks.ARBITRUM)
     return (
       <>
         <DataRow

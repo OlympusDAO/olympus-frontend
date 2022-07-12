@@ -4,10 +4,10 @@ import { useNetwork } from "wagmi";
 import { useAppSelector } from ".";
 
 export const useOldAssetsDetected = () => {
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   return useAppSelector(state => {
-    if (activeChain.id && isChainEthereum({ chainId: activeChain.id, includeTestnets: true })) {
+    if (chain.id && isChainEthereum({ chainId: chain.id, includeTestnets: true })) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||

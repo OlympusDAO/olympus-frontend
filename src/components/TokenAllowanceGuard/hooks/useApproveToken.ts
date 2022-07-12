@@ -12,14 +12,13 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
   const dispatch = useDispatch();
   const client = useQueryClient();
 
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const address = account?.address ? account.address : "";
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const token = useDynamicTokenContract(tokenAddressMap, true);
 
   return useMutation<ContractReceipt, Error>(
     async () => {
-      const contractAddress = spenderAddressMap[activeChain.id as keyof typeof spenderAddressMap];
+      const contractAddress = spenderAddressMap[chain.id as keyof typeof spenderAddressMap];
 
       if (!token) throw new Error("Token doesn't exist on current network. Please switch networks.");
       if (!contractAddress) throw new Error("Contract doesn't exist on current network. Please switch networks.");
@@ -32,9 +31,7 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
       onError: error => void dispatch(createErrorToast(error.message)),
       onSuccess: async () => {
         dispatch(createInfoToast("Successfully approved"));
-        await client.refetchQueries(
-          contractAllowanceQueryKey(address, activeChain.id, tokenAddressMap, spenderAddressMap),
-        );
+        await client.refetchQueries(contractAllowanceQueryKey(address, chain.id, tokenAddressMap, spenderAddressMap));
       },
     },
   );

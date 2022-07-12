@@ -28,7 +28,7 @@ import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/Call
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
+import { useAccount, useNetwork, useProvider } from "wagmi";
 
 import { trim } from "../../helpers";
 import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
@@ -44,10 +44,8 @@ function V1Stake({ setMigrationModalOpen }) {
   const navigate = useNavigate();
   const oldAssetsDetected = useOldAssetsDetected();
   const provider = useProvider();
-  const { data: account } = useAccount();
-  const address = account?.address ? account.address : "";
-  const { activeChain = { id: 1 } } = useNetwork();
-  const { isConnected } = useConnect();
+  const { address = "", isConnected } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -115,7 +113,7 @@ function V1Stake({ setMigrationModalOpen }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: activeChain.id, version2: false }));
+    await dispatch(changeApproval({ address, token, provider, networkID: chain.id, version2: false }));
   };
 
   const onChangeStake = async action => {
@@ -141,7 +139,7 @@ function V1Stake({ setMigrationModalOpen }) {
         action,
         value: quantity.toString(),
         provider,
-        networkID: activeChain.id,
+        networkID: chain.id,
         version2: false,
       }),
     );
@@ -193,7 +191,7 @@ function V1Stake({ setMigrationModalOpen }) {
             <MetricCollection>
               <Metric
                 className="stake-apy"
-                label={`${t`APY`} (v1)`}
+                label={`${t`Annualized Rebases`} (v1)`}
                 metric={`${formattedTrimmedStakingAPY}%`}
                 isLoading={stakingAPY ? false : true}
               />
@@ -397,14 +395,14 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-                  <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
+                  <DataRow title={t`Your Next Rebase`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
-                    title={t`Next Reward Yield`}
+                    title={t`Next Rebase Yield`}
                     balance={`${stakingRebasePercentage}%`}
                     isLoading={isAppLoading}
                   />
                   <DataRow
-                    title={t`ROI (5-Day Rate)`}
+                    title={t`Rebases (5-Day Rate)`}
                     balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                     isLoading={isAppLoading}
                   />

@@ -81,7 +81,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
-                            APY (v1)
+                            Annualized Rebases (v1)
                           </p>
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
@@ -2990,7 +2990,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
-                            APY (v1)
+                            Annualized Rebases (v1)
                           </p>
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
@@ -3335,7 +3335,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Amount
+                        Your Next Rebase
                       </p>
                     </div>
                     <p
@@ -3354,7 +3354,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Rebase Yield
                       </p>
                     </div>
                     <p
@@ -3373,7 +3373,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        ROI (5-Day Rate)
+                        Rebases (5-Day Rate)
                       </p>
                     </div>
                     <p
@@ -6343,7 +6343,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
-                            APY (v1)
+                            Annualized Rebases (v1)
                           </p>
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
@@ -6688,7 +6688,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Amount
+                        Your Next Rebase
                       </p>
                     </div>
                     <p
@@ -6707,7 +6707,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Rebase Yield
                       </p>
                     </div>
                     <p
@@ -6726,7 +6726,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        ROI (5-Day Rate)
+                        Rebases (5-Day Rate)
                       </p>
                     </div>
                     <p
@@ -9696,7 +9696,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
-                            APY (v1)
+                            Annualized Rebases (v1)
                           </p>
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
@@ -10041,7 +10041,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Amount
+                        Your Next Rebase
                       </p>
                     </div>
                     <p
@@ -10060,7 +10060,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        Next Reward Yield
+                        Next Rebase Yield
                       </p>
                     </div>
                     <p
@@ -10079,7 +10079,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       >
-                        ROI (5-Day Rate)
+                        Rebases (5-Day Rate)
                       </p>
                     </div>
                     <p

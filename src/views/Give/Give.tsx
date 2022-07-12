@@ -25,7 +25,7 @@ import YieldRecipients from "./YieldRecipients";
 
 function Give({ selectedIndex = 0 }) {
   const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
 
   const v1RedeemableBalance = useV1RedeemableBalance();
   const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
@@ -52,7 +52,7 @@ function Give({ selectedIndex = 0 }) {
                   className="no-container-padding"
                   zoom={false}
                 >
-                  {!isSupportedChain(activeChain.id) ? (
+                  {!isSupportedChain(chain.id) ? (
                     <Typography variant="h6">
                       Note: You are currently using an unsupported network. Please switch to Ethereum to experience the
                       full functionality.
