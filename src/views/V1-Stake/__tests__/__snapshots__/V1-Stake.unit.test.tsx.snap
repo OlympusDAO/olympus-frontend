@@ -16,10 +16,10 @@ exports[`<Stake/> should render component. not connected 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -55,22 +55,22 @@ exports[`<Stake/> should render component. not connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-apy css-1xkrsym"
@@ -96,7 +96,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-tvl css-1xkrsym"
@@ -122,7 +122,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-index css-1xkrsym"
@@ -188,10 +188,10 @@ exports[`<Stake/> should render component. not connected 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -211,7 +211,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <table
               class="MuiTable-root css-17zo3iv-MuiTable-root"
@@ -2925,10 +2925,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -2964,22 +2964,22 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-apy css-1xkrsym"
@@ -3005,7 +3005,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-tvl css-1xkrsym"
@@ -3031,7 +3031,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-index css-1xkrsym"
@@ -3394,10 +3394,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -3417,7 +3417,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <table
               class="MuiTable-root css-17zo3iv-MuiTable-root"
@@ -6278,10 +6278,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -6317,22 +6317,22 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-apy css-1xkrsym"
@@ -6358,7 +6358,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-tvl css-1xkrsym"
@@ -6384,7 +6384,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-index css-1xkrsym"
@@ -6747,10 +6747,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -6770,7 +6770,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <table
               class="MuiTable-root css-17zo3iv-MuiTable-root"
@@ -9631,10 +9631,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -9670,22 +9670,22 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+                class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-apy css-1xkrsym"
@@ -9711,7 +9711,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-tvl css-1xkrsym"
@@ -9737,7 +9737,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root stake-index css-1xkrsym"
@@ -10100,10 +10100,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -10123,7 +10123,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <table
               class="MuiTable-root css-17zo3iv-MuiTable-root"
