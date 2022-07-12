@@ -170,7 +170,6 @@ export const AssetsTable = () => {
    * when {data} changes, so they get wrapped in `useMemo`.
    */
   useMemo(() => {
-    console.log("data = " + data === undefined);
     if (!data) {
       setTokenSummary([]);
       setReducedTokens([]);
