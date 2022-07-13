@@ -31,7 +31,7 @@ export const ProposalsDashboard = () => {
     return allProposalsData.map(proposal => {
       return (
         <Grid item xs={12}>
-          <Link to={`/governancetest/proposals/${proposal.proposalName}`} component={RouterLink}>
+          <Link to={`/governancetest/proposals/${proposal.id}`} component={RouterLink}>
             <Proposal
               chipLabel="Discussion"
               proposalTitle={proposal.proposalName}

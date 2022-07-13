@@ -11,6 +11,7 @@ interface proposalMetadata {
 
 /// Data type for returning full proposal informations
 export interface Proposal {
+  id: number;
   proposalName: string;
   proposer: string;
   submissionTimestamp: string;
@@ -182,6 +183,7 @@ export const useProposals = (filters: { isActive?: boolean }) => {
         const proposalContent = mockGetProposalContent(proposalURI);
 
         const currentProposal = {
+          id: i,
           proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
           proposer: proposal.proposer,
           submissionTimestamp: proposal.submissionTimestamp,

@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useQuery } from "react-query";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
@@ -44,7 +45,8 @@ export const useProposal = (instructionsIndex: number) => {
       const proposalContent = mockGetProposalContent(proposalURI);
 
       const currentProposal = {
-        proposalName: proposal.proposalName,
+        id: instructionsIndex,
+        proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
         proposer: proposal.proposer,
         submissionTimestamp: proposal.submissionTimestamp,
         isActive: isActive,
