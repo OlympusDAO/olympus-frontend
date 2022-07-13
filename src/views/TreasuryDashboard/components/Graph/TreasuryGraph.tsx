@@ -63,11 +63,13 @@ type GraphProps = {
  * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const dataKeys: string[] = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
+  const itemNames: string[] = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
+
   const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
 
-  const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
-  const dataKeys = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
+  // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
 
@@ -98,11 +100,13 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
 };
 
 export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
+  const dataKeys: string[] = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
+
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
-  const itemNames = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
-  const dataKeys = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
+  // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
 
@@ -136,17 +140,41 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
-  // TODO add caching
-  const tokenSummary = getKeysTokenSummary(
-    data?.protocolMetrics,
-    ["treasuryLPValueComponents"],
-    ["Protocol-Owned Liquidity"],
-  );
+  // State variables used for rendering
+  const initialTokenSummary: any[] = [];
+  const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
+  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
+  const initialDataKeys: string[] = [];
+  const [dataKeys, setDataKeys] = useState(initialDataKeys);
+  const [colorsMap, setColorsMap] = useState(new Map<string, CSSProperties>());
 
-  const tokenCategories = getTokensFromKey(tokenSummary, "treasuryLPValueComponents");
-  const dataKeys = getDataKeysFromTokens(tokenCategories, "treasuryLPValueComponents");
-  const categoriesMap = getCategoriesMap(tokenCategories, dataKeys);
-  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
+  // Dependent variables are only re-calculate when the data changes
+  useMemo(() => {
+    if (!data) {
+      setTokenSummary([]);
+      setCategoriesMap(new Map<string, string>());
+      setDataKeys([]);
+      setColorsMap(new Map<string, CSSProperties>());
+      return;
+    }
+
+    const tempTokenSummary = getKeysTokenSummary(
+      data?.protocolMetrics,
+      ["treasuryLPValueComponents"],
+      ["Protocol-Owned Liquidity"],
+    );
+    setTokenSummary(tempTokenSummary);
+
+    const tokenCategories = getTokensFromKey(tempTokenSummary, "treasuryLPValueComponents");
+    const tempDataKeys = getDataKeysFromTokens(tokenCategories, "treasuryLPValueComponents");
+    setDataKeys(tempDataKeys);
+
+    const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
+    setCategoriesMap(tempCategoriesMap);
+
+    const tempColorsMap = getColoursMap(defaultBulletpointColours, tempDataKeys);
+    setColorsMap(tempColorsMap);
+  }, [data]);
 
   return (
     <Chart
@@ -175,21 +203,10 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
 };
 
 export const AssetsTable = () => {
-  const keys: readonly string[] = [
-    "treasuryStableValueComponents",
-    "treasuryVolatileValueComponents",
-    "treasuryLPValueComponents",
-  ];
-  const categories: readonly string[] = ["Stablecoins", "Volatile", "Protocol-Owned Liquidity"];
-
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
   // State variables used for rendering
-  const initialTokenSummary: any[] = [];
-  const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
-  const initialReducedTokens: MetricRow[] = [];
-  const [reducedTokens, setReducedTokens] = useState(initialReducedTokens);
   const [currentMetric, setCurrentMetric] = useState<MetricRow | null>(null);
 
   /**
@@ -198,18 +215,21 @@ export const AssetsTable = () => {
    */
   useMemo(() => {
     if (!data) {
-      setTokenSummary([]);
-      setReducedTokens([]);
       setCurrentMetric(null);
       return;
     }
+
+    const keys: readonly string[] = [
+      "treasuryStableValueComponents",
+      "treasuryVolatileValueComponents",
+      "treasuryLPValueComponents",
+    ];
+    const categories: readonly string[] = ["Stablecoins", "Volatile", "Protocol-Owned Liquidity"];
 
     const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
     const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
     const newCurrentMetric = newReducedTokens[0];
 
-    setTokenSummary(newTokenSummary);
-    setReducedTokens(newReducedTokens);
     setCurrentMetric(newCurrentMetric);
   }, [data]);
 
