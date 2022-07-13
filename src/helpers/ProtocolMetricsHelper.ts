@@ -153,6 +153,14 @@ export const getDataKeysFromTokens = (tokens: string[], key: string): string[] =
   return tokens.map(value => `${key}.tokens.${value}.value`);
 };
 
+/**
+ * Creates a map that can be used to determine tooltip categories, with the values
+ * of {dataKeys} as the keys and the values of {tokens} as the values.
+ *
+ * @param tokens
+ * @param dataKeys
+ * @returns
+ */
 export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<string, string> => {
   const categoriesMap = new Map<string, string>();
   dataKeys.map((value, index) => {
@@ -162,6 +170,14 @@ export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<stri
   return categoriesMap;
 };
 
+/**
+ * Creates a map that can be used to determine tooltip bulletpoint colors, with the values
+ * of {dataKeys} as the keys and the values of {colors} as the values.
+ *
+ * @param colors
+ * @param dataKeys
+ * @returns
+ */
 export const getColoursMap = (colors: CSSProperties[], dataKeys: string[]): Map<string, CSSProperties> => {
   const categoriesMap = new Map<string, CSSProperties>();
   dataKeys.map((value, index) => {

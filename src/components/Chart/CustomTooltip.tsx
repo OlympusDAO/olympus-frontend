@@ -154,6 +154,16 @@ const renderTooltipItems = (
     </Grid>
   );
 };
+
+/**
+ * React Component that renders a custom tooltip in a chart.
+ *
+ * As the presence of the data keys can differ, the {categories}
+ * and {bulletpointColors} props are maps. This keeps the
+ * bullpoint color consistent with the charts rendering.
+ *
+ * @returns
+ */
 function CustomTooltip({
   active,
   payload,
