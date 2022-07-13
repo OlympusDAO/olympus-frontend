@@ -8,6 +8,9 @@ import { bulletpoints, itemType, tooltipInfoMessages, tooltipItems } from "../..
 
 export const Graph = ({ children }) => <>{children}</>;
 
+/**
+ * @deprecated
+ */
 export const TotalValueDepositedGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();
@@ -29,6 +32,9 @@ export const TotalValueDepositedGraph = () => {
   );
 };
 
+/**
+ * @deprecated
+ */
 export const LiquidBackingGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();
@@ -50,35 +56,9 @@ export const LiquidBackingGraph = () => {
   );
 };
 
-export const MarketValueGraph = () => {
-  const theme = useTheme();
-  const { data } = useProtocolMetrics();
-
-  return (
-    <Chart
-      type="stack"
-      data={data}
-      dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
-      stopColor={[
-        ["#F5AC37", "#F5AC37"],
-        ["#768299", "#768299"],
-        ["#DC30EB", "#DC30EB"],
-        ["#8BFF4D", "#8BFF4D"],
-        ["#ff758f", "#ff758f"],
-        ["#4E1F71", "#4E1F71"],
-        ["#8AECCD", "#8AECCD"],
-      ]}
-      headerText={t`Market Value of Treasury Assets`}
-      headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
-      bulletpointColors={bulletpoints.coin}
-      categories={tooltipItems.marketValueComponents}
-      itemType={itemType.dollar}
-      infoTooltipMessage={tooltipInfoMessages().mvt}
-      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-    />
-  );
-};
-
+/**
+ * @deprecated
+ */
 export const RiskFreeValueGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();
@@ -114,30 +94,9 @@ export const RiskFreeValueGraph = () => {
   );
 };
 
-export const ProtocolOwnedLiquidityGraph = () => {
-  const theme = useTheme();
-  const { data } = useProtocolMetrics();
-
-  return (
-    <Chart
-      isPOL
-      type="area"
-      data={data}
-      dataFormat="percent"
-      margin={{ left: 30 }}
-      categories={tooltipItems.pol}
-      itemType={itemType.percentage}
-      dataKey={["treasuryOhmDaiPOL"]}
-      bulletpointColors={bulletpoints.pol}
-      infoTooltipMessage={tooltipInfoMessages().pol}
-      headerText={t`Protocol Owned Liquidity OHM-DAI`}
-      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
-      stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
-    />
-  );
-};
-
+/**
+ * @deprecated
+ */
 export const OHMStakedGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();
@@ -169,6 +128,9 @@ export const OHMStakedGraph = () => {
   );
 };
 
+/**
+ * @deprecated
+ */
 export const RunwayAvailableGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();
