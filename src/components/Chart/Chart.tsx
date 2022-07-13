@@ -95,6 +95,7 @@ const renderAreaChart = (
   expandedGraphStrokeColor: string,
   isPOL: boolean,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
@@ -155,6 +156,7 @@ const renderStackedAreaChart = (
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
@@ -172,6 +174,7 @@ const renderStackedAreaChart = (
       dataKey="timestamp"
       interval={xAxisInterval}
       axisLine={false}
+      tick={tickStyle}
       tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
@@ -180,6 +183,7 @@ const renderStackedAreaChart = (
     <YAxis
       axisLine={false}
       width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tick={tickStyle}
       tickCount={isExpanded ? expandedTickCount : tickCount}
       tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
@@ -224,6 +228,7 @@ const renderLineChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   scale?: string,
   displayTooltipTotal?: boolean,
 ) => (
@@ -232,6 +237,7 @@ const renderLineChart = (
       dataKey="timestamp"
       interval={100}
       axisLine={false}
+      tick={tickStyle}
       tickCount={3}
       tickLine={false}
       reversed={true}
@@ -241,6 +247,7 @@ const renderLineChart = (
     <YAxis
       tickCount={scale == "log" ? 1 : isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
+      tick={tickStyle}
       tickLine={false}
       width={32}
       scale={() => scale}
@@ -274,6 +281,7 @@ const renderComposedChart = (
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
 ) => {
@@ -330,6 +338,7 @@ const renderComposedChart = (
         interval={xAxisInterval}
         axisLine={false}
         reversed={true}
+        tick={tickStyle}
         tickCount={tickCount}
         tickLine={false}
         tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
@@ -338,6 +347,7 @@ const renderComposedChart = (
       <YAxis
         tickCount={isExpanded ? expandedTickCount : tickCount}
         axisLine={false}
+        tick={tickStyle}
         tickLine={false}
         width={25}
         tickFormatter={number => getTickFormatter(dataFormat, number)}
@@ -374,6 +384,7 @@ const renderMultiLineChart = (
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
 ) => (
@@ -383,6 +394,7 @@ const renderMultiLineChart = (
       interval={xAxisInterval}
       axisLine={false}
       reversed={true}
+      tick={tickStyle}
       tickCount={tickCount}
       tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
@@ -392,6 +404,7 @@ const renderMultiLineChart = (
       tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
+      tick={tickStyle}
       width={25}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
@@ -427,6 +440,7 @@ const renderBarChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
   displayTooltipTotal?: boolean,
 ) => (
   <BarChart data={data} margin={margin}>
@@ -435,6 +449,7 @@ const renderBarChart = (
       interval={30}
       axisLine={false}
       tickCount={tickCount}
+      tick={tickStyle}
       tickLine={false}
       reversed={true}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
@@ -442,6 +457,7 @@ const renderBarChart = (
     />
     <YAxis
       axisLine={false}
+      tick={tickStyle}
       tickLine={false}
       tickCount={isExpanded ? expandedTickCount : tickCount}
       width={33}
@@ -484,6 +500,7 @@ function Chart({
   expandedGraphStrokeColor,
   isPOL,
   isLoading,
+  tickStyle,
   margin = {
     top: 0,
     right: 0,
@@ -512,6 +529,7 @@ function Chart({
   expandedGraphStrokeColor: string;
   isPOL: boolean;
   isLoading: boolean;
+  tickStyle: Record<string, string | number>;
   margin?: CategoricalChartProps["margin"];
   itemDecimals?: number;
   subgraphQueryUrl?: string;
@@ -541,6 +559,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         margin,
+        tickStyle,
         scale,
         displayTooltipTotal,
       );
@@ -559,6 +578,7 @@ function Chart({
         expandedGraphStrokeColor,
         isPOL,
         margin,
+        tickStyle,
         displayTooltipTotal,
       );
     if (type === "stack")
@@ -572,6 +592,7 @@ function Chart({
         itemType,
         isExpanded,
         margin,
+        tickStyle,
         displayTooltipTotal,
       );
     if (type === "multi")
@@ -585,6 +606,7 @@ function Chart({
         itemType,
         isExpanded,
         margin,
+        tickStyle,
         itemDecimals,
         displayTooltipTotal,
       );
@@ -599,6 +621,7 @@ function Chart({
         itemType,
         isExpanded,
         margin,
+        tickStyle,
         itemDecimals,
         displayTooltipTotal,
       );
@@ -615,6 +638,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         margin,
+        tickStyle,
         displayTooltipTotal,
       );
     return <></>;

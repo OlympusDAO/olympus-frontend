@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties, useMemo, useState } from "react";
 import Chart, { DataFormat } from "src/components/Chart/Chart";
@@ -48,6 +49,13 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
 });
 export const defaultRecordsCount = 90;
 
+const getTickStyle = (theme: Theme): Record<string, string | number> => {
+  return {
+    stroke: theme.palette.primary.main,
+    strokeWidth: "1px", // TODO fix the width/weight
+  };
+};
+
 const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
   return `${getSubgraphUrl()}/graphql?query=${encodeURIComponent(queryDocument)}`;
 };
@@ -63,6 +71,8 @@ type GraphProps = {
  * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const theme = useTheme();
+
   const dataKeys: string[] = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
   const itemNames: string[] = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
 
@@ -95,11 +105,14 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
       isStaked={false}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
+      tickStyle={getTickStyle(theme)}
     />
   );
 };
 
 export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const theme = useTheme();
+
   const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
   const dataKeys: string[] = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
 
@@ -132,11 +145,14 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
+      tickStyle={getTickStyle(theme)}
     />
   );
 };
 
 export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+  const theme = useTheme();
+
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
@@ -198,6 +214,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
+      tickStyle={getTickStyle(theme)}
     />
   );
 };
