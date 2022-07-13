@@ -17,7 +17,7 @@ export const TotalValueDepositedGraph = () => {
       type="area"
       data={data}
       itemType={itemType.dollar}
-      itemNames={tooltipItems.tvl}
+      categories={tooltipItems.tvl}
       dataKey={["totalValueLocked"]}
       headerText={t`Total Value Deposited`}
       stopColor={[["#768299", "#98B3E9"]]}
@@ -38,7 +38,7 @@ export const LiquidBackingGraph = () => {
       type="area"
       data={data}
       itemType={itemType.dollar}
-      itemNames={tooltipItems.liqb}
+      categories={tooltipItems.liqb}
       dataKey={["treasuryLiquidBacking"]}
       headerText={t`Liquid Treasury`}
       stopColor={[["#768299", "#98B3E9"]]}
@@ -71,7 +71,7 @@ export const MarketValueGraph = () => {
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
       bulletpointColors={bulletpoints.coin}
-      itemNames={tooltipItems.marketValueComponents}
+      categories={tooltipItems.marketValueComponents}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
@@ -106,7 +106,7 @@ export const RiskFreeValueGraph = () => {
       headerText={t`Risk Free Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
       bulletpointColors={bulletpoints.rfv}
-      itemNames={tooltipItems.rfv}
+      categories={tooltipItems.rfv}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().rfv}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
@@ -125,7 +125,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       data={data}
       dataFormat="percent"
       margin={{ left: 30 }}
-      itemNames={tooltipItems.pol}
+      categories={tooltipItems.pol}
       itemType={itemType.percentage}
       dataKey={["treasuryOhmDaiPOL"]}
       bulletpointColors={bulletpoints.pol}
@@ -190,7 +190,7 @@ export const RunwayAvailableGraph = () => {
       headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
       dataFormat="days"
       bulletpointColors={runwayBulletpoints}
-      itemNames={tooltipItems.runway}
+      categories={tooltipItems.runway}
       itemType={""}
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().runway}

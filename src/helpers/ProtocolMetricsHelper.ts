@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 type TokenRow = {
   token: string;
   category: string;
@@ -139,8 +141,34 @@ export const getTokensFromKey = (metrics: any[] | undefined, key: string): strin
   return Array.from(tokenNames);
 };
 
+/**
+ * Converts an array of token names into the relevant data keys, which
+ * will be used by the charting library.
+ *
+ * @param tokens
+ * @param key
+ * @returns
+ */
 export const getDataKeysFromTokens = (tokens: string[], key: string): string[] => {
   return tokens.map(value => `${key}.tokens.${value}.value`);
+};
+
+export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<string, string> => {
+  const categoriesMap = new Map<string, string>();
+  dataKeys.map((value, index) => {
+    categoriesMap.set(value, tokens[index]);
+  });
+
+  return categoriesMap;
+};
+
+export const getColoursMap = (colors: CSSProperties[], dataKeys: string[]): Map<string, CSSProperties> => {
+  const categoriesMap = new Map<string, CSSProperties>();
+  dataKeys.map((value, index) => {
+    categoriesMap.set(value, colors[index]);
+  });
+
+  return categoriesMap;
 };
 
 export type MetricRow = {

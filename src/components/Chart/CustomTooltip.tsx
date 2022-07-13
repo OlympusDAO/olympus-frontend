@@ -61,8 +61,8 @@ const renderTotal = (type: string, payload: TooltipPayloadItem[]) => {
 
 const renderTooltipItems = (
   payload: TooltipPayloadItem[],
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   dataKey: string[],
   isStaked = false,
@@ -72,18 +72,21 @@ const renderTooltipItems = (
 ) => {
   let ignoredIndex = 0;
 
+  const categoriesArray = Array.from(categories.values());
+  const bulletpointColorsArray = Array.from(bulletpointColors.values());
+
   return isStaked ? (
     <Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColors[0]}></span>
+          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[0]}></span>
           Staked
         </Typography>
         <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
       </Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
+          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[1]}></span>
           Not staked
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
@@ -94,15 +97,15 @@ const renderTooltipItems = (
     <Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColors[0]}></span>
-          {itemNames[0]}
+          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[0]}></span>
+          {categoriesArray[0]}
         </Typography>
         <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
       </Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
-          <span className="tooltip-name">{itemNames[1]}</span>
+          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[1]}></span>
+          <span className="tooltip-name">{categoriesArray[1]}</span>
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
       </Box>
@@ -137,8 +140,8 @@ const renderTooltipItems = (
           >
             <Grid item xs={8}>
               <Typography variant="body2" style={{ whiteSpace: "pre-line" }}>
-                <span className="tooltip-bulletpoint" style={bulletpointColors[adjustedIndex]}></span>
-                {`${itemNames[adjustedIndex]}`}
+                <span className="tooltip-bulletpoint" style={bulletpointColors.get(item.dataKey)}></span>
+                {`${categories.get(item.dataKey)}`}
               </Typography>
             </Grid>
             <Grid item xs={4} textAlign="right">
@@ -155,7 +158,7 @@ function CustomTooltip({
   active,
   payload,
   bulletpointColors,
-  itemNames,
+  categories,
   itemType,
   dataKey,
   isStaked,
@@ -165,8 +168,8 @@ function CustomTooltip({
 }: {
   active?: boolean;
   payload?: TooltipPayloadItem[];
-  bulletpointColors: CSSProperties[];
-  itemNames: string[];
+  bulletpointColors: Map<string, CSSProperties>;
+  categories: Map<string, string>;
   itemType: string;
   dataKey: string[];
   isStaked?: boolean;
@@ -180,7 +183,7 @@ function CustomTooltip({
         {renderTooltipItems(
           payload,
           bulletpointColors,
-          itemNames,
+          categories,
           itemType,
           dataKey,
           isStaked,

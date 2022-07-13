@@ -15,6 +15,8 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
+  getCategoriesMap,
+  getColoursMap,
   getDataKeysFromTokens,
   getKeysTokenSummary,
   getTokensFromKey,
@@ -22,7 +24,7 @@ import {
   reduceKeysTokenSummary,
 } from "src/helpers/ProtocolMetricsHelper";
 
-import { itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
+import { itemType, tooltipInfoMessages } from "../../treasuryData";
 import { ChartCard } from "./ChartCard";
 
 // These constants are used by charts to have consistent colours
@@ -53,12 +55,15 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
 
   const itemNames = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
+  const dataKeys = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
+  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
 
   return (
     <Chart
       type="composed"
       data={data ? data.protocolMetrics : []}
-      dataKey={["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]}
+      dataKey={dataKeys}
       itemType={itemType.dollar}
       color={""}
       stopColor={[[]]}
@@ -66,8 +71,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
       dataFormat={DataFormat.Currency}
-      bulletpointColors={defaultBulletpointColours}
-      itemNames={itemNames}
+      bulletpointColors={colorsMap}
+      categories={categoriesMap}
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().backingPerOhm}
       expandedGraphStrokeColor={""}
@@ -84,19 +89,24 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
+  const itemNames = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
+  const dataKeys = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
+  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
+
   return (
     <Chart
       type="stack"
       data={data ? data.protocolMetrics : []}
-      dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
+      dataKey={dataKeys}
       color={""}
       stopColor={[[]]}
       stroke={defaultColors}
       dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryMarketValue)}`}
-      bulletpointColors={defaultBulletpointColours}
-      itemNames={tooltipItems.marketValueComponents}
+      bulletpointColors={colorsMap}
+      categories={categoriesMap}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
       expandedGraphStrokeColor={""}
@@ -114,6 +124,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
+  // TODO add caching
   const tokenSummary = getKeysTokenSummary(
     data?.protocolMetrics,
     ["treasuryLPValueComponents"],
@@ -122,6 +133,8 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
 
   const tokenCategories = getTokensFromKey(tokenSummary, "treasuryLPValueComponents");
   const dataKeys = getDataKeysFromTokens(tokenCategories, "treasuryLPValueComponents");
+  const categoriesMap = getCategoriesMap(tokenCategories, dataKeys);
+  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
 
   return (
     <Chart
@@ -134,8 +147,8 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
-      bulletpointColors={defaultBulletpointColours}
-      itemNames={tokenCategories}
+      bulletpointColors={colorsMap}
+      categories={categoriesMap}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().pol}
       expandedGraphStrokeColor={""}

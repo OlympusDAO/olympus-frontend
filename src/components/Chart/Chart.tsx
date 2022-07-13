@@ -87,8 +87,8 @@ const renderAreaChart = (
   stopColor: string[][],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isStaked: boolean,
   isExpanded: boolean,
@@ -127,7 +127,7 @@ const renderAreaChart = (
       content={
         <CustomTooltip
           bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
+          categories={categories}
           itemType={itemType}
           isStaked={isStaked}
           isPOL={isPOL}
@@ -150,8 +150,8 @@ const renderStackedAreaChart = (
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
@@ -191,7 +191,7 @@ const renderStackedAreaChart = (
       content={
         <CustomTooltip
           bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
+          categories={categories}
           itemType={itemType}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
@@ -218,8 +218,8 @@ const renderLineChart = (
   stroke: string[],
   color: string,
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
@@ -252,7 +252,7 @@ const renderLineChart = (
       content={
         <CustomTooltip
           bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
+          categories={categories}
           itemType={itemType}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
@@ -269,8 +269,8 @@ const renderComposedChart = (
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
@@ -348,7 +348,7 @@ const renderComposedChart = (
         content={
           <CustomTooltip
             bulletpointColors={bulletpointColors}
-            itemNames={itemNames}
+            categories={categories}
             itemType={itemType}
             itemDecimals={itemDecimals}
             dataKey={dataKey}
@@ -369,8 +369,8 @@ const renderMultiLineChart = (
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
@@ -401,7 +401,7 @@ const renderMultiLineChart = (
       content={
         <CustomTooltip
           bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
+          categories={categories}
           itemType={itemType}
           itemDecimals={itemDecimals}
           dataKey={dataKey}
@@ -421,8 +421,8 @@ const renderBarChart = (
   dataKey: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
@@ -453,7 +453,7 @@ const renderBarChart = (
       content={
         <CustomTooltip
           bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
+          categories={categories}
           itemType={itemType}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
@@ -477,7 +477,7 @@ function Chart({
   dataFormat,
   headerSubText,
   bulletpointColors,
-  itemNames,
+  categories,
   itemType,
   isStaked,
   infoTooltipMessage,
@@ -504,8 +504,8 @@ function Chart({
   headerText: string;
   dataFormat: DataFormat;
   headerSubText: string;
-  bulletpointColors: CSSProperties[];
-  itemNames: string[];
+  bulletpointColors: Map<string, CSSProperties>;
+  categories: Map<string, string>;
   itemType: string;
   isStaked: boolean;
   infoTooltipMessage: string;
@@ -536,7 +536,7 @@ function Chart({
         color,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
@@ -552,7 +552,7 @@ function Chart({
         stroke,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isStaked,
         isExpanded,
@@ -568,7 +568,7 @@ function Chart({
         stroke,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isExpanded,
         margin,
@@ -581,7 +581,7 @@ function Chart({
         stroke,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isExpanded,
         margin,
@@ -595,7 +595,7 @@ function Chart({
         stroke,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isExpanded,
         margin,
@@ -610,7 +610,7 @@ function Chart({
         stroke,
         dataFormat,
         bulletpointColors,
-        itemNames,
+        categories,
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
