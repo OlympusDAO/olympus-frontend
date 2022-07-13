@@ -315,8 +315,8 @@ const renderComposedChart = (
 
               return (
                 <>
-                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.3} />
-                  <stop offset={offset} stopColor={startColor} stopOpacity={0.3} />
+                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.8} />
+                  <stop offset={offset} stopColor={startColor} stopOpacity={0.8} />
                 </>
               );
             })

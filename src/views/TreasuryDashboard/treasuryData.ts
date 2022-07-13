@@ -207,7 +207,7 @@ export const tooltipInfoMessages = () => {
     staked: t`OHM Staked is the ratio of sOHM to circulating supply of OHM (staked vs total)`,
     apy: t`Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.`,
     runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway`,
-    backingPerOhm: t`This chart compares the price of OHM against its liquid backing.`,
+    backingPerOhm: t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`,
   };
 };
 
