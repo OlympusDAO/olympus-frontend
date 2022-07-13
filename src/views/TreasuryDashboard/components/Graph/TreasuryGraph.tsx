@@ -241,7 +241,7 @@ export const AssetsTable = () => {
     {
       field: "value",
       headerName: "Value",
-      flex: 1,
+      flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
         // Get rid of all non-number characters
