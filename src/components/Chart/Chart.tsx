@@ -110,6 +110,7 @@ const renderAreaChart = (
       interval={30}
       axisLine={false}
       tickLine={false}
+      tick={tickStyle}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
       padding={{ right: xAxisRightPadding }}
@@ -118,6 +119,7 @@ const renderAreaChart = (
       tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
+      tick={tickStyle}
       width={dataFormat == DataFormat.Percentage ? 33 : 55}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, "auto"]}
