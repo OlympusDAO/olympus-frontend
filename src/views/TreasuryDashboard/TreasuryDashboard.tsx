@@ -87,7 +87,7 @@ const MetricsDashboard = () => {
           </MetricCollection>
         </Paper>
       </Box>
-      <Grid container spacing={2} className="data-grid">
+      <Grid container spacing={2} className="data-grid" style={{ marginBottom: "30px" }}>
         <Grid item xs={12} container>
           <Grid item xs={4} />
           <Grid item xs={4} textAlign="center">
