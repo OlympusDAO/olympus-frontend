@@ -52,7 +52,7 @@ export const defaultRecordsCount = 90;
 const getTickStyle = (theme: Theme): Record<string, string | number> => {
   return {
     stroke: theme.palette.primary.main,
-    strokeWidth: "1px", // TODO fix the width/weight
+    strokeWidth: "0.1px",
   };
 };
 
