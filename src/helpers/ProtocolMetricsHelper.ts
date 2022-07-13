@@ -15,6 +15,26 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
 };
 
 /**
+ * As the subgraph data source takes a long time to re-index, we alter
+ * the display name of certain tokens here.
+ *
+ * This should be used sparingly, and the updated display names should be integrated
+ * into the subgraph ASAP.
+ */
+const renameToken = (value: string): string => {
+  const tokenMap = new Map<string, string>([
+    ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Pool"],
+    ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Pool"],
+    ["cvxOHMETH", "Curve OHM-ETH Pool (Staked in Convex)"],
+  ]);
+
+  const mapValue = tokenMap.get(value);
+  if (!mapValue) return value;
+
+  return mapValue;
+};
+
+/**
  * For each of the {keys} specified, calculates a total for each token.
  *
  * For example:
@@ -157,6 +177,8 @@ export const getDataKeysFromTokens = (tokens: string[], key: string): string[] =
  * Creates a map that can be used to determine tooltip categories, with the values
  * of {dataKeys} as the keys and the values of {tokens} as the values.
  *
+ * If required, the display name of the token is also altered.
+ *
  * @param tokens
  * @param dataKeys
  * @returns
@@ -164,7 +186,7 @@ export const getDataKeysFromTokens = (tokens: string[], key: string): string[] =
 export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<string, string> => {
   const categoriesMap = new Map<string, string>();
   dataKeys.map((value, index) => {
-    categoriesMap.set(value, tokens[index]);
+    categoriesMap.set(value, renameToken(tokens[index]));
   });
 
   return categoriesMap;
