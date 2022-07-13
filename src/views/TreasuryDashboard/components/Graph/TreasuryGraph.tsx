@@ -28,7 +28,19 @@ import { itemType, tooltipInfoMessages } from "../../treasuryData";
 import { ChartCard } from "./ChartCard";
 
 // These constants are used by charts to have consistent colours
-const defaultColors: string[] = ["#FFBF00", "#FF7F50", "#DE3163", "#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF"];
+// Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
+const defaultColors: string[] = [
+  "#49A1F2",
+  "#95B7A1",
+  "#917BD9",
+  "#E49471",
+  "#D85F73",
+  "#A3CFF0",
+  "#70E8C7",
+  "#DF7FD0",
+  "#F6BD67",
+  "#F090A0",
+];
 const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
   return {
     background: value,
