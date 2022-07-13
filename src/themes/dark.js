@@ -123,8 +123,8 @@ export const dark = responsiveFontSizes(
           MuiModal: {
             styleOverrides: {
               root: {
-                ".MuiPaper-root": {
-                  background: colors.paper.background,
+                ".Modal-paper": {
+                  background: colors.gray[700],
                 },
               },
             },

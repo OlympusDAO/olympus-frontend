@@ -110,7 +110,7 @@
     },
     {
       "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
-      "name": "lastMarketCapacity",
+      "name": "lastActive",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
@@ -151,8 +151,7 @@
                 { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
                 { "internalType": "uint256", "name": "capacity", "type": "uint256" },
                 { "internalType": "uint256", "name": "threshold", "type": "uint256" },
-                { "internalType": "uint256", "name": "market", "type": "uint256" },
-                { "internalType": "uint256", "name": "lastMarketCapacity", "type": "uint256" }
+                { "internalType": "uint256", "name": "market", "type": "uint256" }
               ],
               "internalType": "struct OlympusRange.Side",
               "name": "low",
@@ -164,8 +163,7 @@
                 { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
                 { "internalType": "uint256", "name": "capacity", "type": "uint256" },
                 { "internalType": "uint256", "name": "threshold", "type": "uint256" },
-                { "internalType": "uint256", "name": "market", "type": "uint256" },
-                { "internalType": "uint256", "name": "lastMarketCapacity", "type": "uint256" }
+                { "internalType": "uint256", "name": "market", "type": "uint256" }
               ],
               "internalType": "struct OlympusRange.Side",
               "name": "high",
@@ -271,8 +269,7 @@
     {
       "inputs": [
         { "internalType": "bool", "name": "high_", "type": "bool" },
-        { "internalType": "uint256", "name": "capacity_", "type": "uint256" },
-        { "internalType": "uint256", "name": "marketCapacity_", "type": "uint256" }
+        { "internalType": "uint256", "name": "capacity_", "type": "uint256" }
       ],
       "name": "updateCapacity",
       "outputs": [],

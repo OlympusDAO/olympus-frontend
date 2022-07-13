@@ -30,6 +30,7 @@ export const Range = () => {
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
   const { data: rangeData, isLoading: rangeDataLoading } = RangeData();
+  console.log(rangeData, "rangeData");
   usePathForNetwork({ pathName: "range", networkID: chain.id, navigate });
 
   const {

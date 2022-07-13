@@ -43,7 +43,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "maxExpiry_",
+          "name": "maxMaturity_",
           "type": "uint256"
         }
       ],

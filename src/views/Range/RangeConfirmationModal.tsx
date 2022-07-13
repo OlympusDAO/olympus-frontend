@@ -50,16 +50,12 @@ const RangeConfirmationModal = (props: {
   return (
     <Modal
       topLeft={
-        props.contract == "bond" ? (
-          <Icon
-            name="settings"
-            sx={{ cursor: "pointer" }}
-            data-testid="transaction-settings"
-            onClick={() => setSettingsOpen(true)}
-          />
-        ) : (
-          <></>
-        )
+        <Icon
+          name="settings"
+          sx={{ cursor: "pointer" }}
+          data-testid="transaction-settings"
+          onClick={() => setSettingsOpen(true)}
+        />
       }
       headerContent={
         <Box display="flex" flexDirection="row">

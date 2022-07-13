@@ -92,7 +92,7 @@ export const PriceHistory = (reserveToken: string) => {
       });
       return prices;
     },
-    { enabled: !!ohmPriceData && !!ohmPriceData },
+    { enabled: ohmPriceData.length > 0 && reservePriceData.length > 0 },
   );
   return { data, isFetched, isLoading };
 };
@@ -163,8 +163,7 @@ const sideStruct: SideStruct = {
   lastActive: 0,
   capacity: BigNumber.from(0),
   threshold: BigNumber.from(0),
-  market: BigNumber.from(0),
-  lastMarketCapacity: BigNumber.from(0),
+  market: BigNumber.from(-1),
 };
 const line: LineStruct = {
   price: BigNumber.from(0),
@@ -226,16 +225,10 @@ export const RangeSwap = () => {
       if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
 
       if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(t`Invalid address`);
-      const swapAmount = new DecimalBigNumber(amount, decimals);
-      if (swapType === "swap") {
-        const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-        const transaction = await contract.swap(tokenAddress, swapAmount.toBigNumber());
-        return transaction.wait();
-      }
 
-      //first get the bond teller address from the aggregator, then purchase bond on returned address.
-      const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-      const tellerAddress = await contract.getTeller(market);
+      const swapAmount = new DecimalBigNumber(amount, decimals);
+
+      //slippage
       const parsedSlippage = new DecimalBigNumber(slippage, decimals);
       const slippageAsPercent = parsedSlippage.div("100");
       const swapPricePerOhmBN = new DecimalBigNumber(swapPricePerOhm, 18);
@@ -243,6 +236,15 @@ export const RangeSwap = () => {
       const maxPrice = sellActive
         ? swapAmount.mul(new DecimalBigNumber("1").sub(slippageAsPercent))
         : swapPricePerOhmBN.mul(slippageAsPercent.add("1"));
+      if (swapType === "swap") {
+        const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+        const transaction = await contract.swap(tokenAddress, swapAmount.toBigNumber(), maxPrice.toBigNumber());
+        return transaction.wait();
+      }
+
+      //first get the bond teller address from the aggregator, then purchase bond on returned address.
+      const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+      const tellerAddress = await contract.getTeller(market);
 
       const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
       const transaction = await tellerContract.purchase(
