@@ -132,6 +132,18 @@ export const useTreasuryLiquidBackingPerOhmFloating = () =>
   useProtocolMetrics(metrics => metrics[0].treasuryLiquidBackingPerOhmFloating);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
 export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmFloatingSupply);
-export const useOhmPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+
+/**
+ * @deprecated
+ * Please avoid using this method unless you are intentionally trying to read from subgraph.
+ * You should typically be using `useOhmPrice` from `src/hooks/usePrices.ts`... as subgraph has an indexing delay
+ */
+export const useOHMPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+
+/**
+ * @deprecated
+ * Please avoid using this method unless you are intentionally trying to read from subgraph.
+ * You should typically be using `useGohmPrice` from `src/hooks/usePrices.ts`... as subgraph has an indexing delay
+ */
 export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
 export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);

@@ -97,7 +97,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             <p
                               class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
                             >
-                              APY
+                              Annualized Rebases
                             </p>
                           </div>
                           <p
