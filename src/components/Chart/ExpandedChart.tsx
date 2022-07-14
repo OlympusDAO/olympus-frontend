@@ -38,7 +38,7 @@ function ExpandedChart({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open]);
+  }, [handleClose, open]);
 
   return (
     <Modal
