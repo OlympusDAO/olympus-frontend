@@ -166,7 +166,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
   const [dataKeys, setDataKeys] = useState(initialDataKeys);
   const [colorsMap, setColorsMap] = useState(new Map<string, CSSProperties>());
 
-  // Dependent variables are only re-calculate when the data changes
+  // Dependent variables are only re-calculated when the data changes
   useMemo(() => {
     if (!data) {
       setTokenSummary([]);

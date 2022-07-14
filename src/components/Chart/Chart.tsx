@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -104,6 +104,7 @@ const renderAreaChart = (
   isPOL: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
@@ -130,7 +131,7 @@ const renderAreaChart = (
       tick={tickStyle}
       width={dataFormat == DataFormat.Percentage ? 33 : 55}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, "auto"]}
+      domain={[0, maximumYValue]}
       dx={3}
       allowDataOverflow={false}
     />
@@ -167,6 +168,7 @@ const renderStackedAreaChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   displayTooltipTotal?: boolean,
 ) => (
   <AreaChart data={data} margin={margin}>
@@ -197,7 +199,7 @@ const renderStackedAreaChart = (
       tickCount={isExpanded ? expandedTickCount : tickCount}
       tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, "auto"]}
+      domain={[0, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -239,6 +241,7 @@ const renderLineChart = (
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   scale?: string,
   displayTooltipTotal?: boolean,
 ) => (
@@ -262,7 +265,7 @@ const renderLineChart = (
       width={32}
       scale={() => scale}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[scale == "log" ? "dataMin" : 0, "auto"]}
+      domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -305,6 +308,7 @@ const renderComposedChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
 ) => {
@@ -325,8 +329,6 @@ const renderComposedChart = (
    */
   const intersections = getDataIntersections(data.slice().reverse(), dataKey);
   const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKey));
-
-  const maxValue = getMaximumValue(data, dataKey);
 
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
@@ -381,7 +383,7 @@ const renderComposedChart = (
         tickLine={false}
         width={25}
         tickFormatter={number => getTickFormatter(dataFormat, number)}
-        domain={[0, maxValue]}
+        domain={[0, maximumYValue]}
         allowDataOverflow={false}
       />
       <Tooltip
@@ -415,6 +417,7 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
 ) => (
@@ -437,7 +440,7 @@ const renderMultiLineChart = (
       tick={tickStyle}
       width={25}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, "auto"]}
+      domain={[0, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -471,6 +474,7 @@ const renderBarChart = (
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  maximumYValue: number,
   displayTooltipTotal?: boolean,
 ) => (
   <BarChart data={data} margin={margin}>
@@ -491,7 +495,7 @@ const renderBarChart = (
       tickLine={false}
       tickCount={isExpanded ? expandedTickCount : tickCount}
       width={33}
-      domain={[0, "auto"]}
+      domain={[0, maximumYValue]}
       allowDataOverflow={false}
       tickFormatter={number => (number !== 0 ? number : "")}
     />
@@ -566,6 +570,27 @@ function Chart({
   displayTooltipTotal?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [maximumYValue, setMaximumYValue] = useState(0.0);
+
+  /**
+   * Recharts has a bug where using "auto" or "dataMax" as the
+   * higher value in the domain does not always result
+   * in rendering all of the data. So we calculate the
+   * maximum value in the y-axis manually.
+   *
+   * It is inclosed in useMemo, as it will only need to be recalculated when
+   * {data} or {dataKey} changes.
+   */
+  useMemo(() => {
+    if (!data || !data.length) {
+      setMaximumYValue(0.0);
+      return;
+    }
+
+    const tempMaxValue = getMaximumValue(data, dataKey, type === "stack");
+    // Give a bit of a buffer
+    setMaximumYValue(tempMaxValue * 1.1);
+  }, [data, dataKey, type]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -590,6 +615,7 @@ function Chart({
         expandedGraphStrokeColor,
         margin,
         tickStyle,
+        maximumYValue,
         scale,
         displayTooltipTotal,
       );
@@ -609,6 +635,7 @@ function Chart({
         isPOL,
         margin,
         tickStyle,
+        maximumYValue,
         displayTooltipTotal,
       );
     if (type === "stack")
@@ -623,6 +650,7 @@ function Chart({
         isExpanded,
         margin,
         tickStyle,
+        maximumYValue,
         displayTooltipTotal,
       );
     if (type === "multi")
@@ -637,6 +665,7 @@ function Chart({
         isExpanded,
         margin,
         tickStyle,
+        maximumYValue,
         itemDecimals,
         displayTooltipTotal,
       );
@@ -652,6 +681,7 @@ function Chart({
         isExpanded,
         margin,
         tickStyle,
+        maximumYValue,
         itemDecimals,
         displayTooltipTotal,
       );
@@ -669,6 +699,7 @@ function Chart({
         expandedGraphStrokeColor,
         margin,
         tickStyle,
+        maximumYValue,
         displayTooltipTotal,
       );
     return <></>;

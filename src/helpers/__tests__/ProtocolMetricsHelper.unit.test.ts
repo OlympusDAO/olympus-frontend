@@ -222,6 +222,55 @@ describe("getMaximumValue", () => {
     expect(maxValue).toEqual(11.01);
   });
 
+  test("works with nested keys", () => {
+    const metrics = [
+      {
+        timestamp: "1122200",
+        treasuryLPValueComponents: {
+          tokens: {
+            DAI: { token: "DAI", category: "Stablecoins", value: "100.0" },
+            LUSD: { token: "LUSD", category: "Stablecoins", value: "150.0" },
+          },
+        },
+      },
+      {
+        timestamp: "1122201",
+        treasuryLPValueComponents: {
+          tokens: {
+            DAI: { token: "DAI", category: "Stablecoins", value: "101.0" },
+            LUSD: { token: "LUSD", category: "Stablecoins", value: "151.0" },
+          },
+        },
+      },
+    ];
+
+    const maxValue = getMaximumValue(metrics, [
+      "treasuryLPValueComponents.tokens.DAI.value",
+      "treasuryLPValueComponents.tokens.LUSD.value",
+    ]);
+
+    expect(maxValue).toEqual(151.0);
+  });
+
+  test("stacking", () => {
+    const metrics = [
+      {
+        timestamp: "1122200",
+        ohmPrice: 10.01,
+        liquidBacking: 11,
+      },
+      {
+        timestamp: "1122201",
+        ohmPrice: 10.02,
+        liquidBacking: 11.01,
+      },
+    ];
+
+    const maxValue = getMaximumValue(metrics, ["ohmPrice", "liquidBacking"], true);
+
+    expect(maxValue).toEqual(11.01 + 10.02);
+  });
+
   test("respects key input", () => {
     const metrics = [
       {

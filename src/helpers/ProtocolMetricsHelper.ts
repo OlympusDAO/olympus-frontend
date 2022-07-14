@@ -1,3 +1,4 @@
+import get from "get-value";
 import { CSSProperties } from "react";
 
 import { getFloat } from "./NumberHelper";
@@ -292,14 +293,35 @@ export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonl
   return reducedData;
 };
 
-export const getMaximumValue = (data: any[], keys: string[]): number => {
+/**
+ * Returns the maximum value found in any of the {keys} properties across all elements of
+ * {data}.
+ *
+ * This supports using nested keys ("records.DAI.value"), using the `get-value` library.
+ *
+ * If {stacked} is true, the maximum value of the sum of the values corresponding to
+ * {keys} will be returned.
+ *
+ * @param data
+ * @param keys
+ * @param stacked Defaults to false
+ * @returns
+ */
+export const getMaximumValue = (data: any[], keys: string[], stacked = false): number => {
   return Math.max(
     ...data.map(value => {
-      return Math.max(
-        ...keys.map(key => {
-          return getFloat(value[key]);
-        }),
-      );
+      if (!stacked) {
+        return Math.max(
+          ...keys.map(key => {
+            return getFloat(get(value, key));
+          }),
+        );
+      }
+
+      // If we are stacking values, then we want to add the values for the keys
+      return keys.reduce((previousValue, key) => {
+        return previousValue + getFloat(get(value, key));
+      }, 0);
     }),
   );
 };
