@@ -4,6 +4,10 @@
   justify-content: center;
 
   .page-content {
+    .navigation {
+      margin-bottom: 30px;
+    }
+
     .back-button {
       display: flex;
       justify-content: flex-start;
@@ -12,19 +16,48 @@
         margin-left: 0px;
         padding-left: 0px;
       }
+
+      .css-ihuj2u-MuiTypography-root-MuiLink-root.active {
+        text-decoration: none;
+      }
     }
+  }
+
+  .proposal-header {
+    margin-bottom: 36px;
   }
 
   .published-date {
     margin-top: 6px;
+    margin-bottom: 4px;
     line-height: 18px;
   }
 
   .proposal-title {
+    line-height: 32px;
     font-weight: 700;
   }
 
   #simple-tab-0 {
     margin-left: 0px;
+  }
+
+  #simple-tabpanel-0 {
+    .MuiBox-root {
+      padding-left: 0px;
+    }
+  }
+
+  #simple-tabpanel-1 {
+    .MuiBox-root {
+      padding-left: 0px;
+    }
+  }
+
+  .discussion-button {
+    .MuiButton-root {
+      margin-left: 0px;
+      padding-left: 0px;
+    }
   }
 }

@@ -1,10 +1,19 @@
 import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Typography, useTheme } from "@mui/material";
-import { Chip, OHMChipProps, Paper, Tab, Tabs, TertiaryButton, TextButton } from "@olympusdao/component-library";
-import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { Grid, Link, Typography, useTheme } from "@mui/material";
+import {
+  Chip,
+  OHMChipProps,
+  Paper,
+  SecondaryButton,
+  Tab,
+  TabPanel,
+  Tabs,
+  TextButton,
+} from "@olympusdao/component-library";
+import { useMemo, useState } from "react";
+import { NavLink as RouterLink, useParams } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useProposal } from "src/hooks/useProposal";
 import { Proposal as ProposalType } from "src/hooks/useProposals";
@@ -13,6 +22,8 @@ import { NULL_PROPOSAL } from "../../constants";
 
 export const ProposalPage = () => {
   const theme = useTheme();
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { passedId } = useParams();
   const proposalId = useMemo(() => {
@@ -55,18 +66,21 @@ export const ProposalPage = () => {
     <div className="proposal-page">
       <Paper>
         <Grid className="page-content" container direction="column">
-          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+          <Grid className="navigation" container direction="row" justifyContent="space-between" alignItems="center">
             <Grid className="back-button" item>
-              <TextButton startIconName="x">Back</TextButton>
+              <Link to="/governancetest" component={RouterLink}>
+                <TextButton startIconName="x">Back</TextButton>
+              </Link>
             </Grid>
             <Grid item>
-              <TertiaryButton>Create new proposal</TertiaryButton>
+              <SecondaryButton>Create new proposal</SecondaryButton>
             </Grid>
           </Grid>
           <Grid className="proposal-header" container direction="column">
             <Grid item>
               <Typography className="published-date" variant="body2" color={theme.colors.gray[90]}>
-                Posted on {formattedPublishedDate} by {shorten(proposal.proposer)}
+                Posted on <span style={{ color: theme.colors.gray[40] }}>{formattedPublishedDate}</span> by:{" "}
+                <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.proposer)}</span>
               </Typography>
             </Grid>
             <Grid item>
@@ -78,11 +92,28 @@ export const ProposalPage = () => {
               <Chip label="Active" template={mapStatus("active")} strong />
             </Grid>
           </Grid>
-          <Grid className="proposal-tabs" container>
-            <Tabs>
+          <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
+            <Tabs
+              centered
+              value={selectedIndex}
+              TabIndicatorProps={{ style: { display: "none" } }}
+              onChange={(_, view: number) => setSelectedIndex(view)}
+            >
               <Tab label={t`Poll Detail`}></Tab>
               <Tab label={t`Votes`}></Tab>
             </Tabs>
+
+            <TabPanel value={selectedIndex} index={0}>
+              <Grid item>
+                <Typography variant="body1">{proposal.content}</Typography>
+              </Grid>
+            </TabPanel>
+            <TabPanel value={selectedIndex} index={1}>
+              <Grid item>Votes will go here</Grid>
+            </TabPanel>
+          </Grid>
+          <Grid className="discussion-button" item>
+            <TextButton endIconName="arrow-up">Discussion</TextButton>
           </Grid>
         </Grid>
       </Paper>
