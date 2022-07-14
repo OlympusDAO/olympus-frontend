@@ -1,6 +1,7 @@
 import {
   getDataKeysFromTokens,
   getKeysTokenSummary,
+  getMaximumValue,
   getTokensFromKey,
   reduceKeysTokenSummary,
 } from "../ProtocolMetricsHelper";
@@ -179,5 +180,64 @@ describe("getDataKeysFromTokens", () => {
       "treasuryLPValueComponents.tokens.DAI.value",
       "treasuryLPValueComponents.tokens.LUSD.value",
     ]);
+  });
+});
+
+describe("getMaximumValue", () => {
+  test("works as expected with string values", () => {
+    const metrics = [
+      {
+        timestamp: "1122200",
+        ohmPrice: "10.01",
+        liquidBacking: "11",
+      },
+      {
+        timestamp: "1122201",
+        ohmPrice: "10.02",
+        liquidBacking: "11.01",
+      },
+    ];
+
+    const maxValue = getMaximumValue(metrics, ["ohmPrice", "liquidBacking"]);
+
+    expect(maxValue).toEqual(11.01);
+  });
+
+  test("works as expected with number values", () => {
+    const metrics = [
+      {
+        timestamp: "1122200",
+        ohmPrice: 10.01,
+        liquidBacking: 11,
+      },
+      {
+        timestamp: "1122201",
+        ohmPrice: 10.02,
+        liquidBacking: 11.01,
+      },
+    ];
+
+    const maxValue = getMaximumValue(metrics, ["ohmPrice", "liquidBacking"]);
+
+    expect(maxValue).toEqual(11.01);
+  });
+
+  test("respects key input", () => {
+    const metrics = [
+      {
+        timestamp: "1122200",
+        ohmPrice: "10.01",
+        liquidBacking: "11",
+      },
+      {
+        timestamp: "1122201",
+        ohmPrice: "10.02",
+        liquidBacking: "11.01",
+      },
+    ];
+
+    const maxValue = getMaximumValue(metrics, ["ohmPrice"]);
+
+    expect(maxValue).toEqual(10.02);
   });
 });

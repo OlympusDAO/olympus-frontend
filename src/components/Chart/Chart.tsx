@@ -15,7 +15,9 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
-import { formatCurrency, getFloat, trim } from "src/helpers";
+import { formatCurrency, trim } from "src/helpers";
+import { getFloat } from "src/helpers/NumberHelper";
+import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import CustomTooltip from "./CustomTooltip";
@@ -324,6 +326,8 @@ const renderComposedChart = (
   const intersections = getDataIntersections(data.slice().reverse(), dataKey);
   const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKey));
 
+  const maxValue = getMaximumValue(data, dataKey);
+
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
       <defs>
@@ -377,7 +381,7 @@ const renderComposedChart = (
         tickLine={false}
         width={25}
         tickFormatter={number => getTickFormatter(dataFormat, number)}
-        domain={[0, "auto"]}
+        domain={[0, maxValue]}
         allowDataOverflow={false}
       />
       <Tooltip
@@ -699,7 +703,7 @@ function Chart({
       handleOpenExpandedChart={handleOpen}
       isLoading={isLoading}
     >
-      <ResponsiveContainer minHeight={260} width="99%">
+      <ResponsiveContainer minHeight={260} height={260} width="99%">
         {renderChart(type, false)}
       </ResponsiveContainer>
     </ChartCard>

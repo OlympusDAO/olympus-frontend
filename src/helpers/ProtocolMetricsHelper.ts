@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-import { getFloat } from ".";
+import { getFloat } from "./NumberHelper";
 
 type TokenRow = {
   token: string;
@@ -290,4 +290,16 @@ export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonl
   });
 
   return reducedData;
+};
+
+export const getMaximumValue = (data: any[], keys: string[]): number => {
+  return Math.max(
+    ...data.map(value => {
+      return Math.max(
+        ...keys.map(key => {
+          return getFloat(value[key]);
+        }),
+      );
+    }),
+  );
 };

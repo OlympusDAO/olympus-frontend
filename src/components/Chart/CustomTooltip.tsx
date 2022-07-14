@@ -2,7 +2,8 @@ import "./customtooltip.scss";
 
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
-import { formatCurrency, getFloat } from "src/helpers";
+import { formatCurrency } from "src/helpers";
+import { getFloat } from "src/helpers/NumberHelper";
 
 interface TooltipPayloadItem {
   dataKey: string;
