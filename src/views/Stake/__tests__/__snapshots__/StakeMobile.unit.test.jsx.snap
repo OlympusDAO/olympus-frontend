@@ -28,7 +28,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                 >
                   Single Stake
                 </p>
@@ -101,7 +101,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -131,7 +131,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -182,7 +182,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span

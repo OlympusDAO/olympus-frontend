@@ -537,7 +537,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -592,7 +592,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -992,7 +992,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1061,7 +1061,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1445,7 +1445,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1500,7 +1500,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1889,7 +1889,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1944,7 +1944,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
@@ -2310,7 +2310,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -2346,7 +2346,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
                       >
                         About
                       </p>
