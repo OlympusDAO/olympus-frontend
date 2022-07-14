@@ -102,9 +102,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().backingPerOhm}
       expandedGraphStrokeColor={""}
-      isPOL={false}
       isLoading={!data}
-      isStaked={false}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
       tickStyle={getTickStyle(theme)}
@@ -141,9 +139,7 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
       expandedGraphStrokeColor={""}
-      isPOL={false}
       isLoading={!data}
-      isStaked={false}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
@@ -210,9 +206,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().pol}
       expandedGraphStrokeColor={""}
-      isPOL={false}
       isLoading={!data}
-      isStaked={false}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}

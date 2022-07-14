@@ -98,10 +98,8 @@ const renderAreaChart = (
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
   itemType: string,
-  isStaked: boolean,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
-  isPOL: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
@@ -141,8 +139,6 @@ const renderAreaChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           itemType={itemType}
-          isStaked={isStaked}
-          isPOL={isPOL}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
         />
@@ -529,10 +525,8 @@ function Chart({
   bulletpointColors,
   categories,
   itemType,
-  isStaked,
   infoTooltipMessage,
   expandedGraphStrokeColor,
-  isPOL,
   isLoading,
   tickStyle,
   margin = {
@@ -558,10 +552,8 @@ function Chart({
   bulletpointColors: Map<string, CSSProperties>;
   categories: Map<string, string>;
   itemType: string;
-  isStaked: boolean;
   infoTooltipMessage: string;
   expandedGraphStrokeColor: string;
-  isPOL: boolean;
   isLoading: boolean;
   tickStyle: Record<string, string | number>;
   margin?: CategoricalChartProps["margin"];
@@ -629,10 +621,8 @@ function Chart({
         bulletpointColors,
         categories,
         itemType,
-        isStaked,
         isExpanded,
         expandedGraphStrokeColor,
-        isPOL,
         margin,
         tickStyle,
         maximumYValue,
