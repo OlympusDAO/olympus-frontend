@@ -3,7 +3,7 @@ import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
-import { DataFormat, itemType } from "src/components/Chart/Constants";
+import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -30,7 +30,7 @@ import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCar
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
-const defaultColors: string[] = [
+const DEFAULT_COLORS: string[] = [
   "#49A1F2",
   "#95B7A1",
   "#917BD9",
@@ -42,7 +42,7 @@ const defaultColors: string[] = [
   "#F6BD67",
   "#F090A0",
 ];
-const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
+const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value => {
   return {
     background: value,
   };
@@ -82,18 +82,16 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
+  const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
 
   return (
     <Chart
-      // TODO extract enum for chart type
-      type="composed"
+      type={ChartType.ComposedArea}
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
-      itemType={itemType.dollar}
       color={""}
       stopColor={[[]]}
-      stroke={defaultColors}
+      stroke={DEFAULT_COLORS}
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
       dataFormat={DataFormat.Currency}
@@ -121,22 +119,21 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const colorsMap = getColoursMap(defaultBulletpointColours, dataKeys);
+  const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
 
   return (
     <Chart
-      type="stack"
+      type={ChartType.StackedArea}
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
       color={""}
       stopColor={[[]]}
-      stroke={defaultColors}
+      stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryMarketValue)}`}
       bulletpointColors={colorsMap}
       categories={categoriesMap}
-      itemType={itemType.dollar}
       infoTooltipMessage={t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`}
       expandedGraphStrokeColor={""}
       isLoading={!data}
@@ -186,24 +183,23 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
     setCategoriesMap(tempCategoriesMap);
 
-    const tempColorsMap = getColoursMap(defaultBulletpointColours, tempDataKeys);
+    const tempColorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys);
     setColorsMap(tempColorsMap);
   }, [data]);
 
   return (
     <Chart
-      type="stack"
+      type={ChartType.StackedArea}
       data={tokenSummary}
       dataKey={dataKeys}
       color={""}
       stopColor={[[]]}
-      stroke={defaultColors}
+      stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
       bulletpointColors={colorsMap}
       categories={categoriesMap}
-      itemType={itemType.dollar}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       expandedGraphStrokeColor={""}
       isLoading={!data}
@@ -246,8 +242,6 @@ export const AssetsTable = () => {
 
     setCurrentMetric(newCurrentMetric);
   }, [data]);
-
-  // TODO handle date scrubbing
 
   const columns: GridColDef[] = [
     {

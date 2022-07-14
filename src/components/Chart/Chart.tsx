@@ -20,7 +20,7 @@ import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-import { DataFormat } from "./Constants";
+import { ChartType, DataFormat } from "./Constants";
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
 import {
@@ -91,7 +91,6 @@ const renderAreaChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
@@ -132,7 +131,7 @@ const renderAreaChart = (
         <CustomTooltip
           bulletpointColors={bulletpointColors}
           categories={categories}
-          itemType={itemType}
+          dataFormat={dataFormat}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
         />
@@ -154,7 +153,6 @@ const renderStackedAreaChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -198,7 +196,7 @@ const renderStackedAreaChart = (
         <CustomTooltip
           bulletpointColors={bulletpointColors}
           categories={categories}
-          itemType={itemType}
+          dataFormat={dataFormat}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
         />
@@ -226,7 +224,6 @@ const renderLineChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
@@ -263,7 +260,7 @@ const renderLineChart = (
         <CustomTooltip
           bulletpointColors={bulletpointColors}
           categories={categories}
-          itemType={itemType}
+          dataFormat={dataFormat}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
         />
@@ -294,7 +291,6 @@ const renderComposedChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -381,7 +377,7 @@ const renderComposedChart = (
           <CustomTooltip
             bulletpointColors={bulletpointColors}
             categories={categories}
-            itemType={itemType}
+            dataFormat={dataFormat}
             itemDecimals={itemDecimals}
             dataKey={dataKey}
             displayTotal={displayTooltipTotal}
@@ -403,7 +399,6 @@ const renderMultiLineChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -438,7 +433,7 @@ const renderMultiLineChart = (
         <CustomTooltip
           bulletpointColors={bulletpointColors}
           categories={categories}
-          itemType={itemType}
+          dataFormat={dataFormat}
           itemDecimals={itemDecimals}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
@@ -459,7 +454,6 @@ const renderBarChart = (
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
@@ -494,7 +488,7 @@ const renderBarChart = (
         <CustomTooltip
           bulletpointColors={bulletpointColors}
           categories={categories}
-          itemType={itemType}
+          dataFormat={dataFormat}
           dataKey={dataKey}
           displayTotal={displayTooltipTotal}
         />
@@ -518,7 +512,6 @@ function Chart({
   headerSubText,
   bulletpointColors,
   categories,
-  itemType,
   infoTooltipMessage,
   expandedGraphStrokeColor,
   isLoading,
@@ -533,7 +526,7 @@ function Chart({
   subgraphQueryUrl,
   displayTooltipTotal,
 }: {
-  type: string;
+  type: ChartType;
   data: any[];
   scale?: string;
   dataKey: string[];
@@ -545,7 +538,6 @@ function Chart({
   headerSubText: string;
   bulletpointColors: Map<string, CSSProperties>;
   categories: Map<string, string>;
-  itemType: string;
   infoTooltipMessage: string;
   expandedGraphStrokeColor: string;
   isLoading: boolean;
@@ -573,7 +565,7 @@ function Chart({
       return;
     }
 
-    const tempMaxValue = getMaximumValue(data, dataKey, type === "stack");
+    const tempMaxValue = getMaximumValue(data, dataKey, type === ChartType.StackedArea);
     // Give a bit of a buffer
     setMaximumYValue(tempMaxValue * 1.1);
   }, [data, dataKey, type]);
@@ -586,107 +578,110 @@ function Chart({
     setOpen(false);
   };
 
-  const renderChart = (type: string, isExpanded: boolean) => {
-    if (type === "line")
-      return renderLineChart(
-        data,
-        dataKey,
-        stroke,
-        color,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-        tickStyle,
-        maximumYValue,
-        scale,
-        displayTooltipTotal,
-      );
-    if (type === "area")
-      return renderAreaChart(
-        data,
-        dataKey,
-        stopColor,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-        tickStyle,
-        maximumYValue,
-        displayTooltipTotal,
-      );
-    if (type === "stack")
-      return renderStackedAreaChart(
-        data,
-        dataKey,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        margin,
-        tickStyle,
-        maximumYValue,
-        displayTooltipTotal,
-      );
-    if (type === "multi")
-      return renderMultiLineChart(
-        data,
-        dataKey,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        margin,
-        tickStyle,
-        maximumYValue,
-        itemDecimals,
-        displayTooltipTotal,
-      );
-    if (type === "composed")
-      return renderComposedChart(
-        data,
-        dataKey,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        margin,
-        tickStyle,
-        maximumYValue,
-        itemDecimals,
-        displayTooltipTotal,
-      );
-
-    if (type === "bar")
-      return renderBarChart(
-        data,
-        dataKey,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        categories,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-        tickStyle,
-        maximumYValue,
-        displayTooltipTotal,
-      );
-    return <></>;
+  const renderChart = (type: ChartType, isExpanded: boolean) => {
+    switch (type) {
+      case ChartType.Line: {
+        return renderLineChart(
+          data,
+          dataKey,
+          stroke,
+          color,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          expandedGraphStrokeColor,
+          margin,
+          tickStyle,
+          maximumYValue,
+          scale,
+          displayTooltipTotal,
+        );
+      }
+      case ChartType.Area: {
+        return renderAreaChart(
+          data,
+          dataKey,
+          stopColor,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          expandedGraphStrokeColor,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+        );
+      }
+      case ChartType.StackedArea: {
+        return renderStackedAreaChart(
+          data,
+          dataKey,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+        );
+      }
+      case ChartType.MultiLine: {
+        return renderMultiLineChart(
+          data,
+          dataKey,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          itemDecimals,
+          displayTooltipTotal,
+        );
+      }
+      case ChartType.ComposedArea: {
+        return renderComposedChart(
+          data,
+          dataKey,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          itemDecimals,
+          displayTooltipTotal,
+        );
+      }
+      case ChartType.Bar: {
+        return renderBarChart(
+          data,
+          dataKey,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          expandedGraphStrokeColor,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+        );
+      }
+      default: {
+        return <></>;
+      }
+    }
   };
 
   const expandedChart = (

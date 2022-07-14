@@ -4,6 +4,8 @@ import { CSSProperties } from "react";
 import { formatCurrency } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 
+import { DataFormat } from "./Constants";
+
 interface TooltipPayloadItem {
   dataKey: string;
   value: number;
@@ -31,15 +33,17 @@ const renderDate = (item: TooltipPayloadItem) => {
   );
 };
 
-const formatText = (type: string, item: number, decimals: number) => {
-  return type === "$" ? formatCurrency(item, decimals) : `${Math.round(item).toLocaleString("en-US")}${type}`;
+const formatText = (type: DataFormat, item: number, decimals: number) => {
+  return type === DataFormat.Currency
+    ? formatCurrency(item, decimals)
+    : `${Math.round(item).toLocaleString("en-US")}${type}`;
 };
 
-const renderItem = (type: string, item: number, decimals = 0) => {
+const renderItem = (type: DataFormat, item: number, decimals = 0) => {
   return <Typography variant="body2">{formatText(type, item, decimals)}</Typography>;
 };
 
-const renderTotal = (type: string, payload: TooltipPayloadItem[]) => {
+const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[]) => {
   const total = payload.reduce((prev, current) => {
     return prev + getFloat(current.value);
   }, 0);
@@ -57,7 +61,7 @@ const renderTooltipItems = (
   payload: TooltipPayloadItem[],
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
-  itemType: string,
+  dataFormat: DataFormat,
   dataKey: string[],
   itemDecimals = 0,
   displayTotal = false,
@@ -105,12 +109,12 @@ const renderTooltipItems = (
               </Typography>
             </Grid>
             <Grid item xs={4} textAlign="right">
-              {renderItem(itemType, item.value, itemDecimals)}
+              {renderItem(dataFormat, item.value, itemDecimals)}
             </Grid>
           </Grid>
         );
       })}
-      {displayTotal && renderTotal(itemType, payload)}
+      {displayTotal && renderTotal(dataFormat, payload)}
     </Grid>
   );
 };
@@ -129,7 +133,7 @@ function CustomTooltip({
   payload,
   bulletpointColors,
   categories,
-  itemType,
+  dataFormat,
   dataKey,
   itemDecimals,
   displayTotal,
@@ -138,7 +142,7 @@ function CustomTooltip({
   payload?: TooltipPayloadItem[];
   bulletpointColors: Map<string, CSSProperties>;
   categories: Map<string, string>;
-  itemType: string;
+  dataFormat: DataFormat;
   dataKey: string[];
   itemDecimals?: number;
   displayTotal?: boolean;
@@ -155,7 +159,7 @@ function CustomTooltip({
           background: theme.palette.background.paper,
         }}
       >
-        {renderTooltipItems(payload, bulletpointColors, categories, itemType, dataKey, itemDecimals, displayTotal)}
+        {renderTooltipItems(payload, bulletpointColors, categories, dataFormat, dataKey, itemDecimals, displayTotal)}
       </Paper>
     );
   }
