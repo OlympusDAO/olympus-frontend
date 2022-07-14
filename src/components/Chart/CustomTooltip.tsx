@@ -1,6 +1,5 @@
-import "./customtooltip.scss";
-
 import { Box, Grid, Paper, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { CSSProperties } from "react";
 import { formatCurrency } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
@@ -73,19 +72,30 @@ const renderTooltipItems = (
 
   const categoriesArray = Array.from(categories.values());
   const bulletpointColorsArray = Array.from(bulletpointColors.values());
+  const containerProps = {
+    padding: "20px",
+  };
+  const bulletpointStyle = {
+    display: "inline-block",
+    width: "1em",
+    height: "1em",
+    borderRadius: "50%",
+    marginRight: "5px",
+    verticalAlign: "top",
+  };
 
   return isStaked ? (
-    <Box>
+    <Box {...containerProps}>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[0]}></span>
+          <span style={{ ...bulletpointStyle, ...bulletpointColorsArray[0] }}></span>
           Staked
         </Typography>
         <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
       </Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[1]}></span>
+          <span style={{ ...bulletpointStyle, ...bulletpointColorsArray[1] }}></span>
           Not staked
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
@@ -93,17 +103,17 @@ const renderTooltipItems = (
       <Box>{renderDate(0, payload, payload[0])}</Box>
     </Box>
   ) : isPOL ? (
-    <Box>
+    <Box {...containerProps}>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[0]}></span>
+          <span style={{ ...bulletpointStyle, ...bulletpointColorsArray[0] }}></span>
           {categoriesArray[0]}
         </Typography>
         <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
       </Box>
       <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
-          <span className="tooltip-bulletpoint" style={bulletpointColorsArray[1]}></span>
+          <span style={{ ...bulletpointStyle, ...bulletpointColorsArray[1] }}></span>
           <span className="tooltip-name">{categoriesArray[1]}</span>
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
@@ -111,8 +121,8 @@ const renderTooltipItems = (
       <Box>{renderDate(0, payload, payload[0])}</Box>
     </Box>
   ) : (
-    <Grid container xs={12}>
-      <Grid item xs={12} style={{ marginBottom: "20px" }}>
+    <Grid container xs={12} {...containerProps}>
+      <Grid item xs={12} marginBottom="20px">
         {renderDate(payload.length - 1, payload, payload[0])}
       </Grid>
       {payload.map((item, index) => {
@@ -137,9 +147,9 @@ const renderTooltipItems = (
             style={{ marginBottom: "10px" }}
             key={adjustedIndex}
           >
-            <Grid item xs={8}>
-              <Typography variant="body2" style={{ whiteSpace: "pre-line" }}>
-                <span className="tooltip-bulletpoint" style={bulletpointColors.get(item.dataKey)}></span>
+            <Grid item xs={8} alignContent="center">
+              <span style={{ ...bulletpointStyle, ...bulletpointColors.get(item.dataKey) }}></span>
+              <Typography variant="body2" display="inline">
                 {`${categories.get(item.dataKey)}`}
               </Typography>
             </Grid>
@@ -186,9 +196,18 @@ function CustomTooltip({
   itemDecimals?: number;
   displayTotal?: boolean;
 }) {
+  const theme = useTheme();
+
   if (active && payload && payload.length) {
     return (
-      <Paper className={`ohm-card tooltip-container`} style={{ width: "300px" }}>
+      <Paper
+        style={{
+          border: "1px solid rgba(118, 130, 153, 0.2)",
+          minWidth: "175px",
+          width: "300px",
+          background: theme.palette.background.paper,
+        }}
+      >
         {renderTooltipItems(
           payload,
           bulletpointColors,
