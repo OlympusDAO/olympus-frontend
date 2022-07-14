@@ -167,7 +167,7 @@ const RangeConfirmationModal = (props: {
                   : props.reserveAddress,
                 amount: props.sellActive ? props.ohmAmount : props.reserveAmount,
                 swapType: props.contract,
-                swapPricePerOhm: props.swapPrice,
+                receiveAmount: props.sellActive ? props.reserveAmount : props.ohmAmount,
                 sellActive: props.sellActive,
                 slippage: slippage,
                 recipientAddress: recipientAddress,

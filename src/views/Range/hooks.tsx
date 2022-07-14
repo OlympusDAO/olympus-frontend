@@ -214,31 +214,35 @@ export const RangeSwap = () => {
       tokenAddress: string;
       amount: string;
       swapType: "bond" | "swap";
-      swapPricePerOhm: string;
+      receiveAmount: string;
       sellActive: boolean;
       slippage: string;
       recipientAddress: string;
     }
   >(
-    async ({ market, tokenAddress, swapType, amount, swapPricePerOhm, sellActive, slippage, recipientAddress }) => {
+    async ({ market, tokenAddress, swapType, amount, receiveAmount, sellActive, slippage, recipientAddress }) => {
       const decimals = tokenAddress === OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES] ? 9 : 18;
+      const receiveDecimals = tokenAddress === OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES] ? 18 : 9; //opposite of send
       if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
 
       if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(t`Invalid address`);
 
       const swapAmount = new DecimalBigNumber(amount, decimals);
+      const receiveAmountBN = new DecimalBigNumber(receiveAmount, receiveDecimals);
 
       //slippage
       const parsedSlippage = new DecimalBigNumber(slippage, decimals);
       const slippageAsPercent = parsedSlippage.div("100");
-      const swapPricePerOhmBN = new DecimalBigNumber(swapPricePerOhm, 18);
+      const minAmountReceived = receiveAmountBN.mul(new DecimalBigNumber("1").sub(slippageAsPercent));
 
-      const maxPrice = sellActive
-        ? swapAmount.mul(new DecimalBigNumber("1").sub(slippageAsPercent))
-        : swapPricePerOhmBN.mul(slippageAsPercent.add("1"));
       if (swapType === "swap") {
         const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-        const transaction = await contract.swap(tokenAddress, swapAmount.toBigNumber(), maxPrice.toBigNumber());
+        console.log(tokenAddress, swapAmount.toBigNumber(decimals), minAmountReceived.toBigNumber(receiveDecimals));
+        const transaction = await contract.swap(
+          tokenAddress,
+          swapAmount.toBigNumber(decimals),
+          minAmountReceived.toBigNumber(receiveDecimals),
+        );
         return transaction.wait();
       }
 
@@ -251,8 +255,8 @@ export const RangeSwap = () => {
         recipientAddress,
         referrer,
         market,
-        amount,
-        maxPrice.toBigNumber(),
+        swapAmount.toBigNumber(decimals),
+        minAmountReceived.toBigNumber(receiveDecimals),
       );
       return transaction.wait();
     },
