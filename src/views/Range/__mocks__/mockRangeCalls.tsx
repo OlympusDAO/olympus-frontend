@@ -14,14 +14,14 @@ export const RangeData: RangeStruct = {
   high: {
     active: true,
     lastActive: 1656528651,
-    capacity: BigNumber.from("605396958336933179554131"),
+    capacity: BigNumber.from("605396958336933"), //9 decimals for OHM
     market: BigNumber.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
-    threshold: BigNumber.from("6054147227010564088661"),
+    threshold: BigNumber.from("6054147227010"),
   },
   low: {
     active: true,
     lastActive: 1656015227,
-    capacity: BigNumber.from("10000000000000000000000000"),
+    capacity: BigNumber.from("10000000000000000000000000"), //18 decimals for Reserve
     market: BigNumber.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
     threshold: BigNumber.from("100000000000000000000000"),
   },
