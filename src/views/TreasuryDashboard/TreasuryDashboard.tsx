@@ -14,7 +14,14 @@ import {
   OHMStakedGraph,
   ProtocolOwnedLiquidityGraph,
 } from "./components/Graph/Graph";
-import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
+import {
+  BackingPerOHM,
+  CircSupply,
+  CurrentIndex,
+  GOHMPrice,
+  MarketCap,
+  OHMPriceFromSubgraph,
+} from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -24,7 +31,7 @@ const MetricsDashboard = () => (
       <Paper className="ohm-card">
         <MetricCollection>
           <MarketCap {...sharedMetricProps} />
-          <OHMPrice {...sharedMetricProps} />
+          <OHMPriceFromSubgraph {...sharedMetricProps} />
           <GOHMPrice {...sharedMetricProps} className="wsoprice" />
           <CircSupply {...sharedMetricProps} />
           <BackingPerOHM {...sharedMetricProps} />

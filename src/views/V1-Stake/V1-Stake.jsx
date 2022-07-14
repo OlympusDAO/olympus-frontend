@@ -191,7 +191,7 @@ function V1Stake({ setMigrationModalOpen }) {
             <MetricCollection>
               <Metric
                 className="stake-apy"
-                label={`${t`APY`} (v1)`}
+                label={`${t`Annualized Rebases`} (v1)`}
                 metric={`${formattedTrimmedStakingAPY}%`}
                 isLoading={stakingAPY ? false : true}
               />
@@ -395,14 +395,14 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-                  <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
+                  <DataRow title={t`Your Next Rebase`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
-                    title={t`Next Reward Yield`}
+                    title={t`Next Rebase Yield`}
                     balance={`${stakingRebasePercentage}%`}
                     isLoading={isAppLoading}
                   />
                   <DataRow
-                    title={t`ROI (5-Day Rate)`}
+                    title={t`Rebases (5-Day Rate)`}
                     balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                     isLoading={isAppLoading}
                   />
