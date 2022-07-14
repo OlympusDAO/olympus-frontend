@@ -443,7 +443,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -1219,7 +1219,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   class="MuiBox-root css-u4p24i"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                   >
                     Give
                   </p>
@@ -2870,7 +2870,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
