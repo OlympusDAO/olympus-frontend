@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Grid, Link, SvgIcon, Tooltip, Typography } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
-import React from "react";
+import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 
@@ -26,6 +26,20 @@ function ExpandedChart({
   runwayExtraInfo?: string;
   subgraphQueryUrl?: string;
 }) {
+  /**
+   * Ensure that the expanded chart modal closes when pressing escape.
+   *
+   * This should theoretically be handled by the `Modal` component, but it isn't.
+   */
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && open) handleClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   return (
     <Modal
       open={open}
