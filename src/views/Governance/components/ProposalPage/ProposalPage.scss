@@ -12,9 +12,13 @@
       display: flex;
       justify-content: flex-start;
 
+      .MuiLink-root {
+        display: flex;
+        align-items: center;
+      }
+
       .MuiButton-root {
-        margin-left: 0px;
-        padding-left: 0px;
+        padding-left: 9px;
       }
 
       .css-ihuj2u-MuiTypography-root-MuiLink-root.active {

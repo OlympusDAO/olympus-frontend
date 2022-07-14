@@ -1,6 +1,7 @@
 import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
+import { ChevronLeft } from "@mui/icons-material";
 import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
 import {
   Chip,
@@ -70,7 +71,8 @@ export const ProposalPage = () => {
           <Grid className="navigation" container direction="row" justifyContent="space-between" alignItems="center">
             <Grid className="back-button" item>
               <Link to="/governancetest" component={RouterLink}>
-                <TextButton startIconName="x">Back</TextButton>
+                <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
+                <TextButton>Back</TextButton>
               </Link>
             </Grid>
             <Grid item>
