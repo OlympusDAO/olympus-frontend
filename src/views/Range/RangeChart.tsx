@@ -94,12 +94,12 @@ const RangeChart = (props: {
       <DataRow title="Lower Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)} />
       <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
       <DataRow
-        title="Lower Capacity"
-        balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+        title="Upper Capacity"
+        balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
       />
       <DataRow
-        title="Upper Capacity"
-        balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 18))} OHM`}
+        title="Lower Capacity"
+        balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
       />
     </Paper>
   );
