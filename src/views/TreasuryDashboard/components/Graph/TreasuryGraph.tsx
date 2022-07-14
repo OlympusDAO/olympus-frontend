@@ -23,6 +23,7 @@ import {
   getTokensFromKey,
   MetricRow,
   reduceKeysTokenSummary,
+  renameToken,
 } from "src/helpers/ProtocolMetricsHelper";
 
 import { itemType, tooltipInfoMessages } from "../../treasuryData";
@@ -254,7 +255,12 @@ export const AssetsTable = () => {
   // TODO handle date scrubbing
 
   const columns: GridColDef[] = [
-    { field: "token", headerName: "Asset", flex: 1 },
+    {
+      field: "token",
+      headerName: "Asset",
+      flex: 1,
+      valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
+    },
     { field: "category", headerName: "Category", flex: 1 },
     {
       field: "value",

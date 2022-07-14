@@ -21,7 +21,7 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  * This should be used sparingly, and the updated display names should be integrated
  * into the subgraph ASAP.
  */
-const renameToken = (value: string): string => {
+export const renameToken = (value: string): string => {
   const tokenMap = new Map<string, string>([
     ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Liquidity Pool"],
     ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Liquidity Pool"],
