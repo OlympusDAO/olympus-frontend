@@ -3,7 +3,6 @@ import { Box, useTheme } from "@mui/material";
 import { Input, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers/lib/ethers";
 import React from "react";
-import { parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 // export interface OHMRangeInputFormProps {}
@@ -40,7 +39,6 @@ const RangeInputForm = (props: {
   const ohmAmountAsNumber = new DecimalBigNumber(ohmAmount, 9);
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
   const capacityBN = new DecimalBigNumber(capacity, 18);
-  console.log(parseBigNumber(capacity), "test");
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
   const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;
