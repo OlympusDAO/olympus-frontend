@@ -2,7 +2,7 @@ import "./customtooltip.scss";
 
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import { CSSProperties } from "react";
-import { formatCurrency } from "src/helpers";
+import { formatCurrency, getFloat } from "src/helpers";
 
 interface TooltipPayloadItem {
   dataKey: string;
@@ -45,9 +45,7 @@ const renderItem = (type: string, item: number, decimals = 0) => {
 
 const renderTotal = (type: string, payload: TooltipPayloadItem[]) => {
   const total = payload.reduce((prev, current) => {
-    const currentValueNum = typeof current.value === "number" ? current.value : parseFloat(current.value);
-
-    return prev + currentValueNum;
+    return prev + getFloat(current.value);
   }, 0);
 
   return (

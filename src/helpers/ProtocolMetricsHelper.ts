@@ -1,5 +1,7 @@
 import { CSSProperties } from "react";
 
+import { getFloat } from ".";
+
 type TokenRow = {
   token: string;
   category: string;
@@ -118,7 +120,7 @@ export const getKeysTokenSummary = (
       components["records"].forEach((record: { token: string; value: string }) => {
         const currentTokenRecord = components.tokens[record.token];
         const currentTokenValue: string = currentTokenRecord ? currentTokenRecord.value : "0";
-        const recordValue: number = typeof record.value === "number" ? record.value : parseFloat(record.value);
+        const recordValue: number = getFloat(record.value);
         const newValue: number = parseFloat(currentTokenValue) + recordValue;
 
         const tokenRecord: TokenRow = {

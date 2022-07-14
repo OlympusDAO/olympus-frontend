@@ -1,4 +1,6 @@
 export const RANGE_KEY = "range";
+const COLOR_HIGHER = "green";
+const COLOR_LOWER = "#FF8585";
 
 export const getDataWithRange = (data: any[], dataKey: string[]): any[] => {
   return data.map((value: any) => ({
@@ -92,10 +94,19 @@ export const getDataIntersections = (data: any[], dataKey: string[]): any[] => {
   return filteredIntersections;
 };
 
-export const getIntersectionColor = (_intersection: IntersectType, isLast: boolean) => {
-  if (isLast) {
-    return _intersection.line1isHigherNext ? "green" : "#FF8585";
-  }
+/**
+ * Returns the color for an area based on {isLine1Higher}.
+ *
+ * @param isLine1Higher
+ * @returns
+ */
+export const getAreaColor = (isLine1Higher: boolean | undefined): string => {
+  return isLine1Higher ? COLOR_HIGHER : COLOR_LOWER;
+};
 
-  return _intersection.line1isHigher ? "green" : "#FF8585";
+/**
+ * Returns the color for an intersection.
+ */
+export const getIntersectionColor = (_intersection: IntersectType, isLast: boolean) => {
+  return getAreaColor(isLast ? _intersection.line1isHigherNext : _intersection.line1isHigher);
 };

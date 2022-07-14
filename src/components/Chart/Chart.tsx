@@ -15,12 +15,18 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency, getFloat, trim } from "src/helpers";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
-import { getDataIntersections, getDataWithRange, getIntersectionColor, RANGE_KEY } from "./IntersectionHelper";
+import {
+  getAreaColor,
+  getDataIntersections,
+  getDataWithRange,
+  getIntersectionColor,
+  RANGE_KEY,
+} from "./IntersectionHelper";
 
 const tickCount = 3;
 const expandedTickCount = 5;
@@ -40,7 +46,7 @@ const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
 };
 
 export const formatCurrencyTick = (value: unknown): string => {
-  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+  const valueNum: number = getFloat(value);
 
   if (!valueNum) return "";
 
@@ -56,7 +62,7 @@ export const formatCurrencyTick = (value: unknown): string => {
 };
 
 export const formatPercentTick = (value: unknown): string => {
-  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+  const valueNum: number = getFloat(value);
 
   if (!valueNum) return "";
 
@@ -64,7 +70,7 @@ export const formatPercentTick = (value: unknown): string => {
 };
 
 export const formatDateMonthTick = (value: unknown): string => {
-  const valueNum: number = typeof value == "number" ? value : typeof value == "string" ? parseFloat(value) : 0;
+  const valueNum: number = getFloat(value);
 
   if (!valueNum) return "";
 
@@ -273,6 +279,19 @@ const renderLineChart = (
   </LineChart>
 );
 
+/**
+ * If keys[0] is
+ * @param data
+ * @param keys
+ * @returns
+ */
+const isLineOneHigher = (data: any[], keys: string[]): boolean => {
+  if (!data.length) return false;
+  if (keys.length < 2) return false;
+
+  return data[0][keys[0]] > data[0][keys[1]];
+};
+
 const renderComposedChart = (
   data: any[],
   dataKey: string[],
@@ -303,6 +322,7 @@ const renderComposedChart = (
    * one.
    */
   const intersections = getDataIntersections(data.slice().reverse(), dataKey);
+  const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKey));
 
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
@@ -331,7 +351,11 @@ const renderComposedChart = (
               );
             })
           ) : (
-            <></>
+            <>
+              {/* If there are no intersections in the line, we still want to highlight the area */}
+              <stop offset="0%" stopColor={nonIntersectingAreaColor} stopOpacity={0.8} />
+              <stop offset="100%" stopColor={nonIntersectingAreaColor} stopOpacity={0.8} />
+            </>
           )}
         </linearGradient>
       </defs>
