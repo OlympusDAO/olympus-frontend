@@ -1,9 +1,10 @@
 import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Link, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
 import {
   Chip,
+  Icon,
   OHMChipProps,
   Paper,
   SecondaryButton,
@@ -88,8 +89,19 @@ export const ProposalPage = () => {
                 {proposal.proposalName}
               </Typography>
             </Grid>
-            <Grid item>
-              <Chip label="Active" template={mapStatus("active")} strong />
+            <Grid container direction="row">
+              <Grid item>
+                <Chip label="Active" template={mapStatus("active")} strong />
+              </Grid>
+              <Grid item>
+                <Box pl="9px" display="flex">
+                  <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
+
+                  <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
+                    Ends in 12 hours
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
           <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
