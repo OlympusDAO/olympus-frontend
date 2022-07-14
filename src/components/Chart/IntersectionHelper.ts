@@ -94,8 +94,8 @@ export const getDataIntersections = (data: any[], dataKey: string[]): any[] => {
 
 export const getIntersectionColor = (_intersection: IntersectType, isLast: boolean) => {
   if (isLast) {
-    return _intersection.line1isHigherNext ? "green" : "red";
+    return _intersection.line1isHigherNext ? "green" : "#FF8585";
   }
 
-  return _intersection.line1isHigher ? "green" : "red";
+  return _intersection.line1isHigher ? "green" : "#FF8585";
 };
