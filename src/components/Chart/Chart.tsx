@@ -20,6 +20,7 @@ import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
+import { DataFormat } from "./Constants";
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
 import {
@@ -30,18 +31,11 @@ import {
   RANGE_KEY,
 } from "./IntersectionHelper";
 
-const tickCount = 3;
-const expandedTickCount = 5;
-const xAxisRightPadding = 30;
-const xAxisInterval = 10;
-const lineChartStrokeWidth = 2;
-
-export enum DataFormat {
-  Currency,
-  Percentage,
-  DateMonth,
-  None,
-}
+const TICK_COUNT = 3;
+const TICK_COUNT_EXPANDED = 5;
+const XAXIS_PADDING_RIGHT = 30;
+const TICK_INTERVAL_XAXIS = 10;
+const LINE_STROKE_WIDTH = 2;
 
 const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
@@ -120,10 +114,10 @@ const renderAreaChart = (
       tick={tickStyle}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
-      padding={{ right: xAxisRightPadding }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       axisLine={false}
       tickLine={false}
       tick={tickStyle}
@@ -180,19 +174,19 @@ const renderStackedAreaChart = (
     </defs>
     <XAxis
       dataKey="timestamp"
-      interval={xAxisInterval}
+      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
       tick={tickStyle}
       tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
-      padding={{ right: xAxisRightPadding }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
       axisLine={false}
       width={dataFormat == DataFormat.Percentage ? 33 : 55}
       tick={tickStyle}
-      tickCount={isExpanded ? expandedTickCount : tickCount}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
       domain={[0, maximumYValue]}
@@ -251,10 +245,10 @@ const renderLineChart = (
       tickLine={false}
       reversed={true}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: xAxisRightPadding }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
-      tickCount={scale == "log" ? 1 : isExpanded ? expandedTickCount : tickCount}
+      tickCount={scale == "log" ? 1 : isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       axisLine={false}
       tick={tickStyle}
       tickLine={false}
@@ -363,17 +357,17 @@ const renderComposedChart = (
       </defs>
       <XAxis
         dataKey="timestamp"
-        interval={xAxisInterval}
+        interval={TICK_INTERVAL_XAXIS}
         axisLine={false}
         reversed={true}
         tick={tickStyle}
-        tickCount={tickCount}
+        tickCount={TICK_COUNT}
         tickLine={false}
         tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-        padding={{ right: xAxisRightPadding }}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
       />
       <YAxis
-        tickCount={isExpanded ? expandedTickCount : tickCount}
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
         axisLine={false}
         tick={tickStyle}
         tickLine={false}
@@ -396,7 +390,7 @@ const renderComposedChart = (
       />
       <Area dataKey={RANGE_KEY} stroke={stroke[0]} fill={`url(#range)`} />
       {dataKey.map((value: string, index: number) => {
-        return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+        return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
       })}
     </ComposedChart>
   );
@@ -420,17 +414,17 @@ const renderMultiLineChart = (
   <LineChart data={data} margin={margin}>
     <XAxis
       dataKey="timestamp"
-      interval={xAxisInterval}
+      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
       reversed={true}
       tick={tickStyle}
-      tickCount={tickCount}
+      tickCount={TICK_COUNT}
       tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: xAxisRightPadding }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       axisLine={false}
       tickLine={false}
       tick={tickStyle}
@@ -452,7 +446,7 @@ const renderMultiLineChart = (
       }
     />
     {dataKey.map((value: string, index: number) => {
-      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={lineChartStrokeWidth} />;
+      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
     })}
   </LineChart>
 );
@@ -478,18 +472,18 @@ const renderBarChart = (
       dataKey="timestamp"
       interval={30}
       axisLine={false}
-      tickCount={tickCount}
+      tickCount={TICK_COUNT}
       tick={tickStyle}
       tickLine={false}
       reversed={true}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: xAxisRightPadding }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
       axisLine={false}
       tick={tickStyle}
       tickLine={false}
-      tickCount={isExpanded ? expandedTickCount : tickCount}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       width={33}
       domain={[0, maximumYValue]}
       allowDataOverflow={false}

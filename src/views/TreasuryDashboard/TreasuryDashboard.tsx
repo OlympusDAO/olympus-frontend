@@ -19,7 +19,7 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
   AssetsTable,
-  defaultRecordsCount,
+  DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
   MarketValueGraph,
   ProtocolOwnedLiquidityGraph,
@@ -49,7 +49,7 @@ const MetricsDashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
-    const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || defaultRecordsCount.toString();
+    const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
     setRecordCount(queryRecordCount);
   }, [searchParams]);
 

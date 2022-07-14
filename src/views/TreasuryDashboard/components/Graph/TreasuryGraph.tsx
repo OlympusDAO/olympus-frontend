@@ -2,7 +2,8 @@ import { t } from "@lingui/macro";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties, useMemo, useState } from "react";
-import Chart, { DataFormat } from "src/components/Chart/Chart";
+import Chart from "src/components/Chart/Chart";
+import { DataFormat, itemType } from "src/components/Chart/Constants";
 import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
@@ -25,9 +26,7 @@ import {
   reduceKeysTokenSummary,
   renameToken,
 } from "src/helpers/ProtocolMetricsHelper";
-
-import { itemType, tooltipInfoMessages } from "../../treasuryData";
-import { ChartCard } from "./ChartCard";
+import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -48,7 +47,7 @@ const defaultBulletpointColours: CSSProperties[] = defaultColors.map(value => {
     background: value,
   };
 });
-export const defaultRecordsCount = 90;
+export const DEFAULT_RECORDS_COUNT = 90;
 
 const getTickStyle = (theme: Theme): Record<string, string | number> => {
   return {
@@ -72,7 +71,7 @@ type GraphProps = {
  *
  * @returns
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
   const dataKeys: string[] = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
@@ -87,6 +86,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
 
   return (
     <Chart
+      // TODO extract enum for chart type
       type="composed"
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
@@ -100,7 +100,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       margin={{ left: 30 }}
-      infoTooltipMessage={tooltipInfoMessages().backingPerOhm}
+      infoTooltipMessage={t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`}
       expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={2}
@@ -110,7 +110,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = defaultRecordsCount
   );
 };
 
-export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
   const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
@@ -137,7 +137,7 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       itemType={itemType.dollar}
-      infoTooltipMessage={tooltipInfoMessages().mvt}
+      infoTooltipMessage={t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`}
       expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={0}
@@ -148,7 +148,7 @@ export const MarketValueGraph = ({ count = defaultRecordsCount }: GraphProps) =>
   );
 };
 
-export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
   const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
@@ -204,7 +204,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = defaultRecordsCount }: Gra
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       itemType={itemType.dollar}
-      infoTooltipMessage={tooltipInfoMessages().pol}
+      infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={0}
