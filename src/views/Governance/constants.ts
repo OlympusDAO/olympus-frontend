@@ -4,7 +4,7 @@ export const NULL_PROPOSAL: Proposal = {
   id: -1,
   proposalName: "",
   proposer: "",
-  submissionTimestamp: "",
+  submissionTimestamp: 0,
   isActive: false,
   endorsements: 0,
   yesVotes: 0,

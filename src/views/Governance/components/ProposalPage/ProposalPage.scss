@@ -2,4 +2,29 @@
   width: 100%;
   display: flex;
   justify-content: center;
+
+  .page-content {
+    .back-button {
+      display: flex;
+      justify-content: flex-start;
+
+      .MuiButton-root {
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+    }
+  }
+
+  .published-date {
+    margin-top: 6px;
+    line-height: 18px;
+  }
+
+  .proposal-title {
+    font-weight: 700;
+  }
+
+  #simple-tab-0 {
+    margin-left: 0px;
+  }
 }

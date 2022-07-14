@@ -6,7 +6,7 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 interface proposalMetadata {
   proposalName: string;
   proposer: string;
-  submissionTimestamp: string;
+  submissionTimestamp: number;
 }
 
 /// Data type for returning full proposal informations
@@ -14,7 +14,7 @@ export interface Proposal {
   id: number;
   proposalName: string;
   proposer: string;
-  submissionTimestamp: string;
+  submissionTimestamp: number;
   isActive: boolean;
   endorsements: number;
   yesVotes: number;
@@ -34,22 +34,22 @@ export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
   0: {
     proposalName: "0x4f49502d31000000000000000000000000000000000000000000000000000000",
     proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
-    submissionTimestamp: "1653948322",
+    submissionTimestamp: 1653948322,
   },
   1: {
     proposalName: "0x4f49502d32000000000000000000000000000000000000000000000000000000",
     proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
-    submissionTimestamp: "1655157922",
+    submissionTimestamp: 1655157922,
   },
   2: {
     proposalName: "0x4f49502d33000000000000000000000000000000000000000000000000000000",
     proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
-    submissionTimestamp: "1655503522",
+    submissionTimestamp: 1655503522,
   },
   3: {
     proposalName: "0x4f49502d34000000000000000000000000000000000000000000000000000000",
     proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
-    submissionTimestamp: "1656626722",
+    submissionTimestamp: 1656626722,
   },
 };
 
