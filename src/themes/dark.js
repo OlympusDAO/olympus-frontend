@@ -48,7 +48,7 @@ export const dark = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background-color:${colors.gray[700]};
+              background-color:${colors.gray[600]};
             }
             `,
           },
@@ -126,6 +126,14 @@ export const dark = responsiveFontSizes(
                 ".MuiPaper-root": {
                   background: colors.gray[700],
                 },
+              },
+            },
+          },
+          MuiDrawer: {
+            styleOverrides: {
+              paper: {
+                backgroundColor: colors.gray[700],
+                zIndex: 7,
               },
             },
           },

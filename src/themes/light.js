@@ -103,6 +103,14 @@ export const light = responsiveFontSizes(
               },
             },
           },
+          MuiDrawer: {
+            styleOverrides: {
+              paper: {
+                backgroundColor: colors.gray[700],
+                zIndex: 7,
+              },
+            },
+          },
           MuiAlert: {
             styleOverrides: {
               root: {
