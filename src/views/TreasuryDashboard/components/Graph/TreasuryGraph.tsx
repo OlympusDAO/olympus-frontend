@@ -234,7 +234,7 @@ export const AssetsTable = () => {
       "treasuryVolatileValueComponents",
       "treasuryLPValueComponents",
     ];
-    const categories: readonly string[] = ["Stablecoins", "Volatile", "Protocol-Owned Liquidity"];
+    const categories: readonly string[] = [t`Stablecoins`, t`Volatile`, t`Protocol-Owned Liquidity`];
 
     const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
     const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
@@ -246,14 +246,14 @@ export const AssetsTable = () => {
   const columns: GridColDef[] = [
     {
       field: "token",
-      headerName: "Asset",
+      headerName: t`Asset`,
       flex: 1,
       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
     },
-    { field: "category", headerName: "Category", flex: 1 },
+    { field: "category", headerName: t`Category`, flex: 1 },
     {
       field: "value",
-      headerName: "Value",
+      headerName: t`Value`,
       flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
@@ -266,7 +266,7 @@ export const AssetsTable = () => {
     },
   ];
 
-  const headerText = "Holdings";
+  const headerText = t`Holdings`;
 
   return (
     <ChartCard
