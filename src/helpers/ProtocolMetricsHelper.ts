@@ -23,9 +23,12 @@ const objectHasProperty = (object: unknown, property: string): boolean => {
  */
 const renameToken = (value: string): string => {
   const tokenMap = new Map<string, string>([
-    ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Pool"],
-    ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Pool"],
+    ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Liquidity Pool"],
+    ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Liquidity Pool"],
     ["cvxOHMETH", "Curve OHM-ETH Pool (Staked in Convex)"],
+    ["Balancer OHM-DAI-WETH Pool", "Balancer V2 OHM-DAI-WETH Liquidity Pool"],
+    ["Balancer WETH-FDT Pool", "Balancer V2 WETH-FDT Liquidity Pool"],
+    ["vlCVX V2", "vlCVX"],
   ]);
 
   const mapValue = tokenMap.get(value);
