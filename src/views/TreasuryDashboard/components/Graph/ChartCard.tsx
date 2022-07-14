@@ -1,7 +1,5 @@
-import "src/components/Chart/chart.scss";
-
 import { t } from "@lingui/macro";
-import { Box, Grid, Link, Skeleton, SvgIcon, Tooltip, Typography } from "@mui/material";
+import { Grid, Link, Skeleton, SvgIcon, Tooltip, Typography } from "@mui/material";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { ReactElement } from "react";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
@@ -19,32 +17,21 @@ type ChartCardProps = {
 
 export const ChartCard: React.FC<ChartCardProps> = props => {
   return (
-    <Box style={{ width: "100%", height: "100%" }}>
-      <div className="chart-card-header">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          style={{ width: "100%", overflow: "hidden" }}
-        >
-          <Box display="flex" width="90%" alignItems="center">
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              className="card-title-text"
-              style={{ fontWeight: 400, overflow: "hidden" }}
-            >
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Grid container justifyContent="space-between" alignItems="flex-start">
+          <Grid item xs={11}>
+            <Typography variant="h6" color="textSecondary" display="inline">
               {props.headerText}
             </Typography>
             {props.headerTooltip && (
-              <Typography variant={"h6"} color="textSecondary">
+              <Typography variant={"h6"} color="textSecondary" display="inline">
                 <InfoTooltip message={props.headerTooltip} />
               </Typography>
             )}
-          </Box>
-
-          <Grid item>
-            <Grid container spacing={1}>
+          </Grid>
+          <Grid item xs={1}>
+            <Grid container spacing={1} justifyContent="flex-end">
               <Grid item>
                 {props.subgraphQueryUrl && (
                   <Link href={props.subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
@@ -69,20 +56,21 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
             </Grid>
           </Grid>
           {props.expandedChart}
-        </Box>
-        {props.isLoading ? (
-          <Skeleton variant="text" width={100} />
-        ) : (
-          <Box display="flex">
-            <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-              {props.isLoading ? <Skeleton variant="text" /> : props.headerSubtext}
+        </Grid>
+        <Grid item xs={12}>
+          {props.isLoading ? (
+            <Skeleton variant="text" width={100} />
+          ) : (
+            <Typography variant="h4" fontWeight={600}>
+              {props.headerSubtext}
             </Typography>
-          </Box>
-        )}
-      </div>
-      <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
+          )}
+        </Grid>
+      </Grid>
+      {/* We shift the Grid item left and make it wider to ensure that the x-axis labels are aligned with the header & subtext. */}
+      <Grid item xs={13} marginLeft={"-10px"}>
         {props.isLoading ? <Skeleton variant="rectangular" width="100%" height={260} /> : props.children}
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };

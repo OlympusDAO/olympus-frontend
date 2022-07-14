@@ -73,6 +73,10 @@ const MetricsDashboard = () => {
     }
   };
 
+  const paperProps = {
+    fullWidth: true,
+  };
+
   return (
     <>
       <Box className="hero-metrics">
@@ -87,17 +91,21 @@ const MetricsDashboard = () => {
           </MetricCollection>
         </Paper>
       </Box>
-      <Grid container spacing={2} className="data-grid" style={{ marginBottom: "30px" }}>
+      <Grid container spacing={2}>
         <Grid item xs={12} container>
           <Grid item xs={4} />
           <Grid item xs={4} textAlign="center">
             <ToggleButtonGroup
-              className="date-filter"
               value={recordCount}
               exclusive
               onChange={handleRecordCountButtonGroupClick}
-              style={{
-                height: "40px",
+              sx={{
+                "&.MuiToggleButtonGroup-root": {
+                  height: "40px",
+                },
+                "& .MuiToggleButton-root": {
+                  margin: "2px",
+                },
               }}
             >
               <ToggleButton value="7">7d</ToggleButton>
@@ -109,25 +117,25 @@ const MetricsDashboard = () => {
           <Grid item xs={4} />
         </Grid>
         <Grid item xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
+          <Paper {...paperProps}>
             <LiquidBackingPerOhmComparisonGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
+          <Paper {...paperProps}>
             <MarketValueGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
-          <Paper className="ohm-card ohm-chart-card" style={{ height: "480px" }}>
+          <Paper {...paperProps}>
             <AssetsTable />
           </Paper>
         </Grid>
 
         <Grid item xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
+          <Paper {...paperProps}>
             <ProtocolOwnedLiquidityGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>

@@ -71,13 +71,6 @@
     .card-header {
       margin-bottom: 1rem;
     }
-    &.ohm-chart-card {
-      .chart-card-header {
-        padding: 0px 20px !important;
-        min-width: 300px;
-      }
-      height: 355px;
-    }
 
     & .multifarm-widget-card {
       background: transparent;
@@ -126,9 +119,6 @@
         font-weight: bold;
       }
     }
-  }
-  .data-grid {
-    overflow: hidden;
   }
 }
 
@@ -387,12 +377,5 @@
       font-weight: 400;
       border-color: var(--ohm-gold);
     }
-  }
-}
-
-// Improves the spacing in the date filter
-.date-filter {
-  .MuiToggleButton-root {
-    margin: 2px;
   }
 }

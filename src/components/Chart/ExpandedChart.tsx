@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Grid, Link, SvgIcon, Tooltip, Typography } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
 import React, { useEffect } from "react";
@@ -48,7 +48,7 @@ function ExpandedChart({
       minHeight={"50%"}
       maxWidth={"90%"}
       headerContent={
-        <Grid className="chart-card-header" container width="100%">
+        <Grid container width="100%">
           <Grid alignItems="center" width="maxContent" item xs={12} whiteSpace="nowrap">
             <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400 }}>
               {headerText}
@@ -59,9 +59,6 @@ function ExpandedChart({
               {headerSubText}
             </Typography>
             {runwayExtraInfo}
-            <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              <Trans>Today</Trans>
-            </Typography>
           </Grid>
           {subgraphQueryUrl && (
             <Grid item xs textAlign="right" marginRight="15px">
