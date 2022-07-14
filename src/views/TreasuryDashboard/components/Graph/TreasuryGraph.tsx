@@ -211,6 +211,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
+      margin={{ left: -5 }}
     />
   );
 };
