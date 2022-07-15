@@ -22,11 +22,9 @@ import { EditGiveData } from "../Interfaces";
 export const useIncreaseGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-
-  const address = account?.address ? account.address : "";
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, EditGiveData>(
@@ -95,14 +93,13 @@ export const useIncreaseGive = () => {
 export const useDecreaseGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const address = account?.address ? account.address : "";
   const gohmContract = new ethers.Contract(
-    GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
+    GOHM_ADDRESSES[chain.id as keyof typeof GOHM_ADDRESSES],
     gOHM.abi,
     signer ? signer : undefined,
   );

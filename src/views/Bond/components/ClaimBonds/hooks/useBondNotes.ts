@@ -33,11 +33,11 @@ export interface BondNote {
 export const bondNotesQueryKey = (networkId: NetworkId, address?: string) => ["useBondNotes", networkId, address];
 
 export const useBondNotes = () => {
-  const { data: account } = useAccount();
+  const { address = "" } = useAccount();
   const networks = useTestableNetworks();
 
-  const args = [networks.MAINNET, account?.address] as const;
-  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!account?.address });
+  const args = [networks.MAINNET, address] as const;
+  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
 };
 
 export const fetchBondNotes = async (networkId: EthereumNetwork, address?: string) => {
