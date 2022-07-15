@@ -5,7 +5,6 @@ import {
   AreaChart,
   Bar,
   BarChart,
-  CartesianGrid,
   ComposedChart,
   Line,
   LineChart,
@@ -36,10 +35,6 @@ const TICK_COUNT_EXPANDED = 5;
 const XAXIS_PADDING_RIGHT = 30;
 const TICK_INTERVAL_XAXIS = 10;
 const LINE_STROKE_WIDTH = 2;
-
-const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
-  return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
-};
 
 export const formatCurrencyTick = (value: unknown): string => {
   const valueNum: number = getFloat(value);
@@ -86,13 +81,11 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 const renderAreaChart = (
   data: any[],
   dataKey: string[],
-  stopColor: string[][],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
@@ -101,8 +94,8 @@ const renderAreaChart = (
   <AreaChart data={data} margin={margin}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
+        <stop offset="0%" stopColor={stroke[0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stroke[0][1]} stopOpacity={0.9} />
       </linearGradient>
     </defs>
     <XAxis
@@ -138,7 +131,6 @@ const renderAreaChart = (
       }
     />
     <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
 );
 
@@ -220,12 +212,10 @@ const renderLineChart = (
   data: any[],
   dataKey: string[],
   stroke: string[],
-  color: string,
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
@@ -266,8 +256,14 @@ const renderLineChart = (
         />
       }
     />
-    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke[0] : "none"} color={color} dot={false} />;
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
+    <Line
+      type="monotone"
+      dataKey={dataKey[0]}
+      stroke={stroke ? stroke[0] : "none"}
+      color={stroke ? stroke[0] : "none"}
+      dot={false}
+    />
+    ;
   </LineChart>
 );
 
@@ -455,7 +451,6 @@ const renderBarChart = (
   bulletpointColors: Map<string, CSSProperties>,
   categories: Map<string, string>,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
@@ -495,7 +490,6 @@ const renderBarChart = (
       }
     />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </BarChart>
 );
 
@@ -504,8 +498,6 @@ function Chart({
   data,
   scale,
   dataKey,
-  color,
-  stopColor,
   stroke,
   headerText,
   dataFormat,
@@ -513,7 +505,6 @@ function Chart({
   bulletpointColors,
   categories,
   infoTooltipMessage,
-  expandedGraphStrokeColor,
   isLoading,
   tickStyle,
   margin = {
@@ -530,8 +521,6 @@ function Chart({
   data: any[];
   scale?: string;
   dataKey: string[];
-  color: string;
-  stopColor: string[][];
   stroke: string[];
   headerText: string;
   dataFormat: DataFormat;
@@ -539,7 +528,6 @@ function Chart({
   bulletpointColors: Map<string, CSSProperties>;
   categories: Map<string, string>;
   infoTooltipMessage: string;
-  expandedGraphStrokeColor: string;
   isLoading: boolean;
   tickStyle: Record<string, string | number>;
   margin?: CategoricalChartProps["margin"];
@@ -585,12 +573,10 @@ function Chart({
           data,
           dataKey,
           stroke,
-          color,
           dataFormat,
           bulletpointColors,
           categories,
           isExpanded,
-          expandedGraphStrokeColor,
           margin,
           tickStyle,
           maximumYValue,
@@ -602,13 +588,11 @@ function Chart({
         return renderAreaChart(
           data,
           dataKey,
-          stopColor,
           stroke,
           dataFormat,
           bulletpointColors,
           categories,
           isExpanded,
-          expandedGraphStrokeColor,
           margin,
           tickStyle,
           maximumYValue,
@@ -671,7 +655,6 @@ function Chart({
           bulletpointColors,
           categories,
           isExpanded,
-          expandedGraphStrokeColor,
           margin,
           tickStyle,
           maximumYValue,

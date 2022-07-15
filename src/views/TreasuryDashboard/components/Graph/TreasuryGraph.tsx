@@ -89,8 +89,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
       type={ChartType.ComposedArea}
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
-      color={""}
-      stopColor={[[]]}
       stroke={DEFAULT_COLORS}
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
@@ -99,7 +97,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
       categories={categoriesMap}
       margin={{ left: 30 }}
       infoTooltipMessage={t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`}
-      expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
@@ -126,8 +123,6 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
       type={ChartType.StackedArea}
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
-      color={""}
-      stopColor={[[]]}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
@@ -135,7 +130,6 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       infoTooltipMessage={t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`}
-      expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
@@ -192,8 +186,6 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       type={ChartType.StackedArea}
       data={tokenSummary}
       dataKey={dataKeys}
-      color={""}
-      stopColor={[[]]}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
@@ -201,7 +193,6 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
-      expandedGraphStrokeColor={""}
       isLoading={!data}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
