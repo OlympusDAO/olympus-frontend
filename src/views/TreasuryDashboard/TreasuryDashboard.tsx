@@ -1,17 +1,8 @@
-import { t } from "@lingui/macro";
-import {
-  Box,
-  Container,
-  Grid,
-  Link,
-  ToggleButton as MuiToggleButton,
-  ToggleButtonGroup,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, Grid, ToggleButton as MuiToggleButton, ToggleButtonGroup, useMediaQuery } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
-import { NavLink, Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 
 import {
   AssetsTable,
@@ -75,19 +66,19 @@ const MetricsDashboard = () => {
 
   return (
     <>
-      <Box>
-        <Paper fullWidth>
-          <MetricCollection>
-            <MarketCap {...sharedMetricProps} />
-            <OHMPrice {...sharedMetricProps} />
-            <GOHMPrice {...sharedMetricProps} className="wsoprice" />
-            <CircSupply {...sharedMetricProps} />
-            <BackingPerOHM {...sharedMetricProps} />
-            <CurrentIndex {...sharedMetricProps} />
-          </MetricCollection>
-        </Paper>
-      </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Paper {...paperProps}>
+            <MetricCollection>
+              <MarketCap {...sharedMetricProps} />
+              <OHMPrice {...sharedMetricProps} />
+              <GOHMPrice {...sharedMetricProps} className="wsoprice" />
+              <CircSupply {...sharedMetricProps} />
+              <BackingPerOHM {...sharedMetricProps} />
+              <CurrentIndex {...sharedMetricProps} />
+            </MetricCollection>
+          </Paper>
+        </Grid>
         <Grid item xs={12} container>
           <Grid item xs={4} />
           <Grid item xs={4} textAlign="center">
@@ -117,19 +108,16 @@ const MetricsDashboard = () => {
             <LiquidBackingPerOhmComparisonGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>
-
         <Grid item xs={12}>
           <Paper {...paperProps}>
             <MarketValueGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>
-
         <Grid item xs={12}>
           <Paper {...paperProps}>
             <AssetsTable />
           </Paper>
         </Grid>
-
         <Grid item xs={12}>
           <Paper {...paperProps}>
             <ProtocolOwnedLiquidityGraph count={parseInt(recordCount)} />
@@ -145,29 +133,14 @@ const PageWrapper = () => {
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
 
   return (
-    <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
-      <Tabs
-        value={false}
-        variant={!(isSmallScreen || isVerySmallScreen) ? "standard" : "scrollable"}
-        centered={!(isSmallScreen || isVerySmallScreen)}
-        scrollButtons="auto"
-        textColor="primary"
-        indicatorColor="primary"
-        aria-label="dashboard-tabs"
-      >
-        <Link to="/dashboard" end component={NavLink}>
-          <Tab label={t`Dashboard`} />
-        </Link>
-      </Tabs>
-      <Container
-        style={{
-          paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-          paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-        }}
-      >
-        <Outlet />
-      </Container>
-    </div>
+    <Container
+      style={{
+        paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+        paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+      }}
+    >
+      <Outlet />
+    </Container>
   );
 };
 const TreasuryDashboard = () => {
