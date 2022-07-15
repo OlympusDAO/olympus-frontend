@@ -2,17 +2,20 @@ import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
-import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Link, OutlinedInput, Typography, useTheme } from "@mui/material";
 import {
   Chip,
   Icon,
   OHMChipProps,
   Paper,
+  PrimaryButton,
+  Radio,
   SecondaryButton,
   Tab,
   TabPanel,
   Tabs,
   TextButton,
+  VoteBreakdown,
 } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { NavLink as RouterLink, useParams } from "react-router-dom";
@@ -123,7 +126,44 @@ export const ProposalPage = () => {
               </Grid>
             </TabPanel>
             <TabPanel value={selectedIndex} index={1}>
-              <Grid item>Votes will go here</Grid>
+              <Grid container direction="column">
+                <Grid item>
+                  <Typography variant="h6">Cast your vote</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2">
+                    Your Yes vote will be approving the policy at{" "}
+                    <span style={{ color: theme.colors.gray[40] }}>this location</span>
+                  </Typography>
+                </Grid>
+                <Grid container direction="row">
+                  <Grid item>
+                    <Radio label="Yes" />
+                    <Radio label="No" />
+                  </Grid>
+                  <Grid item>
+                    <OutlinedInput className="your-comment" placeholder="Your comment (Optional)" />
+                  </Grid>
+                  <Grid item>
+                    <PrimaryButton>Vote</PrimaryButton>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <VoteBreakdown
+                    voteForLabel="Yes"
+                    voteAgainstLabel="No"
+                    voteAbstainLabel="Abstain"
+                    voteForCount={proposal.yesVotes}
+                    voteAgainstCount={proposal.noVotes}
+                    voteAbstainCount={0}
+                  />
+                </Grid>
+                <Grid container direction="column">
+                  <Grid item>
+                    <Typography variant="h6">Top Voters</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
             </TabPanel>
           </Grid>
           <Grid className="discussion-button" item>
