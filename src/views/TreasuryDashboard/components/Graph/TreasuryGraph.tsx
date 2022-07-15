@@ -48,6 +48,7 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
   };
 });
 export const DEFAULT_RECORDS_COUNT = 90;
+const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 const getTickStyle = (theme: Theme): Record<string, string | number> => {
   return {
@@ -77,7 +78,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
   const dataKeys: string[] = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
   const itemNames: string[] = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
 
-  const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
+  const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
 
   // No caching needed, as these are static categories
@@ -111,7 +112,7 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
   const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
   const dataKeys: string[] = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
 
-  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count });
+  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
   // No caching needed, as these are static categories
@@ -142,7 +143,11 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
 export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
-  const { data } = useProtocolOwnedLiquidityComponentsQuery({ endpoint: getSubgraphUrl() }, { records: count });
+  const { data } = useProtocolOwnedLiquidityComponentsQuery(
+    { endpoint: getSubgraphUrl() },
+    { records: count },
+    QUERY_OPTIONS,
+  );
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
   // State variables used for rendering
@@ -204,7 +209,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
 };
 
 export const AssetsTable = () => {
-  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() });
+  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() }, undefined, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
   // State variables used for rendering
