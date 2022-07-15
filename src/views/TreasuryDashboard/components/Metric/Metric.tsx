@@ -1,14 +1,14 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
-  useGOhmPrice,
+  useGOhmPrice as useGOhmPriceFromSubgraph,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
-  useOHMPrice,
+  useOhmPrice as useOhmPriceFromSubgraph,
   useTotalSupply,
   useTotalValueDeposited,
   useTreasuryLiquidBackingPerOhmFloating,
@@ -25,7 +25,9 @@ export const MarketCap: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`Market Cap`,
-    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply.
+    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
+    
+    As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
 
     Note: other sources may be inaccurate.`,
   };
@@ -57,7 +59,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
  * same as OHMPrice but uses Subgraph price
  */
 export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOHMPrice();
+  const { data: ohmPrice } = useOhmPriceFromSubgraph();
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
@@ -70,10 +72,10 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
 };
 
 /**
- * uses Subgraph price
+ * uses on-chain price
  */
 export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOHMPrice();
+  const { data: ohmPrice } = useOhmPrice();
 
   const _props: MetricProps = {
     ...props,
@@ -148,10 +150,28 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
 };
 
 /**
- * uses Subgraph price
+ * uses contract price
  */
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: gOhmPrice } = useGOhmPrice();
+  const { data: gOhmPrice } = useGohmPrice();
+
+  const _props: MetricProps = {
+    ...props,
+    label: "gOHM " + t`Price`,
+    tooltip:
+      "gOHM = sOHM * index" +
+      "\n\n" +
+      t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
+  };
+
+  if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
+  const { data: gOhmPrice } = useGOhmPriceFromSubgraph();
 
   const _props: MetricProps = {
     ...props,

@@ -11,7 +11,14 @@ import {
   MarketValueGraph,
   ProtocolOwnedLiquidityGraph,
 } from "./components/Graph/TreasuryGraph";
-import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
+import {
+  BackingPerOHM,
+  CircSupply,
+  CurrentIndex,
+  GOHMPriceFromSubgraph,
+  MarketCap,
+  OHMPriceFromSubgraph,
+} from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 const QUERY_RECORD_COUNT = "recordCount";
@@ -71,8 +78,8 @@ const MetricsDashboard = () => {
           <Paper {...paperProps}>
             <MetricCollection>
               <MarketCap {...sharedMetricProps} />
-              <OHMPrice {...sharedMetricProps} />
-              <GOHMPrice {...sharedMetricProps} className="wsoprice" />
+              <OHMPriceFromSubgraph {...sharedMetricProps} />
+              <GOHMPriceFromSubgraph {...sharedMetricProps} className="wsoprice" />
               <CircSupply {...sharedMetricProps} />
               <BackingPerOHM {...sharedMetricProps} />
               <CurrentIndex {...sharedMetricProps} />
