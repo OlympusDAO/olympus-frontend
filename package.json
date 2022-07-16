@@ -40,7 +40,7 @@
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.8.3",
-    "@mui/material": "^5.8.3",
+    "@mui/material": "^5.9.0",
     "@multifarm/widget": "^0.0.159",
     "@olympusdao/component-library": "^2.0.4",
     "@rainbow-me/rainbowkit": "^0.4.1",
@@ -68,7 +68,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.1.12",
     "typescript": "^4.7.4",
-    "wagmi": "^0.5.6"
+    "wagmi": "^0.5.9"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
