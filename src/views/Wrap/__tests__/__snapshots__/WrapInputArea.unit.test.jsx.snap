@@ -19,10 +19,10 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -73,22 +73,22 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-15i1vgz"
             >
               <div
-                class="MuiGrid-root css-vz6rvy-MuiGrid-root"
+                class="MuiGrid-root css-1xcwb1n-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -114,7 +114,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -161,7 +161,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -318,10 +318,10 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                     class="stake-tab-panel wrap-page"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-1h5sa9j-MuiGrid-root"
                         style="padding-right: 4px;"
                       >
                         <div
@@ -368,7 +368,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                       >
                         <button
                           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -818,10 +818,10 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-gg4vpm"
@@ -872,22 +872,22 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
               class="MuiBox-root css-15i1vgz"
             >
               <div
-                class="MuiGrid-root css-vz6rvy-MuiGrid-root"
+                class="MuiGrid-root css-1xcwb1n-MuiGrid-root"
               >
                 <div
                   class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -913,7 +913,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -960,7 +960,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                     >
                       <div
                         class="Metric-root  css-1xkrsym"
@@ -1117,10 +1117,10 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     class="stake-tab-panel wrap-page"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-1h5sa9j-MuiGrid-root"
                         style="padding-right: 4px;"
                       >
                         <div
@@ -1167,7 +1167,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
                       >
                         <button
                           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
