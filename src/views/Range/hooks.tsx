@@ -186,8 +186,9 @@ export const RangeBondPrice = (id: BigNumber) => {
     ["RangeBondAggregator", id, chain],
     async () => {
       const bondPrice = await contract.marketPrice(id);
+      console.log(bondPrice);
 
-      return parseBigNumber(bondPrice, 18);
+      return parseBigNumber(bondPrice, 37);
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),

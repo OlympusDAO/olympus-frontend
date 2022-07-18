@@ -1,3 +1,4 @@
+import { Box, CircularProgress } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { DataRow, Paper } from "@olympusdao/component-library";
 import { Area, ComposedChart, Label, Line, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -31,7 +32,7 @@ const RangeChart = (props: {
 }) => {
   const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
-  const { data: priceData } = PriceHistory(reserveSymbol);
+  const { data: priceData, isFetched } = PriceHistory(reserveSymbol);
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -105,7 +106,7 @@ const RangeChart = (props: {
   );
 
   const theme = useTheme();
-  return (
+  return isFetched ? (
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
         <defs>
@@ -199,6 +200,10 @@ const RangeChart = (props: {
         )}
       </ComposedChart>
     </StyledResponsiveContainer>
+  ) : (
+    <Box display="flex" justifyContent="center" mt={20} mb={20}>
+      <CircularProgress />
+    </Box>
   );
 };
 
