@@ -99,6 +99,7 @@ const MetricsDashboard = () => {
                 },
                 "& .MuiToggleButton-root": {
                   margin: "2px",
+                  fontSize: "18px", // Consistent size with metric headings
                 },
               }}
             >
