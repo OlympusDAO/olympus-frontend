@@ -28,7 +28,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Single Stake
                 </p>
@@ -101,7 +101,7 @@ exports[`<Stake/> should render component 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -131,7 +131,7 @@ exports[`<Stake/> should render component 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -182,7 +182,7 @@ exports[`<Stake/> should render component 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -241,7 +241,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Farm Pool
                 </p>
@@ -745,7 +745,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -934,7 +934,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1097,7 +1097,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1324,7 +1324,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1551,7 +1551,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1750,7 +1750,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2321,7 +2321,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2531,7 +2531,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2723,7 +2723,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2915,7 +2915,7 @@ exports[`<Stake/> should render component 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2978,7 +2978,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Single Stake
                 </p>
@@ -3051,7 +3051,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3081,7 +3081,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3132,7 +3132,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -3191,7 +3191,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Farm Pool
                 </p>
@@ -3695,7 +3695,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -3884,7 +3884,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4047,7 +4047,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4274,7 +4274,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.spiritswap.finance/#/farms/allfarms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4501,7 +4501,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4700,7 +4700,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5271,7 +5271,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5481,7 +5481,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5673,7 +5673,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5865,7 +5865,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
