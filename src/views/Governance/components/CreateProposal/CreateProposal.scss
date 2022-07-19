@@ -11,7 +11,13 @@
     padding: 10px 5px 10px 5px;
 
     .entry-title {
+      justify-content: space-between;
       margin-bottom: 6px;
     }
+  }
+
+  .continue-button {
+    width: 25%;
+    margin-top: 12px;
   }
 }

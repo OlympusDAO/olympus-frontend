@@ -1,7 +1,7 @@
 import "./CreateProposal.scss";
 
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
-import { Paper } from "@olympusdao/component-library";
+import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 
 import { BackButton } from "../BackButton";
@@ -60,6 +60,7 @@ export const CreateProposal = () => {
               handleChange={setProposalContract}
             />
           </Grid>
+          <PrimaryButton className="continue-button">Continue</PrimaryButton>
         </Grid>
       </Paper>
     </div>
