@@ -105,7 +105,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Amount
+                Your Next Rebase
               </p>
             </div>
             <p
@@ -124,7 +124,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Yield
+                Next Rebase Yield
               </p>
             </div>
             <p
@@ -143,7 +143,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                ROI (5-Day Rate)
+                Rebases (5-Day Rate)
               </p>
             </div>
             <p
@@ -333,7 +333,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Amount
+                Your Next Rebase
               </p>
             </div>
             <p
@@ -352,7 +352,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Yield
+                Next Rebase Yield
               </p>
             </div>
             <p
@@ -371,7 +371,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                ROI (5-Day Rate)
+                Rebases (5-Day Rate)
               </p>
             </div>
             <p
@@ -496,7 +496,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Amount
+                Your Next Rebase
               </p>
             </div>
             <p
@@ -515,7 +515,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                Next Reward Yield
+                Next Rebase Yield
               </p>
             </div>
             <p
@@ -534,7 +534,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
               >
-                ROI (5-Day Rate)
+                Rebases (5-Day Rate)
               </p>
             </div>
             <p

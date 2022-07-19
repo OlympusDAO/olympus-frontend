@@ -82,13 +82,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   return (
     <StyledBox mb={3}>
-      {currentAction === "UNSTAKE" && liveInverseBonds && (
-        <InfoNotification>
-          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
-          &nbsp;
-          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
-        </InfoNotification>
-      )}
       <Tabs
         centered
         textColor="primary"
@@ -105,7 +98,13 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
         <Tab aria-label="unstake-button" label={t`Unstake`} />
       </Tabs>
-
+      {currentAction === "UNSTAKE" && liveInverseBonds && (
+        <InfoNotification>
+          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+          &nbsp;
+          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+        </InfoNotification>
+      )}
       <Box my={2}>
         <TokenAllowanceGuard
           tokenAddressMap={addresses}

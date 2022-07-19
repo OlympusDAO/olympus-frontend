@@ -28,7 +28,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Wrap / Unwrap
                 </p>
@@ -103,7 +103,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -154,7 +154,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -205,7 +205,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -387,7 +387,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1yyqz5n-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -411,7 +411,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1yyqz5n-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -763,7 +763,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Wrap / Unwrap
                 </p>
@@ -838,7 +838,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -889,7 +889,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -940,7 +940,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1015,7 +1015,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Wrap / Unwrap
                 </p>
@@ -1090,7 +1090,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1141,7 +1141,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1192,7 +1192,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1466,7 +1466,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Wrap / Unwrap
                 </p>
@@ -1541,7 +1541,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1592,7 +1592,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -1643,7 +1643,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
