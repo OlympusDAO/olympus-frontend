@@ -1,21 +1,8 @@
 import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Grid, Link, OutlinedInput, Typography, useTheme } from "@mui/material";
-import {
-  Chip,
-  Icon,
-  OHMChipProps,
-  Paper,
-  PrimaryButton,
-  Radio,
-  SecondaryButton,
-  Tab,
-  TabPanel,
-  Tabs,
-  TextButton,
-  VoteBreakdown,
-} from "@olympusdao/component-library";
+import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
+import { Chip, Icon, OHMChipProps, Paper, SecondaryButton, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -25,6 +12,8 @@ import { Proposal as ProposalType } from "src/hooks/useProposals";
 
 import { NULL_PROPOSAL } from "../../constants";
 import { BackButton } from "../BackButton";
+import { PollDetailsTab } from "./components/PollDetailsTab";
+import { VotesTab } from "./components/VotesTab";
 
 export const ProposalPage = () => {
   const theme = useTheme();
@@ -68,6 +57,37 @@ export const ProposalPage = () => {
     }
   };
 
+  const proposalHeader = () => {
+    return (
+      <Grid className="proposal-header" container direction="column">
+        <Grid item>
+          <Typography className="published-date" variant="body2" color={theme.colors.gray[90]}>
+            Posted on <span style={{ color: theme.colors.gray[40] }}>{formattedPublishedDate}</span> by:{" "}
+            <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.proposer)}</span>
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography className="proposal-title" variant="h4">
+            {proposal.proposalName}
+          </Typography>
+        </Grid>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <Chip label="Active" template={mapStatus("active")} strong />
+          </Grid>
+          <Grid item>
+            <Box pl="9px" display="flex">
+              <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
+              <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
+                Ends in 12 hours
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <div className="proposal-page">
       <Paper>
@@ -80,33 +100,7 @@ export const ProposalPage = () => {
               </Link>
             </Grid>
           </Grid>
-          <Grid className="proposal-header" container direction="column">
-            <Grid item>
-              <Typography className="published-date" variant="body2" color={theme.colors.gray[90]}>
-                Posted on <span style={{ color: theme.colors.gray[40] }}>{formattedPublishedDate}</span> by:{" "}
-                <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.proposer)}</span>
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography className="proposal-title" variant="h4">
-                {proposal.proposalName}
-              </Typography>
-            </Grid>
-            <Grid container direction="row" alignItems="center">
-              <Grid item>
-                <Chip label="Active" template={mapStatus("active")} strong />
-              </Grid>
-              <Grid item>
-                <Box pl="9px" display="flex">
-                  <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
-
-                  <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                    Ends in 12 hours
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
+          {proposalHeader()}
           <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
             <Tabs
               centered
@@ -119,54 +113,10 @@ export const ProposalPage = () => {
             </Tabs>
 
             <TabPanel value={selectedIndex} index={0}>
-              <Grid container direction="column">
-                <Grid item>
-                  <Typography variant="body1">{proposal.content}</Typography>
-                </Grid>
-                <Grid className="discussion-button" item>
-                  <TextButton endIconName="arrow-up">Discussion</TextButton>
-                </Grid>
-              </Grid>
+              <PollDetailsTab proposal={proposal} />
             </TabPanel>
             <TabPanel value={selectedIndex} index={1}>
-              <Grid container direction="column">
-                <Grid className="cast-vote-header" item>
-                  <Typography variant="h6">Cast your vote</Typography>
-                </Grid>
-                <Grid className="install-location" item>
-                  <Typography variant="body2" color={theme.colors.gray[90]}>
-                    Your Yes vote will be approving the policy at{" "}
-                    <span style={{ color: theme.colors.gray[40] }}>this location</span>
-                  </Typography>
-                </Grid>
-                <Grid className="vote-submission-section" container direction="row" alignItems="center" spacing={2}>
-                  <Grid item xs={3}>
-                    <Radio label="Yes" />
-                    <Radio label="No" />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <OutlinedInput className="your-comment" placeholder="Your comment (Optional)" />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <PrimaryButton fullWidth>Vote</PrimaryButton>
-                  </Grid>
-                </Grid>
-                <Grid className="vote-breakdown" item>
-                  <VoteBreakdown
-                    voteForLabel="Yes"
-                    voteAgainstLabel="No"
-                    voteAbstainLabel="Abstain"
-                    voteForCount={proposal.yesVotes}
-                    voteAgainstCount={proposal.noVotes}
-                    voteAbstainCount={0}
-                  />
-                </Grid>
-                <Grid container direction="column">
-                  <Grid item>
-                    <Typography variant="h6">Top Voters</Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
+              <VotesTab proposal={proposal} />
             </TabPanel>
           </Grid>
         </Grid>
