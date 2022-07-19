@@ -1,7 +1,6 @@
 import "./ProposalPage.scss";
 
 import { t } from "@lingui/macro";
-import { ChevronLeft } from "@mui/icons-material";
 import { Box, Grid, Link, OutlinedInput, Typography, useTheme } from "@mui/material";
 import {
   Chip,
@@ -18,12 +17,14 @@ import {
   VoteBreakdown,
 } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
-import { NavLink as RouterLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useProposal } from "src/hooks/useProposal";
 import { Proposal as ProposalType } from "src/hooks/useProposals";
 
 import { NULL_PROPOSAL } from "../../constants";
+import { BackButton } from "../BackButton";
 
 export const ProposalPage = () => {
   const theme = useTheme();
@@ -72,14 +73,11 @@ export const ProposalPage = () => {
       <Paper>
         <Grid className="page-content" container direction="column">
           <Grid className="navigation" container direction="row" justifyContent="space-between" alignItems="center">
-            <Grid className="back-button" item>
-              <Link to="/governancetest" component={RouterLink}>
-                <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
-                <TextButton>Back</TextButton>
-              </Link>
-            </Grid>
+            <BackButton />
             <Grid item>
-              <SecondaryButton>Create new proposal</SecondaryButton>
+              <Link to="/governancetest/create-proposal" component={RouterLink}>
+                <SecondaryButton>Create new proposal</SecondaryButton>
+              </Link>
             </Grid>
           </Grid>
           <Grid className="proposal-header" container direction="column">

@@ -1,76 +1,64 @@
 import "./CreateProposal.scss";
 
-import { ChevronLeft } from "@mui/icons-material";
-import { Grid, Link, MenuItem, OutlinedInput, Select, Typography } from "@mui/material";
-import { Paper, TextButton } from "@olympusdao/component-library";
-import { Link as RouterLink } from "react-router-dom";
+import { Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Paper } from "@olympusdao/component-library";
+import { useState } from "react";
+
+import { BackButton } from "../BackButton";
+import { TextEntry } from "./components/TextEntry";
 
 export const CreateProposal = () => {
+  const [proposalTitle, setProposalTitle] = useState("");
+  const [proposalDescription, setProposalDescription] = useState("");
+  const [proposalDiscussion, setProposalDiscussion] = useState("");
+  const [proposalAction, setProposalAction] = useState("installModule");
+  const [proposalContract, setProposalContract] = useState("");
+
+  const selectionInput = () => {
+    return (
+      <Grid className="create-proposal-entry" container direction="column" xs={6}>
+        <Grid className="entry-title" item>
+          <Typography variant="body2">Action</Typography>
+        </Grid>
+        <Grid item>
+          <Select defaultValue="installModule" onChange={(e: any) => setProposalAction(e.target.value)} fullWidth>
+            <MenuItem value="installModule">Install Module</MenuItem>
+            <MenuItem value="upgradeModule">Upgrade Module</MenuItem>
+            <MenuItem value="approvePolicy">Approve Policy</MenuItem>
+            <MenuItem value="terminatePolicy">Terminate Policy</MenuItem>
+            <MenuItem value="changeExecutor">Change Executor</MenuItem>
+          </Select>
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <div className="create-proposal-form">
       <Paper>
         <Grid container direction="column" spacing={2}>
-          <Grid className="back-button" item>
-            <Link to="/governancetest" component={RouterLink}>
-              <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
-              <TextButton>Back</TextButton>
-            </Link>
-          </Grid>
-          <Grid className="create-proposal-section" container direction="column" xs={12}>
-            <Grid item>
-              <Typography variant="body2">Title</Typography>
-            </Grid>
-            <Grid item>
-              <OutlinedInput className="create-proposal-input" />
-            </Grid>
-          </Grid>
-          <Grid className="create-proposal-section" container direction="column">
-            <Grid container direction="row">
-              <Grid item>
-                <Typography variant="body2">Description</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2">0/14,400</Typography>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <OutlinedInput className="create-proposal-input" />
-            </Grid>
-          </Grid>
-          <Grid className="create-proposal-section" container direction="column">
-            <Grid item>
-              <Typography variant="body2">Discussion</Typography>
-            </Grid>
-            <Grid item>
-              <OutlinedInput
-                className="create-proposal-input"
-                placeholder="e.g. https://forum.olympusday.finance/..."
-              />
-            </Grid>
-          </Grid>
+          <BackButton />
+          <TextEntry inputTitle="Title" gridSize={12} handleChange={setProposalTitle} />
+          <TextEntry
+            inputTitle="Description"
+            secondaryTitle={`${proposalDescription.length}/14,400`}
+            gridSize={12}
+            handleChange={setProposalDescription}
+          />
+          <TextEntry
+            inputTitle="Discussion"
+            gridSize={12}
+            placeholder="e.g. https://forum.olympusday.finance/..."
+            handleChange={setProposalDiscussion}
+          />
           <Grid container direction="row">
-            <Grid className="create-proposal-section" container direction="column" xs={6}>
-              <Grid item>
-                <Typography variant="body2">Action</Typography>
-              </Grid>
-              <Grid item>
-                <Select className="create-proposal-section" defaultValue="installModule" fullWidth>
-                  <MenuItem value="installModule">Install Module</MenuItem>
-                  <MenuItem value="upgradeModule">Upgrade Module</MenuItem>
-                  <MenuItem value="approvePolicy">Approve Policy</MenuItem>
-                  <MenuItem value="terminatePolicy">Terminate Policy</MenuItem>
-                  <MenuItem value="changeExecutor">Change Executor</MenuItem>
-                </Select>
-              </Grid>
-            </Grid>
-            <Grid className="create-proposal-section" container direction="column" xs={6}>
-              <Grid item>
-                <Typography variant="body2">Target</Typography>
-              </Grid>
-              <Grid item>
-                <OutlinedInput className="create-proposal-input" placeholder="Contract address" />
-              </Grid>
-            </Grid>
+            {selectionInput()}
+            <TextEntry
+              inputTitle="Target"
+              placeholder="Contract address"
+              gridSize={6}
+              handleChange={setProposalContract}
+            />
           </Grid>
         </Grid>
       </Paper>

@@ -1,0 +1,17 @@
+.back-button {
+  display: flex;
+  justify-content: flex-start;
+
+  .MuiLink-root {
+    display: flex;
+    align-items: center;
+  }
+
+  .MuiButton-root {
+    padding-left: 9px;
+  }
+
+  .css-ihuj2u-MuiTypography-root-MuiLink-root.active {
+    text-decoration: none;
+  }
+}
