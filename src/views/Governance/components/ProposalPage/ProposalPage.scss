@@ -53,6 +53,32 @@
   }
 
   #simple-tabpanel-1 {
+    width: 100%;
+
+    .cast-vote-header {
+      margin-bottom: 6px;
+    }
+
+    .install-location {
+      margin-bottom: 20px;
+    }
+
+    .vote-submission-section {
+      margin-bottom: 45px;
+    }
+
+    .your-comment {
+      width: 100%;
+    }
+
+    .vote-breakdown {
+      margin-bottom: 27px;
+
+      .PaperCard-container {
+        padding: 18px;
+      }
+    }
+
     .MuiBox-root {
       padding-left: 0px;
     }

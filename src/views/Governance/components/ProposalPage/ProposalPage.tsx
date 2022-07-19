@@ -94,7 +94,7 @@ export const ProposalPage = () => {
                 {proposal.proposalName}
               </Typography>
             </Grid>
-            <Grid container direction="row">
+            <Grid container direction="row" alignItems="center">
               <Grid item>
                 <Chip label="Active" template={mapStatus("active")} strong />
               </Grid>
@@ -121,34 +121,39 @@ export const ProposalPage = () => {
             </Tabs>
 
             <TabPanel value={selectedIndex} index={0}>
-              <Grid item>
-                <Typography variant="body1">{proposal.content}</Typography>
+              <Grid container direction="column">
+                <Grid item>
+                  <Typography variant="body1">{proposal.content}</Typography>
+                </Grid>
+                <Grid className="discussion-button" item>
+                  <TextButton endIconName="arrow-up">Discussion</TextButton>
+                </Grid>
               </Grid>
             </TabPanel>
             <TabPanel value={selectedIndex} index={1}>
               <Grid container direction="column">
-                <Grid item>
+                <Grid className="cast-vote-header" item>
                   <Typography variant="h6">Cast your vote</Typography>
                 </Grid>
-                <Grid item>
-                  <Typography variant="body2">
+                <Grid className="install-location" item>
+                  <Typography variant="body2" color={theme.colors.gray[90]}>
                     Your Yes vote will be approving the policy at{" "}
                     <span style={{ color: theme.colors.gray[40] }}>this location</span>
                   </Typography>
                 </Grid>
-                <Grid container direction="row">
-                  <Grid item>
+                <Grid className="vote-submission-section" container direction="row" alignItems="center" spacing={2}>
+                  <Grid item xs={3}>
                     <Radio label="Yes" />
                     <Radio label="No" />
                   </Grid>
-                  <Grid item>
+                  <Grid item xs={6}>
                     <OutlinedInput className="your-comment" placeholder="Your comment (Optional)" />
                   </Grid>
-                  <Grid item>
-                    <PrimaryButton>Vote</PrimaryButton>
+                  <Grid item xs={3}>
+                    <PrimaryButton fullWidth>Vote</PrimaryButton>
                   </Grid>
                 </Grid>
-                <Grid item>
+                <Grid className="vote-breakdown" item>
                   <VoteBreakdown
                     voteForLabel="Yes"
                     voteAgainstLabel="No"
@@ -165,9 +170,6 @@ export const ProposalPage = () => {
                 </Grid>
               </Grid>
             </TabPanel>
-          </Grid>
-          <Grid className="discussion-button" item>
-            <TextButton endIconName="arrow-up">Discussion</TextButton>
           </Grid>
         </Grid>
       </Paper>
