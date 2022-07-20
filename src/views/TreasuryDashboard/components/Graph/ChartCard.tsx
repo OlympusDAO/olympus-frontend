@@ -13,7 +13,10 @@ type ChartCardProps = {
   expandedChart?: ReactElement;
   handleOpenExpandedChart?(): void;
   isLoading: boolean;
+  height?: number;
 };
+
+export const DEFAULT_HEIGHT = 400;
 
 export const ChartCard: React.FC<ChartCardProps> = props => {
   return (
@@ -69,7 +72,11 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
       </Grid>
       {/* We shift the Grid item left and make it wider to ensure that the x-axis labels are aligned with the header & subtext. */}
       <Grid item xs={13} marginLeft={"-10px"}>
-        {props.isLoading ? <Skeleton variant="rectangular" width="100%" height={260} /> : props.children}
+        {props.isLoading ? (
+          <Skeleton variant="rectangular" width="100%" height={props.height || DEFAULT_HEIGHT} />
+        ) : (
+          props.children
+        )}
       </Grid>
     </Grid>
   );

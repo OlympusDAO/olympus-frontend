@@ -17,7 +17,7 @@ import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalC
 import { formatCurrency, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
-import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
+import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import { ChartType, DataFormat } from "./Constants";
 import CustomTooltip from "./CustomTooltip";
@@ -696,7 +696,7 @@ function Chart({
       handleOpenExpandedChart={handleOpen}
       isLoading={isLoading}
     >
-      <ResponsiveContainer minHeight={260} height={400} width="99%">
+      <ResponsiveContainer height={DEFAULT_HEIGHT} width="99%">
         {renderChart(type, false)}
       </ResponsiveContainer>
     </ChartCard>
