@@ -46,7 +46,7 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
               </Grid>
               <Grid item>
                 {props.handleOpenExpandedChart && (
-                  <Tooltip message={t`Open in expanded view`}>
+                  <Tooltip message={t`Open in Expanded View`}>
                     <SvgIcon
                       component={Fullscreen}
                       color="primary"

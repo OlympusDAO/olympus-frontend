@@ -40,12 +40,17 @@ function ExpandedChart({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleClose, open]);
 
+  // Setting relative (percentage) values doesn't work very well with ResponsiveContainer, so we do a manual calculation.
+  const windowHeight = window.screen.height;
+  const modalHeight = 0.75 * windowHeight;
+  const chartHeight = 0.75 * modalHeight;
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
       closePosition={"right"}
-      minHeight={"50%"}
+      minHeight={modalHeight + "px"}
       maxWidth={"90%"}
       headerContent={
         <Grid container width="100%">
@@ -72,20 +77,20 @@ function ExpandedChart({
         </Grid>
       }
     >
-      <Grid container direction="column" style={{ height: "600px" }}>
-        <Grid item xs={10}>
+      <Grid container>
+        <Grid item xs={12}>
           {data && data.length > 0 && (
             /**
              * Setting the width to 99% ensures that the chart resizes correctly.
              *
              * Source: https://stackoverflow.com/a/53205850
              */
-            <ResponsiveContainer width="99%" minHeight={260} minWidth={300}>
+            <ResponsiveContainer width="99%" height={chartHeight} minWidth={300}>
               {renderChart}
             </ResponsiveContainer>
           )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12}>
           <Typography variant="h6">{infoTooltipMessage}</Typography>
         </Grid>
       </Grid>
