@@ -696,7 +696,7 @@ function Chart({
       handleOpenExpandedChart={handleOpen}
       isLoading={isLoading}
     >
-      <ResponsiveContainer minHeight={260} height={260} width="99%">
+      <ResponsiveContainer minHeight={260} height={400} width="99%">
         {renderChart(type, false)}
       </ResponsiveContainer>
     </ChartCard>
