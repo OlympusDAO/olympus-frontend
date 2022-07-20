@@ -332,6 +332,12 @@ export type ProtocolMetric = {
   treasuryLiquidBackingComponents: TokenRecords;
   treasuryLiquidBackingPerOhmCirculating: Scalars["BigDecimal"];
   treasuryLiquidBackingPerOhmFloating: Scalars["BigDecimal"];
+  treasuryLiquidBackingProtocolOwnedLiquidity: Scalars["BigDecimal"];
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents: TokenRecords;
+  treasuryLiquidBackingStable: Scalars["BigDecimal"];
+  treasuryLiquidBackingStableComponents: TokenRecords;
+  treasuryLiquidBackingVolatile: Scalars["BigDecimal"];
+  treasuryLiquidBackingVolatileComponents: TokenRecords;
   treasuryLusdMarketValue: Scalars["BigDecimal"];
   treasuryLusdMarketValueComponents: TokenRecords;
   treasuryLusdRiskFreeValue: Scalars["BigDecimal"];
@@ -344,6 +350,8 @@ export type ProtocolMetric = {
   treasuryOhmLusdPOL: Scalars["BigDecimal"];
   treasuryOtherMarketValue: Scalars["BigDecimal"];
   treasuryOtherMarketValueComponents: TokenRecords;
+  treasuryProtocolOwnedLiquidityBacking: Scalars["BigDecimal"];
+  treasuryProtocolOwnedLiquidityBackingComponents: TokenRecords;
   treasuryRiskFreeValue: Scalars["BigDecimal"];
   treasuryRiskFreeValueComponents: TokenRecords;
   treasuryStableBacking: Scalars["BigDecimal"];
@@ -924,6 +932,93 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBackingPerOhmFloating_lte?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingPerOhmFloating_not?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingPerOhmFloating_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingProtocolOwnedLiquidity?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_gt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_gte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_lt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_lte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_not?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingProtocolOwnedLiquidity_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingStable?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStableComponents?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingStableComponents_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_gt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_gte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingStableComponents_lt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_lte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingStableComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStableComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingStable_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStable_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStable_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingStable_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStable_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStable_not?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingStable_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingVolatile?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatileComponents?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingVolatileComponents_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_gt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_gte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingVolatileComponents_lt?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_lte?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_contains?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryLiquidBackingVolatileComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatileComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingVolatile_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatile_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatile_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingVolatile_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatile_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatile_not?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingVolatile_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
@@ -1079,6 +1174,35 @@ export type ProtocolMetric_Filter = {
   treasuryOtherMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryOtherMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryOtherMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryProtocolOwnedLiquidityBacking?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryProtocolOwnedLiquidityBackingComponents_contains?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_gt?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_gte?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryProtocolOwnedLiquidityBackingComponents_lt?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_lte?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryProtocolOwnedLiquidityBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryProtocolOwnedLiquidityBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryProtocolOwnedLiquidityBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
   treasuryRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
@@ -1450,6 +1574,12 @@ export enum ProtocolMetric_OrderBy {
   TreasuryLiquidBackingComponents = "treasuryLiquidBackingComponents",
   TreasuryLiquidBackingPerOhmCirculating = "treasuryLiquidBackingPerOhmCirculating",
   TreasuryLiquidBackingPerOhmFloating = "treasuryLiquidBackingPerOhmFloating",
+  TreasuryLiquidBackingProtocolOwnedLiquidity = "treasuryLiquidBackingProtocolOwnedLiquidity",
+  TreasuryLiquidBackingProtocolOwnedLiquidityComponents = "treasuryLiquidBackingProtocolOwnedLiquidityComponents",
+  TreasuryLiquidBackingStable = "treasuryLiquidBackingStable",
+  TreasuryLiquidBackingStableComponents = "treasuryLiquidBackingStableComponents",
+  TreasuryLiquidBackingVolatile = "treasuryLiquidBackingVolatile",
+  TreasuryLiquidBackingVolatileComponents = "treasuryLiquidBackingVolatileComponents",
   TreasuryLusdMarketValue = "treasuryLusdMarketValue",
   TreasuryLusdMarketValueComponents = "treasuryLusdMarketValueComponents",
   TreasuryLusdRiskFreeValue = "treasuryLusdRiskFreeValue",
@@ -1462,6 +1592,8 @@ export enum ProtocolMetric_OrderBy {
   TreasuryOhmLusdPol = "treasuryOhmLusdPOL",
   TreasuryOtherMarketValue = "treasuryOtherMarketValue",
   TreasuryOtherMarketValueComponents = "treasuryOtherMarketValueComponents",
+  TreasuryProtocolOwnedLiquidityBacking = "treasuryProtocolOwnedLiquidityBacking",
+  TreasuryProtocolOwnedLiquidityBackingComponents = "treasuryProtocolOwnedLiquidityBackingComponents",
   TreasuryRiskFreeValue = "treasuryRiskFreeValue",
   TreasuryRiskFreeValueComponents = "treasuryRiskFreeValueComponents",
   TreasuryStableBacking = "treasuryStableBacking",
@@ -2208,6 +2340,52 @@ export type MarketValueMetricsComponentsQuery = {
   }>;
 };
 
+export type LiquidBackingMetricsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type LiquidBackingMetricsQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    timestamp: any;
+    timestampISO8901: string;
+    treasuryLiquidBacking: any;
+    treasuryLiquidBackingStable: any;
+    treasuryLiquidBackingVolatile: any;
+    treasuryLiquidBackingProtocolOwnedLiquidity: any;
+  }>;
+};
+
+export type LiquidBackingMetricsComponentsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type LiquidBackingMetricsComponentsQuery = {
+  __typename?: "Query";
+  protocolMetrics: Array<{
+    __typename?: "ProtocolMetric";
+    id: string;
+    block: any;
+    timestamp: any;
+    timestampISO8901: string;
+    treasuryLiquidBackingStableComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+    treasuryLiquidBackingVolatileComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+    treasuryLiquidBackingProtocolOwnedLiquidityComponents: {
+      __typename?: "TokenRecords";
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+    };
+  }>;
+};
+
 export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{
   records?: InputMaybe<Scalars["Int"]>;
 }>;
@@ -2376,6 +2554,78 @@ export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsC
       dataSource.endpoint,
       dataSource.fetchParams || {},
       MarketValueMetricsComponentsDocument,
+      variables,
+    ),
+    options,
+  );
+export const LiquidBackingMetricsDocument = `
+    query LiquidBackingMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryLiquidBacking
+    treasuryLiquidBackingStable
+    treasuryLiquidBackingVolatile
+    treasuryLiquidBackingProtocolOwnedLiquidity
+  }
+}
+    `;
+export const useLiquidBackingMetricsQuery = <TData = LiquidBackingMetricsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: LiquidBackingMetricsQueryVariables,
+  options?: UseQueryOptions<LiquidBackingMetricsQuery, TError, TData>,
+) =>
+  useQuery<LiquidBackingMetricsQuery, TError, TData>(
+    variables === undefined ? ["LiquidBackingMetrics"] : ["LiquidBackingMetrics", variables],
+    fetcher<LiquidBackingMetricsQuery, LiquidBackingMetricsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      LiquidBackingMetricsDocument,
+      variables,
+    ),
+    options,
+  );
+export const LiquidBackingMetricsComponentsDocument = `
+    query LiquidBackingMetricsComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryLiquidBackingStableComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLiquidBackingVolatileComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLiquidBackingProtocolOwnedLiquidityComponents {
+      records {
+        token
+        value
+      }
+    }
+  }
+}
+    `;
+export const useLiquidBackingMetricsComponentsQuery = <TData = LiquidBackingMetricsComponentsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: LiquidBackingMetricsComponentsQueryVariables,
+  options?: UseQueryOptions<LiquidBackingMetricsComponentsQuery, TError, TData>,
+) =>
+  useQuery<LiquidBackingMetricsComponentsQuery, TError, TData>(
+    variables === undefined ? ["LiquidBackingMetricsComponents"] : ["LiquidBackingMetricsComponents", variables],
+    fetcher<LiquidBackingMetricsComponentsQuery, LiquidBackingMetricsComponentsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      LiquidBackingMetricsComponentsDocument,
       variables,
     ),
     options,
