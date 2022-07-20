@@ -11,6 +11,7 @@ import {
   MarketValueMetricsDocument,
   ProtocolOwnedLiquidityComponentsDocument,
   useKeyMetricsQuery,
+  useLiquidBackingMetricsQuery,
   useMarketValueMetricsComponentsQuery,
   useMarketValueMetricsQuery,
   useProtocolOwnedLiquidityComponentsQuery,
@@ -26,7 +27,7 @@ import {
   reduceKeysTokenSummary,
   renameToken,
 } from "src/helpers/ProtocolMetricsHelper";
-import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
+import { ChartCard, ToggleCallback } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -111,31 +112,58 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
 
   const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
   const dataKeys: string[] = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
+  const liquidBackingDataKeys: string[] = [
+    "treasuryLiquidBackingStable",
+    "treasuryLiquidBackingVolatile",
+    "treasuryLiquidBackingProtocolOwnedLiquidity",
+  ];
 
-  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
+  const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
+
+  const { data: marketValueData } = useMarketValueMetricsQuery(
+    { endpoint: getSubgraphUrl() },
+    { records: count },
+    QUERY_OPTIONS,
+  );
+  const { data: liquidBackingData } = useLiquidBackingMetricsQuery(
+    { endpoint: getSubgraphUrl() },
+    { records: count },
+    QUERY_OPTIONS,
+  );
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
 
+  const handleToggle: ToggleCallback = (event, newValue): void => {
+    // TODO fix this
+    setIsLiquidBackingActive(!isLiquidBackingActive);
+  };
+
+  const selectedData = isLiquidBackingActive ? liquidBackingData : marketValueData;
+  console.log("selectedData = " + JSON.stringify(selectedData?.protocolMetrics[0]));
+
+  const selectedDataKeys = isLiquidBackingActive ? liquidBackingDataKeys : dataKeys;
+
   return (
     <Chart
       type={ChartType.StackedArea}
-      data={data ? data.protocolMetrics : []}
-      dataKey={dataKeys}
+      data={selectedData ? selectedData.protocolMetrics : []}
+      dataKey={selectedDataKeys}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Market Value of Treasury Assets`}
-      headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryMarketValue)}`}
+      headerSubText={""} // TODO fix
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       infoTooltipMessage={t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`}
-      isLoading={!data}
+      isLoading={!selectedData}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
+      handleToggle={handleToggle}
     />
   );
 };

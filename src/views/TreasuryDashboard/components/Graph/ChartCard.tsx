@@ -1,9 +1,13 @@
 import { t } from "@lingui/macro";
-import { Grid, Link, Skeleton, SvgIcon, Typography } from "@mui/material";
+import { Grid, Link, Skeleton, SvgIcon, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { InfoTooltip, Tooltip } from "@olympusdao/component-library";
 import { ReactElement } from "react";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
+
+export interface ToggleCallback {
+  (event: React.MouseEvent<HTMLElement>, newValue: string | null): void;
+}
 
 type ChartCardProps = {
   headerText: string;
@@ -14,6 +18,7 @@ type ChartCardProps = {
   handleOpenExpandedChart?(): void;
   isLoading: boolean;
   height?: number;
+  handleToggle?: ToggleCallback;
 };
 
 export const DEFAULT_HEIGHT = 400;
@@ -35,6 +40,14 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
           </Grid>
           <Grid item xs={1}>
             <Grid container spacing={1} justifyContent="flex-end">
+              <Grid item>
+                {props.handleToggle && (
+                  <ToggleButtonGroup exclusive onChange={props.handleToggle}>
+                    <ToggleButton value="1">1</ToggleButton>
+                    <ToggleButton value="2">2</ToggleButton>
+                  </ToggleButtonGroup>
+                )}
+              </Grid>
               <Grid item>
                 {props.subgraphQueryUrl && (
                   <Link href={props.subgraphQueryUrl} target="_blank" rel="noopener noreferrer">

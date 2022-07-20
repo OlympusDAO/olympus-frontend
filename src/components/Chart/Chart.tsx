@@ -17,7 +17,7 @@ import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalC
 import { formatCurrency, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
-import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
+import { ChartCard, DEFAULT_HEIGHT, ToggleCallback } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import { ChartType, DataFormat } from "./Constants";
 import CustomTooltip from "./CustomTooltip";
@@ -516,6 +516,7 @@ function Chart({
   itemDecimals,
   subgraphQueryUrl,
   displayTooltipTotal,
+  handleToggle,
 }: {
   type: ChartType;
   data: any[];
@@ -534,6 +535,7 @@ function Chart({
   itemDecimals?: number;
   subgraphQueryUrl?: string;
   displayTooltipTotal?: boolean;
+  handleToggle?: ToggleCallback;
 }) {
   const [open, setOpen] = useState(false);
   const [maximumYValue, setMaximumYValue] = useState(0.0);
@@ -695,6 +697,7 @@ function Chart({
       expandedChart={expandedChart}
       handleOpenExpandedChart={handleOpen}
       isLoading={isLoading}
+      handleToggle={handleToggle}
     >
       <ResponsiveContainer height={DEFAULT_HEIGHT} width="99%">
         {renderChart(type, false)}
