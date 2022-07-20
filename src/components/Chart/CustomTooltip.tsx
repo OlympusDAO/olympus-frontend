@@ -43,8 +43,13 @@ const renderItem = (type: DataFormat, item: number, decimals = 0) => {
   return <Typography variant="body2">{formatText(type, item, decimals)}</Typography>;
 };
 
-const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[]) => {
+const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[], totalExcludesDataKeys: string[] | undefined) => {
   const total = payload.reduce((prev, current) => {
+    // Skip ignored data keys
+    if (totalExcludesDataKeys && totalExcludesDataKeys.includes(current.dataKey)) {
+      return prev;
+    }
+
     return prev + getFloat(current.value);
   }, 0);
 
@@ -65,6 +70,7 @@ const renderTooltipItems = (
   dataKey: string[],
   itemDecimals = 0,
   displayTotal = false,
+  totalExcludesDataKeys?: string[],
 ) => {
   let ignoredIndex = 0;
 
@@ -92,6 +98,8 @@ const renderTooltipItems = (
           ...bulletpointColors.get(item.dataKey),
         };
 
+        // TODO shift totalExcludesDataKeys elements below total
+
         return (
           <Grid
             item
@@ -114,7 +122,7 @@ const renderTooltipItems = (
           </Grid>
         );
       })}
-      {displayTotal && renderTotal(dataFormat, payload)}
+      {displayTotal && renderTotal(dataFormat, payload, totalExcludesDataKeys)}
     </Grid>
   );
 };
@@ -137,6 +145,7 @@ function CustomTooltip({
   dataKey,
   itemDecimals,
   displayTotal,
+  totalExcludesDataKeys,
 }: {
   active?: boolean;
   payload?: TooltipPayloadItem[];
@@ -146,6 +155,7 @@ function CustomTooltip({
   dataKey: string[];
   itemDecimals?: number;
   displayTotal?: boolean;
+  totalExcludesDataKeys?: string[];
 }) {
   const theme = useTheme();
 
@@ -159,7 +169,16 @@ function CustomTooltip({
           background: theme.palette.background.paper,
         }}
       >
-        {renderTooltipItems(payload, bulletpointColors, categories, dataFormat, dataKey, itemDecimals, displayTotal)}
+        {renderTooltipItems(
+          payload,
+          bulletpointColors,
+          categories,
+          dataFormat,
+          dataKey,
+          itemDecimals,
+          displayTotal,
+          totalExcludesDataKeys,
+        )}
       </Paper>
     );
   }

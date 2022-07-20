@@ -45,6 +45,10 @@ query MarketValueMetrics($records: Int = 100) {
     treasuryStableValue
     treasuryVolatileValue
     treasuryLPValue
+    treasuryLiquidBacking
+    treasuryLiquidBackingStable
+    treasuryLiquidBackingVolatile
+    treasuryLiquidBackingProtocolOwnedLiquidity
   }
 }
 
@@ -72,28 +76,6 @@ query MarketValueMetricsComponents($records: Int = 100) {
         value
       }
     }
-  }
-}
-
-query LiquidBackingMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryLiquidBacking
-    treasuryLiquidBackingStable
-    treasuryLiquidBackingVolatile
-    treasuryLiquidBackingProtocolOwnedLiquidity
-  }
-}
-
-query LiquidBackingMetricsComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
     treasuryLiquidBackingStableComponents {
       records {
         token

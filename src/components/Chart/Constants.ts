@@ -12,4 +12,5 @@ export enum ChartType {
   StackedArea,
   Bar,
   AreaDifference,
+  Composed,
 }

@@ -208,6 +208,113 @@ const renderStackedAreaChart = (
   </AreaChart>
 );
 
+/**
+ * Renders a composed (area & line) chart.
+ *
+ *
+ * @param data
+ * @param dataKey string array with all of the dataKeys that should be rendered
+ * @param stroke
+ * @param dataFormat
+ * @param bulletpointColors
+ * @param categories
+ * @param isExpanded
+ * @param margin
+ * @param tickStyle
+ * @param maximumYValue
+ * @param displayTooltipTotal
+ * @param composedDataKeys optional string array with the dataKeys that should be rendered as lines
+ * @returns
+ */
+const renderComposedChart = (
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  dataFormat: DataFormat,
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  displayTooltipTotal?: boolean,
+  composedDataKeys?: string[],
+) => (
+  <ComposedChart data={data} margin={margin}>
+    <defs>
+      {dataKey.map((value: string, index: number) => {
+        return (
+          <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
+            <stop offset="100%" stopColor={stroke[index]} stopOpacity={0.2} />
+          </linearGradient>
+        );
+      })}
+    </defs>
+    <XAxis
+      dataKey="timestamp"
+      interval={TICK_INTERVAL_XAXIS}
+      axisLine={false}
+      tick={tickStyle}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      reversed={true}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
+    />
+    <YAxis
+      axisLine={false}
+      width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tick={tickStyle}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+      tickLine={false}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
+      domain={[0, maximumYValue]}
+      allowDataOverflow={false}
+    />
+    <Tooltip
+      formatter={(value: string) => trim(parseFloat(value), 2)}
+      content={
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          categories={categories}
+          dataFormat={dataFormat}
+          dataKey={dataKey}
+          totalExcludesDataKeys={composedDataKeys}
+          displayTotal={displayTooltipTotal}
+        />
+      }
+    />
+    {dataKey.map((value: string, index: number) => {
+      /**
+       * Any elements in the composed data keys are rendered as values
+       * on a dashed, thick line.
+       */
+      if (composedDataKeys && composedDataKeys.includes(value)) {
+        return (
+          <Line
+            dataKey={value}
+            stroke={stroke ? stroke[index] : "none"}
+            fill={`url(#color-${getValidCSSSelector(value)})`}
+            dot={false}
+            strokeWidth={4}
+            strokeDasharray={"4 1"}
+          />
+        );
+      }
+
+      return (
+        <Area
+          dataKey={value}
+          stroke={stroke ? stroke[index] : "none"}
+          fill={`url(#color-${getValidCSSSelector(value)})`}
+          fillOpacity={1}
+          stackId="1"
+        />
+      );
+    })}
+  </ComposedChart>
+);
+
 const renderLineChart = (
   data: any[],
   dataKey: string[],
@@ -516,6 +623,7 @@ function Chart({
   itemDecimals,
   subgraphQueryUrl,
   displayTooltipTotal,
+  composedDataKeys,
   handleToggle,
 }: {
   type: ChartType;
@@ -535,6 +643,7 @@ function Chart({
   itemDecimals?: number;
   subgraphQueryUrl?: string;
   displayTooltipTotal?: boolean;
+  composedDataKeys?: string[];
   handleToggle?: ToggleCallback;
 }) {
   const [open, setOpen] = useState(false);
@@ -661,6 +770,22 @@ function Chart({
           tickStyle,
           maximumYValue,
           displayTooltipTotal,
+        );
+      }
+      case ChartType.Composed: {
+        return renderComposedChart(
+          data,
+          dataKey,
+          stroke,
+          dataFormat,
+          bulletpointColors,
+          categories,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+          composedDataKeys,
         );
       }
       default: {

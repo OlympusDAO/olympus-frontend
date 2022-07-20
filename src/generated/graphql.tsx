@@ -2310,6 +2310,10 @@ export type MarketValueMetricsQuery = {
     treasuryStableValue: any;
     treasuryVolatileValue: any;
     treasuryLPValue: any;
+    treasuryLiquidBacking: any;
+    treasuryLiquidBackingStable: any;
+    treasuryLiquidBackingVolatile: any;
+    treasuryLiquidBackingProtocolOwnedLiquidity: any;
   }>;
 };
 
@@ -2337,40 +2341,6 @@ export type MarketValueMetricsComponentsQuery = {
       __typename?: "TokenRecords";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
     };
-  }>;
-};
-
-export type LiquidBackingMetricsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
-}>;
-
-export type LiquidBackingMetricsQuery = {
-  __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
-    id: string;
-    block: any;
-    timestamp: any;
-    timestampISO8901: string;
-    treasuryLiquidBacking: any;
-    treasuryLiquidBackingStable: any;
-    treasuryLiquidBackingVolatile: any;
-    treasuryLiquidBackingProtocolOwnedLiquidity: any;
-  }>;
-};
-
-export type LiquidBackingMetricsComponentsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
-}>;
-
-export type LiquidBackingMetricsComponentsQuery = {
-  __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
-    id: string;
-    block: any;
-    timestamp: any;
-    timestampISO8901: string;
     treasuryLiquidBackingStableComponents: {
       __typename?: "TokenRecords";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
@@ -2497,6 +2467,10 @@ export const MarketValueMetricsDocument = `
     treasuryStableValue
     treasuryVolatileValue
     treasuryLPValue
+    treasuryLiquidBacking
+    treasuryLiquidBackingStable
+    treasuryLiquidBackingVolatile
+    treasuryLiquidBackingProtocolOwnedLiquidity
   }
 }
     `;
@@ -2540,60 +2514,6 @@ export const MarketValueMetricsComponentsDocument = `
         value
       }
     }
-  }
-}
-    `;
-export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsComponentsQuery, TError = unknown>(
-  dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: MarketValueMetricsComponentsQueryVariables,
-  options?: UseQueryOptions<MarketValueMetricsComponentsQuery, TError, TData>,
-) =>
-  useQuery<MarketValueMetricsComponentsQuery, TError, TData>(
-    variables === undefined ? ["MarketValueMetricsComponents"] : ["MarketValueMetricsComponents", variables],
-    fetcher<MarketValueMetricsComponentsQuery, MarketValueMetricsComponentsQueryVariables>(
-      dataSource.endpoint,
-      dataSource.fetchParams || {},
-      MarketValueMetricsComponentsDocument,
-      variables,
-    ),
-    options,
-  );
-export const LiquidBackingMetricsDocument = `
-    query LiquidBackingMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryLiquidBacking
-    treasuryLiquidBackingStable
-    treasuryLiquidBackingVolatile
-    treasuryLiquidBackingProtocolOwnedLiquidity
-  }
-}
-    `;
-export const useLiquidBackingMetricsQuery = <TData = LiquidBackingMetricsQuery, TError = unknown>(
-  dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: LiquidBackingMetricsQueryVariables,
-  options?: UseQueryOptions<LiquidBackingMetricsQuery, TError, TData>,
-) =>
-  useQuery<LiquidBackingMetricsQuery, TError, TData>(
-    variables === undefined ? ["LiquidBackingMetrics"] : ["LiquidBackingMetrics", variables],
-    fetcher<LiquidBackingMetricsQuery, LiquidBackingMetricsQueryVariables>(
-      dataSource.endpoint,
-      dataSource.fetchParams || {},
-      LiquidBackingMetricsDocument,
-      variables,
-    ),
-    options,
-  );
-export const LiquidBackingMetricsComponentsDocument = `
-    query LiquidBackingMetricsComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
     treasuryLiquidBackingStableComponents {
       records {
         token
@@ -2615,17 +2535,17 @@ export const LiquidBackingMetricsComponentsDocument = `
   }
 }
     `;
-export const useLiquidBackingMetricsComponentsQuery = <TData = LiquidBackingMetricsComponentsQuery, TError = unknown>(
+export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsComponentsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: LiquidBackingMetricsComponentsQueryVariables,
-  options?: UseQueryOptions<LiquidBackingMetricsComponentsQuery, TError, TData>,
+  variables?: MarketValueMetricsComponentsQueryVariables,
+  options?: UseQueryOptions<MarketValueMetricsComponentsQuery, TError, TData>,
 ) =>
-  useQuery<LiquidBackingMetricsComponentsQuery, TError, TData>(
-    variables === undefined ? ["LiquidBackingMetricsComponents"] : ["LiquidBackingMetricsComponents", variables],
-    fetcher<LiquidBackingMetricsComponentsQuery, LiquidBackingMetricsComponentsQueryVariables>(
+  useQuery<MarketValueMetricsComponentsQuery, TError, TData>(
+    variables === undefined ? ["MarketValueMetricsComponents"] : ["MarketValueMetricsComponents", variables],
+    fetcher<MarketValueMetricsComponentsQuery, MarketValueMetricsComponentsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      LiquidBackingMetricsComponentsDocument,
+      MarketValueMetricsComponentsDocument,
       variables,
     ),
     options,

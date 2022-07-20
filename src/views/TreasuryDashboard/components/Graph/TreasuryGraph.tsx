@@ -11,7 +11,6 @@ import {
   MarketValueMetricsDocument,
   ProtocolOwnedLiquidityComponentsDocument,
   useKeyMetricsQuery,
-  useLiquidBackingMetricsQuery,
   useMarketValueMetricsComponentsQuery,
   useMarketValueMetricsQuery,
   useProtocolOwnedLiquidityComponentsQuery,
@@ -110,27 +109,34 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
 export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
-  const itemNames: string[] = [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`];
-  const dataKeys: string[] = ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"];
-  const liquidBackingDataKeys: string[] = [
-    "treasuryLiquidBackingStable",
-    "treasuryLiquidBackingVolatile",
-    "treasuryLiquidBackingProtocolOwnedLiquidity",
-  ];
-
   const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
 
-  const { data: marketValueData } = useMarketValueMetricsQuery(
-    { endpoint: getSubgraphUrl() },
-    { records: count },
-    QUERY_OPTIONS,
-  );
-  const { data: liquidBackingData } = useLiquidBackingMetricsQuery(
-    { endpoint: getSubgraphUrl() },
-    { records: count },
-    QUERY_OPTIONS,
-  );
+  // What is displayed in the chart differs based on the value of isLiquidBackingActive
+  const itemNames: string[] = [
+    t`Stablecoins`,
+    t`Volatile Assets`,
+    t`Protocol-Owned Liquidity`,
+    ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
+  ];
+  const dataKeys: string[] = isLiquidBackingActive
+    ? [
+        "treasuryLiquidBackingStable",
+        "treasuryLiquidBackingVolatile",
+        "treasuryLiquidBackingProtocolOwnedLiquidity",
+        "treasuryMarketValue",
+      ]
+    : ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue", "treasuryLiquidBacking"];
+  // The keys to display as a line
+  const composedDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
+
+  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
+
+  const headerSubtext = data
+    ? isLiquidBackingActive
+      ? formatCurrency(data.protocolMetrics[0].treasuryLiquidBacking)
+      : formatCurrency(data.protocolMetrics[0].treasuryMarketValue)
+    : "";
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
@@ -141,29 +147,29 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
     setIsLiquidBackingActive(!isLiquidBackingActive);
   };
 
-  const selectedData = isLiquidBackingActive ? liquidBackingData : marketValueData;
-  console.log("selectedData = " + JSON.stringify(selectedData?.protocolMetrics[0]));
-
-  const selectedDataKeys = isLiquidBackingActive ? liquidBackingDataKeys : dataKeys;
-
   return (
     <Chart
-      type={ChartType.StackedArea}
-      data={selectedData ? selectedData.protocolMetrics : []}
-      dataKey={selectedDataKeys}
+      type={ChartType.Composed}
+      data={data ? data.protocolMetrics : []}
+      dataKey={dataKeys}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
-      headerText={t`Market Value of Treasury Assets`}
-      headerSubText={""} // TODO fix
+      headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
+      headerSubText={headerSubtext}
       bulletpointColors={colorsMap}
       categories={categoriesMap}
-      infoTooltipMessage={t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`}
-      isLoading={!selectedData}
+      infoTooltipMessage={
+        isLiquidBackingActive
+          ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
+          : t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`
+      }
+      isLoading={!data}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
       handleToggle={handleToggle}
+      composedDataKeys={composedDataKeys}
     />
   );
 };
