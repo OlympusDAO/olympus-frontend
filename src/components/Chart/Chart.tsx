@@ -280,7 +280,7 @@ const isLineOneHigher = (data: any[], keys: string[]): boolean => {
   return data[0][keys[0]] > data[0][keys[1]];
 };
 
-const renderComposedChart = (
+const renderAreaDifferenceChart = (
   data: any[],
   dataKey: string[],
   stroke: string[],
@@ -632,8 +632,8 @@ function Chart({
           displayTooltipTotal,
         );
       }
-      case ChartType.ComposedArea: {
-        return renderComposedChart(
+      case ChartType.AreaDifference: {
+        return renderAreaDifferenceChart(
           data,
           dataKey,
           stroke,

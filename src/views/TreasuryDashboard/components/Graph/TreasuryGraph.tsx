@@ -88,7 +88,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
 
   return (
     <Chart
-      type={ChartType.ComposedArea}
+      type={ChartType.AreaDifference}
       data={data ? data.protocolMetrics : []}
       dataKey={dataKeys}
       stroke={DEFAULT_COLORS}
