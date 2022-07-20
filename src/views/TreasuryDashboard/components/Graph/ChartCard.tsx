@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Grid, Link, Skeleton, SvgIcon, Tooltip, Typography } from "@mui/material";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { Grid, Link, Skeleton, SvgIcon, Typography } from "@mui/material";
+import { InfoTooltip, Tooltip } from "@olympusdao/component-library";
 import { ReactElement } from "react";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
@@ -35,7 +35,7 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
               <Grid item>
                 {props.subgraphQueryUrl && (
                   <Link href={props.subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                    <Tooltip title={t`Open Subgraph Query`}>
+                    <Tooltip message={t`Open Subgraph Query`}>
                       <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                     </Tooltip>
                   </Link>
@@ -43,7 +43,7 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
               </Grid>
               <Grid item>
                 {props.handleOpenExpandedChart && (
-                  <Tooltip title={t`Open in expanded view`}>
+                  <Tooltip message={t`Open in expanded view`}>
                     <SvgIcon
                       component={Fullscreen}
                       color="primary"
