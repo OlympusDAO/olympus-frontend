@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Tooltip, Typography } from "@mui/material";
-import { Modal } from "@olympusdao/component-library";
+import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { Modal, Tooltip } from "@olympusdao/component-library";
 import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
@@ -63,7 +63,7 @@ function ExpandedChart({
           {subgraphQueryUrl && (
             <Grid item xs textAlign="right" marginRight="15px">
               <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                <Tooltip title={t`Open Subgraph Query`}>
+                <Tooltip message={t`Open Subgraph Query`}>
                   <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                 </Tooltip>
               </Link>
