@@ -62,6 +62,38 @@ const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[], totalExclu
   );
 };
 
+const renderItemContainer = (
+  bulletpointStyle: CSSProperties,
+  bulletpointColors: Map<string, CSSProperties>,
+  categories: Map<string, string>,
+  dataFormat: DataFormat,
+  itemDecimals: number,
+  index: number,
+  item: TooltipPayloadItem,
+) => {
+  return (
+    <Grid
+      item
+      container
+      xs={12}
+      alignContent="center"
+      justifyContent="space-between"
+      style={{ marginBottom: "10px" }}
+      key={index}
+    >
+      <Grid item xs={8} alignContent="center">
+        <span style={{ ...bulletpointStyle, ...bulletpointColors.get(item.dataKey) }}></span>
+        <Typography variant="body2" display="inline">
+          {`${categories.get(item.dataKey)}`}
+        </Typography>
+      </Grid>
+      <Grid item xs={4} textAlign="right">
+        {renderItem(dataFormat, item.value, itemDecimals)}
+      </Grid>
+    </Grid>
+  );
+};
+
 const renderTooltipItems = (
   payload: TooltipPayloadItem[],
   bulletpointColors: Map<string, CSSProperties>,
@@ -73,6 +105,14 @@ const renderTooltipItems = (
   totalExcludesDataKeys?: string[],
 ) => {
   let ignoredIndex = 0;
+  const bulletpointStyle = {
+    display: "inline-block",
+    width: "1em",
+    height: "1em",
+    borderRadius: "50%",
+    marginRight: "5px",
+    verticalAlign: "top",
+  };
 
   return (
     <Grid container xs={12} padding={"20px"}>
@@ -82,47 +122,49 @@ const renderTooltipItems = (
          * The "range" area element triggers showing a tooltip. To avoid this,
          * we restrict the tooltips to those included in the {dataKey} array.
          */
-        if (!dataKey.includes(item.dataKey)) {
+        if (
+          !dataKey.includes(item.dataKey) ||
+          (totalExcludesDataKeys && totalExcludesDataKeys.includes(item.dataKey))
+        ) {
           ignoredIndex++;
           return <></>;
         }
 
         const adjustedIndex = index - ignoredIndex;
-        const bulletpointStyle = {
-          display: "inline-block",
-          width: "1em",
-          height: "1em",
-          borderRadius: "50%",
-          marginRight: "5px",
-          verticalAlign: "top",
-          ...bulletpointColors.get(item.dataKey),
-        };
 
-        // TODO shift totalExcludesDataKeys elements below total
-
-        return (
-          <Grid
-            item
-            container
-            xs={12}
-            alignContent="center"
-            justifyContent="space-between"
-            style={{ marginBottom: "10px" }}
-            key={adjustedIndex}
-          >
-            <Grid item xs={8} alignContent="center">
-              <span style={bulletpointStyle}></span>
-              <Typography variant="body2" display="inline">
-                {`${categories.get(item.dataKey)}`}
-              </Typography>
-            </Grid>
-            <Grid item xs={4} textAlign="right">
-              {renderItem(dataFormat, item.value, itemDecimals)}
-            </Grid>
-          </Grid>
+        return renderItemContainer(
+          bulletpointStyle,
+          bulletpointColors,
+          categories,
+          dataFormat,
+          itemDecimals,
+          adjustedIndex,
+          item,
         );
       })}
       {displayTotal && renderTotal(dataFormat, payload, totalExcludesDataKeys)}
+      <Grid item xs={12} marginBottom="20px" />
+      {
+        // Display elements of totalExcludesDataKeys below the total
+        payload.map((item, index) => {
+          if (!totalExcludesDataKeys || !totalExcludesDataKeys.includes(item.dataKey)) {
+            ignoredIndex++;
+            return <></>;
+          }
+
+          const adjustedIndex = index - ignoredIndex;
+
+          return renderItemContainer(
+            bulletpointStyle,
+            bulletpointColors,
+            categories,
+            dataFormat,
+            itemDecimals,
+            adjustedIndex,
+            item,
+          );
+        })
+      }
     </Grid>
   );
 };
