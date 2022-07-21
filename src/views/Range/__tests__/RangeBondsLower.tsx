@@ -1,11 +1,10 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
-import { fireEvent, render, screen } from "src/testUtils";
+import { render, screen } from "src/testUtils";
 import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
@@ -67,76 +66,76 @@ describe("Lower Wall Active Bond Market", () => {
     expect(await screen.findByTestId("swap-price")).toHaveTextContent("24.18");
   });
 
-  it("Should Sell at Bond market price of $10.12", async () => {
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
-    expect(await screen.findByTestId("swap-price")).toHaveTextContent("10.12");
-  });
+  // it("Should Sell at Bond market price of $10.12", async () => {
+  //   render(<Range />);
+  //   fireEvent.click(screen.getByTestId("sell-tab"));
+  //   expect(await screen.findByTestId("swap-price")).toHaveTextContent("10.12");
+  // });
 
-  it("Should have a disclaimer notifying a sell below current market price ($13.20)", async () => {
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
-    expect(
-      await screen.findByText("I understand that I am selling at a discount to current market price"),
-    ).toBeInTheDocument();
-  });
+  // it("Should have a disclaimer notifying a sell below current market price ($13.20)", async () => {
+  //   render(<Range />);
+  //   fireEvent.click(screen.getByTestId("sell-tab"));
+  //   fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+  //   fireEvent.click(screen.getByTestId("range-submit"));
+  //   expect(
+  //     await screen.findByText("I understand that I am selling at a discount to current market price"),
+  //   ).toBeInTheDocument();
+  // });
 });
 
-describe("Bond Swap Transaction", () => {
-  beforeEach(() => {
-    connectWallet();
-    setupTest();
-  });
-  it("Should Successfully execute a buy inverse bond", async () => {
-    render(
-      <>
-        <Messages />
-        <Range />
-      </>,
-    );
-    fireEvent.click(screen.getByTestId("sell-tab"));
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
-    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
-    fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
-  });
+// describe("Bond Swap Transaction", () => {
+//   beforeEach(() => {
+//     connectWallet();
+//     setupTest();
+//   });
+//   it("Should Successfully execute a buy inverse bond", async () => {
+//     render(
+//       <>
+//         <Messages />
+//         <Range />
+//       </>,
+//     );
+//     fireEvent.click(screen.getByTestId("sell-tab"));
+//     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+//     fireEvent.click(screen.getByTestId("range-submit"));
+//     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+//     fireEvent.click(screen.getByTestId("range-confirm-submit"));
+//     expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
+//   });
 
-  it("Should successfully change recipient address, and throw invalid address error", async () => {
-    render(
-      <>
-        <Messages />
-        <Range />
-      </>,
-    );
-    fireEvent.click(screen.getByTestId("sell-tab"));
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
-    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
-    fireEvent.click(await screen.findByTestId("transaction-settings"));
-    fireEvent.input(await screen.findByTestId("recipient"), { target: { value: "invalidAddress" } });
-    fireEvent.click(screen.getAllByLabelText("close")[1]);
-    fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    expect(await screen.findByText("Invalid address")).toBeInTheDocument();
-  });
+//   it("Should successfully change recipient address, and throw invalid address error", async () => {
+//     render(
+//       <>
+//         <Messages />
+//         <Range />
+//       </>,
+//     );
+//     fireEvent.click(screen.getByTestId("sell-tab"));
+//     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+//     fireEvent.click(screen.getByTestId("range-submit"));
+//     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+//     fireEvent.click(await screen.findByTestId("transaction-settings"));
+//     fireEvent.input(await screen.findByTestId("recipient"), { target: { value: "invalidAddress" } });
+//     fireEvent.click(screen.getAllByLabelText("close")[1]);
+//     fireEvent.click(screen.getByTestId("range-confirm-submit"));
+//     expect(await screen.findByText("Invalid address")).toBeInTheDocument();
+//   });
 
-  it("Should successfully change slippage amount and complete transaction", async () => {
-    render(
-      <>
-        <Messages />
-        <Range />
-      </>,
-    );
-    fireEvent.click(screen.getByTestId("sell-tab"));
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
-    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
-    fireEvent.click(await screen.findByTestId("transaction-settings"));
-    fireEvent.input(await screen.findByTestId("slippage"), { target: { value: "0.1" } });
-    fireEvent.click(screen.getAllByLabelText("close")[1]);
-    fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
-  });
-});
+//   it("Should successfully change slippage amount and complete transaction", async () => {
+//     render(
+//       <>
+//         <Messages />
+//         <Range />
+//       </>,
+//     );
+//     fireEvent.click(screen.getByTestId("sell-tab"));
+//     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+//     fireEvent.click(screen.getByTestId("range-submit"));
+//     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+//     fireEvent.click(await screen.findByTestId("transaction-settings"));
+//     fireEvent.input(await screen.findByTestId("slippage"), { target: { value: "0.1" } });
+//     fireEvent.click(screen.getAllByLabelText("close")[1]);
+//     fireEvent.click(screen.getByTestId("range-confirm-submit"));
+//     expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
+//   });
+// });

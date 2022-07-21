@@ -179,15 +179,17 @@ const band: BandStruct = {
  * Returns the market price for the given bond market
  * @param id Bond Market ID
  */
-export const RangeBondPrice = (id: BigNumber) => {
+export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondAggregator", id, chain],
+    ["RangeBondAggregator", id, chain, side],
     async () => {
       const bondPrice = await contract.marketPrice(id);
-      console.log(bondPrice);
 
+      if (side === "low") {
+        return 1 / parseBigNumber(bondPrice, 35);
+      }
       return parseBigNumber(bondPrice, 37);
     },
     {

@@ -36,8 +36,8 @@ export const Range = () => {
     data: { symbol: reserveSymbol, reserveAddress },
   } = OperatorReserveSymbol();
   const theme = useTheme();
-  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market);
-  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market);
+  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market, "high");
+  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market, "low");
 
   const [sellActive, setSellActive] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
