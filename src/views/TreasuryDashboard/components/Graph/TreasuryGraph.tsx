@@ -92,7 +92,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
     <Chart
       type={ChartType.AreaDifference}
       data={data ? data.protocolMetrics : []}
-      dataKey={dataKeys}
+      dataKeys={dataKeys}
       stroke={DEFAULT_COLORS}
       headerText={t`OHM Backing`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
@@ -182,7 +182,7 @@ export const MarketValueGraph = ({
       ]
     : ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue", "treasuryLiquidBacking"];
   // The keys to display as a line
-  const composedDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
+  const composedLineDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
 
   const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
@@ -201,7 +201,7 @@ export const MarketValueGraph = ({
     <Chart
       type={ChartType.Composed}
       data={data ? data.protocolMetrics : []}
-      dataKey={dataKeys}
+      dataKeys={dataKeys}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
@@ -218,7 +218,7 @@ export const MarketValueGraph = ({
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
-      composedLineDataKeys={composedDataKeys}
+      composedLineDataKeys={composedLineDataKeys}
     />
   );
 };
@@ -273,7 +273,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
     <Chart
       type={ChartType.StackedArea}
       data={tokenSummary}
-      dataKey={dataKeys}
+      dataKeys={dataKeys}
       stroke={DEFAULT_COLORS}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}

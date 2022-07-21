@@ -80,7 +80,7 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 
 const renderAreaChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -93,7 +93,7 @@ const renderAreaChart = (
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
-      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id={`color-${dataKeys[0]}`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor={stroke[0]} stopOpacity={1} />
         <stop offset="90%" stopColor={stroke[0][1]} stopOpacity={0.9} />
       </linearGradient>
@@ -125,12 +125,12 @@ const renderAreaChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           dataFormat={dataFormat}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
-    <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+    <Area dataKey={dataKeys[0]} stroke="none" fill={`url(#color-${dataKeys[0]})`} fillOpacity={1} />
   </AreaChart>
 );
 
@@ -140,7 +140,7 @@ const getValidCSSSelector = (value: string): string => {
 
 const renderStackedAreaChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -153,7 +153,7 @@ const renderStackedAreaChart = (
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
-      {dataKey.map((value: string, index: number) => {
+      {dataKeys.map((value: string, index: number) => {
         return (
           <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
@@ -189,12 +189,12 @@ const renderStackedAreaChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           dataFormat={dataFormat}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
-    {dataKey.map((value: string, index: number) => {
+    {dataKeys.map((value: string, index: number) => {
       return (
         <Area
           dataKey={value}
@@ -213,7 +213,7 @@ const renderStackedAreaChart = (
  *
  *
  * @param data
- * @param dataKey string array with all of the dataKeys that should be rendered
+ * @param dataKeys string array with all of the dataKeys that should be rendered
  * @param stroke
  * @param dataFormat
  * @param bulletpointColors
@@ -228,7 +228,7 @@ const renderStackedAreaChart = (
  */
 const renderComposedChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -242,7 +242,7 @@ const renderComposedChart = (
 ) => (
   <ComposedChart data={data} margin={margin}>
     <defs>
-      {dataKey.map((value: string, index: number) => {
+      {dataKeys.map((value: string, index: number) => {
         return (
           <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
@@ -278,13 +278,13 @@ const renderComposedChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           dataFormat={dataFormat}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           totalExcludesDataKeys={composedLineDataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
-    {dataKey.map((value: string, index: number) => {
+    {dataKeys.map((value: string, index: number) => {
       /**
        * Any elements in the composed data keys are rendered as values
        * on a dashed, thick line.
@@ -317,7 +317,7 @@ const renderComposedChart = (
 
 const renderLineChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -358,14 +358,14 @@ const renderLineChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           dataFormat={dataFormat}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
     <Line
       type="monotone"
-      dataKey={dataKey[0]}
+      dataKey={dataKeys[0]}
       stroke={stroke ? stroke[0] : "none"}
       color={stroke ? stroke[0] : "none"}
       dot={false}
@@ -389,7 +389,7 @@ const isLineOneHigher = (data: any[], keys: string[]): boolean => {
 
 const renderAreaDifferenceChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -406,7 +406,7 @@ const renderAreaDifferenceChart = (
    * We add the "range" key to the incoming data.
    * This contains the lower and higher values for the contents of {dataKey}.
    */
-  const dataWithRange = getDataWithRange(data, dataKey);
+  const dataWithRange = getDataWithRange(data, dataKeys);
   /**
    * This obtains the points where any line intersects with the other,
    * which is used to fill an Area element.
@@ -416,8 +416,8 @@ const renderAreaDifferenceChart = (
    * so we need to reverse the order of the array without mutating the original
    * one.
    */
-  const intersections = getDataIntersections(data.slice().reverse(), dataKey);
-  const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKey));
+  const intersections = getDataIntersections(data.slice().reverse(), dataKeys);
+  const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKeys));
 
   return (
     <ComposedChart data={dataWithRange} margin={margin}>
@@ -436,7 +436,7 @@ const renderAreaDifferenceChart = (
               // Determine the offset from the start of the x-axis
               const offset =
                 intersection.x /
-                (data.filter(value => value[dataKey[0]] !== undefined && value[dataKey[1]] != undefined).length - 1);
+                (data.filter(value => value[dataKeys[0]] !== undefined && value[dataKeys[1]] != undefined).length - 1);
 
               return (
                 <>
@@ -482,13 +482,13 @@ const renderAreaDifferenceChart = (
             categories={categories}
             dataFormat={dataFormat}
             itemDecimals={itemDecimals}
-            dataKey={dataKey}
+            dataKey={dataKeys}
             displayTotal={displayTooltipTotal}
           />
         }
       />
       <Area dataKey={RANGE_KEY} stroke={stroke[0]} fill={`url(#range)`} />
-      {dataKey.map((value: string, index: number) => {
+      {dataKeys.map((value: string, index: number) => {
         return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
       })}
     </ComposedChart>
@@ -497,7 +497,7 @@ const renderAreaDifferenceChart = (
 
 const renderMultiLineChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -538,12 +538,12 @@ const renderMultiLineChart = (
           categories={categories}
           dataFormat={dataFormat}
           itemDecimals={itemDecimals}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
-    {dataKey.map((value: string, index: number) => {
+    {dataKeys.map((value: string, index: number) => {
       return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
     })}
   </LineChart>
@@ -552,7 +552,7 @@ const renderMultiLineChart = (
 // JTBD: Bar chart for Holders
 const renderBarChart = (
   data: any[],
-  dataKey: string[],
+  dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
   bulletpointColors: Map<string, CSSProperties>,
@@ -591,12 +591,12 @@ const renderBarChart = (
           bulletpointColors={bulletpointColors}
           categories={categories}
           dataFormat={dataFormat}
-          dataKey={dataKey}
+          dataKey={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
     />
-    <Bar dataKey={dataKey[0]} fill={stroke[0]} />
+    <Bar dataKey={dataKeys[0]} fill={stroke[0]} />
   </BarChart>
 );
 
@@ -604,7 +604,7 @@ function Chart({
   type,
   data,
   scale,
-  dataKey,
+  dataKeys,
   stroke,
   headerText,
   dataFormat,
@@ -628,7 +628,7 @@ function Chart({
   type: ChartType;
   data: any[];
   scale?: string;
-  dataKey: string[];
+  dataKeys: string[];
   stroke: string[];
   headerText: string;
   dataFormat: DataFormat;
@@ -662,10 +662,10 @@ function Chart({
       return;
     }
 
-    const tempMaxValue = getMaximumValue(data, dataKey, type, composedLineDataKeys);
+    const tempMaxValue = getMaximumValue(data, dataKeys, type, composedLineDataKeys);
     // Give a bit of a buffer
     setMaximumYValue(tempMaxValue * 1.1);
-  }, [data, dataKey, type, composedLineDataKeys]);
+  }, [data, dataKeys, type, composedLineDataKeys]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -680,7 +680,7 @@ function Chart({
       case ChartType.Line: {
         return renderLineChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -696,7 +696,7 @@ function Chart({
       case ChartType.Area: {
         return renderAreaChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -711,7 +711,7 @@ function Chart({
       case ChartType.StackedArea: {
         return renderStackedAreaChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -726,7 +726,7 @@ function Chart({
       case ChartType.MultiLine: {
         return renderMultiLineChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -742,7 +742,7 @@ function Chart({
       case ChartType.AreaDifference: {
         return renderAreaDifferenceChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -758,7 +758,7 @@ function Chart({
       case ChartType.Bar: {
         return renderBarChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
@@ -773,7 +773,7 @@ function Chart({
       case ChartType.Composed: {
         return renderComposedChart(
           data,
-          dataKey,
+          dataKeys,
           stroke,
           dataFormat,
           bulletpointColors,
