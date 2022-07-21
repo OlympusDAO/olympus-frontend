@@ -188,9 +188,9 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
       const bondPrice = await contract.marketPrice(id);
 
       if (side === "low") {
-        return 1 / parseBigNumber(bondPrice, 35);
+        return 1 / parseBigNumber(bondPrice, 36);
       }
-      return parseBigNumber(bondPrice, 37);
+      return parseBigNumber(bondPrice, 36);
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
