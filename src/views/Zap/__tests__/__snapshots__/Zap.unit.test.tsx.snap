@@ -16,10 +16,10 @@ exports[`<Zap/> should render component 1`] = `
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
           >
             <div
               class="staking-area"
@@ -58,10 +58,10 @@ exports[`<Zap/> should render component 1`] = `
         id="olyzaps-info"
       >
         <div
-          class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
         >
           <div
-            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-175k5gr-MuiGrid-root"
           >
             <div
               class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"
@@ -160,7 +160,7 @@ exports[`<Zap/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-175k5gr-MuiGrid-root"
           >
             <div
               class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"
@@ -207,7 +207,7 @@ exports[`<Zap/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+            class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-175k5gr-MuiGrid-root"
           >
             <div
               class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"

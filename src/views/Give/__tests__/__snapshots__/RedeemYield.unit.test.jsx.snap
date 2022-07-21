@@ -9,10 +9,10 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
       [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
     </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-v5mc7x-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-1jsxebx-MuiTypography-root"
@@ -28,16 +28,16 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-1wp2vw1-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-7a867z-MuiGrid-root"
           >
             <button
               class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -48,12 +48,12 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             </button>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
           class="grey-box  MuiBox-root css-h33641"
@@ -156,7 +156,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
       />
     </div>
   </div>
@@ -172,10 +172,10 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
       [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
     </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-v5mc7x-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-1jsxebx-MuiTypography-root"
@@ -191,16 +191,16 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-1wp2vw1-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-7a867z-MuiGrid-root"
           >
             <button
               class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -211,18 +211,18 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             </button>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-mbtiqp-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-vljhbv-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-eb6htm-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-nz223s-MuiGrid-root"
           >
             <div
               class="grey-box  MuiBox-root css-h33641"
@@ -240,7 +240,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-eb6htm-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-nz223s-MuiGrid-root"
           >
             <div
               class="grey-box  MuiBox-root css-h33641"
@@ -259,7 +259,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-eb6htm-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-nz223s-MuiGrid-root"
           >
             <div
               class="grey-box  MuiBox-root css-h33641"
@@ -281,7 +281,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
           class="grey-box  MuiBox-root css-h33641"
@@ -384,7 +384,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
       />
     </div>
   </div>
@@ -400,10 +400,10 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
       [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
     </style>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-v5mc7x-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-1jsxebx-MuiTypography-root"
@@ -419,16 +419,16 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-1wp2vw1-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-7a867z-MuiGrid-root"
           >
             <button
               class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -439,12 +439,12 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
             </button>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-k9ktx3-MuiGrid-root"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
       >
         <div
           class="grey-box  MuiBox-root css-h33641"
@@ -547,7 +547,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
       />
     </div>
   </div>
