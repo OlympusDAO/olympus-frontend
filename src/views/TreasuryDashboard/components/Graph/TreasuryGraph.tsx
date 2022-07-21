@@ -169,7 +169,7 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
       handleToggle={handleToggle}
-      composedDataKeys={composedDataKeys}
+      composedLineDataKeys={composedDataKeys}
     />
   );
 };

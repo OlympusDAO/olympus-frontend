@@ -223,7 +223,7 @@ const renderStackedAreaChart = (
  * @param tickStyle
  * @param maximumYValue
  * @param displayTooltipTotal
- * @param composedDataKeys optional string array with the dataKeys that should be rendered as lines
+ * @param composedLineDataKeys optional string array with the dataKeys that should be rendered as lines
  * @returns
  */
 const renderComposedChart = (
@@ -238,7 +238,7 @@ const renderComposedChart = (
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
-  composedDataKeys?: string[],
+  composedLineDataKeys?: string[],
 ) => (
   <ComposedChart data={data} margin={margin}>
     <defs>
@@ -279,7 +279,7 @@ const renderComposedChart = (
           categories={categories}
           dataFormat={dataFormat}
           dataKey={dataKey}
-          totalExcludesDataKeys={composedDataKeys}
+          totalExcludesDataKeys={composedLineDataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -289,7 +289,7 @@ const renderComposedChart = (
        * Any elements in the composed data keys are rendered as values
        * on a dashed, thick line.
        */
-      if (composedDataKeys && composedDataKeys.includes(value)) {
+      if (composedLineDataKeys && composedLineDataKeys.includes(value)) {
         return (
           <Line
             dataKey={value}
@@ -623,7 +623,7 @@ function Chart({
   itemDecimals,
   subgraphQueryUrl,
   displayTooltipTotal,
-  composedDataKeys,
+  composedLineDataKeys,
   handleToggle,
 }: {
   type: ChartType;
@@ -643,7 +643,7 @@ function Chart({
   itemDecimals?: number;
   subgraphQueryUrl?: string;
   displayTooltipTotal?: boolean;
-  composedDataKeys?: string[];
+  composedLineDataKeys?: string[];
   handleToggle?: ToggleCallback;
 }) {
   const [open, setOpen] = useState(false);
@@ -656,7 +656,7 @@ function Chart({
    * maximum value in the y-axis manually.
    *
    * It is inclosed in useMemo, as it will only need to be recalculated when
-   * {data} or {dataKey} changes.
+   * the dependencies change.
    */
   useMemo(() => {
     if (!data || !data.length) {
@@ -664,10 +664,10 @@ function Chart({
       return;
     }
 
-    const tempMaxValue = getMaximumValue(data, dataKey, type, composedDataKeys);
+    const tempMaxValue = getMaximumValue(data, dataKey, type, composedLineDataKeys);
     // Give a bit of a buffer
     setMaximumYValue(tempMaxValue * 1.1);
-  }, [data, dataKey, type]);
+  }, [data, dataKey, type, composedLineDataKeys]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -785,7 +785,7 @@ function Chart({
           tickStyle,
           maximumYValue,
           displayTooltipTotal,
-          composedDataKeys,
+          composedLineDataKeys,
         );
       }
       default: {
