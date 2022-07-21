@@ -3,6 +3,7 @@ import { Grid, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties, useMemo, useState } from "react";
+import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { getSubgraphUrl } from "src/constants";
@@ -26,6 +27,7 @@ import {
   MetricRow,
   reduceKeysTokenSummary,
   renameToken,
+  TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
@@ -67,6 +69,7 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
 
 type GraphProps = {
   count?: number;
+  onMouseMove?: CategoricalChartFunc;
 };
 
 /**
@@ -124,6 +127,7 @@ export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS
     LiquidBacking,
   }
 
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedTab, setSelectedTab] = useState(ToggleEnum.MarketValue.toString());
   const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
   const handleToggle: ToggleCallback = (_event, newValue): void => {
@@ -134,6 +138,22 @@ export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS
       setIsLiquidBackingActive(false);
       setSelectedTab(ToggleEnum.MarketValue.toString());
     }
+  };
+
+  /**
+   * Uses mouse movement events in the market value chart to record the
+   * current index that the user is hovering over. This is then passed to
+   * the assets table in order to have the contents reflect the current
+   * index (date).
+   *
+   * @param nextState
+   * @param event
+   * @returns
+   */
+  const onMouseMove: CategoricalChartFunc = (nextState, event) => {
+    if (!nextState.activeTooltipIndex) return;
+
+    setSelectedIndex(nextState.activeTooltipIndex);
   };
 
   return (
@@ -150,8 +170,8 @@ export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS
           </ToggleButtonGroup>
         </Grid>
       </Grid>
-      <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} count={count} />
-      <AssetsTable isLiquidBackingActive={isLiquidBackingActive} />
+      <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} onMouseMove={onMouseMove} count={count} />
+      <AssetsTable isLiquidBackingActive={isLiquidBackingActive} selectedIndex={selectedIndex} />
     </>
   );
 };
@@ -161,8 +181,9 @@ type LiquidBackingProps = {
 };
 
 export const MarketValueGraph = ({
-  isLiquidBackingActive,
   count = DEFAULT_RECORDS_COUNT,
+  onMouseMove,
+  isLiquidBackingActive,
 }: GraphProps & LiquidBackingProps) => {
   const theme = useTheme();
 
@@ -219,6 +240,7 @@ export const MarketValueGraph = ({
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
       composedLineDataKeys={composedLineDataKeys}
+      onMouseMove={onMouseMove}
     />
   );
 };
@@ -291,12 +313,17 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
   );
 };
 
-export const AssetsTable = ({ isLiquidBackingActive }: LiquidBackingProps) => {
+type AssetsTableProps = {
+  selectedIndex: number;
+};
+
+export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBackingProps & AssetsTableProps) => {
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() }, undefined, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
   // State variables used for rendering
-  const [currentMetric, setCurrentMetric] = useState<MetricRow | null>(null);
+  const [reducedTokens, setReducedTokens] = useState<MetricRow[]>([]);
+  const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
 
   /**
    * We derive reducedTokens and currentMetric from {data}. They only need to be re-calculated
@@ -304,7 +331,7 @@ export const AssetsTable = ({ isLiquidBackingActive }: LiquidBackingProps) => {
    */
   useMemo(() => {
     if (!data) {
-      setCurrentMetric(null);
+      setReducedTokens([]);
       return;
     }
 
@@ -319,10 +346,15 @@ export const AssetsTable = ({ isLiquidBackingActive }: LiquidBackingProps) => {
 
     const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
     const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
-    const newCurrentMetric = newReducedTokens[0];
-
-    setCurrentMetric(newCurrentMetric);
+    setReducedTokens(newReducedTokens);
   }, [data, isLiquidBackingActive]);
+
+  /**
+   * Cache the tokens for the current value of selectedIndex.
+   */
+  useMemo(() => {
+    setCurrentTokens(reducedTokens[selectedIndex] ? reducedTokens[selectedIndex].tokens : []);
+  }, [reducedTokens, selectedIndex]);
 
   const columns: GridColDef[] = [
     {
@@ -360,7 +392,7 @@ export const AssetsTable = ({ isLiquidBackingActive }: LiquidBackingProps) => {
         autoHeight
         loading={!data}
         disableSelectionOnClick
-        rows={currentMetric ? currentMetric.tokens : []}
+        rows={currentTokens}
         rowHeight={30}
         columns={columns}
         pageSize={10}

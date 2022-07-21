@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
+import { CategoricalChartFunc, CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { formatCurrency, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
@@ -90,6 +90,7 @@ const renderAreaChart = (
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -150,8 +151,9 @@ const renderStackedAreaChart = (
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <AreaChart data={data} margin={margin}>
+  <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
       {dataKeys.map((value: string, index: number) => {
         return (
@@ -239,8 +241,9 @@ const renderComposedChart = (
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   composedLineDataKeys?: string[],
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <ComposedChart data={data} margin={margin}>
+  <ComposedChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
       {dataKeys.map((value: string, index: number) => {
         return (
@@ -328,8 +331,9 @@ const renderLineChart = (
   maximumYValue: number,
   scale?: string,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <LineChart data={data} margin={margin}>
+  <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <XAxis
       dataKey="timestamp"
       interval={100}
@@ -400,6 +404,7 @@ const renderAreaDifferenceChart = (
   maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => {
   // Intersections code from: https://codesandbox.io/s/qdlyi?file=/src/tests/ComparisonChart.js
   /**
@@ -420,7 +425,7 @@ const renderAreaDifferenceChart = (
   const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKeys));
 
   return (
-    <ComposedChart data={dataWithRange} margin={margin}>
+    <ComposedChart data={dataWithRange} margin={margin} onMouseMove={onMouseMove}>
       <defs>
         <linearGradient id={RANGE_KEY}>
           {intersections.length ? (
@@ -508,8 +513,9 @@ const renderMultiLineChart = (
   maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <LineChart data={data} margin={margin}>
+  <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <XAxis
       dataKey="timestamp"
       interval={TICK_INTERVAL_XAXIS}
@@ -562,8 +568,9 @@ const renderBarChart = (
   tickStyle: Record<string, string | number>,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <BarChart data={data} margin={margin}>
+  <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <XAxis
       dataKey="timestamp"
       interval={30}
@@ -624,6 +631,7 @@ function Chart({
   subgraphQueryUrl,
   displayTooltipTotal,
   composedLineDataKeys,
+  onMouseMove,
 }: {
   type: ChartType;
   data: any[];
@@ -643,6 +651,7 @@ function Chart({
   subgraphQueryUrl?: string;
   displayTooltipTotal?: boolean;
   composedLineDataKeys?: string[];
+  onMouseMove?: CategoricalChartFunc;
 }) {
   const [open, setOpen] = useState(false);
   const [maximumYValue, setMaximumYValue] = useState(0.0);
@@ -691,6 +700,7 @@ function Chart({
           maximumYValue,
           scale,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.Area: {
@@ -706,6 +716,7 @@ function Chart({
           tickStyle,
           maximumYValue,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.StackedArea: {
@@ -721,6 +732,7 @@ function Chart({
           tickStyle,
           maximumYValue,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.MultiLine: {
@@ -737,6 +749,7 @@ function Chart({
           maximumYValue,
           itemDecimals,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.AreaDifference: {
@@ -753,6 +766,7 @@ function Chart({
           maximumYValue,
           itemDecimals,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.Bar: {
@@ -768,6 +782,7 @@ function Chart({
           tickStyle,
           maximumYValue,
           displayTooltipTotal,
+          onMouseMove,
         );
       }
       case ChartType.Composed: {
@@ -784,6 +799,7 @@ function Chart({
           maximumYValue,
           displayTooltipTotal,
           composedLineDataKeys,
+          onMouseMove,
         );
       }
       default: {

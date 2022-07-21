@@ -4,7 +4,7 @@ import { ChartType } from "src/components/Chart/Constants";
 
 import { getFloat } from "./NumberHelper";
 
-type TokenRow = {
+export type TokenRow = {
   token: string;
   category: string;
   value: string;
