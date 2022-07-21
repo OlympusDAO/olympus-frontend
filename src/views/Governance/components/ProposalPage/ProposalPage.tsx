@@ -11,6 +11,7 @@ import { useProposal } from "src/hooks/useProposal";
 import { Proposal as ProposalType } from "src/hooks/useProposals";
 
 import { NULL_PROPOSAL } from "../../constants";
+import { toCapitalCase } from "../../helpers";
 import { BackButton } from "../BackButton";
 import { PollDetailsTab } from "./components/PollDetailsTab";
 import { VotesTab } from "./components/VotesTab";
@@ -73,7 +74,7 @@ export const ProposalPage = () => {
         </Grid>
         <Grid container direction="row" alignItems="center">
           <Grid item>
-            <Chip label="Active" template={mapStatus("active")} strong />
+            <Chip label={toCapitalCase(proposal.state)} template={mapStatus(proposal.state)} strong />
           </Grid>
           <Grid item>
             <Box pl="9px" display="flex">
