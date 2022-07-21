@@ -5,10 +5,9 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 
 import {
-  AssetsTable,
   DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
-  MarketValueGraph,
+  MarketValueLiquidBackingGraphContainer,
   ProtocolOwnedLiquidityGraph,
 } from "./components/Graph/TreasuryGraph";
 import {
@@ -118,12 +117,7 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
-            <MarketValueGraph count={parseInt(recordCount)} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper {...paperProps}>
-            <AssetsTable />
+            <MarketValueLiquidBackingGraphContainer count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

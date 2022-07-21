@@ -1,4 +1,5 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
+import { Grid, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { CSSProperties, useMemo, useState } from "react";
@@ -26,7 +27,9 @@ import {
   reduceKeysTokenSummary,
   renameToken,
 } from "src/helpers/ProtocolMetricsHelper";
-import { ChartCard, ToggleCallback } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
+import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
+
+import { ToggleCallback } from "./Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -106,10 +109,62 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
   );
 };
 
-export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
-  const theme = useTheme();
+/**
+ * Displays the market value chart and assets table together, along with a toggle
+ * to choose between displaying the market value or liquid backing.
+ *
+ * The assets table will update according to the toggle selection.
+ *
+ * @param param0
+ * @returns
+ */
+export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+  enum ToggleEnum {
+    MarketValue,
+    LiquidBacking,
+  }
 
+  const [selectedTab, setSelectedTab] = useState(ToggleEnum.MarketValue.toString());
   const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
+  const handleToggle: ToggleCallback = (_event, newValue): void => {
+    if (newValue && parseInt(newValue) === ToggleEnum.LiquidBacking) {
+      setIsLiquidBackingActive(true);
+      setSelectedTab(ToggleEnum.LiquidBacking.toString());
+    } else {
+      setIsLiquidBackingActive(false);
+      setSelectedTab(ToggleEnum.MarketValue.toString());
+    }
+  };
+
+  return (
+    <>
+      <Grid container>
+        <Grid item xs={12} textAlign={"center"}>
+          <ToggleButtonGroup exclusive value={selectedTab} onChange={handleToggle}>
+            <ToggleButton value={ToggleEnum.MarketValue.toString()}>
+              <Trans>Market Value</Trans>
+            </ToggleButton>
+            <ToggleButton value={ToggleEnum.LiquidBacking.toString()}>
+              <Trans>Liquid Backing</Trans>
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+      </Grid>
+      <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} count={count} />
+      <AssetsTable isLiquidBackingActive={isLiquidBackingActive} />
+    </>
+  );
+};
+
+type LiquidBackingProps = {
+  isLiquidBackingActive: boolean;
+};
+
+export const MarketValueGraph = ({
+  isLiquidBackingActive,
+  count = DEFAULT_RECORDS_COUNT,
+}: GraphProps & LiquidBackingProps) => {
+  const theme = useTheme();
 
   // What is displayed in the chart differs based on the value of isLiquidBackingActive
   const itemNames: string[] = [
@@ -142,11 +197,6 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
 
-  const handleToggle: ToggleCallback = (event, newValue): void => {
-    // TODO fix this
-    setIsLiquidBackingActive(!isLiquidBackingActive);
-  };
-
   return (
     <Chart
       type={ChartType.Composed}
@@ -168,7 +218,6 @@ export const MarketValueGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) 
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
       tickStyle={getTickStyle(theme)}
-      handleToggle={handleToggle}
       composedLineDataKeys={composedDataKeys}
     />
   );
@@ -242,7 +291,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
   );
 };
 
-export const AssetsTable = () => {
+export const AssetsTable = ({ isLiquidBackingActive }: LiquidBackingProps) => {
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() }, undefined, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
 
@@ -259,11 +308,13 @@ export const AssetsTable = () => {
       return;
     }
 
-    const keys: readonly string[] = [
-      "treasuryStableValueComponents",
-      "treasuryVolatileValueComponents",
-      "treasuryLPValueComponents",
-    ];
+    const keys: readonly string[] = isLiquidBackingActive
+      ? [
+          "treasuryLiquidBackingStableComponents",
+          "treasuryLiquidBackingVolatileComponents",
+          "treasuryLiquidBackingProtocolOwnedLiquidityComponents",
+        ]
+      : ["treasuryStableValueComponents", "treasuryVolatileValueComponents", "treasuryLPValueComponents"];
     const categories: readonly string[] = [t`Stablecoins`, t`Volatile`, t`Protocol-Owned Liquidity`];
 
     const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
@@ -271,7 +322,7 @@ export const AssetsTable = () => {
     const newCurrentMetric = newReducedTokens[0];
 
     setCurrentMetric(newCurrentMetric);
-  }, [data]);
+  }, [data, isLiquidBackingActive]);
 
   const columns: GridColDef[] = [
     {
