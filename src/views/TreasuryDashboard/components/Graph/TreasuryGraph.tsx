@@ -34,9 +34,9 @@ import { ToggleCallback } from "./Constants";
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
 const DEFAULT_COLORS: string[] = [
+  "#917BD9",
   "#49A1F2",
   "#95B7A1",
-  "#917BD9",
   "#E49471",
   "#D85F73",
   "#A3CFF0",

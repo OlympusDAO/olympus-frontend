@@ -34,7 +34,7 @@ const TICK_COUNT = 3;
 const TICK_COUNT_EXPANDED = 5;
 const XAXIS_PADDING_RIGHT = 30;
 const TICK_INTERVAL_XAXIS = 10;
-const LINE_STROKE_WIDTH = 2;
+const LINE_STROKE_WIDTH = 3;
 
 export const formatCurrencyTick = (value: unknown): string => {
   const valueNum: number = getFloat(value);
@@ -296,7 +296,7 @@ const renderComposedChart = (
             stroke={stroke ? stroke[index] : "none"}
             fill={`url(#color-${getValidCSSSelector(value)})`}
             dot={false}
-            strokeWidth={4}
+            strokeWidth={LINE_STROKE_WIDTH}
             strokeDasharray={"4 1"}
           />
         );
