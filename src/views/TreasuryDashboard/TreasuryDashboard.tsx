@@ -1,6 +1,5 @@
-import { Box, Container, Grid, ToggleButton as MuiToggleButton, ToggleButtonGroup, useMediaQuery } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Box, Container, Grid, useMediaQuery } from "@mui/material";
+import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 
@@ -28,42 +27,21 @@ const QUERY_RECORD_COUNT = "recordCount";
  * @returns
  */
 const MetricsDashboard = () => {
-  const theme = useTheme();
-
-  const ToggleButton = styled(MuiToggleButton)({
-    "&.Mui-selected": {
-      color: theme.colors.primary[300],
-    },
-  });
-
   // State variable for the number of records shown, which is passed to the respective charts
   const [recordCount, setRecordCount] = useState("");
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
     const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
     setRecordCount(queryRecordCount);
   }, [searchParams]);
 
-  /**
-   * Adds the record count filter to the search parameters, which in turn updates the state variable
-   * and triggers an update to the charts.
-   *
-   * @param _event unused
-   * @param value string value representing the number of records to fetch
-   */
-  const handleRecordCountButtonGroupClick = (_event: unknown, value: unknown) => {
-    if (typeof value === "string") {
-      // Load the existing search params and update the value, so that other params are not overwritten
-      const updatedSearchParams = new URLSearchParams(searchParams.toString());
-      updatedSearchParams.set(QUERY_RECORD_COUNT, value);
-      setSearchParams(updatedSearchParams.toString());
-    } else {
-      throw new Error(
-        `handleRecordCountButtonGroupClick: expected string value as input, but received type ${typeof value} and value ${value}`,
-      );
-    }
+  const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
+    const updatedSearchParams = new URLSearchParams(searchParams);
+    updatedSearchParams.set(QUERY_RECORD_COUNT, recordCount.toString());
+
+    return updatedSearchParams.toString();
   };
 
   const paperProps = {
@@ -88,25 +66,31 @@ const MetricsDashboard = () => {
         <Grid item xs={12} container>
           <Grid item xs={4} />
           <Grid item xs={4} textAlign="center">
-            <ToggleButtonGroup
-              value={recordCount}
-              exclusive
-              onChange={handleRecordCountButtonGroupClick}
-              sx={{
-                "&.MuiToggleButtonGroup-root": {
-                  height: "40px",
+            <TabBar
+              disableRouting
+              items={[
+                {
+                  label: "7d",
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(7)}`,
+                  isActive: recordCount === "7",
                 },
-                "& .MuiToggleButton-root": {
-                  margin: "2px",
-                  fontSize: "18px", // Consistent size with metric headings
+                {
+                  label: "30d",
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(30)}`,
+                  isActive: recordCount === "30",
                 },
-              }}
-            >
-              <ToggleButton value="7">7d</ToggleButton>
-              <ToggleButton value="30">30d</ToggleButton>
-              <ToggleButton value="90">90d</ToggleButton>
-              <ToggleButton value="1000">Max</ToggleButton>
-            </ToggleButtonGroup>
+                {
+                  label: "90d",
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(90)}`,
+                  isActive: recordCount === "90",
+                },
+                {
+                  label: "Max",
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
+                  isActive: recordCount === "1000",
+                },
+              ]}
+            />
           </Grid>
           <Grid item xs={4} />
         </Grid>

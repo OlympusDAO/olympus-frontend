@@ -314,45 +314,56 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-vz045-MuiGrid-root"
             >
               <div
-                class="MuiToggleButtonGroup-root css-zmbtv0-MuiToggleButtonGroup-root"
-                role="group"
+                class="TabBar-container MuiBox-root css-1cjx2ik"
               >
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1g3pwrc-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="7"
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?recordCount=7"
                 >
-                  7d
-                </button>
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1g3pwrc-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="30"
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    7d
+                  </button>
+                </a>
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?recordCount=30"
                 >
-                  30d
-                </button>
-                <button
-                  aria-pressed="true"
-                  class="MuiButtonBase-root MuiToggleButton-root Mui-selected MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1g3pwrc-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="90"
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    30d
+                  </button>
+                </a>
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?recordCount=90"
                 >
-                  90d
-                </button>
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1g3pwrc-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="1000"
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    90d
+                  </button>
+                </a>
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?recordCount=1000"
                 >
-                  Max
-                </button>
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    Max
+                  </button>
+                </a>
               </div>
             </div>
             <div
