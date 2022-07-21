@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
-import { useQuery } from "react-query";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAccount } from "wagmi";
 
@@ -58,7 +58,7 @@ export const useZapTokenBalances = () => {
 
   const key = zapTokenBalancesKey(address);
   return useQuery<ZapHelperBalancesResponse, Error>(
-    key,
+    [key],
     async () => {
       // TODO handle missing API key
       const apiKey = Environment.getZapperApiKey();

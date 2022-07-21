@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import apollo from "src/lib/apolloClient";
 
 const query = `
@@ -105,7 +105,7 @@ export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
 
 export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
   return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
-    protocolMetricsQueryKey(),
+    [protocolMetricsQueryKey()],
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 

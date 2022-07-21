@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
-import { useQuery } from "react-query";
 import gOHM from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
@@ -57,7 +57,7 @@ export const useDonationInfo = () => {
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(address, chain.id),
+    [donationInfoQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], donationInfoQueryKey(address, chain.id));
 
@@ -169,7 +169,7 @@ export const useRedeemableBalance = (address: string) => {
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<string, Error>(
-    redeemableBalanceQueryKey(address, chain.id),
+    [redeemableBalanceQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], redeemableBalanceQueryKey(address, chain.id));
 
@@ -209,7 +209,7 @@ export const useV1RedeemableBalance = () => {
   // Hook to establish static old Give contract
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
   const query = useQuery<string, Error>(
-    v1RedeemableBalanceQueryKey(address, chain.id),
+    [v1RedeemableBalanceQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], v1RedeemableBalanceQueryKey(address, chain.id));
 
@@ -272,7 +272,7 @@ export const useRecipientInfo = (address: string) => {
   );
 
   const query = useQuery<IUserRecipientInfo, Error>(
-    recipientInfoQueryKey(address, chain.id),
+    [recipientInfoQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], recipientInfoQueryKey(address, chain.id));
 
@@ -361,7 +361,7 @@ export const useTotalYieldDonated = (address: string) => {
   };
 
   const query = useQuery<string, Error>(
-    totalYieldDonatedQueryKey(address, chain.id),
+    [totalYieldDonatedQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], totalYieldDonatedQueryKey(address, chain.id));
 
@@ -437,7 +437,7 @@ export const useDonorNumbers = (address: string) => {
   };
 
   const query = useQuery<number, Error>(
-    donorNumbersQueryKey(address, chain.id),
+    [donorNumbersQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], donorNumbersQueryKey(address, chain.id));
 

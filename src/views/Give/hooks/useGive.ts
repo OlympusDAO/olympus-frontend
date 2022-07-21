@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
@@ -77,7 +77,7 @@ export const useGive = () => {
           recipientInfoQueryKey(GiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully deposited sOHM`));

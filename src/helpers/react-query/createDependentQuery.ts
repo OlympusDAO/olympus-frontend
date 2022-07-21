@@ -1,4 +1,4 @@
-import { QueryKey, useQuery } from "react-query";
+import { QueryKey, useQuery } from "@tanstack/react-query";
 
 import { nonNullable } from "../types/nonNullable";
 
@@ -12,6 +12,6 @@ export const createDependentQuery = (baseQueryKey: QueryKey) => {
   return <TData>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
     const _key = [...baseQueryKey, key].filter(nonNullable);
 
-    return useQuery(_key, fn, { enabled }).data;
+    return useQuery([_key], fn, { enabled }).data;
   };
 };
