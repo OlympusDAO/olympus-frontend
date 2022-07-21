@@ -1,5 +1,6 @@
 import get from "get-value";
 import { CSSProperties } from "react";
+import { ChartType } from "src/components/Chart/Constants";
 
 import { getFloat } from "./NumberHelper";
 
@@ -299,15 +300,26 @@ export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonl
  *
  * This supports using nested keys ("records.DAI.value"), using the `get-value` library.
  *
- * If {stacked} is true, the maximum value of the sum of the values corresponding to
+ * If {type} is stacked, the maximum value of the sum of the values corresponding to
  * {keys} will be returned.
+ *
+ * If {type} is ChartType.Composed and {composedLineDataKeys} is specified, the maximum
+ * value corresponding to {composedLineDataKeys} and the sum of the stacked values will
+ * be returned.
  *
  * @param data
  * @param keys
- * @param stacked Defaults to false
+ * @param stacked
  * @returns
  */
-export const getMaximumValue = (data: any[], keys: string[], stacked = false): number => {
+export const getMaximumValue = (
+  data: any[],
+  keys: string[],
+  type: ChartType,
+  composedLineDataKeys?: string[],
+): number => {
+  const stacked = type === ChartType.StackedArea || type === ChartType.Composed;
+
   return Math.max(
     ...data.map(value => {
       if (!stacked) {
@@ -318,10 +330,27 @@ export const getMaximumValue = (data: any[], keys: string[], stacked = false): n
         );
       }
 
-      // If we are stacking values, then we want to add the values for the keys
-      return keys.reduce((previousValue, key) => {
+      // If we are stacking values, then we want to add the values for the keys,
+      // but only if they are not within composedLineDataKeys
+      const stackedTotal = keys.reduce((previousValue, key) => {
+        if (composedLineDataKeys && composedLineDataKeys.includes(key)) {
+          return previousValue;
+        }
+
         return previousValue + getFloat(get(value, key));
       }, 0);
+      // Grab the maximum value corresponding to the keys specified in composedLineDataKeys
+      const maxComposedLineDataKeyValue = Math.max(
+        ...keys.map(key => {
+          if (!composedLineDataKeys || type !== ChartType.Composed) return 0;
+
+          if (!composedLineDataKeys.includes(key)) return 0;
+
+          return getFloat(get(value, key));
+        }),
+      );
+
+      return Math.max(maxComposedLineDataKeyValue, stackedTotal);
     }),
   );
 };

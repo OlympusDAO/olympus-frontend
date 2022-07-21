@@ -664,7 +664,7 @@ function Chart({
       return;
     }
 
-    const tempMaxValue = getMaximumValue(data, dataKey, type === ChartType.StackedArea);
+    const tempMaxValue = getMaximumValue(data, dataKey, type, composedDataKeys);
     // Give a bit of a buffer
     setMaximumYValue(tempMaxValue * 1.1);
   }, [data, dataKey, type]);
