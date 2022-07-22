@@ -48,6 +48,13 @@ const MetricsDashboard = () => {
     setToken(queryToken);
   }, [searchParams]);
 
+  /**
+   * After changing the value for the record count, returns the search parameters as a
+   * string (excluding the "?" prefix) that is suitable for appending to a URL.
+   *
+   * @param recordCount
+   * @returns
+   */
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
     const updatedSearchParams = new URLSearchParams(searchParams);
     updatedSearchParams.set(QUERY_RECORD_COUNT, recordCount.toString());
@@ -55,6 +62,13 @@ const MetricsDashboard = () => {
     return updatedSearchParams.toString();
   };
 
+  /**
+   * After changing the value for the token, returns the search parameters as a
+   * string (excluding the "?" prefix) that is suitable for appending to a URL.
+   *
+   * @param recordCount
+   * @returns
+   */
   const getSearchParamsWithUpdatedToken = (token: string): string => {
     const updatedSearchParams = new URLSearchParams(searchParams);
     updatedSearchParams.set(QUERY_TOKEN, token);
@@ -64,6 +78,10 @@ const MetricsDashboard = () => {
 
   const isTokenOHM = (): boolean => {
     return token === QUERY_TOKEN_OHM;
+  };
+
+  const isActiveRecordCount = (input: number): boolean => {
+    return recordCount === input.toString();
   };
 
   const paperProps = {
@@ -98,22 +116,22 @@ const MetricsDashboard = () => {
                 {
                   label: "7d",
                   to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(7)}`,
-                  isActive: recordCount === "7",
+                  isActive: isActiveRecordCount(7),
                 },
                 {
                   label: "30d",
                   to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(30)}`,
-                  isActive: recordCount === "30",
+                  isActive: isActiveRecordCount(30),
                 },
                 {
                   label: "90d",
                   to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(90)}`,
-                  isActive: recordCount === "90",
+                  isActive: isActiveRecordCount(90),
                 },
                 {
                   label: "Max",
                   to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
-                  isActive: recordCount === "1000",
+                  isActive: isActiveRecordCount(1000),
                 },
               ]}
             />
