@@ -171,6 +171,7 @@ export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS
    * @param event
    * @returns
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onMouseMove: CategoricalChartFunc = (nextState, event) => {
     if (!nextState.activeTooltipIndex) return;
 
@@ -397,6 +398,7 @@ export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBack
         return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
       },
       valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
+      minWidth: 120,
     },
   ];
 
