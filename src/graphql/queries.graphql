@@ -3,15 +3,18 @@ query MetricsBarLatestOnly {
     id
     block
     currentIndex
+    gOhmCirculatingSupply
     gOhmPrice
+    gOhmTotalSupply
     marketCap
     ohmCirculatingSupply
     ohmFloatingSupply
     ohmPrice
     totalSupply
     totalValueLocked
-    treasuryMarketValue
+    treasuryLiquidBackingPerGOhmCirculating
     treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
   }
 }
 
@@ -20,7 +23,9 @@ query KeyMetrics($records: Int = 100) {
     id
     block
     currentIndex
+    gOhmCirculatingSupply
     gOhmPrice
+    gOhmTotalSupply
     marketCap
     ohmCirculatingSupply
     ohmFloatingSupply
@@ -30,6 +35,7 @@ query KeyMetrics($records: Int = 100) {
     totalSupply
     totalValueLocked
     treasuryLiquidBacking
+    treasuryLiquidBackingPerGOhmCirculating
     treasuryLiquidBackingPerOhmFloating
     treasuryMarketValue
   }

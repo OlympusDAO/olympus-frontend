@@ -286,7 +286,10 @@ export type ProtocolMetric = {
   block: Scalars["BigInt"];
   currentAPY: Scalars["BigDecimal"];
   currentIndex: Scalars["BigDecimal"];
+  gOhmCirculatingSupply: Scalars["BigDecimal"];
+  gOhmCirculatingSupplyBreakdown: TokenRecords;
   gOhmPrice: Scalars["BigDecimal"];
+  gOhmTotalSupply: Scalars["BigDecimal"];
   id: Scalars["ID"];
   marketCap: Scalars["BigDecimal"];
   nextDistributedOhm: Scalars["BigDecimal"];
@@ -330,6 +333,7 @@ export type ProtocolMetric = {
   treasuryLPValueComponents: TokenRecords;
   treasuryLiquidBacking: Scalars["BigDecimal"];
   treasuryLiquidBackingComponents: TokenRecords;
+  treasuryLiquidBackingPerGOhmCirculating: Scalars["BigDecimal"];
   treasuryLiquidBackingPerOhmCirculating: Scalars["BigDecimal"];
   treasuryLiquidBackingPerOhmFloating: Scalars["BigDecimal"];
   treasuryLiquidBackingProtocolOwnedLiquidity: Scalars["BigDecimal"];
@@ -403,6 +407,35 @@ export type ProtocolMetric_Filter = {
   currentIndex_lte?: InputMaybe<Scalars["BigDecimal"]>;
   currentIndex_not?: InputMaybe<Scalars["BigDecimal"]>;
   currentIndex_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  gOhmCirculatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupplyBreakdown?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_?: InputMaybe<TokenRecords_Filter>;
+  gOhmCirculatingSupplyBreakdown_contains?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_contains_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_ends_with?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_gt?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_gte?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_in?: InputMaybe<Array<Scalars["String"]>>;
+  gOhmCirculatingSupplyBreakdown_lt?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_lte?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_contains?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_ends_with?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  gOhmCirculatingSupplyBreakdown_not_starts_with?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_starts_with?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupplyBreakdown_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  gOhmCirculatingSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  gOhmCirculatingSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmCirculatingSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   gOhmPrice?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_gt?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -411,6 +444,14 @@ export type ProtocolMetric_Filter = {
   gOhmPrice_lte?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_not?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  gOhmTotalSupply?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  gOhmTotalSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
+  gOhmTotalSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   id?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
   id_gte?: InputMaybe<Scalars["ID"]>;
@@ -916,6 +957,14 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  treasuryLiquidBackingPerGOhmCirculating?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  treasuryLiquidBackingPerGOhmCirculating_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_not?: InputMaybe<Scalars["BigDecimal"]>;
+  treasuryLiquidBackingPerGOhmCirculating_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBackingPerOhmCirculating?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingPerOhmCirculating_gt?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingPerOhmCirculating_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -1528,7 +1577,10 @@ export enum ProtocolMetric_OrderBy {
   Block = "block",
   CurrentApy = "currentAPY",
   CurrentIndex = "currentIndex",
+  GOhmCirculatingSupply = "gOhmCirculatingSupply",
+  GOhmCirculatingSupplyBreakdown = "gOhmCirculatingSupplyBreakdown",
   GOhmPrice = "gOhmPrice",
+  GOhmTotalSupply = "gOhmTotalSupply",
   Id = "id",
   MarketCap = "marketCap",
   NextDistributedOhm = "nextDistributedOhm",
@@ -1572,6 +1624,7 @@ export enum ProtocolMetric_OrderBy {
   TreasuryLpValueComponents = "treasuryLPValueComponents",
   TreasuryLiquidBacking = "treasuryLiquidBacking",
   TreasuryLiquidBackingComponents = "treasuryLiquidBackingComponents",
+  TreasuryLiquidBackingPerGOhmCirculating = "treasuryLiquidBackingPerGOhmCirculating",
   TreasuryLiquidBackingPerOhmCirculating = "treasuryLiquidBackingPerOhmCirculating",
   TreasuryLiquidBackingPerOhmFloating = "treasuryLiquidBackingPerOhmFloating",
   TreasuryLiquidBackingProtocolOwnedLiquidity = "treasuryLiquidBackingProtocolOwnedLiquidity",
@@ -2256,15 +2309,18 @@ export type MetricsBarLatestOnlyQuery = {
     id: string;
     block: any;
     currentIndex: any;
+    gOhmCirculatingSupply: any;
     gOhmPrice: any;
+    gOhmTotalSupply: any;
     marketCap: any;
     ohmCirculatingSupply: any;
     ohmFloatingSupply: any;
     ohmPrice: any;
     totalSupply: any;
     totalValueLocked: any;
-    treasuryMarketValue: any;
+    treasuryLiquidBackingPerGOhmCirculating: any;
     treasuryLiquidBackingPerOhmFloating: any;
+    treasuryMarketValue: any;
   }>;
 };
 
@@ -2279,7 +2335,9 @@ export type KeyMetricsQuery = {
     id: string;
     block: any;
     currentIndex: any;
+    gOhmCirculatingSupply: any;
     gOhmPrice: any;
+    gOhmTotalSupply: any;
     marketCap: any;
     ohmCirculatingSupply: any;
     ohmFloatingSupply: any;
@@ -2289,6 +2347,7 @@ export type KeyMetricsQuery = {
     totalSupply: any;
     totalValueLocked: any;
     treasuryLiquidBacking: any;
+    treasuryLiquidBackingPerGOhmCirculating: any;
     treasuryLiquidBackingPerOhmFloating: any;
     treasuryMarketValue: any;
   }>;
@@ -2393,15 +2452,18 @@ export const MetricsBarLatestOnlyDocument = `
     id
     block
     currentIndex
+    gOhmCirculatingSupply
     gOhmPrice
+    gOhmTotalSupply
     marketCap
     ohmCirculatingSupply
     ohmFloatingSupply
     ohmPrice
     totalSupply
     totalValueLocked
-    treasuryMarketValue
+    treasuryLiquidBackingPerGOhmCirculating
     treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
   }
 }
     `;
@@ -2426,7 +2488,9 @@ export const KeyMetricsDocument = `
     id
     block
     currentIndex
+    gOhmCirculatingSupply
     gOhmPrice
+    gOhmTotalSupply
     marketCap
     ohmCirculatingSupply
     ohmFloatingSupply
@@ -2436,6 +2500,7 @@ export const KeyMetricsDocument = `
     totalSupply
     totalValueLocked
     treasuryLiquidBacking
+    treasuryLiquidBackingPerGOhmCirculating
     treasuryLiquidBackingPerOhmFloating
     treasuryMarketValue
   }

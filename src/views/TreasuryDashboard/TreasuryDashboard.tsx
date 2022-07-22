@@ -11,10 +11,10 @@ import {
 } from "./components/Graph/TreasuryGraph";
 import {
   BackingPerOHM,
-  CircSupply,
   CurrentIndex,
   GOHMPriceFromSubgraph,
   MarketCap,
+  OhmCirculatingSupply,
   OHMPriceFromSubgraph,
 } from "./components/Metric/Metric";
 
@@ -57,7 +57,7 @@ const MetricsDashboard = () => {
               <MarketCap {...sharedMetricProps} />
               <OHMPriceFromSubgraph {...sharedMetricProps} />
               <GOHMPriceFromSubgraph {...sharedMetricProps} className="wsoprice" />
-              <CircSupply {...sharedMetricProps} />
+              <OhmCirculatingSupply {...sharedMetricProps} />
               <BackingPerOHM {...sharedMetricProps} />
               <CurrentIndex {...sharedMetricProps} />
             </MetricCollection>

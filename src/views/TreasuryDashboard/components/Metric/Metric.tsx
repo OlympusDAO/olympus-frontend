@@ -4,17 +4,21 @@ import { formatCurrency, formatNumber } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
+  useGOhmCirculatingSupply,
   useGOhmPrice as useGOhmPriceFromSubgraph,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
   useOhmPrice as useOhmPriceFromSubgraph,
-  useTotalSupply,
+  useOhmTotalSupply,
   useTotalValueDeposited,
+  useTreasuryLiquidBackingPerGOhmCirculating,
   useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+
+import { useGOhmTotalSupply } from "../../../../hooks/useProtocolMetrics";
 
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
@@ -24,7 +28,7 @@ export const MarketCap: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`Market Cap`,
+    label: t`OHM Market Cap`,
     tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
     
     As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
@@ -88,14 +92,30 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const CircSupply: React.FC<AbstractedMetricProps> = props => {
-  const { data: totalSupply } = useTotalSupply();
+export const OhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
+  const { data: totalSupply } = useOhmTotalSupply();
   const { data: circSupply } = useOhmCirculatingSupply();
 
   const _props: MetricProps = {
     ...props,
-    label: t`Circulating Supply / Total`,
+    label: t`OHM Circulating Supply / Total`,
     tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
+  };
+
+  if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
+  const { data: totalSupply } = useGOhmTotalSupply();
+  const { data: circSupply } = useGOhmCirculatingSupply();
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`gOHM Circulating Supply / Total`,
+    tooltip: t`Circulating supply is the quantity of outstanding gOHM not owned by the protocol (excluding gOHM in LPs).`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -129,6 +149,36 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   };
 
   if (liquidBackingPerOhmFloating) _props.metric = `${formatCurrency(liquidBackingPerOhmFloating, 2)}`;
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const BackingPerGOHM: React.FC<AbstractedMetricProps> = props => {
+  const { data: circulatingSupply } = useGOhmCirculatingSupply();
+  /**
+   * Liquid backing per gOHM circulating is used as the metric here.
+   * Liquid backing does not include OHM in protocol-owned liquidity,
+   * so it makes sense to do the same for the denominator, and floating supply
+   * is circulating supply - OHM in liquidity.
+   */
+  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhmCirculating();
+
+  // We include circulating supply in the tooltip, as it is not displayed as a separate metric anywhere else
+  const tooltip = t`Liquid backing is divided by circulating supply of gOHM to give liquid backing per OHM.
+  
+  Circulating supply of gOHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
+    circulatingSupply ? formatNumber(circulatingSupply) : "Loading..."
+  }
+  `;
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Liquid Backing per OHM`,
+    tooltip: tooltip,
+  };
+
+  if (liquidBackingPerGOhmCirculating) _props.metric = `${formatCurrency(liquidBackingPerGOhmCirculating, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

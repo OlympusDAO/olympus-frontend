@@ -140,42 +140,70 @@ export const useMarketCap = () =>
     {},
     { select: data => data.protocolMetrics[0].marketCap, ...QUERY_OPTIONS },
   );
-export const useTotalSupply = () =>
+
+export const useOhmTotalSupply = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].totalSupply, ...QUERY_OPTIONS },
   );
+
+export const useGOhmTotalSupply = () =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
+  );
+
 export const useTotalValueDeposited = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].totalValueLocked, ...QUERY_OPTIONS },
   );
+
 export const useTreasuryMarketValue = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].treasuryMarketValue, ...QUERY_OPTIONS },
   );
+
 export const useTreasuryLiquidBackingPerOhmFloating = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
   );
+
+export const useTreasuryLiquidBackingPerGOhmCirculating = () =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating, ...QUERY_OPTIONS },
+  );
+
 export const useOhmCirculatingSupply = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].ohmCirculatingSupply, ...QUERY_OPTIONS },
   );
+
 export const useOhmFloatingSupply = () =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].ohmFloatingSupply, ...QUERY_OPTIONS },
   );
+
+export const useGOhmCirculatingSupply = () =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].gOhmCirculatingSupply, ...QUERY_OPTIONS },
+  );
+
 /**
  * Returns the latest OHM price (in USD).
  *
@@ -191,6 +219,7 @@ export const useOhmPrice = () =>
     {},
     { select: data => data.protocolMetrics[0].ohmPrice, ...QUERY_OPTIONS },
   );
+
 /**
  * Returns the latest gOHM price (in USD).
  *
