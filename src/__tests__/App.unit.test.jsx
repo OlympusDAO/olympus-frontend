@@ -39,9 +39,6 @@ describe("<App/>", () => {
     });
     const errorMessage = await screen.queryByText("Please check your Wallet UI for connection errors");
     expect(errorMessage).toBeNull(); // expect its not found
-    await act(async () => {
-      jest.runAllTimers();
-    });
   });
   it("should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet", async () => {
     connectWallet();
