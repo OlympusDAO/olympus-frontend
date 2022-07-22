@@ -92,7 +92,7 @@ const renderAreaChart = (
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
 ) => (
-  <AreaChart data={data} margin={margin}>
+  <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
       <linearGradient id={`color-${dataKeys[0]}`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor={stroke[0]} stopOpacity={1} />
@@ -821,7 +821,6 @@ function Chart({
     />
   );
 
-  // TODO consider turning chart into a component placed within ChartCard
   /**
    * Setting the width to 99% ensures that the chart resizes correctly.
    *
