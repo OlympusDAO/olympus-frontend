@@ -42,7 +42,7 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.9.1",
     "@multifarm/widget": "^0.0.159",
-    "@olympusdao/component-library": "^2.0.4",
+    "@olympusdao/component-library": "^2.0.6",
     "@rainbow-me/rainbowkit": "^0.4.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
