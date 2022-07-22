@@ -174,7 +174,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`Liquid Backing per OHM`,
+    label: t`Liquid Backing per gOHM`,
     tooltip: tooltip,
   };
 

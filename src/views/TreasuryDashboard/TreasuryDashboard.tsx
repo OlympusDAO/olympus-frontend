@@ -10,8 +10,10 @@ import {
   ProtocolOwnedLiquidityGraph,
 } from "./components/Graph/TreasuryGraph";
 import {
+  BackingPerGOHM,
   BackingPerOHM,
   CurrentIndex,
+  GOhmCirculatingSupply,
   GOHMPriceFromSubgraph,
   MarketCap,
   OhmCirculatingSupply,
@@ -20,6 +22,9 @@ import {
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 const QUERY_RECORD_COUNT = "recordCount";
+const QUERY_TOKEN = "token";
+const QUERY_TOKEN_OHM = "OHM";
+const QUERY_TOKEN_GOHM = "gOHM";
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
@@ -29,12 +34,18 @@ const QUERY_RECORD_COUNT = "recordCount";
 const MetricsDashboard = () => {
   // State variable for the number of records shown, which is passed to the respective charts
   const [recordCount, setRecordCount] = useState("");
+  // State variable for the current token
+  const [token, setToken] = useState(QUERY_TOKEN_OHM);
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
     const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
     setRecordCount(queryRecordCount);
+
+    // Get the token or use the default
+    const queryToken = searchParams.get(QUERY_TOKEN) || QUERY_TOKEN_OHM;
+    setToken(queryToken);
   }, [searchParams]);
 
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
@@ -42,6 +53,17 @@ const MetricsDashboard = () => {
     updatedSearchParams.set(QUERY_RECORD_COUNT, recordCount.toString());
 
     return updatedSearchParams.toString();
+  };
+
+  const getSearchParamsWithUpdatedToken = (token: string): string => {
+    const updatedSearchParams = new URLSearchParams(searchParams);
+    updatedSearchParams.set(QUERY_TOKEN, token);
+
+    return updatedSearchParams.toString();
+  };
+
+  const isTokenOHM = (): boolean => {
+    return token === QUERY_TOKEN_OHM;
   };
 
   const paperProps = {
@@ -57,14 +79,18 @@ const MetricsDashboard = () => {
               <MarketCap {...sharedMetricProps} />
               <OHMPriceFromSubgraph {...sharedMetricProps} />
               <GOHMPriceFromSubgraph {...sharedMetricProps} className="wsoprice" />
-              <OhmCirculatingSupply {...sharedMetricProps} />
-              <BackingPerOHM {...sharedMetricProps} />
+              {isTokenOHM() ? (
+                <OhmCirculatingSupply {...sharedMetricProps} />
+              ) : (
+                <GOhmCirculatingSupply {...sharedMetricProps} />
+              )}
+              {isTokenOHM() ? <BackingPerOHM {...sharedMetricProps} /> : <BackingPerGOHM {...sharedMetricProps} />}
               <CurrentIndex {...sharedMetricProps} />
             </MetricCollection>
           </Paper>
         </Grid>
         <Grid item xs={12} container>
-          <Grid item xs={4} />
+          <Grid item xs={1} />
           <Grid item xs={4} textAlign="center">
             <TabBar
               disableRouting
@@ -93,6 +119,24 @@ const MetricsDashboard = () => {
             />
           </Grid>
           <Grid item xs={4} />
+          <Grid item xs={2} textAlign="center">
+            <TabBar
+              disableRouting
+              items={[
+                {
+                  label: QUERY_TOKEN_OHM,
+                  to: `/dashboard?${getSearchParamsWithUpdatedToken(QUERY_TOKEN_OHM)}`,
+                  isActive: isTokenOHM(),
+                },
+                {
+                  label: QUERY_TOKEN_GOHM,
+                  to: `/dashboard?${getSearchParamsWithUpdatedToken(QUERY_TOKEN_GOHM)}`,
+                  isActive: !isTokenOHM(),
+                },
+              ]}
+            />
+          </Grid>
+          <Grid item xs={1} />
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
