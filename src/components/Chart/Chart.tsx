@@ -81,7 +81,7 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 const renderAreaChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -91,49 +91,54 @@ const renderAreaChart = (
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
-) => (
-  <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
-    <defs>
-      <linearGradient id={`color-${dataKeys[0]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stroke[0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stroke[0]} stopOpacity={0.9} />
-      </linearGradient>
-    </defs>
-    <XAxis
-      dataKey="timestamp"
-      interval={30}
-      axisLine={false}
-      tickLine={false}
-      tick={tickStyle}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      reversed={true}
-      padding={{ right: XAXIS_PADDING_RIGHT }}
-    />
-    <YAxis
-      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
-      axisLine={false}
-      tickLine={false}
-      tick={tickStyle}
-      width={dataFormat == DataFormat.Percentage ? 33 : 55}
-      tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, maximumYValue]}
-      dx={3}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      content={
-        <CustomTooltip
-          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
-          dataKeyLabels={dataKeyLabels}
-          dataFormat={dataFormat}
-          dataKeys={dataKeys}
-          displayTotal={displayTooltipTotal}
-        />
-      }
-    />
-    <Area dataKey={dataKeys[0]} stroke="none" fill={`url(#color-${dataKeys[0]})`} fillOpacity={1} />
-  </AreaChart>
-);
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
+
+  return (
+    <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <defs>
+        <linearGradient id={`color-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={dataKeyColor} stopOpacity={1} />
+          <stop offset="90%" stopColor={dataKeyColor} stopOpacity={0.9} />
+        </linearGradient>
+      </defs>
+      <XAxis
+        dataKey="timestamp"
+        interval={30}
+        axisLine={false}
+        tickLine={false}
+        tick={tickStyle}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        reversed={true}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        axisLine={false}
+        tickLine={false}
+        tick={tickStyle}
+        width={dataFormat == DataFormat.Percentage ? 33 : 55}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[0, maximumYValue]}
+        dx={3}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Area dataKey={dataKey} stroke="none" fill={`url(#color-${dataKey})`} fillOpacity={1} />
+    </AreaChart>
+  );
+};
 
 const getValidCSSSelector = (value: string): string => {
   return value.replaceAll(" ", "-");
@@ -142,7 +147,7 @@ const getValidCSSSelector = (value: string): string => {
 const renderStackedAreaChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -155,11 +160,11 @@ const renderStackedAreaChart = (
 ) => (
   <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
-      {dataKeys.map((value: string, index: number) => {
+      {dataKeys.map((value: string) => {
         return (
           <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
-            <stop offset="100%" stopColor={stroke[index]} stopOpacity={0.2} />
+            <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
         );
       })}
@@ -196,11 +201,11 @@ const renderStackedAreaChart = (
         />
       }
     />
-    {dataKeys.map((value: string, index: number) => {
+    {dataKeys.map((value: string) => {
       return (
         <Area
           dataKey={value}
-          stroke={stroke ? stroke[index] : "none"}
+          stroke={dataKeyColors.get(value)}
           fill={`url(#color-${getValidCSSSelector(value)})`}
           fillOpacity={1}
           stackId="1"
@@ -216,7 +221,7 @@ const renderStackedAreaChart = (
 const renderComposedChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -230,11 +235,11 @@ const renderComposedChart = (
 ) => (
   <ComposedChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
-      {dataKeys.map((value: string, index: number) => {
+      {dataKeys.map((value: string) => {
         return (
           <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={stroke[index]} stopOpacity={1} />
-            <stop offset="100%" stopColor={stroke[index]} stopOpacity={0.2} />
+            <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
         );
       })}
@@ -272,7 +277,7 @@ const renderComposedChart = (
         />
       }
     />
-    {dataKeys.map((value: string, index: number) => {
+    {dataKeys.map((value: string) => {
       /**
        * Any elements in the composed data keys are rendered as values
        * on a dashed, thick line.
@@ -281,7 +286,7 @@ const renderComposedChart = (
         return (
           <Line
             dataKey={value}
-            stroke={stroke ? stroke[index] : "none"}
+            stroke={dataKeyColors.get(value)}
             fill={`url(#color-${getValidCSSSelector(value)})`}
             dot={false}
             strokeWidth={LINE_STROKE_WIDTH}
@@ -293,7 +298,7 @@ const renderComposedChart = (
       return (
         <Area
           dataKey={value}
-          stroke={stroke ? stroke[index] : "none"}
+          stroke={dataKeyColors.get(value)}
           fill={`url(#color-${getValidCSSSelector(value)})`}
           fillOpacity={1}
           stackId="1"
@@ -306,7 +311,7 @@ const renderComposedChart = (
 const renderLineChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -317,51 +322,49 @@ const renderLineChart = (
   scale?: string,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
-) => (
-  <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
-    <XAxis
-      dataKey="timestamp"
-      interval={100}
-      axisLine={false}
-      tick={tickStyle}
-      tickCount={3}
-      tickLine={false}
-      reversed={true}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: XAXIS_PADDING_RIGHT }}
-    />
-    <YAxis
-      tickCount={scale == "log" ? 1 : isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
-      axisLine={false}
-      tick={tickStyle}
-      tickLine={false}
-      width={32}
-      scale={() => scale}
-      tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      content={
-        <CustomTooltip
-          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
-          dataKeyLabels={dataKeyLabels}
-          dataFormat={dataFormat}
-          dataKeys={dataKeys}
-          displayTotal={displayTooltipTotal}
-        />
-      }
-    />
-    <Line
-      type="monotone"
-      dataKey={dataKeys[0]}
-      stroke={stroke ? stroke[0] : "none"}
-      color={stroke ? stroke[0] : "none"}
-      dot={false}
-    />
-    ;
-  </LineChart>
-);
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
+
+  return (
+    <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <XAxis
+        dataKey="timestamp"
+        interval={100}
+        axisLine={false}
+        tick={tickStyle}
+        tickCount={3}
+        tickLine={false}
+        reversed={true}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        tickCount={scale == "log" ? 1 : isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        axisLine={false}
+        tick={tickStyle}
+        tickLine={false}
+        width={32}
+        scale={() => scale}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Line type="monotone" dataKey={dataKey} stroke={dataKeyColor} color={dataKeyColor} dot={false} />
+    </LineChart>
+  );
+};
 
 /**
  * If keys[0] is
@@ -379,7 +382,7 @@ const isLineOneHigher = (data: any[], keys: string[]): boolean => {
 const renderAreaDifferenceChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -477,9 +480,9 @@ const renderAreaDifferenceChart = (
           />
         }
       />
-      <Area dataKey={RANGE_KEY} stroke={stroke[0]} fill={`url(#range)`} />
-      {dataKeys.map((value: string, index: number) => {
-        return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+      <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#range)`} />
+      {dataKeys.map((value: string) => {
+        return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
       })}
     </ComposedChart>
   );
@@ -488,7 +491,7 @@ const renderAreaDifferenceChart = (
 const renderMultiLineChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -534,8 +537,8 @@ const renderMultiLineChart = (
         />
       }
     />
-    {dataKeys.map((value: string, index: number) => {
-      return <Line dataKey={value} stroke={stroke[index]} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+    {dataKeys.map((value: string) => {
+      return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
     })}
   </LineChart>
 );
@@ -544,7 +547,7 @@ const renderMultiLineChart = (
 const renderBarChart = (
   data: any[],
   dataKeys: string[],
-  stroke: string[],
+  dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
   dataKeyBulletpointStyles: Map<string, CSSProperties>,
   dataKeyLabels: Map<string, string>,
@@ -554,43 +557,48 @@ const renderBarChart = (
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
-) => (
-  <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
-    <XAxis
-      dataKey="timestamp"
-      interval={30}
-      axisLine={false}
-      tickCount={TICK_COUNT}
-      tick={tickStyle}
-      tickLine={false}
-      reversed={true}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: XAXIS_PADDING_RIGHT }}
-    />
-    <YAxis
-      axisLine={false}
-      tick={tickStyle}
-      tickLine={false}
-      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
-      width={33}
-      domain={[0, maximumYValue]}
-      allowDataOverflow={false}
-      tickFormatter={number => (number !== 0 ? number : "")}
-    />
-    <Tooltip
-      content={
-        <CustomTooltip
-          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
-          dataKeyLabels={dataKeyLabels}
-          dataFormat={dataFormat}
-          dataKeys={dataKeys}
-          displayTotal={displayTooltipTotal}
-        />
-      }
-    />
-    <Bar dataKey={dataKeys[0]} fill={stroke[0]} />
-  </BarChart>
-);
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
+
+  return (
+    <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <XAxis
+        dataKey="timestamp"
+        interval={30}
+        axisLine={false}
+        tickCount={TICK_COUNT}
+        tick={tickStyle}
+        tickLine={false}
+        reversed={true}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        axisLine={false}
+        tick={tickStyle}
+        tickLine={false}
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        width={33}
+        domain={[0, maximumYValue]}
+        allowDataOverflow={false}
+        tickFormatter={number => (number !== 0 ? number : "")}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Bar dataKey={dataKey} fill={dataKeyColor} />
+    </BarChart>
+  );
+};
 
 /**
  * Functional React component that renders a chart with tooltips.
@@ -603,7 +611,7 @@ function Chart({
   data,
   scale,
   dataKeys,
-  stroke,
+  dataKeyColors,
   headerText,
   dataFormat,
   headerSubText,
@@ -629,7 +637,8 @@ function Chart({
   scale?: string;
   /** string array with all of the dataKeys that should be rendered */
   dataKeys: string[];
-  stroke: string[];
+  /** mapping of data keys to colors used for stroke/fill */
+  dataKeyColors: Map<string, string>;
   headerText: string;
   dataFormat: DataFormat;
   headerSubText: string;
@@ -685,7 +694,7 @@ function Chart({
         return renderLineChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -702,7 +711,7 @@ function Chart({
         return renderAreaChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -718,7 +727,7 @@ function Chart({
         return renderStackedAreaChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -734,7 +743,7 @@ function Chart({
         return renderMultiLineChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -751,7 +760,7 @@ function Chart({
         return renderAreaDifferenceChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -768,7 +777,7 @@ function Chart({
         return renderBarChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,
@@ -784,7 +793,7 @@ function Chart({
         return renderComposedChart(
           data,
           dataKeys,
-          stroke,
+          dataKeyColors,
           dataFormat,
           dataKeyBulletpointStyles,
           dataKeyLabels,

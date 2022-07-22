@@ -19,8 +19,9 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
+  getBulletpointStylesMap,
   getCategoriesMap,
-  getColoursMap,
+  getDataKeyColorsMap,
   getDataKeysFromTokens,
   getKeysTokenSummary,
   getTokensFromKey,
@@ -98,14 +99,15 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
 
   return (
     <Chart
       type={ChartType.AreaDifference}
       data={data ? data.protocolMetrics : []}
       dataKeys={dataKeys}
-      stroke={DEFAULT_COLORS}
+      dataKeyColors={colorsMap}
       headerText={isActiveTokenOHM() ? t`OHM Backing` : t`gOHM Backing`}
       headerSubText={`${
         data &&
@@ -117,7 +119,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
         )
       }`}
       dataFormat={DataFormat.Currency}
-      dataKeyBulletpointStyles={colorsMap}
+      dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       margin={{ left: 30 }}
       infoTooltipMessage={
@@ -238,18 +240,19 @@ export const MarketValueGraph = ({
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const colorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
 
   return (
     <Chart
       type={ChartType.Composed}
       data={data ? data.protocolMetrics : []}
       dataKeys={dataKeys}
-      stroke={DEFAULT_COLORS}
+      dataKeyColors={colorsMap}
       dataFormat={DataFormat.Currency}
       headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
       headerSubText={headerSubtext}
-      dataKeyBulletpointStyles={colorsMap}
+      dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       infoTooltipMessage={
         isLiquidBackingActive
@@ -283,7 +286,8 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
   const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
   const initialDataKeys: string[] = [];
   const [dataKeys, setDataKeys] = useState(initialDataKeys);
-  const [colorsMap, setColorsMap] = useState(new Map<string, CSSProperties>());
+  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
 
   // Dependent variables are only re-calculated when the data changes
   useMemo(() => {
@@ -291,7 +295,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       setTokenSummary([]);
       setCategoriesMap(new Map<string, string>());
       setDataKeys([]);
-      setColorsMap(new Map<string, CSSProperties>());
+      setBulletpointStylesMap(new Map<string, CSSProperties>());
       return;
     }
 
@@ -309,7 +313,10 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
     setCategoriesMap(tempCategoriesMap);
 
-    const tempColorsMap = getColoursMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys);
+    const tempBulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys);
+    setBulletpointStylesMap(tempBulletpointStylesMap);
+
+    const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
     setColorsMap(tempColorsMap);
   }, [data]);
 
@@ -318,11 +325,11 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       type={ChartType.StackedArea}
       data={tokenSummary}
       dataKeys={dataKeys}
-      stroke={DEFAULT_COLORS}
+      dataKeyColors={colorsMap}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
-      dataKeyBulletpointStyles={colorsMap}
+      dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       isLoading={!data}

@@ -200,17 +200,34 @@ export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<stri
 };
 
 /**
- * Creates a map that can be used to determine tooltip bulletpoint colors, with the values
+ * Creates a map that can be used to determine the color corresponding with data keys, with the values
  * of {dataKeys} as the keys and the values of {colors} as the values.
  *
  * @param colors
  * @param dataKeys
  * @returns
  */
-export const getColoursMap = (colors: CSSProperties[], dataKeys: string[]): Map<string, CSSProperties> => {
-  const categoriesMap = new Map<string, CSSProperties>();
+export const getDataKeyColorsMap = (colors: string[], dataKeys: string[]): Map<string, string> => {
+  const categoriesMap = new Map<string, string>();
   dataKeys.map((value, index) => {
     categoriesMap.set(value, colors[index]);
+  });
+
+  return categoriesMap;
+};
+
+/**
+ * Creates a map that can be used to determine tooltip bulletpoint styles, with the values
+ * of {dataKeys} as the keys and the values of {styles} as the values.
+ *
+ * @param styles
+ * @param dataKeys
+ * @returns
+ */
+export const getBulletpointStylesMap = (styles: CSSProperties[], dataKeys: string[]): Map<string, CSSProperties> => {
+  const categoriesMap = new Map<string, CSSProperties>();
+  dataKeys.map((value, index) => {
+    categoriesMap.set(value, styles[index]);
   });
 
   return categoriesMap;
