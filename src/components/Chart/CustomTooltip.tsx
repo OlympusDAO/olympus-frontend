@@ -33,20 +33,40 @@ const renderDate = (item: TooltipPayloadItem) => {
   );
 };
 
-const formatText = (type: DataFormat, item: number, decimals: number) => {
+/**
+ * Format number as a string based on the data format specified by {type}.
+ *
+ * @param type
+ * @param item
+ * @param decimals
+ * @returns
+ */
+const formatNumber = (type: DataFormat, item: number, decimals: number) => {
   return type === DataFormat.Currency
     ? formatCurrency(item, decimals)
     : `${Math.round(item).toLocaleString("en-US")}${type}`;
 };
 
 const renderItem = (type: DataFormat, item: number, decimals = 0) => {
-  return <Typography variant="body2">{formatText(type, item, decimals)}</Typography>;
+  return <Typography variant="body2">{formatNumber(type, item, decimals)}</Typography>;
 };
 
-const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[], totalExcludesDataKeys: string[] | undefined) => {
-  const total = payload.reduce((prev, current) => {
+/**
+ * Render the total for a given array of payloads.
+ *
+ * @param type
+ * @param payloadItems
+ * @param dataKeysExcludedFromTotal optional array of data keys that will be excluded from the total
+ * @returns
+ */
+const renderTotal = (
+  type: DataFormat,
+  payloadItems: TooltipPayloadItem[],
+  dataKeysExcludedFromTotal: string[] | undefined,
+) => {
+  const total = payloadItems.reduce((prev, current) => {
     // Skip ignored data keys
-    if (totalExcludesDataKeys && totalExcludesDataKeys.includes(current.dataKey)) {
+    if (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(current.dataKey)) {
       return prev;
     }
 
@@ -56,21 +76,40 @@ const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[], totalExclu
   return (
     <Grid item xs={12}>
       <Typography variant="body2" align="right" fontWeight={500}>
-        Total: {formatText(type, total, 0)}
+        Total: {formatNumber(type, total, 0)}
       </Typography>
     </Grid>
   );
 };
 
-const renderItemContainer = (
-  bulletpointStyle: CSSProperties,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+/**
+ * Renders a row with a bulletpoint.
+ *
+ * @param dataKeyBulletpointStyles Mapping between data keys and the bulletpoint style
+ * @param dataKeyLabels Mapping between data keys and the label
+ * @param dataFormat Data type
+ * @param itemDecimals Number of decimals to display
+ * @param index Row index
+ * @param item Payload item
+ */
+const renderBulletpointRow = (
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   dataFormat: DataFormat,
   itemDecimals: number,
   index: number,
   item: TooltipPayloadItem,
 ) => {
+  const bulletpointStyle = {
+    display: "inline-block",
+    width: "1em",
+    height: "1em",
+    borderRadius: "50%",
+    marginRight: "5px",
+    verticalAlign: "top",
+    ...dataKeyBulletpointStyles.get(item.dataKey),
+  };
+
   return (
     <Grid
       item
@@ -82,9 +121,9 @@ const renderItemContainer = (
       key={index}
     >
       <Grid item xs={8} alignContent="center">
-        <span style={{ ...bulletpointStyle, ...bulletpointColors.get(item.dataKey) }}></span>
+        <span style={bulletpointStyle}></span>
         <Typography variant="body2" display="inline">
-          {`${categories.get(item.dataKey)}`}
+          {`${dataKeyLabels.get(item.dataKey)}`}
         </Typography>
       </Grid>
       <Grid item xs={4} textAlign="right">
@@ -96,23 +135,15 @@ const renderItemContainer = (
 
 const renderTooltipItems = (
   payload: TooltipPayloadItem[],
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   dataFormat: DataFormat,
   dataKey: string[],
   itemDecimals = 0,
   displayTotal = false,
-  totalExcludesDataKeys?: string[],
+  dataKeysExcludedFromTotal?: string[],
 ) => {
   let ignoredIndex = 0;
-  const bulletpointStyle = {
-    display: "inline-block",
-    width: "1em",
-    height: "1em",
-    borderRadius: "50%",
-    marginRight: "5px",
-    verticalAlign: "top",
-  };
 
   return (
     <Grid container xs={12} padding={"20px"}>
@@ -124,7 +155,7 @@ const renderTooltipItems = (
          */
         if (
           !dataKey.includes(item.dataKey) ||
-          (totalExcludesDataKeys && totalExcludesDataKeys.includes(item.dataKey))
+          (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
         ) {
           ignoredIndex++;
           return <></>;
@@ -132,32 +163,30 @@ const renderTooltipItems = (
 
         const adjustedIndex = index - ignoredIndex;
 
-        return renderItemContainer(
-          bulletpointStyle,
-          bulletpointColors,
-          categories,
+        return renderBulletpointRow(
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           dataFormat,
           itemDecimals,
           adjustedIndex,
           item,
         );
       })}
-      {displayTotal && renderTotal(dataFormat, payload, totalExcludesDataKeys)}
+      {displayTotal && renderTotal(dataFormat, payload, dataKeysExcludedFromTotal)}
       <Grid item xs={12} marginBottom="20px" />
       {
         // Display elements of totalExcludesDataKeys below the total
         payload.map((item, index) => {
-          if (!totalExcludesDataKeys || !totalExcludesDataKeys.includes(item.dataKey)) {
+          if (!dataKeysExcludedFromTotal || !dataKeysExcludedFromTotal.includes(item.dataKey)) {
             ignoredIndex++;
             return <></>;
           }
 
           const adjustedIndex = index - ignoredIndex;
 
-          return renderItemContainer(
-            bulletpointStyle,
-            bulletpointColors,
-            categories,
+          return renderBulletpointRow(
+            dataKeyBulletpointStyles,
+            dataKeyLabels,
             dataFormat,
             itemDecimals,
             adjustedIndex,
@@ -170,9 +199,9 @@ const renderTooltipItems = (
 };
 
 /**
- * React Component that renders a custom tooltip in a chart.
+ * Function React component that renders a custom tooltip in a chart.
  *
- * As the presence of the data keys can differ, the {categories}
+ * As the presence of the data keys can differ, the {dataKeyLabels}
  * and {bulletpointColors} props are maps. This keeps the
  * bullpoint color consistent with the charts rendering.
  *
@@ -181,23 +210,23 @@ const renderTooltipItems = (
 function CustomTooltip({
   active,
   payload,
-  bulletpointColors,
-  categories,
+  dataKeyBulletpointStyles,
+  dataKeyLabels,
   dataFormat,
-  dataKey,
+  dataKeys,
   itemDecimals,
   displayTotal,
-  totalExcludesDataKeys,
+  dataKeysExcludedFromTotal,
 }: {
   active?: boolean;
   payload?: TooltipPayloadItem[];
-  bulletpointColors: Map<string, CSSProperties>;
-  categories: Map<string, string>;
+  dataKeyBulletpointStyles: Map<string, CSSProperties>;
+  dataKeyLabels: Map<string, string>;
   dataFormat: DataFormat;
-  dataKey: string[];
+  dataKeys: string[];
   itemDecimals?: number;
   displayTotal?: boolean;
-  totalExcludesDataKeys?: string[];
+  dataKeysExcludedFromTotal?: string[];
 }) {
   const theme = useTheme();
 
@@ -213,13 +242,13 @@ function CustomTooltip({
       >
         {renderTooltipItems(
           payload,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           dataFormat,
-          dataKey,
+          dataKeys,
           itemDecimals,
           displayTotal,
-          totalExcludesDataKeys,
+          dataKeysExcludedFromTotal,
         )}
       </Paper>
     );

@@ -117,8 +117,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
         )
       }`}
       dataFormat={DataFormat.Currency}
-      bulletpointColors={colorsMap}
-      categories={categoriesMap}
+      dataKeyBulletpointStyles={colorsMap}
+      dataKeyLabels={categoriesMap}
       margin={{ left: 30 }}
       infoTooltipMessage={
         isActiveTokenOHM()
@@ -249,8 +249,8 @@ export const MarketValueGraph = ({
       dataFormat={DataFormat.Currency}
       headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
       headerSubText={headerSubtext}
-      bulletpointColors={colorsMap}
-      categories={categoriesMap}
+      dataKeyBulletpointStyles={colorsMap}
+      dataKeyLabels={categoriesMap}
       infoTooltipMessage={
         isLiquidBackingActive
           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
@@ -322,8 +322,8 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
       headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
-      bulletpointColors={colorsMap}
-      categories={categoriesMap}
+      dataKeyBulletpointStyles={colorsMap}
+      dataKeyLabels={categoriesMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       isLoading={!data}
       itemDecimals={0}

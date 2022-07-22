@@ -83,8 +83,8 @@ const renderAreaChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -96,7 +96,7 @@ const renderAreaChart = (
     <defs>
       <linearGradient id={`color-${dataKeys[0]}`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor={stroke[0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stroke[0][1]} stopOpacity={0.9} />
+        <stop offset="90%" stopColor={stroke[0]} stopOpacity={0.9} />
       </linearGradient>
     </defs>
     <XAxis
@@ -123,10 +123,10 @@ const renderAreaChart = (
     <Tooltip
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
-          dataKey={dataKeys}
+          dataKeys={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -144,8 +144,8 @@ const renderStackedAreaChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -188,10 +188,10 @@ const renderStackedAreaChart = (
       formatter={(value: string) => trim(parseFloat(value), 2)}
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
-          dataKey={dataKeys}
+          dataKeys={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -212,29 +212,14 @@ const renderStackedAreaChart = (
 
 /**
  * Renders a composed (area & line) chart.
- *
- *
- * @param data
- * @param dataKeys string array with all of the dataKeys that should be rendered
- * @param stroke
- * @param dataFormat
- * @param bulletpointColors
- * @param categories
- * @param isExpanded
- * @param margin
- * @param tickStyle
- * @param maximumYValue
- * @param displayTooltipTotal
- * @param composedLineDataKeys optional string array with the dataKeys that should be rendered as lines
- * @returns
  */
 const renderComposedChart = (
   data: any[],
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -278,11 +263,11 @@ const renderComposedChart = (
       formatter={(value: string) => trim(parseFloat(value), 2)}
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
-          dataKey={dataKeys}
-          totalExcludesDataKeys={composedLineDataKeys}
+          dataKeys={dataKeys}
+          dataKeysExcludedFromTotal={composedLineDataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -323,8 +308,8 @@ const renderLineChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -359,10 +344,10 @@ const renderLineChart = (
     <Tooltip
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
-          dataKey={dataKeys}
+          dataKeys={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -396,8 +381,8 @@ const renderAreaDifferenceChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -483,11 +468,11 @@ const renderAreaDifferenceChart = (
       <Tooltip
         content={
           <CustomTooltip
-            bulletpointColors={bulletpointColors}
-            categories={categories}
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
             dataFormat={dataFormat}
             itemDecimals={itemDecimals}
-            dataKey={dataKeys}
+            dataKeys={dataKeys}
             displayTotal={displayTooltipTotal}
           />
         }
@@ -505,8 +490,8 @@ const renderMultiLineChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -540,11 +525,11 @@ const renderMultiLineChart = (
     <Tooltip
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
           itemDecimals={itemDecimals}
-          dataKey={dataKeys}
+          dataKeys={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -561,8 +546,8 @@ const renderBarChart = (
   dataKeys: string[],
   stroke: string[],
   dataFormat: DataFormat,
-  bulletpointColors: Map<string, CSSProperties>,
-  categories: Map<string, string>,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
@@ -595,10 +580,10 @@ const renderBarChart = (
     <Tooltip
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          categories={categories}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
           dataFormat={dataFormat}
-          dataKey={dataKeys}
+          dataKeys={dataKeys}
           displayTotal={displayTooltipTotal}
         />
       }
@@ -607,6 +592,12 @@ const renderBarChart = (
   </BarChart>
 );
 
+/**
+ * Functional React component that renders a chart with tooltips.
+ *
+ * @param param0
+ * @returns
+ */
 function Chart({
   type,
   data,
@@ -616,8 +607,8 @@ function Chart({
   headerText,
   dataFormat,
   headerSubText,
-  bulletpointColors,
-  categories,
+  dataKeyBulletpointStyles,
+  dataKeyLabels,
   infoTooltipMessage,
   isLoading,
   tickStyle,
@@ -636,13 +627,16 @@ function Chart({
   type: ChartType;
   data: any[];
   scale?: string;
+  /** string array with all of the dataKeys that should be rendered */
   dataKeys: string[];
   stroke: string[];
   headerText: string;
   dataFormat: DataFormat;
   headerSubText: string;
-  bulletpointColors: Map<string, CSSProperties>;
-  categories: Map<string, string>;
+  /** map between data keys and the color of the bulletpoint */
+  dataKeyBulletpointStyles: Map<string, CSSProperties>;
+  /** map between data keys and their labels */
+  dataKeyLabels: Map<string, string>;
   infoTooltipMessage: string;
   isLoading: boolean;
   tickStyle: Record<string, string | number>;
@@ -650,6 +644,7 @@ function Chart({
   itemDecimals?: number;
   subgraphQueryUrl?: string;
   displayTooltipTotal?: boolean;
+  /** optional string array with the dataKeys that should be rendered as lines */
   composedLineDataKeys?: string[];
   onMouseMove?: CategoricalChartFunc;
 }) {
@@ -692,8 +687,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -709,8 +704,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -725,8 +720,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -741,8 +736,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -758,8 +753,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -775,8 +770,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
@@ -791,8 +786,8 @@ function Chart({
           dataKeys,
           stroke,
           dataFormat,
-          bulletpointColors,
-          categories,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
           isExpanded,
           margin,
           tickStyle,
