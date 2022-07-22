@@ -188,9 +188,25 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
       const bondPrice = await contract.marketPrice(id);
 
       if (side === "low") {
-        return 1 / parseBigNumber(bondPrice, 36);
+        return 1 / parseBigNumber(bondPrice, 35);
       }
       return parseBigNumber(bondPrice, 36);
+    },
+    {
+      enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
+    }, //Disable this query for negative markets (default value) or Max Integer (market not active from range call)
+  );
+  return { data, isFetched, isLoading };
+};
+
+export const BondTellerAddress = (id: BigNumber) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(
+    ["RangeBondAggregator", id, chain],
+    async () => {
+      const tellerAddress = await contract.getTeller(id);
+      return tellerAddress;
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
@@ -254,6 +270,13 @@ export const RangeSwap = () => {
       const tellerAddress = await contract.getTeller(market);
 
       const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
+      console.log(
+        recipientAddress,
+        referrer,
+        market,
+        swapAmount.toBigNumber(decimals),
+        minAmountReceived.toBigNumber(receiveDecimals),
+      );
       const transaction = await tellerContract.purchase(
         recipientAddress,
         referrer,

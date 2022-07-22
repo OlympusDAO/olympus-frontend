@@ -54,7 +54,7 @@ describe("Upper Wall Active Bond Market", () => {
       connect: jest.fn().mockReturnValue({
         getTeller: jest.fn().mockReturnValue("address"),
       }),
-      marketPrice: jest.fn().mockReturnValue(BigNumber.from("201200000000000000000000000000000000000")),
+      marketPrice: jest.fn().mockReturnValue(BigNumber.from("20120000000000000000000000000000000000")),
     });
   });
   afterEach(() => {

@@ -6,12 +6,12 @@ import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import { useIsMutating } from "react-query";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { BOND_DEPOSITORY_ADDRESSES, OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
+import { OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { useAccount, useNetwork } from "wagmi";
 
 import { BondSettingsModal } from "../Bond/components/BondModal/components/BondSettingsModal";
-import { RangeSwap } from "./hooks";
+import { BondTellerAddress, RangeSwap } from "./hooks";
 
 /**
  * Component for Displaying RangeModal
@@ -32,6 +32,7 @@ const RangeConfirmationModal = (props: {
   const isMutating = useIsMutating();
   const theme = useTheme();
   const rangeSwap = RangeSwap();
+  const { data: tellerAddress = "" } = BondTellerAddress(props.market);
   const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -123,7 +124,12 @@ const RangeConfirmationModal = (props: {
           isVertical
           message={
             <>
-              <Trans>First time swapping</Trans> <strong>{props.sellActive ? "OHM" : props.reserveSymbol}</strong>?
+              <Trans>First time swapping</Trans>{" "}
+              <strong>
+                {props.sellActive ? "OHM" : props.reserveSymbol} with
+                {props.contract === "bond" ? " the Bond Teller" : " the Range Operator"}
+              </strong>
+              ?
               <br />
               <Trans>Please approve Olympus DAO to use your</Trans>{" "}
               <strong>{props.sellActive ? "OHM" : props.reserveSymbol} </strong>
@@ -131,7 +137,7 @@ const RangeConfirmationModal = (props: {
             </>
           }
           tokenAddressMap={props.sellActive ? OHM_ADDRESSES : { [chain.id]: props.reserveAddress }}
-          spenderAddressMap={props.contract === "bond" ? BOND_DEPOSITORY_ADDRESSES : RANGE_OPERATOR_ADDRESSES}
+          spenderAddressMap={props.contract === "bond" ? { [chain.id]: tellerAddress } : RANGE_OPERATOR_ADDRESSES}
           approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
           {props.discount < 0 && (

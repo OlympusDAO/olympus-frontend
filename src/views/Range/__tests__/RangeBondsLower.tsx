@@ -52,7 +52,7 @@ const setupTest = () => {
     connect: jest.fn().mockReturnValue({
       getTeller: jest.fn().mockReturnValue("address"),
     }),
-    marketPrice: jest.fn().mockReturnValue(BigNumber.from("101200000000000000000000000000000000000")),
+    marketPrice: jest.fn().mockReturnValue(BigNumber.from("10120000000000000000000000000000000000")),
   });
 };
 describe("Lower Wall Active Bond Market", () => {
