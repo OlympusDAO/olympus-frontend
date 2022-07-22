@@ -31,7 +31,7 @@ import {
 } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-import { ToggleCallback } from "./Constants";
+import { QUERY_TOKEN_OHM, ToggleCallback } from "./Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -68,6 +68,7 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
 };
 
 type GraphProps = {
+  activeToken?: string;
   count?: number;
   onMouseMove?: CategoricalChartFunc;
 };
@@ -78,11 +79,19 @@ type GraphProps = {
  *
  * @returns
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const theme = useTheme();
 
-  const dataKeys: string[] = ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"];
-  const itemNames: string[] = [t`OHM Price`, t`Liquid Backing per Floating OHM`];
+  const isActiveTokenOHM = (): boolean => {
+    return activeToken === QUERY_TOKEN_OHM;
+  };
+
+  const dataKeys: string[] = isActiveTokenOHM()
+    ? ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]
+    : ["gOhmPrice", "treasuryLiquidBackingPerGOhmCirculating"];
+  const itemNames: string[] = isActiveTokenOHM()
+    ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
+    : [t`gOHM Price`, t`Liquid Backing per Circulating gOHM`];
 
   const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
@@ -97,13 +106,25 @@ export const LiquidBackingPerOhmComparisonGraph = ({ count = DEFAULT_RECORDS_COU
       data={data ? data.protocolMetrics : []}
       dataKeys={dataKeys}
       stroke={DEFAULT_COLORS}
-      headerText={t`OHM Backing`}
-      headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, 2)}`}
+      headerText={isActiveTokenOHM() ? t`OHM Backing` : t`gOHM Backing`}
+      headerSubText={`${
+        data &&
+        formatCurrency(
+          isActiveTokenOHM()
+            ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
+            : data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating,
+          2,
+        )
+      }`}
       dataFormat={DataFormat.Currency}
       bulletpointColors={colorsMap}
       categories={categoriesMap}
       margin={{ left: 30 }}
-      infoTooltipMessage={t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`}
+      infoTooltipMessage={
+        isActiveTokenOHM()
+          ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
+          : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`
+      }
       isLoading={!data}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}

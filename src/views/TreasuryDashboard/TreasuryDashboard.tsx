@@ -3,6 +3,7 @@ import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-l
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 
+import { QUERY_RECORD_COUNT, QUERY_TOKEN, QUERY_TOKEN_GOHM, QUERY_TOKEN_OHM } from "./components/Graph/Constants";
 import {
   DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
@@ -21,10 +22,6 @@ import {
 } from "./components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
-const QUERY_RECORD_COUNT = "recordCount";
-const QUERY_TOKEN = "token";
-const QUERY_TOKEN_OHM = "OHM";
-const QUERY_TOKEN_GOHM = "gOHM";
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
@@ -158,7 +155,7 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
-            <LiquidBackingPerOhmComparisonGraph count={parseInt(recordCount)} />
+            <LiquidBackingPerOhmComparisonGraph activeToken={token} count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
