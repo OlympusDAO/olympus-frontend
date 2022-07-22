@@ -104,9 +104,9 @@ const MetricsDashboard = () => {
             </MetricCollection>
           </Paper>
         </Grid>
-        <Grid item xs={12} container>
-          <Grid item xs={1} />
-          <Grid item xs={4} textAlign="center">
+        <Grid item xs={12} container spacing={1}>
+          <Grid item xs={1} md={1} />
+          <Grid item xs={10} md={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -133,8 +133,9 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={4} />
-          <Grid item xs={2} textAlign="center">
+          <Grid item xs={1} md={1} />
+          <Grid item xs={3} sm={4} md={1} />
+          <Grid item xs={6} sm={4} md={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -151,7 +152,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={1} />
+          <Grid item xs={3} sm={4} md={1} />
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
