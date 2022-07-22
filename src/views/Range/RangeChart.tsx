@@ -87,6 +87,15 @@ const RangeChart = (props: {
 
   const capacityFormatter = Intl.NumberFormat("en", { notation: "compact" });
 
+  //adjust chart layout labels if dots are too close
+
+  const askPriceDelta = chartData[1].price - askPrice; //if negative ask is above price
+  const bidPriceDelta = chartData[1].price - bidPrice; // if negative bid is above price
+  const isSquishyAsk = askPriceDelta < 0.25 && askPriceDelta > -0.25;
+  const isSquishyBid = bidPriceDelta < 0.25 && bidPriceDelta > -0.25;
+
+  console.log(bidPriceDelta, "bidPriceDelta", "askPriceDelta", askPriceDelta);
+
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`}>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
@@ -121,7 +130,7 @@ const RangeChart = (props: {
         <YAxis
           scale="auto"
           orientation="right"
-          domain={[(dataMin: number) => trim(dataMin * 0.98, 2), (dataMax: number) => trim(dataMax * 1.02, 2)]}
+          domain={[(dataMin: number) => trim(dataMin * 0.95, 2), (dataMax: number) => trim(dataMax * 1.05, 2)]}
           width={38}
         />
         <Tooltip content={<TooltipContent />} />
@@ -170,7 +179,18 @@ const RangeChart = (props: {
           shape={CustomReferenceDot}
           fill={theme.colors.gray[10]}
         >
-          <Label className={classes.currentPrice} position={"right"}>
+          <Label
+            className={classes.currentPrice}
+            position={
+              !sellActive
+                ? isSquishyAsk && askPriceDelta < 0
+                  ? "bottom"
+                  : "top"
+                : isSquishyBid && bidPriceDelta < 0
+                ? "bottom"
+                : "top"
+            }
+          >
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
@@ -181,7 +201,7 @@ const RangeChart = (props: {
             shape={CustomReferenceDot}
             fill="#F8CC82"
           >
-            <Label className={classes.currentPrice} position={"right"}>
+            <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
               {`Ask: ${formatCurrency(askPrice, 2)}`}
             </Label>
           </ReferenceDot>
@@ -193,7 +213,7 @@ const RangeChart = (props: {
             shape={CustomReferenceDot}
             fill={theme.colors.primary[300]}
           >
-            <Label className={classes.currentPrice} position={"right"}>
+            <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
               {`Bid: ${formatCurrency(bidPrice, 2)}`}
             </Label>
           </ReferenceDot>
