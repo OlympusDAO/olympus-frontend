@@ -56,7 +56,7 @@ const renderTotal = (type: DataFormat, payload: TooltipPayloadItem[], totalExclu
   return (
     <Grid item xs={12}>
       <Typography variant="body2" align="right" fontWeight={500}>
-        {formatText(type, total, 0)}
+        Total: {formatText(type, total, 0)}
       </Typography>
     </Grid>
   );
