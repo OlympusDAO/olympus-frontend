@@ -7882,10 +7882,10 @@ fake-merkle-patricia-tree@^1.0.1:
   dependencies:
     checkpoint-store "^1.1.0"
 
-fast-check@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.0.0.tgz#6ea28d584e9ffebd7ecd0f06c163cd6af593ecfd"
-  integrity sha512-uujtrFJEQQqnIMO52ARwzPcuV4omiL1OJBUBLE9WnNFeu0A97sREXDOmCIHY+Z6KLVcemUf09rWr0q0Xy/Y/Ew==
+fast-check@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.0.1.tgz#b9e7b57c4643a4e62893aca85e21c270591d0eac"
+  integrity sha512-AriFDYpYVOBynpPZq/quxSLumFOo2hPB2H5Nz2vc1QlNfjOaA62zX8USNXcOY5nwKHEq7lZ84dG9M1W+LAND1g==
   dependencies:
     pure-rand "^5.0.1"
 
