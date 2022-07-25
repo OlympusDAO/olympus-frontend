@@ -2,6 +2,7 @@ import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 
 import { QUERY_RECORD_COUNT, QUERY_TOKEN, QUERY_TOKEN_GOHM, QUERY_TOKEN_OHM } from "./components/Graph/Constants";
 import {
@@ -53,10 +54,7 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
-    const updatedSearchParams = new URLSearchParams(searchParams);
-    updatedSearchParams.set(QUERY_RECORD_COUNT, recordCount.toString());
-
-    return updatedSearchParams.toString();
+    return updateSearchParams(searchParams, QUERY_RECORD_COUNT, recordCount.toString()).toString();
   };
 
   /**
@@ -67,10 +65,7 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedToken = (token: string): string => {
-    const updatedSearchParams = new URLSearchParams(searchParams);
-    updatedSearchParams.set(QUERY_TOKEN, token);
-
-    return updatedSearchParams.toString();
+    return updateSearchParams(searchParams, QUERY_TOKEN, token).toString();
   };
 
   const isTokenOHM = (): boolean => {
