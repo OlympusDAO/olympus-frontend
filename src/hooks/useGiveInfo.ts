@@ -55,7 +55,6 @@ export const useDonationInfo = () => {
   // Establish contract
   const networks = useTestableNetworks();
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
-  console.log(address, "address");
   const query = useQuery<IUserDonationInfo[] | null, Error>([donationInfoQueryKey(address, chain.id)], async () => {
     queryAssertion([address, chain.id], donationInfoQueryKey(address, chain.id));
 
