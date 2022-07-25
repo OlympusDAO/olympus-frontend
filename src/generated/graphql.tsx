@@ -31,8 +31,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  BigDecimal: any;
-  BigInt: any;
+  BigDecimal: number;
+  BigInt: number;
   Bytes: any;
 };
 
@@ -2307,20 +2307,20 @@ export type MetricsBarLatestOnlyQuery = {
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
-    block: any;
-    currentIndex: any;
-    gOhmCirculatingSupply: any;
-    gOhmPrice: any;
-    gOhmTotalSupply: any;
-    marketCap: any;
-    ohmCirculatingSupply: any;
-    ohmFloatingSupply: any;
-    ohmPrice: any;
-    totalSupply: any;
-    totalValueLocked: any;
-    treasuryLiquidBackingPerGOhmCirculating: any;
-    treasuryLiquidBackingPerOhmFloating: any;
-    treasuryMarketValue: any;
+    block: number;
+    currentIndex: number;
+    gOhmCirculatingSupply: number;
+    gOhmPrice: number;
+    gOhmTotalSupply: number;
+    marketCap: number;
+    ohmCirculatingSupply: number;
+    ohmFloatingSupply: number;
+    ohmPrice: number;
+    totalSupply: number;
+    totalValueLocked: number;
+    treasuryLiquidBackingPerGOhmCirculating: number;
+    treasuryLiquidBackingPerOhmFloating: number;
+    treasuryMarketValue: number;
   }>;
 };
 
@@ -2333,23 +2333,23 @@ export type KeyMetricsQuery = {
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
-    block: any;
-    currentIndex: any;
-    gOhmCirculatingSupply: any;
-    gOhmPrice: any;
-    gOhmTotalSupply: any;
-    marketCap: any;
-    ohmCirculatingSupply: any;
-    ohmFloatingSupply: any;
-    ohmPrice: any;
-    timestamp: any;
+    block: number;
+    currentIndex: number;
+    gOhmCirculatingSupply: number;
+    gOhmPrice: number;
+    gOhmTotalSupply: number;
+    marketCap: number;
+    ohmCirculatingSupply: number;
+    ohmFloatingSupply: number;
+    ohmPrice: number;
+    timestamp: number;
     timestampISO8901: string;
-    totalSupply: any;
-    totalValueLocked: any;
-    treasuryLiquidBacking: any;
-    treasuryLiquidBackingPerGOhmCirculating: any;
-    treasuryLiquidBackingPerOhmFloating: any;
-    treasuryMarketValue: any;
+    totalSupply: number;
+    totalValueLocked: number;
+    treasuryLiquidBacking: number;
+    treasuryLiquidBackingPerGOhmCirculating: number;
+    treasuryLiquidBackingPerOhmFloating: number;
+    treasuryMarketValue: number;
   }>;
 };
 
@@ -2362,17 +2362,17 @@ export type MarketValueMetricsQuery = {
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
-    block: any;
-    timestamp: any;
+    block: number;
+    timestamp: number;
     timestampISO8901: string;
-    treasuryMarketValue: any;
-    treasuryStableValue: any;
-    treasuryVolatileValue: any;
-    treasuryLPValue: any;
-    treasuryLiquidBacking: any;
-    treasuryLiquidBackingStable: any;
-    treasuryLiquidBackingVolatile: any;
-    treasuryLiquidBackingProtocolOwnedLiquidity: any;
+    treasuryMarketValue: number;
+    treasuryStableValue: number;
+    treasuryVolatileValue: number;
+    treasuryLPValue: number;
+    treasuryLiquidBacking: number;
+    treasuryLiquidBackingStable: number;
+    treasuryLiquidBackingVolatile: number;
+    treasuryLiquidBackingProtocolOwnedLiquidity: number;
   }>;
 };
 
@@ -2385,32 +2385,32 @@ export type MarketValueMetricsComponentsQuery = {
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
-    block: any;
-    timestamp: any;
+    block: number;
+    timestamp: number;
     timestampISO8901: string;
     treasuryStableValueComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryVolatileValueComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLPValueComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingStableComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingVolatileComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingProtocolOwnedLiquidityComponents: {
       __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: any }>;
+      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
   }>;
 };
@@ -2424,12 +2424,12 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
-    block: any;
-    timestamp: any;
+    block: number;
+    timestamp: number;
     timestampISO8901: string;
     treasuryLPValueComponents: {
       __typename?: "TokenRecords";
-      value: any;
+      value: number;
       records: Array<{
         __typename?: "TokenRecord";
         id: string;
@@ -2437,10 +2437,10 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
         tokenAddress: string;
         source: string;
         sourceAddress: string;
-        balance: any;
-        rate: any;
-        multiplier: any;
-        value: any;
+        balance: number;
+        rate: number;
+        multiplier: number;
+        value: number;
       }>;
     };
   }>;

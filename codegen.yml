@@ -11,6 +11,9 @@ generates:
     config:
       withHooks: true
       preResolveTypes: true
+      scalars:
+        BigDecimal: number
+        BigInt: number
     hooks:
       afterOneFileWrite:
         - yarn eslint --config ./.eslintrc.js --fix
