@@ -440,7 +440,7 @@ const renderAreaDifferenceChart = (
 
               // Determine the offset from the start of the x-axis
               const offset =
-                intersection.x /
+                (intersection.x || 0) /
                 (data.filter(value => value[dataKeys[0]] !== undefined && value[dataKeys[1]] != undefined).length - 1);
 
               return (

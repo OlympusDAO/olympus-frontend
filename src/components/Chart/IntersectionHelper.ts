@@ -1,9 +1,11 @@
+import { getFloat } from "src/helpers/NumberHelper";
+
 export const RANGE_KEY = "range";
 const COLOR_HIGHER = "green";
 const COLOR_LOWER = "#FF8585";
 
-export const getDataWithRange = (data: any[], dataKey: string[]): any[] => {
-  return data.map((value: any) => ({
+export const getDataWithRange = (data: Record<string, unknown>[], dataKey: string[]): Record<string, unknown>[] => {
+  return data.map((value: Record<string, unknown>) => ({
     ...value,
     [RANGE_KEY]:
       value[dataKey[0]] !== undefined && value[dataKey[1]] !== undefined ? [value[dataKey[0]], value[dataKey[1]]] : [],
@@ -66,20 +68,17 @@ function intersect(
   return { x, y, line1isHigher, line1isHigherNext };
 }
 
-export const getDataIntersections = (data: any[], dataKey: string[]): any[] => {
+export const getDataIntersections = (data: Record<string, unknown>[], dataKey: string[]): IntersectType[] => {
   // need to find intersections as points where we to change fill color
   const intersections: IntersectType[] = data
-    .map((value: any, index: number) => {
+    .map((value: Record<string, unknown>, index: number) => {
       const key1 = dataKey[0];
       const key2 = dataKey[1];
-      const forceNumber = (aValue: any): number => {
-        return typeof aValue == "number" ? aValue : typeof aValue == "string" ? parseFloat(aValue) : 0;
-      };
 
-      const value1 = forceNumber(value[key1]);
-      const value2 = forceNumber(value[key2]);
-      const nextValue1 = data[index + 1] && forceNumber(data[index + 1][key1]);
-      const nextValue2 = data[index + 1] && forceNumber(data[index + 1][key2]);
+      const value1 = getFloat(value[key1]);
+      const value2 = getFloat(value[key2]);
+      const nextValue1 = data[index + 1] && getFloat(data[index + 1][key1]);
+      const nextValue2 = data[index + 1] && getFloat(data[index + 1][key2]);
 
       return intersect(index, value1, index + 1, nextValue1, index, value2, index + 1, nextValue2);
     })
