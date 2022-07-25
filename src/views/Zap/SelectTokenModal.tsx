@@ -80,7 +80,7 @@ function SelectTokenModal(
                   .map(token => (
                     <ListItem button onClick={() => handleSelectToken(token[0])} key={token[1].symbol}>
                       <ListItemAvatar>
-                        <Avatar src={token[1].tokenImageUrl} />
+                        <Avatar src={token[1].displayProps.images[0]} />
                       </ListItemAvatar>
                       <ListItemText primary={token[1].symbol} />
                       <Box flexGrow={10} />
