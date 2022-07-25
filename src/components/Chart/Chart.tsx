@@ -16,7 +16,7 @@ import {
 import { CategoricalChartFunc, CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { formatCurrency, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
-import { getMaximumValue } from "src/helpers/ProtocolMetricsHelper";
+import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 import { ChartType, DataFormat } from "./Constants";
@@ -79,7 +79,7 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
 };
 
 const renderAreaChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -145,7 +145,7 @@ const getValidCSSSelector = (value: string): string => {
 };
 
 const renderStackedAreaChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -219,7 +219,7 @@ const renderStackedAreaChart = (
  * Renders a composed (area & line) chart.
  */
 const renderComposedChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -309,7 +309,7 @@ const renderComposedChart = (
 );
 
 const renderLineChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -367,20 +367,32 @@ const renderLineChart = (
 };
 
 /**
- * If keys[0] is
+ * Returns true if the value corresponding to keys[0] is greater than keys[1].
+ *
  * @param data
  * @param keys
  * @returns
  */
-const isLineOneHigher = (data: any[], keys: string[]): boolean => {
+const isLineOneHigher = (data: Record<string, unknown>[], keys: string[]): boolean => {
   if (!data.length) return false;
   if (keys.length < 2) return false;
 
-  return data[0][keys[0]] > data[0][keys[1]];
+  if (!objectHasProperty(data[0], keys[0])) {
+    throw new Error(`isLineOneHigher: Unable to access ${keys[0]} property in object`);
+  }
+
+  if (!objectHasProperty(data[0], keys[1])) {
+    throw new Error(`isLineOneHigher: Unable to access ${keys[1]} property in object`);
+  }
+
+  const value1 = getFloat(data[0][keys[0]]);
+  const value2 = getFloat(data[0][keys[1]]);
+
+  return value1 > value2;
 };
 
 const renderAreaDifferenceChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -489,7 +501,7 @@ const renderAreaDifferenceChart = (
 };
 
 const renderMultiLineChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -545,7 +557,7 @@ const renderMultiLineChart = (
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
-  data: any[],
+  data: Record<string, unknown>[],
   dataKeys: string[],
   dataKeyColors: Map<string, string>,
   dataFormat: DataFormat,
@@ -633,7 +645,7 @@ function Chart({
   onMouseMove,
 }: {
   type: ChartType;
-  data: any[];
+  data: Record<string, unknown>[];
   scale?: string;
   /** string array with all of the dataKeys that should be rendered */
   dataKeys: string[];

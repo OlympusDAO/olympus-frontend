@@ -14,7 +14,7 @@ type TokenMap = {
   [key: string]: TokenRow;
 };
 
-const objectHasProperty = (object: unknown, property: string): boolean => {
+export const objectHasProperty = (object: unknown, property: string): object is Record<string, unknown> => {
   return typeof object === "object" && object !== null && property in object;
 };
 
@@ -40,6 +40,30 @@ export const renameToken = (value: string): string => {
 
   return mapValue;
 };
+
+type ComponentRecordRow = {
+  token: string;
+  value: string;
+};
+
+type Components = {
+  value: number;
+  records: ComponentRecordRow[];
+  tokens: TokenMap;
+};
+
+export type MetricComponentsTokenSummary = {
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents?: Components;
+  treasuryLiquidBackingStableComponents?: Components;
+  treasuryLiquidBackingVolatileComponents?: Components;
+  treasuryLPValueComponents?: Components;
+  treasuryStableValueComponents?: Components;
+  treasuryVolatileValueComponents?: Components;
+};
+
+export type BaseMetric = {
+  timestamp: number;
+} & Record<string, unknown>;
 
 /**
  * For each of the {keys} specified, calculates a total for each token.
@@ -83,10 +107,10 @@ export const renameToken = (value: string): string => {
  * @returns
  */
 export const getKeysTokenSummary = (
-  metrics: any[] | undefined,
+  metrics: BaseMetric[] | undefined,
   keys: readonly string[],
   categories: readonly string[],
-): any[] => {
+): (BaseMetric & MetricComponentsTokenSummary)[] => {
   if (keys.length != categories.length) {
     throw new Error(
       `The length of the keys (${JSON.stringify(keys)}) and categories (${JSON.stringify(
@@ -97,20 +121,21 @@ export const getKeysTokenSummary = (
 
   if (!metrics) return [];
 
-  const updatedData = metrics.slice();
+  // We cast the resulting object, so we can interact with the keys defined in MetricComponentsTokenSummary
+  const updatedData = metrics.slice() as (BaseMetric & MetricComponentsTokenSummary)[];
 
-  updatedData.forEach(metric => {
+  updatedData.forEach((metric: BaseMetric) => {
     if (!objectHasProperty(metric, "timestamp")) {
       throw new Error("Unable to access timestamp property in metrics element");
     }
 
     keys.forEach((key, index) => {
-      if (!(typeof metric === "object" && metric !== null && key in metric)) {
+      if (!objectHasProperty(metric, key)) {
         throw new Error(`Unable to access specified key ${key} in metrics element`);
       }
 
-      const components = metric[key];
-      if (!(typeof components === "object" && components !== null && "records" in components)) {
+      const components = metric[key] as Components;
+      if (!objectHasProperty(components, "records")) {
         throw new Error(`Unable to access records property in ${key} element`);
       }
 
@@ -119,7 +144,7 @@ export const getKeysTokenSummary = (
 
       const currentCategory = categories[index];
 
-      components["records"].forEach((record: { token: string; value: string }) => {
+      components.records.forEach(record => {
         const currentTokenRecord = components.tokens[record.token];
         const currentTokenValue: string = currentTokenRecord ? currentTokenRecord.value : "0";
         const recordValue: number = getFloat(record.value);
@@ -148,21 +173,24 @@ export const getKeysTokenSummary = (
  * @param key
  * @returns
  */
-export const getTokensFromKey = (metrics: any[] | undefined, key: string): string[] => {
+export const getTokensFromKey = (
+  metrics: (BaseMetric & MetricComponentsTokenSummary)[] | undefined,
+  key: string,
+): string[] => {
   if (!metrics) return [];
 
   const tokenNames = new Set<string>();
   metrics.forEach(metric => {
-    if (!(typeof metric === "object" && metric !== null && key in metric)) {
+    if (!objectHasProperty(metric, key)) {
       throw new Error(`Unable to access specified key ${key} in metrics element`);
     }
 
-    const components = metric[key];
-    if (!(typeof components === "object" && components !== null && "tokens" in components)) {
+    const components = metric[key] as Components;
+    if (!objectHasProperty(components, "tokens")) {
       throw new Error(`Unable to access tokens property in ${key} element`);
     }
 
-    Object.keys(components["tokens"]).forEach(tokenKey => tokenNames.add(tokenKey));
+    Object.keys(components.tokens).forEach(tokenKey => tokenNames.add(tokenKey));
   });
 
   return Array.from(tokenNames);
@@ -234,7 +262,7 @@ export const getBulletpointStylesMap = (styles: CSSProperties[], dataKeys: strin
 };
 
 export type MetricRow = {
-  timestamp: string;
+  timestamp: number;
   tokens: TokenRow[];
 };
 
@@ -276,7 +304,10 @@ export type MetricRow = {
  * @param keys
  * @returns
  */
-export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonly string[]): MetricRow[] => {
+export const reduceKeysTokenSummary = (
+  metrics: (BaseMetric & MetricComponentsTokenSummary)[] | undefined,
+  keys: readonly string[],
+): MetricRow[] => {
   if (!metrics) return [];
 
   const reducedData: MetricRow[] = [];
@@ -291,12 +322,12 @@ export const reduceKeysTokenSummary = (metrics: any[] | undefined, keys: readonl
     };
 
     keys.forEach(key => {
-      if (!(typeof metric === "object" && metric !== null && key in metric)) {
+      if (!objectHasProperty(metric, key)) {
         throw new Error(`Unable to access specified key ${key} in metrics element`);
       }
 
-      const components = metric[key];
-      if (!(typeof components === "object" && components !== null && "tokens" in components)) {
+      const components = metric[key] as Components;
+      if (!objectHasProperty(components, "tokens")) {
         throw new Error(`Unable to access tokens property in ${key} element`);
       }
 

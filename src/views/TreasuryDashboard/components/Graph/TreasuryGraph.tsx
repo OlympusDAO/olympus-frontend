@@ -21,12 +21,14 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
+  BaseMetric,
   getBulletpointStylesMap,
   getCategoriesMap,
   getDataKeyColorsMap,
   getDataKeysFromTokens,
   getKeysTokenSummary,
   getTokensFromKey,
+  MetricComponentsTokenSummary,
   MetricRow,
   reduceKeysTokenSummary,
   renameToken,
@@ -302,7 +304,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
   // State variables used for rendering
-  const initialTokenSummary: any[] = [];
+  const initialTokenSummary: (BaseMetric & MetricComponentsTokenSummary)[] = [];
   const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
   const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
   const initialDataKeys: string[] = [];
@@ -321,7 +323,7 @@ export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: G
     }
 
     const tempTokenSummary = getKeysTokenSummary(
-      data?.protocolMetrics,
+      data.protocolMetrics,
       ["treasuryLPValueComponents"],
       ["Protocol-Owned Liquidity"],
     );
