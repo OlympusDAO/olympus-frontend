@@ -208,7 +208,7 @@ const ZapStakeAction: React.FC = () => {
       return Object.entries(tokensBalance)
         .filter(token => token[0] !== "sohm" && !token[1].hide)
         .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-        .map(token => token[1].tokenImageUrl)
+        .map(token => token[1].displayProps.images[0])
         .slice(0, 3);
     } else {
       return [];
@@ -312,7 +312,7 @@ const ZapStakeAction: React.FC = () => {
                     <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                       <ButtonBase onClick={handleOpen}>
                         <Avatar
-                          src={selectedTokenBalance ? selectedTokenBalance.tokenImageUrl : ""}
+                          src={selectedTokenBalance ? selectedTokenBalance.displayProps.images[0] : ""}
                           style={{ height: "30px", width: "30px" }}
                         />
                         <Box width="10px" />
