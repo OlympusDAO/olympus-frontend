@@ -256,7 +256,6 @@ export const RangeSwap = () => {
 
       if (swapType === "swap") {
         const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-        console.log(tokenAddress, swapAmount.toBigNumber(decimals), minAmountReceived.toBigNumber(receiveDecimals));
         const transaction = await contract.swap(
           tokenAddress,
           swapAmount.toBigNumber(decimals),
@@ -270,13 +269,6 @@ export const RangeSwap = () => {
       const tellerAddress = await contract.getTeller(market);
 
       const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
-      console.log(
-        recipientAddress,
-        referrer,
-        market,
-        swapAmount.toBigNumber(decimals),
-        minAmountReceived.toBigNumber(receiveDecimals),
-      );
       const transaction = await tellerContract.purchase(
         recipientAddress,
         referrer,

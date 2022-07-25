@@ -91,10 +91,8 @@ const RangeChart = (props: {
 
   const askPriceDelta = chartData[1].price - askPrice; //if negative ask is above price
   const bidPriceDelta = chartData[1].price - bidPrice; // if negative bid is above price
-  const isSquishyAsk = askPriceDelta < 0.25 && askPriceDelta > -0.25;
-  const isSquishyBid = bidPriceDelta < 0.25 && bidPriceDelta > -0.25;
-
-  console.log(bidPriceDelta, "bidPriceDelta", "askPriceDelta", askPriceDelta);
+  const isSquishyAsk = askPriceDelta < 1.25 && askPriceDelta > -1.25;
+  const isSquishyBid = bidPriceDelta < 1.25 && bidPriceDelta > -1.25;
 
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`}>
@@ -129,9 +127,11 @@ const RangeChart = (props: {
         <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd"></XAxis>
         <YAxis
           scale="auto"
+          tickFormatter={number => formatCurrency(number, 2)}
           orientation="right"
+          type="number"
           domain={[(dataMin: number) => trim(dataMin * 0.95, 2), (dataMax: number) => trim(dataMax * 1.05, 2)]}
-          width={38}
+          width={42}
         />
         <Tooltip content={<TooltipContent />} />
         <Area
