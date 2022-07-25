@@ -21,13 +21,9 @@ export default function YieldRecipients({ giveAssetType, changeAssetType }: Reci
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const rawDonationInfo = useDonationInfo().data;
-  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
-  const isDonationInfoLoading = useDonationInfo().isLoading;
+  const { data: donationInfo = [], isFetching } = useDonationInfo();
 
-  const isLoading = isDonationInfoLoading;
-
-  if (isLoading) {
+  if (isFetching) {
     return <Skeleton />;
   }
 

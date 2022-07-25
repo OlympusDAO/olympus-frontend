@@ -1,5 +1,6 @@
 import { fireEvent } from "@testing-library/dom";
 import { BigNumber } from "ethers";
+import { debug } from "jest-preview";
 import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balances from "src/hooks/useBalance";
@@ -47,6 +48,8 @@ describe("<ZapStakeAction/> ", () => {
       </>,
     );
     fireEvent.click(await screen.findByTestId("zap-input"));
+    const modal = await screen.findAllByText("Select Token");
+    expect(modal[0]);
     fireEvent.click(await screen.getAllByText("ETH")[0]);
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
     expect(await screen.findByText("Enter Amount"));
@@ -77,6 +80,7 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.click(await screen.getAllByText("gOHM")[0]);
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
+    debug();
   });
 
   it("sOHM should autopopulate with correct value based on ETH input", async () => {
