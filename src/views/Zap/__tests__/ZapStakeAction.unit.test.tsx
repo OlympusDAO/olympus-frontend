@@ -1,6 +1,5 @@
 import { fireEvent } from "@testing-library/dom";
 import { BigNumber } from "ethers";
-import { debug } from "jest-preview";
 import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balances from "src/hooks/useBalance";
@@ -80,7 +79,6 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.click(await screen.getAllByText("gOHM")[0]);
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
-    debug();
   });
 
   it("sOHM should autopopulate with correct value based on ETH input", async () => {
@@ -130,7 +128,6 @@ describe("Loading Balances", () => {
   beforeEach(() => {
     connectWallet();
     const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
-    //@ts-expect-error
     zapBalances.mockReturnValueOnce({ isLoading: true });
     //@ts-expect-error
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
@@ -165,7 +162,6 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
       };
     });
     const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
-    //@ts-expect-error
     zapBalances.mockReturnValueOnce({ isLoading: true });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
