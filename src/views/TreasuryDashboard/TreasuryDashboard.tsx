@@ -8,8 +8,8 @@ import { QUERY_RECORD_COUNT, QUERY_TOKEN, QUERY_TOKEN_GOHM, QUERY_TOKEN_OHM } fr
 import {
   DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
-  MarketValueLiquidBackingGraphContainer,
   ProtocolOwnedLiquidityGraph,
+  TreasuryAssets,
 } from "./components/Graph/TreasuryGraph";
 import {
   BackingPerGOHM,
@@ -162,7 +162,7 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
-            <MarketValueLiquidBackingGraphContainer count={parseInt(recordCount)} />
+            <TreasuryAssets count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

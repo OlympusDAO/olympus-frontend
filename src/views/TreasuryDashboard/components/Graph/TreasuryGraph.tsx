@@ -151,7 +151,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
  * @param param0
  * @returns
  */
-export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const isTreasuryAssetActive = (assets: string): boolean => {
     return selectedTreasuryAssets === assets;
   };
