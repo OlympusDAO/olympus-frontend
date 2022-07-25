@@ -102,7 +102,9 @@ const MetricsDashboard = () => {
             </MetricCollection>
           </Paper>
         </Grid>
-        <Grid item xs={12} container spacing={1}>
+        {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
+        treasury assets (below). */}
+        <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
           {hideSidePadding ? <></> : <Grid item xs={2} sm={3} />}
           <Grid item xs={8} sm={6} md={4} textAlign="center">
             <TabBar
