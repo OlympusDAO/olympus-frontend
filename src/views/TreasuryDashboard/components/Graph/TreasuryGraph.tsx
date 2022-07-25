@@ -1,8 +1,10 @@
-import { t, Trans } from "@lingui/macro";
-import { Grid, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { t } from "@lingui/macro";
+import { Grid } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { CSSProperties, useMemo, useState } from "react";
+import { TabBar } from "@olympusdao/component-library";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -30,9 +32,10 @@ import {
   renameToken,
   TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
+import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-import { QUERY_TOKEN_OHM, ToggleCallback } from "./Constants";
+import { QUERY_TOKEN_OHM } from "./Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -55,6 +58,10 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
 });
 export const DEFAULT_RECORDS_COUNT = 90;
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
+
+const QUERY_TREASURY_MARKET_VALUE = "marketValue";
+const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
+const QUERY_TREASURY = "treasuryAssets";
 
 const getTickStyle = (theme: Theme): Record<string, string | number> => {
   return {
@@ -145,23 +152,28 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
  * @returns
  */
 export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
-  enum ToggleEnum {
-    MarketValue,
-    LiquidBacking,
-  }
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedTab, setSelectedTab] = useState(ToggleEnum.MarketValue.toString());
-  const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
-  const handleToggle: ToggleCallback = (_event, newValue): void => {
-    if (newValue && parseInt(newValue) === ToggleEnum.LiquidBacking) {
-      setIsLiquidBackingActive(true);
-      setSelectedTab(ToggleEnum.LiquidBacking.toString());
-    } else {
-      setIsLiquidBackingActive(false);
-      setSelectedTab(ToggleEnum.MarketValue.toString());
-    }
+  const isTreasuryAssetActive = (assets: string): boolean => {
+    return selectedTreasuryAssets === assets;
   };
+
+  // State variable for the selected tab
+  const [selectedTreasuryAssets, setSelectedTreasuryAssets] = useState(QUERY_TREASURY_MARKET_VALUE);
+  const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
+  // Set the selected treasury assets from search parameters
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    // Get the record count from the URL query parameters, or use the default
+    const queryTreasuryAssets = searchParams.get(QUERY_TREASURY) || QUERY_TREASURY_MARKET_VALUE;
+    setSelectedTreasuryAssets(queryTreasuryAssets);
+    setIsLiquidBackingActive(queryTreasuryAssets === QUERY_TREASURY_LIQUID_BACKING);
+  }, [searchParams]);
+
+  const getSearchParamsWithUpdatedTreasuryAssets = (assets: string): string => {
+    return updateSearchParams(searchParams, QUERY_TREASURY, assets).toString();
+  };
+
+  // State variable for the selected index in the chart
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   /**
    * Uses mouse movement events in the market value chart to record the
@@ -182,17 +194,26 @@ export const MarketValueLiquidBackingGraphContainer = ({ count = DEFAULT_RECORDS
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={12} textAlign={"center"}>
-          <ToggleButtonGroup exclusive value={selectedTab} onChange={handleToggle}>
-            <ToggleButton value={ToggleEnum.MarketValue.toString()}>
-              <Trans>Market Value</Trans>
-            </ToggleButton>
-            <ToggleButton value={ToggleEnum.LiquidBacking.toString()}>
-              <Trans>Liquid Backing</Trans>
-            </ToggleButton>
-          </ToggleButtonGroup>
+      <Grid container paddingBottom={2}>
+        <Grid item xs={2} md={4} />
+        <Grid item xs={8} md={4} textAlign={"center"}>
+          <TabBar
+            disableRouting
+            items={[
+              {
+                label: t`Market Value`,
+                to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
+                isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
+              },
+              {
+                label: t`Liquid Backing`,
+                to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
+                isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
+              },
+            ]}
+          />
         </Grid>
+        <Grid item xs={2} md={4} />
       </Grid>
       <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} onMouseMove={onMouseMove} count={count} />
       <AssetsTable isLiquidBackingActive={isLiquidBackingActive} selectedIndex={selectedIndex} />
