@@ -1,4 +1,4 @@
-import { Box, Container, Grid, useMediaQuery } from "@mui/material";
+import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
@@ -85,6 +85,9 @@ const MetricsDashboard = () => {
     fullWidth: true,
   };
 
+  const theme = useTheme();
+  const hideSidePadding = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <>
       <Grid container spacing={1}>
@@ -105,8 +108,8 @@ const MetricsDashboard = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} container spacing={1}>
-          <Grid item xs={1} md={1} />
-          <Grid item xs={10} md={4} textAlign="center">
+          {hideSidePadding ? <></> : <Grid item xs={2} sm={3} />}
+          <Grid item xs={8} sm={6} md={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -133,9 +136,10 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={1} md={1} />
-          <Grid item xs={3} sm={4} md={3} />
-          <Grid item xs={6} sm={4} md={2} textAlign="center">
+          <Grid item xs={2} sm={3} md={1} />
+          {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
+          <Grid item xs={4} md={5} />
+          <Grid item xs={4} md={2} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -152,7 +156,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={3} sm={4} md={1} />
+          {hideSidePadding ? <></> : <Grid item xs={4} />}
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps}>
