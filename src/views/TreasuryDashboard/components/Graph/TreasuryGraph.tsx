@@ -459,6 +459,7 @@ export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBack
         rows={currentTokens}
         rowHeight={30}
         columns={columns}
+        rowsPerPageOptions={[10]}
         pageSize={10}
         getRowId={row => row.token}
         // Sort by value descending
