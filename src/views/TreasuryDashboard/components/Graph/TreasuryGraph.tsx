@@ -414,7 +414,11 @@ export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBack
   return (
     <ChartCard
       headerText={headerText}
-      headerTooltip={t`This table lists the details of the treasury assets that make up the market value`}
+      headerTooltip={
+        isLiquidBackingActive
+          ? t`This table lists the details of the treasury assets that make up the liquid backing`
+          : t`This table lists the details of the treasury assets that make up the market value`
+      }
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}
     >
