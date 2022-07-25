@@ -361,7 +361,7 @@ export const reduceKeysTokenSummary = (
  * @returns
  */
 export const getMaximumValue = (
-  data: any[],
+  data: Record<string, unknown>[],
   keys: string[],
   type: ChartType,
   composedLineDataKeys?: string[],

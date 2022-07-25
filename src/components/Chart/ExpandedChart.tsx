@@ -19,7 +19,7 @@ function ExpandedChart({
   open: boolean;
   handleClose: () => void;
   renderChart: React.ReactElement;
-  data: any[];
+  data: Record<string, unknown>[];
   infoTooltipMessage: string;
   headerText: string;
   headerSubText: string;
