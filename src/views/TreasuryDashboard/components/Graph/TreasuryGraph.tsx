@@ -410,13 +410,20 @@ export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBack
     {
       field: "token",
       headerName: t`Asset`,
+      description: t`The token asset that is held`,
       flex: 1,
       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
     },
-    { field: "category", headerName: t`Category`, flex: 1 },
+    {
+      field: "category",
+      headerName: t`Category`,
+      description: t`The category of the token asset`,
+      flex: 1,
+    },
     {
       field: "value",
       headerName: t`Value`,
+      description: t`The total value of the token asset in USD`,
       flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
@@ -489,6 +496,10 @@ export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBack
           },
           // Disables outline on clicked cells
           "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+          // Disables outline on clicked header cells
+          "& .MuiDataGrid-columnHeader:focus": {
             outline: "none",
           },
         }}
