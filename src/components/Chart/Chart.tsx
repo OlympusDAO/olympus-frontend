@@ -14,21 +14,20 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartFunc, CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
-import { formatCurrency, trim } from "src/helpers";
-import { getFloat } from "src/helpers/NumberHelper";
-import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
-import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
-
-import { ChartType, DataFormat } from "./Constants";
-import CustomTooltip from "./CustomTooltip";
-import ExpandedChart from "./ExpandedChart";
+import { ChartType, DataFormat } from "src/components/Chart/Constants";
+import CustomTooltip from "src/components/Chart/CustomTooltip";
+import ExpandedChart from "src/components/Chart/ExpandedChart";
 import {
   getAreaColor,
   getDataIntersections,
   getDataWithRange,
   getIntersectionColor,
   RANGE_KEY,
-} from "./IntersectionHelper";
+} from "src/components/Chart/IntersectionHelper";
+import { formatCurrency, trim } from "src/helpers";
+import { getFloat } from "src/helpers/NumberHelper";
+import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
+import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 const TICK_COUNT = 3;
 const TICK_COUNT_EXPANDED = 5;

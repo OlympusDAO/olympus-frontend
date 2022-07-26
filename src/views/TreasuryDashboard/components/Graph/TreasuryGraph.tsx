@@ -36,8 +36,7 @@ import {
 } from "src/helpers/ProtocolMetricsHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
-
-import { QUERY_TOKEN_OHM } from "./Constants";
+import { QUERY_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1

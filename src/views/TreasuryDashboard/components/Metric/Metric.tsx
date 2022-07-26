@@ -6,6 +6,7 @@ import {
   useCurrentIndex,
   useGOhmCirculatingSupply,
   useGOhmPrice as useGOhmPriceFromSubgraph,
+  useGOhmTotalSupply,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
@@ -17,8 +18,6 @@ import {
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-
-import { useGOhmTotalSupply } from "../../../../hooks/useProtocolMetrics";
 
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;

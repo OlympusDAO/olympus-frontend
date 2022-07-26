@@ -3,14 +3,18 @@ import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-l
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
-
-import { QUERY_RECORD_COUNT, QUERY_TOKEN, QUERY_TOKEN_GOHM, QUERY_TOKEN_OHM } from "./components/Graph/Constants";
+import {
+  QUERY_RECORD_COUNT,
+  QUERY_TOKEN,
+  QUERY_TOKEN_GOHM,
+  QUERY_TOKEN_OHM,
+} from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
   DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
   ProtocolOwnedLiquidityGraph,
   TreasuryAssets,
-} from "./components/Graph/TreasuryGraph";
+} from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
 import {
   BackingPerGOHM,
   BackingPerOHM,
@@ -20,7 +24,7 @@ import {
   MarketCap,
   OhmCirculatingSupply,
   OHMPriceFromSubgraph,
-} from "./components/Metric/Metric";
+} from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
