@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { TabBar } from "@olympusdao/component-library";
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
@@ -36,7 +36,7 @@ import {
 } from "src/helpers/ProtocolMetricsHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
-import { PARAM_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { PARAM_SUBGRAPH, PARAM_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -72,8 +72,8 @@ const getTickStyle = (theme: Theme): Record<string, string | number> => {
   };
 };
 
-const getSubgraphQueryExplorerUrl = (queryDocument: string): string => {
-  return `${getSubgraphUrl()}/graphql?query=${encodeURIComponent(queryDocument)}`;
+const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string): string => {
+  return `${subgraphUrl}/graphql?query=${encodeURIComponent(queryDocument)}`;
 };
 
 type GraphProps = {
@@ -89,6 +89,16 @@ type GraphProps = {
  * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+  // Get the subgraphId
+  const [searchParams] = useSearchParams();
+  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
+  useMemo(() => {
+    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
+    setSubgraphUrl(tempSubgraphUrl);
+    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(KeyMetricsDocument, tempSubgraphUrl));
+  }, [searchParams]);
+
   const theme = useTheme();
 
   const isActiveTokenOHM = (): boolean => {
@@ -102,8 +112,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
     ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
     : [t`gOHM Price`, t`Liquid Backing per Circulating gOHM`];
 
-  const { data } = useKeyMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument);
+  const { data } = useKeyMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
   // No caching needed, as these are static categories
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
@@ -162,7 +171,7 @@ export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) =>
   const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
   // Set the selected treasury assets from search parameters
   const [searchParams] = useSearchParams();
-  useEffect(() => {
+  useMemo(() => {
     // Get the record count from the URL query parameters, or use the default
     const queryTreasuryAssets = searchParams.get(QUERY_TREASURY) || QUERY_TREASURY_MARKET_VALUE;
     setSelectedTreasuryAssets(queryTreasuryAssets);
@@ -231,6 +240,16 @@ export const MarketValueGraph = ({
   onMouseMove,
   isLiquidBackingActive,
 }: GraphProps & LiquidBackingProps) => {
+  // Get the subgraphId
+  const [searchParams] = useSearchParams();
+  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
+  useMemo(() => {
+    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
+    setSubgraphUrl(tempSubgraphUrl);
+    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, tempSubgraphUrl));
+  }, [searchParams]);
+
   const theme = useTheme();
 
   // What is displayed in the chart differs based on the value of isLiquidBackingActive
@@ -251,8 +270,7 @@ export const MarketValueGraph = ({
   // The keys to display as a line
   const composedLineDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
 
-  const { data } = useMarketValueMetricsQuery({ endpoint: getSubgraphUrl() }, { records: count }, QUERY_OPTIONS);
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument);
+  const { data } = useMarketValueMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
   const headerSubtext = data
     ? isLiquidBackingActive
@@ -293,14 +311,23 @@ export const MarketValueGraph = ({
 };
 
 export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+  // Get the subgraphId
+  const [searchParams] = useSearchParams();
+  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
+  useMemo(() => {
+    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
+    setSubgraphUrl(tempSubgraphUrl);
+    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument, tempSubgraphUrl));
+  }, [searchParams]);
+
   const theme = useTheme();
 
   const { data } = useProtocolOwnedLiquidityComponentsQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: subgraphUrl },
     { records: count },
     QUERY_OPTIONS,
   );
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument);
 
   // State variables used for rendering
   const initialTokenSummary: (BaseMetric & MetricComponentsTokenSummary)[] = [];
@@ -369,8 +396,17 @@ type AssetsTableProps = {
 };
 
 export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBackingProps & AssetsTableProps) => {
-  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: getSubgraphUrl() }, undefined, QUERY_OPTIONS);
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument);
+  // Get the subgraphId
+  const [searchParams] = useSearchParams();
+  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
+  useMemo(() => {
+    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
+    setSubgraphUrl(tempSubgraphUrl);
+    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument, tempSubgraphUrl));
+  }, [searchParams]);
+
+  const { data } = useMarketValueMetricsComponentsQuery({ endpoint: subgraphUrl }, undefined, QUERY_OPTIONS);
 
   // State variables used for rendering
   const [reducedTokens, setReducedTokens] = useState<MetricRow[]>([]);

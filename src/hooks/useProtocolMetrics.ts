@@ -134,72 +134,72 @@ export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: Protoc
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
-export const useMarketCap = () =>
+export const useMarketCap = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].marketCap, ...QUERY_OPTIONS },
   );
 
-export const useOhmTotalSupply = () =>
+export const useOhmTotalSupply = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].totalSupply, ...QUERY_OPTIONS },
   );
 
-export const useGOhmTotalSupply = () =>
+export const useGOhmTotalSupply = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
   );
 
-export const useTotalValueDeposited = () =>
+export const useTotalValueDeposited = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].totalValueLocked, ...QUERY_OPTIONS },
   );
 
-export const useTreasuryMarketValue = () =>
+export const useTreasuryMarketValue = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].treasuryMarketValue, ...QUERY_OPTIONS },
   );
 
-export const useTreasuryLiquidBackingPerOhmFloating = () =>
+export const useTreasuryLiquidBackingPerOhmFloating = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
   );
 
-export const useTreasuryLiquidBackingPerGOhmCirculating = () =>
+export const useTreasuryLiquidBackingPerGOhmCirculating = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating, ...QUERY_OPTIONS },
   );
 
-export const useOhmCirculatingSupply = () =>
+export const useOhmCirculatingSupply = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].ohmCirculatingSupply, ...QUERY_OPTIONS },
   );
 
-export const useOhmFloatingSupply = () =>
+export const useOhmFloatingSupply = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].ohmFloatingSupply, ...QUERY_OPTIONS },
   );
 
-export const useGOhmCirculatingSupply = () =>
+export const useGOhmCirculatingSupply = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].gOhmCirculatingSupply, ...QUERY_OPTIONS },
   );
@@ -213,9 +213,9 @@ export const useGOhmCirculatingSupply = () =>
  *
  * @returns
  */
-export const useOhmPrice = () =>
+export const useOhmPrice = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].ohmPrice, ...QUERY_OPTIONS },
   );
@@ -229,9 +229,9 @@ export const useOhmPrice = () =>
  *
  * @returns
  */
-export const useGOhmPrice = () =>
+export const useGOhmPrice = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].gOhmPrice, ...QUERY_OPTIONS },
   );
@@ -241,9 +241,9 @@ export const useGOhmPrice = () =>
  *
  * @returns
  */
-export const useCurrentIndex = () =>
+export const useCurrentIndex = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl() },
+    { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].currentIndex, ...QUERY_OPTIONS },
   );
