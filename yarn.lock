@@ -8083,6 +8083,11 @@ eslint-plugin-jsx-a11y@^6.5.1, eslint-plugin-jsx-a11y@^6.6.0:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
+eslint-plugin-no-relative-import-paths@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-no-relative-import-paths/-/eslint-plugin-no-relative-import-paths-1.4.0.tgz#59489ebc19688d1398bfe53d3ad320b3ed42ca17"
+  integrity sha512-J/ok26KqJM+20VsxNEcHc9kyW0dcFHBlihOO5FFv/GQqwcW+G1UngbHLpnPAdOQ1dJg5Ljk/40csqfZ3mnneUw==
+
 eslint-plugin-prettier@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz#651cbb88b1dab98bfd42f017a12fa6b2d993f94b"
