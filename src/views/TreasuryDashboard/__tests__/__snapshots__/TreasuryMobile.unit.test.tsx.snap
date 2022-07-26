@@ -305,13 +305,13 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-646gsg-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 css-sa1xok-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1274tjr-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 css-x4vhtq-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-14bebfx-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-5 MuiGrid-grid-lg-4 css-nzm0q9-MuiGrid-root"
             >
               <div
                 class="TabBar-container MuiBox-root css-1cjx2ik"
@@ -367,10 +367,13 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-nz223s-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-1 css-ruwhxn-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-jiu2b8-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-5 css-1a3aviy-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-2 css-15xsfmn-MuiGrid-root"
             >
               <div
                 class="TabBar-container MuiBox-root css-1cjx2ik"
@@ -402,7 +405,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1274tjr-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 css-1w6n6e9-MuiGrid-root"
             />
           </div>
           <div
@@ -410,7 +413,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-wcytrk-MuiPaper-root"
-              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; padding-left: 10px; padding-right: 10px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
@@ -535,7 +538,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-wcytrk-MuiPaper-root"
-              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; padding-left: 10px; padding-right: 10px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
@@ -544,35 +547,46 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container css-17eoage-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-zpclep-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1ftgh0n-MuiGrid-root"
+                    />
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10 MuiGrid-grid-sm-6 MuiGrid-grid-md-6 MuiGrid-grid-lg-4 css-4x028k-MuiGrid-root"
                     >
                       <div
-                        class="MuiToggleButtonGroup-root css-1gjgmky-MuiToggleButtonGroup-root"
-                        role="group"
+                        class="TabBar-container MuiBox-root css-1cjx2ik"
                       >
-                        <button
-                          aria-pressed="true"
-                          class="MuiButtonBase-root MuiToggleButton-root Mui-selected MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-zjh47x-MuiButtonBase-root-MuiToggleButton-root"
-                          tabindex="0"
-                          type="button"
-                          value="0"
+                        <a
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-z5jz01-MuiTypography-root-MuiLink-root"
+                          href="#/dashboard?treasuryAssets=marketValue"
                         >
-                          Market Value
-                        </button>
-                        <button
-                          aria-pressed="false"
-                          class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-zjh47x-MuiButtonBase-root-MuiToggleButton-root"
-                          tabindex="0"
-                          type="button"
-                          value="1"
+                          <button
+                            class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Market Value
+                          </button>
+                        </a>
+                        <a
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                          href="#/dashboard?treasuryAssets=liquidBacking"
                         >
-                          Liquid Backing
-                        </button>
+                          <button
+                            class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            Liquid Backing
+                          </button>
+                        </a>
                       </div>
                     </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1ftgh0n-MuiGrid-root"
+                    />
                   </div>
                   <div
                     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-v5mc7x-MuiGrid-root"
@@ -772,7 +786,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         aria-colcount="3"
                         aria-multiselectable="false"
                         aria-rowcount="0"
-                        class="MuiDataGrid-root MuiDataGrid-autoHeight MuiDataGrid-root--densityStandard css-5t14r6-MuiDataGrid-root"
+                        class="MuiDataGrid-root MuiDataGrid-autoHeight MuiDataGrid-root--densityStandard css-dj8woy-MuiDataGrid-root"
                         role="grid"
                       >
                         <div>
@@ -838,7 +852,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                       class="MuiDataGrid-columnHeaderTitleContainerContent"
                                     >
                                       <div
-                                        aria-label=""
+                                        aria-label="The token asset that is held"
                                         class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                         data-mui-internal-clone-element="true"
                                       >
@@ -933,7 +947,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                       class="MuiDataGrid-columnHeaderTitleContainerContent"
                                     >
                                       <div
-                                        aria-label=""
+                                        aria-label="The category of the token asset"
                                         class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                         data-mui-internal-clone-element="true"
                                       >
@@ -1028,7 +1042,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                       class="MuiDataGrid-columnHeaderTitleContainerContent"
                                     >
                                       <div
-                                        aria-label=""
+                                        aria-label="The total value of the token asset in USD"
                                         class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                         data-mui-internal-clone-element="true"
                                       >
@@ -1217,7 +1231,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-wcytrk-MuiPaper-root"
-              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; padding-left: 10px; padding-right: 10px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
