@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { Grid, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Modal, Tooltip } from "@olympusdao/component-library";
 import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
@@ -45,6 +45,17 @@ function ExpandedChart({
   const modalHeight = 0.75 * windowHeight;
   const chartHeight = 0.75 * modalHeight;
 
+  const theme = useTheme();
+  const hidePaperSidePadding = useMediaQuery(theme.breakpoints.down("md"));
+
+  /**
+   * We minimise padding on the left and right at smaller screen sizes, in order
+   * to maximise space for the graph.
+   */
+  const paperStyles = {
+    ...(hidePaperSidePadding && { paddingLeft: "10px", paddingRight: "10px" }),
+  };
+
   return (
     <Modal
       open={open}
@@ -76,6 +87,9 @@ function ExpandedChart({
           )}
         </Grid>
       }
+      sx={{
+        "& .Modal-paper": paperStyles,
+      }}
     >
       <Grid container>
         <Grid item xs={12}>
