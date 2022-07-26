@@ -76,12 +76,21 @@ const MetricsDashboard = () => {
     return recordCount === input.toString();
   };
 
+  const theme = useTheme();
+  const hideToggleSidePadding = useMediaQuery(theme.breakpoints.up("md"));
+  const hidePaperSidePadding = useMediaQuery(theme.breakpoints.down("md"));
+
   const paperProps = {
     fullWidth: true,
   };
 
-  const theme = useTheme();
-  const hideSidePadding = useMediaQuery(theme.breakpoints.up("md"));
+  /**
+   * We minimise padding on the left and right at smaller screen sizes, in order
+   * to maximise space for the graph.
+   */
+  const paperStyles = {
+    ...(hidePaperSidePadding && { paddingLeft: "10px", paddingRight: "10px" }),
+  };
 
   return (
     <>
@@ -105,8 +114,8 @@ const MetricsDashboard = () => {
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
-          {hideSidePadding ? <></> : <Grid item xs={2} sm={3} />}
-          <Grid item xs={8} sm={6} md={4} textAlign="center">
+          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
+          <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -135,8 +144,8 @@ const MetricsDashboard = () => {
           </Grid>
           <Grid item xs={2} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
-          <Grid item xs={4} md={5} />
-          <Grid item xs={4} md={2} textAlign="center">
+          <Grid item xs={3} sm={4} md={3} lg={5} />
+          <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -153,20 +162,20 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          {hideSidePadding ? <></> : <Grid item xs={4} />}
+          {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />}
         </Grid>
         <Grid item xs={12}>
-          <Paper {...paperProps}>
+          <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph activeToken={token} count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper {...paperProps}>
+          <Paper {...paperProps} style={paperStyles}>
             <TreasuryAssets count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper {...paperProps}>
+          <Paper {...paperProps} style={paperStyles}>
             <ProtocolOwnedLiquidityGraph count={parseInt(recordCount)} />
           </Paper>
         </Grid>

@@ -197,8 +197,8 @@ export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) =>
   return (
     <>
       <Grid container paddingBottom={2}>
-        <Grid item xs={2} md={4} />
-        <Grid item xs={8} md={4} textAlign={"center"}>
+        <Grid item xs={1} sm={3} md={3} lg={4} />
+        <Grid item xs={10} sm={6} md={6} lg={4} textAlign={"center"}>
           <TabBar
             disableRouting
             items={[
@@ -215,7 +215,7 @@ export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) =>
             ]}
           />
         </Grid>
-        <Grid item xs={2} md={4} />
+        <Grid item xs={1} sm={3} md={3} lg={4} />
       </Grid>
       <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} onMouseMove={onMouseMove} count={count} />
       <AssetsTable isLiquidBackingActive={isLiquidBackingActive} selectedIndex={selectedIndex} />
