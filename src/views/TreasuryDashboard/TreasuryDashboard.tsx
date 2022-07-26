@@ -4,10 +4,10 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
-  QUERY_RECORD_COUNT,
-  QUERY_TOKEN,
-  QUERY_TOKEN_GOHM,
-  QUERY_TOKEN_OHM,
+  PARAM_RECORD_COUNT,
+  PARAM_TOKEN,
+  PARAM_TOKEN_GOHM,
+  PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
   DEFAULT_RECORDS_COUNT,
@@ -37,16 +37,16 @@ const MetricsDashboard = () => {
   // State variable for the number of records shown, which is passed to the respective charts
   const [recordCount, setRecordCount] = useState("");
   // State variable for the current token
-  const [token, setToken] = useState(QUERY_TOKEN_OHM);
+  const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
-    const queryRecordCount = searchParams.get(QUERY_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
+    const queryRecordCount = searchParams.get(PARAM_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
     setRecordCount(queryRecordCount);
 
     // Get the token or use the default
-    const queryToken = searchParams.get(QUERY_TOKEN) || QUERY_TOKEN_OHM;
+    const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
   }, [searchParams]);
 
@@ -58,7 +58,7 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
-    return updateSearchParams(searchParams, QUERY_RECORD_COUNT, recordCount.toString()).toString();
+    return updateSearchParams(searchParams, PARAM_RECORD_COUNT, recordCount.toString()).toString();
   };
 
   /**
@@ -69,11 +69,11 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedToken = (token: string): string => {
-    return updateSearchParams(searchParams, QUERY_TOKEN, token).toString();
+    return updateSearchParams(searchParams, PARAM_TOKEN, token).toString();
   };
 
   const isTokenOHM = (): boolean => {
-    return token === QUERY_TOKEN_OHM;
+    return token === PARAM_TOKEN_OHM;
   };
 
   const isActiveRecordCount = (input: number): boolean => {
@@ -154,13 +154,13 @@ const MetricsDashboard = () => {
               disableRouting
               items={[
                 {
-                  label: QUERY_TOKEN_OHM,
-                  to: `/dashboard?${getSearchParamsWithUpdatedToken(QUERY_TOKEN_OHM)}`,
+                  label: PARAM_TOKEN_OHM,
+                  to: `/dashboard?${getSearchParamsWithUpdatedToken(PARAM_TOKEN_OHM)}`,
                   isActive: isTokenOHM(),
                 },
                 {
-                  label: QUERY_TOKEN_GOHM,
-                  to: `/dashboard?${getSearchParamsWithUpdatedToken(QUERY_TOKEN_GOHM)}`,
+                  label: PARAM_TOKEN_GOHM,
+                  to: `/dashboard?${getSearchParamsWithUpdatedToken(PARAM_TOKEN_GOHM)}`,
                   isActive: !isTokenOHM(),
                 },
               ]}
