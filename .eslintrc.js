@@ -40,7 +40,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-    "no-relative-import-paths/no-relative-import-paths": ["error"],
+    "no-relative-import-paths/no-relative-import-paths": ["warn"],
   },
   ignorePatterns: ["build", "node_modules"],
   globals: {
