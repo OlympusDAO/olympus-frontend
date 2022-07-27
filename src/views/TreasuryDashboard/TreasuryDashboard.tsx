@@ -30,6 +30,18 @@ import {
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
 /**
+ * Obtains the value of the subgraphId parameter using window.location
+ *
+ * useSearchParams was previously used, but it was asynchronous and led to
+ * data being fetched from the standard subgraph URL before the subgraphId
+ * parameter was resolved.
+ */
+const getSubgraphIdParameter = (): string | undefined => {
+  const source = window.location.hash.split(`${PARAM_SUBGRAPH}=`);
+  return source.length > 1 && source[1] ? source[1].split("&")[0] : undefined;
+};
+
+/**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
  *
  * @returns
@@ -40,7 +52,11 @@ const MetricsDashboard = () => {
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
-  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+  // Determine the subgraph URL
+  // Originally, this was performed at the component level, but it ended up with a lot of redundant
+  // calls to useSearchParams that could have led to wonky behaviour.
+  const subgraphUrl = getSubgraphUrl(getSubgraphIdParameter());
+  console.debug("Subgraph URL set to " + subgraphUrl);
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -51,13 +67,6 @@ const MetricsDashboard = () => {
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
-
-    // Get the subgraphId and use that to determine the subgraph URL
-    // Originally, this was performed at the component level, but it ended up with a lot of redundant
-    // calls to useSearchParams that could have led to wonky behaviour.
-    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
-    setSubgraphUrl(tempSubgraphUrl);
-    console.debug("Subgraph URL set to " + tempSubgraphUrl);
   }, [searchParams]);
 
   const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrl };
