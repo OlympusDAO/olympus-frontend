@@ -148,13 +148,6 @@ export const useOhmTotalSupply = (subgraphId?: string) =>
     { select: data => data.protocolMetrics[0].totalSupply, ...QUERY_OPTIONS },
   );
 
-export const useGOhmTotalSupply = (subgraphId?: string) =>
-  useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl(subgraphId) },
-    {},
-    { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
-  );
-
 export const useTotalValueDeposited = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl(subgraphId) },

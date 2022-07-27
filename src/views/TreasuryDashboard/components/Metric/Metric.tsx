@@ -7,7 +7,6 @@ import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
   useGOhmPrice as useGOhmPriceFromSubgraph,
-  useGOhmTotalSupply,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
@@ -129,22 +128,13 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: totalSupply } = useGOhmTotalSupply(subgraphId);
   const _props: MetricProps = {
     ...props,
     label: t`gOHM Circulating Supply / Total`,
-    tooltip: t`Circulating supply is the quantity of outstanding gOHM not owned by the protocol (excluding gOHM in LPs). This number is currently not accurate, so is not shown.`,
+    tooltip: t`gOHM supply is synthetically derived from OHM supply divided by the index.`,
   };
 
-  if (totalSupply) _props.metric = `- / ${formatNumber(totalSupply)}`;
-  else _props.isLoading = true;
+  _props.metric = `- / -`;
 
   return <Metric {..._props} />;
 };
