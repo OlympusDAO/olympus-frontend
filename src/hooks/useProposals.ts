@@ -23,6 +23,18 @@ export interface Proposal {
   content: string;
 }
 
+export interface ProposalAndState extends Proposal, IProposalState {}
+
+/**
+ * the proposals current state
+ * - currenly only Active & Endorsements status are stored on chain
+ * - all other states would be stored off-chain, either from the forum
+ * - TODO(appleseed): how does a proposal get to "closed" state?
+ */
+export interface IProposalState {
+  state: "active" | "endorsements" | "discussion" | "draft" | "closed";
+}
+
 /// Mock totalInstructions value from INSTR.sol
 export const mockTotalInstructions = 3;
 
@@ -145,12 +157,33 @@ export const mockGetProposalContent = (uri: string): string => {
  * Query key for useProposals. Doesn't need to be refreshed on address or network changes
  * Proposals should be fetched no matter what.
  */
-export const proposalsQueryKey = (filters: { isActive?: boolean }) => {
+export const proposalsQueryKey = (filters: IProposalState) => {
   if (filters) {
     return ["useProposals", filters].filter(nonNullable);
   } else {
     return ["useProposals"].filter(nonNullable);
   }
+};
+
+export const filterStatement = ({ proposal, filters }: { proposal: ProposalAndState; filters: IProposalState }) => {
+  let result = proposal.isActive;
+  if (filters) {
+    switch (filters.state) {
+      case "active":
+        result = proposal.isActive;
+        break;
+      case "endorsements":
+        result = proposal.isActive === false;
+        break;
+      case "discussion":
+      case "draft":
+      case "closed":
+        break;
+      default:
+        console.log(`Sorry, we are out of somethings wrong.`);
+    }
+  }
+  return result;
 };
 
 /**
@@ -160,17 +193,17 @@ export const proposalsQueryKey = (filters: { isActive?: boolean }) => {
  * @returns Query object in which the data attribute holds an array of Proposal objects for
  *          all proposals in the Governance policy contract
  */
-export const useProposals = (filters: { isActive?: boolean }) => {
+export const useProposals = (filters: IProposalState) => {
   /// const INSTRContract = "";
   /// const IPFSDContract = "";
   /// const governanceContract = "";
 
-  const query = useQuery<Proposal[], Error>(
+  const query = useQuery<ProposalAndState[], Error>(
     proposalsQueryKey(filters),
     async () => {
       /// Get total number of proposal through INSTR module contract's totalInstructions variable
       const numberOfProposals = mockGetTotalInstructions();
-      const allProposals: Proposal[] = [];
+      const allProposals: ProposalAndState[] = [];
 
       /// For each proposal, fetch the relevant data points used in the frontend
       for (let i = 0; i < numberOfProposals; i++) {
@@ -182,7 +215,16 @@ export const useProposals = (filters: { isActive?: boolean }) => {
         const proposalURI = mockGetProposalURI(proposal.proposalName);
         const proposalContent = mockGetProposalContent(proposalURI);
 
-        const currentProposal = {
+        /**
+         * contains parsing logic to determine a proposal's state
+         * - TODO(appleseed): still need to determine methodolgy for "discussion", "draft" and "closed" states
+         * @returns {IProposalState} IProposalState
+         */
+        const proposalState = () => {
+          return isActive ? "active" : "endorsements";
+        };
+
+        const currentProposal: ProposalAndState = {
           id: i,
           proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
           proposer: proposal.proposer,
@@ -193,12 +235,13 @@ export const useProposals = (filters: { isActive?: boolean }) => {
           noVotes: noVotes,
           uri: proposalURI,
           content: proposalContent,
+          state: proposalState(),
         };
 
         allProposals.push(currentProposal);
       }
       if (filters) {
-        return allProposals.filter(proposal => proposal.isActive === filters.isActive);
+        return allProposals.filter(proposal => filterStatement({ proposal, filters }));
       } else {
         return allProposals;
       }
