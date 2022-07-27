@@ -176,7 +176,7 @@ export const useTreasuryLiquidBackingPerOhmFloating = (subgraphId?: string) =>
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
   );
 
-export const useTreasuryLiquidBackingPerGOhmCirculating = (subgraphId?: string) =>
+export const useTreasuryLiquidBackingPerGOhm = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl(subgraphId) },
     {},
@@ -195,13 +195,6 @@ export const useOhmFloatingSupply = (subgraphId?: string) =>
     { endpoint: getSubgraphUrl(subgraphId) },
     {},
     { select: data => data.protocolMetrics[0].ohmFloatingSupply, ...QUERY_OPTIONS },
-  );
-
-export const useGOhmCirculatingSupply = (subgraphId?: string) =>
-  useMetricsBarLatestOnlyQuery(
-    { endpoint: getSubgraphUrl(subgraphId) },
-    {},
-    { select: data => data.protocolMetrics[0].gOhmCirculatingSupply, ...QUERY_OPTIONS },
   );
 
 /**
