@@ -173,7 +173,7 @@ export const useTreasuryLiquidBackingPerGOhm = (subgraphId?: string) =>
   useMetricsBarLatestOnlyQuery(
     { endpoint: getSubgraphUrl(subgraphId) },
     {},
-    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating, ...QUERY_OPTIONS },
+    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhm, ...QUERY_OPTIONS },
   );
 
 export const useOhmCirculatingSupply = (subgraphId?: string) =>
