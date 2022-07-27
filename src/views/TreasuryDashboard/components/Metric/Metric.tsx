@@ -1,7 +1,5 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -20,20 +18,15 @@ import {
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { PARAM_SUBGRAPH } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
+export type MetricSubgraphProps = {
+  subgraphUrl?: string;
+};
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
-export const MarketCap: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: marketCap } = useMarketCap(subgraphId);
+export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: marketCap } = useMarketCap(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`OHM Market Cap`,
@@ -70,15 +63,8 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
 /**
  * same as OHMPrice but uses Subgraph price
  */
-export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: ohmPrice } = useOhmPriceFromSubgraph(subgraphId);
+export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: ohmPrice } = useOhmPriceFromSubgraph(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
@@ -107,16 +93,9 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const OhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: totalSupply } = useOhmTotalSupply(subgraphId);
-  const { data: circSupply } = useOhmCirculatingSupply(subgraphId);
+export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: totalSupply } = useOhmTotalSupply(props.subgraphUrl);
+  const { data: circSupply } = useOhmCirculatingSupply(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`OHM Circulating Supply / Total`,
@@ -129,16 +108,9 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: totalSupply } = useGOhmTotalSupply(subgraphId);
-  const { data: circSupply } = useGOhmCirculatingSupply(subgraphId);
+export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: totalSupply } = useGOhmTotalSupply(props.subgraphUrl);
+  const { data: circSupply } = useGOhmCirculatingSupply(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`gOHM Circulating Supply / Total`,
@@ -151,22 +123,15 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: floatingSupply } = useOhmFloatingSupply(subgraphId);
+export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: floatingSupply } = useOhmFloatingSupply(props.subgraphUrl);
   /**
    * Liquid backing per OHM floating is used as the metric here.
    * Liquid backing does not include OHM in protocol-owned liquidity,
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating(subgraphId);
+  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating(props.subgraphUrl);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
@@ -188,22 +153,15 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const BackingPerGOHM: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: circulatingSupply } = useGOhmCirculatingSupply(subgraphId);
+export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: circulatingSupply } = useGOhmCirculatingSupply(props.subgraphUrl);
   /**
    * Liquid backing per gOHM circulating is used as the metric here.
    * Liquid backing does not include OHM in protocol-owned liquidity,
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhmCirculating(subgraphId);
+  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhmCirculating(props.subgraphUrl);
 
   // We include circulating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by circulating supply of gOHM to give liquid backing per OHM.
@@ -225,15 +183,8 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: currentIndex } = useCurrentIndex(subgraphId);
+export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: currentIndex } = useCurrentIndex(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Current Index`,
@@ -267,15 +218,8 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: gOhmPrice } = useGOhmPriceFromSubgraph(subgraphId);
+export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: gOhmPrice } = useGOhmPriceFromSubgraph(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: "gOHM " + t`Price`,
@@ -291,15 +235,8 @@ export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const TotalValueDeposited: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: totalValueDeposited } = useTotalValueDeposited(subgraphId);
+export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: totalValueDeposited } = useTotalValueDeposited(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Total Value Deposited`,
@@ -328,15 +265,8 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphId, setSubgraphId] = useState<string | undefined>();
-  useEffect(() => {
-    setSubgraphId(searchParams.get(PARAM_SUBGRAPH) || undefined);
-  }, [searchParams]);
-
-  const { data: treasuryMarketValue } = useTreasuryMarketValue(subgraphId);
+export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: treasuryMarketValue } = useTreasuryMarketValue(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Treasury Balance`,

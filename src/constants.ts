@@ -19,6 +19,7 @@ export const getSubgraphUrl = (subgraphId?: string) => {
     console.info("Using subgraph with id " + subgraphId);
     return SUBGRAPH_URL_STAGING_STUB + subgraphId;
   } else {
+    console.info("Using production subgraph");
     return SUBGRAPH_URL;
   }
 };

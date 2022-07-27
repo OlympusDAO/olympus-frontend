@@ -8,7 +8,6 @@ import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { getSubgraphUrl } from "src/constants";
 import {
   KeyMetricsDocument,
   MarketValueMetricsComponentsDocument,
@@ -36,7 +35,7 @@ import {
 } from "src/helpers/ProtocolMetricsHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
-import { PARAM_SUBGRAPH, PARAM_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { PARAM_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -77,6 +76,7 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string)
 };
 
 type GraphProps = {
+  subgraphUrl: string;
   activeToken?: string;
   count?: number;
   onMouseMove?: CategoricalChartFunc;
@@ -88,16 +88,12 @@ type GraphProps = {
  *
  * @returns
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
-  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
-  useMemo(() => {
-    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
-    setSubgraphUrl(tempSubgraphUrl);
-    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(KeyMetricsDocument, tempSubgraphUrl));
-  }, [searchParams]);
+export const LiquidBackingPerOhmComparisonGraph = ({
+  subgraphUrl,
+  activeToken,
+  count = DEFAULT_RECORDS_COUNT,
+}: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument, subgraphUrl);
 
   const theme = useTheme();
 
@@ -161,7 +157,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ activeToken, count = DEFAUL
  * @param param0
  * @returns
  */
-export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const isTreasuryAssetActive = (assets: string): boolean => {
     return selectedTreasuryAssets === assets;
   };
@@ -225,8 +221,17 @@ export const TreasuryAssets = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) =>
         </Grid>
         <Grid item xs={1} sm={3} md={3} lg={4} />
       </Grid>
-      <MarketValueGraph isLiquidBackingActive={isLiquidBackingActive} onMouseMove={onMouseMove} count={count} />
-      <AssetsTable isLiquidBackingActive={isLiquidBackingActive} selectedIndex={selectedIndex} />
+      <MarketValueGraph
+        subgraphUrl={subgraphUrl}
+        isLiquidBackingActive={isLiquidBackingActive}
+        onMouseMove={onMouseMove}
+        count={count}
+      />
+      <AssetsTable
+        subgraphUrl={subgraphUrl}
+        isLiquidBackingActive={isLiquidBackingActive}
+        selectedIndex={selectedIndex}
+      />
     </>
   );
 };
@@ -236,19 +241,12 @@ type LiquidBackingProps = {
 };
 
 export const MarketValueGraph = ({
+  subgraphUrl,
   count = DEFAULT_RECORDS_COUNT,
   onMouseMove,
   isLiquidBackingActive,
 }: GraphProps & LiquidBackingProps) => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
-  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
-  useMemo(() => {
-    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
-    setSubgraphUrl(tempSubgraphUrl);
-    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, tempSubgraphUrl));
-  }, [searchParams]);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, subgraphUrl);
 
   const theme = useTheme();
 
@@ -310,16 +308,8 @@ export const MarketValueGraph = ({
   );
 };
 
-export const ProtocolOwnedLiquidityGraph = ({ count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
-  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
-  useMemo(() => {
-    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
-    setSubgraphUrl(tempSubgraphUrl);
-    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument, tempSubgraphUrl));
-  }, [searchParams]);
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolOwnedLiquidityComponentsDocument, subgraphUrl);
 
   const theme = useTheme();
 
@@ -395,16 +385,12 @@ type AssetsTableProps = {
   selectedIndex: number;
 };
 
-export const AssetsTable = ({ isLiquidBackingActive, selectedIndex }: LiquidBackingProps & AssetsTableProps) => {
-  // Get the subgraphId
-  const [searchParams] = useSearchParams();
-  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
-  const [queryExplorerUrl, setQueryExplorerUrl] = useState("");
-  useMemo(() => {
-    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
-    setSubgraphUrl(tempSubgraphUrl);
-    setQueryExplorerUrl(getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument, tempSubgraphUrl));
-  }, [searchParams]);
+export const AssetsTable = ({
+  subgraphUrl,
+  isLiquidBackingActive,
+  selectedIndex,
+}: GraphProps & LiquidBackingProps & AssetsTableProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument, subgraphUrl);
 
   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: subgraphUrl }, undefined, QUERY_OPTIONS);
 

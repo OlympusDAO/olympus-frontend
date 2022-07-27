@@ -2,9 +2,11 @@ import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import { getSubgraphUrl } from "src/constants";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
   PARAM_RECORD_COUNT,
+  PARAM_SUBGRAPH,
   PARAM_TOKEN,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
@@ -25,7 +27,7 @@ import {
   OHMPriceFromSubgraph,
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
-const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
+const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
@@ -38,6 +40,8 @@ const MetricsDashboard = () => {
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
+  const [subgraphUrl, setSubgraphUrl] = useState(getSubgraphUrl());
+
   const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the record count from the URL query parameters, or use the default
@@ -47,7 +51,16 @@ const MetricsDashboard = () => {
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
+
+    // Get the subgraphId and use that to determine the subgraph URL
+    // Originally, this was performed at the component level, but it ended up with a lot of redundant
+    // calls to useSearchParams that could have led to wonky behaviour.
+    const tempSubgraphUrl = getSubgraphUrl(searchParams.get(PARAM_SUBGRAPH) || undefined);
+    setSubgraphUrl(tempSubgraphUrl);
+    console.debug("Subgraph URL set to " + tempSubgraphUrl);
   }, [searchParams]);
+
+  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrl };
 
   /**
    * After changing the value for the record count, returns the search parameters as a
@@ -200,17 +213,21 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <LiquidBackingPerOhmComparisonGraph activeToken={token} count={parseInt(recordCount)} />
+            <LiquidBackingPerOhmComparisonGraph
+              subgraphUrl={subgraphUrl}
+              activeToken={token}
+              count={parseInt(recordCount)}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets count={parseInt(recordCount)} />
+            <TreasuryAssets subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph count={parseInt(recordCount)} />
+            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
           </Paper>
         </Grid>
       </Grid>
