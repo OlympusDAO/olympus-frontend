@@ -202,8 +202,8 @@ export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: G
   return (
     <>
       <Grid container paddingBottom={2}>
-        <Grid item xs={1} sm={3} md={3} lg={4} />
-        <Grid item xs={10} sm={6} md={6} lg={4} textAlign={"center"}>
+        <Grid item xs={1} md={2} lg={3} xl={4} />
+        <Grid item xs={10} md={8} lg={6} xl={4} textAlign={"center"}>
           <TabBar
             disableRouting
             items={[
@@ -220,7 +220,7 @@ export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: G
             ]}
           />
         </Grid>
-        <Grid item xs={1} sm={3} md={3} lg={4} />
+        <Grid item xs={1} md={2} lg={3} xl={4} />
       </Grid>
       <MarketValueGraph
         subgraphUrl={subgraphUrl}
