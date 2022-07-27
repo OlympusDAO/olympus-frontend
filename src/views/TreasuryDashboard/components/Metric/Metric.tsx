@@ -4,16 +4,13 @@ import { formatCurrency, formatNumber } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
-  useGOhmCirculatingSupply,
   useGOhmPrice as useGOhmPriceFromSubgraph,
-  useGOhmTotalSupply,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
   useOhmPrice as useOhmPriceFromSubgraph,
   useOhmTotalSupply,
   useTotalValueDeposited,
-  useTreasuryLiquidBackingPerGOhmCirculating,
   useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
@@ -109,16 +106,13 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
 };
 
 export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: totalSupply } = useGOhmTotalSupply(props.subgraphUrl);
-  const { data: circSupply } = useGOhmCirculatingSupply(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`gOHM Circulating Supply / Total`,
-    tooltip: t`Circulating supply is the quantity of outstanding gOHM not owned by the protocol (excluding gOHM in LPs).`,
+    tooltip: t`gOHM supply is synthetically derived from OHM supply divided by the index.`,
   };
 
-  if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
-  else _props.isLoading = true;
+  _props.metric = `- / -`;
 
   return <Metric {..._props} />;
 };
@@ -154,22 +148,11 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: circulatingSupply } = useGOhmCirculatingSupply(props.subgraphUrl);
-  /**
-   * Liquid backing per gOHM circulating is used as the metric here.
-   * Liquid backing does not include OHM in protocol-owned liquidity,
-   * so it makes sense to do the same for the denominator, and floating supply
-   * is circulating supply - OHM in liquidity.
-   */
-  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhmCirculating(props.subgraphUrl);
+  // TODO to be re-enabled with new subgraph version
+  const liquidBackingPerGOhmCirculating = null;
 
   // We include circulating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = t`Liquid backing is divided by circulating supply of gOHM to give liquid backing per OHM.
-  
-  Circulating supply of gOHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
-    circulatingSupply ? formatNumber(circulatingSupply) : "Loading..."
-  }
-  `;
+  const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
   const _props: MetricProps = {
     ...props,

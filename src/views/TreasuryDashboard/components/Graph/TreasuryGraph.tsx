@@ -103,10 +103,10 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
   const dataKeys: string[] = isActiveTokenOHM()
     ? ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]
-    : ["gOhmPrice", "treasuryLiquidBackingPerGOhmCirculating"];
+    : ["gOhmPrice", "treasuryLiquidBackingPerGOhm"];
   const itemNames: string[] = isActiveTokenOHM()
     ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
-    : [t`gOHM Price`, t`Liquid Backing per Circulating gOHM`];
+    : [t`gOHM Price`, t`Liquid Backing per gOHM`];
 
   const { data } = useKeyMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
@@ -125,9 +125,10 @@ export const LiquidBackingPerOhmComparisonGraph = ({
       headerSubText={`${
         data &&
         formatCurrency(
-          isActiveTokenOHM()
-            ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
-            : data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating,
+          // isActiveTokenOHM()
+          //   ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
+          //   : data.protocolMetrics[0].treasuryLiquidBackingPerGOhm,
+          data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating,
           2,
         )
       }`}

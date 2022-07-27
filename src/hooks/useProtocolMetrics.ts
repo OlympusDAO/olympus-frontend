@@ -176,12 +176,12 @@ export const useTreasuryLiquidBackingPerOhmFloating = (subgraphUrl?: string) =>
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
   );
 
-export const useTreasuryLiquidBackingPerGOhmCirculating = (subgraphUrl?: string) =>
-  useMetricsBarLatestOnlyQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
-    {},
-    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhmCirculating, ...QUERY_OPTIONS },
-  );
+// export const useTreasuryLiquidBackingPerGOhm = (subgraphUrl?: string) =>
+//   useMetricsBarLatestOnlyQuery(
+//     { endpoint: subgraphUrl || getSubgraphUrl() },
+//     {},
+//     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhm, ...QUERY_OPTIONS },
+//   );
 
 export const useOhmCirculatingSupply = (subgraphUrl?: string) =>
   useMetricsBarLatestOnlyQuery(
@@ -195,13 +195,6 @@ export const useOhmFloatingSupply = (subgraphUrl?: string) =>
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {},
     { select: data => data.protocolMetrics[0].ohmFloatingSupply, ...QUERY_OPTIONS },
-  );
-
-export const useGOhmCirculatingSupply = (subgraphUrl?: string) =>
-  useMetricsBarLatestOnlyQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
-    {},
-    { select: data => data.protocolMetrics[0].gOhmCirculatingSupply, ...QUERY_OPTIONS },
   );
 
 /**
