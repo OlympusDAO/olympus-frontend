@@ -305,13 +305,10 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 css-sa1xok-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1o2kjbm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1fx5ybk-MuiGrid-root"
-            />
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-6 MuiGrid-grid-lg-4 css-1vtc9mz-MuiGrid-root"
+              class="MuiBox-root css-1vp8jwk"
             >
               <div
                 class="TabBar-container MuiBox-root css-1cjx2ik"
@@ -366,9 +363,6 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                 </a>
               </div>
             </div>
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1fx5ybk-MuiGrid-root"
-            />
           </div>
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
@@ -512,43 +506,41 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                     class="MuiGrid-root MuiGrid-container css-17eoage-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 MuiGrid-grid-lg-3 MuiGrid-grid-xl-4 css-794opl-MuiGrid-root"
-                    />
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10 MuiGrid-grid-md-8 MuiGrid-grid-lg-6 MuiGrid-grid-xl-4 css-1e78dwg-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
                     >
                       <div
-                        class="TabBar-container MuiBox-root css-1cjx2ik"
+                        class="MuiBox-root css-1vp8jwk"
                       >
-                        <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-z5jz01-MuiTypography-root-MuiLink-root"
-                          href="#/dashboard?treasuryAssets=marketValue"
+                        <div
+                          class="TabBar-container MuiBox-root css-1cjx2ik"
                         >
-                          <button
-                            class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
-                            tabindex="0"
-                            type="button"
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-z5jz01-MuiTypography-root-MuiLink-root"
+                            href="#/dashboard?treasuryAssets=marketValue"
                           >
-                            Market Value
-                          </button>
-                        </a>
-                        <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
-                          href="#/dashboard?treasuryAssets=liquidBacking"
-                        >
-                          <button
-                            class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
-                            tabindex="0"
-                            type="button"
+                            <button
+                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Market Value
+                            </button>
+                          </a>
+                          <a
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                            href="#/dashboard?treasuryAssets=liquidBacking"
                           >
-                            Liquid Backing
-                          </button>
-                        </a>
+                            <button
+                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Liquid Backing
+                            </button>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 MuiGrid-grid-lg-3 MuiGrid-grid-xl-4 css-794opl-MuiGrid-root"
-                    />
                   </div>
                   <div
                     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-v5mc7x-MuiGrid-root"

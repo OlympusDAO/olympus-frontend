@@ -138,8 +138,9 @@ const MetricsDashboard = () => {
         </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
-        <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
+        <Grid item xs={12} paddingBottom={"29px"}>
           {/* TODO disable comments when gOHM toggle can be added */}
+          {/* TODO shift to flexbox */}
           {/* {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
           <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
@@ -190,8 +191,9 @@ const MetricsDashboard = () => {
           </Grid>
           {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />} */}
           {/* TODO delete after the gOHM toggle is added */}
-          <Grid item xs={2} sm={3} md={3} lg={4} />
-          <Grid item xs={8} sm={6} md={6} lg={4} textAlign="center">
+          {/* The TabBar is designed to work with a flexbox so that it contracts & expands as necessary.
+              With a Grid component, the width is more fixed, which leads to rendering issues. */}
+          <Box display="flex" flexDirection="row" justifyContent="center">
             <TabBar
               disableRouting
               items={[
@@ -217,8 +219,7 @@ const MetricsDashboard = () => {
                 },
               ]}
             />
-          </Grid>
-          <Grid item xs={2} sm={3} md={3} lg={4} />
+          </Box>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>

@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { TabBar } from "@olympusdao/component-library";
@@ -202,25 +202,27 @@ export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: G
   return (
     <>
       <Grid container paddingBottom={2}>
-        <Grid item xs={1} md={2} lg={3} xl={4} />
-        <Grid item xs={10} md={8} lg={6} xl={4} textAlign={"center"}>
-          <TabBar
-            disableRouting
-            items={[
-              {
-                label: t`Market Value`,
-                to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
-                isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
-              },
-              {
-                label: t`Liquid Backing`,
-                to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
-                isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
-              },
-            ]}
-          />
+        <Grid item xs={12}>
+          {/* The TabBar is designed to work with a flexbox so that it contracts & expands as necessary.
+              With a Grid component, the width is more fixed, which leads to rendering issues. */}
+          <Box display="flex" flexDirection="row" justifyContent="center">
+            <TabBar
+              disableRouting
+              items={[
+                {
+                  label: t`Market Value`,
+                  to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
+                  isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
+                },
+                {
+                  label: t`Liquid Backing`,
+                  to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
+                  isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
+                },
+              ]}
+            />
+          </Box>
         </Grid>
-        <Grid item xs={1} md={2} lg={3} xl={4} />
       </Grid>
       <MarketValueGraph
         subgraphUrl={subgraphUrl}
