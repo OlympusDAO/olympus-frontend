@@ -8,6 +8,7 @@ import {
   mockGetProposalContent,
   mockGetProposalHasBeenActivated,
   mockGetProposalMetadata,
+  mockGetProposalState,
   mockGetProposalTotalEndorsements,
   mockGetProposalURI,
   mockGetYesVotesForProposal,
@@ -43,6 +44,7 @@ export const useProposal = (instructionsIndex: number) => {
       const noVotes = mockGetNoVotesForProposal(instructionsIndex);
       const proposalURI = mockGetProposalURI(proposal.proposalName);
       const proposalContent = mockGetProposalContent(proposalURI);
+      const proposalState = mockGetProposalState(proposal.proposalName);
 
       const currentProposal = {
         id: instructionsIndex,
@@ -50,6 +52,7 @@ export const useProposal = (instructionsIndex: number) => {
         proposer: proposal.proposer,
         submissionTimestamp: proposal.submissionTimestamp,
         isActive: isActive,
+        state: proposalState,
         endorsements: endorsements,
         yesVotes: yesVotes,
         noVotes: noVotes,

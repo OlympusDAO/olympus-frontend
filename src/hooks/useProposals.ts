@@ -16,6 +16,7 @@ export interface Proposal {
   proposer: string;
   submissionTimestamp: number;
   isActive: boolean;
+  state: Status;
   endorsements: number;
   yesVotes: number;
   noVotes: number;
@@ -23,11 +24,13 @@ export interface Proposal {
   content: string;
 }
 
+export type Status = "active" | "endorsement" | "discussion" | "draft" | "closed";
+
 /// Mock totalInstructions value from INSTR.sol
 export const mockTotalInstructions = 3;
 
 /// Mock instructions ID for current active proposal
-export const activeProposal = 3;
+export const activeProposal = 0;
 
 /// Mock mapping data for proposalMetadata in Governance.sol
 export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
@@ -64,9 +67,9 @@ export const mockProposalTotalEndorsements: { [key: number]: number } = {
 /// Mock mapping data on proposal activation in Governance.sol
 export const mockProposalHasBeenActivated: { [key: number]: boolean } = {
   0: true,
-  1: false,
-  2: true,
-  3: true,
+  1: true,
+  2: false,
+  3: false,
 };
 
 /// Mock mapping data on proposal yes votes in Governance.sol
@@ -93,12 +96,20 @@ export const mockProposalURIs: { [key: string]: string } = {
   "0x4f49502d34000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberfour",
 };
 
-/// Mock content stores by IPFS URI
+/// Mock content stored at IPFS URI
 export const mockProposalContent: { [key: string]: string } = {
   "ipfs://proposalnumberone": "This is OIP-1. The first mock proposal",
   "ipfs://proposalnumbertwo": "This is OIP-2. The second mock proposal",
   "ipfs://proposalnumberthree": "This is OIP-3. The third mock proposal",
   "ipfs://proposalnumberfour": "This is OIP-4. The fourth mock proposal",
+};
+
+/// Mock proposal state (don't know if this will be stored at IPFS URI or in-contract)
+export const mockProposalState: { [key: string]: Status } = {
+  "0x4f49502d31000000000000000000000000000000000000000000000000000000": "active",
+  "0x4f49502d32000000000000000000000000000000000000000000000000000000": "discussion",
+  "0x4f49502d33000000000000000000000000000000000000000000000000000000": "closed",
+  "0x4f49502d34000000000000000000000000000000000000000000000000000000": "draft",
 };
 
 /// Function to return mock total instructions in lieu of a contract
@@ -141,6 +152,11 @@ export const mockGetProposalContent = (uri: string): string => {
   return mockProposalContent[uri];
 };
 
+/// Function to return mock proposal state in lieu of contract/content deployed to IPFS
+export const mockGetProposalState = (proposalName: string): Status => {
+  return mockProposalState[proposalName];
+};
+
 /**
  * Query key for useProposals. Doesn't need to be refreshed on address or network changes
  * Proposals should be fetched no matter what.
@@ -173,7 +189,7 @@ export const useProposals = (filters: { isActive?: boolean }) => {
       const allProposals: Proposal[] = [];
 
       /// For each proposal, fetch the relevant data points used in the frontend
-      for (let i = 0; i < numberOfProposals; i++) {
+      for (let i = 0; i <= numberOfProposals; i++) {
         const proposal = mockGetProposalMetadata(i);
         const isActive = mockGetProposalHasBeenActivated(i);
         const endorsements = mockGetProposalTotalEndorsements(i);
@@ -181,6 +197,7 @@ export const useProposals = (filters: { isActive?: boolean }) => {
         const noVotes = mockGetNoVotesForProposal(i);
         const proposalURI = mockGetProposalURI(proposal.proposalName);
         const proposalContent = mockGetProposalContent(proposalURI);
+        const proposalState = mockGetProposalState(proposal.proposalName);
 
         const currentProposal = {
           id: i,
@@ -188,6 +205,7 @@ export const useProposals = (filters: { isActive?: boolean }) => {
           proposer: proposal.proposer,
           submissionTimestamp: proposal.submissionTimestamp,
           isActive: isActive,
+          state: proposalState,
           endorsements: endorsements,
           yesVotes: yesVotes,
           noVotes: noVotes,
@@ -196,6 +214,7 @@ export const useProposals = (filters: { isActive?: boolean }) => {
         };
 
         allProposals.push(currentProposal);
+        console.log(allProposals);
       }
       if (filters) {
         return allProposals.filter(proposal => proposal.isActive === filters.isActive);
