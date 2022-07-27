@@ -1,4 +1,4 @@
-import "./Zap.scss";
+import "src/views/Zap/Zap.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
@@ -8,10 +8,9 @@ import { useNavigate } from "react-router";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
+import ZapInfo from "src/views/Zap/ZapInfo";
+import ZapStakeAction from "src/views/Zap/ZapStakeAction";
 import { useAccount, useNetwork } from "wagmi";
-
-import ZapInfo from "./ZapInfo";
-import ZapStakeAction from "./ZapStakeAction";
 
 const Zap: React.FC = () => {
   const { isConnected } = useAccount();

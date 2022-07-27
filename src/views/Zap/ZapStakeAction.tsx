@@ -36,11 +36,10 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances, ZapperToken } from "src/hooks/useZapTokenBalances";
 import { error } from "src/slices/MessagesSlice";
+import SelectTokenModal from "src/views/Zap/SelectTokenModal";
+import SlippageModal from "src/views/Zap/SlippageModal";
+import ZapStakeHeader from "src/views/Zap/ZapStakeHeader";
 import { useAccount, useNetwork } from "wagmi";
-
-import SelectTokenModal from "./SelectTokenModal";
-import SlippageModal from "./SlippageModal";
-import ZapStakeHeader from "./ZapStakeHeader";
 
 const PREFIX = "ZapStakeAction";
 
