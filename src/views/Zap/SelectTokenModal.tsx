@@ -15,10 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Token } from "@olympusdao/component-library";
+import { ReactComponent as XIcon } from "src/assets/icons/x.svg";
 import { trim } from "src/helpers";
 import { ZapperToken } from "src/hooks/useZapTokenBalances";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SelectTokenModal(
   handleClose: () => void,

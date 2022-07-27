@@ -1,7 +1,6 @@
 import { createMatchMedia } from "src/testHelpers";
-
-import { render, screen } from "../../../testUtils";
-import Stake from "../Stake";
+import { render, screen } from "src/testUtils";
+import Stake from "src/views/Stake/Stake";
 beforeAll(() => {
   window.matchMedia = createMatchMedia("300px");
 });

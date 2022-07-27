@@ -5,6 +5,7 @@ import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-l
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
+import { SupplyRatePerBlock } from "src/components/TopBar/Wallet/queries";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
@@ -41,8 +42,6 @@ import {
   useStakePoolTVL,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useNetwork } from "wagmi";
-
-import { SupplyRatePerBlock } from "./queries";
 
 const PREFIX = "GetOhm";
 

@@ -20,9 +20,8 @@ import {
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useProvider } from "wagmi";
-
-import { BalancerPoolTVL, useStakePoolTVL } from "./useStakePoolTVL";
 
 export const stakePoolAPYQueryKey = (pool: ExternalPool) => ["StakePoolAPY", pool].filter(nonNullable);
 

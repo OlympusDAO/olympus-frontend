@@ -140,9 +140,6 @@ export const light = responsiveFontSizes(
                 "&.ohm-card": {
                   background: lightTheme.paperBg,
                 },
-                "&.MuiPaper-root&.tooltip-container": {
-                  background: lightTheme.paperBg,
-                },
                 "&.ohm-modal": {
                   backgroundColor: lightTheme.modalBg,
                 },

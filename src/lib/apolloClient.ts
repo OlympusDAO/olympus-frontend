@@ -3,7 +3,7 @@ import { getSubgraphUrl } from "src/constants";
 
 const client = () =>
   new ApolloClient({
-    uri: getSubgraphUrl(),
+    uri: getSubgraphUrl(), // TODO this does not obtain the subgraphId parameter from the URL, however this ApolloClient instance is likely to be removed soon
     cache: new InMemoryCache(),
   });
 

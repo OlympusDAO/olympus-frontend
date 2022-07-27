@@ -17,8 +17,6 @@ import {
 } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
-import { useAccount } from "wagmi";
-
 import {
   BalancerPoolAPY,
   BalancerSwapFees,
@@ -29,9 +27,14 @@ import {
   JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
-} from "./hooks/useStakePoolAPY";
-import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
-import { BalancerPoolTVL, CurvePoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
+} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
+import { useStakePoolBalance } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolBalance";
+import {
+  BalancerPoolTVL,
+  CurvePoolTVL,
+  useStakePoolTVL,
+} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { useAccount } from "wagmi";
 
 const PREFIX = "ExternalStakePools";
 

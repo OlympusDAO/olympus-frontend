@@ -1,5 +1,5 @@
-import { render, screen } from "../../../testUtils";
-import Stake from "../Stake";
+import { render, screen } from "src/testUtils";
+import Stake from "src/views/Stake/Stake";
 
 describe("<Stake/>", () => {
   it("should render component", async () => {
