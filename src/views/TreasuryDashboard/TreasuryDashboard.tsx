@@ -6,6 +6,7 @@ import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
   PARAM_RECORD_COUNT,
   PARAM_TOKEN,
+  PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
@@ -117,8 +118,7 @@ const MetricsDashboard = () => {
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
-          {/* TODO disable comments when gOHM toggle can be added */}
-          {/* {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
+          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
           <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
@@ -146,9 +146,9 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={2} sm={3} md={1} /> */}
+          <Grid item xs={2} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
-          {/* <Grid item xs={3} sm={4} md={3} lg={5} />
+          <Grid item xs={3} sm={4} md={3} lg={5} />
           <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
             <TabBar
               disableRouting
@@ -166,37 +166,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />} */}
-          {/* TODO delete after the gOHM toggle is added */}
-          <Grid item xs={2} sm={3} md={3} lg={4} />
-          <Grid item xs={8} sm={6} md={6} lg={4} textAlign="center">
-            <TabBar
-              disableRouting
-              items={[
-                {
-                  label: "7d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(7)}`,
-                  isActive: isActiveRecordCount(7),
-                },
-                {
-                  label: "30d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(30)}`,
-                  isActive: isActiveRecordCount(30),
-                },
-                {
-                  label: "90d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(90)}`,
-                  isActive: isActiveRecordCount(90),
-                },
-                {
-                  label: "Max",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
-                  isActive: isActiveRecordCount(1000),
-                },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={2} sm={3} md={3} lg={4} />
+          {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />}
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
