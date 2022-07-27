@@ -17,8 +17,6 @@ import {
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
   useStaticJonesContract,
-  useStaticZipRewarderContract,
-  useStaticZipSecondaryRewardercontract,
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -188,22 +186,6 @@ export const CurvePoolRewardAPY = (pool: ExternalPool) => {
     return tAPY * 0.75;
   });
   return { data, isFetched, isLoading };
-};
-
-export const ZipPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const zipRewarderContract = useStaticZipRewarderContract(pool.masterchef, pool.networkID);
-  const ZipSecondaryRewarderContract = useStaticZipSecondaryRewardercontract(pool.rewarder, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await zipRewarderContract.zipPerSecond(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await ZipSecondaryRewarderContract.zipPerSecond(), 18);
-    const poolInfo = await zipRewarderContract.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await zipRewarderContract.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
 };
 
 export const JonesPoolAPY = (pool: ExternalPool) => {

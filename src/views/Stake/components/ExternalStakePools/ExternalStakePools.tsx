@@ -14,7 +14,6 @@ import {
   jonesPools,
   spiritPools,
   sushiPools,
-  zipPools,
 } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
@@ -30,7 +29,6 @@ import {
   JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
-  ZipPoolAPY,
 } from "./hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
 import { BalancerPoolTVL, CurvePoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
@@ -112,9 +110,6 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {beetsPools.map(pool => (
       <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {zipPools.map(pool => (
-      <ZipPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {jonesPools.map(pool => (
       <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
@@ -254,16 +249,6 @@ const SpiritPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pr
 const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
   const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
   const { apy } = BeetsPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const ZipPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = ZipPoolAPY(props.pool);
   return props.isSmallScreen ? (
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (

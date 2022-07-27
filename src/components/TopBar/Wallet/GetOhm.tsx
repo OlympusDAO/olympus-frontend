@@ -16,7 +16,6 @@ import {
   jonesPools,
   spiritPools,
   sushiPools,
-  zipPools,
 } from "src/helpers/AllExternalPools";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -35,7 +34,6 @@ import {
   JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
-  ZipPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import {
   BalancerPoolTVL,
@@ -153,9 +151,6 @@ const GetOhm: FC = () => {
         {beetsPools.map((pool, index) => (
           <BeetsPools key={index} pool={pool} />
         ))}
-        {zipPools.map((pool, index) => (
-          <ZipPools key={index} pool={pool} />
-        ))}
         {jonesPools.map((pool, index) => (
           <JonesPools key={index} pool={pool} />
         ))}
@@ -268,13 +263,6 @@ const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
   const { apy } = BeetsPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
-
-const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = ZipPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
-};
-
 const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = JonesPoolAPY(props.pool);
