@@ -5,6 +5,7 @@ import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-l
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
+import { SupplyRatePerBlock } from "src/components/TopBar/Wallet/queries";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
@@ -16,7 +17,6 @@ import {
   jonesPools,
   spiritPools,
   sushiPools,
-  zipPools,
 } from "src/helpers/AllExternalPools";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -35,7 +35,6 @@ import {
   JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
-  ZipPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import {
   BalancerPoolTVL,
@@ -43,8 +42,6 @@ import {
   useStakePoolTVL,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useNetwork } from "wagmi";
-
-import { SupplyRatePerBlock } from "./queries";
 
 const PREFIX = "GetOhm";
 
@@ -152,9 +149,6 @@ const GetOhm: FC = () => {
         ))}
         {beetsPools.map((pool, index) => (
           <BeetsPools key={index} pool={pool} />
-        ))}
-        {zipPools.map((pool, index) => (
-          <ZipPools key={index} pool={pool} />
         ))}
         {jonesPools.map((pool, index) => (
           <JonesPools key={index} pool={pool} />
@@ -268,13 +262,6 @@ const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
   const { apy } = BeetsPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
-
-const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = ZipPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
-};
-
 const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = JonesPoolAPY(props.pool);

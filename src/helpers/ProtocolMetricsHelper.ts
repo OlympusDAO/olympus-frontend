@@ -1,8 +1,7 @@
 import get from "get-value";
 import { CSSProperties } from "react";
 import { ChartType } from "src/components/Chart/Constants";
-
-import { getFloat } from "./NumberHelper";
+import { getFloat } from "src/helpers/NumberHelper";
 
 export type TokenRow = {
   token: string;
@@ -68,7 +67,7 @@ export type BaseMetric = {
 /**
  * For each of the {keys} specified, calculates a total for each token.
  *
- * For example:
+ * @example
  * ```
  * {
  *   timestamp: "1229930",
@@ -270,7 +269,7 @@ export type MetricRow = {
  * Combines the tokens underneath each of the elements specified by {keys},
  * and reduces them into a single array.
  *
- * For example:
+ * @example
  * ```
  * {
  *   timestamp: "1229930",

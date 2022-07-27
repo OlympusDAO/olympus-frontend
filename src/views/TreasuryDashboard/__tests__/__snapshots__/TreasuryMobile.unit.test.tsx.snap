@@ -550,10 +550,10 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                     class="MuiGrid-root MuiGrid-container css-17eoage-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1ftgh0n-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 MuiGrid-grid-lg-3 MuiGrid-grid-xl-4 css-794opl-MuiGrid-root"
                     />
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10 MuiGrid-grid-sm-6 MuiGrid-grid-md-6 MuiGrid-grid-lg-4 css-4x028k-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10 MuiGrid-grid-md-8 MuiGrid-grid-lg-6 MuiGrid-grid-xl-4 css-1e78dwg-MuiGrid-root"
                     >
                       <div
                         class="TabBar-container MuiBox-root css-1cjx2ik"
@@ -585,7 +585,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1ftgh0n-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 MuiGrid-grid-lg-3 MuiGrid-grid-xl-4 css-794opl-MuiGrid-root"
                     />
                   </div>
                   <div
