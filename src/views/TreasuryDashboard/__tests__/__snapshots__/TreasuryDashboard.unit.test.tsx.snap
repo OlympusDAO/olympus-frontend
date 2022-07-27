@@ -308,10 +308,10 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 css-sa1xok-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1fx5ybk-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 css-x4vhtq-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-6 MuiGrid-grid-lg-4 css-1vtc9mz-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-5 MuiGrid-grid-lg-4 css-nzm0q9-MuiGrid-root"
             >
               <div
                 class="TabBar-container MuiBox-root css-1cjx2ik"
@@ -367,7 +367,45 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-3 MuiGrid-grid-lg-4 css-1fx5ybk-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-1 css-ruwhxn-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-5 css-1a3aviy-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-2 css-15xsfmn-MuiGrid-root"
+            >
+              <div
+                class="TabBar-container MuiBox-root css-1cjx2ik"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?token=OHM"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    OHM
+                  </button>
+                </a>
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-z5jz01-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?token=gOHM"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    gOHM
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 css-1w6n6e9-MuiGrid-root"
             />
           </div>
           <div
