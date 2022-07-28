@@ -9,6 +9,7 @@ import { Proposal as ProposalType, useProposals } from "src/hooks/useProposals";
 
 import { FilterModal } from "./components/FilterModal";
 import { SearchBar } from "./components/SearchBar/SearchBar";
+import { toCapitalCase } from "./helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -29,13 +30,13 @@ export const ProposalsDashboard = () => {
   const renderProposals = () => {
     return allProposalsData.map(proposal => {
       return (
-        <Grid item xs={12}>
+        <Grid key={proposal.proposalName} item xs={12}>
           <Link to={`/governancetest/proposals/${proposal.id}`} component={RouterLink}>
             <Proposal
-              chipLabel="Discussion"
+              chipLabel={toCapitalCase(proposal.state)}
               proposalTitle={proposal.proposalName}
               publishedDate={new Date(1659389876)}
-              status="discussion"
+              status={proposal.state}
               voteEndDate={new Date(1659389876)}
               votesAbstain={0}
               votesAgainst={proposal.noVotes}

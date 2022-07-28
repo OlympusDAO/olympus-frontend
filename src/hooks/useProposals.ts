@@ -16,6 +16,7 @@ export interface Proposal {
   proposer: string;
   submissionTimestamp: number;
   isActive: boolean;
+  state: PStatus;
   endorsements: number;
   yesVotes: number;
   noVotes: number;
@@ -23,23 +24,21 @@ export interface Proposal {
   content: string;
 }
 
-export interface ProposalAndState extends Proposal, IProposalState {}
-
 /**
  * the proposals current state
  * - currenly only Active & Endorsements status are stored on chain
  * - all other states would be stored off-chain, either from the forum
  * - TODO(appleseed): how does a proposal get to "closed" state?
  */
+export type PStatus = "active" | "endorsement" | "discussion" | "draft" | "closed";
 export interface IProposalState {
-  state: "active" | "endorsements" | "discussion" | "draft" | "closed";
+  state: PStatus;
 }
-
 /// Mock totalInstructions value from INSTR.sol
 export const mockTotalInstructions = 3;
 
 /// Mock instructions ID for current active proposal
-export const activeProposal = 3;
+export const activeProposal = 0;
 
 /// Mock mapping data for proposalMetadata in Governance.sol
 export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
@@ -76,9 +75,9 @@ export const mockProposalTotalEndorsements: { [key: number]: number } = {
 /// Mock mapping data on proposal activation in Governance.sol
 export const mockProposalHasBeenActivated: { [key: number]: boolean } = {
   0: true,
-  1: false,
-  2: true,
-  3: true,
+  1: true,
+  2: false,
+  3: false,
 };
 
 /// Mock mapping data on proposal yes votes in Governance.sol
@@ -105,12 +104,20 @@ export const mockProposalURIs: { [key: string]: string } = {
   "0x4f49502d34000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberfour",
 };
 
-/// Mock content stores by IPFS URI
+/// Mock content stored at IPFS URI
 export const mockProposalContent: { [key: string]: string } = {
   "ipfs://proposalnumberone": "This is OIP-1. The first mock proposal",
   "ipfs://proposalnumbertwo": "This is OIP-2. The second mock proposal",
   "ipfs://proposalnumberthree": "This is OIP-3. The third mock proposal",
   "ipfs://proposalnumberfour": "This is OIP-4. The fourth mock proposal",
+};
+
+/// Mock proposal state (don't know if this will be stored at IPFS URI or in-contract)
+export const mockProposalState: { [key: string]: PStatus } = {
+  "0x4f49502d31000000000000000000000000000000000000000000000000000000": "active",
+  "0x4f49502d32000000000000000000000000000000000000000000000000000000": "discussion",
+  "0x4f49502d33000000000000000000000000000000000000000000000000000000": "closed",
+  "0x4f49502d34000000000000000000000000000000000000000000000000000000": "draft",
 };
 
 /// Function to return mock total instructions in lieu of a contract
@@ -153,6 +160,11 @@ export const mockGetProposalContent = (uri: string): string => {
   return mockProposalContent[uri];
 };
 
+/// Function to return mock proposal state in lieu of contract/content deployed to IPFS
+export const mockGetProposalState = (proposalName: string): PStatus => {
+  return mockProposalState[proposalName];
+};
+
 /**
  * Query key for useProposals. Doesn't need to be refreshed on address or network changes
  * Proposals should be fetched no matter what.
@@ -165,14 +177,14 @@ export const proposalsQueryKey = (filters: IProposalState) => {
   }
 };
 
-export const filterStatement = ({ proposal, filters }: { proposal: ProposalAndState; filters: IProposalState }) => {
+export const filterStatement = ({ proposal, filters }: { proposal: Proposal; filters: IProposalState }) => {
   let result = proposal.isActive;
   if (filters) {
     switch (filters.state) {
       case "active":
         result = proposal.isActive;
         break;
-      case "endorsements":
+      case "endorsement":
         result = proposal.isActive === false;
         break;
       case "discussion":
@@ -198,15 +210,15 @@ export const useProposals = (filters: IProposalState) => {
   /// const IPFSDContract = "";
   /// const governanceContract = "";
 
-  const query = useQuery<ProposalAndState[], Error>(
+  const query = useQuery<Proposal[], Error>(
     proposalsQueryKey(filters),
     async () => {
       /// Get total number of proposal through INSTR module contract's totalInstructions variable
       const numberOfProposals = mockGetTotalInstructions();
-      const allProposals: ProposalAndState[] = [];
+      const allProposals: Proposal[] = [];
 
       /// For each proposal, fetch the relevant data points used in the frontend
-      for (let i = 0; i < numberOfProposals; i++) {
+      for (let i = 0; i <= numberOfProposals; i++) {
         const proposal = mockGetProposalMetadata(i);
         const isActive = mockGetProposalHasBeenActivated(i);
         const endorsements = mockGetProposalTotalEndorsements(i);
@@ -214,31 +226,29 @@ export const useProposals = (filters: IProposalState) => {
         const noVotes = mockGetNoVotesForProposal(i);
         const proposalURI = mockGetProposalURI(proposal.proposalName);
         const proposalContent = mockGetProposalContent(proposalURI);
-
         /**
-         * contains parsing logic to determine a proposal's state
+         * should become parsing logic to determine a proposal's state
          * - TODO(appleseed): still need to determine methodolgy for "discussion", "draft" and "closed" states
-         * @returns {IProposalState} IProposalState
+         * @returns {PStatus} IProposalState
          */
-        const proposalState = () => {
-          return isActive ? "active" : "endorsements";
-        };
+        const proposalState = mockGetProposalState(proposal.proposalName);
 
-        const currentProposal: ProposalAndState = {
+        const currentProposal: Proposal = {
           id: i,
           proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
           proposer: proposal.proposer,
           submissionTimestamp: proposal.submissionTimestamp,
           isActive: isActive,
+          state: proposalState,
           endorsements: endorsements,
           yesVotes: yesVotes,
           noVotes: noVotes,
           uri: proposalURI,
           content: proposalContent,
-          state: proposalState(),
         };
 
         allProposals.push(currentProposal);
+        console.log(allProposals);
       }
       if (filters) {
         return allProposals.filter(proposal => filterStatement({ proposal, filters }));
