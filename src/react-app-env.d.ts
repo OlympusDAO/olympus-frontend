@@ -1,5 +1,4 @@
 /// <reference types="react-scripts" />
-declare module "@multifarm/widget";
 
 /**
  * Utility type to get the prop types of any component.
