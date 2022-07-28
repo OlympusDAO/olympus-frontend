@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import { useQuery } from "react-query";
+import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useNetwork } from "wagmi";
 
 /// Data type for return from getProposalMetadata on Governance.sol
 interface proposalMetadata {
@@ -120,41 +122,81 @@ export const mockProposalState: { [key: string]: PStatus } = {
   "0x4f49502d34000000000000000000000000000000000000000000000000000000": "draft",
 };
 
-/// Function to return mock total instructions in lieu of a contract
+//TODO: Not implemented in Contract. Follow up with SC Team
 export const mockGetTotalInstructions = (): number => {
   return mockTotalInstructions;
 };
 
 /// Function to return mock proposal metadata in lieu of a contract
-export const mockGetProposalMetadata = (instructionIndex: number) => {
-  return mockProposalMetadata[instructionIndex];
+export const MockGetProposalMetadata = (instructionsIndex: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(["GetProposalMetadata", instructionsIndex], async () => {
+    return await contract.getProposalMetadata(instructionsIndex);
+  });
+  //TODO: Swap Return statement to return contract results
+  return mockProposalMetadata[instructionsIndex];
+  //return { data, isFetched, isLoading };
 };
 
 /// Function to return mock proposal endoresments in lieu of a contract
-export const mockGetProposalTotalEndorsements = (instructionsIndex: number): number => {
+export const MockGetProposalTotalEndorsements = (instructionsIndex: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(["GetProposalTotalEndorsements", instructionsIndex], async () => {
+    return await contract.totalEndorsementsForProposal(instructionsIndex);
+  });
+
+  //TODO: Swap Return statement to return contract results
   return mockProposalTotalEndorsements[instructionsIndex];
+  //return { data, isFetched, isLoading };
 };
 
 /// Function to return mock proposal activation data in lieu of a contract
-export const mockGetProposalHasBeenActivated = (instructionsIndex: number): boolean => {
+export const MockGetProposalHasBeenActivated = (instructionsIndex: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(["ProposalHasBeenActivated", instructionsIndex], async () => {
+    return await contract.proposalHasBeenActivated(instructionsIndex);
+  });
+
+  //TODO: Swap Return statement to return contract results
   return mockProposalHasBeenActivated[instructionsIndex];
+  //return { data, isFetched, isLoading };
 };
 
 /// Function to return mock proposal yes votes in lieu of a contract
-export const mockGetYesVotesForProposal = (instructionsIndex: number): number => {
+export const MockGetYesVotesForProposal = (instructionsIndex: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(["YesVotesForProposal", instructionsIndex], async () => {
+    return await contract.yesVotesForProposal(instructionsIndex);
+  });
+
+  //TODO: Swap Return statement to return contract results
   return mockYesVotesForProposal[instructionsIndex];
+  //return { data, isFetched, isLoading };
 };
 
 /// Function to return mock proposal no votes in lieu of a contract
-export const mockGetNoVotesForProposal = (instructionsIndex: number): number => {
+export const MockGetNoVotesForProposal = (instructionsIndex: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(["NoVotesForProposal", instructionsIndex], async () => {
+    return await contract.noVotesForProposal(instructionsIndex);
+  });
+  //TODO: Swap Return statement to return contract results
   return mockNoVotesForProposal[instructionsIndex];
+  //return { data, isFetched, isLoading };
 };
 
+//TODO: Not implemented in Contract. Follow up with SC Team
 /// Function to return mock proposal URI in lieu of a contract
 export const mockGetProposalURI = (proposalName: string): string => {
   return mockProposalURIs[proposalName];
 };
 
+//TODO: Not implemented in Contract. Follow up with SC Team
 /// Function to return mock proposal content in lieu of content deployed to IPFS
 export const mockGetProposalContent = (uri: string): string => {
   return mockProposalContent[uri];
@@ -219,11 +261,11 @@ export const useProposals = (filters: IProposalState) => {
 
       /// For each proposal, fetch the relevant data points used in the frontend
       for (let i = 0; i <= numberOfProposals; i++) {
-        const proposal = mockGetProposalMetadata(i);
-        const isActive = mockGetProposalHasBeenActivated(i);
-        const endorsements = mockGetProposalTotalEndorsements(i);
-        const yesVotes = mockGetYesVotesForProposal(i);
-        const noVotes = mockGetNoVotesForProposal(i);
+        const proposal = MockGetProposalMetadata(i);
+        const isActive = MockGetProposalHasBeenActivated(i);
+        const endorsements = MockGetProposalTotalEndorsements(i);
+        const yesVotes = MockGetYesVotesForProposal(i);
+        const noVotes = MockGetNoVotesForProposal(i);
         const proposalURI = mockGetProposalURI(proposal.proposalName);
         const proposalContent = mockGetProposalContent(proposalURI);
         /**

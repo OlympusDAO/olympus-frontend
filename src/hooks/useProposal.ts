@@ -4,14 +4,14 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 
 /// Import Proposal data type and mock data getters from useProposals
 import {
-  mockGetNoVotesForProposal,
+  MockGetNoVotesForProposal,
   mockGetProposalContent,
-  mockGetProposalHasBeenActivated,
-  mockGetProposalMetadata,
+  MockGetProposalHasBeenActivated,
+  MockGetProposalMetadata,
   mockGetProposalState,
-  mockGetProposalTotalEndorsements,
+  MockGetProposalTotalEndorsements,
   mockGetProposalURI,
-  mockGetYesVotesForProposal,
+  MockGetYesVotesForProposal,
   Proposal,
 } from "./useProposals";
 
@@ -37,11 +37,11 @@ export const useProposal = (instructionsIndex: number) => {
     proposalQueryKey(instructionsIndex),
     async () => {
       /// For the specified proposal index, fetch the relevant data points used in the frontend
-      const proposal = mockGetProposalMetadata(instructionsIndex);
-      const isActive = mockGetProposalHasBeenActivated(instructionsIndex);
-      const endorsements = mockGetProposalTotalEndorsements(instructionsIndex);
-      const yesVotes = mockGetYesVotesForProposal(instructionsIndex);
-      const noVotes = mockGetNoVotesForProposal(instructionsIndex);
+      const proposal = MockGetProposalMetadata(instructionsIndex);
+      const isActive = MockGetProposalHasBeenActivated(instructionsIndex);
+      const endorsements = MockGetProposalTotalEndorsements(instructionsIndex);
+      const yesVotes = MockGetYesVotesForProposal(instructionsIndex);
+      const noVotes = MockGetNoVotesForProposal(instructionsIndex);
       const proposalURI = mockGetProposalURI(proposal.proposalName);
       const proposalContent = mockGetProposalContent(proposalURI);
       const proposalState = mockGetProposalState(proposal.proposalName);
