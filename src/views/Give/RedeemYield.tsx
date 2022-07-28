@@ -240,19 +240,19 @@ export default function RedeemYield() {
             data-testid="data-redeemable-balance"
           />
           <DataRow
-            title={t`Next Reward Amount`}
+            title={t`Your Next Rebase`}
             balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-amount"
           />
           <DataRow
-            title={t`Next Reward Yield`}
+            title={t`Next Rebase Yield`}
             balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-yield"
           />
           <DataRow
-            title={t`ROI (5-Day Rate)`}
+            title={t`Rebases (5-Day Rate)`}
             balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-roi"
