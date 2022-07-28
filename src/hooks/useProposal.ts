@@ -28,6 +28,7 @@ const proposalQueryKey = (instructionsIndex: number) => ["useProposal", instruct
  * @param instructionsIndex The index number of the proposal to fetch
  * @returns Query object in which the data attribute holds a Proposal object for the proposal at
  *          relevant index
+ *  * TODO: This needs to be refactored to use dependent queries. We cannot nest useQuery calls as mocked here.
  */
 export const useProposal = (instructionsIndex: number) => {
   /// const IPFSDContract = "";
