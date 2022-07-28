@@ -1,10 +1,9 @@
 import { switchClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import { darkPalette as colors } from "./darkPalette";
-import fonts from "./fonts";
-import commonSettings from "./global.js";
+import { darkPalette as colors } from "src/themes/darkPalette";
+import fonts from "src/themes/fonts";
+import commonSettings from "src/themes/global.js";
 
 export const dark = responsiveFontSizes(
   createTheme(

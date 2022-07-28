@@ -36,11 +36,10 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances, ZapperToken } from "src/hooks/useZapTokenBalances";
 import { error } from "src/slices/MessagesSlice";
+import SelectTokenModal from "src/views/Zap/SelectTokenModal";
+import SlippageModal from "src/views/Zap/SlippageModal";
+import ZapStakeHeader from "src/views/Zap/ZapStakeHeader";
 import { useAccount, useNetwork } from "wagmi";
-
-import SelectTokenModal from "./SelectTokenModal";
-import SlippageModal from "./SlippageModal";
-import ZapStakeHeader from "./ZapStakeHeader";
 
 const PREFIX = "ZapStakeAction";
 
@@ -208,7 +207,7 @@ const ZapStakeAction: React.FC = () => {
       return Object.entries(tokensBalance)
         .filter(token => token[0] !== "sohm" && !token[1].hide)
         .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-        .map(token => token[1].tokenImageUrl)
+        .map(token => token[1].displayProps.images[0])
         .slice(0, 3);
     } else {
       return [];
@@ -312,7 +311,7 @@ const ZapStakeAction: React.FC = () => {
                     <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                       <ButtonBase onClick={handleOpen}>
                         <Avatar
-                          src={selectedTokenBalance ? selectedTokenBalance.tokenImageUrl : ""}
+                          src={selectedTokenBalance ? selectedTokenBalance.displayProps.images[0] : ""}
                           style={{ height: "17.5px", width: "17.5px" }}
                         />
                         <Box width="10px" />

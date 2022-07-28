@@ -703,7 +703,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 </a>
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
-                  href="https://discord.gg/OlympusDAO"
+                  href="https://discord-invite.olympusdao.finance"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
