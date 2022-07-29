@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataRow, Metric, MetricCollection, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { DataRow, Metric, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -123,15 +123,17 @@ export const Range = () => {
   return (
     <div id="stake-view">
       <Paper headerText="Range Swap">
-        <MetricCollection>
-          <Metric label="Current OHM Price" data-testid="ohm-price" metric={formatCurrency(currentPrice, 2)} />
-          <div data-testid="lower-wall">
+        <Box display="flex" flexDirection="row" justifyContent="space-around">
+          <Box>
+            <Metric label="OHM Price" data-testid="ohm-price" metric={formatCurrency(currentPrice, 2)} />
+          </Box>
+          <Box data-testid="lower-wall">
             <Metric label="Lower Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
-          </div>
-          <div data-testid="upper-wall">
+          </Box>
+          <Box data-testid="upper-wall">
             <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
-          </div>
-        </MetricCollection>
+          </Box>
+        </Box>
         {!rangeDataLoading && (
           <Box mt={"20px"} data-testid="range-chart">
             <RangeChart
