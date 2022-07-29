@@ -46,6 +46,7 @@
     "@rainbow-me/rainbowkit": "^0.4.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
+    "@types/recharts": "^1.8.23",
     "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "class-validator": "^0.13.2",
