@@ -87,20 +87,6 @@ export const spirit_gohm_ftm = new ExternalPool({
   networkID: NetworkId.FANTOM,
 });
 
-export const zip_gohm_weth = new ExternalPool({
-  poolName: "gOHM-wETH",
-  icons: ["gOHM", "wETH"],
-  stakeOn: "Zipswap",
-  pairGecko: "ethereum",
-  rewardGecko: "zipswap",
-  href: "https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1",
-  address: "0x3f6da9334142477718bE2ecC3577d1A28dceAAe1",
-  masterchef: "0x1e2F8e5f94f366eF5Dc041233c0738b1c1C2Cb0c",
-  rewarder: "0x10400eB8f8A44630cb703cd3A6DF4Ba0aFCB6E60",
-  poolId: 5,
-  networkID: NetworkId.OPTIMISM,
-});
-
 export const jones_gohm_jgohm = new ExternalPool({
   poolName: "jgOHM-gOHM",
   icons: ["jgOHM", "gOHM"],
@@ -148,7 +134,6 @@ export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const spiritPools = [spirit_gohm_ftm];
 export const joePools = [tj_gohm_wavax];
 export const beetsPools = [beets_ftm_gohm_wFTM];
-export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
 export const curvePools = [curve_ohm_eth];

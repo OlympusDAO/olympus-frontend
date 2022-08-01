@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import sOHMv2 from "src/abi/sOhmv2.json";
+import { addresses, NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { getMarketPrice, getTokenPrice, setAll } from "src/helpers";
 import { Providers } from "src/helpers/providers/Providers/Providers";
+import apollo from "src/lib/apolloClient";
+import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
-
-import sOHMv2 from "../abi/sOhmv2.json";
-import { addresses, NetworkId } from "../constants";
-import { getMarketPrice, getTokenPrice, setAll } from "../helpers";
-import apollo from "../lib/apolloClient";
-import { OlympusStaking__factory, OlympusStakingv2__factory, SOhmv2 } from "../typechain";
-import { IBaseAsyncThunk } from "./interfaces";
+import { OlympusStaking__factory, OlympusStakingv2__factory, SOhmv2 } from "src/typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
@@ -133,45 +132,6 @@ export const loadAppDetails = createAsyncThunk(
       treasuryMarketValue,
       secondsToEpoch,
     } as IAppData;
-  },
-);
-
-/**
- * checks if app.slice has marketPrice already
- * if yes then simply load that state
- * if no then fetches via `loadMarketPrice`
- *
- * `usage`:
- * ```
- * const originalPromiseResult = await dispatch(
- *    findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
- *  ).unwrap();
- * originalPromiseResult?.whateverValue;
- * ```
- */
-export const findOrLoadMarketPrice = createAsyncThunk(
-  "app/findOrLoadMarketPrice",
-  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch, getState }) => {
-    const state: any = getState();
-    let marketPrice;
-    // check if we already have loaded market price
-    if (state.app.loadingMarketPrice === false && state.app.marketPrice) {
-      // go get marketPrice from app.state
-      marketPrice = state.app.marketPrice;
-    } else {
-      // we don't have marketPrice in app.state, so go get it
-      try {
-        const originalPromiseResult = await dispatch(
-          loadMarketPrice({ networkID: networkID, provider: provider }),
-        ).unwrap();
-        marketPrice = originalPromiseResult?.marketPrice;
-      } catch (rejectedValueOrSerializedError) {
-        // handle error here
-        console.error("Returned a null response from dispatch(loadMarketPrice)");
-        return;
-      }
-    }
-    return { marketPrice };
   },
 );
 

@@ -8,29 +8,29 @@ interface ZapperResponse {
 }
 
 interface ZapperAddress {
-  products: [ZapperProduct];
+  products: ZapperProduct[];
 }
 
 interface ZapperProduct {
-  assets: [ZapperAsset];
+  assets: ZapperToken[];
   label: string;
-}
-
-interface ZapperAsset {
-  tokens: [ZapperToken];
 }
 
 export interface ZapperToken {
   address: string;
   decimals: number;
   hide: boolean;
-  tokenImageUrl: string;
+  displayProps: {
+    images: string[];
+    label: string;
+  };
   symbol: string;
   price: number;
   network: string;
   balance: number;
   balanceRaw: string;
   balanceUSD: number;
+  tokens: [];
 }
 
 export interface ZapHelperBalancesResponse {
@@ -66,12 +66,11 @@ export const useZapTokenBalances = () => {
         const addressLower = address.toLowerCase();
         console.debug("Refetching Zap token balances");
         const response = await fetch(
-          `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${addressLower}&newBalances=true`,
+          `https://api.zapper.fi/v2/apps/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${addressLower}&newBalances=true`,
         );
         const responseJson = await response.json();
-
         if (response.ok) {
-          return parseResponse(responseJson, addressLower);
+          return parseResponse(responseJson.balances, addressLower);
         } else {
           throw Error(JSON.stringify(responseJson));
         }
@@ -92,10 +91,8 @@ export const useZapTokenBalances = () => {
  * @returns ZapHelperBalancesResponse object
  */
 const parseResponse = (response: ZapperResponse, address: string): ZapHelperBalancesResponse => {
-  const parsed = response[address].products
-    .find(product => product.label === "Tokens")
-    ?.assets.flatMap(asset => asset.tokens);
-  const arr = parsed?.map(token => [token.symbol.toLowerCase(), token]) ?? null;
+  const parsed = response[address].products.find(product => product.label === "Tokens");
+  const arr = parsed?.assets.map(token => [token.symbol.toLowerCase(), token]) ?? null;
   const result = { balances: arr == null ? {} : Object.fromEntries(arr) };
 
   if (result.balances["ohm"]) {
@@ -108,6 +105,5 @@ const parseResponse = (response: ZapperResponse, address: string): ZapHelperBala
     const balanceBigNumber = BigNumber.from(balanceRaw);
     balance.balanceRaw = ethers.utils.formatUnits(balanceBigNumber, balance.decimals);
   }
-
   return result;
 };

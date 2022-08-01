@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
@@ -13,8 +14,6 @@ import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { DetermineRangeDiscount } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
-
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 
 const PREFIX = "NavContent";
 
@@ -113,7 +112,7 @@ const NavContent: React.VFC = () => {
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord.gg/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
+          <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>
