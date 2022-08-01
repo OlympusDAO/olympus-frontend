@@ -1,11 +1,10 @@
 import { switchClasses, tabClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import { darkPalette } from "./darkPalette";
-import fonts from "./fonts";
-import commonSettings from "./global.js";
-import { lightPalette as colors } from "./lightPalette";
+import { darkPalette } from "src/themes/darkPalette";
+import fonts from "src/themes/fonts";
+import commonSettings from "src/themes/global.js";
+import { lightPalette as colors } from "src/themes/lightPalette";
 
 const lightTheme = {
   gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
