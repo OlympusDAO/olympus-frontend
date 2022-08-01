@@ -148,26 +148,29 @@ const Bonds: React.VFC = () => {
 };
 
 const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
-  const { data } = DetermineRangeDiscount(props.bidOrAsk);
-  console.log("data", data);
+  const { data, isFetched } = DetermineRangeDiscount(props.bidOrAsk);
   return (
-    <Box ml="26px" mt="12px" mb="12px">
-      <Typography variant="body2" color="textSecondary">
-        {props.bidOrAsk === "bid" ? t`Bid` : t`Ask`}
-      </Typography>
-      <Box mt="12px">
-        <Box mt="8px">
-          <Link component={NavLink} to={`/range`}>
-            <Typography variant="body1">
-              <Box display="flex" flexDirection="row" justifyContent="space-between">
-                {data.quoteToken}
-                <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
-              </Box>
-            </Typography>
-          </Link>
+    <>
+      {isFetched && (
+        <Box ml="26px" mt="12px" mb="12px">
+          <Typography variant="body2" color="textSecondary">
+            {props.bidOrAsk === "bid" ? t`Bid` : t`Ask`}
+          </Typography>
+          <Box mt="12px">
+            <Box mt="8px">
+              <Link component={NavLink} to={`/range`}>
+                <Typography variant="body1">
+                  <Box display="flex" flexDirection="row" justifyContent="space-between">
+                    {data.quoteToken}
+                    <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
+                  </Box>
+                </Typography>
+              </Link>
+            </Box>
+          </Box>
         </Box>
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };
 

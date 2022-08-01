@@ -275,13 +275,11 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
   } = useQuery(
     ["DetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
     () => {
-      console.log(bidOrAsk);
       const discount =
         (currentOhmPrice - bidOrAskPrice.price) / (bidOrAsk == "bid" ? -currentOhmPrice : currentOhmPrice);
-      console.log(discount);
       return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
     },
-    { enabled: !!currentOhmPrice && !!bidOrAskPrice && !!reserveSymbol },
+    { enabled: !!currentOhmPrice && !!bidOrAskPrice && !!reserveSymbol.symbol },
   );
 
   return { data, isFetched, isLoading };
