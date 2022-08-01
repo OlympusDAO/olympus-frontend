@@ -106,23 +106,33 @@ const RangeChart = (props: {
   const isSquishyAsk = askPriceDelta < 1.25 && askPriceDelta > -1.25;
   const isSquishyBid = bidPriceDelta < 1.25 && bidPriceDelta > -1.25;
 
-  const TooltipContent = ({ payload }: TooltipProps<number, NameType>) => {
+  const TooltipContent = ({ payload, label }: TooltipProps<number, NameType>) => {
     const price = payload && payload.length > 4 ? payload[4].value : currentPrice;
     return (
       <Paper className={`ohm-card tooltip-container`}>
         <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2)} />
-        <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
-        <DataRow title="Upper Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)} />
-        <DataRow title="Lower Cushion" balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)} />
-        <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
-        <DataRow
-          title="Upper Capacity"
-          balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
-        />
-        <DataRow
-          title="Lower Capacity"
-          balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
-        />
+        {label === "now" && (
+          <>
+            <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
+            <DataRow
+              title="Upper Cushion"
+              balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)}
+            />
+            <DataRow
+              title="Lower Cushion"
+              balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)}
+            />
+            <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
+            <DataRow
+              title="Upper Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
+            />
+            <DataRow
+              title="Lower Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+            />
+          </>
+        )}
       </Paper>
     );
   };
