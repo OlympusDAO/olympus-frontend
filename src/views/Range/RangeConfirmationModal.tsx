@@ -50,6 +50,7 @@ const RangeConfirmationModal = (props: {
 
   return (
     <Modal
+      maxWidth="476px"
       topLeft={
         <Icon
           name="settings"
