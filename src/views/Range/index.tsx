@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataRow, Metric, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
-import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -13,7 +12,7 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useNetwork } from "wagmi";
 
-import { OperatorPrice, OperatorReserveSymbol, RangeBondPrice, RangeData } from "./hooks";
+import { DetermineRangePrice, OperatorPrice, OperatorReserveSymbol, RangeData } from "./hooks";
 import RangeChart from "./RangeChart";
 import RangeConfirmationModal from "./RangeConfirmationModal";
 import RangeInputForm from "./RangeInputForm";
@@ -23,7 +22,6 @@ import RangeInputForm from "./RangeInputForm";
 /**
  * Component for Displaying Range
  */
-type RangeContracts = "swap" | "bond";
 
 export const Range = () => {
   const navigate = useNavigate();
@@ -36,8 +34,6 @@ export const Range = () => {
     data: { symbol: reserveSymbol, reserveAddress },
   } = OperatorReserveSymbol();
   const theme = useTheme();
-  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market, "high");
-  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market, "low");
 
   const [sellActive, setSellActive] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -61,44 +57,16 @@ export const Range = () => {
     }
   }, [sellActive]);
 
-  /**
-   *
-   * @param bidOrAsk Return bid or ask side
-   * @returns Price and Type of Contract (Bond or Swap)
-   * @info
-   * Buy Tab:
-   * If market price is in cushion, ask price should check if bond market is active.
-   * Anywhere else, ask price is wall high
-   * Sell Tab:
-   * in cushion, bid price = bond price if market is active
-   * anywhere else, bid price is wall low.
-   **/
-
-  const determinePrice = (bidOrAsk: "bid" | "ask") => {
-    const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
-    const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
-    const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
-    if (sideActive && activeBondMarket) {
-      return { price: bidOrAsk === "ask" ? upperBondMarket : lowerBondMarket, contract: "bond" as RangeContracts };
-    } else {
-      return {
-        price:
-          bidOrAsk === "ask"
-            ? parseBigNumber(rangeData.wall.high.price, 18)
-            : parseBigNumber(rangeData.wall.low.price, 18),
-        contract: "swap" as RangeContracts,
-      };
-    }
-  };
-
-  const bidPrice = determinePrice("bid");
-  const askPrice = determinePrice("ask");
+  const { data: bidPrice } = DetermineRangePrice("bid");
+  const { data: askPrice } = DetermineRangePrice("ask");
   const maxOhm =
     reserveBalance && bidPrice.price > 0 && askPrice.price > 0
       ? reserveBalance.div(sellActive ? bidPrice.price.toString() : askPrice.price.toString())
       : new DecimalBigNumber("0");
   const discount =
     (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);
+
+  console.log("discount", discount);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

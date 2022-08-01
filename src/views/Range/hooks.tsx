@@ -216,6 +216,79 @@ export const BondTellerAddress = (id: BigNumber) => {
 };
 
 /**
+ *
+ * @param bidOrAsk Return bid or ask side
+ * @returns Price and Type of Contract (Bond or Swap)
+ * @info
+ * Buy Tab:
+ * If market price is in cushion, ask price should check if bond market is active.
+ * Anywhere else, ask price is wall high
+ * Sell Tab:
+ * in cushion, bid price = bond price if market is active
+ * anywhere else, bid price is wall low.
+ **/
+
+export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
+  const { data: rangeData } = RangeData();
+  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market, "high");
+  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market, "low");
+  const {
+    data = { price: 0, contract: "swap" },
+    isFetched,
+    isLoading,
+  } = useQuery(
+    ["DetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
+    async () => {
+      const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
+      const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
+      const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
+      if (sideActive && activeBondMarket) {
+        return {
+          price: bidOrAsk === "ask" ? upperBondMarket : lowerBondMarket,
+          contract: "bond" as RangeContracts,
+        };
+      } else {
+        return {
+          price:
+            bidOrAsk === "ask"
+              ? parseBigNumber(rangeData.wall.high.price, 18)
+              : parseBigNumber(rangeData.wall.low.price, 18),
+          contract: "swap" as RangeContracts,
+        };
+      }
+    },
+    { enabled: !!rangeData },
+  );
+
+  return { data, isFetched, isLoading };
+};
+
+export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
+  const { data: currentOhmPrice } = OperatorPrice();
+  const { data: reserveSymbol } = OperatorReserveSymbol();
+
+  const { data: bidOrAskPrice } = DetermineRangePrice(bidOrAsk);
+  const {
+    data = { discount: 0, quoteToken: "" },
+    isFetched,
+    isLoading,
+  } = useQuery(
+    ["DetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
+    () => {
+      console.log(bidOrAsk);
+      const discount =
+        (currentOhmPrice - bidOrAskPrice.price) / (bidOrAsk == "bid" ? -currentOhmPrice : currentOhmPrice);
+      console.log(discount);
+      return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
+    },
+    { enabled: !!currentOhmPrice && !!bidOrAskPrice && !!reserveSymbol },
+  );
+
+  return { data, isFetched, isLoading };
+};
+
+type RangeContracts = "swap" | "bond";
+/**
  * Executes Range Swap Transaction and routes it to the appropriate contract.
  * Either Swap on the operator, or purchase on the bond teller.
  */
