@@ -27,7 +27,6 @@ function SlippageModal(
   modalOpen: boolean,
   currentSlippage: string,
   setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void },
-  zapperCredit: JSX.Element,
 ) {
   const [proposedSlippage, setProposedSlippage] = useState(currentSlippage);
   const [errorState, setErrorState] = useState<string | null>(null);
@@ -113,7 +112,6 @@ function SlippageModal(
             <Typography>Adjust Slippage</Typography>
           </PrimaryButton>
         </Box>
-        {zapperCredit}
       </Box>
     </StyledDialog>
   );

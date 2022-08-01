@@ -25,7 +25,6 @@ function SelectTokenModal(
   isTokensLoading: boolean,
 
   handleSelectToken: { (token: string): void },
-  zapperCredit: JSX.Element,
   tokens: {
     regularTokens?: { [key: string]: ZapperToken };
     output?: boolean;
@@ -109,7 +108,6 @@ function SelectTokenModal(
             </List>
           </Paper>
         )}
-        {zapperCredit}
       </Box>
     </Dialog>
   );
