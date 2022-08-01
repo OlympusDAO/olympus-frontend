@@ -178,27 +178,33 @@ export const Range = () => {
             capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
           />
         </WalletConnectedGuard>
-        <div data-testid="max-row">
-          <DataRow
-            title={maxString}
-            balance={`${maxOhm.toString({ decimals: 2 })} OHM (${
-              reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
-            } ${reserveSymbol})`}
-          />
-        </div>
-        <div data-testid="premium-discount">
-          <DataRow
-            title={sellActive ? t`Premium` : t`Discount`}
-            balance={
-              <Typography sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}>
-                {formatNumber(discount * 100, 2)}%
-              </Typography>
-            }
-          />
-        </div>
-        <div data-testid="swap-price">
-          <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
-        </div>
+        <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+            <div data-testid="max-row">
+              <DataRow
+                title={maxString}
+                balance={`${maxOhm.toString({ decimals: 2 })} OHM (${
+                  reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
+                } ${reserveSymbol})`}
+              />
+            </div>
+            <div data-testid="premium-discount">
+              <DataRow
+                title={sellActive ? t`Premium` : t`Discount`}
+                balance={
+                  <Typography
+                    sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
+                  >
+                    {formatNumber(discount * 100, 2)}%
+                  </Typography>
+                }
+              />
+            </div>
+            <div data-testid="swap-price">
+              <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+            </div>
+          </Box>
+        </Box>
       </Paper>
       <RangeConfirmationModal
         open={modalOpen}

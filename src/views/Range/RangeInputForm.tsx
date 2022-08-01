@@ -94,35 +94,37 @@ const RangeInputForm = (props: {
   );
   return (
     <form onSubmit={props.onFormSubmit}>
-      <Box display="flex" flexDirection="column">
-        <Box display="flex" flexDirection="column">
-          {sellActive ? ReserveInput() : OhmInput()}
-          <Box display="flex" flexDirection="row" mt={2} justifyContent="center">
-            <Box
-              display="flex"
-              style={{ backgroundColor: theme.colors.gray[600] }}
-              p={"10px"}
-              borderRadius="9px"
-              alignItems="center"
-            >
-              <ArrowDownIcon />
+      <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
+        <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+          <Box display="flex" flexDirection="column">
+            {sellActive ? ReserveInput() : OhmInput()}
+            <Box display="flex" flexDirection="row" mt={2} justifyContent="center">
+              <Box
+                display="flex"
+                style={{ backgroundColor: theme.colors.gray[600] }}
+                p={"10px"}
+                borderRadius="9px"
+                alignItems="center"
+              >
+                <ArrowDownIcon />
+              </Box>
             </Box>
+            {sellActive ? OhmInput() : ReserveInput()}
           </Box>
-          {sellActive ? OhmInput() : ReserveInput()}
-        </Box>
-        <Box mt="8px">
-          <PrimaryButton
-            data-testid="range-submit"
-            fullWidth
-            type="submit"
-            disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
-          >
-            {amountAboveCapacity
-              ? `Amount exceeds capacity`
-              : amountAboveBalance
-              ? `Amount exceeds balance`
-              : swapButtonText}
-          </PrimaryButton>
+          <Box mt="8px">
+            <PrimaryButton
+              data-testid="range-submit"
+              fullWidth
+              type="submit"
+              disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
+            >
+              {amountAboveCapacity
+                ? `Amount exceeds capacity`
+                : amountAboveBalance
+                ? `Amount exceeds balance`
+                : swapButtonText}
+            </PrimaryButton>
+          </Box>
         </Box>
       </Box>
     </form>
