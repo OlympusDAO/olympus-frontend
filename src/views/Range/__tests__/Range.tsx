@@ -154,11 +154,11 @@ describe("Default Main Range View", () => {
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("10");
   });
 
-  it("Should render tooltip with correct data", async () => {
-    render(<Range />);
-    expect(await screen.findByText("Upper Cushion"));
-    expect(await screen.findByText("Lower Cushion"));
-  });
+  // it("Should render tooltip with correct data", async () => {
+  //   render(<Range />);
+  //   expect(await screen.findByText("Upper Cushion"));
+  //   expect(await screen.findByText("Lower Cushion"));
+  // });
 
   it("Should render with Ask price of $24.18 on chart", async () => {
     render(<Range />);
