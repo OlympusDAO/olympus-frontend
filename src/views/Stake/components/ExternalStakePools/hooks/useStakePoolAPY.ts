@@ -244,7 +244,7 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
 export const FraxPoolAPY = (pool: ExternalPool) => {
   const fraxAPI = "https://api.frax.finance/pools";
   const {
-    data = { cvxApr: 0, extraRewardsApr: 0, crvApr: 0, baseApr: 0, tvl: 0 },
+    data = { apy: 0, liquidity_locked: 0 },
     isFetched,
     isLoading,
   } = useQuery("FraxPoolAPY", async () => {
