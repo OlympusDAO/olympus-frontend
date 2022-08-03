@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   DataRow,
+  Icon,
   OHMTokenProps,
   Paper,
   SecondaryButton,
@@ -163,9 +164,12 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
             {props.pool.poolName}
             {props.pool.mintAndSync && (
-              <sup>
-                <Tooltip message={<ToolTipContent />}>M+S</Tooltip>
-              </sup>
+              <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
+                Mint and Sync{" "}
+                <Tooltip message={<ToolTipContent />}>
+                  <Icon style={{ fontSize: "10px" }} name="info" />
+                </Tooltip>
+              </Typography>
             )}
           </Typography>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
