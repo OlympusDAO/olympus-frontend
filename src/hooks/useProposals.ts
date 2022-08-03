@@ -29,6 +29,11 @@ export interface Proposal {
   content: string;
 }
 
+export interface IAnyProposal extends Omit<Proposal, "isActive"> {
+  timeRemaining?: number | undefined;
+  isActive: boolean | undefined;
+}
+
 export interface IActiveProposal {
   instructionsId: number;
   activationTimestamp: number;
@@ -135,8 +140,41 @@ export const mockProposalState: { [key: string]: PStatus } = {
  * returns a unix time differential (in seconds)
  * @param numDays number of days you want
  */
-const unixDays = (numDays: number) => {
+export const unixDays = (numDays: number) => {
   return numDays * 24 * 60 * 60;
+};
+
+/**
+ * timeRemaining as a Unix Time from the contract
+ * @param submissionTimestamp should be a Unix Time (1/1000 of JS Time)
+ * @returns a Unix Time unless the proposal is not active or endorsements status, then returns undefined (no expiration)
+ */
+export const timeRemaining = ({
+  state,
+  submissionTimestamp,
+}: {
+  state: PStatus;
+  submissionTimestamp: number;
+}): number | undefined => {
+  if (state === "active") {
+    // TODO(appleseed): setup a config to make these duration requirements (from the contract) easily modifiable
+    return submissionTimestamp + unixDays(7) - Date.now() / 1000;
+  } else if (state === "endorsement") {
+    return submissionTimestamp + unixDays(14) - Date.now() / 1000;
+  } else {
+    return undefined;
+  }
+};
+
+export const parseProposalState = ({ isActive }: { isActive: boolean | undefined }): PStatus => {
+  switch (isActive) {
+    case true:
+      return "active";
+    case false:
+      return "endorsement";
+    default:
+      return "discussion";
+  }
 };
 
 export const useActiveProposal = () => {
@@ -148,11 +186,12 @@ export const useActiveProposal = () => {
      * number of seconds remaining in proposal
      */
     const activationTimestamp = parseBigNumber(activeProposal.activationTimestamp, 0);
-    const timeRemaining = activationTimestamp + unixDays(14) - Date.now() / 1000;
+    const unixTimeRemaining = timeRemaining({ state: "active", submissionTimestamp: activationTimestamp });
+    const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : 0;
     return {
       instructionsId: parseBigNumber(activeProposal.instructionsId, 0),
       activationTimestamp,
-      timeRemaining,
+      timeRemaining: jsTimeRemaining,
     };
   });
 };

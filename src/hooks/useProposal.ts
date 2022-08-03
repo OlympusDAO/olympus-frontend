@@ -8,7 +8,13 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 import { useNetwork } from "wagmi";
 
 /// Import Proposal data type and mock data getters from useProposals
-import { mockGetProposalContent, mockGetProposalState, mockGetProposalURI, Proposal } from "./useProposals";
+import {
+  IAnyProposal,
+  mockGetProposalContent,
+  mockGetProposalURI,
+  parseProposalState,
+  timeRemaining,
+} from "./useProposals";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex
@@ -42,22 +48,29 @@ export const useProposal = (instructionsIndex: number) => {
   );
   const yesVotes = useDependentQuery("YesVotesForProposal", () => contract.yesVotesForProposal(instructionsIndex));
   const noVotes = useDependentQuery("NoVotesForProposal", () => contract.noVotesForProposal(instructionsIndex));
+  const proposalState = parseProposalState({ isActive });
 
-  const query = useQuery<Proposal, Error>(
+  const query = useQuery<IAnyProposal, Error>(
     queryKey,
     async () => {
-      queryAssertion(metadata && isActive !== undefined && endorsements && yesVotes && noVotes, queryKey);
+      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes, queryKey);
       /// For the specified proposal index, fetch the relevant data points used in the frontend
       // TODO(appleseed): handle these three
       const proposalURI = mockGetProposalURI("0x4f49502d31000000000000000000000000000000000000000000000000000000");
       const proposalContent = mockGetProposalContent("ipfs://proposalnumberone");
-      const proposalState = mockGetProposalState("0x4f49502d31000000000000000000000000000000000000000000000000000000");
-
+      /**
+       * submissionTimestamp as a Unix Time from the contract
+       */
+      const submissionTimestamp = parseBigNumber(metadata.submissionTimestamp, 0);
+      const unixTimeRemaining = timeRemaining({ state: proposalState, submissionTimestamp });
+      const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : undefined;
       const currentProposal = {
         id: instructionsIndex,
         proposalName: ethers.utils.parseBytes32String(metadata.proposalName),
         proposer: metadata.proposer,
-        submissionTimestamp: parseBigNumber(metadata.submissionTimestamp, 0),
+        // NOTE(appleseed): multiply submissionTimestamp by 1000 to convert to JS Time from Unix Time
+        submissionTimestamp: submissionTimestamp * 1000,
+        timeRemaining: jsTimeRemaining,
         isActive: isActive,
         state: proposalState,
         endorsements: parseBigNumber(endorsements, 0),
@@ -70,9 +83,28 @@ export const useProposal = (instructionsIndex: number) => {
       return currentProposal;
     },
     {
-      enabled: !!metadata && isActive !== undefined && !!endorsements && !!yesVotes && !!noVotes,
+      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes,
     },
   );
 
   return query as typeof query;
 };
+
+/**
+ * submit proposal at:
+ * https://goerli.etherscan.io/address/0xaAd5e6e1362b458E38140B7E8c6d5D71b933a56f#writeContract
+ *
+ * params:
+ * [[2,"0x5a46373152Fe723f052117fdc8E5282677808A70"]]
+ * 0x6d792070726f706f73616c000000000000000000000000000000000000000000
+ *
+ * proposalname (2nd param above):
+ * ethers.utils.formatBytes32String("my proposal name")
+ *
+ * gotcha:
+ * there are rules in Instructions.store() around contract addresses & naming for modules, etc
+ *
+ * deploy a new proposal for the 2nd element of the 1st param:
+ * # from bophades repo
+ * forge create src/policies/Governance.sol:Governance --constructor-args 0x3B294580Fcf1F60B94eca4f4CE78A2f52D23cC83 --rpc-url https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC --private-key yours
+ */

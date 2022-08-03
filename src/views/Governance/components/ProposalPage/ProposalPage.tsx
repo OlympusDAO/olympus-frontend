@@ -7,8 +7,9 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { shorten } from "src/helpers";
+import { prettifySeconds } from "src/helpers/timeUtil";
 import { useProposal } from "src/hooks/useProposal";
-import { Proposal as ProposalType } from "src/hooks/useProposals";
+import { IAnyProposal, PStatus } from "src/hooks/useProposals";
 
 import { NULL_PROPOSAL } from "../../constants";
 import { toCapitalCase } from "../../helpers";
@@ -28,7 +29,7 @@ export const ProposalPage = () => {
   }, [passedId]);
 
   const _useProposal = useProposal(proposalId);
-  const proposal: ProposalType = useMemo(() => {
+  const proposal: IAnyProposal = useMemo(() => {
     if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
     return _useProposal.data;
   }, [_useProposal]);
@@ -43,7 +44,7 @@ export const ProposalPage = () => {
   });
   const formattedPublishedDate = dateFormat.format(proposal.submissionTimestamp);
 
-  const mapStatus = (status: string) => {
+  const mapStatus = (status: PStatus) => {
     switch (status) {
       case "active":
         return "success" as OHMChipProps["template"];
@@ -78,10 +79,14 @@ export const ProposalPage = () => {
           </Grid>
           <Grid item>
             <Box pl="9px" display="flex">
-              <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
-              <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                Ends in 12 hours
-              </Typography>
+              {proposal.timeRemaining && (
+                <>
+                  <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
+                  <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
+                    {`Ends in ${prettifySeconds(proposal.timeRemaining / 1000)}`}
+                  </Typography>
+                </>
+              )}
             </Box>
           </Grid>
         </Grid>
