@@ -4,15 +4,10 @@ import { t } from "@lingui/macro";
 import { Grid, Link } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { Paper, Proposal, SecondaryButton } from "@olympusdao/component-library";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
-import {
-  Proposal as ProposalType,
-  useActiveProposal,
-  useGetTotalInstructions,
-  useProposals,
-} from "src/hooks/useProposals";
+import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
 
 import { FilterModal } from "./components/FilterModal";
 import { SearchBar } from "./components/SearchBar/SearchBar";
@@ -20,14 +15,9 @@ import { toCapitalCase } from "./helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const { data: numberOfProposals = 0 } = useGetTotalInstructions();
-  console.log("number", numberOfProposals);
+  const { data: numberOfProposals, isLoading } = useGetTotalInstructions();
+  console.log("numberOfProposals", numberOfProposals);
   const { data: activeProposal } = useActiveProposal();
-  const _useProposals = useProposals({ state: "active" });
-  const allProposalsData: ProposalType[] = useMemo(() => {
-    if (_useProposals.isLoading || !_useProposals.data) return [];
-    return _useProposals.data;
-  }, [_useProposals]);
 
   const handleFilterClick = () => {
     setIsFilterModalOpen(true);
@@ -38,27 +28,18 @@ export const ProposalsDashboard = () => {
   };
 
   const renderProposals = () => {
-    for (let i = numberOfProposals; i > numberOfProposals - 10; i--) {
-      return <ProposalContainer instructionsId={i} />;
+    const coercedNumber = Number(numberOfProposals);
+    // TODO(appleseed): properly handle 0 proposals
+    if (numberOfProposals && coercedNumber > 0) {
+      // TODO(appleseed): just parsing last 10 proposals right now
+      const proposals = [];
+      for (let i = coercedNumber; i > Math.max(coercedNumber - 10, 0); i--) {
+        console.log("redner", i, i - 1, Math.max(coercedNumber - 10, 0));
+        proposals.push(<ProposalContainer instructionsId={i} />);
+      }
+      return proposals;
     }
-    // return allProposalsData.map(proposal => {
-    //   return (
-    //     <Grid key={proposal.proposalName} item xs={12}>
-    //       <Link to={`/governancetest/proposals/${proposal.id}`} component={RouterLink}>
-    //         <Proposal
-    //           chipLabel={toCapitalCase(proposal.state)}
-    //           proposalTitle={proposal.proposalName}
-    //           publishedDate={new Date(1659389876)}
-    //           status={proposal.state}
-    //           voteEndDate={new Date(1659389876)}
-    //           votesAbstain={0}
-    //           votesAgainst={proposal.noVotes}
-    //           votesFor={proposal.yesVotes}
-    //         />
-    //       </Link>
-    //     </Grid>
-    //   );
-    // });
+    return <ProposalSkeleton />;
   };
 
   return (
@@ -78,13 +59,13 @@ export const ProposalsDashboard = () => {
         </Grid>
         <Grid container direction="column" spacing={2}>
           <>
-            {activeProposal && (
+            {Number(activeProposal?.activationTimestamp) > 0 && (
               <ProposalContainer
-                instructionsId={activeProposal?.instructionsId}
-                timeRemaining={activeProposal?.timeRemaining}
+                instructionsId={Number(activeProposal?.instructionsId)}
+                timeRemaining={Number(activeProposal?.timeRemaining)}
               />
             )}
-            {renderProposals()}
+            {isLoading ? <ProposalSkeleton /> : renderProposals()}
           </>
         </Grid>
       </Paper>
@@ -97,24 +78,10 @@ export const ProposalsDashboard = () => {
 const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: number; timeRemaining?: number }) => {
   const { data: proposal, isLoading } = useProposal(instructionsId);
 
-  // TODO(appleseed): add timeremaining indicator
   return (
     <>
       {isLoading || !proposal ? (
-        <Grid key={instructionsId} item xs={12}>
-          <Skeleton>
-            <Proposal
-              chipLabel={toCapitalCase("active")}
-              proposalTitle={"proposal.proposalName"}
-              publishedDate={new Date()}
-              status={"active"}
-              voteEndDate={new Date()}
-              votesAbstain={0}
-              votesAgainst={0}
-              votesFor={0}
-            />
-          </Skeleton>
-        </Grid>
+        <ProposalSkeleton id={instructionsId} />
       ) : (
         <Grid key={instructionsId} item xs={12}>
           <Link to={`/governancetest/proposals/${proposal?.id}`} component={RouterLink}>
@@ -132,5 +99,22 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
         </Grid>
       )}
     </>
+  );
+};
+
+export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
+  return (
+    <Skeleton>
+      <Proposal
+        chipLabel={toCapitalCase("active")}
+        proposalTitle={"proposal.proposalName"}
+        publishedDate={new Date()}
+        status={"active"}
+        voteEndDate={new Date()}
+        votesAbstain={0}
+        votesAgainst={0}
+        votesFor={0}
+      />
+    </Skeleton>
   );
 };

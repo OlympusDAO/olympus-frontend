@@ -177,10 +177,17 @@ export const parseProposalState = ({ isActive }: { isActive: boolean | undefined
   }
 };
 
+/**
+ * @NOTE (appleseed) - this may be unnecessary (it might repeat the same proposal as `renderProposals` in `<ProposalsDashboard>`)
+ * @returns the activeProposal (without metadata)
+ */
 export const useActiveProposal = () => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
   return useQuery<IActiveProposal, Error>(["getActiveProposal"], async () => {
+    /**
+     * @NOTE `getActiveProposal` returns [0, 0] when nothing is active
+     */
     const activeProposal = await contract.getActiveProposal();
     /**
      * number of seconds remaining in proposal
