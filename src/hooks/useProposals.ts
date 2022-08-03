@@ -1,11 +1,14 @@
 import { ethers } from "ethers";
-import { useQuery } from "react-query";
-import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { useQuery, UseQueryResult } from "react-query";
+import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { parseBigNumber } from "src/helpers";
+import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useNetwork } from "wagmi";
 
 /// Data type for return from getProposalMetadata on Governance.sol
-interface proposalMetadata {
+export interface proposalMetadata {
   proposalName: string;
   proposer: string;
   submissionTimestamp: number;
@@ -24,6 +27,12 @@ export interface Proposal {
   noVotes: number;
   uri: string;
   content: string;
+}
+
+export interface IActiveProposal {
+  instructionsId: number;
+  activationTimestamp: number;
+  timeRemaining: number;
 }
 
 /**
@@ -122,9 +131,44 @@ export const mockProposalState: { [key: string]: PStatus } = {
   "0x4f49502d34000000000000000000000000000000000000000000000000000000": "draft",
 };
 
-//TODO: Not implemented in Contract. Follow up with SC Team
+/**
+ * returns a unix time differential (in seconds)
+ * @param numDays number of days you want
+ */
+const unixDays = (numDays: number) => {
+  return numDays * 24 * 60 * 60;
+};
+
+export const useActiveProposal = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  return useQuery<IActiveProposal, Error>(["getActiveProposal"], async () => {
+    const activeProposal = await contract.getActiveProposal();
+    /**
+     * number of seconds remaining in proposal
+     */
+    const activationTimestamp = parseBigNumber(activeProposal.activationTimestamp, 0);
+    const timeRemaining = activationTimestamp + unixDays(14) - Date.now() / 1000;
+    return {
+      instructionsId: parseBigNumber(activeProposal.instructionsId, 0),
+      activationTimestamp,
+      timeRemaining,
+    };
+  });
+};
+
 export const mockGetTotalInstructions = (): number => {
   return mockTotalInstructions;
+};
+
+export const useGetTotalInstructions = (): UseQueryResult<number, Error> => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOV_INSTRUCTIONS_CONTRACT.getEthersContract(chain.id);
+  return useQuery<number, Error>(["GetTotalInstructions"], async () => {
+    const total = await contract.totalInstructions();
+    // NOTE(appleseed): not using DecimalBigNumber.toAproxNumber() because this seems simplere
+    return parseBigNumber(total, 0);
+  });
 };
 
 /// Function to return mock proposal metadata in lieu of a contract
@@ -251,16 +295,22 @@ export const useProposals = (filters: IProposalState) => {
   /// const INSTRContract = "";
   /// const IPFSDContract = "";
   /// const governanceContract = "";
-
+  // TODO(appleseed): this needs to be rewritten
+  const queryKey = proposalsQueryKey(filters);
+  const useDependentQuery = createDependentQuery(queryKey);
+  /// Get total number of proposal through INSTR module contract's totalInstructions variable
+  const { data: numberOfProposals } = useGetTotalInstructions();
   const query = useQuery<Proposal[], Error>(
-    proposalsQueryKey(filters),
+    queryKey,
     async () => {
-      /// Get total number of proposal through INSTR module contract's totalInstructions variable
-      const numberOfProposals = mockGetTotalInstructions();
+      queryAssertion(numberOfProposals, queryKey);
       const allProposals: Proposal[] = [];
 
       /// For each proposal, fetch the relevant data points used in the frontend
-      for (let i = 0; i <= numberOfProposals; i++) {
+      // NOTE(appleseed): 1. iterate in reverse order, 2. don't query any proposals that are older than 2 weeks
+      // NOTE(cont'd): otherwise we'll have too many api calls
+      // TODO(cont'd): 3. build separate functionality (via the graph) that queries for older proposals
+      for (let i = numberOfProposals; i > 0; i--) {
         const proposal = MockGetProposalMetadata(i);
         const isActive = MockGetProposalHasBeenActivated(i);
         const endorsements = MockGetProposalTotalEndorsements(i);
