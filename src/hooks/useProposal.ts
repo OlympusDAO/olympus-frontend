@@ -8,13 +8,7 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 import { useNetwork } from "wagmi";
 
 /// Import Proposal data type and mock data getters from useProposals
-import {
-  IAnyProposal,
-  mockGetProposalContent,
-  mockGetProposalURI,
-  parseProposalState,
-  timeRemaining,
-} from "./useProposals";
+import { IAnyProposal, parseProposalContent, parseProposalState, timeRemaining } from "./useProposals";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex
@@ -48,16 +42,22 @@ export const useProposal = (instructionsIndex: number) => {
   );
   const yesVotes = useDependentQuery("YesVotesForProposal", () => contract.yesVotesForProposal(instructionsIndex));
   const noVotes = useDependentQuery("NoVotesForProposal", () => contract.noVotesForProposal(instructionsIndex));
+  // TODO(appleseed): need proposalURI_ functionality on deployment
+  // TODO(appleseed): upload proposal content to ipfs as proper json!!
+  const proposalURI = "ipfs://bafkreidmgcatj7skn6ufob5stdc7hnt76nvyb7dpc62l72fhrbluiychly";
+  const proposalContent = useDependentQuery("ProposalContent", () => parseProposalContent({ uri: proposalURI }));
   const proposalState = parseProposalState({ isActive });
+  // const proposalContent = mockGetProposalContent(
+  //   "ipfs://bafkreibazhtsv5a7sheab5wxbuclgxqges42vvd2tbbeiw5q2udzjfo64i",
+  // );
 
   const query = useQuery<IAnyProposal, Error>(
     queryKey,
     async () => {
-      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes, queryKey);
+      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes && proposalContent, queryKey);
       /// For the specified proposal index, fetch the relevant data points used in the frontend
-      // TODO(appleseed): handle these three
-      const proposalURI = mockGetProposalURI("0x4f49502d31000000000000000000000000000000000000000000000000000000");
-      const proposalContent = mockGetProposalContent("ipfs://proposalnumberone");
+      const content = proposalContent.description;
+      const discussionURL = proposalContent.discussion;
       /**
        * submissionTimestamp as a Unix Time from the contract
        */
@@ -76,14 +76,14 @@ export const useProposal = (instructionsIndex: number) => {
         endorsements: parseBigNumber(endorsements, 0),
         yesVotes: parseBigNumber(yesVotes, 0),
         noVotes: parseBigNumber(noVotes, 0),
-        uri: proposalURI,
-        content: proposalContent,
+        uri: discussionURL,
+        content,
       };
 
       return currentProposal;
     },
     {
-      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes,
+      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes && !!proposalContent,
     },
   );
 

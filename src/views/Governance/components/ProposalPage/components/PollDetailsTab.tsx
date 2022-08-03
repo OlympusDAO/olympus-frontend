@@ -9,7 +9,9 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
         <Typography variant="body1">{proposal.content}</Typography>
       </Grid>
       <Grid className="discussion-button" item>
-        <TextButton endIconName="arrow-up">Discussion</TextButton>
+        <TextButton href={proposal.uri} endIconName="arrow-up">
+          Discussion
+        </TextButton>
       </Grid>
     </Grid>
   );

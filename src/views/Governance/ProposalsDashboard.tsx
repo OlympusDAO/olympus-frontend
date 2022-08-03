@@ -16,7 +16,6 @@ import { toCapitalCase } from "./helpers";
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const { data: numberOfProposals, isLoading } = useGetTotalInstructions();
-  console.log("numberOfProposals", numberOfProposals);
   const { data: activeProposal } = useActiveProposal();
 
   const handleFilterClick = () => {
@@ -34,7 +33,6 @@ export const ProposalsDashboard = () => {
       // TODO(appleseed): just parsing last 10 proposals right now
       const proposals = [];
       for (let i = coercedNumber; i > Math.max(coercedNumber - 10, 0); i--) {
-        console.log("redner", i, i - 1, Math.max(coercedNumber - 10, 0));
         proposals.push(<ProposalContainer instructionsId={i} />);
       }
       return proposals;

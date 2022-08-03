@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ethers } from "ethers";
 import { useQuery, UseQueryResult } from "react-query";
 import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
@@ -174,6 +175,32 @@ export const parseProposalState = ({ isActive }: { isActive: boolean | undefined
       return "endorsement";
     default:
       return "discussion";
+  }
+};
+
+/**
+ * expects a uri that returns json metadata with three keys:
+ * - name {string}
+ * - description {string}
+ * - discussion {string} - url link to discussion
+ */
+export const parseProposalContent = async ({ uri }: { uri: string }) => {
+  let readURI = uri;
+  if (~uri.indexOf("ipfs:/")) {
+    readURI = `https://ipfs.io/ipfs/${uri.replace("ipfs:/", "")}`;
+  }
+  try {
+    const res = await axios.get(readURI);
+    console.log("result", res);
+    console.log(res.data, res.data["description"], res.data.discussion);
+    return {
+      name: res.data["name"] as string,
+      description: res.data["description"] as string,
+      discussion: res.data["discussion"] as string,
+    };
+  } catch (error) {
+    // handle error
+    console.log(error);
   }
 };
 
