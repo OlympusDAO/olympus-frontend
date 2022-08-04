@@ -1,4 +1,4 @@
-import { Grid, styled } from "@mui/material";
+import { Grid, Link, styled } from "@mui/material";
 import { TextButton } from "@olympusdao/component-library";
 import ReactMarkdown from "react-markdown";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
@@ -13,7 +13,12 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   return (
     <Grid container direction="column">
       <StyledGridItem item>
-        <ReactMarkdown children={proposal.content} />
+        <ReactMarkdown
+          components={{
+            a: Link,
+          }}
+          children={proposal.content}
+        />
       </StyledGridItem>
       <Grid className="discussion-button" item>
         <TextButton href={proposal.uri} endIconName="arrow-up">
