@@ -58,6 +58,7 @@ const RangeInputForm = (props: {
       endString={t`Max`}
       endStringOnClick={() => onChangeReserveAmount(reserveBalance.toString())}
       token={reserveSymbol}
+      type="string"
       info={`Balance: ${trimmedReserveBalance} ${reserveSymbol}`}
     />
   );
@@ -73,6 +74,7 @@ const RangeInputForm = (props: {
       endString={t`Max`}
       endStringOnClick={() => onChangeOhmAmount(ohmBalance.toString())}
       token="OHM"
+      type="string"
       info={`Balance: ${trimmedOhmBalance} OHM`}
     />
   );

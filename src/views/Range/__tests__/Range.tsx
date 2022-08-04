@@ -9,10 +9,9 @@ import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
 import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
+import { RangeData } from "src/views/Range/__mocks__/mockRangeCalls";
+import { Range } from "src/views/Range/index";
 import * as WAGMI from "wagmi";
-
-import { RangeData } from "../__mocks__/mockRangeCalls";
-import { Range } from "../index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 jest.mock("src/hooks/useContractAllowance");
@@ -71,10 +70,6 @@ describe("Default Main Range View", () => {
   it("Should Display Max You Can Buy", async () => {
     render(<Range />);
     expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Buy");
-  });
-  it("Should Display Enter Amount of DAI to Spend", () => {
-    render(<Range />);
-    expect(screen.getAllByText("Enter Amount of DAI to Spend")[0]).toBeInTheDocument();
   });
 
   it("Should populate OHM Value automatically with 4.136381351142522 when 100 DAI amount is entered", async () => {
@@ -194,10 +189,6 @@ describe("Sell Tab Main Range View", () => {
 
   it("Should Display Premium instead of Discount", async () => {
     expect(await screen.findByTestId("premium-discount")).toHaveTextContent("Premium");
-  });
-
-  it("Should Display Enter Amount of OHM to Spend", () => {
-    expect(screen.getAllByText("Enter Amount of OHM to Spend")[0]).toBeInTheDocument();
   });
 
   it("Should populate DAI Value automatically with 100 when 6.204572026713784 DAI amount is entered", async () => {
