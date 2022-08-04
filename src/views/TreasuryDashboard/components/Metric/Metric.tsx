@@ -186,7 +186,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`APY`,
+    label: t`Annualized Rebases`,
   };
 
   if (rebaseRate) {
