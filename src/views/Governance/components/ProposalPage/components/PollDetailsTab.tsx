@@ -9,12 +9,6 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
       maxWidth: "100%",
     },
   }));
-  // const getRenderedDetails = () => {
-  //   console.log(proposal?.content);
-  //   return {
-  //     __html: MarkdownIt({ linkify: true, typographer: true }).render(proposal ? proposal.content : ""),
-  //   };
-  // };
 
   return (
     <Grid container direction="column">
