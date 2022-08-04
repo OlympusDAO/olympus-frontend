@@ -97,15 +97,21 @@ export const ProposalPage = () => {
   return (
     <div className="proposal-page">
       <Paper>
-        <Grid className="page-content" container direction="column">
-          <Grid className="navigation" container direction="row" justifyContent="space-between" alignItems="center">
+        <Box className="page-content">
+          <Box
+            display="flex"
+            className="navigation"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <BackButton />
-            <Grid item>
+            <Box>
               <Link to="/governancetest/create-proposal" component={RouterLink}>
                 <SecondaryButton>Create new proposal</SecondaryButton>
               </Link>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
           {proposalHeader()}
           <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
             <Tabs
@@ -125,7 +131,7 @@ export const ProposalPage = () => {
               <VotesTab proposal={proposal} />
             </TabPanel>
           </Grid>
-        </Grid>
+        </Box>
       </Paper>
     </div>
   );

@@ -60,7 +60,9 @@ export const CreateProposal = () => {
               handleChange={setProposalContract}
             />
           </Grid>
-          <PrimaryButton className="continue-button">Continue</PrimaryButton>
+          <PrimaryButton className="continue-button" onClick={uploadToIPFS}>
+            Continue
+          </PrimaryButton>
         </Grid>
       </Paper>
     </div>

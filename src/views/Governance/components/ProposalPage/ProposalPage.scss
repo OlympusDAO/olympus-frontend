@@ -3,6 +3,10 @@
   display: flex;
   justify-content: center;
 
+  // temporary paper fix
+  .MuiPaper-root > .MuiGrid-container > .MuiGrid-item {
+    width: 100%;
+  }
   .page-content {
     .navigation {
       margin-bottom: 30px;

@@ -1,7 +1,7 @@
 import { Grid, OutlinedInput, Typography } from "@mui/material";
 
 type TextEntryProps = {
-  inputTitle: string;
+  inputTitle: "Title" | "Description" | "Discussion" | "Target";
   gridSize: number;
   handleChange: (value: string) => void;
   secondaryTitle?: string;
@@ -24,6 +24,7 @@ export const TextEntry = ({ inputTitle, gridSize, handleChange, secondaryTitle, 
         )}
       </Grid>
       <Grid item>
+        {/* TODO(appleseed): make description box expandable & markdown editor... */}
         <OutlinedInput
           className="input-box"
           placeholder={placeholder}
