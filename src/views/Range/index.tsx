@@ -10,12 +10,11 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { DetermineRangePrice, OperatorPrice, OperatorReserveSymbol, RangeData } from "src/views/Range/hooks";
+import RangeChart from "src/views/Range/RangeChart";
+import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
+import RangeInputForm from "src/views/Range/RangeInputForm";
 import { useNetwork } from "wagmi";
-
-import { DetermineRangePrice, OperatorPrice, OperatorReserveSymbol, RangeData } from "./hooks";
-import RangeChart from "./RangeChart";
-import RangeConfirmationModal from "./RangeConfirmationModal";
-import RangeInputForm from "./RangeInputForm";
 
 //export interface OHMRangeProps {}
 
@@ -91,7 +90,7 @@ export const Range = () => {
   return (
     <div id="stake-view">
       <Paper headerText="Range Swap">
-        <Box display="flex" flexDirection="row" justifyContent="space-around">
+        <Box display="flex" flexDirection="row" justifyContent="space-around" mb="54px">
           <Box>
             <Metric label="OHM Price" data-testid="ohm-price" metric={formatCurrency(currentPrice, 2)} />
           </Box>
@@ -102,18 +101,7 @@ export const Range = () => {
             <Metric label="Upper Wall" metric={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
           </Box>
         </Box>
-        {!rangeDataLoading && (
-          <Box mt={"20px"} data-testid="range-chart">
-            <RangeChart
-              rangeData={rangeData}
-              reserveSymbol={reserveSymbol}
-              currentPrice={currentPrice}
-              bidPrice={bidPrice.price}
-              askPrice={askPrice.price}
-              sellActive={sellActive}
-            />
-          </Box>
-        )}
+
         <Tabs centered value={sellActive} TabIndicatorProps={{ style: { display: "none" } }}>
           <Tab
             data-testid="buy-tab"
@@ -135,6 +123,7 @@ export const Range = () => {
         <WalletConnectedGuard message="Connect your wallet to use Range Swap">
           <RangeInputForm
             reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
+            onSetSellActive={() => setSellActive(!sellActive)}
             sellActive={sellActive}
             reserveBalance={reserveBalance}
             ohmBalance={ohmBalance}
@@ -173,6 +162,18 @@ export const Range = () => {
             </div>
           </Box>
         </Box>
+        {!rangeDataLoading && (
+          <Box mt={"20px"} data-testid="range-chart">
+            <RangeChart
+              rangeData={rangeData}
+              reserveSymbol={reserveSymbol}
+              currentPrice={currentPrice}
+              bidPrice={bidPrice.price}
+              askPrice={askPrice.price}
+              sellActive={sellActive}
+            />
+          </Box>
+        )}
       </Paper>
       <RangeConfirmationModal
         open={modalOpen}
