@@ -3,6 +3,7 @@ import "./CreateProposal.scss";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
+import { makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
 
 import { BackButton } from "../BackButton";
 import { TextEntry } from "./components/TextEntry";
@@ -33,6 +34,17 @@ export const CreateProposal = () => {
     );
   };
 
+  const handleFormSubmission = async () => {
+    const files = makeJsonFile({
+      name: proposalTitle,
+      description: proposalDescription,
+      content: proposalDescription,
+      external_url: proposalDiscussion,
+    });
+    const cid = await uploadToIPFS(files);
+    console.log("after", cid);
+  };
+
   return (
     <div className="create-proposal-form">
       <Paper>
@@ -60,7 +72,7 @@ export const CreateProposal = () => {
               handleChange={setProposalContract}
             />
           </Grid>
-          <PrimaryButton className="continue-button" onClick={uploadToIPFS}>
+          <PrimaryButton className="continue-button" onClick={handleFormSubmission}>
             Continue
           </PrimaryButton>
         </Grid>
