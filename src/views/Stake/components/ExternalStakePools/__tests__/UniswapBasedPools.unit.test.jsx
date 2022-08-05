@@ -3,8 +3,7 @@ import * as helpers from "src/helpers";
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { render, screen } from "src/testUtils";
-
-import Stake from "../../../Stake";
+import Stake from "src/views/Stake/Stake";
 jest.mock("src/hooks/usePrices");
 jest.mock("src/hooks/useContract");
 
@@ -24,9 +23,9 @@ describe("Uniswap Based Farm Pool", () => {
       balanceOf: jest.fn().mockReturnValue(BigNumber.from("0xb76e0e83cbaa98e9ed")),
     });
     helpers.getTokenPrice = jest.fn().mockReturnValue(87.39);
-    render(<Stake />);
   });
-  it("should display the correct TVL", () => {
-    expect(screen.getAllByText("$26,248,739")[0]).toBeInTheDocument();
+  it("should display the correct TVL", async () => {
+    render(<Stake />);
+    expect(await screen.findByText("$26,248,739")).toBeInTheDocument();
   });
 });

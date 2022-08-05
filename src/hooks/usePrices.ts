@@ -1,12 +1,11 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { OHM_DAI_LP_TOKEN, OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-
-import { useCurrentIndex } from "./useCurrentIndex";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 export const ohmPriceQueryKey = () => ["useOhmPrice"];
 
@@ -15,7 +14,7 @@ export const ohmPriceQueryKey = () => ["useOhmPrice"];
  */
 export const useOhmPrice = () => {
   const key = ohmPriceQueryKey();
-  return useQuery<number, Error>(key, async () => {
+  return useQuery<number, Error>([key], async () => {
     const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
     const [ohm, dai] = await contract.getReserves();
 
@@ -35,7 +34,7 @@ export const useGohmPrice = () => {
 
   const key = gohmPriceQueryKey(ohmPrice, currentIndex);
   return useQuery<number, Error>(
-    key,
+    [key],
     async () => {
       queryAssertion(ohmPrice && currentIndex, key);
 

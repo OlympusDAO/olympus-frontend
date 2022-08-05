@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { DEV_FAUCET } from "src/constants/addresses";
 import { useDynamicFaucetContract } from "src/hooks/useContract";

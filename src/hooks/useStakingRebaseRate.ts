@@ -1,11 +1,10 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-
-import { useStaticSohmContract, useStaticStakingContract } from "./useContract";
+import { useStaticSohmContract, useStaticStakingContract } from "src/hooks/useContract";
 
 export const stakingRebaseRateQueryKey = () => ["useStakingRebaseRate"];
 export const useStakingRebaseRate = () => {
@@ -20,7 +19,7 @@ export const useStakingRebaseRate = () => {
   const sohmCirculatingSupply = useDependentQuery("sohmCirculatingSupply", () => sohmContract.circulatingSupply());
 
   return useQuery<number, Error>(
-    key,
+    [key],
     async () => {
       queryAssertion(stakingEpoch && sohmCirculatingSupply, key);
 
