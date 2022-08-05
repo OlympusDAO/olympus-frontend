@@ -47,7 +47,9 @@ export const ProposalsDashboard = () => {
             Proposals
           </Typography>
           <Box display="flex" minWidth="310px">
-            <SecondaryButton>Create new Proposal</SecondaryButton>
+            <Link to="/governancetest/create-proposal" component={RouterLink}>
+              <SecondaryButton>Create new Proposal</SecondaryButton>
+            </Link>
             <PrimaryButton>Delegate Vote</PrimaryButton>
           </Box>
         </Box>
