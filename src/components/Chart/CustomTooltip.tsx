@@ -1,10 +1,9 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { CSSProperties } from "react";
+import { DataFormat } from "src/components/Chart/Constants";
 import { formatCurrency } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
-
-import { DataFormat } from "./Constants";
 
 interface TooltipPayloadItem {
   dataKey: string;

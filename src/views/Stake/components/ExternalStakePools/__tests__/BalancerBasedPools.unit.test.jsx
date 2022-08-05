@@ -28,8 +28,9 @@ describe("Balancer Based Farm Pool", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it("should display the correct TVL", () => {
+  it("should display the correct TVL", async () => {
     //This covers hook interactions and proper rounding on the presentation layer.
-    expect(screen.getAllByText("$36,548,168")[0]).toBeInTheDocument();
+    const waitforText = await screen.findAllByText("$36,548,168");
+    expect(waitforText[0]).toBeInTheDocument();
   });
 });

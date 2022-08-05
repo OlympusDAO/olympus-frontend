@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
@@ -160,7 +160,7 @@ export const useZapExecute = () => {
           balanceQueryKey(address, GOHM_ADDRESSES, NetworkId.MAINNET),
           zapTokenBalancesKey(address),
         ];
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         Promise.all(promises);
       },
     },

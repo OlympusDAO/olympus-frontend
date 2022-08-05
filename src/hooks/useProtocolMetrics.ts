@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getSubgraphUrl } from "src/constants";
 import { useMetricsBarLatestOnlyQuery } from "src/generated/graphql";
 import apollo from "src/lib/apolloClient";
@@ -114,7 +114,7 @@ export const protocolMetricsLiquidBackingPerOhmQueryKey = () => ["useProtocolMet
  */
 export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
   return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
-    protocolMetricsQueryKey(),
+    [protocolMetricsQueryKey()],
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 

@@ -1,6 +1,5 @@
 import { render } from "src/testUtils";
-
-import TreasuryDashboard from "../TreasuryDashboard";
+import TreasuryDashboard from "src/views/TreasuryDashboard/TreasuryDashboard";
 
 describe("<TreasuryDashboard/>", () => {
   it("should render component", () => {

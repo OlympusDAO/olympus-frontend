@@ -1,12 +1,11 @@
 import { ChartType } from "src/components/Chart/Constants";
-
 import {
   getDataKeysFromTokens,
   getKeysTokenSummary,
   getMaximumValue,
   getTokensFromKey,
   reduceKeysTokenSummary,
-} from "../ProtocolMetricsHelper";
+} from "src/helpers/ProtocolMetricsHelper";
 
 const getTokenRecord = (token: string, value: string) => {
   return {

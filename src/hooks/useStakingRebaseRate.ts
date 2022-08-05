@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
@@ -20,7 +20,7 @@ export const useStakingRebaseRate = () => {
   const sohmCirculatingSupply = useDependentQuery("sohmCirculatingSupply", () => sohmContract.circulatingSupply());
 
   return useQuery<number, Error>(
-    key,
+    [key],
     async () => {
       queryAssertion(stakingEpoch && sohmCirculatingSupply, key);
 

@@ -1,6 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { gql, request } from "graphql-request";
-import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -110,7 +110,7 @@ export const BalancerSwapFees = (address: string) => {
     data = { dailyFees: 0, totalLiquidity: 0 },
     isFetched,
     isLoading,
-  } = useQuery("AllSwapFees", async () => {
+  } = useQuery(["AllSwapFees"], async () => {
     const data = await request(
       balancerURL,
       gql`
@@ -218,7 +218,7 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
     data = { cvxApr: 0, extraRewardsApr: 0, crvApr: 0, baseApr: 0, tvl: 0 },
     isFetched,
     isLoading,
-  } = useQuery("ConvexPoolAPY", async () => {
+  } = useQuery(["ConvexPoolAPY"], async () => {
     const data = await request(
       convexAPI,
       gql`
