@@ -247,7 +247,7 @@ export const FraxPoolAPY = (pool: ExternalPool) => {
     data = { apy: 0, liquidity_locked: 0 },
     isFetched,
     isLoading,
-  } = useQuery("FraxPoolAPY", async () => {
+  } = useQuery(["FraxPoolAPY"], async () => {
     const results = await axios.get(fraxAPI).then(res => {
       const apy = res.data.find((pool: { identifier: string }) => pool.identifier == "Uniswap FRAX/OHM");
       return apy;
