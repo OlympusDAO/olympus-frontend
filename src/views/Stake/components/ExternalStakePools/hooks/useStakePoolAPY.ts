@@ -240,6 +240,23 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
   return { apy, tvl, isFetched, isLoading };
 };
 
+//Returns Frax Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
+export const FraxPoolAPY = (pool: ExternalPool) => {
+  const fraxAPI = "https://api.frax.finance/pools";
+  const {
+    data = { apy: 0, liquidity_locked: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery("FraxPoolAPY", async () => {
+    const results = await axios.get(fraxAPI).then(res => {
+      const apy = res.data.find((pool: { identifier: string }) => pool.identifier == "Uniswap FRAX/OHM");
+      return apy;
+    });
+    return results;
+  });
+  return { apy: data.apy, tvl: data.liquidity_locked, isFetched, isLoading };
+};
+
 const APY = (
   pool: ExternalPool,
   tvl: number,

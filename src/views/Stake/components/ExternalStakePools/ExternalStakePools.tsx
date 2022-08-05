@@ -1,15 +1,25 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Link, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
+import {
+  DataRow,
+  Icon,
+  OHMTokenProps,
+  Paper,
+  SecondaryButton,
+  Token,
+  TokenStack,
+  Tooltip,
+} from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
   convexPools,
   curvePools,
+  fraxPools,
   joePools,
   jonesPools,
   spiritPools,
@@ -23,6 +33,7 @@ import {
   BeetsPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
+  FraxPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -126,6 +137,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {convexPools.map(pool => (
       <ConvexPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {fraxPools.map(pool => (
+      <FraxPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
 
@@ -134,7 +148,14 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 
   const userBalances = useStakePoolBalance(props.pool);
   const userBalance = userBalances[props.pool.networkID].data;
-
+  const ToolTipContent = () => (
+    <>
+      <Typography pb={"5px"}>Mint and Sync Pool</Typography>
+      <Link href="https://olympusdao.medium.com/mint-sync-ffde42a72c23" target="_blank">
+        Learn More
+      </Link>
+    </>
+  );
   return (
     <TableRow>
       <TableCell style={{ padding: "8px 0" }}>
@@ -142,20 +163,30 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
             {props.pool.poolName}
+            {props.pool.mintAndSync && (
+              <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
+                Mint and Sync{" "}
+                <Tooltip message={<ToolTipContent />}>
+                  <Icon style={{ fontSize: "10px" }} name="info" />
+                </Tooltip>
+              </Typography>
+            )}
           </Typography>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>
-
       <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {!props.tvl ? <Skeleton width={60} /> : formatCurrency(props.tvl)}
         </Typography>
       </TableCell>
-
       <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? <Skeleton width={60} /> : `${formatNumber(props.apy * 100, 2)}%`}
+          {props.apy === undefined || isNaN(props.apy) ? (
+            <Skeleton width={60} />
+          ) : (
+            `${formatNumber(props.apy * 100, 2)}%`
+          )}
         </Typography>
       </TableCell>
 
@@ -294,5 +325,14 @@ const CurvePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pro
     <MobileStakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
+  );
+};
+
+const FraxPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { apy, tvl } = FraxPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
   );
 };
