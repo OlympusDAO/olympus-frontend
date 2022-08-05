@@ -1,3 +1,5 @@
+import "./ProposalPage.scss";
+
 import { t } from "@lingui/macro";
 import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
 import {
@@ -99,7 +101,7 @@ export const ProposalPage = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center" width="100%">
       <Paper>
         <Box>
           <BackButton />
