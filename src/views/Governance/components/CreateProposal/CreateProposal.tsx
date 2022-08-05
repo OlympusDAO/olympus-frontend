@@ -1,13 +1,11 @@
-import "./CreateProposal.scss";
-
 import { Box, Grid, InputLabel, Select, styled, Typography } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
 import { FC, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
 
 import { BackButton } from "../BackButton";
+import { MarkdownPreview } from "../MarkdownPreview";
 import { TextEntry } from "./components/TextEntry";
 
 export const CreateProposal = () => {
@@ -75,7 +73,7 @@ export const CreateProposal = () => {
           <Box display="flex" flexDirection="row" justifyContent="flex-end">
             <Typography>{proposalDescription.length}/14,400</Typography>
           </Box>
-          <ReactMarkdown children={proposalDescription} />
+          <MarkdownPreview content={proposalDescription} />
           <TextEntry
             label="Discussion"
             placeholder="e.g. https://forum.olympusday.finance/..."
