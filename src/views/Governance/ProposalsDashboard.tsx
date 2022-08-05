@@ -105,7 +105,7 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
               publishedDate={new Date(proposal?.submissionTimestamp)}
               status={proposal?.state}
               voteEndDate={timeRemaining ? new Date(timeRemaining) : new Date()}
-              votesAbstain={0}
+              quorum={0}
               votesAgainst={proposal?.noVotes}
               votesFor={proposal?.yesVotes}
             />
@@ -125,7 +125,7 @@ export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
         publishedDate={new Date()}
         status={"active"}
         voteEndDate={new Date()}
-        votesAbstain={0}
+        quorum={0}
         votesAgainst={0}
         votesFor={0}
       />
