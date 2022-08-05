@@ -1,9 +1,8 @@
 import "./Governance.scss";
 
-import { t } from "@lingui/macro";
-import { Grid, Link } from "@mui/material";
+import { Box, Grid, Link, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import { Paper, Proposal, SecondaryButton } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, Proposal, SecondaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
@@ -42,8 +41,24 @@ export const ProposalsDashboard = () => {
 
   return (
     <div className="proposals-dash">
-      <Paper headerText={t`Proposals`}>
-        <Grid
+      <Paper>
+        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+          <Typography fontSize="27px" fontWeight="500" lineHeight="33px">
+            Proposals
+          </Typography>
+          <Box display="flex" minWidth="310px">
+            <SecondaryButton>Create new Proposal</SecondaryButton>
+            <PrimaryButton>Delegate Vote</PrimaryButton>
+          </Box>
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Tabs>
+            <Tab label="Treasury" />
+            <Tab label="Community" />
+          </Tabs>
+        </Box>
+        <SearchBar />
+        {/* <Grid
           className="dashboard-actions"
           container
           direction="row"
@@ -53,8 +68,7 @@ export const ProposalsDashboard = () => {
           <SecondaryButton startIconName="hamburger" onClick={handleFilterClick}>
             Filter
           </SecondaryButton>
-          <SearchBar />
-        </Grid>
+        </Grid> */}
         <Grid container direction="column" spacing={2}>
           <>
             {Number(activeProposal?.activationTimestamp) > 0 && (
@@ -102,7 +116,7 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
 
 export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
   return (
-    <Skeleton>
+    <Skeleton width="100%">
       <Proposal
         chipLabel={toCapitalCase("active")}
         proposalTitle={"proposal.proposalName"}
