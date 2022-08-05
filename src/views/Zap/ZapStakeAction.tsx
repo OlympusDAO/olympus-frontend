@@ -281,7 +281,7 @@ const ZapStakeAction: React.FC = () => {
   return (
     <Root>
       <ZapStakeHeader images={inputTokenImages} />
-      <Typography>
+      <Typography fontSize="15px" lineHeight="24px" mb="3px">
         <Trans>You Pay</Trans>
       </Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
@@ -313,10 +313,10 @@ const ZapStakeAction: React.FC = () => {
                       <ButtonBase onClick={handleOpen}>
                         <Avatar
                           src={selectedTokenBalance ? selectedTokenBalance.tokenImageUrl : ""}
-                          style={{ height: "30px", width: "30px" }}
+                          style={{ height: "17.5px", width: "17.5px" }}
                         />
                         <Box width="10px" />
-                        <Typography>{selectedTokenBalance && selectedTokenBalance.symbol}</Typography>
+                        <Typography fontSize="15px">{selectedTokenBalance && selectedTokenBalance.symbol}</Typography>
                         {downIcon}
                       </ButtonBase>
                     </Box>
@@ -347,7 +347,7 @@ const ZapStakeAction: React.FC = () => {
           <Box className="zap-input" data-testid="zap-input">
             <Button variant="contained" className="zap-input" onClick={handleOpen} color="primary">
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
-                <Typography>
+                <Typography fontSize="15px" fontWeight="500">
                   <Trans>Select Token</Trans>
                 </Typography>
                 {downIcon}
@@ -359,7 +359,7 @@ const ZapStakeAction: React.FC = () => {
       <Box minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
-      <Typography>
+      <Typography fontSize="15px" marginBottom="3px" lineHeight="24px">
         <Trans>You Get</Trans>
       </Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
@@ -375,7 +375,7 @@ const ZapStakeAction: React.FC = () => {
               data-testid="zap-output"
             >
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
-                <Typography>
+                <Typography fontWeight="500" fontSize="15px">
                   <Trans>Select Token</Trans>
                 </Typography>
                 {downIcon}
@@ -405,9 +405,9 @@ const ZapStakeAction: React.FC = () => {
                   <Box flexDirection="column" display="flex">
                     <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                       <ButtonBase onClick={handleOutputOpen}>
-                        <Token name={outputGOHM ? "wsOHM" : "sOHM"} />
+                        <Token name={outputGOHM ? "wsOHM" : "sOHM"} style={{ fontSize: "22px" }} />
                         <Box width="10px" />
-                        <Typography>{outputGOHM ? "gOHM" : "sOHM"}</Typography>
+                        <Typography fontSize="15px">{outputGOHM ? "gOHM" : "sOHM"}</Typography>
                         {downIcon}
                       </ButtonBase>
                     </Box>

@@ -41,6 +41,12 @@ export interface IActiveProposal {
   timeRemaining: number;
 }
 
+export interface IProposalContent {
+  name: string;
+  description: string;
+  external_url: string;
+}
+
 /**
  * the proposals current state
  * - currenly only Active & Endorsements status are stored on chain
@@ -182,25 +188,28 @@ export const parseProposalState = ({ isActive }: { isActive: boolean | undefined
  * expects a uri that returns json metadata with three keys:
  * - name {string}
  * - description {string}
- * - discussion {string} - url link to discussion
+ * - external_url {string} - url link to discussion
  */
-export const parseProposalContent = async ({ uri }: { uri: string }) => {
+export const parseProposalContent = async ({ uri }: { uri: string }): Promise<IProposalContent> => {
   let readURI = uri;
   if (~uri.indexOf("ipfs:/")) {
     readURI = `https://ipfs.io/ipfs/${uri.replace("ipfs:/", "")}`;
   }
   try {
     const res = await axios.get(readURI);
-    console.log("result", res);
-    console.log(res.data, res.data["description"], res.data.discussion);
     return {
-      name: res.data["name"] as string,
-      description: res.data["description"] as string,
-      discussion: res.data["discussion"] as string,
+      name: res.data.name as string,
+      description: res.data.description as string,
+      external_url: res.data.external_url as string,
     };
   } catch (error) {
     // handle error
     console.log(error);
+    return {
+      name: "",
+      description: "",
+      external_url: "",
+    };
   }
 };
 

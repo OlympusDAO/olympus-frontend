@@ -5,6 +5,7 @@ import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
 import { FC, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
 
 import { BackButton } from "../BackButton";
 import { TextEntry } from "./components/TextEntry";
@@ -46,6 +47,17 @@ export const CreateProposal = () => {
     );
   };
 
+  const handleFormSubmission = async () => {
+    const files = makeJsonFile({
+      name: proposalTitle,
+      description: proposalDescription,
+      content: proposalDescription,
+      external_url: proposalDiscussion,
+    });
+    const cid = await uploadToIPFS(files);
+    console.log("after", cid);
+  };
+
   return (
     <Box display="flex" justifyContent="center">
       <Paper>
@@ -78,7 +90,7 @@ export const CreateProposal = () => {
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="flex-end">
-          <PrimaryButton sx={{ marginLeft: "0px" }}>Continue</PrimaryButton>
+          <PrimaryButton onClick={handleFormSubmission}>Continue</PrimaryButton>
         </Box>
       </Paper>
     </Box>

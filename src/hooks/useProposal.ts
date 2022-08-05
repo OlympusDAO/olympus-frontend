@@ -56,8 +56,8 @@ export const useProposal = (instructionsIndex: number) => {
     async () => {
       queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes && proposalContent, queryKey);
       /// For the specified proposal index, fetch the relevant data points used in the frontend
-      const content = proposalContent.description;
-      const discussionURL = proposalContent.discussion;
+      const content: string = proposalContent.description;
+      const discussionURL: string = proposalContent.external_url;
       /**
        * submissionTimestamp as a Unix Time from the contract
        */

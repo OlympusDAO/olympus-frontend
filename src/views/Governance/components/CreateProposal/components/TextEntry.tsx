@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 import { Input } from "@olympusdao/component-library";
 
 type TextEntryProps = {
-  label: string;
+  label: "Title" | "Description" | "Discussion" | "Target";
   handleChange: (value: string) => void;
   placeholder?: string;
 };

@@ -46,6 +46,13 @@ export class Environment {
       fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
 
+  public static getWeb3StorageKey = () =>
+    this._get({
+      first: true,
+      key: "REACT_APP_WEB3_STORAGE_KEY",
+      err: "Please provide an Web3.Storage API key in your .env file",
+    });
+
   /**
    * a feature flag for denoting when we are on the staging server
    * @returns {string} true or false
