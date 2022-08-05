@@ -1,8 +1,16 @@
-import "./ProposalPage.scss";
-
 import { t } from "@lingui/macro";
 import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
-import { Chip, Icon, OHMChipProps, Paper, SecondaryButton, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
+import {
+  Chip,
+  Icon,
+  OHMChipProps,
+  Paper,
+  PrimaryButton,
+  SecondaryButton,
+  Tab,
+  TabPanel,
+  Tabs,
+} from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -61,59 +69,52 @@ export const ProposalPage = () => {
 
   const proposalHeader = () => {
     return (
-      <Grid className="proposal-header" container direction="column">
+      <Grid container direction="column" pt="9px" mb="9px">
         <Grid item>
-          <Typography className="published-date" variant="body2" color={theme.colors.gray[90]}>
+          <Typography lineHeight="18px" variant="body2" color={theme.colors.gray[90]}>
             Posted on <span style={{ color: theme.colors.gray[40] }}>{formattedPublishedDate}</span> by:{" "}
             <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.proposer)}</span>
           </Typography>
         </Grid>
         <Grid item>
-          <Typography className="proposal-title" variant="h4">
+          <Typography fontSize="24px" lineHeight="32px" fontWeight={700}>
             {proposal.proposalName}
           </Typography>
         </Grid>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <Chip label={toCapitalCase(proposal.state)} template={mapStatus(proposal.state)} strong />
-          </Grid>
-          <Grid item>
-            <Box pl="9px" display="flex">
-              {proposal.timeRemaining && (
-                <>
-                  <Icon name="timeLeft" style={{ fontSize: "18px", fill: theme.colors.gray[90] }} />
-                  <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                    {`Ends in ${prettifySeconds(proposal.timeRemaining / 1000)}`}
-                  </Typography>
-                </>
-              )}
-            </Box>
-          </Grid>
-        </Grid>
+        <Box display="flex" flexDirection="row" mt="4px">
+          <Chip label={toCapitalCase(proposal.state)} template={mapStatus(proposal.state)} strong />
+          <Box pl="9px" display="flex" alignItems="center">
+            {proposal.timeRemaining && (
+              <>
+                <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
+                <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
+                  {`Ends in ${prettifySeconds(proposal.timeRemaining / 1000)}`}
+                </Typography>
+              </>
+            )}
+          </Box>
+        </Box>
       </Grid>
     );
   };
 
   return (
-    <div className="proposal-page">
+    <Box display="flex" justifyContent="center">
       <Paper>
-        <Box className="page-content">
-          <Box
-            display="flex"
-            className="navigation"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <BackButton />
-            <Box>
+        <Box>
+          <BackButton />
+          <Grid container mb="10px">
+            <Grid item sm={6}>
+              {proposalHeader()}
+            </Grid>
+            <Grid display="flex" item sm={6} justifyContent="flex-end">
               <Link to="/governancetest/create-proposal" component={RouterLink}>
                 <SecondaryButton>Create new proposal</SecondaryButton>
               </Link>
-            </Box>
-          </Box>
-          {proposalHeader()}
-          <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
+              <PrimaryButton>Delegate Vote</PrimaryButton>
+            </Grid>
+          </Grid>
+          <Box display="flex" justifyContent="center">
             <Tabs
               centered
               value={selectedIndex}
@@ -123,7 +124,8 @@ export const ProposalPage = () => {
               <Tab label={t`Poll Detail`}></Tab>
               <Tab label={t`Votes`}></Tab>
             </Tabs>
-
+          </Box>
+          <Grid className="proposal-tabs" container direction="column" alignItems="flex-start">
             <TabPanel value={selectedIndex} index={0}>
               <PollDetailsTab proposal={proposal} />
             </TabPanel>
@@ -133,6 +135,6 @@ export const ProposalPage = () => {
           </Grid>
         </Box>
       </Paper>
-    </div>
+    </Box>
   );
 };
