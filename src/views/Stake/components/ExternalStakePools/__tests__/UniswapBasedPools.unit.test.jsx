@@ -24,9 +24,9 @@ describe("Uniswap Based Farm Pool", () => {
       balanceOf: jest.fn().mockReturnValue(BigNumber.from("0xb76e0e83cbaa98e9ed")),
     });
     helpers.getTokenPrice = jest.fn().mockReturnValue(87.39);
-    render(<Stake />);
   });
-  it("should display the correct TVL", () => {
-    expect(screen.getAllByText("$26,248,739")[0]).toBeInTheDocument();
+  it("should display the correct TVL", async () => {
+    render(<Stake />);
+    expect(await screen.findByText("$26,248,739")).toBeInTheDocument();
   });
 });

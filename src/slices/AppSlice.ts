@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import sOHMv2 from "src/abi/sOhmv2.json";
+import { addresses, NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { getMarketPrice, getTokenPrice, setAll } from "src/helpers";
 import { Providers } from "src/helpers/providers/Providers/Providers";
+import apollo from "src/lib/apolloClient";
+import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
-
-import sOHMv2 from "../abi/sOhmv2.json";
-import { addresses, NetworkId } from "../constants";
-import { getMarketPrice, getTokenPrice, setAll } from "../helpers";
-import apollo from "../lib/apolloClient";
-import { OlympusStaking__factory, OlympusStakingv2__factory, SOhmv2 } from "../typechain";
-import { IBaseAsyncThunk } from "./interfaces";
+import { OlympusStaking__factory, OlympusStakingv2__factory, SOhmv2 } from "src/typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;

@@ -1,4 +1,4 @@
-import { QueryKey, useQuery } from "react-query";
+import { QueryKey, useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
@@ -16,7 +16,7 @@ export const liveBondsQueryKey = (options: UseLiveBondsOptions): QueryKey => ["u
 export const useLiveBonds = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
   const networks = useTestableNetworks();
   const args = { networkId: networks.MAINNET, isInverseBond };
-  return useQuery<Bond[], Error>(liveBondsQueryKey(args), () => fetchLiveBonds(args));
+  return useQuery<Bond[], Error>([liveBondsQueryKey(args)], () => fetchLiveBonds(args));
 };
 
 export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsOptions) => {

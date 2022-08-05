@@ -47,6 +47,8 @@ describe("<ZapStakeAction/> ", () => {
       </>,
     );
     fireEvent.click(await screen.findByTestId("zap-input"));
+    const modal = await screen.findAllByText("Select Token");
+    expect(modal[0]);
     fireEvent.click(await screen.getAllByText("ETH")[0]);
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
     expect(await screen.findByText("Enter Amount"));
@@ -126,7 +128,6 @@ describe("Loading Balances", () => {
   beforeEach(() => {
     connectWallet();
     const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
-    //@ts-expect-error
     zapBalances.mockReturnValueOnce({ isLoading: true });
     //@ts-expect-error
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
@@ -161,7 +162,6 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
       };
     });
     const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
-    //@ts-expect-error
     zapBalances.mockReturnValueOnce({ isLoading: true });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error

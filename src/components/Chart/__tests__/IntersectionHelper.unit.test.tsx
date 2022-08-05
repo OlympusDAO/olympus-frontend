@@ -1,4 +1,4 @@
-import { getDataIntersections } from "../IntersectionHelper";
+import { getDataIntersections } from "src/components/Chart/IntersectionHelper";
 
 describe("getDataIntersections", () => {
   test("two intersections", () => {

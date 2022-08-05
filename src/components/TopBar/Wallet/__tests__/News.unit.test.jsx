@@ -11,6 +11,6 @@ describe("News View", () => {
   });
   it("Should Parse RSS Feed Correctly", async () => {
     expect(screen.getByTestId("news")).toBeInTheDocument();
-    expect(screen.getByText("The Olympus Treasury Dashboard")).toBeInTheDocument();
+    expect(await screen.findByText("The Olympus Treasury Dashboard")).toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
-import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export const queryCache = new QueryCache({
@@ -17,7 +17,6 @@ export const queryClient = new QueryClient({
       refetchInterval: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-      notifyOnChangeProps: "tracked",
       retry: Environment.env.NODE_ENV === "development" ? false : 3,
     },
   },
