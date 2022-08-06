@@ -18,12 +18,11 @@ import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";
 import { useScreenSize } from "src/hooks/useScreenSize";
 import { NetworkId } from "src/networkDetails";
-
-import { Bond } from "../hooks/useBond";
-import { BondDiscount } from "./BondDiscount";
-import { BondDuration } from "./BondDuration";
-import { BondInfoText } from "./BondInfoText";
-import { BondPrice } from "./BondPrice";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { BondInfoText } from "src/views/Bond/components/BondInfoText";
+import { BondPrice } from "src/views/Bond/components/BondPrice";
+import { Bond } from "src/views/Bond/hooks/useBond";
 
 export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({ bonds, isInverseBond }) => {
   const isSmallScreen = useScreenSize("md");
@@ -193,19 +192,13 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
 );
 const quoteTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
   const quoteTokenCapacity = `
-  ${(bond.maxPayout.inQuoteToken.lt(bond.capacity.inQuoteToken)
-    ? bond.maxPayout.inQuoteToken
-    : bond.capacity.inQuoteToken
-  ).toString({ decimals: 3, format: true })}${" "}
+  ${bond.capacity.inQuoteToken.toString({ decimals: 3, format: true })}${" "}
   ${bond.quoteToken.name}`;
   return quoteTokenCapacity;
 };
 const payoutTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
   const payoutFormatter = Intl.NumberFormat("en", { notation: "compact" });
-  const payoutTokenCapacity = `${(bond.maxPayout.inBaseToken.lt(bond.capacity.inBaseToken)
-    ? bond.maxPayout.inBaseToken
-    : bond.capacity.inBaseToken
-  ).toString()}`;
+  const payoutTokenCapacity = `${bond.capacity.inBaseToken.toString()}`;
   return `${payoutFormatter.format(parseInt(payoutTokenCapacity))} ${" "}
   ${isInverseBond ? bond.baseToken.name : `sOHM`}`;
 };
