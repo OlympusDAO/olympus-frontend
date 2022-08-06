@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
@@ -69,7 +69,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
           balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         await Promise.all(promises);
 

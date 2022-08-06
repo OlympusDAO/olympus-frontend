@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useQuery } from "react-query";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
@@ -29,7 +29,7 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
   const nonGohmTokenPrice = useDependentQuery("nonGohmTokenPrice", () => getTokenPrice(pool.pairGecko));
 
   return useQuery<number, Error>(
-    key,
+    [key],
     async () => {
       queryAssertion(
         gohmPrice && stakedBalance && poolTokenSupply && reserves && nonGohmTokenPrice && firstTokenAddress,
