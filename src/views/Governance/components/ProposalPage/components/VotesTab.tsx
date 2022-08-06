@@ -1,4 +1,15 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Metric, PrimaryButton, SecondaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
 // import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
@@ -6,9 +17,15 @@ import { ProposalTabProps } from "src/views/Governance/interfaces";
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
 
+  const StyledTableCell = styled(TableCell)(() => ({
+    padding: "0px",
+    fontSize: "12px",
+    lineHeight: "18px",
+    fontWeight: "400",
+  }));
+
   return (
     <>
-      {" "}
       <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
         <Box display="flex" flexDirection="column">
           <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
@@ -24,6 +41,9 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
           <PrimaryButton sx={{ minWidth: "120px" }}>Vote</PrimaryButton>
         </Box>
       </Box>
+      <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
+        Vote Breakdown
+      </Typography>
       <VoteBreakdown
         voteForLabel="Yes"
         voteAgainstLabel="No"
@@ -33,45 +53,31 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         totalHoldersCount={0}
         quorum={0}
       />
+      <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
+        Top Voters
+      </Typography>
+      <TableContainer>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Voter</StyledTableCell>
+              <StyledTableCell align="right">Proposals voted</StyledTableCell>
+              <StyledTableCell align="right">Total Votes</StyledTableCell>
+              <StyledTableCell align="right">Voting Power</StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <StyledTableCell>name</StyledTableCell>
+              <StyledTableCell align="right">52</StyledTableCell>
+              <StyledTableCell align="right">26</StyledTableCell>
+              <StyledTableCell align="right">9.06%</StyledTableCell>
+              <StyledTableCell align="right">Delegate</StyledTableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
-
-    // <Grid container direction="column">
-    //   <Grid className="cast-vote-header" item>
-    //     <Typography variant="h6">Cast your vote</Typography>
-    //   </Grid>
-    //   <Grid className="install-location" item>
-    //     <Typography variant="body2" color={theme.colors.gray[90]}>
-    //       Your Yes vote will be approving the policy at{" "}
-    //       <span style={{ color: theme.colors.gray[40] }}>this location</span>
-    //     </Typography>
-    //   </Grid>
-    //   <Grid className="vote-submission-section" container direction="row" alignItems="center" spacing={2}>
-    //     <Grid item xs={3}>
-    //       <Radio label="Yes" />
-    //       <Radio label="No" />
-    //     </Grid>
-    //     <Grid item xs={6}>
-    //       <OutlinedInput className="your-comment" placeholder="Your comment (Optional)" />
-    //     </Grid>
-    //     <Grid item xs={3}>
-    //       <PrimaryButton fullWidth>Vote</PrimaryButton>
-    //     </Grid>
-    //   </Grid>
-    //   <Grid className="vote-breakdown" item>
-    //     <VoteBreakdown
-    //       voteForLabel="Yes"
-    //       voteAgainstLabel="No"
-    //       voteAbstainLabel="Abstain"
-    //       voteForCount={proposal.yesVotes}
-    //       voteAgainstCount={proposal.noVotes}
-    //       voteAbstainCount={0}
-    //     />
-    //   </Grid>
-    //   <Grid container direction="column">
-    //     <Grid item>
-    //       <Typography variant="h6">Top Voters</Typography>
-    //     </Grid>
-    //   </Grid>
-    // </Grid>
   );
 };
