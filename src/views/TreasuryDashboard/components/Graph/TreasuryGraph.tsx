@@ -194,7 +194,8 @@ export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: G
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onMouseMove: CategoricalChartFunc = (nextState, event) => {
-    if (!nextState.activeTooltipIndex) return;
+    // We need to explictly check for undefined, otherwise an index of 0 will be caught (OlympusDAO/olympus-frontend#2128)
+    if (nextState.activeTooltipIndex === undefined) return;
 
     setSelectedIndex(nextState.activeTooltipIndex);
   };
