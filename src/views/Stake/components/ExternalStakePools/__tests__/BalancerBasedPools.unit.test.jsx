@@ -3,8 +3,7 @@ import * as helpers from "src/helpers";
 import { useStaticBalancerV2PoolContract, useStaticBalancerVaultContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { render, screen } from "src/testUtils";
-
-import Stake from "../../../Stake";
+import Stake from "src/views/Stake/Stake";
 jest.mock("src/hooks/usePrices");
 jest.mock("src/hooks/useContract");
 
@@ -28,8 +27,9 @@ describe("Balancer Based Farm Pool", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it("should display the correct TVL", () => {
+  it("should display the correct TVL", async () => {
     //This covers hook interactions and proper rounding on the presentation layer.
-    expect(screen.getAllByText("$36,548,168")[0]).toBeInTheDocument();
+    const waitforText = await screen.findAllByText("$36,548,168");
+    expect(waitforText[0]).toBeInTheDocument();
   });
 });

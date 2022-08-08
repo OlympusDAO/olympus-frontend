@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EthereumNetwork, NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -37,7 +37,7 @@ export const useBondNotes = () => {
   const networks = useTestableNetworks();
 
   const args = [networks.MAINNET, address] as const;
-  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
+  return useQuery([bondNotesQueryKey(...args)], () => fetchBondNotes(...args), { enabled: !!address });
 };
 
 export const fetchBondNotes = async (networkId: EthereumNetwork, address?: string) => {

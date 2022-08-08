@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
-import { useQuery } from "react-query";
 import gOHM from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
@@ -8,11 +8,10 @@ import { GIVE_CONTRACT } from "src/constants/contracts";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useDynamicGiveContract, useDynamicV1GiveContract } from "src/hooks/useContract";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
-
-import { useDynamicGiveContract, useDynamicV1GiveContract } from "./useContract";
-import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
   [key: string]: boolean;
@@ -55,92 +54,87 @@ export const useDonationInfo = () => {
   // Establish contract
   const networks = useTestableNetworks();
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
+  const query = useQuery<IUserDonationInfo[] | null, Error>([donationInfoQueryKey(address, chain.id)], async () => {
+    queryAssertion([address, chain.id], donationInfoQueryKey(address, chain.id));
 
-  const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(address, chain.id),
-    async () => {
-      queryAssertion([address, chain.id], donationInfoQueryKey(address, chain.id));
+    // Set default return value
+    const donationInfo: IUserDonationInfo[] = [];
 
-      // Set default return value
-      const donationInfo: IUserDonationInfo[] = [];
+    // If there's no contract (i.e. on a non-ETH network), throw error
+    if (!contract)
+      throw new Error(
+        t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+      );
 
-      // If there's no contract (i.e. on a non-ETH network), throw error
-      if (!contract)
-        throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
-        );
+    // Get set of all a user's deposits and begin to iterate through them. depositIds and allDeposits are
+    // indexed the same way, so we can select them by index
+    let depositIds: BigNumber[] = [];
+    let allDeposits: [string[], BigNumber[]] = [[], []];
+    try {
+      depositIds = await contract.getDepositorIds(address);
+      allDeposits = await contract.getAllDeposits(address);
+    } catch (e: unknown) {
+      // These will only revert if the user has not initiated any deposits yet
+      console.log("You have not deposited to anyone yet.");
+    }
 
-      // Get set of all a user's deposits and begin to iterate through them. depositIds and allDeposits are
-      // indexed the same way, so we can select them by index
-      let depositIds: BigNumber[] = [];
-      let allDeposits: [string[], BigNumber[]] = [[], []];
-      try {
-        depositIds = await contract.getDepositorIds(address);
-        allDeposits = await contract.getAllDeposits(address);
-      } catch (e: unknown) {
-        // These will only revert if the user has not initiated any deposits yet
-        console.log("You have not deposited to anyone yet.");
-      }
+    // Define empty arrays to push promises and non-zero deposits into
+    const selectedDepositIds = [];
+    const selectedDeposits = [];
+    const firstDonationDatePromises: Promise<string>[] = [];
+    const yieldSentPromises: Promise<BigNumber>[] = [];
 
-      // Define empty arrays to push promises and non-zero deposits into
-      const selectedDepositIds = [];
-      const selectedDeposits = [];
-      const firstDonationDatePromises: Promise<string>[] = [];
-      const yieldSentPromises: Promise<BigNumber>[] = [];
+    for (let i = 0; i < allDeposits[0].length; i++) {
+      // Given the conversions back and forth with sOHM and gOHM, this is a dust value that repeatedly
+      // arises that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
+      if (allDeposits[1][i].lte("15000000000")) continue;
 
-      for (let i = 0; i < allDeposits[0].length; i++) {
-        // Given the conversions back and forth with sOHM and gOHM, this is a dust value that repeatedly
-        // arises that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
-        if (allDeposits[1][i].lte("15000000000")) continue;
+      selectedDepositIds.push(depositIds[i]);
+      selectedDeposits.push(i);
 
-        selectedDepositIds.push(depositIds[i]);
-        selectedDeposits.push(i);
+      // Get the first donation date for a donation to a specific recipient
+      const firstDonationDatePromise = GetFirstDonationDate({
+        address: address,
+        recipient: allDeposits[0][i],
+        networkID: networks.MAINNET,
+        provider,
+      });
+      firstDonationDatePromises.push(firstDonationDatePromise);
 
-        // Get the first donation date for a donation to a specific recipient
-        const firstDonationDatePromise = GetFirstDonationDate({
-          address: address,
-          recipient: allDeposits[0][i],
-          networkID: networks.MAINNET,
-          provider,
-        });
-        firstDonationDatePromises.push(firstDonationDatePromise);
+      const yieldSentPromise: Promise<BigNumber> = contract.donatedTo(address, allDeposits[0][i]).catch(() => {
+        // This will only revert if the user has not donated at all yet
+        console.log("You have not donated any yield yet.");
+        return ethers.constants.Zero;
+      });
+      yieldSentPromises.push(yieldSentPromise);
+    }
 
-        const yieldSentPromise: Promise<BigNumber> = contract.donatedTo(address, allDeposits[0][i]).catch(() => {
-          // This will only revert if the user has not donated at all yet
-          console.log("You have not donated any yield yet.");
-          return ethers.constants.Zero;
-        });
-        yieldSentPromises.push(yieldSentPromise);
-      }
+    // Define arrays to push data from resolved promises into
+    let firstDonationData: string[] = [];
+    let yieldSentData: BigNumber[] = [];
+    try {
+      firstDonationData = await Promise.all(firstDonationDatePromises);
+      yieldSentData = await Promise.all(yieldSentPromises);
+    } catch (e: unknown) {
+      console.info(
+        "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
+      );
+      console.error(e);
+    }
 
-      // Define arrays to push data from resolved promises into
-      let firstDonationData: string[] = [];
-      let yieldSentData: BigNumber[] = [];
-      try {
-        firstDonationData = await Promise.all(firstDonationDatePromises);
-        yieldSentData = await Promise.all(yieldSentPromises);
-      } catch (e: unknown) {
-        console.info(
-          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
-        );
-        console.error(e);
-      }
+    for (let i = 0; i < firstDonationData.length; i++) {
+      donationInfo.push({
+        id: selectedDepositIds[i].toString(),
+        date: firstDonationData[i],
+        deposit: ethers.utils.formatEther(allDeposits[1][selectedDeposits[i]]),
+        recipient: allDeposits[0][selectedDeposits[i]],
+        yieldDonated: ethers.utils.formatEther(yieldSentData[i]),
+      });
+    }
 
-      for (let i = 0; i < firstDonationData.length; i++) {
-        donationInfo.push({
-          id: selectedDepositIds[i].toString(),
-          date: firstDonationData[i],
-          deposit: ethers.utils.formatEther(allDeposits[1][selectedDeposits[i]]),
-          recipient: allDeposits[0][selectedDeposits[i]],
-          yieldDonated: ethers.utils.formatEther(yieldSentData[i]),
-        });
-      }
-
-      // Return donationInfo array as the data attribute
-      return donationInfo;
-    },
-    { enabled: !!address }, // will run as long as an address is connected
-  );
+    // Return donationInfo array as the data attribute
+    return donationInfo;
+  });
 
   // Return query
   return query as typeof query;
@@ -169,7 +163,7 @@ export const useRedeemableBalance = (address: string) => {
   const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<string, Error>(
-    redeemableBalanceQueryKey(address, chain.id),
+    [redeemableBalanceQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], redeemableBalanceQueryKey(address, chain.id));
 
@@ -209,7 +203,7 @@ export const useV1RedeemableBalance = () => {
   // Hook to establish static old Give contract
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
   const query = useQuery<string, Error>(
-    v1RedeemableBalanceQueryKey(address, chain.id),
+    [v1RedeemableBalanceQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], v1RedeemableBalanceQueryKey(address, chain.id));
 
@@ -272,7 +266,7 @@ export const useRecipientInfo = (address: string) => {
   );
 
   const query = useQuery<IUserRecipientInfo, Error>(
-    recipientInfoQueryKey(address, chain.id),
+    [recipientInfoQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], recipientInfoQueryKey(address, chain.id));
 
@@ -361,7 +355,7 @@ export const useTotalYieldDonated = (address: string) => {
   };
 
   const query = useQuery<string, Error>(
-    totalYieldDonatedQueryKey(address, chain.id),
+    [totalYieldDonatedQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], totalYieldDonatedQueryKey(address, chain.id));
 
@@ -437,7 +431,7 @@ export const useDonorNumbers = (address: string) => {
   };
 
   const query = useQuery<number, Error>(
-    donorNumbersQueryKey(address, chain.id),
+    [donorNumbersQueryKey(address, chain.id)],
     async () => {
       queryAssertion([address, chain.id], donorNumbersQueryKey(address, chain.id));
 

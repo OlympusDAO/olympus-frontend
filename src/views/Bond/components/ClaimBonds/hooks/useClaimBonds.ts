@@ -1,15 +1,14 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { bondNotesQueryKey } from "./useBondNotes";
 
 export const useClaimBonds = () => {
   const dispatch = useDispatch();
@@ -61,7 +60,7 @@ export const useClaimBonds = () => {
 
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         await Promise.all(promises);
 
