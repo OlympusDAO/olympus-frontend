@@ -125,7 +125,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
       )}
       <Box display="flex" justifyContent="space-between" mt="8px">
         <Typography>
-          <Trans>Capacity</Trans>
+          <Trans>Max Payout</Trans>
         </Typography>
         {payoutTokenCapacity(bond, isInverseBond)}({quoteTokenCapacity(bond, isInverseBond)})
       </Box>
@@ -176,7 +176,7 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
             <Trans>Discount</Trans>
           </TableCell>
           <TableCell style={{ padding: "8px 0" }}>
-            <Trans>Capacity</Trans>
+            <Trans>Max Payout</Trans>
           </TableCell>
           {!isInverseBond && (
             <TableCell style={{ padding: "8px 0" }}>
@@ -192,13 +192,19 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
 );
 const quoteTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
   const quoteTokenCapacity = `
-  ${bond.capacity.inQuoteToken.toString({ decimals: 3, format: true })}${" "}
+  ${(bond.maxPayout.inQuoteToken.lt(bond.capacity.inQuoteToken)
+    ? bond.maxPayout.inQuoteToken
+    : bond.capacity.inQuoteToken
+  ).toString({ decimals: 3, format: true })}${" "}
   ${bond.quoteToken.name}`;
   return quoteTokenCapacity;
 };
 const payoutTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
   const payoutFormatter = Intl.NumberFormat("en", { notation: "compact" });
-  const payoutTokenCapacity = `${bond.capacity.inBaseToken.toString()}`;
+  const payoutTokenCapacity = `${(bond.maxPayout.inBaseToken.lt(bond.capacity.inBaseToken)
+    ? bond.maxPayout.inBaseToken
+    : bond.capacity.inBaseToken
+  ).toString()}`;
   return `${payoutFormatter.format(parseInt(payoutTokenCapacity))} ${" "}
   ${isInverseBond ? bond.baseToken.name : `sOHM`}`;
 };
