@@ -1,8 +1,7 @@
 import * as Graph from "graphql-request";
+import { proposalContent } from "src/components/TopBar/Wallet/__mocks__/mockProposalContent";
+import { Proposals } from "src/components/TopBar/Wallet/Info/Proposals";
 import { render, screen } from "src/testUtils";
-
-import { proposalContent } from "../__mocks__/mockProposalContent";
-import { Proposals } from "../Info/Proposals";
 
 describe("Proposal View", () => {
   beforeEach(() => {
@@ -11,7 +10,7 @@ describe("Proposal View", () => {
   });
   it("Should Load Proposals Correctly", async () => {
     expect(screen.getByTestId("proposals")).toBeInTheDocument();
-    expect(screen.getByText("OIP-88: KlimaDAO Love Letter")).toBeInTheDocument();
-    expect(screen.getByText("TAP-9 Rocket Pool Whitelist")).toBeInTheDocument();
+    expect(await screen.findByText("OIP-88: KlimaDAO Love Letter")).toBeInTheDocument();
+    expect(await screen.findByText("TAP-9 Rocket Pool Whitelist")).toBeInTheDocument();
   });
 });

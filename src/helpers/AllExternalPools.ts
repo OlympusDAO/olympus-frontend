@@ -87,20 +87,6 @@ export const spirit_gohm_ftm = new ExternalPool({
   networkID: NetworkId.FANTOM,
 });
 
-export const zip_gohm_weth = new ExternalPool({
-  poolName: "gOHM-wETH",
-  icons: ["gOHM", "wETH"],
-  stakeOn: "Zipswap",
-  pairGecko: "ethereum",
-  rewardGecko: "zipswap",
-  href: "https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1",
-  address: "0x3f6da9334142477718bE2ecC3577d1A28dceAAe1",
-  masterchef: "0x1e2F8e5f94f366eF5Dc041233c0738b1c1C2Cb0c",
-  rewarder: "0x10400eB8f8A44630cb703cd3A6DF4Ba0aFCB6E60",
-  poolId: 5,
-  networkID: NetworkId.OPTIMISM,
-});
-
 export const jones_gohm_jgohm = new ExternalPool({
   poolName: "jgOHM-gOHM",
   icons: ["jgOHM", "gOHM"],
@@ -143,14 +129,29 @@ export const convex_ohm_eth = new ExternalPool({
   networkID: NetworkId.MAINNET,
 });
 
+export const frax_ohm_frax = new ExternalPool({
+  poolName: "FRAX-OHM",
+  icons: ["FRAX", "OHM"],
+  stakeOn: "Frax Finance",
+  pairGecko: "frax",
+  rewardGecko: "frax",
+  href: "https://app.frax.finance/staking/univ2-frax-ohm",
+  address: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877", //LP
+  masterchef: "0xfC77A420f56Dec53e3b91D7FC936902e132335FF", //deposit
+  rewarder: "0xd683C7051a28fA150EB3F4BD92263865D4a67778",
+  poolId: 0,
+  networkID: NetworkId.MAINNET,
+  mintAndSync: true,
+});
+
 export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
 export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const spiritPools = [spirit_gohm_ftm];
 export const joePools = [tj_gohm_wavax];
 export const beetsPools = [beets_ftm_gohm_wFTM];
-export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
 export const curvePools = [curve_ohm_eth];
 export const convexPools = [convex_ohm_eth];
+export const fraxPools = [frax_ohm_frax];
 export default allPools;

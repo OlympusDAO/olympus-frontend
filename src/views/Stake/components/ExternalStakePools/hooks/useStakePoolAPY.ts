@@ -1,6 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { gql, request } from "graphql-request";
-import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -17,14 +17,11 @@ import {
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
   useStaticJonesContract,
-  useStaticZipRewarderContract,
-  useStaticZipSecondaryRewardercontract,
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useProvider } from "wagmi";
-
-import { BalancerPoolTVL, useStakePoolTVL } from "./useStakePoolTVL";
 
 export const stakePoolAPYQueryKey = (pool: ExternalPool) => ["StakePoolAPY", pool].filter(nonNullable);
 
@@ -113,7 +110,7 @@ export const BalancerSwapFees = (address: string) => {
     data = { dailyFees: 0, totalLiquidity: 0 },
     isFetched,
     isLoading,
-  } = useQuery("AllSwapFees", async () => {
+  } = useQuery(["AllSwapFees"], async () => {
     const data = await request(
       balancerURL,
       gql`
@@ -190,22 +187,6 @@ export const CurvePoolRewardAPY = (pool: ExternalPool) => {
   return { data, isFetched, isLoading };
 };
 
-export const ZipPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const zipRewarderContract = useStaticZipRewarderContract(pool.masterchef, pool.networkID);
-  const ZipSecondaryRewarderContract = useStaticZipSecondaryRewardercontract(pool.rewarder, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await zipRewarderContract.zipPerSecond(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await ZipSecondaryRewarderContract.zipPerSecond(), 18);
-    const poolInfo = await zipRewarderContract.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await zipRewarderContract.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
-
 export const JonesPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
@@ -237,7 +218,7 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
     data = { cvxApr: 0, extraRewardsApr: 0, crvApr: 0, baseApr: 0, tvl: 0 },
     isFetched,
     isLoading,
-  } = useQuery("ConvexPoolAPY", async () => {
+  } = useQuery(["ConvexPoolAPY"], async () => {
     const data = await request(
       convexAPI,
       gql`
@@ -257,6 +238,23 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
   const apy = Number(data.cvxApr) + Number(data.extraRewardsApr) + Number(data.crvApr) + Number(data.baseApr);
   const tvl = data.tvl;
   return { apy, tvl, isFetched, isLoading };
+};
+
+//Returns Frax Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
+export const FraxPoolAPY = (pool: ExternalPool) => {
+  const fraxAPI = "https://api.frax.finance/pools";
+  const {
+    data = { apy: 0, liquidity_locked: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["FraxPoolAPY"], async () => {
+    const results = await axios.get(fraxAPI).then(res => {
+      const apy = res.data.find((pool: { identifier: string }) => pool.identifier == "Uniswap FRAX/OHM");
+      return apy;
+    });
+    return results;
+  });
+  return { apy: data.apy, tvl: data.liquidity_locked, isFetched, isLoading };
 };
 
 const APY = (

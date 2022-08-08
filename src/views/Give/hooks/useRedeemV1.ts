@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
@@ -68,7 +68,7 @@ export const useOldRedeem = () => {
           v1RedeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
-        keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         dispatch(createInfoToast(t`Successfully redeemed all yield off the old contract`));
       },
