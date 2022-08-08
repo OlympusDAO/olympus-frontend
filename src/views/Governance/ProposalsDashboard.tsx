@@ -47,7 +47,7 @@ export const ProposalsDashboard = () => {
             Proposals
           </Typography>
           <Box display="flex" minWidth="310px">
-            <Link to="/governancetest/create-proposal" component={RouterLink}>
+            <Link to="/governance/create-proposal" component={RouterLink}>
               <SecondaryButton>Create new Proposal</SecondaryButton>
             </Link>
             <PrimaryButton>Delegate Vote</PrimaryButton>
@@ -98,7 +98,7 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
         <ProposalSkeleton id={instructionsId} />
       ) : (
         <Grid key={instructionsId} item xs={12}>
-          <Link to={`/governancetest/proposals/${proposal?.id}`} component={RouterLink}>
+          <Link to={`/governance/proposals/${proposal?.id}`} component={RouterLink}>
             <Proposal
               chipLabel={toCapitalCase(proposal?.state)}
               proposalTitle={proposal?.proposalName}

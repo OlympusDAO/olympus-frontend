@@ -274,7 +274,7 @@ function App() {
                     <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
                     <Route path="*" element={<NotFound />} />
 
-                    <Route path="/governancetest/*" element={<Governance />} />
+                    <Route path="/governance/*" element={<Governance />} />
                   </Routes>
                 </Suspense>
               </div>

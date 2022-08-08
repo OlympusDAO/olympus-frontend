@@ -110,7 +110,7 @@ export const ProposalPage = () => {
               {proposalHeader()}
             </Grid>
             <Grid display="flex" item sm={6} justifyContent="flex-end">
-              <Link to="/governancetest/create-proposal" component={RouterLink}>
+              <Link to="/governance/create-proposal" component={RouterLink}>
                 <SecondaryButton>Create new proposal</SecondaryButton>
               </Link>
               <PrimaryButton>Delegate Vote</PrimaryButton>
