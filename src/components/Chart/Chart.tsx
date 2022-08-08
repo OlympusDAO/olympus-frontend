@@ -29,7 +29,7 @@ import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-const TICK_COUNT = 3;
+const TICK_COUNT = 5;
 const TICK_COUNT_EXPANDED = 5;
 const XAXIS_PADDING_RIGHT = 30;
 const TICK_INTERVAL_XAXIS = 10;
