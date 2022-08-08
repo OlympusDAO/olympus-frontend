@@ -1,16 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
+import ierc20ABI from "src/abi/IERC20.json";
+import StakingHelperABI from "src/abi/StakingHelper.json";
+import { addresses } from "src/constants";
 import { OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { fetchAccountSuccess, getBalances } from "src/slices/AccountSlice";
+import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "src/slices/interfaces";
+import { error, info } from "src/slices/MessagesSlice";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "src/slices/PendingTxnsSlice";
 import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
-
-import ierc20ABI from "../abi/IERC20.json";
-import StakingHelperABI from "../abi/StakingHelper.json";
-import { addresses } from "../constants";
-import { trackGAEvent } from "../helpers/analytics/trackGAEvent";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "./interfaces";
-import { error, info } from "./MessagesSlice";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 
 interface IUAData {
   address: string;

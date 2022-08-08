@@ -17,13 +17,12 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { GohmToggle } from "src/views/Give/GohmToggle";
+import { checkDecimalLength, removeTrailingZeros } from "src/views/Give/helpers/checkDecimalLength";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork } from "wagmi";
-
-import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
-import { GohmToggle } from "./GohmToggle";
-import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
-import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
 
 type ManageModalProps = {
   isModalOpen: boolean;

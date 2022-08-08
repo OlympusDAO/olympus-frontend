@@ -3,8 +3,7 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-
-import { Bond, bondQueryKey, fetchBond } from "./useBond";
+import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
 
 export interface UseLiveBondsOptions {
   isInverseBond: boolean;

@@ -3,13 +3,12 @@ import { Box, Divider, Grid, Link, Typography } from "@mui/material";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { CurrentIndex, GOHMPrice, SOHMPrice } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import { MigrateInputArea } from "src/views/Wrap/components/MigrateInputArea/MigrateInputArea";
+import { WrapBalances } from "src/views/Wrap/components/WrapBalances";
+import { WrapInputArea } from "src/views/Wrap/components/WrapInputArea/WrapInputArea";
+import { WrapSwitchNetwork } from "src/views/Wrap/components/WrapSwitchNetwork";
 import { useNetwork } from "wagmi";
-
-import { CurrentIndex, GOHMPrice, SOHMPrice } from "../TreasuryDashboard/components/Metric/Metric";
-import { MigrateInputArea } from "./components/MigrateInputArea/MigrateInputArea";
-import { WrapBalances } from "./components/WrapBalances";
-import { WrapInputArea } from "./components/WrapInputArea/WrapInputArea";
-import { WrapSwitchNetwork } from "./components/WrapSwitchNetwork";
 
 const Wrap: React.FC = () => {
   const networks = useTestableNetworks();

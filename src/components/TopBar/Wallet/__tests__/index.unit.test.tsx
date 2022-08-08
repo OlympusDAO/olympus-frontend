@@ -1,7 +1,6 @@
+import Wallet from "src/components/TopBar/Wallet/index";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-
-import Wallet from "../index";
 
 describe("Wallet Drawer Disconnected", () => {
   it("Default State Should Prompt to Connect Wallet", async () => {

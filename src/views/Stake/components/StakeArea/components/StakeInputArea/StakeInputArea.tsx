@@ -8,10 +8,9 @@ import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
-
-import { GOHMConversion } from "./components/GOHMConversion";
-import { useStakeToken } from "./hooks/useStakeToken";
-import { useUnstakeToken } from "./hooks/useUnstakeToken";
+import { GOHMConversion } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/GOHMConversion";
+import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
+import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
 
 const PREFIX = "StakeInputArea";
 

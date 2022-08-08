@@ -1,7 +1,6 @@
 import { connectWallet, createMatchMedia } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-
-import Zap from "../Zap";
+import Zap from "src/views/Zap/Zap";
 
 beforeAll(() => {
   window.matchMedia = createMatchMedia("300px");

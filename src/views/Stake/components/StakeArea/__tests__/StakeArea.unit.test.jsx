@@ -5,8 +5,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
 import { act, fireEvent, render, screen } from "src/testUtils";
-
-import { StakeArea } from "../StakeArea";
+import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
 
 jest.mock("src/hooks/useContractAllowance");
 let data;

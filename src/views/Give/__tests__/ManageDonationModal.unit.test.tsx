@@ -15,9 +15,8 @@ import {
   mockSohmBalance,
 } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
-
-import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "../Interfaces";
-import { ManageDonationModal } from "../ManageDonationModal";
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 
 describe("ManageDonationModal", () => {
   let submitFunc: SubmitEditCallback;

@@ -10,16 +10,15 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { BondInfoText } from "src/views/Bond/components/BondInfoText";
+import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
+import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
+import { BondPrice } from "src/views/Bond/components/BondPrice";
+import { Bond } from "src/views/Bond/hooks/useBond";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { useAccount, useNetwork } from "wagmi";
-
-import { Bond } from "../../hooks/useBond";
-import { BondDiscount } from "../BondDiscount";
-import { BondDuration } from "../BondDuration";
-import { BondInfoText } from "../BondInfoText";
-import { BondPrice } from "../BondPrice";
-import { BondInputArea } from "./components/BondInputArea/BondInputArea";
-import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();

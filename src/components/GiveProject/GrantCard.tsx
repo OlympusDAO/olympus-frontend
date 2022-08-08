@@ -1,6 +1,6 @@
 import "react-step-progress-bar/styles.css";
 // We import this AFTER the styles for react-step-progress-bar, so that we can override it
-import "./GrantCard.scss";
+import "src/components/GiveProject/GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
@@ -12,6 +12,7 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { Grant, RecordType } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
@@ -34,8 +35,6 @@ import {
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { useAccount, useNetwork } from "wagmi";
-
-import { InPageConnectButton } from "../ConnectButton/ConnectButton";
 
 export enum GrantDetailsMode {
   Card = "Card",

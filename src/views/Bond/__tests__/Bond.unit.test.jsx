@@ -9,7 +9,6 @@ import * as Balance from "src/hooks/useBalance";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-
 import {
   indexesFor,
   inverseMarketPrice,
@@ -21,9 +20,9 @@ import {
   mockNoInverseLiveMarkets,
   notes,
   terms,
-} from "../__mocks__/mockLiveMarkets";
-import { Bond } from "../Bond";
-import { BondModalContainer } from "../components/BondModal/BondModal";
+} from "src/views/Bond/__mocks__/mockLiveMarkets";
+import { Bond } from "src/views/Bond/Bond";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 
 beforeEach(async () => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));

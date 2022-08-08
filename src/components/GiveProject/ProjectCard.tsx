@@ -1,4 +1,4 @@
-import "./ProjectCard.scss";
+import "src/components/GiveProject/ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";

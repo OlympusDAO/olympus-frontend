@@ -1,9 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { useLocation } from "react-router-dom";
+import CallToAction from "src/components/CallToAction/CallToAction";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { useOldAssetsEnoughToMigrate } from "src/hooks/useOldAssetsEnoughToMigrate";
-
-import CallToAction from "./CallToAction/CallToAction";
 
 export const MigrationCallToAction: React.FC<{ setMigrationModalOpen: Dispatch<SetStateAction<boolean>> }> = props => {
   const location = useLocation();

@@ -1,12 +1,11 @@
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
+import { calculateCurveLPValue } from "src/helpers/pricing/calculateCurveLPValue";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { NetworkId } from "src/networkDetails";
 import { CurveFactory__factory, CurvePool__factory } from "src/typechain";
 import { CurveToken__factory } from "src/typechain/factories/CurveToken__factory";
-
-import { calculateCurveLPValue } from "../pricing/calculateCurveLPValue";
-import { Providers } from "../providers/Providers/Providers";
-import { nonNullable } from "../types/nonNullable";
-import { getTokenByAddress } from "./getTokenByAddress";
-import { Token } from "./Token";
 
 /**
  * Returns a `Token` given the address of a Curve token contract

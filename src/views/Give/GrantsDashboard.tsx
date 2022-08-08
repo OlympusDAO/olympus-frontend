@@ -1,4 +1,4 @@
-import "./Give.scss";
+import "src/views/Give/Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@mui/material";
@@ -9,12 +9,11 @@ import { Grant } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
+import data from "src/views/Give/grants.json";
+import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-
-import { error } from "../../slices/MessagesSlice";
-import data from "./grants.json";
-import { useGive } from "./hooks/useGive";
 
 type GrantsDashboardProps = {
   giveAssetType: string;

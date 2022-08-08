@@ -4,18 +4,17 @@ import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { isSupportedChain } from "src/helpers/ZapHelper";
+import { balanceQueryKey } from "src/hooks/useBalance";
+import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
 import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
+import { Zap__factory } from "src/typechain/factories/Zap__factory";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { SOHM_ADDRESSES } from "../constants/addresses";
-import { DecimalBigNumber } from "../helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "../helpers/environment/Environment/Environment";
-import { Zap__factory } from "../typechain/factories/Zap__factory";
-import { balanceQueryKey } from "./useBalance";
-import { zapTokenBalancesKey } from "./useZapTokenBalances";
 
 interface ZapTransactionResponse {
   to: string;

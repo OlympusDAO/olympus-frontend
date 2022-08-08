@@ -1,14 +1,13 @@
-import { fireEvent, render, screen } from "src/testUtils";
-
 import {
   bondClaimTransaction,
   bondPurchaseTransaction,
   stakeTransaction,
   supplyToFuseTransaction,
   unstakeTransaction,
-} from "../__mocks__/mockTransactionHistory";
-import Wallet from "../index";
-import * as queries from "../queries";
+} from "src/components/TopBar/Wallet/__mocks__/mockTransactionHistory";
+import Wallet from "src/components/TopBar/Wallet/index";
+import * as queries from "src/components/TopBar/Wallet/queries";
+import { fireEvent, render, screen } from "src/testUtils";
 
 describe("<TransactionHistory />", () => {
   describe("Show no transactions", () => {

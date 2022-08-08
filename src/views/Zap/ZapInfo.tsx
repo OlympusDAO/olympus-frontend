@@ -1,14 +1,13 @@
-import "./Zap.scss";
+import "src/views/Zap/Zap.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { useAccount } from "wagmi";
-
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { trackGAEvent } from "../../helpers/analytics/trackGAEvent";
 
 const PREFIX = "ZapInfo";
 

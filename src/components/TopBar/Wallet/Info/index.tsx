@@ -2,11 +2,10 @@ import { Box, Fade, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FC } from "react";
 import { Navigate, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import Faq from "src/components/TopBar/Wallet/Info/Faq";
+import News from "src/components/TopBar/Wallet/Info/News";
+import { Proposals } from "src/components/TopBar/Wallet/Info/Proposals";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-
-import Faq from "./Faq";
-import News from "./News";
-import { Proposals } from "./Proposals";
 
 /**
  * Component for displaying info

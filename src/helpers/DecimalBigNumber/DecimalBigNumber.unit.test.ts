@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-
-import { DecimalBigNumber } from "./DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 describe("DecimalBigNumber", () => {
   it("should initialise with BigNumber", () => {

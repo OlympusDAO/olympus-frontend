@@ -2,14 +2,13 @@ import "@testing-library/jest-dom";
 
 import { Dappeteer, launch } from "@chainsafe/dappeteer";
 import puppeteer, { Browser, Page } from "puppeteer";
-
 import {
   connectWallet,
   getSelectorTextContent,
   selectorExists,
   setupMetamask,
   waitSelectorExists,
-} from "../../../../tests/e2e/testHelpers";
+} from "tests/e2e/testHelpers";
 
 describe.skip("Bond E2E Tests", () => {
   let browser: Browser;

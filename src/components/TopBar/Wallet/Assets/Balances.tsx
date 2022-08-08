@@ -1,7 +1,6 @@
 import { AssetCard, OHMTokenStackProps } from "@olympusdao/component-library";
+import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency } from "src/helpers";
-
-import { GetTokenPrice } from "../queries";
 
 interface TokenArray {
   assetValue: number;

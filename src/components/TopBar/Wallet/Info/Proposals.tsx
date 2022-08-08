@@ -2,8 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, Fade } from "@mui/material";
 import { InfoCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
-
-import { ActiveProposals } from "../queries";
+import { ActiveProposals } from "src/components/TopBar/Wallet/queries";
 
 /**
  * Component for displaying proposals

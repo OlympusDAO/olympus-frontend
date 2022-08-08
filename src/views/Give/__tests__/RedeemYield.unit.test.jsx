@@ -10,11 +10,10 @@ import {
   mockRedeemableBalance,
   mockStakingRebaseRate,
 } from "src/testHelpers";
+import { act, render, screen } from "src/testUtils";
 import * as useRedeem from "src/views/Give/hooks/useRedeem";
+import RedeemYield from "src/views/Give/RedeemYield";
 import * as WAGMI from "wagmi";
-
-import { act, render, screen } from "../../../testUtils";
-import RedeemYield from "../RedeemYield";
 
 // TODO convert to typescript
 let context;

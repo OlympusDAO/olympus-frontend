@@ -1,10 +1,9 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
+import { NetworkId } from "src/constants";
 import { OHM_DAI_LP_TOKEN } from "src/constants/tokens";
-
-import { NetworkId } from "../constants";
-import { Environment } from "./environment/Environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 /**
  * gets marketPrice from Ohm-DAI v2

@@ -4,8 +4,7 @@ import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-
-import { useStaticSohmContract, useStaticStakingContract } from "./useContract";
+import { useStaticSohmContract, useStaticStakingContract } from "src/hooks/useContract";
 
 export const stakingRebaseRateQueryKey = () => ["useStakingRebaseRate"];
 export const useStakingRebaseRate = () => {

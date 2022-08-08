@@ -1,8 +1,7 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import fonts from "./fonts";
-import commonSettings, { handleBackdropFilter } from "./global.js";
+import fonts from "src/themes/fonts";
+import commonSettings, { handleBackdropFilter } from "src/themes/global.js";
 
 export const girthTheme = {
   color: "#EFEFEF",

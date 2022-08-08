@@ -1,5 +1,5 @@
-import { getGiveProjectName } from "../GiveProjectNameHelper";
-import { trackGAEvent } from "./trackGAEvent";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { getGiveProjectName } from "src/helpers/GiveProjectNameHelper";
 
 export interface IUARecipientData {
   address: string;

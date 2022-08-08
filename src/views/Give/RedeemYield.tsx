@@ -6,19 +6,18 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
+import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo, useRedeemableBalance, useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useRedeem } from "src/views/Give/hooks/useRedeem";
+import { useOldRedeem } from "src/views/Give/hooks/useRedeemV1";
+import data from "src/views/Give/projects.json";
+import { RedeemCancelCallback, RedeemYieldModal } from "src/views/Give/RedeemYieldModal";
 import { useAccount } from "wagmi";
-
-import { Project } from "../../components/GiveProject/project.type";
-import { GIVE_MAX_DECIMALS } from "./constants";
-import { useRedeem } from "./hooks/useRedeem";
-import { useOldRedeem } from "./hooks/useRedeemV1";
-import data from "./projects.json";
-import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
 // Consistent with staking page
 const DECIMAL_PLACES = 4;

@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import ReactGA from "react-ga";
 import GA4 from "react-ga4";
 import { useLocation } from "react-router-dom";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAccount } from "wagmi";
-
-import { Environment } from "../helpers/environment/Environment/Environment";
 
 const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();
 const GA4_API_KEY = Environment.getGA4ApiKey();

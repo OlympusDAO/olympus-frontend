@@ -6,9 +6,8 @@ import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAll
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-
-import { useUnwrapGohm } from "./hooks/useUnwrapGohm";
-import { useWrapSohm } from "./hooks/useWrapSohm";
+import { useUnwrapGohm } from "src/views/Wrap/components/WrapInputArea/hooks/useUnwrapGohm";
+import { useWrapSohm } from "src/views/Wrap/components/WrapInputArea/hooks/useWrapSohm";
 
 export const WrapInputArea = () => {
   const networks = useTestableNetworks();

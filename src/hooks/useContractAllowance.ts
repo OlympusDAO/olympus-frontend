@@ -4,9 +4,8 @@ import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useDynamicTokenContract } from "src/hooks/useContract";
 import { useAccount, useNetwork } from "wagmi";
-
-import { useDynamicTokenContract } from "./useContract";
 
 export const contractAllowanceQueryKey = (
   address?: string,

@@ -7,8 +7,7 @@ import { ChangeAssetType } from "src/slices/interfaces";
 import { mockContractAllowance, mockGohmBalance, mockSohmBalance } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
-
-import { RecipientModal } from "../RecipientModal";
+import { RecipientModal } from "src/views/Give/RecipientModal";
 
 describe("RecipientModal", () => {
   let callbackFunc: SubmitCallback;

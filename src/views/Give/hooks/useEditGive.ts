@@ -11,9 +11,8 @@ import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { EditGiveData } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { EditGiveData } from "../Interfaces";
 
 /**
  * @notice Increases the value of an active donation

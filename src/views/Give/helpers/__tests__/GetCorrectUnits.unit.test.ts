@@ -1,6 +1,5 @@
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-
-import { GetCorrectContractUnits, GetCorrectStaticUnits } from "../GetCorrectUnits";
+import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 describe("GetCorrectUnits", () => {
   it("GetCorrectContractUnits should convert correctly", () => {

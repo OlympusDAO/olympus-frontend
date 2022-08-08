@@ -1,4 +1,4 @@
-import { GIVE_MAX_DECIMALS } from "../constants";
+import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 
 export const checkDecimalLength = (value: string): string => {
   const [value_, decimalsOrUndefined_] = value.split(".");

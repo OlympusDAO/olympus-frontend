@@ -6,8 +6,7 @@ import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen, within } from "src/testUtils";
-
-import Wrap from "../Wrap";
+import Wrap from "src/views/Wrap/Wrap";
 
 jest.mock("src/hooks/useContractAllowance");
 let container;

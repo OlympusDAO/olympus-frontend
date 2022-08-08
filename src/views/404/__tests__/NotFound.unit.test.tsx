@@ -1,5 +1,5 @@
-import { render } from "../../../testUtils";
-import NotFound from "../NotFound";
+import { render } from "src/testUtils";
+import NotFound from "src/views/404/NotFound";
 
 describe("<NotFound/>", () => {
   it("should render component", () => {

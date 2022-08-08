@@ -1,8 +1,7 @@
 import { Box, Fade } from "@mui/material";
 import { ArticleCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
-
-import { MediumArticles } from "../queries";
+import { MediumArticles } from "src/components/TopBar/Wallet/queries";
 
 export interface OHMNewsProps {
   path?: string;

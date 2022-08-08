@@ -5,13 +5,12 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import accountReducer from "src/slices/AccountSlice";
 import { connectWallet } from "src/testHelpers";
-
-import { render, screen } from "../../../testUtils";
-import CausesDashboard from "../CausesDashboard";
-import { DepositTableRow } from "../DepositRow";
-import Give from "../Give";
-import GrantsDashboard from "../GrantsDashboard";
-import YieldRecipients from "../YieldRecipients";
+import { render, screen } from "src/testUtils";
+import CausesDashboard from "src/views/Give/CausesDashboard";
+import { DepositTableRow } from "src/views/Give/DepositRow";
+import Give from "src/views/Give/Give";
+import GrantsDashboard from "src/views/Give/GrantsDashboard";
+import YieldRecipients from "src/views/Give/YieldRecipients";
 
 const project = {
   title: "Angel Protocol",

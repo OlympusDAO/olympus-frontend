@@ -1,9 +1,8 @@
 import { BALANCER_VAULT } from "src/constants/contracts";
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
 import { BalancerV2Pool__factory } from "src/typechain";
-
-import { Token } from "../contracts/Token";
-import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
 export const calculateBalancerLPValue = async ({
   lpToken,

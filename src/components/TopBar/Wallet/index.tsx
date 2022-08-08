@@ -5,11 +5,10 @@ import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import Assets from "src/components/TopBar/Wallet/Assets";
+import GetOhm from "src/components/TopBar/Wallet/GetOhm";
+import { Info } from "src/components/TopBar/Wallet/Info";
 import { useAccount, useDisconnect } from "wagmi";
-
-import Assets from "./Assets";
-import GetOhm from "./GetOhm";
-import { Info } from "./Info";
 
 const PREFIX = "Wallet";
 

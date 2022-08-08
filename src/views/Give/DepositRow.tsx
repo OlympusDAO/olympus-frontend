@@ -1,4 +1,4 @@
-import "./YieldRecipients.scss";
+import "src/views/Give/YieldRecipients.scss";
 
 import { t } from "@lingui/macro";
 import { Grid, Tooltip, Typography } from "@mui/material";
@@ -17,8 +17,7 @@ import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits"
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
-
-import data from "./projects.json";
+import data from "src/views/Give/projects.json";
 
 interface IUserDonationInfo {
   id: string;

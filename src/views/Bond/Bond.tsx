@@ -3,12 +3,11 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-
-import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
-import { BondList } from "./components/BondList";
-import { BondModalContainer } from "./components/BondModal/BondModal";
-import { ClaimBonds } from "./components/ClaimBonds/ClaimBonds";
-import { useLiveBonds } from "./hooks/useLiveBonds";
+import { BondList } from "src/views/Bond/components/BondList";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
+import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 export const Bond = () => {
   const [isZoomed] = useState(false);

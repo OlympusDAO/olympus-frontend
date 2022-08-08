@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
+import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "src/components/EducationCard";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
@@ -16,12 +17,10 @@ import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { GohmToggle } from "src/views/Give/GohmToggle";
+import { checkDecimalLength } from "src/views/Give/helpers/checkDecimalLength";
+import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork } from "wagmi";
-
-import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { GohmToggle } from "./GohmToggle";
-import { checkDecimalLength } from "./helpers/checkDecimalLength";
-import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;

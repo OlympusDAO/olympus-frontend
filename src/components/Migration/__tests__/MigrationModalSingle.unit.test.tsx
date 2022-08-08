@@ -1,5 +1,5 @@
-import { render } from "../../../testUtils";
-import MigrationModalSingle from "../MigrationModalSingle";
+import MigrationModalSingle from "src/components/Migration/MigrationModalSingle";
+import { render } from "src/testUtils";
 
 describe("<MigrationModalSingle/>", () => {
   it("should render component", () => {
