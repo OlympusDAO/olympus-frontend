@@ -42,10 +42,11 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.7",
     "@multifarm/widget": "^0.0.159",
-    "@olympusdao/component-library": "^2.2.2-alpha.3",
+    "@olympusdao/component-library": "^2.2.2-alpha.12",
     "@rainbow-me/rainbowkit": "^0.4.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
+    "@uiw/react-md-editor": "^3.17.0",
     "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "class-validator": "^0.13.2",
@@ -60,6 +61,7 @@
     "react-ga": "^3.3.1",
     "react-ga4": "^1.4.1",
     "react-is": "^18.2.0",
+    "react-markdown": "^8.0.3",
     "react-query": "^3.39.1",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
@@ -68,7 +70,8 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.1.12",
     "typescript": "^4.7.4",
-    "wagmi": "^0.5.9"
+    "wagmi": "^0.5.9",
+    "web3.storage": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",

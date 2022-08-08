@@ -1,20 +1,27 @@
-import "./SearchBar.scss";
-
 import SearchIcon from "@mui/icons-material/Search";
-import { Grid, InputAdornment, OutlinedInput } from "@mui/material";
+import { Box, Input, InputAdornment, useTheme } from "@mui/material";
 
 export const SearchBar = () => {
+  const theme = useTheme();
   return (
-    <Grid className="search-bar" item xs={4}>
-      <OutlinedInput
+    <Box mb="9px">
+      <Input
+        fullWidth
+        disableUnderline
         className="search-input"
+        sx={{
+          backgroundColor: theme.colors.gray[700],
+          fontSize: "15px",
+          borderColor: "transparent",
+          borderRadius: "6px",
+        }}
         startAdornment={
           <InputAdornment position="start">
-            <SearchIcon />
+            <SearchIcon sx={{ fill: theme.colors.gray[500] }} />
           </InputAdornment>
         }
         placeholder="Search proposal"
       />
-    </Grid>
+    </Box>
   );
 };

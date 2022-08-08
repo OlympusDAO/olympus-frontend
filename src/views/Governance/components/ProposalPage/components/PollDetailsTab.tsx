@@ -1,16 +1,21 @@
-import { Grid, Typography } from "@mui/material";
-import { TextButton } from "@olympusdao/component-library";
+import { Box } from "@mui/material";
+import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
+
+import { MarkdownPreview } from "../../MarkdownPreview";
 
 export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   return (
-    <Grid container direction="column">
-      <Grid item>
-        <Typography variant="body1">{proposal.content}</Typography>
-      </Grid>
-      <Grid className="discussion-button" item>
-        <TextButton endIconName="arrow-up">Discussion</TextButton>
-      </Grid>
-    </Grid>
+    <Paper enableBackground fullWidth>
+      <Box display="flex" flexDirection="column">
+        <MarkdownPreview content={proposal.content} />
+
+        <Box display="flex" flexDirection="row" justifyContent="flex-end">
+          <TertiaryButton target="_blank" href={proposal.uri}>
+            Discussion
+          </TertiaryButton>
+        </Box>
+      </Box>
+    </Paper>
   );
 };

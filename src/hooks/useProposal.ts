@@ -1,19 +1,16 @@
+import { t } from "@lingui/macro";
 import { ethers } from "ethers";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { parseBigNumber } from "src/helpers";
+import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { IPFSFileData, IProposalJson, makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
+import { useNetwork, useSigner } from "wagmi";
 
 /// Import Proposal data type and mock data getters from useProposals
-import {
-  mockGetNoVotesForProposal,
-  mockGetProposalContent,
-  mockGetProposalHasBeenActivated,
-  mockGetProposalMetadata,
-  mockGetProposalState,
-  mockGetProposalTotalEndorsements,
-  mockGetProposalURI,
-  mockGetYesVotesForProposal,
-  Proposal,
-} from "./useProposals";
+import { IAnyProposal, parseProposalContent, parseProposalState, ProposalAction, timeRemaining } from "./useProposals";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex
@@ -28,42 +25,129 @@ const proposalQueryKey = (instructionsIndex: number) => ["useProposal", instruct
  * @param instructionsIndex The index number of the proposal to fetch
  * @returns Query object in which the data attribute holds a Proposal object for the proposal at
  *          relevant index
+ *  * TODO: This needs to be refactored to use dependent queries. We cannot nest useQuery calls as mocked here.
  */
 export const useProposal = (instructionsIndex: number) => {
   /// const IPFSDContract = "";
   /// const governanceContract = "";
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const queryKey = proposalQueryKey(instructionsIndex);
+  const useDependentQuery = createDependentQuery(queryKey);
+  // dependent queries, may be more clear as Promises
+  const metadata = useDependentQuery("GetProposalMetadata", () => contract.getProposalMetadata(instructionsIndex));
+  const isActive = useDependentQuery("ProposalHasBeenActivated", () =>
+    contract.proposalHasBeenActivated(instructionsIndex),
+  );
+  const endorsements = useDependentQuery("TotalEndorsementsForProposal", () =>
+    contract.totalEndorsementsForProposal(instructionsIndex),
+  );
+  const yesVotes = useDependentQuery("YesVotesForProposal", () => contract.yesVotesForProposal(instructionsIndex));
+  const noVotes = useDependentQuery("NoVotesForProposal", () => contract.noVotesForProposal(instructionsIndex));
 
-  const query = useQuery<Proposal, Error>(
-    proposalQueryKey(instructionsIndex),
+  // TODO(appleseed): need proposalURI_ functionality on deployment
+  // TODO(appleseed): temporary randomness on proposal URI for now
+  const uris = [
+    "ipfs://bafkreidmgcatj7skn6ufob5stdc7hnt76nvyb7dpc62l72fhrbluiychly",
+    "ipfs://bafybeigyvefco3cr6htyuzgv3gz4d2ctmdoptr2mlyvffv7uj6i276xgca/proposal.json",
+  ];
+  const proposalURI = uris[Math.floor(Math.random() * uris.length)];
+
+  const proposalContent = useDependentQuery("ProposalContent", () => parseProposalContent({ uri: proposalURI }));
+  const proposalState = parseProposalState({ isActive });
+
+  const query = useQuery<IAnyProposal, Error>(
+    queryKey,
     async () => {
+      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes && proposalContent, queryKey);
       /// For the specified proposal index, fetch the relevant data points used in the frontend
-      const proposal = mockGetProposalMetadata(instructionsIndex);
-      const isActive = mockGetProposalHasBeenActivated(instructionsIndex);
-      const endorsements = mockGetProposalTotalEndorsements(instructionsIndex);
-      const yesVotes = mockGetYesVotesForProposal(instructionsIndex);
-      const noVotes = mockGetNoVotesForProposal(instructionsIndex);
-      const proposalURI = mockGetProposalURI(proposal.proposalName);
-      const proposalContent = mockGetProposalContent(proposalURI);
-      const proposalState = mockGetProposalState(proposal.proposalName);
-
+      const content: string = proposalContent.description;
+      const discussionURL: string = proposalContent.external_url;
+      /**
+       * submissionTimestamp as a Unix Time from the contract
+       */
+      const submissionTimestamp = parseBigNumber(metadata.submissionTimestamp, 0);
+      const unixTimeRemaining = timeRemaining({ state: proposalState, submissionTimestamp });
+      const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : undefined;
       const currentProposal = {
         id: instructionsIndex,
-        proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
-        proposer: proposal.proposer,
-        submissionTimestamp: proposal.submissionTimestamp,
+        proposalName: ethers.utils.parseBytes32String(metadata.proposalName),
+        proposer: metadata.proposer,
+        // NOTE(appleseed): multiply submissionTimestamp by 1000 to convert to JS Time from Unix Time
+        submissionTimestamp: submissionTimestamp * 1000,
+        timeRemaining: jsTimeRemaining,
         isActive: isActive,
         state: proposalState,
-        endorsements: endorsements,
-        yesVotes: yesVotes,
-        noVotes: noVotes,
-        uri: proposalURI,
-        content: proposalContent,
+        endorsements: parseBigNumber(endorsements, 0),
+        yesVotes: parseBigNumber(yesVotes, 0),
+        noVotes: parseBigNumber(noVotes, 0),
+        uri: discussionURL,
+        content,
       };
 
       return currentProposal;
     },
-    { enabled: true },
+    {
+      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes && !!proposalContent,
+    },
   );
 
   return query as typeof query;
+};
+
+export type TInstructionSet = {
+  action: ProposalAction;
+  target: string;
+};
+
+export interface ISubmitProposal {
+  name: string;
+  proposalURI: string;
+  instructions: TInstructionSet[];
+}
+/**
+ * submit proposal at:
+ * https://goerli.etherscan.io/address/0xaAd5e6e1362b458E38140B7E8c6d5D71b933a56f#writeContract
+ *
+ * params:
+ * [[2,"0x5a46373152Fe723f052117fdc8E5282677808A70"]]
+ * 0x6d792070726f706f73616c000000000000000000000000000000000000000000
+ *
+ * proposalname (2nd param above):
+ * ethers.utils.formatBytes32String("my proposal name")
+ *
+ * gotcha:
+ * there are rules in Instructions.store() around contract addresses & naming for modules, etc
+ *
+ * deploy a new proposal for the 2nd element of the 1st param:
+ * # from bophades repo
+ * forge create src/policies/Governance.sol:Governance --constructor-args 0x3B294580Fcf1F60B94eca4f4CE78A2f52D23cC83 --rpc-url https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC --private-key yours
+ */
+export const useSubmitProposal = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data: signer } = useSigner();
+
+  // TODO(appleseed): update ANY types below
+  return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
+    if (!signer) throw new Error(t`Signer is not set`);
+
+    await contract.connect(signer).submitProposal(
+      proposal.instructions,
+      ethers.utils.formatBytes32String(proposal.name),
+      // TODO(appleseed): add back in name after contract update
+      // proposal.proposalURI,
+    );
+  });
+};
+
+export const useIPFSUpload = () => {
+  return useMutation<IPFSFileData | undefined, Error, { proposal: IProposalJson }>(
+    async ({ proposal }: { proposal: IProposalJson }) => {
+      const files = makeJsonFile(proposal, "proposal.json");
+      const fileInfo = await uploadToIPFS(files);
+      console.log("after", fileInfo);
+      return fileInfo;
+    },
+  );
 };

@@ -1,68 +1,109 @@
-import "./CreateProposal.scss";
-
-import { Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Grid, InputLabel, Select, styled, Typography } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
-import { useState } from "react";
+import MDEditor from "@uiw/react-md-editor";
+import { FC, useState } from "react";
+import { useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
+import { ProposalAction } from "src/hooks/useProposals";
 
 import { BackButton } from "../BackButton";
+import { MarkdownPreview } from "../MarkdownPreview";
 import { TextEntry } from "./components/TextEntry";
 
 export const CreateProposal = () => {
+  const ipfsUpload = useIPFSUpload();
+  const submitProposal = useSubmitProposal();
+
   const [proposalTitle, setProposalTitle] = useState("");
   const [proposalDescription, setProposalDescription] = useState("");
   const [proposalDiscussion, setProposalDiscussion] = useState("");
-  const [proposalAction, setProposalAction] = useState("installModule");
+  // TODO(appleseed): need to allow multiple instructions
+  const [proposalAction, setProposalAction] = useState<ProposalAction>(ProposalAction.InstallModule);
   const [proposalContract, setProposalContract] = useState("");
 
-  const selectionInput = () => {
+  const StyledInputLabel = styled(InputLabel)(() => ({
+    lineHeight: "24px",
+    fontSize: "15px",
+    marginBottom: "3px",
+  }));
+
+  const SelectionInput: FC = () => {
     return (
-      <Grid className="create-proposal-entry" container direction="column" xs={6}>
-        <Grid className="entry-title" item>
-          <Typography variant="body2">Action</Typography>
-        </Grid>
-        <Grid item>
-          <Select defaultValue="installModule" onChange={(e: any) => setProposalAction(e.target.value)} fullWidth>
-            <MenuItem value="installModule">Install Module</MenuItem>
-            <MenuItem value="upgradeModule">Upgrade Module</MenuItem>
-            <MenuItem value="approvePolicy">Approve Policy</MenuItem>
-            <MenuItem value="terminatePolicy">Terminate Policy</MenuItem>
-            <MenuItem value="changeExecutor">Change Executor</MenuItem>
+      <Grid item xs={6}>
+        <Box paddingTop="10px" paddingBottom="10px">
+          <StyledInputLabel>Action</StyledInputLabel>
+          {/* // TODO(appleseed): need to allow multiple instructions */}
+          <Select
+            key="action"
+            native={true}
+            value={proposalAction}
+            sx={{ blur: "none" }}
+            onChange={e => setProposalAction(Number(e.target.value))}
+            fullWidth
+          >
+            <option value={ProposalAction.InstallModule}>Install Module</option>
+            <option value={ProposalAction.UpgradeModule}>Upgrade Module</option>
+            <option value={ProposalAction.ApprovePolicy}>Approve Policy</option>
+            <option value={ProposalAction.TerminatePolicy}>Terminate Policy</option>
+            <option value={ProposalAction.ChangeExecutor}>Change Executor</option>
           </Select>
-        </Grid>
+        </Box>
       </Grid>
     );
   };
 
+  const handleFormSubmission = async () => {
+    const proposal = {
+      name: proposalTitle,
+      description: proposalDescription,
+      content: proposalDescription,
+      external_url: proposalDiscussion,
+    };
+    const fileData = await ipfsUpload.mutateAsync({ proposal });
+    if (fileData) {
+      const proposalURI = `ipfs://${fileData.path}`;
+      // TODO(appleseed): need to allow multiple instructions
+      const instructions = [{ action: proposalAction, target: proposalContract }];
+      submitProposal.mutate({ proposal: { name: proposal.name, instructions, proposalURI } });
+    } else {
+      // TODO(appleseed): there was a problem uploading your proposal to IPFS
+    }
+  };
+
   return (
-    <div className="create-proposal-form">
+    <Box display="flex" justifyContent="center">
       <Paper>
-        <Grid container direction="column" spacing={2}>
+        <Grid container direction="column" paddingLeft="4.5px" paddingRight="4.5px">
           <BackButton />
-          <TextEntry inputTitle="Title" gridSize={12} handleChange={setProposalTitle} />
-          <TextEntry
-            inputTitle="Description"
-            secondaryTitle={`${proposalDescription.length}/14,400`}
-            gridSize={12}
-            handleChange={setProposalDescription}
+          <TextEntry label="Title" handleChange={setProposalTitle} />
+          <StyledInputLabel>Description</StyledInputLabel>
+          <MDEditor
+            preview="edit"
+            value={proposalDescription}
+            onChange={value => value && setProposalDescription(value)}
+            height={400}
+            visibleDragbar={false}
           />
+          <Box display="flex" flexDirection="row" justifyContent="flex-end">
+            <Typography>{proposalDescription.length}/14,400</Typography>
+          </Box>
+          <MarkdownPreview content={proposalDescription} />
           <TextEntry
-            inputTitle="Discussion"
-            gridSize={12}
+            label="Discussion"
             placeholder="e.g. https://forum.olympusday.finance/..."
             handleChange={setProposalDiscussion}
           />
-          <Grid container direction="row">
-            {selectionInput()}
-            <TextEntry
-              inputTitle="Target"
-              placeholder="Contract address"
-              gridSize={6}
-              handleChange={setProposalContract}
-            />
+
+          <Grid container direction="row" spacing="10">
+            <SelectionInput />
+            <Grid item xs={6}>
+              <TextEntry label="Target" placeholder="Contract address" handleChange={setProposalContract} />
+            </Grid>
           </Grid>
-          <PrimaryButton className="continue-button">Continue</PrimaryButton>
         </Grid>
+        <Box display="flex" justifyContent="flex-end">
+          <PrimaryButton onClick={handleFormSubmission}>Continue</PrimaryButton>
+        </Box>
       </Paper>
-    </div>
+    </Box>
   );
 };

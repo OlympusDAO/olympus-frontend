@@ -9,7 +9,7 @@ export const Governance = () => {
     <>
       <Routes>
         <Route path="/" element={<ProposalsDashboard />} />
-        <Route path="/proposals/:passedId" element={<ProposalPage />} />
+        <Route path="/proposals/:passedId/*" element={<ProposalPage />} />
         <Route path="/create-proposal" element={<CreateProposal />} />
       </Routes>
     </>

@@ -1,11 +1,12 @@
 import "./Governance.scss";
 
-import { t } from "@lingui/macro";
-import { Grid, Link } from "@mui/material";
-import { Paper, Proposal, SecondaryButton } from "@olympusdao/component-library";
-import { useMemo, useState } from "react";
+import { Box, Grid, Link, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { Paper, PrimaryButton, Proposal, SecondaryButton, Tab, Tabs } from "@olympusdao/component-library";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Proposal as ProposalType, useProposals } from "src/hooks/useProposals";
+import { useProposal } from "src/hooks/useProposal";
+import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
 
 import { FilterModal } from "./components/FilterModal";
 import { SearchBar } from "./components/SearchBar/SearchBar";
@@ -13,11 +14,8 @@ import { toCapitalCase } from "./helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const _useProposals = useProposals({ state: "active" });
-  const allProposalsData: ProposalType[] = useMemo(() => {
-    if (_useProposals.isLoading || !_useProposals.data) return [];
-    return _useProposals.data;
-  }, [_useProposals]);
+  const { data: numberOfProposals, isLoading } = useGetTotalInstructions();
+  const { data: activeProposal } = useActiveProposal();
 
   const handleFilterClick = () => {
     setIsFilterModalOpen(true);
@@ -28,30 +26,41 @@ export const ProposalsDashboard = () => {
   };
 
   const renderProposals = () => {
-    return allProposalsData.map(proposal => {
-      return (
-        <Grid key={proposal.proposalName} item xs={12}>
-          <Link to={`/governancetest/proposals/${proposal.id}`} component={RouterLink}>
-            <Proposal
-              chipLabel={toCapitalCase(proposal.state)}
-              proposalTitle={proposal.proposalName}
-              publishedDate={new Date(1659389876)}
-              status={proposal.state}
-              voteEndDate={new Date(1659389876)}
-              votesAbstain={0}
-              votesAgainst={proposal.noVotes}
-              votesFor={proposal.yesVotes}
-            />
-          </Link>
-        </Grid>
-      );
-    });
+    const coercedNumber = Number(numberOfProposals);
+    // TODO(appleseed): properly handle 0 proposals
+    if (numberOfProposals && coercedNumber > 0) {
+      // TODO(appleseed): just parsing last 10 proposals right now
+      const proposals = [];
+      for (let i = coercedNumber; i > Math.max(coercedNumber - 10, 0); i--) {
+        proposals.push(<ProposalContainer instructionsId={i} />);
+      }
+      return proposals;
+    }
+    return <ProposalSkeleton />;
   };
 
   return (
     <div className="proposals-dash">
-      <Paper headerText={t`Proposals`}>
-        <Grid
+      <Paper>
+        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+          <Typography fontSize="27px" fontWeight="500" lineHeight="33px">
+            Proposals
+          </Typography>
+          <Box display="flex" minWidth="310px">
+            <Link to="/governance/create-proposal" component={RouterLink}>
+              <SecondaryButton>Create new Proposal</SecondaryButton>
+            </Link>
+            <PrimaryButton>Delegate Vote</PrimaryButton>
+          </Box>
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Tabs>
+            <Tab label="Treasury" />
+            <Tab label="Community" />
+          </Tabs>
+        </Box>
+        <SearchBar />
+        {/* <Grid
           className="dashboard-actions"
           container
           direction="row"
@@ -61,14 +70,65 @@ export const ProposalsDashboard = () => {
           <SecondaryButton startIconName="hamburger" onClick={handleFilterClick}>
             Filter
           </SecondaryButton>
-          <SearchBar />
-        </Grid>
+        </Grid> */}
         <Grid container direction="column" spacing={2}>
-          {renderProposals()}
+          <>
+            {Number(activeProposal?.activationTimestamp) > 0 && (
+              <ProposalContainer
+                instructionsId={Number(activeProposal?.instructionsId)}
+                timeRemaining={Number(activeProposal?.timeRemaining)}
+              />
+            )}
+            {isLoading ? <ProposalSkeleton /> : renderProposals()}
+          </>
         </Grid>
       </Paper>
 
       <FilterModal isModalOpen={isFilterModalOpen} cancelFunc={handleFilterModalCancel} />
     </div>
+  );
+};
+
+const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: number; timeRemaining?: number }) => {
+  const { data: proposal, isLoading } = useProposal(instructionsId);
+
+  return (
+    <>
+      {isLoading || !proposal ? (
+        <ProposalSkeleton id={instructionsId} />
+      ) : (
+        <Grid key={instructionsId} item xs={12}>
+          <Link to={`/governance/proposals/${proposal?.id}`} component={RouterLink}>
+            <Proposal
+              chipLabel={toCapitalCase(proposal?.state)}
+              proposalTitle={proposal?.proposalName}
+              publishedDate={new Date(proposal?.submissionTimestamp)}
+              status={proposal?.state}
+              voteEndDate={timeRemaining ? new Date(timeRemaining) : new Date()}
+              quorum={0}
+              votesAgainst={proposal?.noVotes}
+              votesFor={proposal?.yesVotes}
+            />
+          </Link>
+        </Grid>
+      )}
+    </>
+  );
+};
+
+export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
+  return (
+    <Skeleton width="100%">
+      <Proposal
+        chipLabel={toCapitalCase("active")}
+        proposalTitle={"proposal.proposalName"}
+        publishedDate={new Date()}
+        status={"active"}
+        voteEndDate={new Date()}
+        quorum={0}
+        votesAgainst={0}
+        votesFor={0}
+      />
+    </Skeleton>
   );
 };
