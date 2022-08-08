@@ -34,9 +34,6 @@ const renderDate = (item: TooltipPayloadItem) => {
         &nbsp;
         {date.getDate()}, {date.getFullYear()} - Block {block.toString()}
       </Grid>
-      {/* <Grid item xs={12} marginBottom="20px">
-        
-      </Grid> */}
     </>
   );
 };
