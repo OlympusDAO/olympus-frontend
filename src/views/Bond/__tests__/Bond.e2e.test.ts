@@ -8,7 +8,7 @@ import {
   selectorExists,
   setupMetamask,
   waitSelectorExists,
-} from "tests/e2e/testHelpers";
+} from "../../../../tests/e2e/testHelpers";
 
 describe.skip("Bond E2E Tests", () => {
   let browser: Browser;
