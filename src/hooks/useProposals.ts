@@ -8,6 +8,14 @@ import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useNetwork } from "wagmi";
 
+export enum ProposalAction {
+  InstallModule,
+  UpgradeModule,
+  ApprovePolicy,
+  TerminatePolicy,
+  ChangeExecutor,
+}
+
 /// Data type for return from getProposalMetadata on Governance.sol
 export interface proposalMetadata {
   proposalName: string;

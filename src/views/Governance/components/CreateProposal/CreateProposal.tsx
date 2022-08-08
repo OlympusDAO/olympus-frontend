@@ -2,17 +2,22 @@ import { Box, Grid, InputLabel, Select, styled, Typography } from "@mui/material
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
 import { FC, useState } from "react";
-import { makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
+import { useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
+import { ProposalAction } from "src/hooks/useProposals";
 
 import { BackButton } from "../BackButton";
 import { MarkdownPreview } from "../MarkdownPreview";
 import { TextEntry } from "./components/TextEntry";
 
 export const CreateProposal = () => {
+  const ipfsUpload = useIPFSUpload();
+  const submitProposal = useSubmitProposal();
+
   const [proposalTitle, setProposalTitle] = useState("");
   const [proposalDescription, setProposalDescription] = useState("");
   const [proposalDiscussion, setProposalDiscussion] = useState("");
-  const [proposalAction, setProposalAction] = useState("installModule");
+  // TODO(appleseed): need to allow multiple instructions
+  const [proposalAction, setProposalAction] = useState<ProposalAction>(ProposalAction.InstallModule);
   const [proposalContract, setProposalContract] = useState("");
 
   const StyledInputLabel = styled(InputLabel)(() => ({
@@ -26,19 +31,20 @@ export const CreateProposal = () => {
       <Grid item xs={6}>
         <Box paddingTop="10px" paddingBottom="10px">
           <StyledInputLabel>Action</StyledInputLabel>
+          {/* // TODO(appleseed): need to allow multiple instructions */}
           <Select
             key="action"
             native={true}
-            defaultValue="installModule"
+            value={proposalAction}
             sx={{ blur: "none" }}
-            onChange={e => setProposalAction(e.target.value)}
+            onChange={e => setProposalAction(Number(e.target.value))}
             fullWidth
           >
-            <option value="installModule">Install Module</option>
-            <option value="upgradeModule">Upgrade Module</option>
-            <option value="approvePolicy">Approve Policy</option>
-            <option value="terminatePolicy">Terminate Policy</option>
-            <option value="changeExecutor">Change Executor</option>
+            <option value={ProposalAction.InstallModule}>Install Module</option>
+            <option value={ProposalAction.UpgradeModule}>Upgrade Module</option>
+            <option value={ProposalAction.ApprovePolicy}>Approve Policy</option>
+            <option value={ProposalAction.TerminatePolicy}>Terminate Policy</option>
+            <option value={ProposalAction.ChangeExecutor}>Change Executor</option>
           </Select>
         </Box>
       </Grid>
@@ -46,14 +52,21 @@ export const CreateProposal = () => {
   };
 
   const handleFormSubmission = async () => {
-    const files = makeJsonFile({
+    const proposal = {
       name: proposalTitle,
       description: proposalDescription,
       content: proposalDescription,
       external_url: proposalDiscussion,
-    });
-    const cid = await uploadToIPFS(files);
-    console.log("after", cid);
+    };
+    const fileData = await ipfsUpload.mutateAsync({ proposal });
+    if (fileData) {
+      const proposalURI = `ipfs://${fileData.path}`;
+      // TODO(appleseed): need to allow multiple instructions
+      const instructions = [{ action: proposalAction, target: proposalContract }];
+      submitProposal.mutate({ proposal: { name: proposal.name, instructions, proposalURI } });
+    } else {
+      // TODO(appleseed): there was a problem uploading your proposal to IPFS
+    }
   };
 
   return (

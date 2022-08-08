@@ -1,14 +1,16 @@
+import { t } from "@lingui/macro";
 import { ethers } from "ethers";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useNetwork } from "wagmi";
+import { IPFSFileData, IProposalJson, makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
+import { useNetwork, useSigner } from "wagmi";
 
 /// Import Proposal data type and mock data getters from useProposals
-import { IAnyProposal, parseProposalContent, parseProposalState, timeRemaining } from "./useProposals";
+import { IAnyProposal, parseProposalContent, parseProposalState, ProposalAction, timeRemaining } from "./useProposals";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex
@@ -42,14 +44,17 @@ export const useProposal = (instructionsIndex: number) => {
   );
   const yesVotes = useDependentQuery("YesVotesForProposal", () => contract.yesVotesForProposal(instructionsIndex));
   const noVotes = useDependentQuery("NoVotesForProposal", () => contract.noVotesForProposal(instructionsIndex));
+
   // TODO(appleseed): need proposalURI_ functionality on deployment
-  // TODO(appleseed): upload proposal content to ipfs as proper json!!
-  const proposalURI = "ipfs://bafkreidmgcatj7skn6ufob5stdc7hnt76nvyb7dpc62l72fhrbluiychly";
+  // TODO(appleseed): temporary randomness on proposal URI for now
+  const uris = [
+    "ipfs://bafkreidmgcatj7skn6ufob5stdc7hnt76nvyb7dpc62l72fhrbluiychly",
+    "ipfs://bafybeigyvefco3cr6htyuzgv3gz4d2ctmdoptr2mlyvffv7uj6i276xgca/proposal.json",
+  ];
+  const proposalURI = uris[Math.floor(Math.random() * uris.length)];
+
   const proposalContent = useDependentQuery("ProposalContent", () => parseProposalContent({ uri: proposalURI }));
   const proposalState = parseProposalState({ isActive });
-  // const proposalContent = mockGetProposalContent(
-  //   "ipfs://bafkreibazhtsv5a7sheab5wxbuclgxqges42vvd2tbbeiw5q2udzjfo64i",
-  // );
 
   const query = useQuery<IAnyProposal, Error>(
     queryKey,
@@ -90,6 +95,16 @@ export const useProposal = (instructionsIndex: number) => {
   return query as typeof query;
 };
 
+export type TInstructionSet = {
+  action: ProposalAction;
+  target: string;
+};
+
+export interface ISubmitProposal {
+  name: string;
+  proposalURI: string;
+  instructions: TInstructionSet[];
+}
 /**
  * submit proposal at:
  * https://goerli.etherscan.io/address/0xaAd5e6e1362b458E38140B7E8c6d5D71b933a56f#writeContract
@@ -108,3 +123,31 @@ export const useProposal = (instructionsIndex: number) => {
  * # from bophades repo
  * forge create src/policies/Governance.sol:Governance --constructor-args 0x3B294580Fcf1F60B94eca4f4CE78A2f52D23cC83 --rpc-url https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC --private-key yours
  */
+export const useSubmitProposal = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data: signer } = useSigner();
+
+  // TODO(appleseed): update ANY types below
+  return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
+    if (!signer) throw new Error(t`Signer is not set`);
+
+    await contract.connect(signer).submitProposal(
+      proposal.instructions,
+      ethers.utils.formatBytes32String(proposal.name),
+      // TODO(appleseed): add back in name after contract update
+      // proposal.proposalURI,
+    );
+  });
+};
+
+export const useIPFSUpload = () => {
+  return useMutation<IPFSFileData | undefined, Error, { proposal: IProposalJson }>(
+    async ({ proposal }: { proposal: IProposalJson }) => {
+      const files = makeJsonFile(proposal, "proposal.json");
+      const fileInfo = await uploadToIPFS(files);
+      console.log("after", fileInfo);
+      return fileInfo;
+    },
+  );
+};
