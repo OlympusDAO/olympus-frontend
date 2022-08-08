@@ -10,7 +10,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Metric, PrimaryButton, SecondaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
+import {
+  Metric,
+  Paper,
+  PrimaryButton,
+  SecondaryButton,
+  TertiaryButton,
+  VoteBreakdown,
+} from "@olympusdao/component-library";
 // import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 
@@ -25,7 +32,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   }));
 
   return (
-    <>
+    <Paper fullWidth>
       <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
         <Box display="flex" flexDirection="column">
           <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
@@ -78,6 +85,6 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Paper>
   );
 };
