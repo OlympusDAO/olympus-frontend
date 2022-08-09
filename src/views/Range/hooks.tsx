@@ -279,7 +279,7 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
         (currentOhmPrice - bidOrAskPrice.price) / (bidOrAsk == "bid" ? -currentOhmPrice : currentOhmPrice);
       return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
     },
-    { enabled: !!currentOhmPrice && !!bidOrAskPrice && !!reserveSymbol.symbol },
+    { enabled: !!currentOhmPrice && !!bidOrAskPrice.price && !!reserveSymbol.symbol },
   );
 
   return { data, isFetched, isLoading };

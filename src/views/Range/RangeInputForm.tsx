@@ -21,6 +21,7 @@ const RangeInputForm = (props: {
   onChangeOhmAmount: (value: any) => void;
   onSetSellActive: () => void;
   capacity: BigNumber;
+  hasPrice: boolean;
 }) => {
   const {
     reserveSymbol,
@@ -33,6 +34,7 @@ const RangeInputForm = (props: {
     onChangeOhmAmount,
     onSetSellActive,
     capacity,
+    hasPrice,
   } = props;
   const trimmedOhmBalance = ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance.toString({ decimals: 2 });
@@ -56,10 +58,11 @@ const RangeInputForm = (props: {
       value={reserveAmount}
       onChange={event => onChangeReserveAmount(event.currentTarget.value)}
       endString={t`Max`}
-      endStringOnClick={() => onChangeReserveAmount(reserveBalance.toString())}
+      endStringOnClick={() => hasPrice && onChangeReserveAmount(reserveBalance.toString())}
       token={reserveSymbol}
       type="string"
       info={`Balance: ${trimmedReserveBalance} ${reserveSymbol}`}
+      disabled={!hasPrice}
     />
   );
 
@@ -72,10 +75,11 @@ const RangeInputForm = (props: {
       value={ohmAmount}
       onChange={event => onChangeOhmAmount(event.currentTarget.value)}
       endString={t`Max`}
-      endStringOnClick={() => onChangeOhmAmount(ohmBalance.toString())}
+      endStringOnClick={() => hasPrice && onChangeOhmAmount(ohmBalance.toString())}
       token="OHM"
       type="string"
       info={`Balance: ${trimmedOhmBalance} OHM`}
+      disabled={!hasPrice}
     />
   );
 

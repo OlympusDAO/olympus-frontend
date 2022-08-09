@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataRow, Metric, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { DataRow, InfoNotification, Metric, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -86,7 +86,11 @@ export const Range = () => {
 
   const swapPrice = sellActive ? formatNumber(bidPrice.price, 2) : formatNumber(askPrice.price, 2);
   const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+  console.log(rangeData, "rangeData");
+  console.log(bidPrice, "bidPrice");
+  console.log(askPrice, "askPrice");
 
+  const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
   return (
     <div id="stake-view">
       <Paper headerText="Range Swap">
@@ -120,6 +124,14 @@ export const Range = () => {
             }}
           />
         </Tabs>
+        <Box justifyContent="center">
+          <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+            <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+              <InfoNotification>Side is Currently Inactive</InfoNotification>
+            </Box>
+          </Box>
+        </Box>
+
         <WalletConnectedGuard message="Connect your wallet to use Range Swap">
           <RangeInputForm
             reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
@@ -133,35 +145,38 @@ export const Range = () => {
             ohmAmount={ohmAmount}
             reserveAmount={reserveAmount}
             capacity={sellActive ? rangeData.low.capacity : rangeData.high.capacity}
+            hasPrice={hasPrice}
           />
         </WalletConnectedGuard>
-        <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
-          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-            <div data-testid="max-row">
-              <DataRow
-                title={maxString}
-                balance={`${maxOhm.toString({ decimals: 2 })} OHM (${
-                  reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
-                } ${reserveSymbol})`}
-              />
-            </div>
-            <div data-testid="premium-discount">
-              <DataRow
-                title={sellActive ? t`Premium` : t`Discount`}
-                balance={
-                  <Typography
-                    sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
-                  >
-                    {formatNumber(discount * 100, 2)}%
-                  </Typography>
-                }
-              />
-            </div>
-            <div data-testid="swap-price">
-              <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
-            </div>
+        {hasPrice && (
+          <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
+            <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+              <div data-testid="max-row">
+                <DataRow
+                  title={maxString}
+                  balance={`${maxOhm.toString({ decimals: 2 })} OHM (${
+                    reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"
+                  } ${reserveSymbol})`}
+                />
+              </div>
+              <div data-testid="premium-discount">
+                <DataRow
+                  title={sellActive ? t`Premium` : t`Discount`}
+                  balance={
+                    <Typography
+                      sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
+                    >
+                      {formatNumber(discount * 100, 2)}%
+                    </Typography>
+                  }
+                />
+              </div>
+              <div data-testid="swap-price">
+                <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+              </div>
+            </Box>
           </Box>
-        </Box>
+        )}
         {!rangeDataLoading && (
           <Box mt={"20px"} data-testid="range-chart">
             <RangeChart
