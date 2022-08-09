@@ -125,11 +125,13 @@ export const Range = () => {
           />
         </Tabs>
         <Box justifyContent="center">
-          <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
-            <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-              <InfoNotification>Side is Currently Inactive</InfoNotification>
+          {!hasPrice && (
+            <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+              <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                <InfoNotification>Side is Currently Inactive</InfoNotification>
+              </Box>
             </Box>
-          </Box>
+          )}
         </Box>
 
         <WalletConnectedGuard message="Connect your wallet to use Range Swap">
