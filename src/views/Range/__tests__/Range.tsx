@@ -169,8 +169,8 @@ describe("No Balances Loaded", () => {
     render(<Range />);
   });
 
-  it("Should Load page without error. With 0.00 placeholder", async () => {
-    expect(await screen.findByTestId("max-row")).toHaveTextContent("0.00");
+  it("Should Load page without error. With Correct Max values based on capacity", async () => {
+    expect(await screen.findByTestId("max-row")).toHaveTextContent("605396.96 OHM (14635907.74 DAI)");
   });
 });
 
