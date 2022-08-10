@@ -1,16 +1,21 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { useMutation, useQuery } from "react-query";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { IPFSFileData, IProposalJson, makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
-import { useNetwork, useSigner } from "wagmi";
-
 /// Import Proposal data type and mock data getters from useProposals
-import { IAnyProposal, parseProposalContent, parseProposalState, ProposalAction, timeRemaining } from "./useProposals";
+import {
+  IAnyProposal,
+  parseProposalContent,
+  parseProposalState,
+  ProposalAction,
+  timeRemaining,
+} from "src/hooks/useProposals";
+import { useNetwork, useSigner } from "wagmi";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex

@@ -1,6 +1,6 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import { ethers } from "ethers";
-import { useQuery, UseQueryResult } from "react-query";
 import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
