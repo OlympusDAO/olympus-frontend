@@ -1,26 +1,6 @@
-import { Contract } from "src/helpers/contracts/Contract";
-import {
-  BalancerVault__factory,
-  BondAggregator__factory,
-  BondDepository__factory,
-  CrossChainMigrator__factory,
-  FiatDAOContract__factory,
-  FuseProxy__factory,
-  OlympusGiving__factory,
-  OlympusGivingOld__factory,
-  OlympusProV2__factory,
-  OlympusStakingv2__factory,
-  PrizePool__factory,
-  Range__factory,
-  RangeOperator__factory,
-  RangePrice__factory,
-  Zap__factory,
-} from "src/typechain";
-import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
-
 import {
   BALANCER_VAULT_ADDRESSSES,
-  BOND_AGGREGATOR_ADDRESSES,
+  BOND_AUCTIONEER_ADDRESSES,
   BOND_DEPOSITORY_ADDRESSES,
   DEV_FAUCET,
   FIATDAO_WSOHM_ADDRESSES,
@@ -37,7 +17,26 @@ import {
   RANGE_PRICE_ADDRESSES,
   STAKING_ADDRESSES,
   ZAP_ADDRESSES,
-} from "./addresses";
+} from "src/constants/addresses";
+import { Contract } from "src/helpers/contracts/Contract";
+import {
+  BalancerVault__factory,
+  BondAuctioneer__factory,
+  BondDepository__factory,
+  CrossChainMigrator__factory,
+  FiatDAOContract__factory,
+  FuseProxy__factory,
+  OlympusGiving__factory,
+  OlympusGivingOld__factory,
+  OlympusProV2__factory,
+  OlympusStakingv2__factory,
+  PrizePool__factory,
+  Range__factory,
+  RangeOperator__factory,
+  RangePrice__factory,
+  Zap__factory,
+} from "src/typechain";
+import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,
@@ -123,10 +122,10 @@ export const RANGE_CONTRACT = new Contract({
   addresses: RANGE_ADDRESSES,
 });
 
-export const BOND_AGGREGATOR_CONTRACT = new Contract({
-  factory: BondAggregator__factory,
-  name: "Bond Aggregator Contract",
-  addresses: BOND_AGGREGATOR_ADDRESSES,
+export const BOND_AUCTIONEER_CONTRACT = new Contract({
+  factory: BondAuctioneer__factory,
+  name: "Bond Auctioneer Contract",
+  addresses: BOND_AUCTIONEER_ADDRESSES,
 });
 export const FAUCET = new Contract({
   factory: DevFaucet__factory,

@@ -2,7 +2,6 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { SwapCollection } from "@olympusdao/component-library";
 import { OHMTokenProps, PrimaryButton, SwapCard } from "@olympusdao/component-library";
-import { BigNumber } from "ethers/lib/ethers";
 import React from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
@@ -20,7 +19,7 @@ const RangeInputForm = (props: {
   onChangeReserveAmount: (value: any) => void;
   onChangeOhmAmount: (value: any) => void;
   onSetSellActive: () => void;
-  capacity: BigNumber;
+  capacity: number;
   hasPrice: boolean;
 }) => {
   const {
@@ -41,7 +40,7 @@ const RangeInputForm = (props: {
 
   const ohmAmountAsNumber = new DecimalBigNumber(ohmAmount, 9);
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
-  const capacityBN = new DecimalBigNumber(capacity, sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
+  const capacityBN = new DecimalBigNumber(capacity.toString(), sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
   const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;

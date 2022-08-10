@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
-  BOND_AGGREGATOR_CONTRACT,
+  BOND_AUCTIONEER_CONTRACT,
   RANGE_CONTRACT,
   RANGE_OPERATOR_CONTRACT,
   RANGE_PRICE_CONTRACT,
@@ -15,6 +15,7 @@ import { parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { BondTeller__factory, IERC20__factory } from "src/typechain";
@@ -104,11 +105,9 @@ export const OperatorPrice = () => {
   const { chain = { id: 1 } } = useNetwork();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
-  const {
-    data = 1,
-    isFetched,
-    isLoading,
-  } = useQuery(["OperatorPrice", chain], async () => {
+  const { data, isFetched, isLoading } = useQuery(["OperatorPrice", chain], async () => {
+    console.log("testing");
+    console.log(parseBigNumber(await contract.getCurrentPrice(), 18), "operator price");
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
@@ -181,9 +180,9 @@ const band: BandStruct = {
  */
 export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
   const { chain = { id: 1 } } = useNetwork();
-  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondAggregator", id, chain, side],
+    ["RangeBondAuctioneer", id, chain, side],
     async () => {
       const bondPrice = await contract.marketPrice(id);
 
@@ -199,13 +198,29 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
   return { data, isFetched, isLoading };
 };
 
+export const RangeBondMaxPayout = (id: BigNumber) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
+  const { data, isFetched, isLoading } = useQuery(
+    ["RangeBondMaxPayout", id, chain],
+    async () => {
+      const { maxPayout } = await contract.getMarketInfoForPurchase(id);
+      return maxPayout;
+    },
+    {
+      enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
+    }, //Disable this query for negative markets (default value) or Max Integer (market not active from range call)
+  );
+  return { data, isFetched, isLoading };
+};
+
 export const BondTellerAddress = (id: BigNumber) => {
   const { chain = { id: 1 } } = useNetwork();
-  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondAggregator", id, chain],
+    ["RangeBondTeller", id, chain],
     async () => {
-      const tellerAddress = await contract.getTeller(id);
+      const tellerAddress = await contract.getTeller();
       return tellerAddress;
     },
     {
@@ -275,6 +290,8 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
   } = useQuery(
     ["DetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
     () => {
+      queryAssertion(currentOhmPrice);
+
       const discount =
         (currentOhmPrice - bidOrAskPrice.price) / (bidOrAsk == "bid" ? -currentOhmPrice : currentOhmPrice);
       return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
@@ -336,10 +353,11 @@ export const RangeSwap = () => {
       }
 
       //first get the bond teller address from the aggregator, then purchase bond on returned address.
-      const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-      const tellerAddress = await contract.getTeller(market);
+      const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+      const tellerAddress = await contract.getTeller();
 
       const tellerContract = BondTeller__factory.connect(tellerAddress, signer);
+
       const transaction = await tellerContract.purchase(
         recipientAddress,
         referrer,

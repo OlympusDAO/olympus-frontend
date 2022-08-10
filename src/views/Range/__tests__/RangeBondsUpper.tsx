@@ -9,10 +9,9 @@ import { fireEvent, render, screen } from "src/testUtils";
 import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
-
-import { ohmPriceHistory, RangeData, reservePriceHistory } from "../__mocks__/mockRangeCalls";
-import * as RangeHooks from "../hooks";
-import { Range } from "../index";
+import { ohmPriceHistory, RangeData, reservePriceHistory } from "src/views/Range/__mocks__/mockRangeCalls";
+import * as RangeHooks from "src/views/Range/hooks";
+import { Range } from "src/views/Range/index";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 jest.mock("src/hooks/useContractAllowance");
@@ -20,7 +19,7 @@ jest.mock("src/hooks/useContractAllowance");
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {
     const rangeData = jest.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
-    const bondData = jest.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
+    const bondData = jest.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
     connectWallet();
     //@ts-ignore
     useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
