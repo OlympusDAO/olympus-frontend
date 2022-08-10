@@ -139,8 +139,16 @@ const renderAreaChart = (
   );
 };
 
+/**
+ * Converts a given string (usually a data key) into a valid CSS selector.
+ *
+ * Failing to do this would result in the defined CSS style not matching against the
+ * data key.
+ *
+ * Invalid characters are: (space), (, )
+ */
 const getValidCSSSelector = (value: string): string => {
-  return value.replaceAll(" ", "-");
+  return value.replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "");
 };
 
 const renderStackedAreaChart = (
