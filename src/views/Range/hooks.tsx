@@ -29,7 +29,7 @@ export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
     data = [],
     isFetched,
     isLoading,
-  } = useQuery(["OHMPriceHistory", assetPair], async () => {
+  } = useQuery(["getOHMPriceHistory", assetPair], async () => {
     const data = await request(
       graphURL,
       gql`
@@ -53,7 +53,7 @@ export const ReservePriceHistory = (reserveToken: string) => {
     data = [],
     isFetched,
     isLoading,
-  } = useQuery(["ReservePriceHistory", reserveToken], async () => {
+  } = useQuery(["getReservePriceHistory", reserveToken], async () => {
     const data = await request(
       graphURL,
       gql`
@@ -83,7 +83,7 @@ export const PriceHistory = (reserveToken: string) => {
     isFetched,
     isLoading,
   } = useQuery(
-    ["priceHistory", ohmPriceData, reservePriceData],
+    ["getPriceHistory", ohmPriceData, reservePriceData],
     () => {
       const prices = ohmPriceData.map((ohmPrice: { price: number; timestamp: number }, index: any) => {
         return {
@@ -105,7 +105,7 @@ export const OperatorPrice = () => {
   const { chain = { id: 1 } } = useNetwork();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["OperatorPrice", chain], async () => {
+  const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", chain], async () => {
     console.log("testing");
     console.log(parseBigNumber(await contract.getCurrentPrice(), 18), "operator price");
     return parseBigNumber(await contract.getCurrentPrice(), 18);
@@ -124,7 +124,7 @@ export const OperatorMovingAverage = () => {
     data = { movingAverage: 0, days: 30 },
     isFetched,
     isLoading,
-  } = useQuery(["OperatorMovingAverage", chain], async () => {
+  } = useQuery(["getOperatorMovingAverage", chain], async () => {
     const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
     const movingAverageSeconds = await contract.movingAverageDuration();
     const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
@@ -143,7 +143,7 @@ export const OperatorReserveSymbol = () => {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
     isLoading,
-  } = useQuery(["OperatorReserve", chain], async () => {
+  } = useQuery(["getOperatorReserveSymbol", chain], async () => {
     const provider = Providers.getStaticProvider(chain.id);
     const reserveAddress = await contract.reserve();
     const TokenContract = IERC20__factory.connect(reserveAddress, provider);
@@ -170,7 +170,7 @@ export const RangeData = () => {
     } as RangeStructOutput,
     isFetched,
     isLoading,
-  } = useQuery(["RangeData", chain.id], async () => {
+  } = useQuery(["getRangeData", chain.id], async () => {
     const range = await contract.range();
     return range;
   });
@@ -202,7 +202,7 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondAuctioneer", id, chain, side],
+    ["getRangeBondPrice", id, chain, side],
     async () => {
       const bondPrice = await contract.marketPrice(id);
 
@@ -222,7 +222,7 @@ export const RangeBondMaxPayout = (id: BigNumber) => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondMaxPayout", id, chain],
+    ["getRangeBondMaxPayout", id, chain],
     async () => {
       const { maxPayout } = await contract.getMarketInfoForPurchase(id);
       return maxPayout;
@@ -238,7 +238,7 @@ export const BondTellerAddress = (id: BigNumber) => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = BOND_AUCTIONEER_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(
-    ["RangeBondTeller", id, chain],
+    ["getRangeBondTeller", id, chain],
     async () => {
       const tellerAddress = await contract.getTeller();
       return tellerAddress;
@@ -272,7 +272,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
     isFetched,
     isLoading,
   } = useQuery(
-    ["DetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
+    ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
     async () => {
       const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
       const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
@@ -308,7 +308,7 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
     isFetched,
     isLoading,
   } = useQuery(
-    ["DetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
+    ["getDetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
     () => {
       queryAssertion(currentOhmPrice);
 
