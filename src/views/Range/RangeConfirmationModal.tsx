@@ -2,16 +2,15 @@ import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { useIsMutating } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
-import { useIsMutating } from "react-query";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
+import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
+import { BondTellerAddress, RangeSwap } from "src/views/Range/hooks";
 import { useAccount, useNetwork } from "wagmi";
-
-import { BondSettingsModal } from "../Bond/components/BondModal/components/BondSettingsModal";
-import { BondTellerAddress, RangeSwap } from "./hooks";
 
 /**
  * Component for Displaying RangeModal
