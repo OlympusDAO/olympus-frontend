@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
-import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
