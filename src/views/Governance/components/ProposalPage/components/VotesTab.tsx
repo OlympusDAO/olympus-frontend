@@ -18,11 +18,16 @@ import {
   TertiaryButton,
   VoteBreakdown,
 } from "@olympusdao/component-library";
+import { BigNumber } from "ethers";
+import { useState } from "react";
+import { useVote } from "src/hooks/useVoting";
 // import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
+  const [vote, setVote] = useState<boolean>(false);
+  const submitVote = useVote();
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -30,6 +35,14 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     lineHeight: "18px",
     fontWeight: "400",
   }));
+
+  const handleVoteSelection = (voteFor: boolean) => {
+    setVote(voteFor);
+  };
+
+  const handleVoteSubmission = () => {
+    submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote } });
+  };
 
   return (
     <Paper fullWidth>
@@ -41,11 +54,17 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         </Box>
         <Metric label="Your voting power" metric={"15,530.00 OHM"} />
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <SecondaryButton sx={{ minWidth: "120px" }}>Yes</SecondaryButton>
-          <TertiaryButton sx={{ minWidth: "120px" }}>No</TertiaryButton>
+          <SecondaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSelection(true)}>
+            Yes
+          </SecondaryButton>
+          <TertiaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSelection(false)}>
+            No
+          </TertiaryButton>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <PrimaryButton sx={{ minWidth: "120px" }}>Vote</PrimaryButton>
+          <PrimaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSubmission}>
+            Vote
+          </PrimaryButton>
         </Box>
       </Box>
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">

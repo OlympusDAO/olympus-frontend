@@ -18,20 +18,23 @@ interface ActivatedProposal {
 
 export const useEndorse = () => {
   const dispatch = useDispatch();
+
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
+
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
 
-  if (!signer) throw new Error("No signer connected, cannot endorse");
-  contract.connect(signer);
+  return useMutation<ContractReceipt, Error, { instructionsId: BigNumber }>(
+    async ({ instructionsId }: { instructionsId: BigNumber }) => {
+      if (!signer) throw new Error("No signer connected, cannot endorse");
 
-  return useMutation<ContractReceipt, Error, number>(
-    // Pass in instructionsId to endorse
-    async instructionsId => {
-      //TODO: validate the instructions id input, make sure it is valid
-      const idAsBigNumber = BigNumber.from(instructionsId);
-      const transaction = await contract.endorseProposal(idAsBigNumber);
+      // NOTE (lienid): can't decide if it is worth calling totalInstructions on the INSTR contract
+      //                to make sure that the passed ID is valid. If it is being fed through by the
+      //                site then there's no reason it should be invalid. Also don't know if -1 may
+      //                ever be passed as some sort of default value
+      if (instructionsId.eq(-1)) throw new Error(t`Cannot endorse proposal with invalid ID`);
 
+      const transaction = await contract.connect(signer).endorseProposal(instructionsId);
       return transaction.wait();
     },
     {
@@ -48,24 +51,23 @@ export const useEndorse = () => {
 
 export const useVote = () => {
   const dispatch = useDispatch();
+
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
+
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
 
-  if (!signer) throw new Error("No signer connected, cannot endorse");
-  contract.connect(signer);
+  return useMutation<ContractReceipt, Error, { voteData: Vote }>(
+    async ({ voteData }: { voteData: Vote }) => {
+      if (!signer) throw new Error("No signer connected, cannot endorse");
 
-  return useMutation<ContractReceipt, Error, Vote>(
-    // Pass in whether vote is yes or no
-    async ({ instructionsId, vote }) => {
       const activeProposal: ActivatedProposal = await contract.activeProposal();
       const activeProposalId = activeProposal.instructionsId;
 
-      // Validate inputs
-      if (!instructionsId.eq(activeProposalId)) throw new Error(t`You can only vote for the activated proposal`);
+      if (!voteData.instructionsId.eq(activeProposalId))
+        throw new Error(t`You can only vote for the activated proposal`);
 
-      const transaction = await contract.vote(vote);
-
+      const transaction = await contract.connect(signer).vote(voteData.vote);
       return transaction.wait();
     },
     {
