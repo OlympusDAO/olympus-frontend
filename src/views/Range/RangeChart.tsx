@@ -15,8 +15,7 @@ import {
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { formatCurrency, parseBigNumber, trim } from "src/helpers";
-
-import { PriceHistory } from "./hooks";
+import { OperatorMovingAverage, PriceHistory } from "src/views/Range/hooks";
 
 const PREFIX = "RangeChart";
 
@@ -45,6 +44,7 @@ const RangeChart = (props: {
   const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory(reserveSymbol);
+  const { data: movingAverage } = OperatorMovingAverage();
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -55,6 +55,7 @@ const RangeChart = (props: {
       ...item,
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
+      ma: movingAverage.movingAverage,
     };
   });
 
@@ -65,12 +66,14 @@ const RangeChart = (props: {
     {
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
+      ma: movingAverage.movingAverage,
     },
     {
       price: currentPrice,
       timestamp: "now",
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
+      ma: movingAverage.movingAverage,
     },
   );
 
@@ -131,6 +134,7 @@ const RangeChart = (props: {
               title="Lower Capacity"
               balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
             />
+            <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2)}`} />
           </>
         )}
       </Paper>
@@ -198,6 +202,15 @@ const RangeChart = (props: {
           fillOpacity={0.4}
         />
         <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
+        <Line
+          type="monotone"
+          dataKey="ma"
+          stroke={theme.colors.gray[500]}
+          strokeDasharray={"6 3"}
+          dot={false}
+          strokeWidth={1}
+        />
+
         <ReferenceDot
           x={chartData.length > 1 && chartData[1].timestamp}
           y={chartData.length > 1 && chartData[1].price}

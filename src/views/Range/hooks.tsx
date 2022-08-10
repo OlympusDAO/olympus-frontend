@@ -114,6 +114,26 @@ export const OperatorPrice = () => {
 };
 
 /**
+ * Returns the current price of the Operator at the given address
+ */
+export const OperatorMovingAverage = () => {
+  const { chain = { id: 1 } } = useNetwork();
+
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
+  const {
+    data = { movingAverage: 0, days: 30 },
+    isFetched,
+    isLoading,
+  } = useQuery(["OperatorMovingAverage", chain], async () => {
+    const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
+    const movingAverageSeconds = await contract.movingAverageDuration();
+    const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
+    return { movingAverage, days };
+  });
+  return { data, isFetched, isLoading };
+};
+
+/**
  * Returns the reserve contract address on the Operator
  */
 export const OperatorReserveSymbol = () => {
