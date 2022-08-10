@@ -47,7 +47,7 @@ export const Range = () => {
   const reserveBalance = useBalance(DAI_ADDRESSES)[networks.MAINNET].data;
   const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
 
-  const { data: currentPrice = 11 } = OperatorPrice();
+  const { data: currentPrice = 0 } = OperatorPrice();
 
   const maxString = sellActive ? t`Max You Can Sell` : t`Max You Can Buy`;
 
