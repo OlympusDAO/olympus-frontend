@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt } from "ethers";
-import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";

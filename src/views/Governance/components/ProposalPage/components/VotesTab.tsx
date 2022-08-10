@@ -10,18 +10,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {
-  Metric,
-  Paper,
-  PrimaryButton,
-  SecondaryButton,
-  TertiaryButton,
-  VoteBreakdown,
-} from "@olympusdao/component-library";
+import { Metric, Paper, PrimaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
 import { useVote } from "src/hooks/useVoting";
-// import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
@@ -35,10 +27,6 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     lineHeight: "18px",
     fontWeight: "400",
   }));
-
-  const handleVoteSelection = (voteFor: boolean) => {
-    setVote(voteFor);
-  };
 
   const handleVoteSubmission = () => {
     submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote } });
@@ -54,10 +42,10 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         </Box>
         <Metric label="Your voting power" metric={"15,530.00 OHM"} />
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <SecondaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSelection(true)}>
+          <TertiaryButton sx={{ minWidth: "120px" }} onClick={() => setVote(true)}>
             Yes
-          </SecondaryButton>
-          <TertiaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSelection(false)}>
+          </TertiaryButton>
+          <TertiaryButton sx={{ minWidth: "120px" }} onClick={() => setVote(false)}>
             No
           </TertiaryButton>
         </Box>
