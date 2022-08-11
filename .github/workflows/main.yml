@@ -40,6 +40,9 @@ jobs:
   coverageReport:
     runs-on: ubuntu-latest
     needs: [test-base, test-branch]
+    permissions:
+      pull-requests: write
+      contents: write
     steps: 
       - name: Download Base Report
         uses: actions/download-artifact@v3
