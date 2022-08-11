@@ -7,7 +7,7 @@ import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
 
 export interface UseLiveBondsOptions {
   isInverseBond: boolean;
-  networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY | NetworkId.TESTNET_GOERLI;
+  networkId: NetworkId.MAINNET | NetworkId.TESTNET_GOERLI;
 }
 
 export const liveBondsQueryKey = (options: UseLiveBondsOptions): QueryKey => ["useLiveBonds", options];
