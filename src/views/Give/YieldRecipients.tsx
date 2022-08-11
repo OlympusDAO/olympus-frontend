@@ -1,4 +1,4 @@
-import "./YieldRecipients.scss";
+import "src/views/Give/YieldRecipients.scss";
 
 import { Trans } from "@lingui/macro";
 import { Divider, Grid, Link, Typography, useTheme } from "@mui/material";
@@ -9,8 +9,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
-
-import { DepositTableRow } from "./DepositRow";
+import { DepositTableRow } from "src/views/Give/DepositRow";
 
 type RecipientModalProps = {
   giveAssetType: string;

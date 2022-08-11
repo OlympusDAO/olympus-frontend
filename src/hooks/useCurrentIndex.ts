@@ -2,8 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-
-import { useStaticStakingContract } from "./useContract";
+import { useStaticStakingContract } from "src/hooks/useContract";
 
 export const currentIndexQueryKey = () => ["useCurrentIndex"];
 

@@ -125,10 +125,9 @@ export const LiquidBackingPerOhmComparisonGraph = ({
       headerSubText={`${
         data &&
         formatCurrency(
-          // isActiveTokenOHM()
-          //   ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
-          //   : data.protocolMetrics[0].treasuryLiquidBackingPerGOhm,
-          data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating,
+          isActiveTokenOHM()
+            ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
+            : data.protocolMetrics[0].treasuryLiquidBackingPerGOhm,
           2,
         )
       }`}

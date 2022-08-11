@@ -10,9 +10,8 @@ import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { GiveData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
-
-import { GiveData } from "../Interfaces";
 
 /**
  * @notice Creates a new deposit
