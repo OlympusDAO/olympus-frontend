@@ -193,7 +193,8 @@ export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: G
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onMouseMove: CategoricalChartFunc = (nextState, event) => {
-    if (!nextState.activeTooltipIndex) return;
+    // We need to explictly check for undefined, otherwise an index of 0 will be caught (OlympusDAO/olympus-frontend#2128)
+    if (nextState.activeTooltipIndex === undefined) return;
 
     setSelectedIndex(nextState.activeTooltipIndex);
   };
@@ -297,7 +298,7 @@ export const MarketValueGraph = ({
       infoTooltipMessage={
         isLiquidBackingActive
           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
-          : t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`
+          : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
       }
       isLoading={!data}
       itemDecimals={0}
