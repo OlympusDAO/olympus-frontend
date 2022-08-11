@@ -18,7 +18,7 @@ import { ProposalTabProps } from "src/views/Governance/interfaces";
 
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
-  const [vote, setVote] = useState<boolean>(false);
+  const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
 
   const StyledTableCell = styled(TableCell)(() => ({
@@ -29,7 +29,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   }));
 
   const handleVoteSubmission = () => {
-    submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote } });
+    submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote === "yes" } });
   };
 
   return (
@@ -42,15 +42,23 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         </Box>
         <Metric label="Your voting power" metric={"15,530.00 OHM"} />
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <TertiaryButton sx={{ minWidth: "120px" }} onClick={() => setVote(true)}>
+          <TertiaryButton
+            variant={vote === "yes" ? "contained" : "outlined"}
+            sx={{ minWidth: "120px" }}
+            onClick={() => setVote("yes")}
+          >
             Yes
           </TertiaryButton>
-          <TertiaryButton sx={{ minWidth: "120px" }} onClick={() => setVote(false)}>
+          <TertiaryButton
+            variant={vote === "no" ? "contained" : "outlined"}
+            sx={{ minWidth: "120px" }}
+            onClick={() => setVote("no")}
+          >
             No
           </TertiaryButton>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <PrimaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSubmission}>
+          <PrimaryButton sx={{ minWidth: "120px" }} onClick={handleVoteSubmission} disabled={vote === ""}>
             Vote
           </PrimaryButton>
         </Box>
