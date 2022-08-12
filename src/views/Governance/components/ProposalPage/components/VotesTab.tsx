@@ -18,11 +18,21 @@ import {
   TertiaryButton,
   VoteBreakdown,
 } from "@olympusdao/component-library";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
+import { formatBalance } from "src/helpers";
+import { useGohmBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 // import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
+import { useAccount } from "wagmi";
 
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
+  const networks = useTestableNetworks();
+  const { isConnected } = useAccount();
+  const gohmBalance = useGohmBalance()[networks.MAINNET].data;
+
+  console.log(proposal);
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -30,6 +40,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     lineHeight: "18px",
     fontWeight: "400",
   }));
+  console.log(gohmBalance);
 
   return (
     <Paper fullWidth>
@@ -39,14 +50,22 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
             Cast your vote
           </Typography>
         </Box>
-        <Metric label="Your voting power" metric={"15,530.00 OHM"} />
+        {isConnected && <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} OHM`} />}
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <SecondaryButton sx={{ minWidth: "120px" }}>Yes</SecondaryButton>
-          <TertiaryButton sx={{ minWidth: "120px" }}>No</TertiaryButton>
+          <SecondaryButton sx={{ minWidth: "120px" }} disabled={!isConnected || !proposal.isActive}>
+            Yes
+          </SecondaryButton>
+          <TertiaryButton sx={{ minWidth: "120px" }} disabled={!isConnected || !proposal.isActive}>
+            No
+          </TertiaryButton>
         </Box>
-        <Box display="flex" flexDirection="row" justifyContent="center">
-          <PrimaryButton sx={{ minWidth: "120px" }}>Vote</PrimaryButton>
-        </Box>
+        <WalletConnectedGuard>
+          <Box display="flex" flexDirection="row" justifyContent="center">
+            <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive}>
+              Vote
+            </PrimaryButton>
+          </Box>
+        </WalletConnectedGuard>
       </Box>
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
         Vote Breakdown
@@ -64,7 +83,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         Top Voters
       </Typography>
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Voter</StyledTableCell>
