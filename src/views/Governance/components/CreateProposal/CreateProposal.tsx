@@ -4,10 +4,9 @@ import MDEditor from "@uiw/react-md-editor";
 import { FC, useState } from "react";
 import { useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
-
-import { BackButton } from "../BackButton";
-import { MarkdownPreview } from "../MarkdownPreview";
-import { TextEntry } from "./components/TextEntry";
+import { BackButton } from "src/views/Governance/components/BackButton";
+import { TextEntry } from "src/views/Governance/components/CreateProposal/components/TextEntry";
+import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
 
 export const CreateProposal = () => {
   const ipfsUpload = useIPFSUpload();
@@ -79,7 +78,7 @@ export const CreateProposal = () => {
           <MDEditor
             preview="edit"
             value={proposalDescription}
-            onChange={value => value && setProposalDescription(value)}
+            onChange={value => (value ? setProposalDescription(value) : setProposalDescription(""))}
             height={400}
             visibleDragbar={false}
           />
