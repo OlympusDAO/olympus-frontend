@@ -42,8 +42,8 @@ function ExpandedChart({
 
   // Setting relative (percentage) values doesn't work very well with ResponsiveContainer, so we do a manual calculation.
   const windowHeight = window.screen.height;
-  const modalHeight = 0.75 * windowHeight;
-  const chartHeight = 0.75 * modalHeight;
+  const modalHeight = 0.7 * windowHeight;
+  const chartHeight = 0.7 * modalHeight;
 
   const theme = useTheme();
   const hidePaperSidePadding = useMediaQuery(theme.breakpoints.down("md"));

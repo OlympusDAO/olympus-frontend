@@ -1,10 +1,9 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
+import { NetworkId } from "src/constants";
 import { OHM_DAI_LP_TOKEN } from "src/constants/tokens";
-
-import { NetworkId } from "../constants";
-import { Environment } from "./environment/Environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 /**
  * gets marketPrice from Ohm-DAI v2
@@ -122,7 +121,6 @@ export const isTestnet = (networkId: NetworkId) => {
     NetworkId.AVALANCHE_TESTNET,
     NetworkId.FANTOM_TESTNET,
     NetworkId.POLYGON_TESTNET,
-    NetworkId.TESTNET_RINKEBY,
     NetworkId.TESTNET_GOERLI,
   ];
 
@@ -138,5 +136,5 @@ export const isChainEthereum = ({
 }): boolean => {
   if (!includeTestnets) return chainId === NetworkId.MAINNET;
 
-  return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_RINKEBY || chainId === NetworkId.TESTNET_GOERLI;
+  return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_GOERLI;
 };

@@ -3,13 +3,12 @@ import { MockConnector } from "@wagmi/core/connectors/mock";
 import mediaQuery from "css-mediaquery";
 import { BigNumber, ethers, providers } from "ethers";
 import { Wallet } from "ethers/lib/ethers";
+import { NetworkId } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { IUserRecipientInfo } from "src/hooks/useGiveInfo";
+import { IUserDonationInfo } from "src/views/Give/Interfaces";
 import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
-
-import { NetworkId } from "./constants";
-import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
-import { IUserRecipientInfo } from "./hooks/useGiveInfo";
-import { IUserDonationInfo } from "./views/Give/Interfaces";
 
 const provider = new ethers.providers.StaticJsonRpcProvider();
 
@@ -282,8 +281,8 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
 };
 
 export const mockSohmBalance = (
-  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, DecimalBigNumber>,
-): Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, UseQueryResult<DecimalBigNumber, Error>> => {
+  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, DecimalBigNumber>,
+): Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, UseQueryResult<DecimalBigNumber, Error>> => {
   return {
     [NetworkId.MAINNET]: {
       data: data[NetworkId.MAINNET],
@@ -318,8 +317,8 @@ export const mockSohmBalance = (
         });
       },
     },
-    [NetworkId.TESTNET_RINKEBY]: {
-      data: data[NetworkId.TESTNET_RINKEBY],
+    [NetworkId.TESTNET_GOERLI]: {
+      data: data[NetworkId.TESTNET_GOERLI],
       error: null,
       isError: false,
       isSuccess: true,
@@ -357,7 +356,7 @@ export const mockSohmBalance = (
 export const mockGohmBalance = (
   data: Record<
     | NetworkId.MAINNET
-    | NetworkId.TESTNET_RINKEBY
+    | NetworkId.TESTNET_GOERLI
     | NetworkId.ARBITRUM
     | NetworkId.ARBITRUM_TESTNET
     | NetworkId.AVALANCHE
@@ -369,7 +368,7 @@ export const mockGohmBalance = (
   >,
 ): Record<
   | NetworkId.MAINNET
-  | NetworkId.TESTNET_RINKEBY
+  | NetworkId.TESTNET_GOERLI
   | NetworkId.ARBITRUM
   | NetworkId.ARBITRUM_TESTNET
   | NetworkId.AVALANCHE
@@ -413,8 +412,8 @@ export const mockGohmBalance = (
         });
       },
     },
-    [NetworkId.TESTNET_RINKEBY]: {
-      data: data[NetworkId.TESTNET_RINKEBY],
+    [NetworkId.TESTNET_GOERLI]: {
+      data: data[NetworkId.TESTNET_GOERLI],
       error: null,
       isError: false,
       isSuccess: true,

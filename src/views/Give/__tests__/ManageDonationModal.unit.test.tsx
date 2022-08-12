@@ -15,9 +15,8 @@ import {
   mockSohmBalance,
 } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
-
-import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "../Interfaces";
-import { ManageDonationModal } from "../ManageDonationModal";
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 
 describe("ManageDonationModal", () => {
   let submitFunc: SubmitEditCallback;
@@ -35,14 +34,14 @@ describe("ManageDonationModal", () => {
     jest.spyOn(useBalance, "useSohmBalance").mockReturnValue(
       mockSohmBalance({
         [NetworkId.MAINNET]: new DecimalBigNumber("10"),
-        [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
+        [NetworkId.TESTNET_GOERLI]: new DecimalBigNumber("0"),
       }),
     );
 
     jest.spyOn(useBalance, "useGohmBalance").mockReturnValue(
       mockGohmBalance({
         [NetworkId.MAINNET]: new DecimalBigNumber("10"),
-        [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
+        [NetworkId.TESTNET_GOERLI]: new DecimalBigNumber("0"),
         [NetworkId.ARBITRUM]: new DecimalBigNumber("0"),
         [NetworkId.ARBITRUM_TESTNET]: new DecimalBigNumber("0"),
         [NetworkId.AVALANCHE]: new DecimalBigNumber("0"),

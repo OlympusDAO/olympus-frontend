@@ -1,8 +1,7 @@
 import axios from "axios";
+import { feedContent } from "src/components/TopBar/Wallet/__mocks__/mockFeedContent";
+import News from "src/components/TopBar/Wallet/Info/News";
 import { render, screen } from "src/testUtils";
-
-import { feedContent } from "../__mocks__/mockFeedContent";
-import News from "../Info/News";
 
 describe("News View", () => {
   beforeEach(() => {
