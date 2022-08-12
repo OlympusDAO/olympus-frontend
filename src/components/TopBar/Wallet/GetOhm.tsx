@@ -101,7 +101,7 @@ const GetOhm: FC = () => {
         </Grid>
         <Box mt="9px">
           <GetOnButton
-            href={`https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e`}
+            href={`https://app.balancer.fi/#/trade/`}
             logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
             exchangeName="Balancer"
           />
