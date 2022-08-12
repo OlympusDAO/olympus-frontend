@@ -32,15 +32,12 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const { isConnected } = useAccount();
   const gohmBalance = useGohmBalance()[networks.MAINNET].data;
 
-  console.log(proposal);
-
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
     fontSize: "12px",
     lineHeight: "18px",
     fontWeight: "400",
   }));
-  console.log(gohmBalance);
 
   return (
     <Paper fullWidth>
