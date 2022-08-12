@@ -2,6 +2,7 @@ import { Box, Grid, InputLabel, Select, styled, Typography } from "@mui/material
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
 import { FC, useState } from "react";
+import rehypeSanitize from "rehype-sanitize";
 import { useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
 import { BackButton } from "src/views/Governance/components/BackButton";
@@ -81,6 +82,9 @@ export const CreateProposal = () => {
             onChange={value => (value ? setProposalDescription(value) : setProposalDescription(""))}
             height={400}
             visibleDragbar={false}
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
           />
           <Box display="flex" flexDirection="row" justifyContent="flex-end">
             <Typography>{proposalDescription.length}/14,400</Typography>

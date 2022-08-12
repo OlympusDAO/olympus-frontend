@@ -31,7 +31,7 @@ export const ProposalsDashboard = () => {
       // TODO(appleseed): just parsing last 10 proposals right now
       const proposals = [];
       for (let i = coercedNumber; i > Math.max(coercedNumber - 10, 0); i--) {
-        proposals.push(<ProposalContainer instructionsId={i} />);
+        proposals.push(<ProposalContainer key={i} instructionsId={i} />);
       }
       return proposals;
     }
@@ -53,9 +53,9 @@ export const ProposalsDashboard = () => {
           </Box>
         </Box>
         <Box display="flex" justifyContent="center">
-          <Tabs>
-            <Tab label="Treasury" value="0" />
-            <Tab label="Community" value="1" />
+          <Tabs value={false}>
+            <Tab label="Treasury" />
+            <Tab label="Community" />
           </Tabs>
         </Box>
         <SearchBar />
