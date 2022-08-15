@@ -1,4 +1,4 @@
-import "./Governance.scss";
+import "src/views/Governance/Governance.scss";
 
 import { Box, Grid, Link, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
@@ -7,10 +7,9 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
 import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
-
-import { FilterModal } from "./components/FilterModal";
-import { SearchBar } from "./components/SearchBar/SearchBar";
-import { toCapitalCase } from "./helpers";
+import { FilterModal } from "src/views/Governance/components/FilterModal";
+import { SearchBar } from "src/views/Governance/components/SearchBar/SearchBar";
+import { toCapitalCase } from "src/views/Governance/helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -32,7 +31,7 @@ export const ProposalsDashboard = () => {
       // TODO(appleseed): just parsing last 10 proposals right now
       const proposals = [];
       for (let i = coercedNumber; i > Math.max(coercedNumber - 10, 0); i--) {
-        proposals.push(<ProposalContainer instructionsId={i} />);
+        proposals.push(<ProposalContainer key={i} instructionsId={i} />);
       }
       return proposals;
     }
@@ -54,7 +53,7 @@ export const ProposalsDashboard = () => {
           </Box>
         </Box>
         <Box display="flex" justifyContent="center">
-          <Tabs>
+          <Tabs value={false}>
             <Tab label="Treasury" />
             <Tab label="Community" />
           </Tabs>
