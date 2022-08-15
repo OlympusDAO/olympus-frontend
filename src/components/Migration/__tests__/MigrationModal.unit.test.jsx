@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import MigrationModal from "src/components/Migration/MigrationModal";
 import { trim } from "src/helpers";
+import * as AppDetails from "src/hooks/useAppDetails";
 import accountReducer from "src/slices/AccountSlice";
-import appReducer from "src/slices/AppSlice";
 import pendingTransactionsReducer from "src/slices/PendingTxnsSlice";
-
-import { render, screen } from "../../../testUtils";
-import MigrationModal from "../MigrationModal";
+import { render, screen } from "src/testUtils";
 
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {
@@ -29,16 +28,20 @@ describe("<MigrationModal/>", () => {
           wsohm: 0,
         },
       },
-      app: {
-        currentIndexV1: 94,
-        currentIndex: 46,
-      },
     };
+
+    const preloadedAppDetails = {
+      currentIndexV1: 94,
+      currentIndex: 46,
+    };
+
+    AppDetails.useAppDetails = jest.fn(() => ({
+      data: { ...preloadedAppDetails },
+    }));
 
     // use only reducers required for this component test
     const reducer = {
       account: accountReducer,
-      app: appReducer,
       pendingTransactions: pendingTransactionsReducer,
     };
 
@@ -67,7 +70,7 @@ describe("<MigrationModal/>", () => {
     // prevent regression for bug report:
     // https://github.com/OlympusDAO/olympus-frontend/issues/1394
     const sOHMv2Value =
-      (preloadedState.account.balances.sohmV1 * preloadedState.app.currentIndex) / preloadedState.app.currentIndexV1;
+      (preloadedState.account.balances.sohmV1 * preloadedAppDetails.currentIndex) / preloadedAppDetails.currentIndexV1;
     const trimmed = trim(sOHMv2Value, 4);
     expect(await screen.getByText(`${trimmed} sOHM (v2)`)).toBeInTheDocument();
 

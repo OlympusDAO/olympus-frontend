@@ -1,6 +1,6 @@
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { IAppData } from "src/hooks/useAppDetails";
 import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 
 export interface SubmitCallback {

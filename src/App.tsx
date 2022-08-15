@@ -25,7 +25,6 @@ import { useGoogleAnalytics } from "src/hooks/useGoogleAnalytics";
 import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
 import { getMigrationAllowances, loadAccountDetails } from "src/slices/AccountSlice";
-import { loadAppDetails } from "src/slices/AppSlice";
 import { error, info } from "src/slices/MessagesSlice";
 import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
@@ -137,22 +136,11 @@ function App() {
     // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
     const loadProvider = provider;
 
-    if (whichDetails === "app") {
-      loadApp(loadProvider);
-    }
-
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && isConnected) {
       loadAccount(loadProvider);
     }
   }
-
-  const loadApp = useCallback(
-    loadProvider => {
-      dispatch(loadAppDetails({ networkID: chain.id, provider: loadProvider }));
-    },
-    [chain.id, address],
-  );
 
   const loadAccount = useCallback(
     loadProvider => {

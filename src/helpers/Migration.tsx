@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "src/hooks";
+import { useAppDetails } from "src/hooks/useAppDetails";
 
 export const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
@@ -21,14 +22,17 @@ export function useView() {
 
 export function useMigrationData() {
   const [view, setView, changeView] = useView();
+  const { data: appDetails } = useAppDetails();
 
-  const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
+  const indexV1 = Number(appDetails?.currentIndexV1);
+  const currentIndex = Number(appDetails?.currentIndex);
+  const marketPrice = Number(appDetails?.marketPrice);
 
   const currentOhmBalance = useAppSelector(state => state.account.balances.ohmV1);
   const currentSOhmBalance = useAppSelector(state => state.account.balances.sohmV1);
   const currentWSOhmBalance = useAppSelector(state => state.account.balances.wsohm);
-  const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
+
+  const wsOhmPrice = marketPrice * currentIndex;
   const gOHMPrice = wsOhmPrice;
 
   const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
@@ -41,8 +45,8 @@ export function useMigrationData() {
   const ohmAsgOHM = +currentOhmBalance / indexV1;
   const sOHMAsgOHM = +currentSOhmBalance / indexV1;
 
-  const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
-  const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
+  const ohmInUSD = formatCurrency(gOHMPrice * ohmAsgOHM);
+  const sOhmInUSD = formatCurrency(gOHMPrice * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
 
   const isGOHM = view === 1;

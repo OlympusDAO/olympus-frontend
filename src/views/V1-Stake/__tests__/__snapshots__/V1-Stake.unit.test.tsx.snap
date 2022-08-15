@@ -3150,7 +3150,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       id="user-balance"
                       style="text-align: right;"
                     >
-                      0.0000 OHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -3182,7 +3185,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
-                            0 sOHM
+                            <span
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 80px;"
+                            />
                           </p>
                         </div>
                       </div>
@@ -3236,7 +3242,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -3256,7 +3265,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -3276,7 +3288,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 gOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                             </div>
@@ -3304,7 +3319,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN sOHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -3323,7 +3341,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -3342,7 +3363,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                 </div>
@@ -6465,7 +6489,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       id="user-balance"
                       style="text-align: right;"
                     >
-                      0.0000 OHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -6497,7 +6524,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
-                            0 sOHM
+                            <span
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 80px;"
+                            />
                           </p>
                         </div>
                       </div>
@@ -6551,7 +6581,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -6571,7 +6604,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -6591,7 +6627,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 gOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                             </div>
@@ -6619,7 +6658,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN sOHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -6638,7 +6680,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -6657,7 +6702,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                 </div>
@@ -9780,7 +9828,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       id="user-balance"
                       style="text-align: right;"
                     >
-                      0.0000 OHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -9812,7 +9863,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                             id="user-staked-balance"
                             style="text-align: right;"
                           >
-                            0 sOHM
+                            <span
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 80px;"
+                            />
                           </p>
                         </div>
                       </div>
@@ -9866,7 +9920,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -9886,7 +9943,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 sOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                               <div
@@ -9906,7 +9966,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                   class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                                   style="text-align: right;"
                                 >
-                                  0.0000 gOHM
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                    style="width: 80px;"
+                                  />
                                 </p>
                               </div>
                             </div>
@@ -9934,7 +9997,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN sOHM
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -9953,7 +10019,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                   <div
@@ -9972,7 +10041,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
                       style="text-align: right;"
                     >
-                      NaN%
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 80px;"
+                      />
                     </p>
                   </div>
                 </div>

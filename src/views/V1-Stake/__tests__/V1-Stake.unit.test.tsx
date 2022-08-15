@@ -1,7 +1,6 @@
 import { connectWallet } from "src/testHelpers";
-
-import { render } from "../../../testUtils";
-import V1Stake from "../V1-Stake";
+import { render } from "src/testUtils";
+import V1Stake from "src/views/V1-Stake/V1-Stake";
 
 afterEach(() => {
   jest.clearAllMocks();
