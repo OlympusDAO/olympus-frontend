@@ -15,6 +15,7 @@ import {
 import {
   DEFAULT_RECORDS_COUNT,
   LiquidBackingPerOhmComparisonGraph,
+  OhmSupplyGraph,
   ProtocolOwnedLiquidityGraph,
   TreasuryAssets,
 } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
@@ -208,6 +209,11 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper {...paperProps} style={paperStyles}>
+            <OhmSupplyGraph subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
           </Paper>
         </Grid>
       </Grid>

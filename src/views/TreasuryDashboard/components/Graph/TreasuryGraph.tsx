@@ -534,3 +534,45 @@ export const AssetsTable = ({
     </ChartCard>
   );
 };
+
+/**
+ * React Component that displays a line graph comparing the
+ * OHM total, circulating and floating supply.
+ *
+ * @returns
+ */
+export const OhmSupplyGraph = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument, subgraphUrl);
+
+  const theme = useTheme();
+
+  const dataKeys: string[] = ["ohmCirculatingSupply", "ohmFloatingSupply", "totalSupply"];
+  const itemNames: string[] = [t`Circulating Supply`, t`Floating Supply`, t`Total Supply`];
+
+  const { data } = useKeyMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
+
+  // No caching needed, as these are static categories
+  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+
+  return (
+    <Chart
+      type={ChartType.MultiLine}
+      data={data ? data.protocolMetrics : []}
+      dataKeys={dataKeys}
+      dataKeyColors={colorsMap}
+      headerText={t`OHM Circulating Supply`}
+      headerSubText={""}
+      dataFormat={DataFormat.Currency} // TODO change this
+      dataKeyBulletpointStyles={bulletpointStylesMap}
+      dataKeyLabels={categoriesMap}
+      margin={{ left: 30 }}
+      infoTooltipMessage={t`This chart visualises the OHM circulating supply over time.`}
+      isLoading={!data}
+      itemDecimals={2}
+      subgraphQueryUrl={queryExplorerUrl}
+      tickStyle={getTickStyle(theme)}
+    />
+  );
+};
