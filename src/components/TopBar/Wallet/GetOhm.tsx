@@ -1,8 +1,9 @@
 import { t } from "@lingui/macro";
-import { Box, Fade, Grid, Typography } from "@mui/material";
+import { Box, Fade, Grid, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
+import { ReactComponent as balancerIcon } from "src/assets/balancer.svg";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
 import { SupplyRatePerBlock } from "src/components/TopBar/Wallet/queries";
@@ -98,6 +99,14 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
+        <Box mt="9px">
+          <GetOnButton
+            href={`https://app.balancer.fi/#/trade/`}
+            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
+            exchangeName="Balancer"
+          />
+        </Box>
+
         {NetworkId.MAINNET === chain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
