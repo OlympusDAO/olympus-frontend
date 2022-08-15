@@ -1,4 +1,4 @@
-import "./style.scss";
+import "src/style.scss";
 
 import { useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,28 +11,27 @@ import {
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Messages from "src/components/Messages/Messages";
+import { MigrationCallToAction } from "src/components/MigrationCallToAction";
+import { MigrationNotification } from "src/components/MigrationNotification";
+import NavDrawer from "src/components/Sidebar/NavDrawer";
+import Sidebar from "src/components/Sidebar/Sidebar";
+import StagingNotification from "src/components/StagingNotification";
+import { StakeVersionContainer } from "src/components/StakeVersionContainer";
+import TopBar from "src/components/TopBar/TopBar";
+import Wallet from "src/components/TopBar/Wallet";
+import { shouldTriggerSafetyCheck } from "src/helpers";
+import { useGoogleAnalytics } from "src/hooks/useGoogleAnalytics";
+import useTheme from "src/hooks/useTheme";
+import { chains } from "src/hooks/wagmi";
+import { getMigrationAllowances, loadAccountDetails } from "src/slices/AccountSlice";
+import { loadAppDetails } from "src/slices/AppSlice";
+import { error, info } from "src/slices/MessagesSlice";
+import { AppDispatch } from "src/store";
+import { dark as darkTheme } from "src/themes/dark.js";
+import { girth as gTheme } from "src/themes/girth.js";
+import { light as lightTheme } from "src/themes/light.js";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
-
-import Messages from "./components/Messages/Messages";
-import { MigrationCallToAction } from "./components/MigrationCallToAction";
-import { MigrationNotification } from "./components/MigrationNotification";
-import NavDrawer from "./components/Sidebar/NavDrawer";
-import Sidebar from "./components/Sidebar/Sidebar";
-import StagingNotification from "./components/StagingNotification";
-import { StakeVersionContainer } from "./components/StakeVersionContainer";
-import TopBar from "./components/TopBar/TopBar";
-import Wallet from "./components/TopBar/Wallet";
-import { shouldTriggerSafetyCheck } from "./helpers";
-import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import useTheme from "./hooks/useTheme";
-import { chains } from "./hooks/wagmi";
-import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
-import { loadAppDetails } from "./slices/AppSlice";
-import { error, info } from "./slices/MessagesSlice";
-import { AppDispatch } from "./store";
-import { dark as darkTheme } from "./themes/dark.js";
-import { girth as gTheme } from "./themes/girth.js";
-import { light as lightTheme } from "./themes/light.js";
 
 // Dynamic Imports for code splitting
 const Bond = lazy(() => import("./views/Bond"));

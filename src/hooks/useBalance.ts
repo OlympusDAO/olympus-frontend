@@ -1,4 +1,4 @@
-import { useQueries, useQuery, UseQueryResult } from "react-query";
+import { useQueries, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import {
   AddressMap,
@@ -16,9 +16,8 @@ import {
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useMultipleTokenContracts, useStaticFuseContract } from "src/hooks/useContract";
 import { useAccount } from "wagmi";
-
-import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
@@ -33,10 +32,11 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
 
-  const results = useQueries(
-    networkIds.map(networkId => ({
-      queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
+  const results = useQueries({
+    queries: networkIds.map(networkId => ({
+      queryKey: [balanceQueryKey(address, tokenAddressMap, networkId)],
       enabled: !!address,
+
       queryFn: async () => {
         const contract = contracts[networkId as NetworkId];
         console.debug("Refetching balance");
@@ -45,7 +45,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
         return new DecimalBigNumber(balance, decimals);
       },
     })),
-  );
+  });
 
   return networkIds.reduce(
     (prev, networkId, index) => Object.assign(prev, { [networkId]: results[index] }),
@@ -64,7 +64,7 @@ export const useFuseBalance = () => {
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
   const query = useQuery<DecimalBigNumber, Error>(
-    fuseBalanceQueryKey(address),
+    [fuseBalanceQueryKey(address)],
     async () => {
       queryAssertion(address, fuseBalanceQueryKey(address));
 

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -2284,6 +2284,7 @@ export type MetricsBarLatestOnlyQuery = {
     ohmPrice: number;
     totalSupply: number;
     totalValueLocked: number;
+    treasuryLiquidBackingPerGOhm: number;
     treasuryLiquidBackingPerOhmFloating: number;
     treasuryMarketValue: number;
   }>;
@@ -2311,6 +2312,7 @@ export type KeyMetricsQuery = {
     totalSupply: number;
     totalValueLocked: number;
     treasuryLiquidBacking: number;
+    treasuryLiquidBackingPerGOhm: number;
     treasuryLiquidBackingPerOhmFloating: number;
     treasuryMarketValue: number;
   }>;
@@ -2423,6 +2425,7 @@ export const MetricsBarLatestOnlyDocument = `
     ohmPrice
     totalSupply
     totalValueLocked
+    treasuryLiquidBackingPerGOhm
     treasuryLiquidBackingPerOhmFloating
     treasuryMarketValue
   }
@@ -2460,6 +2463,7 @@ export const KeyMetricsDocument = `
     totalSupply
     totalValueLocked
     treasuryLiquidBacking
+    treasuryLiquidBackingPerGOhm
     treasuryLiquidBackingPerOhmFloating
     treasuryMarketValue
   }

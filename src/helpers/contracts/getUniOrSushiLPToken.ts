@@ -1,11 +1,10 @@
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
+import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { assert } from "src/helpers/types/assert";
 import { NetworkId } from "src/networkDetails";
 import { PairContract__factory } from "src/typechain";
-
-import { calculateUniOrSushiLPValue } from "../pricing/calculateUniOrSushiLPValue";
-import { Providers } from "../providers/Providers/Providers";
-import { assert } from "../types/assert";
-import { getTokenByAddress } from "./getTokenByAddress";
-import { Token } from "./Token";
 
 /**
  * Returns a `Token` given the address of a UniswapV2 or Sushi token contract
@@ -15,7 +14,7 @@ import { Token } from "./Token";
  * - 0xfd0a40bc83c5fae4203dec7e5929b446b07d1c76 (FRAX/ETH Uniswap V2)
  */
 export const getUniOrSushiLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
 
   try {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);

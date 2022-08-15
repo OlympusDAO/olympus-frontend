@@ -58,13 +58,7 @@ exports[`<ProjectCard/> should render card 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
           >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
+            A short description for the card
           </p>
         </div>
         <div
@@ -213,13 +207,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
           >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
+            A short description for the card
           </p>
         </div>
         <div
@@ -782,15 +770,13 @@ exports[`<ProjectCard/> should render page 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -1268,15 +1254,13 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -1749,15 +1733,13 @@ exports[`<ProjectCard/> should render page without image 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>

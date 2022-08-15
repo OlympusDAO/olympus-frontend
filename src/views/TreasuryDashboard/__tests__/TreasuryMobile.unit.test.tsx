@@ -1,7 +1,6 @@
 import { createMatchMedia } from "src/testHelpers";
-
-import { render } from "../../../testUtils";
-import TreasuryDashboard from "../TreasuryDashboard";
+import { render } from "src/testUtils";
+import TreasuryDashboard from "src/views/TreasuryDashboard/TreasuryDashboard";
 
 beforeAll(() => {
   window.matchMedia = createMatchMedia("300px");

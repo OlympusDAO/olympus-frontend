@@ -5,7 +5,6 @@ import { Grid, Link, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
-import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
@@ -17,13 +16,12 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { GohmToggle } from "src/views/Give/GohmToggle";
+import { checkDecimalLength, removeTrailingZeros } from "src/views/Give/helpers/checkDecimalLength";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork } from "wagmi";
-
-import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
-import { GohmToggle } from "./GohmToggle";
-import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
-import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
 
 type ManageModalProps = {
   isModalOpen: boolean;
@@ -319,12 +317,6 @@ export function ManageDonationModal({
     return project.owner + " - " + project.title;
   };
 
-  const getRenderedDetails = () => {
-    return {
-      __html: MarkdownIt({ html: true }).renderInline(project ? project.shortDescription : ""),
-    };
-  };
-
   const getModalTitle = (): string => {
     if (isEditing) {
       return "Edit";
@@ -517,7 +509,7 @@ export function ManageDonationModal({
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" className="subtext">
-                  <div dangerouslySetInnerHTML={getRenderedDetails()} />
+                  {project.shortDescription}
                 </Typography>
               </Grid>
             </Grid>

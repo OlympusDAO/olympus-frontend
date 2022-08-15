@@ -474,15 +474,13 @@ exports[`Give View Connected should render project card with Donate Yield Button
               <div
                 class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
                   <p>
                     Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -560,13 +558,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
-                    </p>
-                    
-
-                  </div>
+                  Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
                 </p>
               </div>
               <div
@@ -685,13 +677,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Enables charities to create an endowment that makes better use of decentralized finance.
-                    </p>
-                    
-
-                  </div>
+                  Enables charities to create an endowment that makes better use of decentralized finance.
                 </p>
               </div>
               <div
@@ -810,13 +796,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
-                    </p>
-                    
-
-                  </div>
+                  Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
                 </p>
               </div>
               <div
@@ -935,13 +915,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
-                    </p>
-                    
-
-                  </div>
+                  Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
                 </p>
               </div>
               <div
@@ -1060,13 +1034,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      DAO whose mission is to redirect funds to social impact orgs
-                    </p>
-                    
-
-                  </div>
+                  DAO whose mission is to redirect funds to social impact orgs
                 </p>
               </div>
               <div
@@ -1442,13 +1410,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
-                                  </p>
-                                  
-
-                                </div>
+                                Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
                               </p>
                             </div>
                             <div
@@ -1567,13 +1529,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Enables charities to create an endowment that makes better use of decentralized finance.
-                                  </p>
-                                  
-
-                                </div>
+                                Enables charities to create an endowment that makes better use of decentralized finance.
                               </p>
                             </div>
                             <div
@@ -1692,13 +1648,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
-                                  </p>
-                                  
-
-                                </div>
+                                Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
                               </p>
                             </div>
                             <div
@@ -1817,13 +1767,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
-                                  </p>
-                                  
-
-                                </div>
+                                Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
                               </p>
                             </div>
                             <div
@@ -1942,13 +1886,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    DAO whose mission is to redirect funds to social impact orgs
-                                  </p>
-                                  
-
-                                </div>
+                                DAO whose mission is to redirect funds to social impact orgs
                               </p>
                             </div>
                             <div
@@ -2901,15 +2839,13 @@ exports[`Give View Disconnected should render project card with connect wallet b
               <div
                 class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                 >
                   <p>
                     Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>

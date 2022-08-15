@@ -2,12 +2,14 @@ import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
   PARAM_RECORD_COUNT,
   PARAM_SUBGRAPH,
   PARAM_TOKEN,
+  PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
@@ -138,10 +140,8 @@ const MetricsDashboard = () => {
         </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
-        <Grid item xs={12} paddingBottom={"29px"}>
-          {/* TODO disable comments when gOHM toggle can be added */}
-          {/* TODO shift to flexbox */}
-          {/* {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
+        <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
+          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
           <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
@@ -169,9 +169,9 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={2} sm={3} md={1} /> */}
+          <Grid item xs={2} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
-          {/* <Grid item xs={3} sm={4} md={3} lg={5} />
+          <Grid item xs={3} sm={4} md={3} lg={5} />
           <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
             <TabBar
               disableRouting
@@ -189,37 +189,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />} */}
-          {/* TODO delete after the gOHM toggle is added */}
-          {/* The TabBar is designed to work with a flexbox so that it contracts & expands as necessary.
-              With a Grid component, the width is more fixed, which leads to rendering issues. */}
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <TabBar
-              disableRouting
-              items={[
-                {
-                  label: "7d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(7)}`,
-                  isActive: isActiveRecordCount(7),
-                },
-                {
-                  label: "30d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(30)}`,
-                  isActive: isActiveRecordCount(30),
-                },
-                {
-                  label: "90d",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(90)}`,
-                  isActive: isActiveRecordCount(90),
-                },
-                {
-                  label: "Max",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
-                  isActive: isActiveRecordCount(1000),
-                },
-              ]}
-            />
-          </Box>
+          {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />}
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
@@ -241,6 +211,7 @@ const MetricsDashboard = () => {
           </Paper>
         </Grid>
       </Grid>
+      <SafariFooter />
     </>
   );
 };

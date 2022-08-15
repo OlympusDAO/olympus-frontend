@@ -1,4 +1,4 @@
-import { formatCurrencyTick, formatPercentTick } from "../Chart";
+import { formatCurrencyTick, formatPercentTick } from "src/components/Chart/Chart";
 
 describe("curency tick formatter", () => {
   test("shortens millions", () => {

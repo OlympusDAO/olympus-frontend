@@ -11,6 +11,7 @@ import {
   useOhmPrice as useOhmPriceFromSubgraph,
   useOhmTotalSupply,
   useTotalValueDeposited,
+  useTreasuryLiquidBackingPerGOhm,
   useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
@@ -105,7 +106,7 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
   return <Metric {..._props} />;
 };
 
-export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: t`gOHM Circulating Supply / Total`,
@@ -148,10 +149,8 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  // TODO to be re-enabled with new subgraph version
-  const liquidBackingPerGOhmCirculating = null;
+  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhm(props.subgraphUrl);
 
-  // We include circulating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
   const _props: MetricProps = {

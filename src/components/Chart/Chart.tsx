@@ -29,7 +29,7 @@ import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-const TICK_COUNT = 3;
+const TICK_COUNT = 5;
 const TICK_COUNT_EXPANDED = 5;
 const XAXIS_PADDING_RIGHT = 30;
 const TICK_INTERVAL_XAXIS = 10;
@@ -139,8 +139,22 @@ const renderAreaChart = (
   );
 };
 
-const getValidCSSSelector = (value: string): string => {
-  return value.replaceAll(" ", "-");
+/**
+ * Converts a given string (usually a data key) into a valid CSS selector.
+ *
+ * Failing to do this would result in the defined CSS style not matching against the
+ * data key.
+ *
+ * Invalid characters are: (space), (, )
+ *
+ * OlympusDAO/olympus-frontend#2133:
+ * We differentiate between the CSS styling for the expanded and standard charts,
+ * as closing the expanded chart modal in iOS Safari results in the standard
+ * chart being rendered in black. Most likely the CSS styles are unloaded and
+ * not restored by the standard chart component.
+ */
+const getValidCSSSelector = (value: string, isExpanded: boolean): string => {
+  return `color${isExpanded ? "-expanded" : ""}-${value.replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "")}`;
 };
 
 const renderStackedAreaChart = (
@@ -161,7 +175,7 @@ const renderStackedAreaChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -205,7 +219,7 @@ const renderStackedAreaChart = (
         <Area
           dataKey={value}
           stroke={dataKeyColors.get(value)}
-          fill={`url(#color-${getValidCSSSelector(value)})`}
+          fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
           fillOpacity={1}
           stackId="1"
         />
@@ -236,7 +250,7 @@ const renderComposedChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={`color-${getValidCSSSelector(value)}`} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -286,7 +300,7 @@ const renderComposedChart = (
           <Line
             dataKey={value}
             stroke={dataKeyColors.get(value)}
-            fill={`url(#color-${getValidCSSSelector(value)})`}
+            fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
             dot={false}
             strokeWidth={LINE_STROKE_WIDTH}
             strokeDasharray={"4 1"}
@@ -298,7 +312,7 @@ const renderComposedChart = (
         <Area
           dataKey={value}
           stroke={dataKeyColors.get(value)}
-          fill={`url(#color-${getValidCSSSelector(value)})`}
+          fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
           fillOpacity={1}
           stackId="1"
         />
@@ -423,10 +437,21 @@ const renderAreaDifferenceChart = (
   const intersections = getDataIntersections(data.slice().reverse(), dataKeys);
   const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKeys));
 
+  /**
+   * OlympusDAO/olympus-frontend#2133:
+   * We differentiate between the CSS styling for the expanded and standard charts,
+   * as closing the expanded chart modal in iOS Safari results in the standard
+   * chart being rendered in black. Most likely the CSS styles are unloaded and
+   * not restored by the standard chart component.
+   */
+  const getRangeCssSelector = () => {
+    return `color${isExpanded ? "-expanded" : ""}-${RANGE_KEY}`;
+  };
+
   return (
     <ComposedChart data={dataWithRange} margin={margin} onMouseMove={onMouseMove}>
       <defs>
-        <linearGradient id={RANGE_KEY}>
+        <linearGradient id={getRangeCssSelector()}>
           {intersections.length ? (
             intersections.map((intersection, index) => {
               const nextIntersection = intersections[index + 1];
@@ -491,7 +516,7 @@ const renderAreaDifferenceChart = (
           />
         }
       />
-      <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#range)`} />
+      <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#${getRangeCssSelector()})`} />
       {dataKeys.map((value: string) => {
         return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
       })}
