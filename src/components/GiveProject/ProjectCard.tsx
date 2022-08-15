@@ -1,4 +1,4 @@
-import "./ProjectCard.scss";
+import "src/components/GiveProject/ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
@@ -6,10 +6,10 @@ import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQue
 import { Skeleton } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
-import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
+import ReactMarkdown from "react-markdown";
 import { Link as RouterLink } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -484,10 +484,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     return owner + " - " + title;
   };
 
-  const getRenderedDetails = (shorten: boolean) => {
-    return {
-      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
-    };
+  const RenderedDetails = ({ shorten = false }) => {
+    const description = shorten ? shortDescription : <ReactMarkdown children={details} />;
+    return <>{description}</>;
   };
 
   /**
@@ -545,7 +544,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             )}
             <Grid item xs={12}>
               <Typography variant="body1" className="project-content">
-                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                <RenderedDetails shorten />
               </Typography>
             </Grid>
             <Grid item xs />
@@ -708,7 +707,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   </Link>
                 }
               >
-                <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                <Typography variant="body1" className="project-content">
+                  <RenderedDetails />
+                </Typography>
               </Paper>
             </Grid>
           </Grid>

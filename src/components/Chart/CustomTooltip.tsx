@@ -10,25 +10,31 @@ interface TooltipPayloadItem {
   value: number;
   payload: {
     timestamp: number;
+    block: number;
   };
 }
 
 /**
  * Renders the date in the format: "May 30, 2022"
  *
+ * As of OlympusDAO/olympus-frontend#2134, this also shows the block number.
+ *
  * @param item
  * @returns
  */
 const renderDate = (item: TooltipPayloadItem) => {
   const date = new Date(item.payload.timestamp * 1000);
+  const block = item.payload.block;
 
   return (
-    <Grid item xs={12} marginBottom="20px">
-      {date.toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
-      {date.toLocaleString("default", { month: "long" }).slice(1)}
-      &nbsp;
-      {date.getDate()}, {date.getFullYear()}
-    </Grid>
+    <>
+      <Grid item xs={12} marginBottom="20px">
+        {date.toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
+        {date.toLocaleString("default", { month: "long" }).slice(1)}
+        &nbsp;
+        {date.getDate()}, {date.getFullYear()} - Block {block.toString()}
+      </Grid>
+    </>
   );
 };
 

@@ -176,12 +176,12 @@ export const useTreasuryLiquidBackingPerOhmFloating = (subgraphUrl?: string) =>
     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
   );
 
-// export const useTreasuryLiquidBackingPerGOhm = (subgraphUrl?: string) =>
-//   useMetricsBarLatestOnlyQuery(
-//     { endpoint: subgraphUrl || getSubgraphUrl() },
-//     {},
-//     { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhm, ...QUERY_OPTIONS },
-//   );
+export const useTreasuryLiquidBackingPerGOhm = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhm, ...QUERY_OPTIONS },
+  );
 
 export const useOhmCirculatingSupply = (subgraphUrl?: string) =>
   useMetricsBarLatestOnlyQuery(
