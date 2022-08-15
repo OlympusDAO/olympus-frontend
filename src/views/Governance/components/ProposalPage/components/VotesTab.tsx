@@ -18,11 +18,13 @@ import {
   TertiaryButton,
   VoteBreakdown,
 } from "@olympusdao/component-library";
+import { BigNumber } from "ethers";
+import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useGohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-// import { PrimaryButton, Radio, VoteBreakdown } from "@olympusdao/component-library";
+import { useVote } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
@@ -31,6 +33,8 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const networks = useTestableNetworks();
   const { isConnected } = useAccount();
   const gohmBalance = useGohmBalance()[networks.MAINNET].data;
+  const [vote, setVote] = useState<string>("");
+  const submitVote = useVote();
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -38,6 +42,10 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     lineHeight: "18px",
     fontWeight: "400",
   }));
+
+  const handleVoteSubmission = () => {
+    submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote === "yes" } });
+  };
 
   return (
     <Paper fullWidth>
@@ -47,18 +55,26 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
             Cast your vote
           </Typography>
         </Box>
-        {isConnected && <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} OHM`} />}
+        {isConnected && <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} gOHM`} />}
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <SecondaryButton sx={{ minWidth: "120px" }} disabled={!isConnected || !proposal.isActive}>
+          <SecondaryButton
+            sx={{ minWidth: "120px" }}
+            disabled={!isConnected || !proposal.isActive}
+            onClick={() => setVote("yes")}
+          >
             Yes
           </SecondaryButton>
-          <TertiaryButton sx={{ minWidth: "120px" }} disabled={!isConnected || !proposal.isActive}>
+          <TertiaryButton
+            sx={{ minWidth: "120px" }}
+            disabled={!isConnected || !proposal.isActive}
+            onClick={() => setVote("no")}
+          >
             No
           </TertiaryButton>
         </Box>
         <WalletConnectedGuard>
           <Box display="flex" flexDirection="row" justifyContent="center">
-            <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive}>
+            <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
               Vote
             </PrimaryButton>
           </Box>
