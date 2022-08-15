@@ -61,7 +61,7 @@ export type MetricComponentsTokenSummary = {
 };
 
 export type BaseMetric = {
-  timestamp: number;
+  date: string;
 } & Record<string, unknown>;
 
 /**
@@ -124,8 +124,8 @@ export const getKeysTokenSummary = (
   const updatedData = metrics.slice() as (BaseMetric & MetricComponentsTokenSummary)[];
 
   updatedData.forEach((metric: BaseMetric) => {
-    if (!objectHasProperty(metric, "timestamp")) {
-      throw new Error("Unable to access timestamp property in metrics element");
+    if (!objectHasProperty(metric, "date")) {
+      throw new Error("Unable to access date property in metrics element");
     }
 
     keys.forEach((key, index) => {

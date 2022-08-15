@@ -123,3 +123,22 @@ query ProtocolOwnedLiquidityComponents($records: Int = 100) {
     }
   }
 }
+
+query TokenRecords($records: Int = 1000) {
+  tokenRecords(first: $records, orderBy: date, orderDirection: desc) {
+    block
+    date
+    id
+    token
+    tokenAddress
+    source
+    sourceAddress
+    balance
+    rate
+    multiplier
+    value
+    category
+    isLiquid
+    isBluechip
+  }
+}

@@ -293,9 +293,9 @@ export type ProtocolMetric = {
   nextDistributedOhm: Scalars["BigDecimal"];
   nextEpochRebase: Scalars["BigDecimal"];
   ohmCirculatingSupply: Scalars["BigDecimal"];
-  ohmCirculatingSupplyBreakdown: TokenRecords;
+  ohmCirculatingSupplyBreakdown: TokenRecordsWrapper;
   ohmFloatingSupply: Scalars["BigDecimal"];
-  ohmFloatingSupplyBreakdown: TokenRecords;
+  ohmFloatingSupplyBreakdown: TokenRecordsWrapper;
   ohmPrice: Scalars["BigDecimal"];
   runway2dot5k?: Maybe<Scalars["BigDecimal"]>;
   runway5k?: Maybe<Scalars["BigDecimal"]>;
@@ -312,70 +312,70 @@ export type ProtocolMetric = {
   totalSupply: Scalars["BigDecimal"];
   totalValueLocked: Scalars["BigDecimal"];
   treasuryCVXMarketValue: Scalars["BigDecimal"];
-  treasuryCVXMarketValueComponents: TokenRecords;
+  treasuryCVXMarketValueComponents: TokenRecordsWrapper;
   treasuryDaiMarketValue: Scalars["BigDecimal"];
-  treasuryDaiMarketValueComponents: TokenRecords;
+  treasuryDaiMarketValueComponents: TokenRecordsWrapper;
   treasuryDaiRiskFreeValue: Scalars["BigDecimal"];
-  treasuryDaiRiskFreeValueComponents: TokenRecords;
+  treasuryDaiRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryFXSMarketValue: Scalars["BigDecimal"];
-  treasuryFXSMarketValueComponents: TokenRecords;
+  treasuryFXSMarketValueComponents: TokenRecordsWrapper;
   treasuryFeiMarketValue: Scalars["BigDecimal"];
-  treasuryFeiMarketValueComponents: TokenRecords;
+  treasuryFeiMarketValueComponents: TokenRecordsWrapper;
   treasuryFeiRiskFreeValue: Scalars["BigDecimal"];
-  treasuryFeiRiskFreeValueComponents: TokenRecords;
+  treasuryFeiRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryFraxMarketValue: Scalars["BigDecimal"];
-  treasuryFraxMarketValueComponents: TokenRecords;
+  treasuryFraxMarketValueComponents: TokenRecordsWrapper;
   treasuryFraxRiskFreeValue: Scalars["BigDecimal"];
-  treasuryFraxRiskFreeValueComponents: TokenRecords;
+  treasuryFraxRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryLPValue: Scalars["BigDecimal"];
-  treasuryLPValueComponents: TokenRecords;
+  treasuryLPValueComponents: TokenRecordsWrapper;
   treasuryLiquidBacking: Scalars["BigDecimal"];
-  treasuryLiquidBackingComponents: TokenRecords;
+  treasuryLiquidBackingComponents: TokenRecordsWrapper;
   treasuryLiquidBackingPerGOhm: Scalars["BigDecimal"];
   treasuryLiquidBackingPerOhmCirculating: Scalars["BigDecimal"];
   treasuryLiquidBackingPerOhmFloating: Scalars["BigDecimal"];
   treasuryLiquidBackingProtocolOwnedLiquidity: Scalars["BigDecimal"];
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents: TokenRecords;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents: TokenRecordsWrapper;
   treasuryLiquidBackingStable: Scalars["BigDecimal"];
-  treasuryLiquidBackingStableComponents: TokenRecords;
+  treasuryLiquidBackingStableComponents: TokenRecordsWrapper;
   treasuryLiquidBackingVolatile: Scalars["BigDecimal"];
-  treasuryLiquidBackingVolatileComponents: TokenRecords;
+  treasuryLiquidBackingVolatileComponents: TokenRecordsWrapper;
   treasuryLusdMarketValue: Scalars["BigDecimal"];
-  treasuryLusdMarketValueComponents: TokenRecords;
+  treasuryLusdMarketValueComponents: TokenRecordsWrapper;
   treasuryLusdRiskFreeValue: Scalars["BigDecimal"];
-  treasuryLusdRiskFreeValueComponents: TokenRecords;
+  treasuryLusdRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryMarketValue: Scalars["BigDecimal"];
-  treasuryMarketValueComponents: TokenRecords;
+  treasuryMarketValueComponents: TokenRecordsWrapper;
   treasuryOhmDaiPOL: Scalars["BigDecimal"];
   treasuryOhmEthPOL: Scalars["BigDecimal"];
   treasuryOhmFraxPOL: Scalars["BigDecimal"];
   treasuryOhmLusdPOL: Scalars["BigDecimal"];
   treasuryOtherMarketValue: Scalars["BigDecimal"];
-  treasuryOtherMarketValueComponents: TokenRecords;
+  treasuryOtherMarketValueComponents: TokenRecordsWrapper;
   treasuryProtocolOwnedLiquidityBacking: Scalars["BigDecimal"];
-  treasuryProtocolOwnedLiquidityBackingComponents: TokenRecords;
+  treasuryProtocolOwnedLiquidityBackingComponents: TokenRecordsWrapper;
   treasuryRiskFreeValue: Scalars["BigDecimal"];
-  treasuryRiskFreeValueComponents: TokenRecords;
+  treasuryRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryStableBacking: Scalars["BigDecimal"];
-  treasuryStableBackingComponents: TokenRecords;
+  treasuryStableBackingComponents: TokenRecordsWrapper;
   treasuryStableValue: Scalars["BigDecimal"];
-  treasuryStableValueComponents: TokenRecords;
+  treasuryStableValueComponents: TokenRecordsWrapper;
   treasuryTotalBacking: Scalars["BigDecimal"];
-  treasuryTotalBackingComponents: TokenRecords;
+  treasuryTotalBackingComponents: TokenRecordsWrapper;
   treasuryUstMarketValue: Scalars["BigDecimal"];
-  treasuryUstMarketValueComponents: TokenRecords;
+  treasuryUstMarketValueComponents: TokenRecordsWrapper;
   treasuryVolatileBacking: Scalars["BigDecimal"];
-  treasuryVolatileBackingComponents: TokenRecords;
+  treasuryVolatileBackingComponents: TokenRecordsWrapper;
   treasuryVolatileValue: Scalars["BigDecimal"];
-  treasuryVolatileValueComponents: TokenRecords;
+  treasuryVolatileValueComponents: TokenRecordsWrapper;
   treasuryWBTCMarketValue: Scalars["BigDecimal"];
-  treasuryWBTCMarketValueComponents: TokenRecords;
+  treasuryWBTCMarketValueComponents: TokenRecordsWrapper;
   treasuryWETHMarketValue: Scalars["BigDecimal"];
-  treasuryWETHMarketValueComponents: TokenRecords;
+  treasuryWETHMarketValueComponents: TokenRecordsWrapper;
   treasuryWETHRiskFreeValue: Scalars["BigDecimal"];
-  treasuryWETHRiskFreeValueComponents: TokenRecords;
+  treasuryWETHRiskFreeValueComponents: TokenRecordsWrapper;
   treasuryXsushiMarketValue: Scalars["BigDecimal"];
-  treasuryXsushiMarketValueComponents: TokenRecords;
+  treasuryXsushiMarketValueComponents: TokenRecordsWrapper;
 };
 
 export type ProtocolMetric_Filter = {
@@ -455,7 +455,7 @@ export type ProtocolMetric_Filter = {
   nextEpochRebase_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   ohmCirculatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
   ohmCirculatingSupplyBreakdown?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_?: InputMaybe<TokenRecords_Filter>;
+  ohmCirculatingSupplyBreakdown_?: InputMaybe<TokenRecordsWrapper_Filter>;
   ohmCirculatingSupplyBreakdown_contains?: InputMaybe<Scalars["String"]>;
   ohmCirculatingSupplyBreakdown_contains_nocase?: InputMaybe<Scalars["String"]>;
   ohmCirculatingSupplyBreakdown_ends_with?: InputMaybe<Scalars["String"]>;
@@ -484,7 +484,7 @@ export type ProtocolMetric_Filter = {
   ohmCirculatingSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   ohmFloatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
   ohmFloatingSupplyBreakdown?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_?: InputMaybe<TokenRecords_Filter>;
+  ohmFloatingSupplyBreakdown_?: InputMaybe<TokenRecordsWrapper_Filter>;
   ohmFloatingSupplyBreakdown_contains?: InputMaybe<Scalars["String"]>;
   ohmFloatingSupplyBreakdown_contains_nocase?: InputMaybe<Scalars["String"]>;
   ohmFloatingSupplyBreakdown_ends_with?: InputMaybe<Scalars["String"]>;
@@ -645,7 +645,7 @@ export type ProtocolMetric_Filter = {
   totalValueLocked_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryCVXMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryCVXMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryCVXMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryCVXMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryCVXMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryCVXMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -674,7 +674,7 @@ export type ProtocolMetric_Filter = {
   treasuryCVXMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryDaiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryDaiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryDaiMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryDaiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryDaiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryDaiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -703,7 +703,7 @@ export type ProtocolMetric_Filter = {
   treasuryDaiMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryDaiRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryDaiRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryDaiRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryDaiRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryDaiRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryDaiRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -732,7 +732,7 @@ export type ProtocolMetric_Filter = {
   treasuryDaiRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryFXSMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryFXSMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryFXSMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryFXSMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryFXSMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryFXSMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -761,7 +761,7 @@ export type ProtocolMetric_Filter = {
   treasuryFXSMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryFeiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryFeiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryFeiMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryFeiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryFeiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryFeiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -790,7 +790,7 @@ export type ProtocolMetric_Filter = {
   treasuryFeiMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryFeiRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryFeiRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryFeiRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryFeiRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryFeiRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryFeiRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -819,7 +819,7 @@ export type ProtocolMetric_Filter = {
   treasuryFeiRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryFraxMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryFraxMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryFraxMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryFraxMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryFraxMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryFraxMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -848,7 +848,7 @@ export type ProtocolMetric_Filter = {
   treasuryFraxMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryFraxRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryFraxRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryFraxRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryFraxRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryFraxRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryFraxRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -877,7 +877,7 @@ export type ProtocolMetric_Filter = {
   treasuryFraxRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLPValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLPValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLPValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLPValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLPValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLPValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -906,7 +906,7 @@ export type ProtocolMetric_Filter = {
   treasuryLPValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBacking?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLiquidBackingComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -952,7 +952,7 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBackingPerOhmFloating_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBackingProtocolOwnedLiquidity?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingProtocolOwnedLiquidityComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingProtocolOwnedLiquidityComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingProtocolOwnedLiquidityComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -981,7 +981,7 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBackingProtocolOwnedLiquidity_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBackingStable?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingStableComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingStableComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLiquidBackingStableComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingStableComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingStableComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1010,7 +1010,7 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBackingStable_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLiquidBackingVolatile?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLiquidBackingVolatileComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLiquidBackingVolatileComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLiquidBackingVolatileComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingVolatileComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLiquidBackingVolatileComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1046,7 +1046,7 @@ export type ProtocolMetric_Filter = {
   treasuryLiquidBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLusdMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLusdMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLusdMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLusdMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLusdMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLusdMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1075,7 +1075,7 @@ export type ProtocolMetric_Filter = {
   treasuryLusdMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryLusdRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryLusdRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryLusdRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryLusdRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryLusdRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryLusdRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1104,7 +1104,7 @@ export type ProtocolMetric_Filter = {
   treasuryLusdRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1165,7 +1165,7 @@ export type ProtocolMetric_Filter = {
   treasuryOhmLusdPOL_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryOtherMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryOtherMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryOtherMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryOtherMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryOtherMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryOtherMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1194,7 +1194,7 @@ export type ProtocolMetric_Filter = {
   treasuryOtherMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryProtocolOwnedLiquidityBacking?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryProtocolOwnedLiquidityBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryProtocolOwnedLiquidityBackingComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryProtocolOwnedLiquidityBackingComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryProtocolOwnedLiquidityBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryProtocolOwnedLiquidityBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1223,7 +1223,7 @@ export type ProtocolMetric_Filter = {
   treasuryProtocolOwnedLiquidityBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1252,7 +1252,7 @@ export type ProtocolMetric_Filter = {
   treasuryRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryStableBacking?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryStableBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryStableBackingComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryStableBackingComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryStableBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryStableBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1281,7 +1281,7 @@ export type ProtocolMetric_Filter = {
   treasuryStableBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryStableValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryStableValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryStableValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryStableValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryStableValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryStableValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1310,7 +1310,7 @@ export type ProtocolMetric_Filter = {
   treasuryStableValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryTotalBacking?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryTotalBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryTotalBackingComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryTotalBackingComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryTotalBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryTotalBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1339,7 +1339,7 @@ export type ProtocolMetric_Filter = {
   treasuryTotalBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryUstMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryUstMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryUstMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryUstMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryUstMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryUstMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1368,7 +1368,7 @@ export type ProtocolMetric_Filter = {
   treasuryUstMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryVolatileBacking?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryVolatileBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryVolatileBackingComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryVolatileBackingComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryVolatileBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryVolatileBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1397,7 +1397,7 @@ export type ProtocolMetric_Filter = {
   treasuryVolatileBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryVolatileValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryVolatileValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryVolatileValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryVolatileValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryVolatileValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryVolatileValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1426,7 +1426,7 @@ export type ProtocolMetric_Filter = {
   treasuryVolatileValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryWBTCMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryWBTCMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryWBTCMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryWBTCMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryWBTCMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryWBTCMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1455,7 +1455,7 @@ export type ProtocolMetric_Filter = {
   treasuryWBTCMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryWETHMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryWETHMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryWETHMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryWETHMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryWETHMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryWETHMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1484,7 +1484,7 @@ export type ProtocolMetric_Filter = {
   treasuryWETHMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryWETHRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryWETHRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryWETHRiskFreeValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryWETHRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryWETHRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryWETHRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1513,7 +1513,7 @@ export type ProtocolMetric_Filter = {
   treasuryWETHRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   treasuryXsushiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
   treasuryXsushiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
+  treasuryXsushiMarketValueComponents_?: InputMaybe<TokenRecordsWrapper_Filter>;
   treasuryXsushiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
   treasuryXsushiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
   treasuryXsushiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
@@ -1654,7 +1654,9 @@ export type Query = {
   rebases: Array<Rebase>;
   token?: Maybe<Token>;
   tokenRecord?: Maybe<TokenRecord>;
-  tokenRecords: Array<TokenRecords>;
+  tokenRecords: Array<TokenRecord>;
+  tokenRecordsWrapper?: Maybe<TokenRecordsWrapper>;
+  tokenRecordsWrappers: Array<TokenRecordsWrapper>;
   tokens: Array<Token>;
 };
 
@@ -1757,11 +1759,27 @@ export type QueryTokenRecordArgs = {
 export type QueryTokenRecordsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TokenRecords_OrderBy>;
+  orderBy?: InputMaybe<TokenRecord_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars["Int"]>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<TokenRecords_Filter>;
+  where?: InputMaybe<TokenRecord_Filter>;
+};
+
+export type QueryTokenRecordsWrapperArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars["ID"];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryTokenRecordsWrappersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<TokenRecordsWrapper_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<TokenRecordsWrapper_Filter>;
 };
 
 export type QueryTokensArgs = {
@@ -1884,7 +1902,9 @@ export type Subscription = {
   rebases: Array<Rebase>;
   token?: Maybe<Token>;
   tokenRecord?: Maybe<TokenRecord>;
-  tokenRecords: Array<TokenRecords>;
+  tokenRecords: Array<TokenRecord>;
+  tokenRecordsWrapper?: Maybe<TokenRecordsWrapper>;
+  tokenRecordsWrappers: Array<TokenRecordsWrapper>;
   tokens: Array<Token>;
 };
 
@@ -1987,11 +2007,27 @@ export type SubscriptionTokenRecordArgs = {
 export type SubscriptionTokenRecordsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TokenRecords_OrderBy>;
+  orderBy?: InputMaybe<TokenRecord_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars["Int"]>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<TokenRecords_Filter>;
+  where?: InputMaybe<TokenRecord_Filter>;
+};
+
+export type SubscriptionTokenRecordsWrapperArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars["ID"];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionTokenRecordsWrappersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<TokenRecordsWrapper_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<TokenRecordsWrapper_Filter>;
 };
 
 export type SubscriptionTokensArgs = {
@@ -2012,7 +2048,12 @@ export type Token = {
 export type TokenRecord = {
   __typename?: "TokenRecord";
   balance: Scalars["BigDecimal"];
+  block: Scalars["BigInt"];
+  category: Scalars["String"];
+  date: Scalars["String"];
   id: Scalars["ID"];
+  isBluechip: Scalars["Boolean"];
+  isLiquid: Scalars["Boolean"];
   multiplier: Scalars["BigDecimal"];
   rate: Scalars["BigDecimal"];
   source: Scalars["String"];
@@ -2033,6 +2074,54 @@ export type TokenRecord_Filter = {
   balance_lte?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  block?: InputMaybe<Scalars["BigInt"]>;
+  block_gt?: InputMaybe<Scalars["BigInt"]>;
+  block_gte?: InputMaybe<Scalars["BigInt"]>;
+  block_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  block_lt?: InputMaybe<Scalars["BigInt"]>;
+  block_lte?: InputMaybe<Scalars["BigInt"]>;
+  block_not?: InputMaybe<Scalars["BigInt"]>;
+  block_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  category?: InputMaybe<Scalars["String"]>;
+  category_contains?: InputMaybe<Scalars["String"]>;
+  category_contains_nocase?: InputMaybe<Scalars["String"]>;
+  category_ends_with?: InputMaybe<Scalars["String"]>;
+  category_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_gt?: InputMaybe<Scalars["String"]>;
+  category_gte?: InputMaybe<Scalars["String"]>;
+  category_in?: InputMaybe<Array<Scalars["String"]>>;
+  category_lt?: InputMaybe<Scalars["String"]>;
+  category_lte?: InputMaybe<Scalars["String"]>;
+  category_not?: InputMaybe<Scalars["String"]>;
+  category_not_contains?: InputMaybe<Scalars["String"]>;
+  category_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  category_not_ends_with?: InputMaybe<Scalars["String"]>;
+  category_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  category_not_starts_with?: InputMaybe<Scalars["String"]>;
+  category_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_starts_with?: InputMaybe<Scalars["String"]>;
+  category_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date?: InputMaybe<Scalars["String"]>;
+  date_contains?: InputMaybe<Scalars["String"]>;
+  date_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_ends_with?: InputMaybe<Scalars["String"]>;
+  date_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_gt?: InputMaybe<Scalars["String"]>;
+  date_gte?: InputMaybe<Scalars["String"]>;
+  date_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_lt?: InputMaybe<Scalars["String"]>;
+  date_lte?: InputMaybe<Scalars["String"]>;
+  date_not?: InputMaybe<Scalars["String"]>;
+  date_not_contains?: InputMaybe<Scalars["String"]>;
+  date_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_not_starts_with?: InputMaybe<Scalars["String"]>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_starts_with?: InputMaybe<Scalars["String"]>;
+  date_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
   id_gte?: InputMaybe<Scalars["ID"]>;
@@ -2041,6 +2130,14 @@ export type TokenRecord_Filter = {
   id_lte?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_not_in?: InputMaybe<Array<Scalars["ID"]>>;
+  isBluechip?: InputMaybe<Scalars["Boolean"]>;
+  isBluechip_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isBluechip_not?: InputMaybe<Scalars["Boolean"]>;
+  isBluechip_not_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isLiquid?: InputMaybe<Scalars["Boolean"]>;
+  isLiquid_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isLiquid_not?: InputMaybe<Scalars["Boolean"]>;
+  isLiquid_not_in?: InputMaybe<Array<Scalars["Boolean"]>>;
   multiplier?: InputMaybe<Scalars["BigDecimal"]>;
   multiplier_gt?: InputMaybe<Scalars["BigDecimal"]>;
   multiplier_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -2149,7 +2246,12 @@ export type TokenRecord_Filter = {
 
 export enum TokenRecord_OrderBy {
   Balance = "balance",
+  Block = "block",
+  Category = "category",
+  Date = "date",
   Id = "id",
+  IsBluechip = "isBluechip",
+  IsLiquid = "isLiquid",
   Multiplier = "multiplier",
   Rate = "rate",
   Source = "source",
@@ -2159,15 +2261,15 @@ export enum TokenRecord_OrderBy {
   Value = "value",
 }
 
-export type TokenRecords = {
-  __typename?: "TokenRecords";
+export type TokenRecordsWrapper = {
+  __typename?: "TokenRecordsWrapper";
   balance: Scalars["BigDecimal"];
   id: Scalars["ID"];
   records: Array<TokenRecord>;
   value: Scalars["BigDecimal"];
 };
 
-export type TokenRecordsRecordsArgs = {
+export type TokenRecordsWrapperRecordsArgs = {
   first?: InputMaybe<Scalars["Int"]>;
   orderBy?: InputMaybe<TokenRecord_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
@@ -2175,7 +2277,7 @@ export type TokenRecordsRecordsArgs = {
   where?: InputMaybe<TokenRecord_Filter>;
 };
 
-export type TokenRecords_Filter = {
+export type TokenRecordsWrapper_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   balance?: InputMaybe<Scalars["BigDecimal"]>;
@@ -2211,7 +2313,7 @@ export type TokenRecords_Filter = {
   value_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
 };
 
-export enum TokenRecords_OrderBy {
+export enum TokenRecordsWrapper_OrderBy {
   Balance = "balance",
   Id = "id",
   Records = "records",
@@ -2354,27 +2456,27 @@ export type MarketValueMetricsComponentsQuery = {
     timestamp: number;
     timestampISO8901: string;
     treasuryStableValueComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryVolatileValueComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLPValueComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingStableComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingVolatileComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
     treasuryLiquidBackingProtocolOwnedLiquidityComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
     };
   }>;
@@ -2393,7 +2495,7 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
     timestamp: number;
     timestampISO8901: string;
     treasuryLPValueComponents: {
-      __typename?: "TokenRecords";
+      __typename?: "TokenRecordsWrapper";
       value: number;
       records: Array<{
         __typename?: "TokenRecord";
@@ -2408,6 +2510,31 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
         value: number;
       }>;
     };
+  }>;
+};
+
+export type TokenRecordsQueryVariables = Exact<{
+  records?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type TokenRecordsQuery = {
+  __typename?: "Query";
+  tokenRecords: Array<{
+    __typename?: "TokenRecord";
+    block: number;
+    date: string;
+    id: string;
+    token: string;
+    tokenAddress: string;
+    source: string;
+    sourceAddress: string;
+    balance: number;
+    rate: number;
+    multiplier: number;
+    value: number;
+    category: string;
+    isLiquid: boolean;
+    isBluechip: boolean;
   }>;
 };
 
@@ -2616,6 +2743,41 @@ export const useProtocolOwnedLiquidityComponentsQuery = <
       dataSource.endpoint,
       dataSource.fetchParams || {},
       ProtocolOwnedLiquidityComponentsDocument,
+      variables,
+    ),
+    options,
+  );
+export const TokenRecordsDocument = `
+    query TokenRecords($records: Int = 1000) {
+  tokenRecords(first: $records, orderBy: date, orderDirection: desc) {
+    block
+    date
+    id
+    token
+    tokenAddress
+    source
+    sourceAddress
+    balance
+    rate
+    multiplier
+    value
+    category
+    isLiquid
+    isBluechip
+  }
+}
+    `;
+export const useTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: TokenRecordsQueryVariables,
+  options?: UseQueryOptions<TokenRecordsQuery, TError, TData>,
+) =>
+  useQuery<TokenRecordsQuery, TError, TData>(
+    variables === undefined ? ["TokenRecords"] : ["TokenRecords", variables],
+    fetcher<TokenRecordsQuery, TokenRecordsQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      TokenRecordsDocument,
       variables,
     ),
     options,
