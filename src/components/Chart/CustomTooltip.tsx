@@ -23,7 +23,7 @@ interface TooltipPayloadItem {
  * @returns
  */
 const renderDate = (item: TooltipPayloadItem) => {
-  const date = new Date(item.payload.date.slice(0, 10));
+  const date = new Date(item.payload.date);
   const block = item.payload.block;
 
   return (

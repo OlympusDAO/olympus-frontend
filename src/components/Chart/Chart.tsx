@@ -64,7 +64,7 @@ export const formatDateMonthTick = (value: unknown): string => {
 
   if (!valueNum) return "";
 
-  return format(new Date(valueNum * 1000), "MMM dd");
+  return format(new Date(valueNum), "MMM dd");
 };
 
 const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
