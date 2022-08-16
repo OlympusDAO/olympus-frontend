@@ -292,6 +292,7 @@ type LiquidBackingProps = {
 
 type DateTokenSummary = {
   date: string;
+  timestamp: number;
   block: number;
   tokens: TokenMap;
 };
@@ -313,6 +314,7 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
   filteredRecords.forEach(record => {
     const dateSummary = dateSummaryMap.get(record.date) || {
       date: record.date,
+      timestamp: new Date(record.date).getTime(), // We inject the timestamp, as it's used by the Chart component
       block: record.block,
       tokens: {} as TokenMap,
     };
@@ -432,8 +434,8 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
     setDataKeyColorsMap(tempColorsMap);
 
     const tempTotal =
-      byDateTokenSummary.length > 0
-        ? Object.values(byDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
+      newDateTokenSummary.length > 0
+        ? Object.values(newDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
             return +previousValue + parseFloat(token.value);
           }, 0)
         : 0;
