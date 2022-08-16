@@ -9,7 +9,7 @@ export type TokenRow = {
   value: string;
 };
 
-type TokenMap = {
+export type TokenMap = {
   [key: string]: TokenRow;
 };
 
@@ -61,7 +61,7 @@ export type MetricComponentsTokenSummary = {
 };
 
 export type BaseMetric = {
-  date: string;
+  timestamp: number;
 } & Record<string, unknown>;
 
 /**
@@ -204,7 +204,7 @@ export const getTokensFromKey = (
  * @returns
  */
 export const getDataKeysFromTokens = (tokens: string[], key: string): string[] => {
-  return tokens.map(value => `${key}.tokens.${value}.value`);
+  return tokens.map(value => `tokens.${value}.value`);
 };
 
 /**

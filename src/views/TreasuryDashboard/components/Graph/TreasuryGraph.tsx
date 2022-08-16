@@ -4,24 +4,15 @@ import { CSSProperties, useMemo, useState } from "react";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
+import { TokenRecordsDocument, TokenRecordsQuery, useTokenRecordsQuery } from "src/generated/graphql";
 import {
-  KeyMetricsDocument,
-  MarketValueMetricsDocument,
-  TokenRecordsDocument,
-  useKeyMetricsQuery,
-  useMarketValueMetricsQuery,
-  useTokenRecordsQuery,
-} from "src/generated/graphql";
-import { formatCurrency } from "src/helpers";
-import {
-  BaseMetric,
   getBulletpointStylesMap,
   getCategoriesMap,
   getDataKeyColorsMap,
   getDataKeysFromTokens,
-  MetricComponentsTokenSummary,
+  TokenMap,
+  TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
-import { PARAM_TOKEN_OHM } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -74,65 +65,65 @@ type GraphProps = {
  *
  * @returns
  */
-export const LiquidBackingPerOhmComparisonGraph = ({
-  subgraphUrl,
-  activeToken,
-  count = DEFAULT_RECORDS_COUNT,
-}: GraphProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument, subgraphUrl);
+// export const LiquidBackingPerOhmComparisonGraph = ({
+//   subgraphUrl,
+//   activeToken,
+//   count = DEFAULT_RECORDS_COUNT,
+// }: GraphProps) => {
+//   const queryExplorerUrl = getSubgraphQueryExplorerUrl(KeyMetricsDocument, subgraphUrl);
 
-  const theme = useTheme();
+//   const theme = useTheme();
 
-  const isActiveTokenOHM = (): boolean => {
-    return activeToken === PARAM_TOKEN_OHM;
-  };
+//   const isActiveTokenOHM = (): boolean => {
+//     return activeToken === PARAM_TOKEN_OHM;
+//   };
 
-  const dataKeys: string[] = isActiveTokenOHM()
-    ? ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]
-    : ["gOhmPrice", "treasuryLiquidBackingPerGOhm"];
-  const itemNames: string[] = isActiveTokenOHM()
-    ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
-    : [t`gOHM Price`, t`Liquid Backing per gOHM`];
+//   const dataKeys: string[] = isActiveTokenOHM()
+//     ? ["ohmPrice", "treasuryLiquidBackingPerOhmFloating"]
+//     : ["gOhmPrice", "treasuryLiquidBackingPerGOhm"];
+//   const itemNames: string[] = isActiveTokenOHM()
+//     ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
+//     : [t`gOHM Price`, t`Liquid Backing per gOHM`];
 
-  const { data } = useKeyMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
+//   const { data } = useKeyMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
-  // No caching needed, as these are static categories
-  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
-  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+//   // No caching needed, as these are static categories
+//   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+//   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+//   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
 
-  return (
-    <Chart
-      type={ChartType.AreaDifference}
-      data={data ? data.protocolMetrics : []}
-      dataKeys={dataKeys}
-      dataKeyColors={colorsMap}
-      headerText={isActiveTokenOHM() ? t`OHM Backing` : t`gOHM Backing`}
-      headerSubText={`${
-        data &&
-        formatCurrency(
-          isActiveTokenOHM()
-            ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
-            : data.protocolMetrics[0].treasuryLiquidBackingPerGOhm,
-          2,
-        )
-      }`}
-      dataFormat={DataFormat.Currency}
-      dataKeyBulletpointStyles={bulletpointStylesMap}
-      dataKeyLabels={categoriesMap}
-      margin={{ left: 30 }}
-      infoTooltipMessage={
-        isActiveTokenOHM()
-          ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
-          : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`
-      }
-      isLoading={!data}
-      itemDecimals={2}
-      subgraphQueryUrl={queryExplorerUrl}
-      tickStyle={getTickStyle(theme)}
-    />
-  );
-};
+//   return (
+//     <Chart
+//       type={ChartType.AreaDifference}
+//       data={data ? data.protocolMetrics : []}
+//       dataKeys={dataKeys}
+//       dataKeyColors={colorsMap}
+//       headerText={isActiveTokenOHM() ? t`OHM Backing` : t`gOHM Backing`}
+//       headerSubText={`${
+//         data &&
+//         formatCurrency(
+//           isActiveTokenOHM()
+//             ? data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating
+//             : data.protocolMetrics[0].treasuryLiquidBackingPerGOhm,
+//           2,
+//         )
+//       }`}
+//       dataFormat={DataFormat.Currency}
+//       dataKeyBulletpointStyles={bulletpointStylesMap}
+//       dataKeyLabels={categoriesMap}
+//       margin={{ left: 30 }}
+//       infoTooltipMessage={
+//         isActiveTokenOHM()
+//           ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
+//           : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`
+//       }
+//       isLoading={!data}
+//       itemDecimals={2}
+//       subgraphQueryUrl={queryExplorerUrl}
+//       tickStyle={getTickStyle(theme)}
+//     />
+//   );
+// };
 
 /**
  * Displays the market value chart and assets table together, along with a toggle
@@ -229,72 +220,107 @@ type LiquidBackingProps = {
   isLiquidBackingActive: boolean;
 };
 
-export const MarketValueGraph = ({
-  subgraphUrl,
-  count = DEFAULT_RECORDS_COUNT,
-  onMouseMove,
-  isLiquidBackingActive,
-}: GraphProps & LiquidBackingProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, subgraphUrl);
+// export const MarketValueGraph = ({
+//   subgraphUrl,
+//   count = DEFAULT_RECORDS_COUNT,
+//   onMouseMove,
+//   isLiquidBackingActive,
+// }: GraphProps & LiquidBackingProps) => {
+//   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, subgraphUrl);
 
-  const theme = useTheme();
+//   const theme = useTheme();
 
-  // What is displayed in the chart differs based on the value of isLiquidBackingActive
-  const itemNames: string[] = [
-    t`Stablecoins`,
-    t`Volatile Assets`,
-    t`Protocol-Owned Liquidity`,
-    ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
-  ];
-  const dataKeys: string[] = isLiquidBackingActive
-    ? [
-        "treasuryLiquidBackingStable",
-        "treasuryLiquidBackingVolatile",
-        "treasuryLiquidBackingProtocolOwnedLiquidity",
-        "treasuryMarketValue",
-      ]
-    : ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue", "treasuryLiquidBacking"];
-  // The keys to display as a line
-  const composedLineDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
+//   // What is displayed in the chart differs based on the value of isLiquidBackingActive
+//   const itemNames: string[] = [
+//     t`Stablecoins`,
+//     t`Volatile Assets`,
+//     t`Protocol-Owned Liquidity`,
+//     ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
+//   ];
+//   const dataKeys: string[] = isLiquidBackingActive
+//     ? [
+//         "treasuryLiquidBackingStable",
+//         "treasuryLiquidBackingVolatile",
+//         "treasuryLiquidBackingProtocolOwnedLiquidity",
+//         "treasuryMarketValue",
+//       ]
+//     : ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue", "treasuryLiquidBacking"];
+//   // The keys to display as a line
+//   const composedLineDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
 
-  const { data } = useMarketValueMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
+//   const { data } = useMarketValueMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
-  const headerSubtext = data
-    ? isLiquidBackingActive
-      ? formatCurrency(data.protocolMetrics[0].treasuryLiquidBacking)
-      : formatCurrency(data.protocolMetrics[0].treasuryMarketValue)
-    : "";
+//   const headerSubtext = data
+//     ? isLiquidBackingActive
+//       ? formatCurrency(data.protocolMetrics[0].treasuryLiquidBacking)
+//       : formatCurrency(data.protocolMetrics[0].treasuryMarketValue)
+//     : "";
 
-  // No caching needed, as these are static categories
-  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
-  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+//   // No caching needed, as these are static categories
+//   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+//   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+//   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
 
-  return (
-    <Chart
-      type={ChartType.Composed}
-      data={data ? data.protocolMetrics : []}
-      dataKeys={dataKeys}
-      dataKeyColors={colorsMap}
-      dataFormat={DataFormat.Currency}
-      headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
-      headerSubText={headerSubtext}
-      dataKeyBulletpointStyles={bulletpointStylesMap}
-      dataKeyLabels={categoriesMap}
-      infoTooltipMessage={
-        isLiquidBackingActive
-          ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
-          : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
-      }
-      isLoading={!data}
-      itemDecimals={0}
-      subgraphQueryUrl={queryExplorerUrl}
-      displayTooltipTotal={true}
-      tickStyle={getTickStyle(theme)}
-      composedLineDataKeys={composedLineDataKeys}
-      onMouseMove={onMouseMove}
-    />
-  );
+//   return (
+//     <Chart
+//       type={ChartType.Composed}
+//       data={data ? data.protocolMetrics : []}
+//       dataKeys={dataKeys}
+//       dataKeyColors={colorsMap}
+//       dataFormat={DataFormat.Currency}
+//       headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
+//       headerSubText={headerSubtext}
+//       dataKeyBulletpointStyles={bulletpointStylesMap}
+//       dataKeyLabels={categoriesMap}
+//       infoTooltipMessage={
+//         isLiquidBackingActive
+//           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
+//           : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
+//       }
+//       isLoading={!data}
+//       itemDecimals={0}
+//       subgraphQueryUrl={queryExplorerUrl}
+//       displayTooltipTotal={true}
+//       tickStyle={getTickStyle(theme)}
+//       composedLineDataKeys={composedLineDataKeys}
+//       onMouseMove={onMouseMove}
+//     />
+//   );
+// };
+
+type DateTokenSummary = {
+  date: string;
+  block: number;
+  tokens: TokenMap;
+};
+
+const getDateTokenSummary = (data: TokenRecordsQuery): DateTokenSummary[] => {
+  const filteredRecords = data.tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
+  const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
+
+  // filteredRecords is an array of flat records, one token each. We need to aggregate that date, then token
+  filteredRecords.forEach(record => {
+    const dateSummary = dateSummaryMap.get(record.date) || {
+      date: record.date,
+      block: record.block,
+      tokens: {} as TokenMap,
+    };
+    dateSummaryMap.set(record.date, dateSummary);
+
+    const tokenRecord = dateSummary.tokens[record.token] || ({} as TokenRow);
+    tokenRecord.token = record.token;
+    tokenRecord.category = record.category;
+
+    const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
+    // record.value is typed as a number, but is actually a string
+    tokenRecord.value = (existingValue + +record.value).toString(); // TODO consider shifting to use number
+    dateSummary.tokens[record.token] = tokenRecord;
+  });
+
+  // Sort in descending order by date
+  return Array.from(dateSummaryMap.values()).sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
 };
 
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
@@ -305,8 +331,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
   const { data } = useTokenRecordsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
 
   // State variables used for rendering
-  const initialTokenSummary: (BaseMetric & MetricComponentsTokenSummary)[] = [];
-  const [tokenSummary, setTokenSummary] = useState(initialTokenSummary);
+  const [records, setRecords] = useState<DateTokenSummary[]>([]);
   const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
   const initialDataKeys: string[] = [];
   const [dataKeys, setDataKeys] = useState(initialDataKeys);
@@ -316,22 +341,22 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
   // Dependent variables are only re-calculated when the data changes
   useMemo(() => {
     if (!data) {
-      setTokenSummary([]);
+      setRecords([]);
       setCategoriesMap(new Map<string, string>());
       setDataKeys([]);
       setBulletpointStylesMap(new Map<string, CSSProperties>());
       return;
     }
 
-    // create new type to extract token totals into
+    const dateTokenSummary = getDateTokenSummary(data);
+    console.log("tokenSummary = " + JSON.stringify(dateTokenSummary, null, 2));
+    setRecords(dateTokenSummary);
 
     const filteredRecords = data.tokenRecords.filter(
       tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity",
     );
-    setRecords(filteredRecords);
-
     const tokenCategories = Array.from(new Set(filteredRecords.map(tokenRecord => tokenRecord.token)));
-    const tempDataKeys = getDataKeysFromTokens(tokenCategories, "treasuryLPValueComponents");
+    const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
     setDataKeys(tempDataKeys);
 
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
