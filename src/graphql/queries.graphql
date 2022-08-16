@@ -124,8 +124,14 @@ query ProtocolOwnedLiquidityComponents($records: Int = 100) {
   }
 }
 
-query TokenRecords($startDate: String!) {
-  tokenRecords(first: 1000, where: { date_gte: $startDate }, orderBy: date, orderDirection: desc) {
+query TokenRecords($startDate: String!, $startingRecord: Int = 0) {
+  tokenRecords(
+    first: 1000
+    skip: $startingRecord
+    where: { date_gte: $startDate }
+    orderBy: date
+    orderDirection: desc
+  ) {
     block
     date
     id

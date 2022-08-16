@@ -1,10 +1,10 @@
 import { t } from "@lingui/macro";
 import { Theme, useTheme } from "@mui/material/styles";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecordsDocument, TokenRecordsQuery, useTokenRecordsQuery } from "src/generated/graphql";
+import { TokenRecord, TokenRecordsDocument, useTokenRecordsQuery } from "src/generated/graphql";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -294,8 +294,8 @@ type DateTokenSummary = {
   tokens: TokenMap;
 };
 
-const getDateTokenSummary = (data: TokenRecordsQuery): DateTokenSummary[] => {
-  const filteredRecords = data.tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
+const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
+  const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
   const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
 
   // filteredRecords is an array of flat records, one token each. We need to aggregate that date, then token
@@ -335,12 +335,41 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
   const startDate = adjustDateByDays(new Date(), -1 * count);
 
   const theme = useTheme();
+  const [startingRecord, setStartingRecord] = useState(0);
 
-  const { data } = useTokenRecordsQuery(
+  const { data, isSuccess } = useTokenRecordsQuery(
     { endpoint: subgraphUrl },
-    { startDate: startDate.toISOString().split("T")[0] },
+    { startDate: startDate.toISOString().split("T")[0], startingRecord: startingRecord },
     QUERY_OPTIONS,
   );
+
+  const [tokenRecords, setTokenRecords] = useState<TokenRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    if (!data) return;
+
+    // No more records
+    if (data.tokenRecords.length === 0) {
+      console.log("done");
+      setIsLoading(false);
+      return;
+    }
+
+    console.log("data " + data.tokenRecords.length);
+    tokenRecords.push(...data.tokenRecords);
+    console.log("records = " + tokenRecords.length);
+
+    setStartingRecord(startingRecord + 1000);
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    // When the starting date changes, we need to reset the data
+    setIsLoading(true);
+    setTokenRecords([]);
+  }, [count]);
 
   // State variables used for rendering
   const [records, setRecords] = useState<DateTokenSummary[]>([]);
@@ -352,7 +381,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
 
   // Dependent variables are only re-calculated when the data changes
   useMemo(() => {
-    if (!data) {
+    if (isLoading) {
       setRecords([]);
       setCategoriesMap(new Map<string, string>());
       setDataKeys([]);
@@ -360,13 +389,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
       return;
     }
 
-    const dateTokenSummary = getDateTokenSummary(data);
+    const dateTokenSummary = getDateTokenSummary(tokenRecords);
     console.log("tokenSummary = " + JSON.stringify(dateTokenSummary, null, 2));
     setRecords(dateTokenSummary);
 
-    const filteredRecords = data.tokenRecords.filter(
-      tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity",
-    );
+    const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
     const tokenCategories = Array.from(new Set(filteredRecords.map(tokenRecord => tokenRecord.token)));
     const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
     setDataKeys(tempDataKeys);
@@ -379,7 +406,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECOR
 
     const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
     setColorsMap(tempColorsMap);
-  }, [data]);
+  }, [isLoading]);
 
   return (
     <Chart
