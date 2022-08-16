@@ -36,8 +36,9 @@ const getSubgraphIdParameter = (): string | undefined => {
  * @returns
  */
 const MetricsDashboard = () => {
+  // TODO shift recordCount to be startDate
   // State variable for the number of records shown, which is passed to the respective charts
-  const [recordCount, setRecordCount] = useState("");
+  const [recordCount, setRecordCount] = useState(DEFAULT_RECORDS_COUNT.toString());
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 

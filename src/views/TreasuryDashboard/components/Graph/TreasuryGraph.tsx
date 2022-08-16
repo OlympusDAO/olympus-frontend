@@ -323,12 +323,24 @@ const getDateTokenSummary = (data: TokenRecordsQuery): DateTokenSummary[] => {
   });
 };
 
+const adjustDateByDays = (date: Date, days: number): Date => {
+  const newDate = new Date(date.getTime());
+  newDate.setTime(newDate.getTime() + 1000 * 60 * 60 * 24 * days);
+
+  return newDate;
+};
+
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const startDate = adjustDateByDays(new Date(), -1 * count);
 
   const theme = useTheme();
 
-  const { data } = useTokenRecordsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
+  const { data } = useTokenRecordsQuery(
+    { endpoint: subgraphUrl },
+    { startDate: startDate.toISOString().split("T")[0] },
+    QUERY_OPTIONS,
+  );
 
   // State variables used for rendering
   const [records, setRecords] = useState<DateTokenSummary[]>([]);

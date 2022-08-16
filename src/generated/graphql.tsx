@@ -2514,7 +2514,7 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
 };
 
 export type TokenRecordsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
+  startDate: Scalars["String"];
 }>;
 
 export type TokenRecordsQuery = {
@@ -2748,8 +2748,8 @@ export const useProtocolOwnedLiquidityComponentsQuery = <
     options,
   );
 export const TokenRecordsDocument = `
-    query TokenRecords($records: Int = 1000) {
-  tokenRecords(first: $records, orderBy: date, orderDirection: desc) {
+    query TokenRecords($startDate: String!) {
+  tokenRecords(where: {date_gte: $startDate}, orderBy: date, orderDirection: desc) {
     block
     date
     id
@@ -2769,11 +2769,11 @@ export const TokenRecordsDocument = `
     `;
 export const useTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: TokenRecordsQueryVariables,
+  variables: TokenRecordsQueryVariables,
   options?: UseQueryOptions<TokenRecordsQuery, TError, TData>,
 ) =>
   useQuery<TokenRecordsQuery, TError, TData>(
-    variables === undefined ? ["TokenRecords"] : ["TokenRecords", variables],
+    ["TokenRecords", variables],
     fetcher<TokenRecordsQuery, TokenRecordsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
