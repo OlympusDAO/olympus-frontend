@@ -5,6 +5,7 @@ import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalCh
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { TokenRecord, TokenRecordsDocument, useTokenRecordsQuery } from "src/generated/graphql";
+import { formatCurrency } from "src/helpers";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -33,7 +34,8 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
     background: value,
   };
 });
-export const DEFAULT_RECORDS_COUNT = 90;
+export const DEFAULT_DAYS = 30;
+const DEFAULT_RECORD_COUNT = 1000;
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
@@ -54,8 +56,8 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string)
 
 type GraphProps = {
   subgraphUrl: string;
+  startDate: string;
   activeToken?: string;
-  count?: number;
   onMouseMove?: CategoricalChartFunc;
 };
 
@@ -294,6 +296,15 @@ type DateTokenSummary = {
   tokens: TokenMap;
 };
 
+/**
+ * Generates an array containing one DateTokenSummary element for each date,
+ * in which the token balances are contained.
+ *
+ * The array is sorted in descending order by date.
+ *
+ * @param tokenRecords
+ * @returns
+ */
 const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
   const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
   const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
@@ -317,109 +328,129 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
     dateSummary.tokens[record.token] = tokenRecord;
   });
 
-  // Sort in descending order by date
   return Array.from(dateSummaryMap.values()).sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 };
 
-const adjustDateByDays = (date: Date, days: number): Date => {
-  const newDate = new Date(date.getTime());
-  newDate.setTime(newDate.getTime() + 1000 * 60 * 60 * 24 * days);
-
-  return newDate;
-};
-
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
-  const startDate = adjustDateByDays(new Date(), -1 * count);
-
   const theme = useTheme();
-  const [startingRecord, setStartingRecord] = useState(0);
 
+  /**
+   * Initial data fetching:
+   *
+   * This code block kicks off data fetching with a default startingRecord of 0.
+   *
+   * Pagination is handled in the subsequent code block.
+   */
+  const [startingRecord, setStartingRecord] = useState(0);
   const { data, isSuccess } = useTokenRecordsQuery(
     { endpoint: subgraphUrl },
-    { startDate: startDate.toISOString().split("T")[0], startingRecord: startingRecord },
-    QUERY_OPTIONS,
+    { startDate: startDate, recordCount: DEFAULT_RECORD_COUNT, startingRecord: startingRecord },
+    QUERY_OPTIONS, // TODO what happens to auto-updating?
   );
 
+  /**
+   * Pagination:
+   *
+   * When data fetching (of the current "page") is complete, it is handled
+   * by this code block, which triggers the next page.
+   */
   const [tokenRecords, setTokenRecords] = useState<TokenRecord[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [isDataLoading, setIsDataLoading] = useState(true);
   useEffect(() => {
+    // Ignore if the data hasn't finished loading
     if (!isSuccess) return;
-
     if (!data) return;
 
-    // No more records
+    // If there are no more records, we trigger processing of the complete data set
     if (data.tokenRecords.length === 0) {
-      console.log("done");
-      setIsLoading(false);
+      setIsDataLoading(false);
       return;
     }
 
-    console.log("data " + data.tokenRecords.length);
+    // Combine the new records with the existing ones
     tokenRecords.push(...data.tokenRecords);
-    console.log("records = " + tokenRecords.length);
 
-    setStartingRecord(startingRecord + 1000);
+    // Trigger fetching the next set of records
+    setStartingRecord(startingRecord => startingRecord + DEFAULT_RECORD_COUNT);
   }, [data, isSuccess]);
 
+  /**
+   * Resetting data fetching:
+   *
+   * When the {startDate} changes, we need to reset the data. Doing so
+   * will trigger re-fetching of the data.
+   */
   useEffect(() => {
-    // When the starting date changes, we need to reset the data
-    setIsLoading(true);
+    setIsDataLoading(true);
     setTokenRecords([]);
-  }, [count]);
+    setStartingRecord(0);
+  }, [startDate]);
+  // TODO look at extracting pagination into a hook
 
-  // State variables used for rendering
-  const [records, setRecords] = useState<DateTokenSummary[]>([]);
-  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
+  /**
+   * Chart population:
+   *
+   * The following code block processes the {tokenRecords} array and
+   * generates the data structures required to populate the chart.
+   */
+  const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
+  const [categoryDataKeyMap, setCategoryDataKeyMap] = useState(new Map<string, string>());
   const initialDataKeys: string[] = [];
   const [dataKeys, setDataKeys] = useState(initialDataKeys);
-  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
-  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
-
-  // Dependent variables are only re-calculated when the data changes
+  const [dataKeyBulletpointStylesMap, setDataKeyBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [dataKeyColorsMap, setDataKeyColorsMap] = useState(new Map<string, string>());
+  const [total, setTotal] = useState("");
   useMemo(() => {
-    if (isLoading) {
-      setRecords([]);
-      setCategoriesMap(new Map<string, string>());
+    // While data is loading, ensure dependent data is empty
+    if (isDataLoading) {
+      setByDateTokenSummary([]);
+      setCategoryDataKeyMap(new Map<string, string>());
       setDataKeys([]);
-      setBulletpointStylesMap(new Map<string, CSSProperties>());
+      setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
       return;
     }
 
-    const dateTokenSummary = getDateTokenSummary(tokenRecords);
-    console.log("tokenSummary = " + JSON.stringify(dateTokenSummary, null, 2));
-    setRecords(dateTokenSummary);
+    const newDateTokenSummary = getDateTokenSummary(tokenRecords);
+    setByDateTokenSummary(newDateTokenSummary);
 
     const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
     const tokenCategories = Array.from(new Set(filteredRecords.map(tokenRecord => tokenRecord.token)));
+
     const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
     setDataKeys(tempDataKeys);
 
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
-    setCategoriesMap(tempCategoriesMap);
+    setCategoryDataKeyMap(tempCategoriesMap);
 
     const tempBulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys);
-    setBulletpointStylesMap(tempBulletpointStylesMap);
+    setDataKeyBulletpointStylesMap(tempBulletpointStylesMap);
 
     const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
-    setColorsMap(tempColorsMap);
-  }, [isLoading]);
+    setDataKeyColorsMap(tempColorsMap);
+
+    const tempTotal =
+      byDateTokenSummary.length > 0
+        ? Object.values(byDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
+            return +previousValue + parseFloat(token.value);
+          }, 0)
+        : 0;
+    setTotal(formatCurrency(tempTotal, 0));
+  }, [isDataLoading]);
 
   return (
     <Chart
       type={ChartType.StackedArea}
-      data={records}
+      data={byDateTokenSummary}
       dataKeys={dataKeys}
-      dataKeyColors={colorsMap}
+      dataKeyColors={dataKeyColorsMap}
       dataFormat={DataFormat.Currency}
       headerText={t`Protocol-Owned Liquidity`}
-      // headerSubText={`${data && formatCurrency(data.protocolMetrics[0].treasuryLPValueComponents.value, 0)}`}
-      headerSubText=""
-      dataKeyBulletpointStyles={bulletpointStylesMap}
-      dataKeyLabels={categoriesMap}
+      headerSubText={total}
+      dataKeyBulletpointStyles={dataKeyBulletpointStylesMap}
+      dataKeyLabels={categoryDataKeyMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       isLoading={!data}
       itemDecimals={0}

@@ -6,15 +6,12 @@ import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
-  PARAM_RECORD_COUNT,
+  PARAM_DAYS,
   PARAM_SUBGRAPH,
   PARAM_TOKEN,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import {
-  DEFAULT_RECORDS_COUNT,
-  ProtocolOwnedLiquidityGraph,
-} from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import { DEFAULT_DAYS, ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -30,17 +27,27 @@ const getSubgraphIdParameter = (): string | undefined => {
   return source.length > 1 && source[1] ? source[1].split("&")[0] : undefined;
 };
 
+const adjustDateByDays = (date: Date, days: number): Date => {
+  const newDate = new Date(date.getTime());
+  newDate.setTime(newDate.getTime() + 1000 * 60 * 60 * 24 * days);
+
+  return newDate;
+};
+
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
  *
  * @returns
  */
 const MetricsDashboard = () => {
-  // TODO shift recordCount to be startDate
-  // State variable for the number of records shown, which is passed to the respective charts
-  const [recordCount, setRecordCount] = useState(DEFAULT_RECORDS_COUNT.toString());
+  // State variable for the number of days shown, which is passed to the respective charts
+  const [daysPrior, setDaysPrior] = useState(DEFAULT_DAYS.toString());
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
+
+  const startDateString = adjustDateByDays(new Date(), -1 * parseInt(daysPrior))
+    .toISOString()
+    .split("T")[0];
 
   // Determine the subgraph URL
   // Originally, this was performed at the component level, but it ended up with a lot of redundant
@@ -50,9 +57,9 @@ const MetricsDashboard = () => {
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
-    // Get the record count from the URL query parameters, or use the default
-    const queryRecordCount = searchParams.get(PARAM_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
-    setRecordCount(queryRecordCount);
+    // Get the days from the URL query parameters, or use the default
+    const queryDays = searchParams.get(PARAM_DAYS) || DEFAULT_DAYS.toString();
+    setDaysPrior(queryDays);
 
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
@@ -69,7 +76,7 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
-    return updateSearchParams(searchParams, PARAM_RECORD_COUNT, recordCount.toString()).toString();
+    return updateSearchParams(searchParams, PARAM_DAYS, recordCount.toString()).toString();
   };
 
   /**
@@ -88,7 +95,7 @@ const MetricsDashboard = () => {
   };
 
   const isActiveRecordCount = (input: number): boolean => {
-    return recordCount === input.toString();
+    return daysPrior === input.toString();
   };
 
   const theme = useTheme();
@@ -195,7 +202,7 @@ const MetricsDashboard = () => {
         </Grid> */}
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
+            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} startDate={startDateString} />
           </Paper>
         </Grid>
       </Grid>

@@ -1,4 +1,4 @@
-export const PARAM_RECORD_COUNT = "recordCount";
+export const PARAM_DAYS = "days";
 
 export const PARAM_TOKEN = "token";
 export const PARAM_TOKEN_OHM = "OHM";
