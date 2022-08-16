@@ -2749,7 +2749,12 @@ export const useProtocolOwnedLiquidityComponentsQuery = <
   );
 export const TokenRecordsDocument = `
     query TokenRecords($startDate: String!) {
-  tokenRecords(where: {date_gte: $startDate}, orderBy: date, orderDirection: desc) {
+  tokenRecords(
+    first: 1000
+    where: {date_gte: $startDate}
+    orderBy: date
+    orderDirection: desc
+  ) {
     block
     date
     id
