@@ -152,8 +152,8 @@ const MetricsDashboard = () => {
                 },
                 {
                   label: "Max",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
-                  isActive: isActiveRecordCount(1000),
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(180)}`,
+                  isActive: isActiveRecordCount(180),
                 },
               ]}
             />
