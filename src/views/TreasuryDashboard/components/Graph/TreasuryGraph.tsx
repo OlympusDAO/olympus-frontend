@@ -37,6 +37,7 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
 });
 export const DEFAULT_DAYS = 30;
 const DEFAULT_RECORD_COUNT = 1000;
+const DEFAULT_DATE_DIFF = -14;
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
@@ -336,15 +337,34 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
   });
 };
 
+/**
+ * Returns a date string (YYYY-MM-DD format) that represents the start date
+ * for the next page in a react-query infinite query.
+ *
+ * If {earliestDateString} is greater than the adjusted date, it will be returned.
+ *
+ * @param dateString
+ * @param earliestDateString
+ * @returns
+ */
+const getNextPageStartDate = (dateString: string, earliestDateString: string): string => {
+  const date = adjustDateByDays(new Date(dateString), DEFAULT_DATE_DIFF);
+  const earliestDate = new Date(earliestDateString);
+  // We don't want to go further back than the earliestDate
+  const finalDate = date.getTime() < earliestDate.getTime() ? earliestDate : date;
+
+  return getISO8601String(finalDate);
+};
+
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
 
-  // We start from the current date
-  const initialStartDate = getISO8601String(new Date());
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
 
   /**
-   * This code block kicks off data fetching with a default startingRecord of 0.
+   * This code block kicks off data fetching with an initial date range.
    *
    * The definition of getNextPageParam() handles pagination.
    */
@@ -353,16 +373,22 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     "startDate",
     {
       startDate: initialStartDate,
+      finishDate: initialFinishDate,
       recordCount: DEFAULT_RECORD_COUNT,
-      startingRecord: 0,
     },
     {
       getNextPageParam(lastPage) {
-        // TODO what if there are no records for a given day?
-        const currentStartDate = lastPage.tokenRecords[0].date;
+        /**
+         * The last element of lastPage will have the earliest date.
+         *
+         * The current start date (and hence, current page) is determined using
+         * {lastPage}, as defining constant or state variables outside of this
+         * code block leads to undesired behaviour.
+         */
+        const currentStartDate = lastPage.tokenRecords.slice(-1)[0].date;
 
         /**
-         * If we are at the startDate, then there is no need to fetch the next page.
+         * If we are at the earliestDate, then there is no need to fetch the next page.
          *
          * Returning undefined tells react-query not to fetch the next page.
          */
@@ -372,12 +398,13 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
         }
 
         /**
-         * We move back a day.
+         * We adjust the date range and trigger the next query.
          */
-        const newStartDate = getISO8601String(adjustDateByDays(new Date(currentStartDate), -1));
+        const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
         console.debug("Loading data for " + newStartDate);
         return {
           startDate: newStartDate,
+          finishDate: currentStartDate,
         };
       },
     },
@@ -386,7 +413,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   useEffect(() => {
     console.debug("earliestDate changed. Re-fetching.");
     refetch();
-  }, [earliestDate]);
+  }, [earliestDate, refetch]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
