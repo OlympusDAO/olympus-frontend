@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useInfiniteQuery, UseInfiniteQueryOptions, useQuery, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -2575,6 +2575,24 @@ export const useMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, 
     ),
     options,
   );
+export const useInfiniteMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof MetricsBarLatestOnlyQueryVariables,
+  variables?: MetricsBarLatestOnlyQueryVariables,
+  options?: UseInfiniteQueryOptions<MetricsBarLatestOnlyQuery, TError, TData>,
+) =>
+  useInfiniteQuery<MetricsBarLatestOnlyQuery, TError, TData>(
+    variables === undefined ? ["MetricsBarLatestOnly.infinite"] : ["MetricsBarLatestOnly.infinite", variables],
+    metaData =>
+      fetcher<MetricsBarLatestOnlyQuery, MetricsBarLatestOnlyQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        MetricsBarLatestOnlyDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
 export const KeyMetricsDocument = `
     query KeyMetrics($records: Int = 100) {
   protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
@@ -2613,6 +2631,24 @@ export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
     ),
     options,
   );
+export const useInfiniteKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof KeyMetricsQueryVariables,
+  variables?: KeyMetricsQueryVariables,
+  options?: UseInfiniteQueryOptions<KeyMetricsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<KeyMetricsQuery, TError, TData>(
+    variables === undefined ? ["KeyMetrics.infinite"] : ["KeyMetrics.infinite", variables],
+    metaData =>
+      fetcher<KeyMetricsQuery, KeyMetricsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        KeyMetricsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
 export const MarketValueMetricsDocument = `
     query MarketValueMetrics($records: Int = 100) {
   protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
@@ -2646,6 +2682,24 @@ export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TErr
     ),
     options,
   );
+export const useInfiniteMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof MarketValueMetricsQueryVariables,
+  variables?: MarketValueMetricsQueryVariables,
+  options?: UseInfiniteQueryOptions<MarketValueMetricsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<MarketValueMetricsQuery, TError, TData>(
+    variables === undefined ? ["MarketValueMetrics.infinite"] : ["MarketValueMetrics.infinite", variables],
+    metaData =>
+      fetcher<MarketValueMetricsQuery, MarketValueMetricsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        MarketValueMetricsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
 export const MarketValueMetricsComponentsDocument = `
     query MarketValueMetricsComponents($records: Int = 100) {
   protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
@@ -2707,6 +2761,29 @@ export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsC
     ),
     options,
   );
+export const useInfiniteMarketValueMetricsComponentsQuery = <
+  TData = MarketValueMetricsComponentsQuery,
+  TError = unknown,
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof MarketValueMetricsComponentsQueryVariables,
+  variables?: MarketValueMetricsComponentsQueryVariables,
+  options?: UseInfiniteQueryOptions<MarketValueMetricsComponentsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<MarketValueMetricsComponentsQuery, TError, TData>(
+    variables === undefined
+      ? ["MarketValueMetricsComponents.infinite"]
+      : ["MarketValueMetricsComponents.infinite", variables],
+    metaData =>
+      fetcher<MarketValueMetricsComponentsQuery, MarketValueMetricsComponentsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        MarketValueMetricsComponentsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
 export const ProtocolOwnedLiquidityComponentsDocument = `
     query ProtocolOwnedLiquidityComponents($records: Int = 100) {
   protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
@@ -2749,6 +2826,29 @@ export const useProtocolOwnedLiquidityComponentsQuery = <
     ),
     options,
   );
+export const useInfiniteProtocolOwnedLiquidityComponentsQuery = <
+  TData = ProtocolOwnedLiquidityComponentsQuery,
+  TError = unknown,
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof ProtocolOwnedLiquidityComponentsQueryVariables,
+  variables?: ProtocolOwnedLiquidityComponentsQueryVariables,
+  options?: UseInfiniteQueryOptions<ProtocolOwnedLiquidityComponentsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<ProtocolOwnedLiquidityComponentsQuery, TError, TData>(
+    variables === undefined
+      ? ["ProtocolOwnedLiquidityComponents.infinite"]
+      : ["ProtocolOwnedLiquidityComponents.infinite", variables],
+    metaData =>
+      fetcher<ProtocolOwnedLiquidityComponentsQuery, ProtocolOwnedLiquidityComponentsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        ProtocolOwnedLiquidityComponentsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
 export const TokenRecordsDocument = `
     query TokenRecords($startDate: String!, $recordCount: Int!, $startingRecord: Int = 0) {
   tokenRecords(
@@ -2788,5 +2888,22 @@ export const useTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown
       TokenRecordsDocument,
       variables,
     ),
+    options,
+  );
+export const useInfiniteTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof TokenRecordsQueryVariables,
+  variables: TokenRecordsQueryVariables,
+  options?: UseInfiniteQueryOptions<TokenRecordsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<TokenRecordsQuery, TError, TData>(
+    ["TokenRecords.infinite", variables],
+    metaData =>
+      fetcher<TokenRecordsQuery, TokenRecordsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        TokenRecordsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
     options,
   );

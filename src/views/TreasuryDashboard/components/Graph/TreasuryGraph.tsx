@@ -4,7 +4,7 @@ import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecord, TokenRecordsDocument, useTokenRecordsQuery } from "src/generated/graphql";
+import { TokenRecord, TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
   getBulletpointStylesMap,
@@ -340,57 +340,55 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
   const theme = useTheme();
 
   /**
-   * Initial data fetching:
-   *
+   * skip performs slowly
+   * instead we should iterate through all startDate values
+   */
+
+  /**
    * This code block kicks off data fetching with a default startingRecord of 0.
    *
-   * Pagination is handled in the subsequent code block.
+   * The definition of getNextPageParam() handles pagination.
    */
-  const [startingRecord, setStartingRecord] = useState(0);
-  const { data, isSuccess } = useTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
-    { startDate: startDate, recordCount: DEFAULT_RECORD_COUNT, startingRecord: startingRecord },
-    QUERY_OPTIONS, // TODO what happens to auto-updating?
+    "startingRecord",
+    { startDate: startDate, recordCount: DEFAULT_RECORD_COUNT, startingRecord: 0 },
+    {
+      getNextPageParam(lastPage, allPages) {
+        /**
+         * If we didn't get back DEFAULT_RECORD_COUNT, then there is no need to fetch the next page.
+         *
+         * Returning undefined tells react-query not to fetch the next page.
+         */
+        if (lastPage.tokenRecords.length < DEFAULT_RECORD_COUNT) {
+          return;
+        }
+
+        /**
+         * When length = 1, it will have completed the first iteration,
+         * so the next page should have a startingRecord of DEFAULT_RECORD_COUNT * length.
+         *
+         * The object returned by this function is merged with the existing variables
+         * (startDate, recordCount) in the new query.
+         */
+        return {
+          startingRecord: DEFAULT_RECORD_COUNT * allPages.length,
+        };
+      },
+    },
   );
 
   /**
-   * Pagination:
+   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
    *
-   * When data fetching (of the current "page") is complete, it is handled
-   * by this code block, which triggers the next page.
+   * react-query's infinite query functionality apparently does not support automatically
+   * fetching all pages. This code block achieves that.
    */
-  const [tokenRecords, setTokenRecords] = useState<TokenRecord[]>([]);
-  const [isDataLoading, setIsDataLoading] = useState(true);
   useEffect(() => {
-    // Ignore if the data hasn't finished loading
-    if (!isSuccess) return;
-    if (!data) return;
-
-    // If there are no more records, we trigger processing of the complete data set
-    if (data.tokenRecords.length === 0) {
-      setIsDataLoading(false);
-      return;
+    if (hasNextPage) {
+      fetchNextPage();
     }
-
-    // Combine the new records with the existing ones
-    tokenRecords.push(...data.tokenRecords);
-
-    // Trigger fetching the next set of records
-    setStartingRecord(startingRecord => startingRecord + DEFAULT_RECORD_COUNT);
-  }, [data, isSuccess]);
-
-  /**
-   * Resetting data fetching:
-   *
-   * When the {startDate} changes, we need to reset the data. Doing so
-   * will trigger re-fetching of the data.
-   */
-  useEffect(() => {
-    setIsDataLoading(true);
-    setTokenRecords([]);
-    setStartingRecord(0);
-  }, [startDate]);
-  // TODO look at extracting pagination into a hook
+  }, [data, hasNextPage, fetchNextPage]);
 
   /**
    * Chart population:
@@ -407,13 +405,16 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
   const [total, setTotal] = useState("");
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
-    if (isDataLoading) {
+    if (hasNextPage || !data) {
       setByDateTokenSummary([]);
       setCategoryDataKeyMap(new Map<string, string>());
       setDataKeys([]);
       setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
       return;
     }
+
+    // We need to flatten the tokenRecords from all of the pages arrays
+    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
 
     const newDateTokenSummary = getDateTokenSummary(tokenRecords);
     setByDateTokenSummary(newDateTokenSummary);
@@ -440,7 +441,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
           }, 0)
         : 0;
     setTotal(formatCurrency(tempTotal, 0));
-  }, [isDataLoading]);
+  }, [data, hasNextPage]);
 
   return (
     <Chart
@@ -454,7 +455,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
       dataKeyBulletpointStyles={dataKeyBulletpointStylesMap}
       dataKeyLabels={categoryDataKeyMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
-      isLoading={!data}
+      isLoading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}

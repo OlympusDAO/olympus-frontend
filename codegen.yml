@@ -6,11 +6,11 @@ generates:
     plugins:
       - "typescript"
       - "typescript-operations"
-      # - "typescript-react-apollo"
       - "typescript-react-query"
     config:
       withHooks: true
       preResolveTypes: true
+      addInfiniteQuery: true
       scalars:
         BigDecimal: number
         BigInt: number
