@@ -1,6 +1,10 @@
 import { t } from "@lingui/macro";
+import { Grid } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
+import { Box } from "@mui/system";
+import { TabBar } from "@olympusdao/component-library";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -15,6 +19,7 @@ import {
   TokenMap,
   TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
+import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 
 // These constants are used by charts to have consistent colours
 // Source: https://www.figma.com/file/RCfzlYA1i8wbJI3rPGxxxz/SubGraph-Charts-V3?node-id=0%3A1
@@ -37,7 +42,7 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
 });
 export const DEFAULT_DAYS = 30;
 const DEFAULT_RECORD_COUNT = 1000;
-const DEFAULT_DATE_DIFF = -14;
+const DEFAULT_DATE_OFFSET = -14;
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
@@ -53,6 +58,22 @@ const getTickStyle = (theme: Theme): Record<string, string | number> => {
 
 const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string): string => {
   return `${subgraphUrl}/graphql?query=${encodeURIComponent(queryDocument)}`;
+};
+
+/**
+ * Extract the tokenRecords into a map, indexed by the date string
+ * @param tokenRecords
+ * @returns
+ */
+const getTokenRecordDateMap = (tokenRecords: TokenRecord[]): Map<string, TokenRecord[]> => {
+  const dateTokenRecords: Map<string, TokenRecord[]> = new Map<string, TokenRecord[]>();
+  tokenRecords.map(value => {
+    const currentDateRecords = dateTokenRecords.get(value.date) || [];
+    currentDateRecords.push(value);
+    dateTokenRecords.set(value.date, currentDateRecords);
+  });
+
+  return dateTokenRecords;
 };
 
 type GraphProps = {
@@ -137,159 +158,323 @@ type GraphProps = {
  * @param param0
  * @returns
  */
-// export const TreasuryAssets = ({ subgraphUrl, count = DEFAULT_RECORDS_COUNT }: GraphProps) => {
-//   const isTreasuryAssetActive = (assets: string): boolean => {
-//     return selectedTreasuryAssets === assets;
-//   };
+export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
+  const isTreasuryAssetActive = (assets: string): boolean => {
+    return selectedTreasuryAssets === assets;
+  };
 
-//   // State variable for the selected tab
-//   const [selectedTreasuryAssets, setSelectedTreasuryAssets] = useState(QUERY_TREASURY_MARKET_VALUE);
-//   const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
-//   // Set the selected treasury assets from search parameters
-//   const [searchParams] = useSearchParams();
-//   useMemo(() => {
-//     // Get the record count from the URL query parameters, or use the default
-//     const queryTreasuryAssets = searchParams.get(QUERY_TREASURY) || QUERY_TREASURY_MARKET_VALUE;
-//     setSelectedTreasuryAssets(queryTreasuryAssets);
-//     setIsLiquidBackingActive(queryTreasuryAssets === QUERY_TREASURY_LIQUID_BACKING);
-//   }, [searchParams]);
+  // State variable for the selected tab
+  const [selectedTreasuryAssets, setSelectedTreasuryAssets] = useState(QUERY_TREASURY_MARKET_VALUE);
+  const [isLiquidBackingActive, setIsLiquidBackingActive] = useState(false);
+  // Set the selected treasury assets from search parameters
+  const [searchParams] = useSearchParams();
+  useMemo(() => {
+    // Get the record count from the URL query parameters, or use the default
+    const queryTreasuryAssets = searchParams.get(QUERY_TREASURY) || QUERY_TREASURY_MARKET_VALUE;
+    setSelectedTreasuryAssets(queryTreasuryAssets);
+    setIsLiquidBackingActive(queryTreasuryAssets === QUERY_TREASURY_LIQUID_BACKING);
+  }, [searchParams]);
 
-//   const getSearchParamsWithUpdatedTreasuryAssets = (assets: string): string => {
-//     return updateSearchParams(searchParams, QUERY_TREASURY, assets).toString();
-//   };
+  const getSearchParamsWithUpdatedTreasuryAssets = (assets: string): string => {
+    return updateSearchParams(searchParams, QUERY_TREASURY, assets).toString();
+  };
 
-//   // State variable for the selected index in the chart
-//   const [selectedIndex, setSelectedIndex] = useState(0);
+  // State variable for the selected index in the chart
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-//   /**
-//    * Uses mouse movement events in the market value chart to record the
-//    * current index that the user is hovering over. This is then passed to
-//    * the assets table in order to have the contents reflect the current
-//    * index (date).
-//    *
-//    * @param nextState
-//    * @param event
-//    * @returns
-//    */
-//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//   const onMouseMove: CategoricalChartFunc = (nextState, event) => {
-//     // We need to explictly check for undefined, otherwise an index of 0 will be caught (OlympusDAO/olympus-frontend#2128)
-//     if (nextState.activeTooltipIndex === undefined) return;
+  /**
+   * Uses mouse movement events in the market value chart to record the
+   * current index that the user is hovering over. This is then passed to
+   * the assets table in order to have the contents reflect the current
+   * index (date).
+   *
+   * @param nextState
+   * @param event
+   * @returns
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onMouseMove: CategoricalChartFunc = (nextState, event) => {
+    // We need to explictly check for undefined, otherwise an index of 0 will be caught (OlympusDAO/olympus-frontend#2128)
+    if (nextState.activeTooltipIndex === undefined) return;
 
-//     setSelectedIndex(nextState.activeTooltipIndex);
-//   };
+    setSelectedIndex(nextState.activeTooltipIndex);
+  };
 
-//   return (
-//     <>
-//       <Grid container paddingBottom={2}>
-//         <Grid item xs={12}>
-//           {/* The TabBar is designed to work with a flexbox so that it contracts & expands as necessary.
-//               With a Grid component, the width is more fixed, which leads to rendering issues. */}
-//           <Box display="flex" flexDirection="row" justifyContent="center">
-//             <TabBar
-//               disableRouting
-//               items={[
-//                 {
-//                   label: t`Market Value`,
-//                   to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
-//                   isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
-//                 },
-//                 {
-//                   label: t`Liquid Backing`,
-//                   to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
-//                   isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
-//                 },
-//               ]}
-//             />
-//           </Box>
-//         </Grid>
-//       </Grid>
-//       <MarketValueGraph
-//         subgraphUrl={subgraphUrl}
-//         isLiquidBackingActive={isLiquidBackingActive}
-//         onMouseMove={onMouseMove}
-//         count={count}
-//       />
-//       <AssetsTable
-//         subgraphUrl={subgraphUrl}
-//         isLiquidBackingActive={isLiquidBackingActive}
-//         selectedIndex={selectedIndex}
-//       />
-//     </>
-//   );
-// };
+  return (
+    <>
+      <Grid container paddingBottom={2}>
+        <Grid item xs={12}>
+          {/* The TabBar is designed to work with a flexbox so that it contracts & expands as necessary.
+              With a Grid component, the width is more fixed, which leads to rendering issues. */}
+          <Box display="flex" flexDirection="row" justifyContent="center">
+            <TabBar
+              disableRouting
+              items={[
+                {
+                  label: t`Market Value`,
+                  to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
+                  isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
+                },
+                {
+                  label: t`Liquid Backing`,
+                  to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
+                  isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
+                },
+              ]}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+      <MarketValueGraph
+        subgraphUrl={subgraphUrl}
+        isLiquidBackingActive={isLiquidBackingActive}
+        onMouseMove={onMouseMove}
+        earliestDate={earliestDate}
+      />
+      {/* <AssetsTable
+        subgraphUrl={subgraphUrl}
+        isLiquidBackingActive={isLiquidBackingActive}
+        selectedIndex={selectedIndex}
+      /> */}
+    </>
+  );
+};
 
 type LiquidBackingProps = {
   isLiquidBackingActive: boolean;
 };
 
-// export const MarketValueGraph = ({
-//   subgraphUrl,
-//   count = DEFAULT_RECORDS_COUNT,
-//   onMouseMove,
-//   isLiquidBackingActive,
-// }: GraphProps & LiquidBackingProps) => {
-//   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsDocument, subgraphUrl);
+const CATEGORY_STABLE = "Stable";
+const CATEGORY_VOLATILE = "Volatile";
+const CATEGORY_POL = "Protocol-Owned Liquidity";
 
-//   const theme = useTheme();
+export const MarketValueGraph = ({
+  subgraphUrl,
+  earliestDate,
+  onMouseMove,
+  isLiquidBackingActive,
+}: GraphProps & LiquidBackingProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const theme = useTheme();
 
-//   // What is displayed in the chart differs based on the value of isLiquidBackingActive
-//   const itemNames: string[] = [
-//     t`Stablecoins`,
-//     t`Volatile Assets`,
-//     t`Protocol-Owned Liquidity`,
-//     ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
-//   ];
-//   const dataKeys: string[] = isLiquidBackingActive
-//     ? [
-//         "treasuryLiquidBackingStable",
-//         "treasuryLiquidBackingVolatile",
-//         "treasuryLiquidBackingProtocolOwnedLiquidity",
-//         "treasuryMarketValue",
-//       ]
-//     : ["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue", "treasuryLiquidBacking"];
-//   // The keys to display as a line
-//   const composedLineDataKeys: string[] = isLiquidBackingActive ? ["treasuryMarketValue"] : ["treasuryLiquidBacking"];
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
+  const baseFilter = {};
 
-//   const { data } = useMarketValueMetricsQuery({ endpoint: subgraphUrl }, { records: count }, QUERY_OPTIONS);
+  /**
+   * This code block kicks off data fetching with an initial date range.
+   *
+   * The definition of getNextPageParam() handles pagination.
+   */
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+    { endpoint: subgraphUrl },
+    "filter",
+    {
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
+      recordCount: DEFAULT_RECORD_COUNT,
+    },
+    {
+      getNextPageParam(lastPage) {
+        /**
+         * The last element of lastPage will have the earliest date.
+         *
+         * The current start date (and hence, current page) is determined using
+         * {lastPage}, as defining constant or state variables outside of this
+         * code block leads to undesired behaviour.
+         */
+        if (!lastPage.tokenRecords.length) {
+          console.debug("lastPage has no records. Exiting.");
+          return;
+        }
 
-//   const headerSubtext = data
-//     ? isLiquidBackingActive
-//       ? formatCurrency(data.protocolMetrics[0].treasuryLiquidBacking)
-//       : formatCurrency(data.protocolMetrics[0].treasuryMarketValue)
-//     : "";
+        const currentStartDate = lastPage.tokenRecords.slice(-1)[0].date;
 
-//   // No caching needed, as these are static categories
-//   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-//   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
-//   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+        /**
+         * If we are at the earliestDate, then there is no need to fetch the next page.
+         *
+         * Returning undefined tells react-query not to fetch the next page.
+         */
+        if (new Date(currentStartDate).getTime() <= new Date(earliestDate).getTime()) {
+          console.debug("Data loading done");
+          return;
+        }
 
-//   return (
-//     <Chart
-//       type={ChartType.Composed}
-//       data={data ? data.protocolMetrics : []}
-//       dataKeys={dataKeys}
-//       dataKeyColors={colorsMap}
-//       dataFormat={DataFormat.Currency}
-//       headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
-//       headerSubText={headerSubtext}
-//       dataKeyBulletpointStyles={bulletpointStylesMap}
-//       dataKeyLabels={categoriesMap}
-//       infoTooltipMessage={
-//         isLiquidBackingActive
-//           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
-//           : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
-//       }
-//       isLoading={!data}
-//       itemDecimals={0}
-//       subgraphQueryUrl={queryExplorerUrl}
-//       displayTooltipTotal={true}
-//       tickStyle={getTickStyle(theme)}
-//       composedLineDataKeys={composedLineDataKeys}
-//       onMouseMove={onMouseMove}
-//     />
-//   );
-// };
+        /**
+         * We adjust the date range and trigger the next query.
+         */
+        const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
+        console.debug("Loading data for " + newStartDate);
+        return {
+          filter: {
+            ...baseFilter,
+            date_gte: newStartDate,
+            date_lt: currentStartDate,
+          },
+        };
+      },
+    },
+  );
+
+  useEffect(() => {
+    console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
+    refetch();
+  }, [earliestDate, refetch]);
+
+  /**
+   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
+   *
+   * react-query's infinite query functionality apparently does not support automatically
+   * fetching all pages. This code block achieves that.
+   */
+  useEffect(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [data, hasNextPage, fetchNextPage]);
+
+  /**
+   * Chart population:
+   */
+  type DateTreasuryMetrics = {
+    date: string;
+    timestamp: number;
+    block: number;
+    marketStable: number;
+    marketVolatile: number;
+    marketPol: number;
+    marketTotal: number;
+    liquidStable: number;
+    liquidVolatile: number;
+    liquidPol: number;
+    liquidTotal: number;
+  };
+  const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
+  const [total, setTotal] = useState("");
+
+  /**
+   * Generates an array containing one DateTreasuryMetrics element for each date,
+   * in which the metrics are contained.
+   *
+   * The array is sorted in descending order by date.
+   *
+   * @param tokenRecords
+   * @returns
+   */
+  const getDateTreasuryMetrics = (tokenRecords: TokenRecord[]): DateTreasuryMetrics[] => {
+    const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
+    const dateMetricsMap: Map<string, DateTreasuryMetrics> = new Map<string, DateTreasuryMetrics>();
+
+    const filterReduce = (records: TokenRecord[], filterPredicate: (value: TokenRecord) => unknown): number => {
+      return records.filter(filterPredicate).reduce((previousValue, currentRecord) => {
+        return previousValue + +currentRecord.value;
+      }, 0);
+    };
+
+    dateTokenRecords.forEach((value, key) => {
+      const marketStable = filterReduce(value, record => record.category == CATEGORY_STABLE);
+      const marketVolatile = filterReduce(value, record => record.category == CATEGORY_VOLATILE);
+      const marketPol = filterReduce(value, record => record.category == CATEGORY_POL);
+      const liquidStable = filterReduce(value, record => record.category == CATEGORY_STABLE && record.isLiquid == true);
+      const liquidVolatile = filterReduce(
+        value,
+        record => record.category == CATEGORY_VOLATILE && record.isLiquid == true,
+      );
+      const liquidPol = filterReduce(value, record => record.category == CATEGORY_POL && record.isLiquid == true);
+
+      const dateMetric: DateTreasuryMetrics = {
+        date: key,
+        timestamp: new Date(key).getTime(), // We inject the timestamp, as it's used by the Chart component
+        block: 1, // TODO fill this in
+        marketStable: marketStable,
+        marketVolatile: marketVolatile,
+        marketPol: marketPol,
+        marketTotal: marketStable + marketVolatile + marketPol,
+        liquidStable: liquidStable,
+        liquidVolatile: liquidVolatile,
+        liquidPol: liquidPol,
+        liquidTotal: liquidStable + liquidVolatile + liquidPol,
+      };
+
+      dateMetricsMap.set(key, dateMetric);
+    });
+
+    return Array.from(dateMetricsMap.values()).sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  };
+
+  useMemo(() => {
+    if (hasNextPage || !data) {
+      // While data is loading, ensure dependent data is empty
+      setByDateMetrics([]);
+      return;
+    }
+
+    // We need to flatten the tokenRecords from all of the pages arrays
+    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+    const tempByDateMetrics = getDateTreasuryMetrics(tokenRecords);
+    setByDateMetrics(tempByDateMetrics);
+  }, [data, hasNextPage]);
+
+  useMemo(() => {
+    if (!byDateMetrics.length) {
+      setTotal("");
+      return;
+    }
+
+    const lastMetric = byDateMetrics[byDateMetrics.length - 1];
+    const tempTotal = isLiquidBackingActive ? lastMetric.liquidTotal : lastMetric.marketTotal;
+    setTotal(formatCurrency(tempTotal, 0));
+  }, [byDateMetrics, isLiquidBackingActive]);
+
+  // What is displayed in the chart differs based on the value of isLiquidBackingActive
+  const itemNames: string[] = [
+    t`Stablecoins`,
+    t`Volatile Assets`,
+    t`Protocol-Owned Liquidity`,
+    ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
+  ];
+  const dataKeys: string[] = isLiquidBackingActive
+    ? ["liquidStable", "liquidVolatile", "liquidPol", "marketTotal"]
+    : ["marketStable", "marketVolatile", "marketPol", "liquidTotal"];
+  // The keys to display as a line
+  const composedLineDataKeys: string[] = isLiquidBackingActive ? ["marketTotal"] : ["liquidTotal"];
+
+  // No caching needed, as these are static categories
+  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
+  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
+  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+
+  return (
+    <Chart
+      type={ChartType.Composed}
+      data={byDateMetrics}
+      dataKeys={dataKeys}
+      dataKeyColors={colorsMap}
+      dataFormat={DataFormat.Currency}
+      headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
+      headerSubText={total}
+      dataKeyBulletpointStyles={bulletpointStylesMap}
+      dataKeyLabels={categoriesMap}
+      infoTooltipMessage={
+        isLiquidBackingActive
+          ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
+          : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
+      }
+      isLoading={!data}
+      itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
+      displayTooltipTotal={true}
+      tickStyle={getTickStyle(theme)}
+      composedLineDataKeys={composedLineDataKeys}
+      onMouseMove={onMouseMove}
+    />
+  );
+};
 
 type DateTokenSummary = {
   date: string;
@@ -345,8 +530,8 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
  * @param earliestDateString
  * @returns
  */
-const getNextPageStartDate = (dateString: string, earliestDateString: string): string => {
-  const date = adjustDateByDays(new Date(dateString), DEFAULT_DATE_DIFF);
+const getNextPageStartDate = (dateString: string, earliestDateString: string, offset = DEFAULT_DATE_OFFSET): string => {
+  const date = adjustDateByDays(new Date(dateString), offset);
   const earliestDate = new Date(earliestDateString);
   // We don't want to go further back than the earliestDate
   const finalDate = date.getTime() < earliestDate.getTime() ? earliestDate : date;

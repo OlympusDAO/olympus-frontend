@@ -12,7 +12,11 @@ import {
   PARAM_TOKEN,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { DEFAULT_DAYS, ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import {
+  DEFAULT_DAYS,
+  ProtocolOwnedLiquidityGraph,
+  TreasuryAssets,
+} from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -189,11 +193,11 @@ const MetricsDashboard = () => {
             />
           </Paper>
         </Grid> */}
-        {/* <Grid item xs={12}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
+            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={startDateString} />
           </Paper>
-        </Grid> */}
+        </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={startDateString} />
