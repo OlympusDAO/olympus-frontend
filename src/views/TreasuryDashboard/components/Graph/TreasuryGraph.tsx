@@ -336,7 +336,7 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
   });
 };
 
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate: startDate }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
 
@@ -348,7 +348,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate: startDa
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "startDate",
     {
@@ -357,7 +357,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate: startDa
       startingRecord: 0,
     },
     {
-      keepPreviousData: true,
       getNextPageParam(lastPage) {
         // TODO what if there are no records for a given day?
         const currentStartDate = lastPage.tokenRecords[0].date;
@@ -367,19 +366,27 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate: startDa
          *
          * Returning undefined tells react-query not to fetch the next page.
          */
-        if (startDate == currentStartDate) {
+        if (new Date(currentStartDate).getTime() <= new Date(earliestDate).getTime()) {
+          console.debug("Data loading done");
           return;
         }
 
         /**
          * We move back a day.
          */
+        const newStartDate = getISO8601String(adjustDateByDays(new Date(currentStartDate), -1));
+        console.debug("Loading data for " + newStartDate);
         return {
-          startDate: getISO8601String(adjustDateByDays(new Date(currentStartDate), -1)),
+          startDate: newStartDate,
         };
       },
     },
   );
+
+  useEffect(() => {
+    console.debug("earliestDate changed. Re-fetching.");
+    refetch();
+  }, [earliestDate]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
