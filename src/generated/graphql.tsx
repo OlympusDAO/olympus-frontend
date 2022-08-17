@@ -2854,7 +2854,7 @@ export const TokenRecordsDocument = `
   tokenRecords(
     first: $recordCount
     skip: $startingRecord
-    where: {date_gte: $startDate}
+    where: {date: $startDate}
     orderBy: date
     orderDirection: desc
   ) {

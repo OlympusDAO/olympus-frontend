@@ -4,6 +4,7 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
+import { adjustDateByDays } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
   PARAM_DAYS,
@@ -25,13 +26,6 @@ const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVari
 const getSubgraphIdParameter = (): string | undefined => {
   const source = window.location.hash.split(`${PARAM_SUBGRAPH}=`);
   return source.length > 1 && source[1] ? source[1].split("&")[0] : undefined;
-};
-
-const adjustDateByDays = (date: Date, days: number): Date => {
-  const newDate = new Date(date.getTime());
-  newDate.setTime(newDate.getTime() + 1000 * 60 * 60 * 24 * days);
-
-  return newDate;
 };
 
 /**
@@ -202,7 +196,7 @@ const MetricsDashboard = () => {
         </Grid> */}
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} startDate={startDateString} />
+            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={startDateString} />
           </Paper>
         </Grid>
       </Grid>

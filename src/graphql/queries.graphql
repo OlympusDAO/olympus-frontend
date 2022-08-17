@@ -128,7 +128,7 @@ query TokenRecords($startDate: String!, $recordCount: Int!, $startingRecord: Int
   tokenRecords(
     first: $recordCount
     skip: $startingRecord
-    where: { date_gte: $startDate }
+    where: { date: $startDate }
     orderBy: date
     orderDirection: desc
   ) {

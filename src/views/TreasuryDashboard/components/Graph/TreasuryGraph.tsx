@@ -6,6 +6,7 @@ import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { TokenRecord, TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
+import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -56,7 +57,7 @@ const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string)
 
 type GraphProps = {
   subgraphUrl: string;
-  startDate: string;
+  earliestDate: string;
   activeToken?: string;
   onMouseMove?: CategoricalChartFunc;
 };
@@ -335,14 +336,12 @@ const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] =>
   });
 };
 
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate: startDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
 
-  /**
-   * skip performs slowly
-   * instead we should iterate through all startDate values
-   */
+  // We start from the current date
+  const initialStartDate = getISO8601String(new Date());
 
   /**
    * This code block kicks off data fetching with a default startingRecord of 0.
@@ -351,28 +350,32 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, startDate }: GraphPro
    */
   const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
-    "startingRecord",
-    { startDate: startDate, recordCount: DEFAULT_RECORD_COUNT, startingRecord: 0 },
+    "startDate",
     {
-      getNextPageParam(lastPage, allPages) {
+      startDate: initialStartDate,
+      recordCount: DEFAULT_RECORD_COUNT,
+      startingRecord: 0,
+    },
+    {
+      keepPreviousData: true,
+      getNextPageParam(lastPage) {
+        // TODO what if there are no records for a given day?
+        const currentStartDate = lastPage.tokenRecords[0].date;
+
         /**
-         * If we didn't get back DEFAULT_RECORD_COUNT, then there is no need to fetch the next page.
+         * If we are at the startDate, then there is no need to fetch the next page.
          *
          * Returning undefined tells react-query not to fetch the next page.
          */
-        if (lastPage.tokenRecords.length < DEFAULT_RECORD_COUNT) {
+        if (startDate == currentStartDate) {
           return;
         }
 
         /**
-         * When length = 1, it will have completed the first iteration,
-         * so the next page should have a startingRecord of DEFAULT_RECORD_COUNT * length.
-         *
-         * The object returned by this function is merged with the existing variables
-         * (startDate, recordCount) in the new query.
+         * We move back a day.
          */
         return {
-          startingRecord: DEFAULT_RECORD_COUNT * allPages.length,
+          startDate: getISO8601String(adjustDateByDays(new Date(currentStartDate), -1)),
         };
       },
     },
