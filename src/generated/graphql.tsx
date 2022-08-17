@@ -2514,10 +2514,9 @@ export type ProtocolOwnedLiquidityComponentsQuery = {
 };
 
 export type TokenRecordsQueryVariables = Exact<{
-  startDate: Scalars["String"];
-  finishDate: Scalars["String"];
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
+  filter?: InputMaybe<TokenRecord_Filter>;
 }>;
 
 export type TokenRecordsQuery = {
@@ -2851,11 +2850,11 @@ export const useInfiniteProtocolOwnedLiquidityComponentsQuery = <
   );
 
 export const TokenRecordsDocument = `
-    query TokenRecords($startDate: String!, $finishDate: String!, $recordCount: Int!, $startingRecord: Int = 0) {
+    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
   tokenRecords(
     first: $recordCount
     skip: $startingRecord
-    where: {date_gte: $startDate, date_lt: $finishDate}
+    where: $filter
     orderBy: date
     orderDirection: desc
   ) {

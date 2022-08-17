@@ -38,7 +38,6 @@ const DEFAULT_BULLETPOINT_COLOURS: CSSProperties[] = DEFAULT_COLORS.map(value =>
 export const DEFAULT_DAYS = 30;
 const DEFAULT_RECORD_COUNT = 1000;
 const DEFAULT_DATE_DIFF = -14;
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
@@ -362,6 +361,9 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
+  const baseFilter = {
+    category: "Protocol-Owned Liquidity",
+  };
 
   /**
    * This code block kicks off data fetching with an initial date range.
@@ -370,10 +372,13 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
    */
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
-    "startDate",
+    "filter",
     {
-      startDate: initialStartDate,
-      finishDate: initialFinishDate,
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
@@ -385,6 +390,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
          * {lastPage}, as defining constant or state variables outside of this
          * code block leads to undesired behaviour.
          */
+        if (!lastPage.tokenRecords.length) {
+          console.debug("lastPage has no records. Exiting.");
+          return;
+        }
+
         const currentStartDate = lastPage.tokenRecords.slice(-1)[0].date;
 
         /**
@@ -403,15 +413,18 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
         const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
         console.debug("Loading data for " + newStartDate);
         return {
-          startDate: newStartDate,
-          finishDate: currentStartDate,
+          filter: {
+            ...baseFilter,
+            date_gte: newStartDate,
+            date_lt: currentStartDate,
+          },
         };
       },
     },
   );
 
   useEffect(() => {
-    console.debug("earliestDate changed. Re-fetching.");
+    console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
     refetch();
   }, [earliestDate, refetch]);
 
@@ -456,8 +469,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     const newDateTokenSummary = getDateTokenSummary(tokenRecords);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
-    const tokenCategories = Array.from(new Set(filteredRecords.map(tokenRecord => tokenRecord.token)));
+    const tokenCategories = Array.from(new Set(tokenRecords.map(tokenRecord => tokenRecord.token))).sort();
 
     const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
     setDataKeys(tempDataKeys);
