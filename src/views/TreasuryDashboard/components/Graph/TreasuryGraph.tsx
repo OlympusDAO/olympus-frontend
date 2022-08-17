@@ -319,6 +319,9 @@ export const MarketValueGraph = ({
     },
   );
 
+  /**
+   * We need to trigger a re-fetch when the earliestDate prop is changed.
+   */
   useEffect(() => {
     console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
     refetch();
@@ -336,9 +339,6 @@ export const MarketValueGraph = ({
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  /**
-   * Chart population:
-   */
   type DateTreasuryMetrics = {
     date: string;
     timestamp: number;
@@ -374,6 +374,11 @@ export const MarketValueGraph = ({
       }, 0);
     };
 
+    /**
+     * For each date, we have an array of token records.
+     *
+     * The relevant total is calculated by applying certain filters and summing (reducing) the value for the matching records.
+     */
     dateTokenRecords.forEach((value, key) => {
       const marketStable = filterReduce(value, record => record.category == CATEGORY_STABLE);
       const marketVolatile = filterReduce(value, record => record.category == CATEGORY_VOLATILE);
@@ -388,7 +393,7 @@ export const MarketValueGraph = ({
       const dateMetric: DateTreasuryMetrics = {
         date: key,
         timestamp: new Date(key).getTime(), // We inject the timestamp, as it's used by the Chart component
-        block: 1, // TODO fill this in
+        block: value[0].block,
         marketStable: marketStable,
         marketVolatile: marketVolatile,
         marketPol: marketPol,
@@ -402,11 +407,17 @@ export const MarketValueGraph = ({
       dateMetricsMap.set(key, dateMetric);
     });
 
+    // Sort in descending date order
     return Array.from(dateMetricsMap.values()).sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
   };
 
+  /**
+   * Chart population:
+   *
+   * When data loading is finished, the token records are processed into a compatible structure.
+   */
   useMemo(() => {
     if (hasNextPage || !data) {
       // While data is loading, ensure dependent data is empty
@@ -465,7 +476,7 @@ export const MarketValueGraph = ({
           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
           : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
       }
-      isLoading={!data}
+      isLoading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}
@@ -607,6 +618,9 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     },
   );
 
+  /**
+   * We need to trigger a re-fetch when the earliestDate prop is changed.
+   */
   useEffect(() => {
     console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
     refetch();
