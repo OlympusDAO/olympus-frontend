@@ -1,17 +1,26 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Link, Paper, Switch, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { useTheme } from "@mui/material/styles";
+import {
+  InfoNotification,
+  InfoTooltip,
+  Input,
+  OHMSwapCardProps,
+  PrimaryButton,
+  SwapCard,
+  SwapCollection,
+} from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
-
-import { GOHMConversion } from "./components/GOHMConversion";
-import { useStakeToken } from "./hooks/useStakeToken";
-import { useUnstakeToken } from "./hooks/useUnstakeToken";
+import { GOHMConversion } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/GOHMConversion";
+import TokenModal from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
+import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
+import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
 
 const PREFIX = "StakeInputArea";
 
@@ -54,9 +63,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
+  const theme = useTheme();
   const networks = useTestableNetworks();
   const [stakedAssetType, setStakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
   const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
+  const [tokenModalOpen, setTokenModalOpen] = useState(false);
 
   const fromToken = currentAction === "STAKE" ? "OHM" : stakedAssetType;
 
@@ -64,6 +75,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
+  const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
+  const sOhmBalance = useBalance(SOHM_ADDRESSES)[networks.MAINNET].data;
+  const gOhmBalance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const setMax = () => balance && setAmount(balance.toString());
 
   // Staking/unstaking mutation stuff
@@ -98,6 +112,32 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
         <Tab aria-label="unstake-button" label={t`Unstake`} />
       </Tabs>
+      <SwapCollection
+        UpperSwapCard={
+          <SwapCard
+            id="ohm"
+            token="OHM"
+            value={amount}
+            onChange={event => setAmount(event.target.value)}
+            info={`Balance: ${ohmBalance ? ohmBalance.toString({ decimals: 2 }) : "0.00"} OHM`}
+            endString="Max"
+            endStringOnClick={setMax}
+          />
+        }
+        LowerSwapCard={
+          <SwapCard
+            id="staked"
+            token={stakedAssetType as OHMSwapCardProps["token"]}
+            tokenOnClick={() => setTokenModalOpen(true)}
+          />
+        }
+        arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
+      />
+      <TokenModal
+        open={tokenModalOpen}
+        handleSelect={name => setStakedAssetType(name)}
+        handleClose={() => setTokenModalOpen(false)}
+      />
       {currentAction === "UNSTAKE" && liveInverseBonds && (
         <InfoNotification>
           {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
