@@ -308,11 +308,10 @@ type DateTokenSummary = {
  * @returns
  */
 const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
-  const filteredRecords = tokenRecords.filter(tokenRecord => tokenRecord.category === "Protocol-Owned Liquidity");
   const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
 
-  // filteredRecords is an array of flat records, one token each. We need to aggregate that date, then token
-  filteredRecords.forEach(record => {
+  // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token
+  tokenRecords.forEach(record => {
     const dateSummary = dateSummaryMap.get(record.date) || {
       date: record.date,
       timestamp: new Date(record.date).getTime(), // We inject the timestamp, as it's used by the Chart component
