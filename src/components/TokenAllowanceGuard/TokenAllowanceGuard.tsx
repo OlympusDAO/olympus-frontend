@@ -4,10 +4,9 @@ import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
+import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-
-import { useApproveToken } from "./hooks/useApproveToken";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -53,11 +52,21 @@ const StyledAllowanceGuard = styled("div")(({ theme }) => ({
 }));
 
 export const TokenAllowanceGuard: React.FC<{
-  message: ReactNode;
+  message?: ReactNode;
   isVertical?: boolean;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
-}> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
+  approvalText?: string;
+  approvalPendingText?: string;
+}> = ({
+  message,
+  isVertical = false,
+  tokenAddressMap,
+  spenderAddressMap,
+  approvalText = "Approve",
+  approvalPendingText = "Approving...",
+  children,
+}) => {
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
@@ -71,18 +80,26 @@ export const TokenAllowanceGuard: React.FC<{
   if (allowance.eq(0))
     return (
       <Grid container alignItems="center">
-        <Grid item xs={12} sm={isVertical ? 12 : 8}>
-          <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
-            <Typography variant="body1" color="textSecondary">
-              <em>{message}</em>
-            </Typography>
-          </Box>
-        </Grid>
+        {message && (
+          <Grid item xs={12} sm={isVertical ? 12 : 8}>
+            <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
+              <Typography variant="body1" color="textSecondary">
+                <em>{message}</em>
+              </Typography>
+            </Box>
+          </Grid>
+        )}
 
         <Grid item xs={12} sm={isVertical ? 12 : 4}>
-          <Box display="flex" alignItems="center" justifyContent="center" mt={[2, isVertical ? 2 : 0]}>
-            <PrimaryButton fullWidth className="" onClick={approveMutation.mutate} disabled={approveMutation.isLoading}>
-              {approveMutation.isLoading ? t`Approving...` : t`Approve`}
+          <Box display="flex" alignItems="center" justifyContent="center" mt={[2, isVertical && message ? 2 : 0]}>
+            <PrimaryButton
+              loading={approveMutation.isLoading}
+              fullWidth
+              className=""
+              onClick={approveMutation.mutate}
+              disabled={approveMutation.isLoading}
+            >
+              {approveMutation.isLoading ? t`${approvalPendingText}` : t`${approvalText}`}
             </PrimaryButton>
           </Box>
         </Grid>
