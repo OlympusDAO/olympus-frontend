@@ -7,13 +7,14 @@ import { getSubgraphUrl } from "src/constants";
 import { adjustDateByDays } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
+  DEFAULT_DAYS,
   PARAM_DAYS,
   PARAM_SUBGRAPH,
   PARAM_TOKEN,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
-import { DEFAULT_DAYS, TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 

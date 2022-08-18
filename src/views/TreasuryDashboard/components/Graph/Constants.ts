@@ -2,6 +2,8 @@ import { CSSProperties } from "react";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 
 export const PARAM_DAYS = "days";
+export const DEFAULT_DAYS = 30;
+
 export const DEFAULT_RECORD_COUNT = 1000;
 
 export const PARAM_TOKEN = "token";

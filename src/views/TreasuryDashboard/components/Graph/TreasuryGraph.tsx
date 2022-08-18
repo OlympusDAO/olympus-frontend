@@ -9,8 +9,6 @@ import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { MarketValueGraph } from "src/views/TreasuryDashboard/components/Graph/MarketValueGraph";
 
-export const DEFAULT_DAYS = 30;
-
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
 const QUERY_TREASURY = "treasuryAssets";
