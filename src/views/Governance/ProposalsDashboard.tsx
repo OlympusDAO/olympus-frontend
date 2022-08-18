@@ -2,11 +2,12 @@ import "src/views/Governance/Governance.scss";
 
 import { Box, Grid, Link, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import { Paper, PrimaryButton, Proposal, SecondaryButton, Tab, Tabs } from "@olympusdao/component-library";
+import { Paper, Proposal, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
 import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
+import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { FilterModal } from "src/views/Governance/components/FilterModal";
 import { SearchBar } from "src/views/Governance/components/SearchBar/SearchBar";
 import { toCapitalCase } from "src/views/Governance/helpers";
@@ -45,12 +46,7 @@ export const ProposalsDashboard = () => {
           <Typography fontSize="27px" fontWeight="500" lineHeight="33px">
             Proposals
           </Typography>
-          <Box display="flex" minWidth="310px">
-            <Link to="/governance/create-proposal" component={RouterLink}>
-              <SecondaryButton>Create new Proposal</SecondaryButton>
-            </Link>
-            <PrimaryButton>Delegate Vote</PrimaryButton>
-          </Box>
+          <ActionButtons />
         </Box>
         <Box display="flex" justifyContent="center">
           <Tabs value={false}>

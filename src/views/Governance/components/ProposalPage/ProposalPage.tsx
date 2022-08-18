@@ -1,30 +1,20 @@
-import "./ProposalPage.scss";
+import "src/views/Governance/components/ProposalPage/ProposalPage.scss";
 
 import { t } from "@lingui/macro";
 import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
-import {
-  Chip,
-  Icon,
-  OHMChipProps,
-  Paper,
-  PrimaryButton,
-  SecondaryButton,
-  Tab,
-  Tabs,
-} from "@olympusdao/component-library";
+import { Chip, Icon, OHMChipProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { FC, useMemo } from "react";
 import { NavLink, Outlet, Route, Routes, useParams } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { useProposal } from "src/hooks/useProposal";
 import { IAnyProposal, PStatus } from "src/hooks/useProposals";
-
-import { NULL_PROPOSAL } from "../../constants";
-import { toCapitalCase } from "../../helpers";
-import { BackButton } from "../BackButton";
-import { PollDetailsTab } from "./components/PollDetailsTab";
-import { VotesTab } from "./components/VotesTab";
+import ActionButtons from "src/views/Governance/components/ActionButtons";
+import { BackButton } from "src/views/Governance/components/BackButton";
+import { PollDetailsTab } from "src/views/Governance/components/ProposalPage/components/PollDetailsTab";
+import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
+import { NULL_PROPOSAL } from "src/views/Governance/constants";
+import { toCapitalCase } from "src/views/Governance/helpers";
 
 export const ProposalPage: FC = () => {
   const { passedId } = useParams();
@@ -60,10 +50,7 @@ export const PageWrapper = (props: { proposal: IAnyProposal }) => (
             <ProposalHeader proposal={props.proposal} />
           </Grid>
           <Grid display="flex" item sm={6} justifyContent="flex-end">
-            <Link to="/governance/create-proposal" component={RouterLink}>
-              <SecondaryButton>Create new proposal</SecondaryButton>
-            </Link>
-            <PrimaryButton>Delegate Vote</PrimaryButton>
+            <ActionButtons />
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="center">
