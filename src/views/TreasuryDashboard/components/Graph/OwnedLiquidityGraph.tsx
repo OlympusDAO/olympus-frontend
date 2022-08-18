@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
+import { TokenRecord_Filter, TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import {
@@ -35,7 +35,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
-  const baseFilter = {
+  const baseFilter: TokenRecord_Filter = {
     category: CATEGORY_POL,
   };
 

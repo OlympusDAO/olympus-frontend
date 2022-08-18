@@ -3,7 +3,12 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecord, TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
+import {
+  TokenRecord,
+  TokenRecord_Filter,
+  TokenRecordsDocument,
+  useInfiniteTokenRecordsQuery,
+} from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { getBulletpointStylesMap, getCategoriesMap, getDataKeyColorsMap } from "src/helpers/ProtocolMetricsHelper";
@@ -36,7 +41,7 @@ export const TreasuryAssetsGraph = ({
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
-  const baseFilter = {};
+  const baseFilter: TokenRecord_Filter = {};
 
   /**
    * This code block kicks off data fetching with an initial date range.

@@ -8,6 +8,7 @@ import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalCh
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { TreasuryAssetsGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsGraph";
+import { TreasuryAssetsTable } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsTable";
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
@@ -161,158 +162,12 @@ export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
         onMouseMove={onMouseMove}
         earliestDate={earliestDate}
       />
-      {/* <AssetsTable
+      <TreasuryAssetsTable
         subgraphUrl={subgraphUrl}
+        earliestDate={earliestDate}
         isLiquidBackingActive={isLiquidBackingActive}
         selectedIndex={selectedIndex}
-      /> */}
+      />
     </>
   );
 };
-
-// export const AssetsTable = ({
-//   subgraphUrl,
-//   isLiquidBackingActive,
-//   selectedIndex,
-// }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
-//   const queryExplorerUrl = getSubgraphQueryExplorerUrl(MarketValueMetricsComponentsDocument, subgraphUrl);
-
-//   const { data } = useMarketValueMetricsComponentsQuery({ endpoint: subgraphUrl }, undefined, QUERY_OPTIONS);
-
-//   // State variables used for rendering
-//   const [reducedTokens, setReducedTokens] = useState<MetricRow[]>([]);
-//   const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
-
-//   /**
-//    * We derive reducedTokens and currentMetric from {data}. They only need to be re-calculated
-//    * when {data} changes, so they get wrapped in `useMemo`.
-//    */
-//   useMemo(() => {
-//     if (!data) {
-//       setReducedTokens([]);
-//       return;
-//     }
-
-//     const keys: readonly string[] = isLiquidBackingActive
-//       ? [
-//           "treasuryLiquidBackingStableComponents",
-//           "treasuryLiquidBackingVolatileComponents",
-//           "treasuryLiquidBackingProtocolOwnedLiquidityComponents",
-//         ]
-//       : ["treasuryStableValueComponents", "treasuryVolatileValueComponents", "treasuryLPValueComponents"];
-//     const categories: readonly string[] = [t`Stablecoins`, t`Volatile`, t`Protocol-Owned Liquidity`];
-
-//     const newTokenSummary = getKeysTokenSummary(data.protocolMetrics, keys, categories);
-//     const newReducedTokens = reduceKeysTokenSummary(newTokenSummary, keys);
-//     setReducedTokens(newReducedTokens);
-//   }, [data, isLiquidBackingActive]);
-
-//   /**
-//    * Cache the tokens for the current value of selectedIndex.
-//    */
-//   useMemo(() => {
-//     setCurrentTokens(reducedTokens[selectedIndex] ? reducedTokens[selectedIndex].tokens : []);
-//   }, [reducedTokens, selectedIndex]);
-
-//   const columns: GridColDef[] = [
-//     {
-//       field: "token",
-//       headerName: t`Asset`,
-//       description: t`The token asset that is held`,
-//       flex: 1,
-//       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
-//     },
-//     {
-//       field: "category",
-//       headerName: t`Category`,
-//       description: t`The category of the token asset`,
-//       flex: 1,
-//     },
-//     {
-//       field: "value",
-//       headerName: t`Value`,
-//       description: t`The total value of the token asset in USD`,
-//       flex: 0.5,
-//       type: "string",
-//       sortComparator: (v1, v2) => {
-//         // Get rid of all non-number characters
-//         const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-//         return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-//       },
-//       valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
-//       minWidth: 120,
-//     },
-//   ];
-
-//   const headerText = t`Holdings`;
-
-//   return (
-//     <ChartCard
-//       headerText={headerText}
-//       headerTooltip={
-//         isLiquidBackingActive
-//           ? t`This table lists the details of the treasury assets that make up the liquid backing`
-//           : t`This table lists the details of the treasury assets that make up the market value`
-//       }
-//       subgraphQueryUrl={queryExplorerUrl}
-//       isLoading={false}
-//     >
-//       <DataGrid
-//         autoHeight
-//         loading={!data}
-//         disableSelectionOnClick
-//         rows={currentTokens}
-//         rowHeight={30}
-//         columns={columns}
-//         rowsPerPageOptions={[10]}
-//         pageSize={10}
-//         getRowId={row => row.token}
-//         // Sort by value descending
-//         initialState={{
-//           sorting: {
-//             sortModel: [{ field: "value", sort: "desc" }],
-//           },
-//         }}
-//         // Only ascending or descending sort
-//         sortingOrder={["desc", "asc"]}
-//         sx={{
-//           "& .MuiDataGrid-columnHeaders": {
-//             fontSize: "16px",
-//             height: "40px",
-//             borderBottom: "0px",
-//           },
-//           "& .MuiDataGrid-columnHeaderTitle": {
-//             fontWeight: 800,
-//           },
-//           "& .MuiDataGrid-cellContent": {
-//             fontSize: "14px",
-//           },
-//           // "& .MuiDataGrid-root" doesn't work here, for some reason
-//           "&.MuiDataGrid-root": {
-//             paddingLeft: "12px",
-//             paddingRight: "12px",
-//             border: "0px",
-//           },
-//           "& .MuiDataGrid-columnSeparator": {
-//             display: "none",
-//           },
-//           "& .MuiDataGrid-cell": {
-//             borderBottom: "0px",
-//           },
-//           "& .MuiDataGrid-footerContainer": {
-//             borderTop: "0px",
-//           },
-//           // Disables outline on clicked cells
-//           "& .MuiDataGrid-cell:focus": {
-//             outline: "none",
-//           },
-//           // Disables outline on clicked header cells
-//           "& .MuiDataGrid-columnHeader:focus": {
-//             outline: "none",
-//           },
-//         }}
-//       />
-//     </ChartCard>
-//   );
-// };
