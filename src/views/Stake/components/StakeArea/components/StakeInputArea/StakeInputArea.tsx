@@ -114,7 +114,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     <SwapCard
       id="ohm-input"
       token="OHM"
-      inputProps={{ "data-testid": "ohmy-input" }}
+      inputProps={{ "data-testid": "ohm-input" }}
       value={currentAction === "STAKE" ? amount : receiveAmount}
       onChange={event => ohmOnChange(event.target.value, currentAction === "STAKE")}
       info={`Balance: ${ohmBalance ? ohmBalance.toString({ decimals: 2 }) : "0.00"} OHM`}
@@ -141,7 +141,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
-  console.log("amount", amount);
   return (
     <StyledBox mb={3}>
       <Tabs
@@ -194,10 +193,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   data-testid="submit-button"
                   loading={isMutating}
                   fullWidth
-                  onClick={() => {
-                    console.log(amount, "amount onclicky");
-                    (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
-                  }}
+                  disabled={isMutating || !amount || amountExceedsBalance}
+                  onClick={() => (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount)}
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"

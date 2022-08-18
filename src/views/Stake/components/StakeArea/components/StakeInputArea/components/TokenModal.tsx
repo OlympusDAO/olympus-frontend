@@ -27,7 +27,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
     name: "sOHM" | "gOHM";
     balance: string;
   };
-  const TokenItem: FC<TokenItem> = ({ name, balance }) => (
+  const TokenItem: FC<TokenItem> = ({ name, balance, ...props }) => (
     <ListItem
       key={name}
       button
@@ -36,6 +36,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
         handleClose();
       }}
       sx={{ borderBottom: `1px solid ${theme.colors.gray[500]}` }}
+      {...props}
     >
       <Token name={name as OHMTokenProps["name"]} sx={{ fontSize: "15px" }} />
       <ListItemText
@@ -65,7 +66,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
         </Box>
         <List>
           <TokenItem name="sOHM" balance={sOhmBalance} />
-          <TokenItem data-test-id="gOHM-select" name="gOHM" balance={gOhmBalance} />
+          <TokenItem name="gOHM" balance={gOhmBalance} data-testid="gOHM-select" />
         </List>
       </Box>
     </Dialog>
