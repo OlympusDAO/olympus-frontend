@@ -24,7 +24,7 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
 
-export const MarketValueGraph = ({
+export const TreasuryAssetsGraph = ({
   subgraphUrl,
   earliestDate,
   onMouseMove,

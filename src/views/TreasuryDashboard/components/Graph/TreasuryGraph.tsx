@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { MarketValueGraph } from "src/views/TreasuryDashboard/components/Graph/MarketValueGraph";
+import { TreasuryAssetsGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsGraph";
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
@@ -155,7 +155,7 @@ export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
           </Box>
         </Grid>
       </Grid>
-      <MarketValueGraph
+      <TreasuryAssetsGraph
         subgraphUrl={subgraphUrl}
         isLiquidBackingActive={isLiquidBackingActive}
         onMouseMove={onMouseMove}
