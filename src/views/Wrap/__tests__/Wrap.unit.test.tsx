@@ -1,8 +1,7 @@
 import { connectWallet } from "src/testHelpers";
+import { act, render } from "src/testUtils";
+import Wrap from "src/views/Wrap/Wrap";
 import * as WAGMI from "wagmi";
-
-import { act, render } from "../../../testUtils";
-import Wrap from "../Wrap";
 
 afterEach(() => {
   jest.clearAllMocks();

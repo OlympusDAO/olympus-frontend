@@ -1,6 +1,5 @@
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-
 import {
   CovalentErrorResponse,
   CovalentRequestOptions,
@@ -10,7 +9,7 @@ import {
   CovalentTransaction,
   CovalentTransfer,
   ListAllTransfersOptions,
-} from "./covalent.types";
+} from "src/lib/covalent.types";
 
 class Covalent {
   private SUPPORTED_NETWORKS = [

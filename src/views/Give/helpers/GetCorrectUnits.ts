@@ -1,6 +1,5 @@
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-
-import { GIVE_MAX_DECIMALS } from "../constants";
+import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 
 /**
  * @notice Helper function to convert units from Give contract into correct units for the user based

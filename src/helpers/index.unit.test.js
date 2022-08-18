@@ -1,7 +1,6 @@
 import axios from "axios";
 import { resetAllWhenMocks, when } from "jest-when";
-
-import { getTokenPrice } from "./index";
+import { getTokenPrice } from "src/helpers/index";
 
 beforeEach(() => {
   resetAllWhenMocks(); //

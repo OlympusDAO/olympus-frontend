@@ -1,9 +1,8 @@
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import { CurveFactory__factory, CurvePool__factory, CurveToken__factory } from "src/typechain";
-
-import { Token } from "../contracts/Token";
-import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
-import { Providers } from "../providers/Providers/Providers";
 
 /**
  * Calculates the value of a Curve LP token in USD

@@ -1,5 +1,5 @@
-import { render } from "../../../testUtils";
-import Sidebar from "../Sidebar";
+import Sidebar from "src/components/Sidebar/Sidebar";
+import { render } from "src/testUtils";
 
 describe("<Sidebar/>", () => {
   it("should render component", () => {

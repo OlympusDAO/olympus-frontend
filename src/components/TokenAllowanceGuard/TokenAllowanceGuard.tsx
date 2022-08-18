@@ -4,10 +4,9 @@ import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
+import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-
-import { useApproveToken } from "./hooks/useApproveToken";
 
 const PREFIX = "TokenAllowanceGuard";
 

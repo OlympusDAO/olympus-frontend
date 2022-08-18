@@ -1,5 +1,5 @@
-import { render } from "../../../testUtils";
-import CallToAction from "../CallToAction";
+import CallToAction from "src/components/CallToAction/CallToAction";
+import { render } from "src/testUtils";
 
 describe("<CallToAction/>", () => {
   it("should render component", () => {

@@ -12,12 +12,11 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { usePurchaseBond } from "src/views/Bond/components/BondModal/components/BondInputArea/hooks/usePurchaseBond";
 import { Bond } from "src/views/Bond/hooks/useBond";
 import { useAccount } from "wagmi";
-
-import { BondDiscount } from "../../../BondDiscount";
-import { BondDuration } from "../../../BondDuration";
-import { usePurchaseBond } from "./hooks/usePurchaseBond";
 
 export const BondInputArea: React.VFC<{
   bond: Bond;

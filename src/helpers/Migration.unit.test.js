@@ -1,6 +1,5 @@
 import * as fc from "fast-check";
-
-import { formatCurrency } from "./Migration";
+import { formatCurrency } from "src/helpers/Migration";
 
 test("formatCurrency always returns value starting with $", async () => {
   // force 0.1 to a 32-bit float

@@ -4,6 +4,10 @@ import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/
 import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Balances from "src/components/TopBar/Wallet/Assets/Balances";
+import { TransactionHistory } from "src/components/TopBar/Wallet/Assets/TransactionHistory";
+import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
+import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
@@ -26,11 +30,6 @@ import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 import { useNetwork } from "wagmi";
-
-import { useFaucet } from "../hooks/useFaucet";
-import { GetTokenPrice } from "../queries";
-import Balances from "./Balances";
-import { TransactionHistory } from "./TransactionHistory";
 
 const PREFIX = "AssetsIndex";
 
