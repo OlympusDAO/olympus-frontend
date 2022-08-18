@@ -70,7 +70,7 @@ export const ProposalsDashboard = () => {
             Filter
           </SecondaryButton>
         </Grid> */}
-        <Grid container direction="column" spacing={2}>
+        <Grid container direction="column" spacing={2} xs={12} ml={0}>
           <>
             {Number(activeProposal?.activationTimestamp) > 0 && (
               <ProposalContainer
