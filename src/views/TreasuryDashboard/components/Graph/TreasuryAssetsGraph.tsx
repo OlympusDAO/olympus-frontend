@@ -23,6 +23,7 @@ import {
   getSubgraphQueryExplorerUrl,
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
 
 export const TreasuryAssetsGraph = ({
   subgraphUrl,
@@ -54,44 +55,7 @@ export const TreasuryAssetsGraph = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      getNextPageParam(lastPage) {
-        /**
-         * The last element of lastPage will have the earliest date.
-         *
-         * The current start date (and hence, current page) is determined using
-         * {lastPage}, as defining constant or state variables outside of this
-         * code block leads to undesired behaviour.
-         */
-        if (!lastPage.tokenRecords.length) {
-          console.debug("lastPage has no records. Exiting.");
-          return;
-        }
-
-        const currentStartDate = lastPage.tokenRecords.slice(-1)[0].date;
-
-        /**
-         * If we are at the earliestDate, then there is no need to fetch the next page.
-         *
-         * Returning undefined tells react-query not to fetch the next page.
-         */
-        if (new Date(currentStartDate).getTime() <= new Date(earliestDate).getTime()) {
-          console.debug("Data loading done");
-          return;
-        }
-
-        /**
-         * We adjust the date range and trigger the next query.
-         */
-        const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
-        console.debug("Loading data for " + newStartDate);
-        return {
-          filter: {
-            ...baseFilter,
-            date_gte: newStartDate,
-            date_lt: currentStartDate,
-          },
-        };
-      },
+      getNextPageParam: getNextPageParamFactory("TreasuryAssetsGraph", earliestDate, DEFAULT_RECORD_COUNT, baseFilter),
     },
   );
 
