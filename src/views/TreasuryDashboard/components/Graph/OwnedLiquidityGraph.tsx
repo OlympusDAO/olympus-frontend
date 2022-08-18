@@ -1,0 +1,191 @@
+import { t } from "@lingui/macro";
+import { useTheme } from "@mui/material/styles";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
+import Chart from "src/components/Chart/Chart";
+import { ChartType, DataFormat } from "src/components/Chart/Constants";
+import { TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
+import { formatCurrency } from "src/helpers";
+import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
+import {
+  getBulletpointStylesMap,
+  getCategoriesMap,
+  getDataKeyColorsMap,
+  getDataKeysFromTokens,
+  TokenRow,
+} from "src/helpers/ProtocolMetricsHelper";
+import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/ChartHelper";
+import {
+  CATEGORY_POL,
+  DEFAULT_BULLETPOINT_COLOURS,
+  DEFAULT_COLORS,
+  DEFAULT_RECORD_COUNT,
+  GraphProps,
+} from "src/views/TreasuryDashboard/components/Graph/Constants";
+import {
+  DateTokenSummary,
+  getDateTokenSummary,
+  getNextPageStartDate,
+  getSubgraphQueryExplorerUrl,
+} from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const theme = useTheme();
+
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
+  const baseFilter = {
+    category: CATEGORY_POL,
+  };
+
+  /**
+   * This code block kicks off data fetching with an initial date range.
+   *
+   * The definition of getNextPageParam() handles pagination.
+   */
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+    { endpoint: subgraphUrl },
+    "filter",
+    {
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
+      recordCount: DEFAULT_RECORD_COUNT,
+    },
+    {
+      getNextPageParam(lastPage) {
+        /**
+         * The last element of lastPage will have the earliest date.
+         *
+         * The current start date (and hence, current page) is determined using
+         * {lastPage}, as defining constant or state variables outside of this
+         * code block leads to undesired behaviour.
+         */
+        if (!lastPage.tokenRecords.length) {
+          console.debug("lastPage has no records. Exiting.");
+          return;
+        }
+
+        const currentStartDate = lastPage.tokenRecords.slice(-1)[0].date;
+
+        /**
+         * If we are at the earliestDate, then there is no need to fetch the next page.
+         *
+         * Returning undefined tells react-query not to fetch the next page.
+         */
+        if (new Date(currentStartDate).getTime() <= new Date(earliestDate).getTime()) {
+          console.debug("Data loading done");
+          return;
+        }
+
+        /**
+         * We adjust the date range and trigger the next query.
+         */
+        const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
+        console.debug("Loading data for " + newStartDate);
+        return {
+          filter: {
+            ...baseFilter,
+            date_gte: newStartDate,
+            date_lt: currentStartDate,
+          },
+        };
+      },
+    },
+  );
+
+  /**
+   * We need to trigger a re-fetch when the earliestDate prop is changed.
+   */
+  useEffect(() => {
+    console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
+    refetch();
+  }, [earliestDate, refetch]);
+
+  /**
+   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
+   *
+   * react-query's infinite query functionality apparently does not support automatically
+   * fetching all pages. This code block achieves that.
+   */
+  useEffect(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [data, hasNextPage, fetchNextPage]);
+
+  /**
+   * Chart population:
+   *
+   * The following code block processes the {tokenRecords} array and
+   * generates the data structures required to populate the chart.
+   */
+  const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
+  const [categoryDataKeyMap, setCategoryDataKeyMap] = useState(new Map<string, string>());
+  const initialDataKeys: string[] = [];
+  const [dataKeys, setDataKeys] = useState(initialDataKeys);
+  const [dataKeyBulletpointStylesMap, setDataKeyBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [dataKeyColorsMap, setDataKeyColorsMap] = useState(new Map<string, string>());
+  const [total, setTotal] = useState("");
+  useMemo(() => {
+    // While data is loading, ensure dependent data is empty
+    if (hasNextPage || !data) {
+      setByDateTokenSummary([]);
+      setCategoryDataKeyMap(new Map<string, string>());
+      setDataKeys([]);
+      setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
+      return;
+    }
+
+    // We need to flatten the tokenRecords from all of the pages arrays
+    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+
+    const newDateTokenSummary = getDateTokenSummary(tokenRecords);
+    setByDateTokenSummary(newDateTokenSummary);
+
+    const tokenCategories = Array.from(new Set(tokenRecords.map(tokenRecord => tokenRecord.token))).sort();
+
+    const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
+    setDataKeys(tempDataKeys);
+
+    const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
+    setCategoryDataKeyMap(tempCategoriesMap);
+
+    const tempBulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys);
+    setDataKeyBulletpointStylesMap(tempBulletpointStylesMap);
+
+    const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
+    setDataKeyColorsMap(tempColorsMap);
+
+    const tempTotal =
+      newDateTokenSummary.length > 0
+        ? Object.values(newDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
+            return +previousValue + parseFloat(token.value);
+          }, 0)
+        : 0;
+    setTotal(formatCurrency(tempTotal, 0));
+  }, [data, hasNextPage]);
+
+  return (
+    <Chart
+      type={ChartType.StackedArea}
+      data={byDateTokenSummary}
+      dataKeys={dataKeys}
+      dataKeyColors={dataKeyColorsMap}
+      dataFormat={DataFormat.Currency}
+      headerText={t`Protocol-Owned Liquidity`}
+      headerSubText={total}
+      dataKeyBulletpointStyles={dataKeyBulletpointStylesMap}
+      dataKeyLabels={categoryDataKeyMap}
+      infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
+      isLoading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
+      itemDecimals={0}
+      subgraphQueryUrl={queryExplorerUrl}
+      displayTooltipTotal={true}
+      tickStyle={getTickStyle(theme)}
+      margin={{ left: -5 }}
+    />
+  );
+};

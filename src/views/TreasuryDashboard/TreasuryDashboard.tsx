@@ -12,11 +12,8 @@ import {
   PARAM_TOKEN,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import {
-  DEFAULT_DAYS,
-  ProtocolOwnedLiquidityGraph,
-  TreasuryAssets,
-} from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
+import { DEFAULT_DAYS, TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
