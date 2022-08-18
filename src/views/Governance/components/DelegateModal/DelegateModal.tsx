@@ -1,8 +1,8 @@
-import { isAddress } from "@ethersproject/address";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Input, Modal, OHMModalProps, PrimaryButton } from "@olympusdao/component-library";
 import { FC, useState } from "react";
+import { isValidAddress } from "src/helpers/misc/isValidAddress";
 
 type DelegateModalProps = {
   open: OHMModalProps["open"];
@@ -25,15 +25,11 @@ const DelegateModal: FC<DelegateModalProps> = ({ open, handleClose }) => {
 
   const handleSetDelegatedAddress = (value: string) => {
     setDelegatedAddress(value);
-    checkIsAddressValid(value);
-  };
 
-  const checkIsAddressValid = (value: string) => {
-    if (!isAddress(value)) {
+    if (!isValidAddress(value)) {
       setIsDelegatedAddressValid(false);
       return;
     }
-
     setIsDelegatedAddressValid(true);
   };
 
