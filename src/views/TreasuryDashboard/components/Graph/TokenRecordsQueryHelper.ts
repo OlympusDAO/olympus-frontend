@@ -19,6 +19,13 @@ export const getNextPageParamFactory =
      * The current start date (and hence, current page) is determined using
      * {lastPage}, as defining constant or state variables outside of this
      * code block leads to undesired behaviour.
+     *
+     * However, this presents a problem in that trying to access a subgraph that
+     * has not finished indexing is impossible, since there is no data for today,
+     * hence no elements in {lastPage.tokenRecords} that would give a date to
+     * use for pagination.
+     *
+     * TODO consider how to solve this pagination issue
      */
     if (!lastPage.tokenRecords.length) {
       console.debug(queryName + ": lastPage has no records. Exiting.");
