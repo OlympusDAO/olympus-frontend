@@ -1,5 +1,5 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { Metric, Paper, TabBar } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
@@ -11,10 +11,21 @@ import {
   PARAM_DAYS,
   PARAM_SUBGRAPH,
   PARAM_TOKEN,
+  PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import {
+  BackingPerGOHM,
+  BackingPerOHM,
+  CurrentIndex,
+  GOhmCirculatingSupply,
+  GOHMPriceFromSubgraph,
+  MarketCap,
+  OhmCirculatingSupply,
+  OHMPriceFromSubgraph,
+} from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -115,7 +126,7 @@ const MetricsDashboard = () => {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Paper {...paperProps}>
-            {/* <MetricCollection>
+            <MetricCollection>
               <MarketCap {...sharedMetricProps} />
               <OHMPriceFromSubgraph {...sharedMetricProps} />
               <GOHMPriceFromSubgraph {...sharedMetricProps} className="wsoprice" />
@@ -126,7 +137,7 @@ const MetricsDashboard = () => {
               )}
               {isTokenOHM() ? <BackingPerOHM {...sharedMetricProps} /> : <BackingPerGOHM {...sharedMetricProps} />}
               <CurrentIndex {...sharedMetricProps} />
-            </MetricCollection> */}
+            </MetricCollection>
           </Paper>
         </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
@@ -163,7 +174,7 @@ const MetricsDashboard = () => {
           <Grid item xs={2} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
           <Grid item xs={3} sm={4} md={3} lg={5} />
-          {/* <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
+          <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -179,7 +190,7 @@ const MetricsDashboard = () => {
                 },
               ]}
             />
-          </Grid> */}
+          </Grid>
           {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />}
         </Grid>
         {/* <Grid item xs={12}>
