@@ -1,12 +1,14 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import {
   TokenRecord,
   TokenRecord_Filter,
   TokenRecordsDocument,
+  TokenRecordsQuery,
+  TokenRecordsQueryVariables,
   useInfiniteTokenRecordsQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
@@ -40,9 +42,17 @@ export const TreasuryAssetsGraph = ({
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
 
+  const dateOffset = -120;
+
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
+  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const baseFilter: TokenRecord_Filter = {};
+
+  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+
+  useEffect(() => {
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, dateOffset);
+  }, []);
 
   /**
    * This code block kicks off data fetching with an initial date range.
@@ -61,7 +71,7 @@ export const TreasuryAssetsGraph = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      getNextPageParam: getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter),
+      getNextPageParam: paginator.current,
     },
   );
 

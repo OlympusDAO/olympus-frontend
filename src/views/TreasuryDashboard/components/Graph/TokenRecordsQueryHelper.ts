@@ -10,9 +10,15 @@ import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Gra
  * @param baseFilter The standard filter to apply to all queries
  * @returns
  */
-export const getNextPageParamFactory =
-  (queryName: string, earliestDate: string, recordCount: number, baseFilter: TokenRecord_Filter) =>
-  (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
+export const getNextPageParamFactory = (
+  queryName: string,
+  earliestDate: string,
+  recordCount: number,
+  baseFilter: TokenRecord_Filter,
+  dateOffset?: number,
+) => {
+  console.log(queryName + ": created getNextPageParam");
+  return (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
     /**
      * The last element of lastPage will have the earliest date.
      *
@@ -47,7 +53,7 @@ export const getNextPageParamFactory =
     /**
      * We adjust the date range and trigger the next query.
      */
-    const newStartDate = getNextPageStartDate(currentStartDate, earliestDate);
+    const newStartDate = getNextPageStartDate(currentStartDate, earliestDate, dateOffset);
     console.debug(queryName + ": Loading data for " + newStartDate);
     return {
       filter: {
@@ -58,3 +64,4 @@ export const getNextPageParamFactory =
       recordCount: recordCount,
     };
   };
+};
