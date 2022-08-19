@@ -32,6 +32,7 @@ import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
+  const chartName = "ProtocolOwnedLiquidityGraph";
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
@@ -56,12 +57,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      getNextPageParam: getNextPageParamFactory(
-        "ProtocolOwnedLiquidityGraph",
-        earliestDate,
-        DEFAULT_RECORD_COUNT,
-        baseFilter,
-      ),
+      getNextPageParam: getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter),
     },
   );
 
@@ -69,7 +65,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
    * We need to trigger a re-fetch when the earliestDate prop is changed.
    */
   useEffect(() => {
-    console.debug("earliestDate changed to " + earliestDate + ". Re-fetching.");
+    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
     refetch();
   }, [earliestDate, refetch]);
 

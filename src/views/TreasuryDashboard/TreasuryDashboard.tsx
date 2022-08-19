@@ -4,7 +4,7 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
-import { adjustDateByDays } from "src/helpers/DateHelper";
+import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
   DEFAULT_DAYS,
@@ -52,9 +52,7 @@ const MetricsDashboard = () => {
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
-  const startDateString = adjustDateByDays(new Date(), -1 * parseInt(daysPrior))
-    .toISOString()
-    .split("T")[0];
+  const startDateString = getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
 
   // Determine the subgraph URL
   // Originally, this was performed at the component level, but it ended up with a lot of redundant
