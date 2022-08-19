@@ -1365,30 +1365,11 @@ export enum _SubgraphErrorPolicy_ {
   Deny = "deny",
 }
 
-export type MetricsBarLatestOnlyQueryVariables = Exact<{ [key: string]: never }>;
-
-export type MetricsBarLatestOnlyQuery = {
-  __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
-    id: string;
-    block: number;
-    currentIndex: number;
-    date: string;
-    gOhmPrice: number;
-    gOhmTotalSupply: number;
-    ohmPrice: number;
-    ohmTotalSupply: number;
-    timestamp: number;
-    totalValueLocked: number;
-  }>;
-};
-
-export type KeyMetricsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
+export type ProtocolMetricsQueryVariables = Exact<{
+  recordCount: Scalars["Int"];
 }>;
 
-export type KeyMetricsQuery = {
+export type ProtocolMetricsQuery = {
   __typename?: "Query";
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
@@ -1459,9 +1440,9 @@ export type TokenSuppliesQuery = {
   }>;
 };
 
-export const MetricsBarLatestOnlyDocument = `
-    query MetricsBarLatestOnly {
-  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+export const ProtocolMetricsDocument = `
+    query ProtocolMetrics($recordCount: Int!) {
+  protocolMetrics(first: $recordCount, orderBy: date, orderDirection: desc) {
     id
     block
     currentIndex
@@ -1475,83 +1456,34 @@ export const MetricsBarLatestOnlyDocument = `
   }
 }
     `;
-export const useMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, TError = unknown>(
+export const useProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: MetricsBarLatestOnlyQueryVariables,
-  options?: UseQueryOptions<MetricsBarLatestOnlyQuery, TError, TData>,
+  variables: ProtocolMetricsQueryVariables,
+  options?: UseQueryOptions<ProtocolMetricsQuery, TError, TData>,
 ) =>
-  useQuery<MetricsBarLatestOnlyQuery, TError, TData>(
-    variables === undefined ? ["MetricsBarLatestOnly"] : ["MetricsBarLatestOnly", variables],
-    fetcher<MetricsBarLatestOnlyQuery, MetricsBarLatestOnlyQueryVariables>(
+  useQuery<ProtocolMetricsQuery, TError, TData>(
+    ["ProtocolMetrics", variables],
+    fetcher<ProtocolMetricsQuery, ProtocolMetricsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      MetricsBarLatestOnlyDocument,
+      ProtocolMetricsDocument,
       variables,
     ),
     options,
   );
-export const useInfiniteMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, TError = unknown>(
+export const useInfiniteProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  _pageParamKey: keyof MetricsBarLatestOnlyQueryVariables,
-  variables?: MetricsBarLatestOnlyQueryVariables,
-  options?: UseInfiniteQueryOptions<MetricsBarLatestOnlyQuery, TError, TData>,
+  _pageParamKey: keyof ProtocolMetricsQueryVariables,
+  variables: ProtocolMetricsQueryVariables,
+  options?: UseInfiniteQueryOptions<ProtocolMetricsQuery, TError, TData>,
 ) =>
-  useInfiniteQuery<MetricsBarLatestOnlyQuery, TError, TData>(
-    variables === undefined ? ["MetricsBarLatestOnly.infinite"] : ["MetricsBarLatestOnly.infinite", variables],
+  useInfiniteQuery<ProtocolMetricsQuery, TError, TData>(
+    ["ProtocolMetrics.infinite", variables],
     metaData =>
-      fetcher<MetricsBarLatestOnlyQuery, MetricsBarLatestOnlyQueryVariables>(
+      fetcher<ProtocolMetricsQuery, ProtocolMetricsQueryVariables>(
         dataSource.endpoint,
         dataSource.fetchParams || {},
-        MetricsBarLatestOnlyDocument,
-        { ...variables, ...(metaData.pageParam ?? {}) },
-      )(),
-    options,
-  );
-
-export const KeyMetricsDocument = `
-    query KeyMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    currentIndex
-    date
-    gOhmPrice
-    gOhmTotalSupply
-    ohmPrice
-    ohmTotalSupply
-    timestamp
-    totalValueLocked
-  }
-}
-    `;
-export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
-  dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: KeyMetricsQueryVariables,
-  options?: UseQueryOptions<KeyMetricsQuery, TError, TData>,
-) =>
-  useQuery<KeyMetricsQuery, TError, TData>(
-    variables === undefined ? ["KeyMetrics"] : ["KeyMetrics", variables],
-    fetcher<KeyMetricsQuery, KeyMetricsQueryVariables>(
-      dataSource.endpoint,
-      dataSource.fetchParams || {},
-      KeyMetricsDocument,
-      variables,
-    ),
-    options,
-  );
-export const useInfiniteKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
-  dataSource: { endpoint: string; fetchParams?: RequestInit },
-  _pageParamKey: keyof KeyMetricsQueryVariables,
-  variables?: KeyMetricsQueryVariables,
-  options?: UseInfiniteQueryOptions<KeyMetricsQuery, TError, TData>,
-) =>
-  useInfiniteQuery<KeyMetricsQuery, TError, TData>(
-    variables === undefined ? ["KeyMetrics.infinite"] : ["KeyMetrics.infinite", variables],
-    metaData =>
-      fetcher<KeyMetricsQuery, KeyMetricsQueryVariables>(
-        dataSource.endpoint,
-        dataSource.fetchParams || {},
-        KeyMetricsDocument,
+        ProtocolMetricsDocument,
         { ...variables, ...(metaData.pageParam ?? {}) },
       )(),
     options,

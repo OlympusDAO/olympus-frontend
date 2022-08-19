@@ -1,20 +1,5 @@
-query MetricsBarLatestOnly {
-  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    currentIndex
-    date
-    gOhmPrice
-    gOhmTotalSupply
-    ohmPrice
-    ohmTotalSupply
-    timestamp
-    totalValueLocked
-  }
-}
-
-query KeyMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+query ProtocolMetrics($recordCount: Int!) {
+  protocolMetrics(first: $recordCount, orderBy: date, orderDirection: desc) {
     id
     block
     currentIndex
