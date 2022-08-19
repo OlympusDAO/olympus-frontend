@@ -46,10 +46,24 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     category: CATEGORY_POL,
   };
 
+  /**
+   * Pagination:
+   *
+   * We track the current start date using a mutable reference that doesn't trigger re-rendering.
+   *
+   * We also create {paginator} within a useEffect block, so that it isn't re-created every re-render.
+   */
+  const currentStartDate = useRef(initialStartDate);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, []);
+    paginator.current = getNextPageParamFactory(
+      chartName,
+      earliestDate,
+      DEFAULT_RECORD_COUNT,
+      baseFilter,
+      currentStartDate,
+    );
+  }, [earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
@@ -88,9 +102,14 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
    */
   useEffect(() => {
     if (hasNextPage) {
+      console.log(chartName + ": fetching next page");
       fetchNextPage();
+      return;
     }
   }, [data, hasNextPage, fetchNextPage]);
+
+  // TODO fix initial loading with default earliestDate before changing
+  // TODO filter not making query key distinct?
 
   /**
    * Chart population:

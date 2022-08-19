@@ -1,7 +1,13 @@
 import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { useEffect, useMemo, useState } from "react";
-import { TokenRecord_Filter, TokenRecordsDocument, useInfiniteTokenRecordsQuery } from "src/generated/graphql";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  TokenRecord_Filter,
+  TokenRecordsDocument,
+  TokenRecordsQuery,
+  TokenRecordsQueryVariables,
+  useInfiniteTokenRecordsQuery,
+} from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { renameToken, TokenRow } from "src/helpers/ProtocolMetricsHelper";
@@ -36,6 +42,25 @@ export const TreasuryAssetsTable = ({
   };
 
   /**
+   * Pagination:
+   *
+   * We track the current start date using a mutable reference that doesn't trigger re-rendering.
+   *
+   * We also create {paginator} within a useEffect block, so that it isn't re-created every re-render.
+   */
+  const currentStartDate = useRef(initialStartDate);
+  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+  useEffect(() => {
+    paginator.current = getNextPageParamFactory(
+      chartName,
+      earliestDate,
+      DEFAULT_RECORD_COUNT,
+      baseFilter,
+      currentStartDate,
+    );
+  }, [earliestDate]);
+
+  /**
    * This code block kicks off data fetching with an initial date range.
    *
    * The definition of getNextPageParam() handles pagination.
@@ -52,7 +77,7 @@ export const TreasuryAssetsTable = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      getNextPageParam: getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter),
+      getNextPageParam: paginator.current,
     },
   );
 
@@ -72,7 +97,9 @@ export const TreasuryAssetsTable = ({
    */
   useEffect(() => {
     if (hasNextPage) {
+      console.log(chartName + ": fetching next page");
       fetchNextPage();
+      return;
     }
   }, [data, hasNextPage, fetchNextPage]);
 

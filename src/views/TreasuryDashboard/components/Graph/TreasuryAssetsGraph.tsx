@@ -42,17 +42,28 @@ export const TreasuryAssetsGraph = ({
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
 
-  const dateOffset = -120;
-
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
+  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
+  /**
+   * Pagination:
+   *
+   * We track the current start date using a mutable reference that doesn't trigger re-rendering.
+   *
+   * We also create {paginator} within a useEffect block, so that it isn't re-created every re-render.
+   */
+  const currentStartDate = useRef(initialStartDate);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-
   useEffect(() => {
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, dateOffset);
-  }, []);
+    paginator.current = getNextPageParamFactory(
+      chartName,
+      earliestDate,
+      DEFAULT_RECORD_COUNT,
+      baseFilter,
+      currentStartDate,
+    );
+  }, [earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
@@ -93,6 +104,7 @@ export const TreasuryAssetsGraph = ({
     if (hasNextPage) {
       console.log(chartName + ": fetching next page");
       fetchNextPage();
+      return;
     }
   }, [data, hasNextPage, fetchNextPage]);
 
