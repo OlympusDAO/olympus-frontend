@@ -4,7 +4,7 @@ import {
   CATEGORY_STABLE,
   CATEGORY_VOLATILE,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
  * Generates a function that can be assigned to the `getNextPageParam` property
@@ -78,4 +78,20 @@ export const getLiquidBackingValue = (records: TokenRecord[]): number => {
     records,
     record => [CATEGORY_STABLE, CATEGORY_VOLATILE, CATEGORY_POL].includes(record.category) && record.isLiquid == true,
   );
+};
+
+/**
+ * Extract the tokenRecords into a map, indexed by the date string
+ * @param tokenRecords
+ * @returns
+ */
+export const getTokenRecordDateMap = (tokenRecords: TokenRecord[]): Map<string, TokenRecord[]> => {
+  const dateTokenRecords: Map<string, TokenRecord[]> = new Map<string, TokenRecord[]>();
+  tokenRecords.map(value => {
+    const currentDateRecords = dateTokenRecords.get(value.date) || [];
+    currentDateRecords.push(value);
+    dateTokenRecords.set(value.date, currentDateRecords);
+  });
+
+  return dateTokenRecords;
 };

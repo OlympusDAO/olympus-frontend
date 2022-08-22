@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import {
+  ProtocolMetricsDocument,
   ProtocolMetricsQuery,
   ProtocolMetricsQueryVariables,
   TokenRecord_Filter,
@@ -18,7 +19,6 @@ import {
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { getBulletpointStylesMap, getCategoriesMap, getDataKeyColorsMap } from "src/helpers/ProtocolMetricsHelper";
-import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/ChartHelper";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -26,26 +26,28 @@ import {
   GraphProps,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import {
   getNextPageParamFactory as getNextPageParamProtocolMetricFactory,
   getProtocolMetricDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/ProtocolMetricsQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
 import {
   getNextPageStartDate,
-  getTokenRecordDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+  getSubgraphQueryExplorerUrl,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   getLiquidBackingValue,
   getNextPageParamFactory as getNextPageParamTokenRecordFactory,
-} from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
+  getTokenRecordDateMap,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 import {
   getNextPageParamFactory as getNextPageParamTokenSupplyFactory,
   getTokenSupplyDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/TokenSupplyQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 import {
   getLiquidBackingPerGOhmSynthetic,
   getLiquidBackingPerOhmFloating,
-} from "src/views/TreasuryDashboard/components/Graph/TreasuryQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TreasuryQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -54,8 +56,8 @@ import {
  * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, activeToken }: GraphProps) => {
-  // TODO enable
-  const queryExplorerUrl = ""; //getSubgraphQueryExplorerUrl(KeyMetricsDocument, subgraphUrl);
+  // TODO look at how to combine query documents
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrl);
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
 

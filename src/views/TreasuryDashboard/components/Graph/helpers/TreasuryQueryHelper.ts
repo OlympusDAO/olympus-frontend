@@ -2,7 +2,7 @@ import { TokenSupply } from "src/generated/graphql";
 import {
   getGOhmSyntheticSupply,
   getOhmFloatingSupply,
-} from "src/views/TreasuryDashboard/components/Graph/TokenSupplyQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 export const getLiquidBackingPerOhmFloating = (liquidBacking: number, tokenSupplies: TokenSupply[]) =>
   liquidBacking / getOhmFloatingSupply(tokenSupplies);

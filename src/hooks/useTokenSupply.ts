@@ -5,7 +5,7 @@ import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Gra
 import {
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
-} from "src/views/TreasuryDashboard/components/Graph/TokenSupplyQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 

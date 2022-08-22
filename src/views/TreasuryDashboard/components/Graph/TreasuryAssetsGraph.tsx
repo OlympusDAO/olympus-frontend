@@ -14,7 +14,6 @@ import {
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { getBulletpointStylesMap, getCategoriesMap, getDataKeyColorsMap } from "src/helpers/ProtocolMetricsHelper";
-import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/ChartHelper";
 import {
   CATEGORY_POL,
   CATEGORY_STABLE,
@@ -25,15 +24,16 @@ import {
   GraphProps,
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import {
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
-  getTokenRecordDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   filterReduce,
   getNextPageParamFactory,
-} from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
+  getTokenRecordDateMap,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 export const TreasuryAssetsGraph = ({
   subgraphUrl,

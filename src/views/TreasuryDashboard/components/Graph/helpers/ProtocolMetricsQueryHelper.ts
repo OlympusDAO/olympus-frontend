@@ -4,7 +4,7 @@ import {
   ProtocolMetricsQuery,
   ProtocolMetricsQueryVariables,
 } from "src/generated/graphql";
-import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
  * Generates a function that can be assigned to the `getNextPageParam` property

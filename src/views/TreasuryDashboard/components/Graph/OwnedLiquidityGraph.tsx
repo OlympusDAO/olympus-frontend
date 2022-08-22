@@ -19,7 +19,6 @@ import {
   getDataKeysFromTokens,
   TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
-import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/ChartHelper";
 import {
   CATEGORY_POL,
   DEFAULT_BULLETPOINT_COLOURS,
@@ -27,13 +26,14 @@ import {
   DEFAULT_RECORD_COUNT,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import {
   DateTokenSummary,
   getDateTokenSummary,
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
-import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);

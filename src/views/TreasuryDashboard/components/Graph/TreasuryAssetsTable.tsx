@@ -23,8 +23,8 @@ import {
   getDateTokenSummary,
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
-import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
+} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 export const TreasuryAssetsTable = ({
   subgraphUrl,

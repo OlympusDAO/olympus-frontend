@@ -5,7 +5,7 @@ import {
   TokenSupply_Filter,
 } from "src/generated/graphql";
 import { TOKEN_SUPPLY_TYPE_LIQUIDITY } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
+import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
  * Generates a function that can be assigned to the `getNextPageParam` property

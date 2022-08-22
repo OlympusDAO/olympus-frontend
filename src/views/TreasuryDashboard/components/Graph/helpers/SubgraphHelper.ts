@@ -31,22 +31,6 @@ export const getNextPageStartDate = (
   return getISO8601String(finalDate);
 };
 
-/**
- * Extract the tokenRecords into a map, indexed by the date string
- * @param tokenRecords
- * @returns
- */
-export const getTokenRecordDateMap = (tokenRecords: TokenRecord[]): Map<string, TokenRecord[]> => {
-  const dateTokenRecords: Map<string, TokenRecord[]> = new Map<string, TokenRecord[]>();
-  tokenRecords.map(value => {
-    const currentDateRecords = dateTokenRecords.get(value.date) || [];
-    currentDateRecords.push(value);
-    dateTokenRecords.set(value.date, currentDateRecords);
-  });
-
-  return dateTokenRecords;
-};
-
 export type DateTokenSummary = {
   date: string;
   timestamp: number;
