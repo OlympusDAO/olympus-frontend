@@ -20,7 +20,11 @@ export const TOKEN_SUPPLY_TYPE_LIQUIDITY = "Liquidity";
 
 export type GraphProps = {
   subgraphUrl: string;
-  earliestDate: string;
+  /**
+   * A value of null indicates that no earliestDate has been loaded (asynchronously).
+   * Components should avoid loading any data until earliestDate is non-null.
+   */
+  earliestDate: string | null;
   activeToken?: string;
   onMouseMove?: CategoricalChartFunc;
 };

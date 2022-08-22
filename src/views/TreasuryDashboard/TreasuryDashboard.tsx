@@ -48,11 +48,16 @@ const getSubgraphIdParameter = (): string | undefined => {
  */
 const MetricsDashboard = () => {
   // State variable for the number of days shown, which is passed to the respective charts
-  const [daysPrior, setDaysPrior] = useState(DEFAULT_DAYS.toString());
+  const [daysPrior, setDaysPrior] = useState<string | null>(null);
+  /**
+   * daysPrior is set through the `useSearchParams` hook, which loads
+   * asynchronously, so we set the initial value of daysPrior and earliestDate to null. Child components are designed to recognise this
+   * and not load data until earliestDate is a valid value.
+   */
+  const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
-
-  const startDateString = getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
 
   // Determine the subgraph URL
   // Originally, this was performed at the component level, but it ended up with a lot of redundant
@@ -202,12 +207,12 @@ const MetricsDashboard = () => {
         </Grid> */}
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={startDateString} />
+            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={startDateString} />
+            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
         </Grid>
       </Grid>

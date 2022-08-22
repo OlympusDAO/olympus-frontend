@@ -43,7 +43,7 @@ export const TreasuryAssetsGraph = ({
   const chartName = "TreasuryAssetsGraph";
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = getNextPageStartDate(initialFinishDate, earliestDate);
+  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
   /**
@@ -53,6 +53,11 @@ export const TreasuryAssetsGraph = ({
    */
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
+    // We can't create the paginator until we have an earliestDate
+    if (!earliestDate) {
+      return;
+    }
+
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 
@@ -73,6 +78,7 @@ export const TreasuryAssetsGraph = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
+      enabled: earliestDate !== null,
       getNextPageParam: paginator.current,
     },
   );
@@ -86,6 +92,10 @@ export const TreasuryAssetsGraph = ({
    * We need to trigger a re-fetch when the earliestDate prop is changed.
    */
   useEffect(() => {
+    if (!earliestDate) {
+      return;
+    }
+
     console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
     resetCachedData();
     refetch();
