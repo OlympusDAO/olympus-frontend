@@ -1,6 +1,6 @@
 import { getSubgraphUrl } from "src/constants";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
-import { useTokenRecordsLatestDate } from "src/hooks/useTokenRecords";
+import { useTokenRecordsLatestBlock } from "src/hooks/useTokenRecords";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
   getOhmCirculatingSupply,
@@ -10,13 +10,13 @@ import {
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenSuppliesQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data => getOhmCirculatingSupply(data.tokenSupplies),
@@ -27,13 +27,13 @@ export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
 };
 
 export const useOhmFloatingSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenSuppliesQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data => getOhmFloatingSupply(data.tokenSupplies),
@@ -44,13 +44,13 @@ export const useOhmFloatingSupply = (subgraphUrl?: string) => {
 };
 
 export const useGOhmSyntheticSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenSuppliesQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data => getOhmFloatingSupply(data.tokenSupplies),

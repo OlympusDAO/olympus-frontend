@@ -4,13 +4,21 @@ import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Gra
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
-export const useTokenRecordsLatestDate = (subgraphUrl?: string) =>
+/**
+ * Returns the latest block of the latest day in the TokenRecord query.
+ *
+ * This relies on the query being sorted by date AND block in descending order.
+ *
+ * @param subgraphUrl
+ * @returns
+ */
+export const useTokenRecordsLatestBlock = (subgraphUrl?: string) =>
   useTokenRecordsQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: 1,
     },
-    { select: data => data.tokenRecords[0].date, ...QUERY_OPTIONS },
+    { select: data => data.tokenRecords[0].block, ...QUERY_OPTIONS },
   );
 
 /**
@@ -22,13 +30,13 @@ export const useTokenRecordsLatestDate = (subgraphUrl?: string) =>
  * @returns
  */
 export const useTreasuryMarketValue = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenRecordsQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       // We just need the total of the tokenRecord value
@@ -48,13 +56,13 @@ export const useTreasuryMarketValue = (subgraphUrl?: string) => {
  * @returns
  */
 export const useTreasuryLiquidValue = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenRecordsQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data, isLiquid: true },
+      filter: { block: latestDateQuery.data, isLiquid: true },
     },
     {
       // We just need the total of the tokenRecord value

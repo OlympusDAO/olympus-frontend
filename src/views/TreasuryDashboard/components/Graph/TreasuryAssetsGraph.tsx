@@ -212,7 +212,8 @@ export const TreasuryAssetsGraph = ({
       return;
     }
 
-    const lastMetric = byDateMetrics[byDateMetrics.length - 1];
+    // Date descending order, so 0 is the latest
+    const lastMetric = byDateMetrics[0];
     const tempTotal = isLiquidBackingActive ? lastMetric.liquidTotal : lastMetric.marketTotal;
     setTotal(formatCurrency(tempTotal, 0));
   }, [byDateMetrics, isLiquidBackingActive]);

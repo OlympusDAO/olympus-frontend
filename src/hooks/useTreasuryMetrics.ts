@@ -1,7 +1,7 @@
 import { getSubgraphUrl } from "src/constants";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
 import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
-import { useTokenRecordsLatestDate, useTreasuryLiquidValue } from "src/hooks/useTokenRecords";
+import { useTokenRecordsLatestBlock, useTreasuryLiquidValue } from "src/hooks/useTokenRecords";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getOhmCirculatingSupply } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 import {
@@ -19,13 +19,13 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
  */
 export const useMarketCap = (subgraphUrl?: string) => {
   const ohmPriceQuery = useOhmPrice(subgraphUrl);
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
 
   return useTokenSuppliesQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data => getOhmCirculatingSupply(data.tokenSupplies) * (ohmPriceQuery.data || 0),
@@ -42,14 +42,14 @@ export const useMarketCap = (subgraphUrl?: string) => {
  * @returns
  */
 export const useLiquidBackingPerOhmFloating = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
   const liquidBackingQuery = useTreasuryLiquidValue(subgraphUrl);
 
   return useTokenSuppliesQuery(
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data => getLiquidBackingPerOhmFloating(liquidBackingQuery.data || 0, data.tokenSupplies),
@@ -66,7 +66,7 @@ export const useLiquidBackingPerOhmFloating = (subgraphUrl?: string) => {
  * @returns
  */
 export const useLiquidBackingPerGOhm = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestDate(subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
   const liquidBackingQuery = useTreasuryLiquidValue(subgraphUrl);
   const currentIndexQuery = useCurrentIndex(subgraphUrl);
 
@@ -74,7 +74,7 @@ export const useLiquidBackingPerGOhm = (subgraphUrl?: string) => {
     { endpoint: subgraphUrl || getSubgraphUrl() },
     {
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { date: latestDateQuery.data },
+      filter: { block: latestDateQuery.data },
     },
     {
       select: data =>

@@ -328,6 +328,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       return;
     }
 
+    // Date descending order, so 0 is the latest
     setCurrentBackingHeaderText(
       formatCurrency(
         isActiveTokenOHM
