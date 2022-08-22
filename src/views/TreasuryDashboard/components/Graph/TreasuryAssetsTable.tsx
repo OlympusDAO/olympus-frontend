@@ -24,7 +24,10 @@ import {
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import {
+  getNextPageParamFactory,
+  getTokenRecordDateMap,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 export const TreasuryAssetsTable = ({
   subgraphUrl,
@@ -104,7 +107,7 @@ export const TreasuryAssetsTable = ({
    */
   useEffect(() => {
     if (hasNextPage) {
-      console.log(chartName + ": fetching next page");
+      console.debug(chartName + ": fetching next page");
       fetchNextPage();
       return;
     }
@@ -129,7 +132,8 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-    const newDateTokenSummary = getDateTokenSummary(tokenRecords);
+    const latestOnlyTokenRecords = Array.from(getTokenRecordDateMap(tokenRecords).values()).flat();
+    const newDateTokenSummary = getDateTokenSummary(latestOnlyTokenRecords);
     setByDateTokenSummary(newDateTokenSummary);
   }, [data, hasNextPage]);
 

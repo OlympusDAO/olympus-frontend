@@ -111,7 +111,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
    */
   useEffect(() => {
     if (hasNextPage) {
-      console.log(chartName + ": fetching next page");
+      console.debug(chartName + ": fetching next page");
       fetchNextPage();
       return;
     }

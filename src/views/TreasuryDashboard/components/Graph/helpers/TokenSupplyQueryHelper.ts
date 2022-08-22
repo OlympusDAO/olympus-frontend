@@ -68,10 +68,30 @@ export const getNextPageParamFactory = (
   };
 };
 
-export const getTokenSupplyDateMap = (tokenRecords: TokenSupply[]): Map<string, TokenSupply[]> => {
+export const getTokenSupplyDateMap = (tokenRecords: TokenSupply[], latestOnly = true): Map<string, TokenSupply[]> => {
+  // For each date, determine the latest block
+  const dateBlockMap = new Map<string, number>();
+  tokenRecords.map(value => {
+    const currentDateBlock = dateBlockMap.get(value.date);
+    // New date, record the block
+    if (typeof currentDateBlock == "undefined") {
+      dateBlockMap.set(value.date, value.block);
+    }
+    // Greater than what is recorded
+    else if (currentDateBlock < value.block) {
+      dateBlockMap.set(value.date, value.block);
+    }
+  });
+
   const dateTokenRecords: Map<string, TokenSupply[]> = new Map<string, TokenSupply[]>();
   tokenRecords.map(value => {
     const currentDateRecords = dateTokenRecords.get(value.date) || [];
+
+    const latestBlock = dateBlockMap.get(value.date);
+    if (latestOnly && typeof latestBlock !== "undefined" && value.block < latestBlock) {
+      return;
+    }
+
     currentDateRecords.push(value);
     dateTokenRecords.set(value.date, currentDateRecords);
   });

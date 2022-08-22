@@ -81,14 +81,38 @@ export const getLiquidBackingValue = (records: TokenRecord[]): number => {
 };
 
 /**
- * Extract the tokenRecords into a map, indexed by the date string
+ * Extract the tokenRecords into a map, indexed by the date string.
+ *
+ * By default, this will include entries only from the latest block on each day, to avoid incorrect aggregation of data.
+ *
  * @param tokenRecords
+ * @param latestOnly Defaults to true
  * @returns
  */
-export const getTokenRecordDateMap = (tokenRecords: TokenRecord[]): Map<string, TokenRecord[]> => {
+export const getTokenRecordDateMap = (tokenRecords: TokenRecord[], latestOnly = true): Map<string, TokenRecord[]> => {
+  // For each date, determine the latest block
+  const dateBlockMap = new Map<string, number>();
+  tokenRecords.map(value => {
+    const currentDateBlock = dateBlockMap.get(value.date);
+    // New date, record the block
+    if (typeof currentDateBlock == "undefined") {
+      dateBlockMap.set(value.date, value.block);
+    }
+    // Greater than what is recorded
+    else if (currentDateBlock < value.block) {
+      dateBlockMap.set(value.date, value.block);
+    }
+  });
+
   const dateTokenRecords: Map<string, TokenRecord[]> = new Map<string, TokenRecord[]>();
   tokenRecords.map(value => {
     const currentDateRecords = dateTokenRecords.get(value.date) || [];
+
+    const latestBlock = dateBlockMap.get(value.date);
+    if (latestOnly && typeof latestBlock !== "undefined" && value.block < latestBlock) {
+      return;
+    }
+
     currentDateRecords.push(value);
     dateTokenRecords.set(value.date, currentDateRecords);
   });

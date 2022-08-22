@@ -213,7 +213,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
    */
   useEffect(() => {
     if (tokenRecordsHasNextPage) {
-      console.log(chartName + ": fetching next page of tokenRecords");
+      console.debug(chartName + ": fetching next page of tokenRecords");
       tokenRecordsFetchNextPage();
       return;
     }
@@ -221,7 +221,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
 
   useEffect(() => {
     if (tokenSuppliesHasNextPage) {
-      console.log(chartName + ": fetching next page of tokenSupplies");
+      console.debug(chartName + ": fetching next page of tokenSupplies");
       tokenSuppliesFetchNextPage();
       return;
     }
@@ -229,7 +229,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
 
   useEffect(() => {
     if (protocolMetricsHasNextPage) {
-      console.log(chartName + ": fetching next page of protocolMetrics");
+      console.debug(chartName + ": fetching next page of protocolMetrics");
       protocolMetricsFetchNextPage();
       return;
     }
