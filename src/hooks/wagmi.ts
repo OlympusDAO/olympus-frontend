@@ -1,5 +1,6 @@
 import "src/assets/rainbowkit.css"; //have to do this for now due to test failures with import direct from library;
 
+import { SafeConnector } from "@gnosis.pm/safe-apps-wagmi";
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -77,7 +78,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
 const needsInjectedWalletFallback =
   typeof window !== "undefined" && window.ethereum && !window.ethereum.isMetaMask && !window.ethereum.isCoinbaseWallet;
 
-const connectors = connectorsForWallets([
+const rainbowConnector = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
@@ -86,13 +87,22 @@ const connectors = connectorsForWallets([
       wallet.rainbow({ chains }),
       wallet.walletConnect({ chains }),
       wallet.coinbase({ appName: "Olympus DAO", chains }),
+      {
+        id: "safe",
+        createConnector: () => {
+          return { connector: new SafeConnector({ chains }) };
+        },
+        name: "Gnosis Safe",
+        iconUrl: "/assets/gnosis.png",
+        iconBackground: "#fff",
+      },
       ...(needsInjectedWalletFallback ? [wallet.injected({ chains, shimDisconnect: true })] : []),
     ],
   },
 ]);
 
 export const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
+  autoConnect: document.location.ancestorOrigins[0] === "https://gnosis-safe.io" ? false : true, //we do this to disable autoconnecting to last provider for gnosis only
+  connectors: [...rainbowConnector(), new SafeConnector({ chains })],
   provider,
 });

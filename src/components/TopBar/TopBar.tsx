@@ -8,6 +8,7 @@ import { LocaleSwitcher } from "@olympusdao/component-library";
 import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
+import { useGnosisAutoConnect } from "src/hooks/useGnosisAutoConnect";
 import { locales, selectLocale } from "src/locales";
 
 const PREFIX = "TopBar";
@@ -45,6 +46,7 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
+  useGnosisAutoConnect();
   return (
     <StyledAppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">

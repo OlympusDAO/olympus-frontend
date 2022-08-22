@@ -37,6 +37,7 @@
     "@emotion/styled": "^11.9.3",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.6.8",
+    "@gnosis.pm/safe-apps-wagmi": "^1.0.2",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.8.3",
