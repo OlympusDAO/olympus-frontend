@@ -117,8 +117,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  // TODO fix initial loading with default earliestDate before changing
-
   /**
    * Chart population:
    *
