@@ -136,7 +136,7 @@ export const frax_ohm_frax = new ExternalPool({
   pairGecko: "frax",
   rewardGecko: "frax",
   href: "https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F",
-  address: "0x38633ed142bcc8128b45ab04a2e4a6e53774699f", //LP
+  address: "0x38633ed142BCc8128b45aB04A2e4A6e53774699F", //LP
   masterchef: "", //deposit
   rewarder: "",
   poolId: 0,
