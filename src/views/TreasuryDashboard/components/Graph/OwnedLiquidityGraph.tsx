@@ -139,6 +139,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
+    console.debug(`${chartName}: rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
 
     const newDateTokenSummary = getDateTokenSummary(tokenRecords);

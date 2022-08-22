@@ -30,7 +30,10 @@ import {
   getSubgraphQueryExplorerUrl,
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
-import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
+import {
+  filterReduce,
+  getNextPageParamFactory,
+} from "src/views/TreasuryDashboard/components/Graph/TokenRecordsQueryHelper";
 
 export const TreasuryAssetsGraph = ({
   subgraphUrl,
@@ -144,12 +147,6 @@ export const TreasuryAssetsGraph = ({
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
     const dateMetricsMap: Map<string, DateTreasuryMetrics> = new Map<string, DateTreasuryMetrics>();
 
-    const filterReduce = (records: TokenRecord[], filterPredicate: (value: TokenRecord) => unknown): number => {
-      return records.filter(filterPredicate).reduce((previousValue, currentRecord) => {
-        return previousValue + +currentRecord.value;
-      }, 0);
-    };
-
     /**
      * For each date, we have an array of token records.
      *
@@ -203,6 +200,7 @@ export const TreasuryAssetsGraph = ({
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
+    console.debug(`${chartName}: rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const tempByDateMetrics = getDateTreasuryMetrics(tokenRecords);
     setByDateMetrics(tempByDateMetrics);

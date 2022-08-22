@@ -1367,6 +1367,8 @@ export enum _SubgraphErrorPolicy_ {
 
 export type ProtocolMetricsQueryVariables = Exact<{
   recordCount: Scalars["Int"];
+  startingRecord?: InputMaybe<Scalars["Int"]>;
+  filter?: InputMaybe<ProtocolMetric_Filter>;
 }>;
 
 export type ProtocolMetricsQuery = {
@@ -1375,12 +1377,16 @@ export type ProtocolMetricsQuery = {
     __typename?: "ProtocolMetric";
     id: string;
     block: number;
+    currentAPY: number;
     currentIndex: number;
     date: string;
     gOhmPrice: number;
     gOhmTotalSupply: number;
+    nextDistributedOhm: number;
+    nextEpochRebase: number;
     ohmPrice: number;
     ohmTotalSupply: number;
+    sOhmCirculatingSupply: number;
     timestamp: number;
     totalValueLocked: number;
   }>;
@@ -1441,16 +1447,26 @@ export type TokenSuppliesQuery = {
 };
 
 export const ProtocolMetricsDocument = `
-    query ProtocolMetrics($recordCount: Int!) {
-  protocolMetrics(first: $recordCount, orderBy: date, orderDirection: desc) {
+    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+  protocolMetrics(
+    first: $recordCount
+    skip: $startingRecord
+    where: $filter
+    orderBy: date
+    orderDirection: desc
+  ) {
     id
     block
+    currentAPY
     currentIndex
     date
     gOhmPrice
     gOhmTotalSupply
+    nextDistributedOhm
+    nextEpochRebase
     ohmPrice
     ohmTotalSupply
+    sOhmCirculatingSupply
     timestamp
     totalValueLocked
   }

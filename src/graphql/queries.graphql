@@ -1,13 +1,17 @@
-query ProtocolMetrics($recordCount: Int!) {
-  protocolMetrics(first: $recordCount, orderBy: date, orderDirection: desc) {
+query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+  protocolMetrics(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     block
+    currentAPY
     currentIndex
     date
     gOhmPrice
     gOhmTotalSupply
+    nextDistributedOhm
+    nextEpochRebase
     ohmPrice
     ohmTotalSupply
+    sOhmCirculatingSupply
     timestamp
     totalValueLocked
   }

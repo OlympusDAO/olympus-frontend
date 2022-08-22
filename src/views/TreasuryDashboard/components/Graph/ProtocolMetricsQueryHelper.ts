@@ -1,14 +1,14 @@
-import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVariables } from "src/generated/graphql";
 import {
-  CATEGORY_POL,
-  CATEGORY_STABLE,
-  CATEGORY_VOLATILE,
-} from "src/views/TreasuryDashboard/components/Graph/Constants";
+  ProtocolMetric,
+  ProtocolMetric_Filter,
+  ProtocolMetricsQuery,
+  ProtocolMetricsQueryVariables,
+} from "src/generated/graphql";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/SubgraphHelper";
 
 /**
  * Generates a function that can be assigned to the `getNextPageParam` property
- * of the variables of {useInfiniteTokenRecordsQuery}.
+ * of the variables of {useInfiniteProtocolMetricsQuery}.
  *
  * Note: a previous iteration used a mutable reference, currentStartDate, as a cursor.
  * This led to issues with the fetching of subsequent pages, so it was removed. The
@@ -25,15 +25,15 @@ export const getNextPageParamFactory = (
   queryName: string,
   earliestDate: string,
   recordCount: number,
-  baseFilter: TokenRecord_Filter,
+  baseFilter: ProtocolMetric_Filter,
   dateOffset?: number,
 ) => {
-  const logPrefix = `${queryName}/TokenRecord/${earliestDate}`;
+  const logPrefix = `${queryName}/ProtocolMetric/${earliestDate}`;
   console.debug(`${logPrefix}: create getNextPageParam with earliestDate ${earliestDate}`);
-  return (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
-    console.debug(`${logPrefix}: Received ${lastPage.tokenRecords.length} records`);
+  return (lastPage: ProtocolMetricsQuery): ProtocolMetricsQueryVariables | undefined => {
+    console.debug(`${logPrefix}: Received ${lastPage.protocolMetrics.length} records`);
 
-    if (lastPage.tokenRecords.length === 0) {
+    if (lastPage.protocolMetrics.length === 0) {
       console.debug(`${logPrefix}: No records. Exiting.`);
       return;
     }
@@ -43,7 +43,7 @@ export const getNextPageParamFactory = (
      *
      * Returning undefined tells react-query not to fetch the next page.
      */
-    const existingStartDate = lastPage.tokenRecords[lastPage.tokenRecords.length - 1].date;
+    const existingStartDate = lastPage.protocolMetrics[lastPage.protocolMetrics.length - 1].date;
     if (new Date(existingStartDate).getTime() <= new Date(earliestDate).getTime()) {
       console.debug(`${logPrefix}: Hit earliestDate. Exiting`);
       return;
@@ -67,15 +67,13 @@ export const getNextPageParamFactory = (
   };
 };
 
-export const filterReduce = (records: TokenRecord[], filterPredicate: (value: TokenRecord) => unknown): number => {
-  return records.filter(filterPredicate).reduce((previousValue, currentRecord) => {
-    return previousValue + +currentRecord.value;
-  }, 0);
-};
+export const getProtocolMetricDateMap = (tokenRecords: ProtocolMetric[]): Map<string, ProtocolMetric[]> => {
+  const dateTokenRecords: Map<string, ProtocolMetric[]> = new Map<string, ProtocolMetric[]>();
+  tokenRecords.map(value => {
+    const currentDateRecords = dateTokenRecords.get(value.date) || [];
+    currentDateRecords.push(value);
+    dateTokenRecords.set(value.date, currentDateRecords);
+  });
 
-export const getLiquidBackingValue = (records: TokenRecord[]): number => {
-  return filterReduce(
-    records,
-    record => [CATEGORY_STABLE, CATEGORY_VOLATILE, CATEGORY_POL].includes(record.category) && record.isLiquid == true,
-  );
+  return dateTokenRecords;
 };
