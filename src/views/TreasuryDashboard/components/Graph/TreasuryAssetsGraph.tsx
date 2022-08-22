@@ -49,20 +49,11 @@ export const TreasuryAssetsGraph = ({
   /**
    * Pagination:
    *
-   * We track the current start date using a mutable reference that doesn't trigger re-rendering.
-   *
-   * We also create {paginator} within a useEffect block, so that it isn't re-created every re-render.
+   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
    */
-  const currentStartDate = useRef(initialStartDate);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
-    paginator.current = getNextPageParamFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-      currentStartDate,
-    );
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 
   /**
