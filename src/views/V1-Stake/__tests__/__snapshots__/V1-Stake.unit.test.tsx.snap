@@ -2698,6 +2698,24 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
                       >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1;"
+                        viewBox="0 0 32 32"
+                      >
                         <circle
                           cx="16"
                           cy="16"
@@ -2711,30 +2729,12 @@ exports[`<Stake/> should render component. not connected 1`] = `
                           fill-rule="evenodd"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
-                        viewBox="0 0 32 32"
-                      >
-                        <path
-                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
-                          fill="#708B96"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
-                          fill="#fff"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                     >
-                      FRAX-OHM
+                      OHM-FRAX
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-13eainn-MuiTypography-root"
                       >
@@ -2837,14 +2837,14 @@ exports[`<Stake/> should render component. not connected 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.frax.finance/staking/univ2-frax-ohm"
+                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
                   >
                     Stake on
                      
-                    Frax Finance
+                    Fraxswap
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
                     >
@@ -5999,6 +5999,24 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
                       >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1;"
+                        viewBox="0 0 32 32"
+                      >
                         <circle
                           cx="16"
                           cy="16"
@@ -6012,30 +6030,12 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                           fill-rule="evenodd"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
-                        viewBox="0 0 32 32"
-                      >
-                        <path
-                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
-                          fill="#708B96"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
-                          fill="#fff"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                     >
-                      FRAX-OHM
+                      OHM-FRAX
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-13eainn-MuiTypography-root"
                       >
@@ -6152,14 +6152,14 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.frax.finance/staking/univ2-frax-ohm"
+                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
                   >
                     Stake on
                      
-                    Frax Finance
+                    Fraxswap
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
                     >
@@ -9314,6 +9314,24 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
                       >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1;"
+                        viewBox="0 0 32 32"
+                      >
                         <circle
                           cx="16"
                           cy="16"
@@ -9327,30 +9345,12 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                           fill-rule="evenodd"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
-                        viewBox="0 0 32 32"
-                      >
-                        <path
-                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
-                          fill="#708B96"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
-                          fill="#fff"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                     >
-                      FRAX-OHM
+                      OHM-FRAX
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-13eainn-MuiTypography-root"
                       >
@@ -9467,14 +9467,14 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.frax.finance/staking/univ2-frax-ohm"
+                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
                   >
                     Stake on
                      
-                    Frax Finance
+                    Fraxswap
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
                     >
@@ -12629,6 +12629,24 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
                       >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1;"
+                        viewBox="0 0 32 32"
+                      >
                         <circle
                           cx="16"
                           cy="16"
@@ -12642,30 +12660,12 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                           fill-rule="evenodd"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1;"
-                        viewBox="0 0 32 32"
-                      >
-                        <path
-                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
-                          fill="#708B96"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
-                          fill="#fff"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
                     </div>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                     >
-                      FRAX-OHM
+                      OHM-FRAX
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-13eainn-MuiTypography-root"
                       >
@@ -12782,14 +12782,14 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.frax.finance/staking/univ2-frax-ohm"
+                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
                   >
                     Stake on
                      
-                    Frax Finance
+                    Fraxswap
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
                     >
