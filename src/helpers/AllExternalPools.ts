@@ -130,15 +130,15 @@ export const convex_ohm_eth = new ExternalPool({
 });
 
 export const frax_ohm_frax = new ExternalPool({
-  poolName: "FRAX-OHM",
-  icons: ["FRAX", "OHM"],
-  stakeOn: "Frax Finance",
+  poolName: "OHM-FRAX",
+  icons: ["OHM", "FRAX"],
+  stakeOn: "Fraxswap",
   pairGecko: "frax",
   rewardGecko: "frax",
-  href: "https://app.frax.finance/staking/univ2-frax-ohm",
-  address: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877", //LP
-  masterchef: "0xfC77A420f56Dec53e3b91D7FC936902e132335FF", //deposit
-  rewarder: "0xd683C7051a28fA150EB3F4BD92263865D4a67778",
+  href: "https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F",
+  address: "0x38633ed142bcc8128b45ab04a2e4a6e53774699f", //LP
+  masterchef: "", //deposit
+  rewarder: "",
   poolId: 0,
   networkID: NetworkId.MAINNET,
   mintAndSync: true,
