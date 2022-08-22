@@ -1,4 +1,4 @@
-export const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/2.0.86";
+export const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/2.0.86"; // TODO restore
 export const SUBGRAPH_URL_STAGING_STUB = "https://api.thegraph.com/subgraphs/id/";
 
 /**

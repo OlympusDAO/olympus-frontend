@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/2.0.94"
+schema: "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/2.0.94" # TODO restore
 documents: "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
