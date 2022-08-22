@@ -26,7 +26,6 @@ import GAUGE_ABI from "src/abi/Gauge.json";
 import IERC20_ABI from "src/abi/IERC20.json";
 import JOECHEF_ABI from "src/abi/JoeChef.json";
 import JOE_REWARDER_ABI from "src/abi/JoeRewarder.json";
-import JONES_ABI from "src/abi/Jones.json";
 import GIVE_ABI from "src/abi/OlympusGiving.json";
 import GIVE_OLD_ABI from "src/abi/OlympusGivingOld.json";
 import MOCK_GIVE_ABI from "src/abi/OlympusMockGiving.json";
@@ -45,7 +44,6 @@ import {
   DevFaucet,
   FuseProxy,
   IERC20,
-  Jones,
   OlympusGiving,
   OlympusGivingOld,
   OlympusMockGiving,
@@ -142,7 +140,6 @@ export const useStaticGaugeContract = createStaticContract<Gauge>(GAUGE_ABI.abi)
 export const useStaticBeethovenChefContract = createStaticContract<BeethovenChef>(BEETHOVEN_CHEF_ABI.abi);
 export const useStaticBalancerV2PoolContract = createStaticContract<BalancerV2Pool>(BALANCERV2_POOL_ABI.abi);
 export const useStaticBalancerVaultContract = createStaticContract<BalancerVault>(BALANCER_VAULT_ABI.abi);
-export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI.abi);
 export const useStaticCurvePoolContract = createStaticContract<CurvePool>(CURVE_POOL_ABI.abi);
 export const useStaticCurveGaugeControllerContract = createStaticContract<CurveGaugeController>(
   CURVE_GAUGE_CONTROLLER_ABI.abi,

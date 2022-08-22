@@ -291,12 +291,11 @@ const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pro
 };
 
 const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JonesPoolAPY(props.pool);
+  const { apy, tvl } = JonesPoolAPY(props.pool);
   return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
   ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
   );
 };
 const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
