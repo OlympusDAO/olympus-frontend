@@ -1,6 +1,7 @@
 import { getSubgraphUrl } from "src/constants";
 import { useTokenRecordsQuery } from "src/generated/graphql";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { getLiquidBackingValue } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
@@ -66,7 +67,7 @@ export const useTreasuryLiquidValue = (subgraphUrl?: string) => {
     },
     {
       // We just need the total of the tokenRecord value
-      select: data => data.tokenRecords.reduce((previousValue, tokenRecord) => previousValue + +tokenRecord.value, 0),
+      select: data => getLiquidBackingValue(data.tokenRecords),
       ...QUERY_OPTIONS,
       enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
     },

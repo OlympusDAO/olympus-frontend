@@ -235,8 +235,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     }
   }, [protocolMetricsData, protocolMetricsHasNextPage, protocolMetricsFetchNextPage]);
 
-  // TODO filter by latest block
-
   /**
    * Chart population
    */
