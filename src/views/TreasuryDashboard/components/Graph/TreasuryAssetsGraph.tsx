@@ -77,11 +77,17 @@ export const TreasuryAssetsGraph = ({
     },
   );
 
+  const resetCachedData = () => {
+    setByDateMetrics([]);
+    setTotal("");
+  };
+
   /**
    * We need to trigger a re-fetch when the earliestDate prop is changed.
    */
   useEffect(() => {
     console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+    resetCachedData();
     refetch();
   }, [earliestDate, refetch]);
 
@@ -181,7 +187,8 @@ export const TreasuryAssetsGraph = ({
   useMemo(() => {
     if (hasNextPage || !data) {
       // While data is loading, ensure dependent data is empty
-      setByDateMetrics([]);
+      console.debug(`${chartName}: removing cached data, as query is in progress.`);
+      resetCachedData();
       return;
     }
 
@@ -236,7 +243,7 @@ export const TreasuryAssetsGraph = ({
           ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
           : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
       }
-      isLoading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
+      isLoading={byDateMetrics.length == 0}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}

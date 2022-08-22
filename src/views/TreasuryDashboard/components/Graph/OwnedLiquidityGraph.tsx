@@ -77,11 +77,19 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     },
   );
 
+  const resetCachedData = () => {
+    setByDateTokenSummary([]);
+    setCategoryDataKeyMap(new Map<string, string>());
+    setDataKeys([]);
+    setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
+  };
+
   /**
    * We need to trigger a re-fetch when the earliestDate prop is changed.
    */
   useEffect(() => {
     console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+    resetCachedData();
     refetch();
   }, [earliestDate, refetch]);
 
@@ -100,7 +108,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   }, [data, hasNextPage, fetchNextPage]);
 
   // TODO fix initial loading with default earliestDate before changing
-  // TODO filter not making query key distinct?
 
   /**
    * Chart population:
@@ -118,10 +125,8 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
     if (hasNextPage || !data) {
-      setByDateTokenSummary([]);
-      setCategoryDataKeyMap(new Map<string, string>());
-      setDataKeys([]);
-      setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
+      console.debug(`${chartName}: removing cached data, as query is in progress.`);
+      resetCachedData();
       return;
     }
 
@@ -166,7 +171,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
       dataKeyBulletpointStyles={dataKeyBulletpointStylesMap}
       dataKeyLabels={categoryDataKeyMap}
       infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
-      isLoading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
+      isLoading={byDateTokenSummary.length == 0}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
       displayTooltipTotal={true}

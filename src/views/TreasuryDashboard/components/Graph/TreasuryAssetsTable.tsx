@@ -72,11 +72,17 @@ export const TreasuryAssetsTable = ({
     },
   );
 
+  const resetCachedData = () => {
+    setByDateTokenSummary([]);
+    setCurrentTokens([]);
+  };
+
   /**
    * We need to trigger a re-fetch when the earliestDate prop is changed.
    */
   useEffect(() => {
     console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+    resetCachedData();
     refetch();
   }, [earliestDate, refetch]);
 
@@ -105,12 +111,13 @@ export const TreasuryAssetsTable = ({
    */
   useMemo(() => {
     if (hasNextPage || !data) {
-      // While data is loading, ensure dependent data is empty
-      setByDateTokenSummary([]);
+      console.debug(`${chartName}: removing cached data, as query is in progress.`);
+      resetCachedData();
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
+    console.debug(`${chartName}: rebuilding by date token summary`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const newDateTokenSummary = getDateTokenSummary(tokenRecords);
     setByDateTokenSummary(newDateTokenSummary);
@@ -120,6 +127,7 @@ export const TreasuryAssetsTable = ({
    * Cache the tokens for the current value of selectedIndex.
    */
   useMemo(() => {
+    console.debug(`${chartName}: rebuilding current tokens`);
     setCurrentTokens(byDateTokenSummary[selectedIndex] ? Object.values(byDateTokenSummary[selectedIndex].tokens) : []);
   }, [byDateTokenSummary, selectedIndex]);
 
@@ -169,7 +177,7 @@ export const TreasuryAssetsTable = ({
     >
       <DataGrid
         autoHeight
-        loading={hasNextPage || false} // hasNextPage will be false or undefined if loading is complete
+        loading={currentTokens.length == 0}
         disableSelectionOnClick
         rows={currentTokens}
         rowHeight={30}
