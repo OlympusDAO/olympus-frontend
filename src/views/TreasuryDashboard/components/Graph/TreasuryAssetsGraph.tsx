@@ -35,6 +35,14 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+/**
+ * Stacked area chart that displays the value of treasury assets.
+ *
+ * These are grouped into three categories: stable, volatile and protocol-owned liquidity.
+ *
+ * By default, it displays the market value. It supports toggling to the liquid backing value,
+ * specified by the `isLiquidBackingActive` prop.
+ */
 export const TreasuryAssetsGraph = ({
   subgraphUrl,
   earliestDate,

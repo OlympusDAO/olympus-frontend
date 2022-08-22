@@ -19,9 +19,6 @@ const QUERY_TREASURY = "treasuryAssets";
  * to choose between displaying the market value or liquid backing.
  *
  * The assets table will update according to the toggle selection.
- *
- * @param param0
- * @returns
  */
 export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const isTreasuryAssetActive = (assets: string): boolean => {

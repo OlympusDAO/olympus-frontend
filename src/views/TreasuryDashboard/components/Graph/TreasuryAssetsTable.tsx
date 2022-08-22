@@ -19,16 +19,19 @@ import {
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
-  DateTokenSummary,
-  getDateTokenSummary,
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
+  DateTokenSummary,
+  getDateTokenSummary,
   getNextPageParamFactory,
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+/**
+ * Data grid that displays the details of treasury assets.
+ */
 export const TreasuryAssetsTable = ({
   subgraphUrl,
   earliestDate,

@@ -52,8 +52,6 @@ import {
 /**
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per floating OHM.
- *
- * @returns
  */
 export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, activeToken }: GraphProps) => {
   // TODO look at how to combine query documents
@@ -66,7 +64,9 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const baseFilter: TokenRecord_Filter = {};
 
   /**
-   * Active token
+   * Active token:
+   *
+   * We cache this, because there are code blocks that depend on the value.
    */
   const [isActiveTokenOHM, setIsActiveTokenOHM] = useState(true);
   useMemo(() => {
@@ -184,8 +184,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     },
   );
 
-  // infinite query for protocol metrics
-
   const resetCachedData = () => {
     setByDateLiquidBacking([]);
   };
@@ -236,7 +234,11 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   }, [protocolMetricsData, protocolMetricsHasNextPage, protocolMetricsFetchNextPage]);
 
   /**
-   * Chart population
+   * Chart population:
+   *
+   * When the data fetching for all three queries is completed,
+   * the calculations are performed and cached. This avoids re-calculation
+   * upon every rendering loop.
    */
   type LiquidBackingComparison = {
     date: string;
@@ -271,7 +273,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       protocolMetricsData.pages.map(query => query.protocolMetrics).flat(),
     );
 
-    const tempByDateLiquidBacking = new Map<string, LiquidBackingComparison>();
+    const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
     byDateTokenRecords.forEach((value, key) => {
       const currentTokenRecords = value;
       const currentTokenSupplies = byDateTokenSupplies.get(key);
@@ -303,10 +305,10 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
         ),
       };
 
-      tempByDateLiquidBacking.set(key, liquidBackingRecord);
+      tempByDateLiquidBacking.push(liquidBackingRecord);
     });
 
-    setByDateLiquidBacking(Array.from(tempByDateLiquidBacking.values()));
+    setByDateLiquidBacking(tempByDateLiquidBacking);
   }, [
     tokenRecordsHasNextPage,
     tokenSuppliesHasNextPage,

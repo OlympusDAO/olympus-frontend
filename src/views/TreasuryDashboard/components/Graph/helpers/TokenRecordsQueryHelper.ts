@@ -1,4 +1,5 @@
 import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVariables } from "src/generated/graphql";
+import { TokenMap, TokenRow } from "src/helpers/ProtocolMetricsHelper";
 import {
   CATEGORY_POL,
   CATEGORY_STABLE,
@@ -118,4 +119,48 @@ export const getTokenRecordDateMap = (tokenRecords: TokenRecord[], latestOnly = 
   });
 
   return dateTokenRecords;
+};
+
+export type DateTokenSummary = {
+  date: string;
+  timestamp: number;
+  block: number;
+  tokens: TokenMap;
+};
+
+/**
+ * Generates an array containing one DateTokenSummary element for each date,
+ * in which the token balances are contained.
+ *
+ * The array is sorted in descending order by date.
+ *
+ * @param tokenRecords
+ * @returns
+ */
+export const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
+  const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
+
+  // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token
+  tokenRecords.forEach(record => {
+    const dateSummary = dateSummaryMap.get(record.date) || {
+      date: record.date,
+      timestamp: new Date(record.date).getTime(), // We inject the timestamp, as it's used by the Chart component
+      block: record.block,
+      tokens: {} as TokenMap,
+    };
+    dateSummaryMap.set(record.date, dateSummary);
+
+    const tokenRecord = dateSummary.tokens[record.token] || ({} as TokenRow);
+    tokenRecord.token = record.token;
+    tokenRecord.category = record.category;
+
+    const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
+    // record.value is typed as a number, but is actually a string
+    tokenRecord.value = (existingValue + +record.value).toString(); // TODO consider shifting to use number
+    dateSummary.tokens[record.token] = tokenRecord;
+  });
+
+  return Array.from(dateSummaryMap.values()).sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
 };

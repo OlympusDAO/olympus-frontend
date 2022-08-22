@@ -28,13 +28,18 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import {
-  DateTokenSummary,
-  getDateTokenSummary,
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getNextPageParamFactory } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import {
+  DateTokenSummary,
+  getDateTokenSummary,
+  getNextPageParamFactory,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+/**
+ * Stacked area chart that displays protocol-owned liquidity.
+ */
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();

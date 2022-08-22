@@ -16,7 +16,7 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
-import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import {
   BackingPerGOHM,
   BackingPerOHM,
