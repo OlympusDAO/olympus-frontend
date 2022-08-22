@@ -101,8 +101,10 @@ const rainbowConnector = connectorsForWallets([
   },
 ]);
 
+const isNonGnosisClient =
+  document.location.ancestorOrigins && document.location.ancestorOrigins[0] === "https://gnosis-safe.io" ? false : true;
 export const wagmiClient = createClient({
-  autoConnect: document.location.ancestorOrigins[0] === "https://gnosis-safe.io" ? false : true, //we do this to disable autoconnecting to last provider for gnosis only
+  autoConnect: isNonGnosisClient, //we do this to disable autoconnecting to last provider for gnosis only
   connectors: [...rainbowConnector(), new SafeConnector({ chains })],
   provider,
 });
