@@ -135,10 +135,10 @@ export const frax_ohm_frax = new ExternalPool({
   stakeOn: "Frax Finance",
   pairGecko: "frax",
   rewardGecko: "frax",
-  href: "https://app.frax.finance/staking/univ2-frax-ohm",
-  address: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877", //LP
-  masterchef: "0xfC77A420f56Dec53e3b91D7FC936902e132335FF", //deposit
-  rewarder: "0xd683C7051a28fA150EB3F4BD92263865D4a67778",
+  href: "https://app.frax.finance/swap/liquidity",
+  address: "0x38633ed142BCc8128b45aB04A2e4A6e53774699F", //LP
+  masterchef: "", //deposit
+  rewarder: "",
   poolId: 0,
   networkID: NetworkId.MAINNET,
   mintAndSync: true,
