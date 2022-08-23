@@ -13,7 +13,6 @@ import {
   useStaticCurveGaugeControllerContract,
   useStaticCurveGaugeDepositContract,
   useStaticCurvePoolContract,
-  useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
 } from "src/hooks/useContract";
@@ -55,19 +54,6 @@ export const JoePoolAPY = (pool: ExternalPool) => {
     const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
 
     return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
-
-export const SpiritPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
-  const gauge = useStaticGaugeContract(pool.masterchef, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    //Contract returns rewards per week. No additional calc required
-    const poolRewardsPerWeek = parseBigNumber(await gauge.getRewardForDuration(), 18);
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond: 0 };
   });
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };

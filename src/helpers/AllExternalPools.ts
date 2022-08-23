@@ -73,20 +73,6 @@ export const sushi_poly_gohm_weth = new ExternalPool({
   networkID: NetworkId.POLYGON,
 });
 
-export const spirit_gohm_ftm = new ExternalPool({
-  poolName: "gOHM-FTM",
-  icons: ["wsOHM", "FANTOM"],
-  stakeOn: "Spirit",
-  pairGecko: "fantom",
-  rewardGecko: "spiritswap",
-  href: "https://app.spiritswap.finance/#/farms/allfarms",
-  address: "0xae9BBa22E87866e48ccAcFf0689AFaa41eB94995",
-  masterchef: "0xb3AfA9CB6c53d061bC2263cE15357A691D0D60d4",
-  rewarder: "",
-  poolId: 0,
-  networkID: NetworkId.FANTOM,
-});
-
 export const jones_gohm_jgohm = new ExternalPool({
   poolName: "jgOHM-gOHM",
   icons: ["jgOHM", "gOHM"],
@@ -144,9 +130,8 @@ export const frax_ohm_frax = new ExternalPool({
   mintAndSync: true,
 });
 
-export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
+export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
-export const spiritPools = [spirit_gohm_ftm];
 export const joePools = [tj_gohm_wavax];
 export const beetsPools = [beets_ftm_gohm_wFTM];
 export const jonesPools = [jones_gohm_jgohm];
