@@ -97,8 +97,8 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
     }
   };
   const formattedPublishedDate = dateFormat.format(proposal.submissionTimestamp);
-  let boundedTimeRemaining = 0;
 
+  let boundedTimeRemaining = 0;
   if (proposal.timeRemaining && proposal.timeRemaining - Date.now() > 0) {
     boundedTimeRemaining = (proposal.timeRemaining - Date.now()) / 1000;
   }
@@ -123,7 +123,7 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
             <>
               <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
               <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                {boundedTimeRemaining == 0 ? `Finished` : `Ends in ${prettifySeconds(boundedTimeRemaining)}`}
+                {boundedTimeRemaining == 0 ? `Vote Finished` : `Ends in ${prettifySeconds(boundedTimeRemaining)}`}
               </Typography>
             </>
           )}
