@@ -92,7 +92,7 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
       {isLoading || !proposal ? (
         <ProposalSkeleton id={instructionsId} />
       ) : (
-        <Grid key={instructionsId} item xs={12}>
+        <Grid key={instructionsId} item xs={12} style={{ paddingLeft: "0px" }}>
           <Link to={`/governance/proposals/${proposal?.id}`} component={RouterLink}>
             <Proposal
               chipLabel={toCapitalCase(proposal?.state)}
