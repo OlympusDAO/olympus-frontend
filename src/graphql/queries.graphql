@@ -1,12 +1,5 @@
 query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
-  protocolMetrics(
-    first: $recordCount
-    skip: $startingRecord
-    where: $filter
-    orderBy: date
-    orderBy: block
-    orderDirection: desc
-  ) {
+  protocolMetrics(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     block
     currentAPY
@@ -25,14 +18,7 @@ query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: Pro
 }
 
 query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
-  tokenRecords(
-    first: $recordCount
-    skip: $startingRecord
-    where: $filter
-    orderBy: date
-    orderBy: block
-    orderDirection: desc
-  ) {
+  tokenRecords(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     balance
     block
@@ -52,14 +38,7 @@ query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenR
 }
 
 query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
-  tokenSupplies(
-    first: $recordCount
-    skip: $startingRecord
-    where: $filter
-    orderBy: date
-    orderBy: block
-    orderDirection: desc
-  ) {
+  tokenSupplies(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     balance
     block
