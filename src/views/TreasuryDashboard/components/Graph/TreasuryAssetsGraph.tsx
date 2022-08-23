@@ -69,9 +69,10 @@ export const TreasuryAssetsGraph = ({
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-  const baseFilter: TokenRecord_Filter = {};
 
   const queryClient = useQueryClient();
+
+  const [baseFilter] = useState<TokenRecord_Filter>({});
 
   /**
    * Pagination:
@@ -81,7 +82,7 @@ export const TreasuryAssetsGraph = ({
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
+    if (!earliestDate || !baseFilter) {
       return;
     }
 
@@ -90,20 +91,20 @@ export const TreasuryAssetsGraph = ({
     // Reset cache
     resetCachedData();
 
-    // removeQueries seems to be most reliable in forcing a re-fetch with the new earliestDate
-    // the following didn't work: queryClient.cancelQueries, refetch
-    queryClient.removeQueries(["TokenRecords.infinite"]);
+    // Force fetching of data with the new paginator
+    // Calling refetch() after setting the new paginator causes the query to never finish
+    refetch();
 
     // Create a new paginator with the new earliestDate
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [earliestDate]);
+  }, [baseFilter, earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -115,7 +116,7 @@ export const TreasuryAssetsGraph = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      enabled: earliestDate !== null,
+      enabled: earliestDate !== null && baseFilter != null,
       getNextPageParam: paginator.current,
     },
   );

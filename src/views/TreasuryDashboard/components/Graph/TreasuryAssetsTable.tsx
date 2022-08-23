@@ -44,11 +44,10 @@ export const TreasuryAssetsTable = ({
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-  const baseFilter: TokenRecord_Filter = {
-    ...(isLiquidBackingActive && { isLiquid: true }), // This will trigger a refresh/refetch of data
-  };
 
   const queryClient = useQueryClient();
+
+  const [baseFilter] = useState<TokenRecord_Filter>({});
 
   /**
    * Pagination:
@@ -58,7 +57,7 @@ export const TreasuryAssetsTable = ({
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
+    if (!earliestDate || !baseFilter) {
       return;
     }
 
@@ -67,10 +66,13 @@ export const TreasuryAssetsTable = ({
     // Reset cache
     resetCachedData();
 
+    // Force fetching of data with the new paginator
+    // Calling refetch() after setting the new paginator causes the query to never finish
+    refetch();
+
     // Create a new paginator with the new earliestDate
-    queryClient.cancelQueries(["TokenRecords.infinite"]);
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [earliestDate]);
+  }, [baseFilter, earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
@@ -89,7 +91,7 @@ export const TreasuryAssetsTable = ({
       recordCount: DEFAULT_RECORD_COUNT,
     },
     {
-      enabled: earliestDate !== null,
+      enabled: earliestDate !== null && baseFilter !== null,
       getNextPageParam: paginator.current,
     },
   );
@@ -98,19 +100,6 @@ export const TreasuryAssetsTable = ({
     setByDateTokenSummary([]);
     setCurrentTokens([]);
   };
-
-  /**
-   * We need to trigger a re-fetch when the earliestDate prop is changed.
-   */
-  useEffect(() => {
-    if (!earliestDate) {
-      return;
-    }
-
-    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
-    resetCachedData();
-    refetch();
-  }, [earliestDate, refetch]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -126,15 +115,13 @@ export const TreasuryAssetsTable = ({
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  // State variables used for rendering
-  const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
-  const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
-
   /**
    * Chart population:
    *
    * When data loading is finished, the token records are processed into a compatible structure.
    */
+  const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
+  const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
   useMemo(() => {
     if (hasNextPage || !data) {
       console.debug(`${chartName}: removing cached data, as query is in progress.`);
@@ -145,10 +132,12 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-    const latestOnlyTokenRecords = Array.from(getTokenRecordDateMap(tokenRecords).values()).flat();
+    // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
+    const filteredRecords = isLiquidBackingActive ? tokenRecords.filter(value => value.isLiquid == true) : tokenRecords;
+    const latestOnlyTokenRecords = Array.from(getTokenRecordDateMap(filteredRecords).values()).flat();
     const newDateTokenSummary = getDateTokenSummary(latestOnlyTokenRecords);
     setByDateTokenSummary(newDateTokenSummary);
-  }, [data, hasNextPage]);
+  }, [data, hasNextPage, isLiquidBackingActive]);
 
   /**
    * Cache the tokens for the current value of selectedIndex.

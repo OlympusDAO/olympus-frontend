@@ -8,6 +8,7 @@ import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalCh
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { TreasuryAssetsGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsGraph";
+import { TreasuryAssetsTable } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsTable";
 
 const QUERY_TREASURY_MARKET_VALUE = "marketValue";
 const QUERY_TREASURY_LIQUID_BACKING = "liquidBacking";
@@ -92,12 +93,12 @@ export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
         onMouseMove={onMouseMove}
         earliestDate={earliestDate}
       />
-      {/* <TreasuryAssetsTable
+      <TreasuryAssetsTable
         subgraphUrl={subgraphUrl}
         earliestDate={earliestDate}
         isLiquidBackingActive={isLiquidBackingActive}
         selectedIndex={selectedIndex}
-      /> */}
+      />
     </>
   );
 };
