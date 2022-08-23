@@ -4103,10 +4103,10 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/get-value@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/get-value/-/get-value-3.0.2.tgz#8d5503923788373c88fb4aa75e5f1231afd82b61"
-  integrity sha512-7bZjzgwTSKJ19KbqnqFklR0BcsTpO6kErRg02TLqA1oJd5XRMMco/3mtOhG2xK95hrCNklMaMhn2T5rW/iAzhA==
+"@types/get-value@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/get-value/-/get-value-3.0.3.tgz#af37e88fd365c14c2672e861cf0699f5ba560102"
+  integrity sha512-jsTl/XtZumQfYgn50a0fPkpIyF2xvpsyzZmSLrrwXR8NWiDlw4N5XJiGQYrLckZGGUvbIr920Hz2wqmH1ZfjlQ==
 
 "@types/glob@*", "@types/glob@^7.1.3":
   version "7.2.0"
