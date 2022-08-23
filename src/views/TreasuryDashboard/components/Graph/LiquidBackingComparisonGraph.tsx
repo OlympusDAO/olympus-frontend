@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import {
@@ -63,6 +64,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
+  const queryClient = useQueryClient();
+
   /**
    * Active token:
    *
@@ -88,6 +91,13 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       return;
     }
 
+    console.info(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+
+    // Reset cache
+    resetCachedData();
+
+    // Create a new paginator with the new earliestDate
+    queryClient.cancelQueries(["TokenRecords.infinite", "TokenSupplies.infinite", "ProtocolMetrics.infinite"]);
     tokenRecordsPaginator.current = getNextPageParamTokenRecordFactory(
       chartName,
       earliestDate,
@@ -120,7 +130,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     data: tokenRecordsData,
     hasNextPage: tokenRecordsHasNextPage,
     fetchNextPage: tokenRecordsFetchNextPage,
-    refetch: tokenRecordsRefetch,
   } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -143,7 +152,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     data: tokenSuppliesData,
     hasNextPage: tokenSuppliesHasNextPage,
     fetchNextPage: tokenSuppliesFetchNextPage,
-    refetch: tokenSuppliesRefetch,
   } = useInfiniteTokenSuppliesQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -166,7 +174,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     data: protocolMetricsData,
     hasNextPage: protocolMetricsHasNextPage,
     fetchNextPage: protocolMetricsFetchNextPage,
-    refetch: protocolMetricsRefetch,
   } = useInfiniteProtocolMetricsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -187,21 +194,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const resetCachedData = () => {
     setByDateLiquidBacking([]);
   };
-
-  /**
-   * We need to trigger a re-fetch when the earliestDate prop is changed.
-   */
-  useEffect(() => {
-    if (!earliestDate) {
-      return;
-    }
-
-    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
-    resetCachedData();
-    tokenRecordsRefetch();
-    tokenSuppliesRefetch();
-    protocolMetricsRefetch();
-  }, [earliestDate]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -328,6 +320,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       return;
     }
 
+    console.info(`${chartName}: Data loading is done or isActiveTokenOHM has changed. Re-calculating total.`);
+
     // Date descending order, so 0 is the latest
     setCurrentBackingHeaderText(
       formatCurrency(
@@ -340,19 +334,36 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   }, [isActiveTokenOHM, byDateLiquidBacking]);
 
   /**
-   * Data keys, categories
+   * There are a number of variables (data keys, categories) that are dependent on the value of
+   * {isLiquidBackingActive}. As a result, we watch for changes to that prop and re-create the
+   * cached variables.
    */
-  const dataKeys: string[] = isActiveTokenOHM
-    ? ["ohmPrice", "liquidBackingPerOhmFloating"]
-    : ["gOhmPrice", "liquidBackingPerGOhmSynthetic"];
-  const itemNames: string[] = isActiveTokenOHM
-    ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
-    : [t`gOHM Price`, t`Liquid Backing per gOHM`];
+  const [dataKeys, setDataKeys] = useState<string[]>([]);
+  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
+  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
+  const [headerText, setHeaderText] = useState("");
+  const [tooltipText, setTooltipText] = useState("");
+  useMemo(() => {
+    const tempDataKeys: string[] = isActiveTokenOHM
+      ? ["ohmPrice", "liquidBackingPerOhmFloating"]
+      : ["gOhmPrice", "liquidBackingPerGOhmSynthetic"];
+    setDataKeys(tempDataKeys);
 
-  // No caching needed, as these are static categories
-  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
-  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+    const itemNames: string[] = isActiveTokenOHM
+      ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
+      : [t`gOHM Price`, t`Liquid Backing per gOHM`];
+
+    setCategoriesMap(getCategoriesMap(itemNames, tempDataKeys));
+    setBulletpointStylesMap(getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys));
+    setColorsMap(getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys));
+    setHeaderText(isActiveTokenOHM ? t`OHM Backing` : t`gOHM Backing`);
+    setTooltipText(
+      isActiveTokenOHM
+        ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
+        : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`,
+    );
+  }, [isActiveTokenOHM]);
 
   return (
     <Chart
@@ -360,17 +371,13 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       data={byDateLiquidBacking}
       dataKeys={dataKeys}
       dataKeyColors={colorsMap}
-      headerText={isActiveTokenOHM ? t`OHM Backing` : t`gOHM Backing`}
+      headerText={headerText}
       headerSubText={currentBackingHeaderText}
       dataFormat={DataFormat.Currency}
       dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       margin={{ left: 30 }}
-      infoTooltipMessage={
-        isActiveTokenOHM
-          ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
-          : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`
-      }
+      infoTooltipMessage={tooltipText}
       isLoading={byDateLiquidBacking.length == 0}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}

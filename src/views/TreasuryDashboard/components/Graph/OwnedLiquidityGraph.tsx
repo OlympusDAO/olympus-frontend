@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
+import { useQueryClient } from "@tanstack/react-query";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -51,6 +52,8 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     category: CATEGORY_POL,
   };
 
+  const queryClient = useQueryClient();
+
   /**
    * Pagination:
    *
@@ -63,6 +66,13 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
       return;
     }
 
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // Reset cache
+    resetCachedData();
+
+    // Create a new paginator with the new earliestDate
+    queryClient.cancelQueries(["TokenRecords.infinite"]);
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 

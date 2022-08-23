@@ -1,10 +1,10 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import {
-  TokenRecord,
   TokenRecord_Filter,
   TokenRecordsDocument,
   TokenRecordsQuery,
@@ -57,27 +57,21 @@ export const TreasuryAssetsGraph = ({
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
+  const queryClient = useQueryClient();
+
   /**
    * Pagination:
    *
    * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
    */
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
-      return;
-    }
-
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -94,23 +88,26 @@ export const TreasuryAssetsGraph = ({
     },
   );
 
-  const resetCachedData = () => {
-    setByDateMetrics([]);
-    setTotal("");
-  };
-
-  /**
-   * We need to trigger a re-fetch when the earliestDate prop is changed.
-   */
   useEffect(() => {
+    // We can't create the paginator until we have an earliestDate
     if (!earliestDate) {
       return;
     }
 
-    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // Reset cache
     resetCachedData();
-    refetch();
-  }, [earliestDate, refetch]);
+
+    // Create a new paginator with the new earliestDate
+    queryClient.cancelQueries(["TokenRecords.infinite"]);
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
+  }, [earliestDate]);
+
+  const resetCachedData = () => {
+    setByDateMetrics([]);
+    setTotal("");
+  };
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -120,7 +117,6 @@ export const TreasuryAssetsGraph = ({
    */
   useEffect(() => {
     if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
       fetchNextPage();
       return;
     }
@@ -143,17 +139,27 @@ export const TreasuryAssetsGraph = ({
   const [total, setTotal] = useState("");
 
   /**
-   * Generates an array containing one DateTreasuryMetrics element for each date,
-   * in which the metrics are contained.
+   * Chart population:
    *
-   * The array is sorted in descending order by date.
-   *
-   * @param tokenRecords
-   * @returns
+   * When data loading is finished, the token records are processed into a compatible structure.
    */
-  const getDateTreasuryMetrics = (tokenRecords: TokenRecord[]): DateTreasuryMetrics[] => {
+  useMemo(() => {
+    if (hasNextPage || !data) {
+      if (byDateMetrics.length > 0) {
+        // While data is loading, ensure dependent data is empty
+        console.debug(`${chartName}: Removing cached data, as query is in progress.`);
+        resetCachedData();
+      }
+
+      return;
+    }
+
+    // We need to flatten the tokenRecords from all of the pages arrays
+    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
+    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
-    const dateMetricsMap: Map<string, DateTreasuryMetrics> = new Map<string, DateTreasuryMetrics>();
+    const tempByDateMetrics: DateTreasuryMetrics[] = [];
 
     /**
      * For each date, we have an array of token records.
@@ -185,32 +191,9 @@ export const TreasuryAssetsGraph = ({
         liquidTotal: liquidStable + liquidVolatile + liquidPol,
       };
 
-      dateMetricsMap.set(key, dateMetric);
+      tempByDateMetrics.push(dateMetric);
     });
 
-    // Sort in descending date order
-    return Array.from(dateMetricsMap.values()).sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
-  };
-
-  /**
-   * Chart population:
-   *
-   * When data loading is finished, the token records are processed into a compatible structure.
-   */
-  useMemo(() => {
-    if (hasNextPage || !data) {
-      // While data is loading, ensure dependent data is empty
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
-      return;
-    }
-
-    // We need to flatten the tokenRecords from all of the pages arrays
-    console.debug(`${chartName}: rebuilding by date metrics`);
-    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-    const tempByDateMetrics = getDateTreasuryMetrics(tokenRecords);
     setByDateMetrics(tempByDateMetrics);
   }, [data, hasNextPage]);
 
@@ -220,29 +203,47 @@ export const TreasuryAssetsGraph = ({
       return;
     }
 
+    console.info(`${chartName}: Data loading is done or isLiquidBackingActive has changed. Re-calculating total.`);
+
     // Date descending order, so 0 is the latest
     const lastMetric = byDateMetrics[0];
     const tempTotal = isLiquidBackingActive ? lastMetric.liquidTotal : lastMetric.marketTotal;
     setTotal(formatCurrency(tempTotal, 0));
   }, [byDateMetrics, isLiquidBackingActive]);
 
-  // What is displayed in the chart differs based on the value of isLiquidBackingActive
-  const itemNames: string[] = [
-    t`Stablecoins`,
-    t`Volatile Assets`,
-    t`Protocol-Owned Liquidity`,
-    ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
-  ];
-  const dataKeys: string[] = isLiquidBackingActive
-    ? ["liquidStable", "liquidVolatile", "liquidPol", "marketTotal"]
-    : ["marketStable", "marketVolatile", "marketPol", "liquidTotal"];
-  // The keys to display as a line
-  const composedLineDataKeys: string[] = isLiquidBackingActive ? ["marketTotal"] : ["liquidTotal"];
+  const [dataKeys, setDataKeys] = useState<string[]>([]);
+  const [composedLineDataKeys, setComposedLineDataKeys] = useState<string[]>([]);
+  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
+  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
+  /**
+   * There are a number of variables (data keys, categories) that are dependent on the value of
+   * {isLiquidBackingActive}. As a result, we watch for changes to that prop and re-create the
+   * cached variables.
+   */
+  useMemo(() => {
+    console.info(`${chartName}: isLiquidBackingActive changed. Re-calculating data keys.`);
 
-  // No caching needed, as these are static categories
-  const categoriesMap = getCategoriesMap(itemNames, dataKeys);
-  const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
-  const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
+    // What is displayed in the chart differs based on the value of isLiquidBackingActive
+    const tempItemNames: string[] = [
+      t`Stablecoins`,
+      t`Volatile Assets`,
+      t`Protocol-Owned Liquidity`,
+      ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
+    ];
+
+    const tempDataKeys: string[] = isLiquidBackingActive
+      ? ["liquidStable", "liquidVolatile", "liquidPol", "marketTotal"]
+      : ["marketStable", "marketVolatile", "marketPol", "liquidTotal"];
+    setDataKeys(tempDataKeys);
+
+    // The keys to display as a line
+    setComposedLineDataKeys(isLiquidBackingActive ? ["marketTotal"] : ["liquidTotal"]);
+
+    setCategoriesMap(getCategoriesMap(tempItemNames, tempDataKeys));
+    setBulletpointStylesMap(getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys));
+    setColorsMap(getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys));
+  }, [isLiquidBackingActive]);
 
   return (
     <Chart

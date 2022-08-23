@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   TokenRecord_Filter,
@@ -47,6 +48,8 @@ export const TreasuryAssetsTable = ({
     ...(isLiquidBackingActive && { isLiquid: true }), // This will trigger a refresh/refetch of data
   };
 
+  const queryClient = useQueryClient();
+
   /**
    * Pagination:
    *
@@ -59,6 +62,13 @@ export const TreasuryAssetsTable = ({
       return;
     }
 
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // Reset cache
+    resetCachedData();
+
+    // Create a new paginator with the new earliestDate
+    queryClient.cancelQueries(["TokenRecords.infinite"]);
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 
