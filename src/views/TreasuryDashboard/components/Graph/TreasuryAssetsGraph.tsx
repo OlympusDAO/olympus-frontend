@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { useQueryClient } from "@tanstack/react-query";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -35,6 +34,20 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+type DateTreasuryMetrics = {
+  date: string;
+  timestamp: number;
+  block: number;
+  marketStable: number;
+  marketVolatile: number;
+  marketPol: number;
+  marketTotal: number;
+  liquidStable: number;
+  liquidVolatile: number;
+  liquidPol: number;
+  liquidTotal: number;
+};
+
 /**
  * Stacked area chart that displays the value of treasury assets.
  *
@@ -57,8 +70,6 @@ export const TreasuryAssetsGraph = ({
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
-  const queryClient = useQueryClient();
-
   /**
    * Pagination:
    *
@@ -77,7 +88,6 @@ export const TreasuryAssetsGraph = ({
     resetCachedData();
 
     // Create a new paginator with the new earliestDate
-    // queryClient.cancelQueries(["TokenRecords.infinite"]);
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 
@@ -86,7 +96,7 @@ export const TreasuryAssetsGraph = ({
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage, refetch, isLoading, isFetching, isSuccess } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -135,47 +145,13 @@ export const TreasuryAssetsGraph = ({
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  type DateTreasuryMetrics = {
-    date: string;
-    timestamp: number;
-    block: number;
-    marketStable: number;
-    marketVolatile: number;
-    marketPol: number;
-    marketTotal: number;
-    liquidStable: number;
-    liquidVolatile: number;
-    liquidPol: number;
-    liquidTotal: number;
-  };
-  const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
-  const [total, setTotal] = useState("");
-
-  useEffect(() => {
-    console.log(`${chartName}: isFetching = ${isFetching}`);
-  }, [isFetching]);
-
-  useEffect(() => {
-    console.log(`${chartName}: isLoading = ${isLoading}`);
-  }, [isLoading]);
-
-  useEffect(() => {
-    console.log(`${chartName}: isSuccess = ${isSuccess}`);
-  }, [isSuccess]);
-
-  useEffect(() => {
-    console.log(`${chartName}: hasNextPage = ${hasNextPage}`);
-  }, [hasNextPage]);
-
-  useEffect(() => {
-    console.log(`${chartName}: data pages = ${!data ? "undefined" : data.pages.length}`);
-  }, [data]);
-
   /**
    * Chart population:
    *
    * When data loading is finished, the token records are processed into a compatible structure.
    */
+  const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
+  const [total, setTotal] = useState("");
   useMemo(() => {
     if (hasNextPage || !data) {
       console.debug(`${chartName}: Removing cached data, as query is in progress.`);
@@ -228,6 +204,9 @@ export const TreasuryAssetsGraph = ({
     console.log(`${chartName}: byDateMetrics = ${JSON.stringify(tempByDateMetrics, null, 2)}`);
   }, [data, hasNextPage]);
 
+  /**
+   * Set total
+   */
   useMemo(() => {
     if (!byDateMetrics.length) {
       setTotal("");
@@ -242,16 +221,16 @@ export const TreasuryAssetsGraph = ({
     setTotal(formatCurrency(tempTotal, 0));
   }, [byDateMetrics, isLiquidBackingActive]);
 
-  const [dataKeys, setDataKeys] = useState<string[]>([]);
-  const [composedLineDataKeys, setComposedLineDataKeys] = useState<string[]>([]);
-  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
-  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
-  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
   /**
    * There are a number of variables (data keys, categories) that are dependent on the value of
    * {isLiquidBackingActive}. As a result, we watch for changes to that prop and re-create the
    * cached variables.
    */
+  const [dataKeys, setDataKeys] = useState<string[]>([]);
+  const [composedLineDataKeys, setComposedLineDataKeys] = useState<string[]>([]);
+  const [categoriesMap, setCategoriesMap] = useState(new Map<string, string>());
+  const [bulletpointStylesMap, setBulletpointStylesMap] = useState(new Map<string, CSSProperties>());
+  const [colorsMap, setColorsMap] = useState(new Map<string, string>());
   useMemo(() => {
     console.info(`${chartName}: isLiquidBackingActive changed. Re-calculating data keys.`);
 
