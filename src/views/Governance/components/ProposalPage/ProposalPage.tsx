@@ -97,6 +97,11 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
     }
   };
   const formattedPublishedDate = dateFormat.format(proposal.submissionTimestamp);
+  let boundedTimeRemaining = 0;
+
+  if (proposal.timeRemaining && proposal.timeRemaining - Date.now() > 0) {
+    boundedTimeRemaining = (proposal.timeRemaining - Date.now()) / 1000;
+  }
 
   return (
     <Grid container direction="column" pt="9px" mb="9px">
@@ -118,7 +123,7 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
             <>
               <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
               <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                {`Ends in ${prettifySeconds(proposal.timeRemaining / 1000)}`}
+                {boundedTimeRemaining == 0 ? `Finished` : `Ends in ${prettifySeconds(boundedTimeRemaining)}`}
               </Typography>
             </>
           )}
