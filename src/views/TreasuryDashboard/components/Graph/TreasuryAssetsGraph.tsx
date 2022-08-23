@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
+import { useQueryClient } from "@tanstack/react-query";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -70,6 +71,8 @@ export const TreasuryAssetsGraph = ({
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
   const baseFilter: TokenRecord_Filter = {};
 
+  const queryClient = useQueryClient();
+
   /**
    * Pagination:
    *
@@ -87,6 +90,10 @@ export const TreasuryAssetsGraph = ({
     // Reset cache
     resetCachedData();
 
+    // removeQueries seems to be most reliable in forcing a re-fetch with the new earliestDate
+    // the following didn't work: queryClient.cancelQueries, refetch
+    queryClient.removeQueries(["TokenRecords.infinite"]);
+
     // Create a new paginator with the new earliestDate
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
@@ -96,7 +103,7 @@ export const TreasuryAssetsGraph = ({
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -117,19 +124,6 @@ export const TreasuryAssetsGraph = ({
     setByDateMetrics([]);
     setTotal("");
   };
-
-  /**
-   * We need to trigger a re-fetch when the earliestDate prop is changed.
-   */
-  useEffect(() => {
-    if (!earliestDate) {
-      return;
-    }
-
-    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
-    resetCachedData();
-    refetch();
-  }, [earliestDate, refetch]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -201,7 +195,6 @@ export const TreasuryAssetsGraph = ({
     });
 
     setByDateMetrics(tempByDateMetrics);
-    console.log(`${chartName}: byDateMetrics = ${JSON.stringify(tempByDateMetrics, null, 2)}`);
   }, [data, hasNextPage]);
 
   /**

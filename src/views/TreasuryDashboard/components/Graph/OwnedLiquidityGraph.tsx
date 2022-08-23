@@ -71,8 +71,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     // Reset cache
     resetCachedData();
 
+    // removeQueries seems to be most reliable in forcing a re-fetch with the new earliestDate
+    // the following didn't work: queryClient.cancelQueries, refetch
+    queryClient.removeQueries(["TokenRecords.infinite"]);
+
     // Create a new paginator with the new earliestDate
-    queryClient.cancelQueries(["TokenRecords.infinite"]);
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [earliestDate]);
 
@@ -81,7 +84,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -104,19 +107,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     setDataKeys([]);
     setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
   };
-
-  /**
-   * We need to trigger a re-fetch when the earliestDate prop is changed.
-   */
-  useEffect(() => {
-    if (!earliestDate) {
-      return;
-    }
-
-    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
-    resetCachedData();
-    refetch();
-  }, [earliestDate, refetch]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -173,15 +163,27 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
     const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
     setDataKeyColorsMap(tempColorsMap);
+  }, [data, hasNextPage]);
+
+  /**
+   * Set total
+   */
+  useMemo(() => {
+    if (!byDateTokenSummary.length) {
+      setTotal("");
+      return;
+    }
+
+    console.info(`${chartName}: Data loading is done. Re-calculating total.`);
 
     const tempTotal =
-      newDateTokenSummary.length > 0
-        ? Object.values(newDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
+      byDateTokenSummary.length > 0
+        ? Object.values(byDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
             return +previousValue + parseFloat(token.value);
           }, 0)
         : 0;
     setTotal(formatCurrency(tempTotal, 0));
-  }, [data, hasNextPage]);
+  }, [byDateTokenSummary]);
 
   return (
     <Chart

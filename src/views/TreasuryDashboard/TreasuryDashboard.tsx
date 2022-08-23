@@ -14,6 +14,7 @@ import {
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import {
   BackingPerGOHM,
@@ -209,11 +210,11 @@ const MetricsDashboard = () => {
             <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
         </Grid>
-        {/* <Grid item xs={12}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
-        </Grid> */}
+        </Grid>
       </Grid>
       <SafariFooter />
     </>
