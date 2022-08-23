@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { useQueryClient } from "@tanstack/react-query";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -69,8 +68,6 @@ export const TreasuryAssetsGraph = ({
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
-  const queryClient = useQueryClient();
 
   const [baseFilter] = useState<TokenRecord_Filter>({});
 

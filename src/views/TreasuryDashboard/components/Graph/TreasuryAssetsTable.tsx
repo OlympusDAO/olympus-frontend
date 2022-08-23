@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   TokenRecord_Filter,
@@ -44,8 +43,6 @@ export const TreasuryAssetsTable = ({
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
-  const queryClient = useQueryClient();
 
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
