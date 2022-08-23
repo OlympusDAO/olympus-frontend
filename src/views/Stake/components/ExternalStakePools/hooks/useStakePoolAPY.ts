@@ -242,7 +242,7 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
 
 //Returns Frax Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
 export const FraxPoolAPY = (pool: ExternalPool) => {
-  const fraxAPI = "https://api.frax.finance/pools";
+  const fraxAPI = "https://api.frax.finance/v2/fraxswap/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F";
   const {
     data = { apy: 0, liquidity_locked: 0 },
     isFetched,
