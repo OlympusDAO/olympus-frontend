@@ -277,9 +277,8 @@ const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
 const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JonesPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+  const { apy, tvl } = JonesPoolAPY(props.pool);
+  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
 };
 const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);

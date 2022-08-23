@@ -95,7 +95,7 @@ export const jones_gohm_jgohm = new ExternalPool({
   rewardGecko: "jones-dao",
   href: "https://jonesdao.io/farms",
   address: "0x292d1587a6Bb37E34574c9AD5993F221D8a5616C",
-  masterchef: "0x7eCe38dBE9D61D0d9Bf2D804A87A7d21b5937a56",
+  masterchef: "",
   rewarder: "",
   poolId: 0,
   networkID: NetworkId.ARBITRUM,

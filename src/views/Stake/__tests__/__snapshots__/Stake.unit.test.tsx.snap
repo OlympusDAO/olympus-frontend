@@ -2071,7 +2071,10 @@ exports[`<Stake/> should render component 1`] = `
                     class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
-                    0.00%
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
                   </p>
                 </td>
                 <td
@@ -4958,7 +4961,10 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
-                    0.00%
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
                   </p>
                 </td>
                 <td

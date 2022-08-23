@@ -16,7 +16,6 @@ import {
   useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
-  useStaticJonesContract,
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -187,28 +186,22 @@ export const CurvePoolRewardAPY = (pool: ExternalPool) => {
   return { data, isFetched, isLoading };
 };
 
+//Returns Jones Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
 export const JonesPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
-  const jonesChef = useStaticJonesContract(pool.masterchef, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const periodFinish = await jonesChef.periodFinish();
-    const rewardRate = await jonesChef.rewardRateJONES();
-    const boost = await jonesChef.boost();
-    const boostedFinish = await jonesChef.boostedFinish();
-    const poolRewardsPerWeek =
-      Date.now() / 1000 > parseBigNumber(periodFinish, 0)
-        ? 0
-        : ((Date.now() / 1000 > parseBigNumber(boostedFinish, 0)
-            ? parseBigNumber(rewardRate, 0)
-            : parseBigNumber(rewardRate) * parseBigNumber(boost)) /
-            1e18) *
-          604800;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond: 0 };
+  const jonesAPI = "https://data.jonesdao.io/api/v1/jones/farms/general";
+  const {
+    data = { apy: 0, liquidity_locked: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["JonesPoolAPY", pool.address], async () => {
+    const results = await axios.get(jonesAPI).then(res => {
+      const poolData = res.data.farms.find((lp: { lpToken: string }) => lp.lpToken == pool.address);
+      console.log(poolData, "poolData");
+      return poolData;
+    });
+    return results;
   });
-
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
+  return { apy: data.apr / 100, tvl: data.totalStakedValue, isFetched, isLoading };
 };
 
 //Returns Convex Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
