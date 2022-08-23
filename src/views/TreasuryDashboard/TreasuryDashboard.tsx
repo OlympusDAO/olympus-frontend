@@ -14,6 +14,7 @@ import {
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import {
@@ -196,7 +197,7 @@ const MetricsDashboard = () => {
           </Grid>
           {hideToggleSidePadding ? <></> : <Grid item xs={3} sm={4} />}
         </Grid>
-        {/* <Grid item xs={12}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph
               subgraphUrl={subgraphUrl}
@@ -204,7 +205,7 @@ const MetricsDashboard = () => {
               earliestDate={earliestDate}
             />
           </Paper>
-        </Grid> */}
+        </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
