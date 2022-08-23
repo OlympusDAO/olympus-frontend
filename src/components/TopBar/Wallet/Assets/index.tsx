@@ -158,10 +158,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
-      lineThreeValue:
-        Number(formattedSOhmBalance) > 0
-          ? `${trim(rebaseAmountPerDay, 3)} sOHM / ${formatCurrency(rebaseAmountPerDay * ohmPrice, 2)}`
-          : undefined,
+      lineThreeValue: Number(formattedSOhmBalance) > 0 ? `${trim(rebaseAmountPerDay, 3)} sOHM ` : undefined,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
