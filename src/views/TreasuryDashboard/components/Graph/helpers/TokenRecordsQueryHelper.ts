@@ -55,14 +55,14 @@ export const getNextPageParamFactory = (
      */
     const newFinishDate = existingStartDate;
     const newStartDate = getNextPageStartDate(newFinishDate, earliestDate, dateOffset);
-
-    console.debug(`${logPrefix}: Loading next page with start date ${newStartDate} and finish date ${newFinishDate}`);
+    const filter = {
+      ...baseFilter,
+      date_gte: newStartDate,
+      date_lt: newFinishDate,
+    };
+    console.debug(`${logPrefix}: Loading next page with filter: ${JSON.stringify(filter, null, 2)}`);
     return {
-      filter: {
-        ...baseFilter,
-        date_gte: newStartDate,
-        date_lt: newFinishDate,
-      },
+      filter: filter,
       recordCount: recordCount,
     };
   };

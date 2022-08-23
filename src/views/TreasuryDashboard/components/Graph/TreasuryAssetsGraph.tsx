@@ -65,13 +65,28 @@ export const TreasuryAssetsGraph = ({
    * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
    */
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+  useEffect(() => {
+    // We can't create the paginator until we have an earliestDate
+    if (!earliestDate) {
+      return;
+    }
+
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // Reset cache
+    resetCachedData();
+
+    // Create a new paginator with the new earliestDate
+    // queryClient.cancelQueries(["TokenRecords.infinite"]);
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
+  }, [earliestDate]);
 
   /**
    * This code block kicks off data fetching with an initial date range.
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  const { data, hasNextPage, fetchNextPage } = useInfiniteTokenRecordsQuery(
+  const { data, hasNextPage, fetchNextPage, refetch, isLoading, isFetching, isSuccess } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -88,26 +103,23 @@ export const TreasuryAssetsGraph = ({
     },
   );
 
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Create a new paginator with the new earliestDate
-    queryClient.cancelQueries(["TokenRecords.infinite"]);
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [earliestDate]);
-
   const resetCachedData = () => {
     setByDateMetrics([]);
     setTotal("");
   };
+
+  /**
+   * We need to trigger a re-fetch when the earliestDate prop is changed.
+   */
+  useEffect(() => {
+    if (!earliestDate) {
+      return;
+    }
+
+    console.debug(chartName + ": earliestDate changed to " + earliestDate + ". Re-fetching.");
+    resetCachedData();
+    refetch();
+  }, [earliestDate, refetch]);
 
   /**
    * Any time the data changes, we want to check if there are more pages (and data) to fetch.
@@ -117,6 +129,7 @@ export const TreasuryAssetsGraph = ({
    */
   useEffect(() => {
     if (hasNextPage) {
+      console.debug(chartName + ": fetching next page");
       fetchNextPage();
       return;
     }
@@ -138,6 +151,26 @@ export const TreasuryAssetsGraph = ({
   const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
   const [total, setTotal] = useState("");
 
+  useEffect(() => {
+    console.log(`${chartName}: isFetching = ${isFetching}`);
+  }, [isFetching]);
+
+  useEffect(() => {
+    console.log(`${chartName}: isLoading = ${isLoading}`);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log(`${chartName}: isSuccess = ${isSuccess}`);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    console.log(`${chartName}: hasNextPage = ${hasNextPage}`);
+  }, [hasNextPage]);
+
+  useEffect(() => {
+    console.log(`${chartName}: data pages = ${!data ? "undefined" : data.pages.length}`);
+  }, [data]);
+
   /**
    * Chart population:
    *
@@ -145,11 +178,8 @@ export const TreasuryAssetsGraph = ({
    */
   useMemo(() => {
     if (hasNextPage || !data) {
-      if (byDateMetrics.length > 0) {
-        // While data is loading, ensure dependent data is empty
-        console.debug(`${chartName}: Removing cached data, as query is in progress.`);
-        resetCachedData();
-      }
+      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
+      resetCachedData();
 
       return;
     }
@@ -195,6 +225,7 @@ export const TreasuryAssetsGraph = ({
     });
 
     setByDateMetrics(tempByDateMetrics);
+    console.log(`${chartName}: byDateMetrics = ${JSON.stringify(tempByDateMetrics, null, 2)}`);
   }, [data, hasNextPage]);
 
   useMemo(() => {
