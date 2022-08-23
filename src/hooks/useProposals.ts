@@ -173,9 +173,9 @@ export const timeRemaining = ({
 }): number | undefined => {
   if (state === "active") {
     // TODO(appleseed): setup a config to make these duration requirements (from the contract) easily modifiable
-    return submissionTimestamp + unixDays(7) - Date.now() / 1000;
+    return submissionTimestamp + unixDays(7);
   } else if (state === "endorsement") {
-    return submissionTimestamp + unixDays(14) - Date.now() / 1000;
+    return submissionTimestamp + unixDays(14);
   } else {
     return undefined;
   }
