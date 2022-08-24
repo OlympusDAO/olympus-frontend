@@ -9,6 +9,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { Bond } from "src/views/Bond/hooks/useBond";
@@ -25,7 +26,7 @@ export const usePurchaseBond = (bond: Bond) => {
 
   return useMutation<
     ContractReceipt,
-    Error,
+    EthersError,
     {
       amount: string;
       slippage: string;
@@ -102,7 +103,7 @@ export const usePurchaseBond = (bond: Bond) => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (tx, { amount }) => {
         trackGAEvent({
