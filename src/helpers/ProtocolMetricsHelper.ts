@@ -3,16 +3,6 @@ import { CSSProperties } from "react";
 import { ChartType } from "src/components/Chart/Constants";
 import { getFloat } from "src/helpers/NumberHelper";
 
-export type TokenRow = {
-  token: string;
-  category: string;
-  value: string;
-};
-
-export type TokenMap = {
-  [key: string]: TokenRow;
-};
-
 export const objectHasProperty = (object: unknown, property: string): object is Record<string, unknown> => {
   return typeof object === "object" && object !== null && property in object;
 };
@@ -40,161 +30,6 @@ export const renameToken = (value: string): string => {
   return mapValue;
 };
 
-type ComponentRecordRow = {
-  token: string;
-  value: string;
-};
-
-type Components = {
-  value: number;
-  records: ComponentRecordRow[];
-  tokens: TokenMap;
-};
-
-export type MetricComponentsTokenSummary = {
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents?: Components;
-  treasuryLiquidBackingStableComponents?: Components;
-  treasuryLiquidBackingVolatileComponents?: Components;
-  treasuryLPValueComponents?: Components;
-  treasuryStableValueComponents?: Components;
-  treasuryVolatileValueComponents?: Components;
-};
-
-export type BaseMetric = {
-  timestamp: number;
-} & Record<string, unknown>;
-
-/**
- * For each of the {keys} specified, calculates a total for each token.
- *
- * @example
- * ```
- * {
- *   timestamp: "1229930",
- *   ...
- *   treasuryLPValueComponents {
- *     records: [
- *       { token: "DAI", value: "100.0" },
- *       { token: "DAI", value: "50.0" },
- *     ],
- *   }
- * }
- * ```
- *
- * Will be transformed into:
- * ```
- * {
- *   timestamp: "1229930",
- *   ...
- *   treasuryLPValueComponents {
- *     records: [
- *       { token: "DAI", value: "100.0" },
- *       { token: "DAI", value: "50.0" },
- *     ],
- *     tokens: {
- *       DAI: { token: "DAI", category: "stablecoins", value: "150.0" },
- *     }
- *   }
- * }
- * ```
- *
- * Note: {keys} and {categories} must have the same number of elements.
- *
- * @param metrics
- * @param keys properties to fetch from the {metrics} parameter
- * @param categories applies the given categories to the tokens that are returned, corresponding to the keys parameter
- * @returns
- */
-export const getKeysTokenSummary = (
-  metrics: BaseMetric[] | undefined,
-  keys: readonly string[],
-  categories: readonly string[],
-): (BaseMetric & MetricComponentsTokenSummary)[] => {
-  if (keys.length != categories.length) {
-    throw new Error(
-      `The length of the keys (${JSON.stringify(keys)}) and categories (${JSON.stringify(
-        categories,
-      )}) parameters must match`,
-    );
-  }
-
-  if (!metrics) return [];
-
-  // We cast the resulting object, so we can interact with the keys defined in MetricComponentsTokenSummary
-  const updatedData = metrics.slice() as (BaseMetric & MetricComponentsTokenSummary)[];
-
-  updatedData.forEach((metric: BaseMetric) => {
-    if (!objectHasProperty(metric, "date")) {
-      throw new Error("Unable to access date property in metrics element");
-    }
-
-    keys.forEach((key, index) => {
-      if (!objectHasProperty(metric, key)) {
-        throw new Error(`Unable to access specified key ${key} in metrics element`);
-      }
-
-      const components = metric[key] as Components;
-      if (!objectHasProperty(components, "records")) {
-        throw new Error(`Unable to access records property in ${key} element`);
-      }
-
-      // Create the destination data structure first
-      components.tokens = {} as TokenMap;
-
-      const currentCategory = categories[index];
-
-      components.records.forEach(record => {
-        const currentTokenRecord = components.tokens[record.token];
-        const currentTokenValue: string = currentTokenRecord ? currentTokenRecord.value : "0";
-        const recordValue: number = getFloat(record.value);
-        const newValue: number = parseFloat(currentTokenValue) + recordValue;
-
-        const tokenRecord: TokenRow = {
-          token: record.token,
-          category: currentCategory,
-          value: newValue.toString(),
-        };
-
-        components.tokens[record.token] = tokenRecord;
-      });
-    });
-  });
-
-  return updatedData;
-};
-
-/**
- * Collapses the tokens underneath {key} into a string array.
- *
- * This makes it easy to use for key and name parameters for charts.
- *
- * @param metrics
- * @param key
- * @returns
- */
-export const getTokensFromKey = (
-  metrics: (BaseMetric & MetricComponentsTokenSummary)[] | undefined,
-  key: string,
-): string[] => {
-  if (!metrics) return [];
-
-  const tokenNames = new Set<string>();
-  metrics.forEach(metric => {
-    if (!objectHasProperty(metric, key)) {
-      throw new Error(`Unable to access specified key ${key} in metrics element`);
-    }
-
-    const components = metric[key] as Components;
-    if (!objectHasProperty(components, "tokens")) {
-      throw new Error(`Unable to access tokens property in ${key} element`);
-    }
-
-    Object.keys(components.tokens).forEach(tokenKey => tokenNames.add(tokenKey));
-  });
-
-  return Array.from(tokenNames);
-};
-
 /**
  * Converts an array of token names into the relevant data keys, which
  * will be used by the charting library.
@@ -203,7 +38,7 @@ export const getTokensFromKey = (
  * @param key
  * @returns
  */
-export const getDataKeysFromTokens = (tokens: string[], key: string): string[] => {
+export const getDataKeysFromTokens = (tokens: string[]): string[] => {
   return tokens.map(value => `tokens.${value}.value`);
 };
 
@@ -258,87 +93,6 @@ export const getBulletpointStylesMap = (styles: CSSProperties[], dataKeys: strin
   });
 
   return categoriesMap;
-};
-
-export type MetricRow = {
-  timestamp: number;
-  tokens: TokenRow[];
-};
-
-/**
- * Combines the tokens underneath each of the elements specified by {keys},
- * and reduces them into a single array.
- *
- * @example
- * ```
- * {
- *   timestamp: "1229930",
- *   ...
- *   treasuryLPValueComponents {
- *     tokens: {
- *       DAI: { token: "DAI", category: "stablecoins", value: "150.0" },
- *     }
- *   }
- *   treasuryStableValueComponents {
- *     tokens: {
- *       DAI: { token: "LUSD", category: "stablecoins", value: "200.0" },
- *     }
- *   }
- * }
- * ```
- *
- * Will be transformed into:
- * ```
- * {
- *   timestamp: "1229930",
- *   ...
- *   tokens: [
- *     { token: "DAI", category: "stablecoins", value: "150.0" },
- *     { token: "LUSD", category: "stablecoins", value: "200.0" },
- *   ]
- * }
- * ```
- *
- * @param metrics
- * @param keys
- * @returns
- */
-export const reduceKeysTokenSummary = (
-  metrics: (BaseMetric & MetricComponentsTokenSummary)[] | undefined,
-  keys: readonly string[],
-): MetricRow[] => {
-  if (!metrics) return [];
-
-  const reducedData: MetricRow[] = [];
-  metrics.forEach(metric => {
-    if (!objectHasProperty(metric, "timestamp")) {
-      throw new Error("Unable to access timestamp property in metrics element");
-    }
-
-    const reducedDataRow: MetricRow = {
-      timestamp: metric["timestamp"],
-      tokens: [],
-    };
-
-    keys.forEach(key => {
-      if (!objectHasProperty(metric, key)) {
-        throw new Error(`Unable to access specified key ${key} in metrics element`);
-      }
-
-      const components = metric[key] as Components;
-      if (!objectHasProperty(components, "tokens")) {
-        throw new Error(`Unable to access tokens property in ${key} element`);
-      }
-
-      // Collapse the contents of the `tokens` property (map-like) underneath the given {key}
-      const tokenRecords = components["tokens"] as TokenMap;
-      Object.keys(tokenRecords).forEach((tokenKey: string) => reducedDataRow.tokens.push(tokenRecords[tokenKey]));
-    });
-
-    reducedData.push(reducedDataRow);
-  });
-
-  return reducedData;
 };
 
 /**

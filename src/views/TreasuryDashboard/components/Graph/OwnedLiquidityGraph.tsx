@@ -17,7 +17,6 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
   getDataKeysFromTokens,
-  TokenRow,
 } from "src/helpers/ProtocolMetricsHelper";
 import {
   CATEGORY_POL,
@@ -35,6 +34,7 @@ import {
   DateTokenSummary,
   getDateTokenSummary,
   getNextPageParamFactory,
+  TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 /**
@@ -150,7 +150,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
     const tokenCategories = Array.from(new Set(tokenRecords.map(tokenRecord => tokenRecord.token))).sort();
 
-    const tempDataKeys = getDataKeysFromTokens(tokenCategories, "");
+    const tempDataKeys = getDataKeysFromTokens(tokenCategories);
     setDataKeys(tempDataKeys);
 
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);

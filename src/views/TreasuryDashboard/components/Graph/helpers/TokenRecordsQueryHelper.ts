@@ -1,11 +1,20 @@
 import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVariables } from "src/generated/graphql";
-import { TokenMap, TokenRow } from "src/helpers/ProtocolMetricsHelper";
 import {
   CATEGORY_POL,
   CATEGORY_STABLE,
   CATEGORY_VOLATILE,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+
+export type TokenRow = {
+  token: string;
+  category: string;
+  value: string;
+};
+
+type TokenMap = {
+  [key: string]: TokenRow;
+};
 
 /**
  * Generates a function that can be assigned to the `getNextPageParam` property

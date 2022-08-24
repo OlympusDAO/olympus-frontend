@@ -10,7 +10,7 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
-import { renameToken, TokenRow } from "src/helpers/ProtocolMetricsHelper";
+import { renameToken } from "src/helpers/ProtocolMetricsHelper";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -27,6 +27,7 @@ import {
   getDateTokenSummary,
   getNextPageParamFactory,
   getTokenRecordDateMap,
+  TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 /**
