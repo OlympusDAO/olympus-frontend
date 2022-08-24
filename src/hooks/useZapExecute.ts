@@ -3,11 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
-import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { DAO_TREASURY_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
 import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
@@ -173,9 +172,11 @@ const fetchSwapData = async (
   slippageDecimal: number,
 ): Promise<ZapTransactionResponse> => {
   tokenAddress = tokenAddress.toLowerCase();
-  const apiKey = Environment.getZapperApiKey();
+  const sellToken = tokenAddress === "0x0000000000000000000000000000000000000000" ? "ETH" : tokenAddress;
   const response = await fetch(
-    `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}&ownerAddress=${address}&isZap=true`,
+    `https://api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&affiliateAddress=${
+      DAO_TREASURY_ADDRESSES[NetworkId.MAINNET]
+    }`,
   );
   const responseJson = await response.json();
   if (response.ok) {

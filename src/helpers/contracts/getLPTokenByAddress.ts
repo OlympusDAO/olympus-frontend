@@ -1,9 +1,8 @@
+import { getBalancerLPToken } from "src/helpers/contracts/getBalancerLPToken";
+import { getCurveLPToken } from "src/helpers/contracts/getCurveLPToken";
+import { getGelatoLPToken } from "src/helpers/contracts/getGelatoLPToken";
+import { getUniOrSushiLPToken } from "src/helpers/contracts/getUniOrSushiLPToken";
 import { NetworkId } from "src/networkDetails";
-
-import { getBalancerLPToken } from "./getBalancerLPToken";
-import { getCurveLPToken } from "./getCurveLPToken";
-import { getGelatoLPToken } from "./getGelatoLPToken";
-import { getUniOrSushiLPToken } from "./getUniOrSushiLPToken";
 
 export const getLPTokenByAddress = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
   // Note that the order between gelato and uniOrSushi is important here. Since all contract

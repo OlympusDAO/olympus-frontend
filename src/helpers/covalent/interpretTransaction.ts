@@ -11,12 +11,11 @@ import {
   ZAP_CONTRACT,
 } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
+import { Contract } from "src/helpers/contracts/Contract";
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { assert } from "src/helpers/types/assert";
 import { CovalentTransaction } from "src/lib/covalent.types";
-
-import { Contract } from "../contracts/Contract";
-import { Token } from "../contracts/Token";
-import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
-import { assert } from "../types/assert";
 
 export interface Transaction {
   type: "bond" | "zap" | "staking" | "zap" | "migration" | "33together" | "borrow" | "transfer";

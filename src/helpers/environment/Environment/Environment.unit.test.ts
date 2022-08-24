@@ -1,4 +1,4 @@
-import { Environment } from "./Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 beforeEach(() => {
   jest.spyOn(console, "warn").mockImplementation();

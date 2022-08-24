@@ -13,10 +13,8 @@ import {
   useStaticCurveGaugeControllerContract,
   useStaticCurveGaugeDepositContract,
   useStaticCurvePoolContract,
-  useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
-  useStaticJonesContract,
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -56,19 +54,6 @@ export const JoePoolAPY = (pool: ExternalPool) => {
     const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
 
     return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
-
-export const SpiritPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
-  const gauge = useStaticGaugeContract(pool.masterchef, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    //Contract returns rewards per week. No additional calc required
-    const poolRewardsPerWeek = parseBigNumber(await gauge.getRewardForDuration(), 18);
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond: 0 };
   });
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
@@ -187,28 +172,22 @@ export const CurvePoolRewardAPY = (pool: ExternalPool) => {
   return { data, isFetched, isLoading };
 };
 
+//Returns Jones Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
 export const JonesPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
-  const jonesChef = useStaticJonesContract(pool.masterchef, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const periodFinish = await jonesChef.periodFinish();
-    const rewardRate = await jonesChef.rewardRateJONES();
-    const boost = await jonesChef.boost();
-    const boostedFinish = await jonesChef.boostedFinish();
-    const poolRewardsPerWeek =
-      Date.now() / 1000 > parseBigNumber(periodFinish, 0)
-        ? 0
-        : ((Date.now() / 1000 > parseBigNumber(boostedFinish, 0)
-            ? parseBigNumber(rewardRate, 0)
-            : parseBigNumber(rewardRate) * parseBigNumber(boost)) /
-            1e18) *
-          604800;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond: 0 };
+  const jonesAPI = "https://data.jonesdao.io/api/v1/jones/farms/general";
+  const {
+    data = { apy: 0, liquidity_locked: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["JonesPoolAPY", pool.address], async () => {
+    const results = await axios.get(jonesAPI).then(res => {
+      const poolData = res.data.farms.find((lp: { lpToken: string }) => lp.lpToken == pool.address);
+      console.log(poolData, "poolData");
+      return poolData;
+    });
+    return results;
   });
-
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
+  return { apy: data.apr / 100, tvl: data.totalStakedValue, isFetched, isLoading };
 };
 
 //Returns Convex Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
@@ -240,21 +219,23 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
   return { apy, tvl, isFetched, isLoading };
 };
 
-//Returns Frax Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
+//TODO: Add support for Rewarder/Gauge if pool becomes incentivized.
+//Currently this only calculates APR based on swap fees since there is no concept of staking.
 export const FraxPoolAPY = (pool: ExternalPool) => {
-  const fraxAPI = "https://api.frax.finance/pools";
+  const fraxAPI = "https://api.frax.finance/v2/fraxswap/pools";
   const {
     data = { apy: 0, liquidity_locked: 0 },
     isFetched,
     isLoading,
-  } = useQuery(["FraxPoolAPY"], async () => {
+  } = useQuery(["FraxPoolAPY", pool.address], async () => {
     const results = await axios.get(fraxAPI).then(res => {
-      const apy = res.data.find((pool: { identifier: string }) => pool.identifier == "Uniswap FRAX/OHM");
-      return apy;
+      const fraxPool = res.data.pools.find((pools: { poolAddress: string }) => pools.poolAddress == pool.address);
+      return fraxPool;
     });
-    return results;
+    const apy = results.fees7D && results.volumeSwap7D ? (results.fees7D / results.volumeSwap7D) * 52 : 0;
+    return { ...results, apy };
   });
-  return { apy: data.apy, tvl: data.liquidity_locked, isFetched, isLoading };
+  return { apy: data.apy, tvl: data.tvl, isFetched, isLoading };
 };
 
 const APY = (
