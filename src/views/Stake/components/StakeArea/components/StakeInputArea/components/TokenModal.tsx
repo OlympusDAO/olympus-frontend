@@ -6,9 +6,16 @@ import { FC } from "react";
 import { trim } from "src/helpers";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 
+export interface ModalHandleSelectProps {
+  name: string;
+  icon?: string;
+  address?: string;
+  balance?: string;
+  price?: number;
+}
 type OHMTokenModalProps = {
   open: boolean;
-  handleSelect: (name: string, imageUrl?: string, balance?: string) => void;
+  handleSelect: (data: ModalHandleSelectProps) => void;
   handleClose: () => void;
   ohmBalance?: string;
   sOhmBalance?: string;
@@ -38,15 +45,16 @@ const TokenModal: FC<OHMTokenModalProps> = ({
     balance: string;
     icon?: string;
     usdValue?: string;
+    address?: string;
   };
-  const TokenItem: FC<TokenItem> = ({ name, balance, icon, ...props }) => {
+  const TokenItem: FC<TokenItem> = ({ name, balance, icon, address = "", ...props }) => {
     return (
       <ListItem
         key={name}
         button
         onClick={() => {
           console.log(icon, "icon");
-          handleSelect(name, icon);
+          handleSelect({ name, icon, address });
           handleClose();
         }}
         sx={{ borderBottom: `1px solid ${theme.colors.gray[500]}` }}
@@ -102,6 +110,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
                       name={token[1].symbol}
                       balance={trim(token[1].balance, 4)}
                       usdValue={`${trim(token[1].balanceUSD, 2)}`}
+                      address={token[1].address}
                     />
                   ))}
               </>

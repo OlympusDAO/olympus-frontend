@@ -130,6 +130,7 @@ export const FUSE_POOL_36_ADDRESSES = {
 
 export const ZAP_ADDRESSES = {
   [NetworkId.MAINNET]: "0x6F5CC3EDEa92AB52b75bad50Bcf4C6daa781B87e",
+  [NetworkId.TESTNET_GOERLI]: "",
 };
 
 export const PT_PRIZE_POOL_ADDRESSES = {
