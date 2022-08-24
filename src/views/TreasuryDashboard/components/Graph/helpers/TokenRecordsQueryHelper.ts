@@ -5,6 +5,7 @@ export type TokenRow = {
   token: string;
   category: string;
   value: string;
+  valueExcludingOhm: string;
 };
 
 type TokenMap = {
@@ -169,6 +170,11 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
     const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
     // record.value is typed as a number, but is actually a string
     tokenRecord.value = (existingValue + +record.value).toString(); // TODO consider shifting to use number
+
+    const existingValueExcludingOhm = tokenRecord.valueExcludingOhm ? parseFloat(tokenRecord.valueExcludingOhm) : 0;
+    // record.valueExcludingOhm is typed as a number, but is actually a string
+    tokenRecord.valueExcludingOhm = (existingValueExcludingOhm + +record.valueExcludingOhm).toString(); // TODO consider shifting to use number
+
     dateSummary.tokens[record.token] = tokenRecord;
   });
 

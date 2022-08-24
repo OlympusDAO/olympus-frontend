@@ -10,6 +10,7 @@ const createTokenRecord = (
   token?: string,
   category?: string,
   value?: number,
+  valueExcludingOhm?: number,
 ): TokenRecord => {
   return {
     balance: 0,
@@ -27,6 +28,7 @@ const createTokenRecord = (
     token: token || "",
     tokenAddress: "",
     value: value || 0,
+    valueExcludingOhm: valueExcludingOhm || 0,
   };
 };
 
@@ -62,8 +64,8 @@ describe("getTokenRecordDateMap", () => {
 describe("getDateTokenSummary", () => {
   test("groups by date", () => {
     const records: TokenRecord[] = [
-      createTokenRecord("2022-06-06", 2, "token", "POL", 1),
-      createTokenRecord("2022-06-05", 1, "token", "Foo", 2),
+      createTokenRecord("2022-06-06", 2, "token", "POL", 1, 0.5),
+      createTokenRecord("2022-06-05", 1, "token", "Foo", 2, 1.5),
     ];
 
     const byDateRecords = getDateTokenSummary(records, false);
@@ -74,6 +76,7 @@ describe("getDateTokenSummary", () => {
     expect(dateTwo.block).toEqual(2);
     expect(dateTwo.tokens["token"].category).toEqual("POL");
     expect(dateTwo.tokens["token"].value).toEqual("1");
+    expect(dateTwo.tokens["token"].valueExcludingOhm).toEqual("0.5");
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     const dateOne = byDateRecords[1];
@@ -82,6 +85,7 @@ describe("getDateTokenSummary", () => {
     expect(dateOne.block).toEqual(1);
     expect(dateOne.tokens["token"].category).toEqual("Foo");
     expect(dateOne.tokens["token"].value).toEqual("2");
+    expect(dateOne.tokens["token"].valueExcludingOhm).toEqual("1.5");
     expect(Object.keys(dateOne.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(2);
@@ -89,8 +93,8 @@ describe("getDateTokenSummary", () => {
 
   test("groups by date with latest block only", () => {
     const records: TokenRecord[] = [
-      createTokenRecord("2022-06-06", 2, "token", "POL", 1),
-      createTokenRecord("2022-06-06", 1, "token", "Foo", 2),
+      createTokenRecord("2022-06-06", 2, "token", "POL", 1, 0.5),
+      createTokenRecord("2022-06-06", 1, "token", "Foo", 2, 1.5),
     ];
 
     const byDateRecords = getDateTokenSummary(records);
@@ -101,6 +105,7 @@ describe("getDateTokenSummary", () => {
     expect(dateTwo.block).toEqual(2);
     expect(dateTwo.tokens["token"].category).toEqual("POL");
     expect(dateTwo.tokens["token"].value).toEqual("1");
+    expect(dateTwo.tokens["token"].value).toEqual("0.5");
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(1);

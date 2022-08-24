@@ -171,7 +171,8 @@ export const TreasuryAssetsTable = ({
 
         return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
       },
-      valueGetter: (params: GridValueGetterParams) => formatCurrency(parseFloat(params.row.value)),
+      valueGetter: (params: GridValueGetterParams) =>
+        formatCurrency(parseFloat(isLiquidBackingActive ? params.row.valueExcludingOhm : params.row.value)),
       minWidth: 120,
     },
   ];
