@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Grid, Link, Tab, Tabs } from "@mui/material";
+import { Avatar, Box, Grid, Link, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   InfoNotification,
@@ -62,9 +62,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const networks = useTestableNetworks();
-  const [stakedAssetType, setStakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
+  const [stakedAssetType, setStakedAssetType] = useState("sOHM");
+  const [unstakedAssetType, setUnstakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
+  const [swapAssetType, setSwapAssetType] = useState("OHM");
+  const [swapAssetImageUrl, setSwapAssetImageUrl] = useState("");
+
   const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
   const [tokenModalOpen, setTokenModalOpen] = useState(false);
+  const [zapTokenModalOpen, setZapTokenModalOpen] = useState(false);
 
   const fromToken = currentAction === "STAKE" ? "OHM" : stakedAssetType;
 
@@ -79,8 +84,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const { data: currentIndex } = useCurrentIndex();
 
   // Staking/unstaking mutation stuff
-  const stakeMutation = useStakeToken(stakedAssetType);
-  const unstakeMutation = useUnstakeToken(stakedAssetType);
+  const stakeMutation = useStakeToken();
+  const unstakeMutation = useUnstakeToken(unstakedAssetType);
   const isMutating = (currentAction === "STAKE" ? stakeMutation : unstakeMutation).isLoading;
 
   const bonds = useLiveBonds({ isInverseBond: true }).data;
@@ -108,12 +113,25 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   useEffect(() => {
     ohmOnChange(amount, currentAction === "UNSTAKE");
+    //If we're unstaking we should reset swap asset back to OHM. this is all you can receive.
+    if (currentAction === "UNSTAKE") {
+      setSwapAssetType("OHM");
+      setSwapAssetImageUrl("");
+    }
   }, [currentAction]);
 
   const OhmSwapCard = () => (
     <SwapCard
       id="ohm-input"
-      token="OHM"
+      token={
+        swapAssetImageUrl ? (
+          <Avatar src={swapAssetImageUrl} sx={{ width: "21px", height: "21px" }} />
+        ) : (
+          (swapAssetType as OHMSwapCardProps["token"])
+        )
+      }
+      tokenName={swapAssetType}
+      tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
       inputProps={{ "data-testid": "ohm-input" }}
       value={currentAction === "STAKE" ? amount : receiveAmount}
       onChange={event => ohmOnChange(event.target.value, currentAction === "STAKE")}
@@ -166,13 +184,30 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
             arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
           />
-          <TokenModal
-            open={tokenModalOpen}
-            handleSelect={name => setStakedAssetType(name)}
-            handleClose={() => setTokenModalOpen(false)}
-            sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
-            gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
-          />
+          {tokenModalOpen && (
+            <TokenModal
+              open={tokenModalOpen}
+              handleSelect={name => setStakedAssetType(name)}
+              handleClose={() => setTokenModalOpen(false)}
+              sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
+              gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
+            />
+          )}
+          {zapTokenModalOpen && (
+            <TokenModal
+              open={zapTokenModalOpen}
+              handleSelect={(name, url = "") => {
+                console.log(url, "url");
+                setSwapAssetType(name);
+                setSwapAssetImageUrl(url);
+              }}
+              handleClose={() => setZapTokenModalOpen(false)}
+              ohmBalance={ohmBalance && ohmBalance.toString({ decimals: 2 })}
+              sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
+              gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
+              showZapAssets
+            />
+          )}
           {currentAction === "UNSTAKE" && liveInverseBonds && (
             <InfoNotification>
               {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
@@ -194,7 +229,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   loading={isMutating}
                   fullWidth
                   disabled={isMutating || !amount || amountExceedsBalance}
-                  onClick={() => (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount)}
+                  onClick={() =>
+                    currentAction === "STAKE"
+                      ? stakeMutation.mutate({ amount, toToken: stakedAssetType })
+                      : unstakeMutation.mutate(amount)
+                  }
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"
