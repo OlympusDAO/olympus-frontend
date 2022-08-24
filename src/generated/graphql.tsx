@@ -869,6 +869,7 @@ export type TokenRecord = {
   token: Scalars["String"];
   tokenAddress: Scalars["String"];
   value: Scalars["BigDecimal"];
+  valueExcludingOhm: Scalars["BigDecimal"];
 };
 
 export type TokenRecord_Filter = {
@@ -1051,6 +1052,14 @@ export type TokenRecord_Filter = {
   token_starts_with?: InputMaybe<Scalars["String"]>;
   token_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   value?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  valueExcludingOhm_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_not?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   value_gt?: InputMaybe<Scalars["BigDecimal"]>;
   value_gte?: InputMaybe<Scalars["BigDecimal"]>;
   value_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
@@ -1076,6 +1085,7 @@ export enum TokenRecord_OrderBy {
   Token = "token",
   TokenAddress = "tokenAddress",
   Value = "value",
+  ValueExcludingOhm = "valueExcludingOhm",
 }
 
 export type TokenSupply = {
@@ -1417,6 +1427,7 @@ export type TokenRecordsQuery = {
     token: string;
     tokenAddress: string;
     value: number;
+    valueExcludingOhm: number;
   }>;
 };
 
@@ -1529,6 +1540,7 @@ export const TokenRecordsDocument = `
     token
     tokenAddress
     value
+    valueExcludingOhm
   }
 }
     `;

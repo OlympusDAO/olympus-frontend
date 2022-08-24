@@ -34,6 +34,7 @@ query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenR
     token
     tokenAddress
     value
+    valueExcludingOhm
   }
 }
 

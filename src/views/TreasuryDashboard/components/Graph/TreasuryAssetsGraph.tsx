@@ -18,7 +18,7 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { filterReduce } from "src/helpers/subgraph/TreasuryQueryHelper";
+import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -167,15 +167,14 @@ export const TreasuryAssetsGraph = ({
      * The relevant total is calculated by applying certain filters and summing (reducing) the value for the matching records.
      */
     dateTokenRecords.forEach((value, key) => {
-      const marketStable = filterReduce(value, record => record.category == CATEGORY_STABLE);
-      const marketVolatile = filterReduce(value, record => record.category == CATEGORY_VOLATILE);
-      const marketPol = filterReduce(value, record => record.category == CATEGORY_POL);
-      const liquidStable = filterReduce(value, record => record.category == CATEGORY_STABLE && record.isLiquid == true);
-      const liquidVolatile = filterReduce(
-        value,
-        record => record.category == CATEGORY_VOLATILE && record.isLiquid == true,
-      );
-      const liquidPol = filterReduce(value, record => record.category == CATEGORY_POL && record.isLiquid == true);
+      const marketStable = getTreasuryAssetValue(value, false, [CATEGORY_STABLE]);
+      const marketVolatile = getTreasuryAssetValue(value, false, [CATEGORY_VOLATILE]);
+      const marketPol = getTreasuryAssetValue(value, false, [CATEGORY_POL]);
+      const marketTotal = getTreasuryAssetValue(value, false);
+      const liquidStable = getTreasuryAssetValue(value, true, [CATEGORY_STABLE]);
+      const liquidVolatile = getTreasuryAssetValue(value, true, [CATEGORY_VOLATILE]);
+      const liquidPol = getTreasuryAssetValue(value, true, [CATEGORY_POL]);
+      const liquidTotal = getTreasuryAssetValue(value, true);
 
       const dateMetric: DateTreasuryMetrics = {
         date: key,
@@ -184,11 +183,11 @@ export const TreasuryAssetsGraph = ({
         marketStable: marketStable,
         marketVolatile: marketVolatile,
         marketPol: marketPol,
-        marketTotal: marketStable + marketVolatile + marketPol,
+        marketTotal: marketTotal,
         liquidStable: liquidStable,
         liquidVolatile: liquidVolatile,
         liquidPol: liquidPol,
-        liquidTotal: liquidStable + liquidVolatile + liquidPol,
+        liquidTotal: liquidTotal,
       };
 
       tempByDateMetrics.push(dateMetric);

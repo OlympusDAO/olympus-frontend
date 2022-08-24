@@ -26,7 +26,7 @@ import {
 import {
   getLiquidBackingPerGOhmSynthetic,
   getLiquidBackingPerOhmFloating,
-  getLiquidBackingValue,
+  getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
@@ -291,7 +291,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       const latestTokenRecord = currentTokenRecords[0];
       const latestProtocolMetric = currentProtocolMetrics[0];
 
-      const liquidBacking = getLiquidBackingValue(currentTokenRecords);
+      const liquidBacking = getTreasuryAssetValue(currentTokenRecords, true);
 
       const liquidBackingRecord: LiquidBackingComparison = {
         date: key,

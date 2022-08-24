@@ -1,4 +1,4 @@
-export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/id/QmNZ5wrjf4KGGmUW78QQHjdAatqvsRz9QCCR4s4T2mAsKh";
+export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/id/QmNd1cjhADn2LtMTWC841x3gTNP2HmqxCevaryBLRobq41";
 export const SUBGRAPH_URL_STAGING_STUB = "https://api.thegraph.com/subgraphs/id/";
 
 /**
