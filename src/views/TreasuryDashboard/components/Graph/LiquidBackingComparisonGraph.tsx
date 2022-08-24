@@ -18,7 +18,16 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
-import { getBulletpointStylesMap, getCategoriesMap, getDataKeyColorsMap } from "src/helpers/ProtocolMetricsHelper";
+import {
+  getBulletpointStylesMap,
+  getCategoriesMap,
+  getDataKeyColorsMap,
+} from "src/helpers/subgraph/ProtocolMetricsHelper";
+import {
+  getLiquidBackingPerGOhmSynthetic,
+  getLiquidBackingPerOhmFloating,
+  getLiquidBackingValue,
+} from "src/helpers/subgraph/TreasuryQueryHelper";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -36,7 +45,6 @@ import {
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
-  getLiquidBackingValue,
   getNextPageParamFactory as getNextPageParamTokenRecordFactory,
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
@@ -44,10 +52,6 @@ import {
   getNextPageParamFactory as getNextPageParamTokenSupplyFactory,
   getTokenSupplyDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
-import {
-  getLiquidBackingPerGOhmSynthetic,
-  getLiquidBackingPerOhmFloating,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TreasuryQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the

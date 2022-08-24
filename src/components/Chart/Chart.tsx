@@ -26,7 +26,7 @@ import {
 } from "src/components/Chart/IntersectionHelper";
 import { formatCurrency, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
-import { getMaximumValue, objectHasProperty } from "src/helpers/ProtocolMetricsHelper";
+import { getMaximumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 const TICK_COUNT = 5;

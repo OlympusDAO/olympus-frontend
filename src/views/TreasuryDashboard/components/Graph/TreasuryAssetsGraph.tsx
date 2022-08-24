@@ -12,11 +12,14 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
-import { getBulletpointStylesMap, getCategoriesMap, getDataKeyColorsMap } from "src/helpers/ProtocolMetricsHelper";
+import { CATEGORY_POL, CATEGORY_STABLE, CATEGORY_VOLATILE } from "src/helpers/subgraph/Constants";
 import {
-  CATEGORY_POL,
-  CATEGORY_STABLE,
-  CATEGORY_VOLATILE,
+  getBulletpointStylesMap,
+  getCategoriesMap,
+  getDataKeyColorsMap,
+} from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { filterReduce } from "src/helpers/subgraph/TreasuryQueryHelper";
+import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   DEFAULT_RECORD_COUNT,
@@ -29,7 +32,6 @@ import {
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
-  filterReduce,
   getNextPageParamFactory,
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";

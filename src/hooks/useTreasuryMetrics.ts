@@ -1,13 +1,13 @@
 import { getSubgraphUrl } from "src/constants";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
-import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
-import { useTokenRecordsLatestBlock, useTreasuryLiquidValue } from "src/hooks/useTokenRecords";
-import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getOhmCirculatingSupply } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 import {
   getLiquidBackingPerGOhmSynthetic,
   getLiquidBackingPerOhmFloating,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TreasuryQueryHelper";
+  getOhmCirculatingSupply,
+} from "src/helpers/subgraph/TreasuryQueryHelper";
+import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
+import { useTokenRecordsLatestBlock, useTreasuryLiquidValue } from "src/hooks/useTokenRecords";
+import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 

@@ -1,9 +1,4 @@
 import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVariables } from "src/generated/graphql";
-import {
-  CATEGORY_POL,
-  CATEGORY_STABLE,
-  CATEGORY_VOLATILE,
-} from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 export type TokenRow = {
@@ -75,19 +70,6 @@ export const getNextPageParamFactory = (
       recordCount: recordCount,
     };
   };
-};
-
-export const filterReduce = (records: TokenRecord[], filterPredicate: (value: TokenRecord) => unknown): number => {
-  return records.filter(filterPredicate).reduce((previousValue, currentRecord) => {
-    return previousValue + +currentRecord.value;
-  }, 0);
-};
-
-export const getLiquidBackingValue = (records: TokenRecord[]): number => {
-  return filterReduce(
-    records,
-    record => [CATEGORY_STABLE, CATEGORY_VOLATILE, CATEGORY_POL].includes(record.category) && record.isLiquid == true,
-  );
 };
 
 /**

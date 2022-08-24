@@ -1,7 +1,7 @@
 import { getSubgraphUrl } from "src/constants";
 import { useTokenRecordsQuery } from "src/generated/graphql";
+import { getLiquidBackingValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getLiquidBackingValue } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 

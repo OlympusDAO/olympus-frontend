@@ -12,14 +12,14 @@ import {
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
+import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
   getDataKeyColorsMap,
   getDataKeysFromTokens,
-} from "src/helpers/ProtocolMetricsHelper";
+} from "src/helpers/subgraph/ProtocolMetricsHelper";
 import {
-  CATEGORY_POL,
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   DEFAULT_RECORD_COUNT,
