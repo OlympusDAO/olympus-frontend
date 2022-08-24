@@ -18,12 +18,11 @@ import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";
 import { useScreenSize } from "src/hooks/useScreenSize";
 import { NetworkId } from "src/networkDetails";
-
-import { Bond } from "../hooks/useBond";
-import { BondDiscount } from "./BondDiscount";
-import { BondDuration } from "./BondDuration";
-import { BondInfoText } from "./BondInfoText";
-import { BondPrice } from "./BondPrice";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { BondInfoText } from "src/views/Bond/components/BondInfoText";
+import { BondPrice } from "src/views/Bond/components/BondPrice";
+import { Bond } from "src/views/Bond/hooks/useBond";
 
 export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({ bonds, isInverseBond }) => {
   const isSmallScreen = useScreenSize("md");
@@ -126,7 +125,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
       )}
       <Box display="flex" justifyContent="space-between" mt="8px">
         <Typography>
-          <Trans>Capacity</Trans>
+          <Trans>Max Payout</Trans>
         </Typography>
         {payoutTokenCapacity(bond, isInverseBond)}({quoteTokenCapacity(bond, isInverseBond)})
       </Box>
@@ -177,7 +176,7 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
             <Trans>Discount</Trans>
           </TableCell>
           <TableCell style={{ padding: "8px 0" }}>
-            <Trans>Capacity</Trans>
+            <Trans>Max Payout</Trans>
           </TableCell>
           {!isInverseBond && (
             <TableCell style={{ padding: "8px 0" }}>

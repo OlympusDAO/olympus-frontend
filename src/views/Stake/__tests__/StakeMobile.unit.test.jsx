@@ -15,11 +15,6 @@ describe("Mobile Resolution", () => {
     // there should be two sushi contracts, one on Arbitrum and the other on Polygon
     const sushiContracts = await screen.findAllByText("gOHM-wETH");
     expect(sushiContracts).toHaveLength(2);
-    expect(await screen.getByText("gOHM-FTM")).toBeInTheDocument();
-    expect(await screen.getByText("Stake on Spirit").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.spiritswap.finance/#/farms/allfarms",
-    );
     expect(container).toMatchSnapshot();
   });
 });

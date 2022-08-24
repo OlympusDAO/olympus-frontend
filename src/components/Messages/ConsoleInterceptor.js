@@ -1,5 +1,5 @@
-import { error } from "../../slices/MessagesSlice";
-import store from "../../store";
+import { error } from "src/slices/MessagesSlice";
+import store from "src/store";
 
 // List of error messages we wish to intercept
 const interceptedConsoleMessages = ["Wrong network, please switch to mainnet"];

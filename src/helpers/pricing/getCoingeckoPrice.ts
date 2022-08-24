@@ -1,6 +1,5 @@
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
-
-import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
 /**
  * Attempts to get the price of a token from coingecko by contract address

@@ -385,7 +385,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                           class="MuiBox-root css-w4egcq"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
                             data-testid="migrate-button"
                             style="height: 43px;"
                             tabindex="0"
