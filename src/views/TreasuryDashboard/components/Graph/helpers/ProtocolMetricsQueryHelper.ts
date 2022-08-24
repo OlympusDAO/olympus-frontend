@@ -67,6 +67,15 @@ export const getNextPageParamFactory = (
   };
 };
 
+/**
+ * Extract the tokenRecords into a map, indexed by the date string.
+ *
+ * By default, this will include entries only from the latest block on each day, to avoid incorrect aggregation of data.
+ *
+ * @param tokenRecords
+ * @param latestOnly Defaults to true
+ * @returns
+ */
 export const getProtocolMetricDateMap = (
   tokenRecords: ProtocolMetric[],
   latestOnly = true,

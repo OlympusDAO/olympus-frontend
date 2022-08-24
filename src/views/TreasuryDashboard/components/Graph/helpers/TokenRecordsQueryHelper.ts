@@ -123,16 +123,37 @@ export type DateTokenSummary = {
  * Generates an array containing one DateTokenSummary element for each date,
  * in which the token balances are contained.
  *
+ * By default, this will include entries only from the latest block on each day, to avoid incorrect aggregation of data.
+ *
  * The array is sorted in descending order by date.
  *
  * @param tokenRecords
+ * @param latestOnly Defaults to true
  * @returns
  */
-export const getDateTokenSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
-  const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
+export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = true): DateTokenSummary[] => {
+  // For each date, determine the latest block
+  const dateBlockMap = new Map<string, number>();
+  tokenRecords.map(value => {
+    const currentDateBlock = dateBlockMap.get(value.date);
+    // New date, record the block
+    if (typeof currentDateBlock == "undefined") {
+      dateBlockMap.set(value.date, value.block);
+    }
+    // Greater than what is recorded
+    else if (currentDateBlock < value.block) {
+      dateBlockMap.set(value.date, value.block);
+    }
+  });
 
   // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token
+  const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
   tokenRecords.forEach(record => {
+    const latestBlock = dateBlockMap.get(record.date);
+    if (latestOnly && typeof latestBlock !== "undefined" && record.block < latestBlock) {
+      return;
+    }
+
     const dateSummary = dateSummaryMap.get(record.date) || {
       date: record.date,
       timestamp: new Date(record.date).getTime(), // We inject the timestamp, as it's used by the Chart component
