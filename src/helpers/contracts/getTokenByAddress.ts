@@ -1,8 +1,7 @@
 import * as _tokens from "src/constants/tokens";
+import { getLPTokenByAddress } from "src/helpers/contracts/getLPTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
 import { NetworkId } from "src/networkDetails";
-
-import { getLPTokenByAddress } from "./getLPTokenByAddress";
-import { Token } from "./Token";
 
 const tokens = Object.values(_tokens);
 

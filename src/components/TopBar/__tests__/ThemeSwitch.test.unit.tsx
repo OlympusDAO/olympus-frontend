@@ -1,5 +1,5 @@
-import { render } from "../../../testUtils";
-import ThemeSwitch from "../ThemeSwitch";
+import ThemeSwitch from "src/components/TopBar/ThemeSwitch";
+import { render } from "src/testUtils";
 
 describe("<ThemeSwitch/>", () => {
   it("should render component", () => {

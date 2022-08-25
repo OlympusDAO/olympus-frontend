@@ -5,11 +5,10 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
+import { render, screen } from "src/testUtils";
+import { MigrateInputArea } from "src/views/Wrap/components/MigrateInputArea/MigrateInputArea";
+import Wrap from "src/views/Wrap/Wrap";
 import * as WAGMI from "wagmi";
-
-import { render, screen } from "../../../testUtils";
-import { MigrateInputArea } from "../components/MigrateInputArea/MigrateInputArea";
-import Wrap from "../Wrap";
 
 jest.mock("src/hooks/useContractAllowance");
 let container;

@@ -1,4 +1,4 @@
-import "./MigrationModal.scss";
+import "src/components/Migration/MigrationModal.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
