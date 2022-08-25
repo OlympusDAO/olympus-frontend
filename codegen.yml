@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.thegraph.com/subgraphs/id/QmNd1cjhADn2LtMTWC841x3gTNP2HmqxCevaryBLRobq41"
+schema: "https://api.thegraph.com/subgraphs/id/QmWrvfZh9qXPV5oJWapWZsgnPDEQAys2sGL1DBkkV7FEnt"
 documents: "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
