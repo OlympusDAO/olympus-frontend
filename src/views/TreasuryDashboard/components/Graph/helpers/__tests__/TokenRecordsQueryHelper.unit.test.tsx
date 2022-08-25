@@ -105,7 +105,7 @@ describe("getDateTokenSummary", () => {
     expect(dateTwo.block).toEqual(2);
     expect(dateTwo.tokens["token"].category).toEqual("POL");
     expect(dateTwo.tokens["token"].value).toEqual("1");
-    expect(dateTwo.tokens["token"].value).toEqual("0.5");
+    expect(dateTwo.tokens["token"].valueExcludingOhm).toEqual("0.5");
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(1);
