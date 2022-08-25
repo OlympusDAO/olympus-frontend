@@ -140,9 +140,14 @@ export const TreasuryAssetsTable = ({
   /**
    * Cache the tokens for the current value of selectedIndex.
    */
+  const [headerSubtext, setHeaderSubtext] = useState("");
   useMemo(() => {
     console.debug(`${chartName}: rebuilding current tokens`);
-    setCurrentTokens(byDateTokenSummary[selectedIndex] ? Object.values(byDateTokenSummary[selectedIndex].tokens) : []);
+    const currentTokenSummary = byDateTokenSummary[selectedIndex];
+    setCurrentTokens(currentTokenSummary ? Object.values(currentTokenSummary.tokens) : []);
+
+    // Set the subtext to be the current date (otherwise the changing table data can be a bit too subtle)
+    setHeaderSubtext(currentTokenSummary ? currentTokenSummary.date : "");
   }, [byDateTokenSummary, selectedIndex]);
 
   const columns: GridColDef[] = [
@@ -182,6 +187,7 @@ export const TreasuryAssetsTable = ({
   return (
     <ChartCard
       headerText={headerText}
+      headerSubtext={headerSubtext}
       headerTooltip={
         isLiquidBackingActive
           ? t`This table lists the details of the treasury assets that make up the liquid backing`
