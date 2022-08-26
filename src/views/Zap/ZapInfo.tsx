@@ -1,11 +1,10 @@
-import "src/views/Zap/Zap.scss";
+// import "src/views/Zap/Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Token, TokenStack } from "@olympusdao/component-library";
+import { SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { useAccount } from "wagmi";
 
@@ -63,11 +62,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-type ZapInfoProps = {
-  tokens?: Array<string>;
-};
-
-const ZapInfo: React.FC<ZapInfoProps> = () => {
+const ZapInfo: React.FC = () => {
   const { address = "" } = useAccount();
   const trackClick = (address?: string) => {
     const uaData = {
@@ -80,7 +75,7 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
     });
   };
   return (
-    <StyledPaper className="ohm-card" id="olyzaps-info">
+    <StyledPaper>
       <Grid container direction="row">
         <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
           <Box
@@ -88,7 +83,7 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
             display="flex"
             flexDirection="column"
             justifyContent="center"
-            className={`${classes.infoHeader} oly-info-header-box`}
+            className={`${classes.infoHeader}`}
           >
             <Box>
               <TokenStack tokens={["DAI", "wETH"]} style={{ marginBottom: "16px" }} />
@@ -98,10 +93,10 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
             </Typography>
           </Box>
           <Box className={classes.infoBody}>
-            <Typography variant="body1" className="oly-info-body-header">
+            <Typography variant="h6">
               <Trans>Zap is a swap</Trans>
             </Typography>
-            <Typography align="left" variant="body2" className="oly-info-body">
+            <Typography align="left">
               <Trans>
                 A zap swap is a series of smart contracts that deploys one asset to another protocol to handle a trusted
                 transaction.
@@ -124,10 +119,10 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
             </Typography>
           </Box>
           <Box className={classes.infoBody}>
-            <Typography variant="body1" className="oly-info-body-header">
+            <Typography variant="h6">
               <Trans>All-in-one easy staking</Trans>
             </Typography>
-            <Typography align="left" variant="body2" className="oly-info-body">
+            <Typography align="left">
               <Trans>OlyZap reduces complexity, saves you time and keeps you here on Olympus.</Trans>
             </Typography>
           </Box>
@@ -147,10 +142,10 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
             </Typography>
           </Box>
           <Box className={classes.infoBody}>
-            <Typography variant="body1" className="oly-info-body-header">
+            <Typography variant="h6">
               <Trans>Staking</Trans>
             </Typography>
-            <Typography align="left" variant="body2" className="oly-info-body">
+            <Typography align="left">
               <Trans>
                 Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
                 equal value of sOHM or gOHM.
@@ -159,21 +154,15 @@ const ZapInfo: React.FC<ZapInfoProps> = () => {
           </Box>
         </Grid>
       </Grid>
-      <Box className="button-box">
-        <Button
-          variant="outlined"
-          color="secondary"
+      <Box display="flex" justifyContent="center">
+        <SecondaryButton
           href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="learn-more-button"
           onClick={() => {
             trackClick(address);
           }}
         >
-          <Typography variant="body1">Learn More</Typography>
-          <SvgIcon component={ArrowUp} color="primary" />
-        </Button>
+          Learn More
+        </SecondaryButton>
       </Box>
     </StyledPaper>
   );

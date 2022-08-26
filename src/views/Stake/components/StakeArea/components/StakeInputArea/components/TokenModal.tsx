@@ -12,6 +12,7 @@ export interface ModalHandleSelectProps {
   address?: string;
   balance?: string;
   price?: number;
+  decimals?: number;
 }
 type OHMTokenModalProps = {
   open: boolean;
@@ -46,15 +47,16 @@ const TokenModal: FC<OHMTokenModalProps> = ({
     icon?: string;
     usdValue?: string;
     address?: string;
+    price?: number;
+    decimals?: number;
   };
-  const TokenItem: FC<TokenItem> = ({ name, balance, icon, address = "", ...props }) => {
+  const TokenItem: FC<TokenItem> = ({ name, balance = "0", icon, address = "", price, decimals, ...props }) => {
     return (
       <ListItem
         key={name}
         button
         onClick={() => {
-          console.log(icon, "icon");
-          handleSelect({ name, icon, address });
+          handleSelect({ name, balance, icon, address, price, decimals });
           handleClose();
         }}
         sx={{ borderBottom: `1px solid ${theme.colors.gray[500]}` }}
@@ -106,11 +108,14 @@ const TokenModal: FC<OHMTokenModalProps> = ({
                   .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
                   .map(token => (
                     <TokenItem
+                      key={token[1].symbol}
                       icon={token[1].displayProps.images[0]}
                       name={token[1].symbol}
                       balance={trim(token[1].balance, 4)}
                       usdValue={`${trim(token[1].balanceUSD, 2)}`}
                       address={token[1].address}
+                      price={token[1].price}
+                      decimals={token[1].decimals}
                     />
                   ))}
               </>

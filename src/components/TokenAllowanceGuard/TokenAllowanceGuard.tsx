@@ -3,10 +3,13 @@ import { Box, Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "@olympusdao/component-library";
+import { ethers } from "ethers";
 import React, { ReactNode } from "react";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -67,17 +70,18 @@ export const TokenAllowanceGuard: React.FC<{
   approvalPendingText = "Approving...",
   children,
 }) => {
+  const { chain = { id: 1 } } = useNetwork();
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
-  if (!allowance)
+  if (!allowance && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height={isVertical ? "84px" : "40px"}>
         <Skeleton width="150px" />
       </Box>
     );
 
-  if (allowance.eq(0))
+  if (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero)
     return (
       <Grid container alignItems="center">
         {message && (
