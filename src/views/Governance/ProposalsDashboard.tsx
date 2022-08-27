@@ -69,10 +69,7 @@ export const ProposalsDashboard = () => {
         <Grid container direction="column" spacing={2} xs={12} ml={0}>
           <>
             {Number(activeProposal?.activationTimestamp) > 0 && (
-              <ProposalContainer
-                instructionsId={Number(activeProposal?.instructionsId)}
-                timeRemaining={Number(activeProposal?.timeRemaining)}
-              />
+              <ProposalContainer instructionsId={Number(activeProposal?.instructionsId)} />
             )}
             {isLoading ? <ProposalSkeleton /> : renderProposals()}
           </>
@@ -84,7 +81,7 @@ export const ProposalsDashboard = () => {
   );
 };
 
-const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: number; timeRemaining?: number }) => {
+const ProposalContainer = ({ instructionsId }: { instructionsId: number }) => {
   const { data: proposal, isLoading } = useProposal(instructionsId);
 
   return (
@@ -99,7 +96,7 @@ const ProposalContainer = ({ instructionsId, timeRemaining }: { instructionsId: 
               proposalTitle={proposal?.proposalName}
               publishedDate={new Date(proposal?.submissionTimestamp)}
               status={proposal?.state}
-              voteEndDate={timeRemaining ? new Date(timeRemaining) : new Date()}
+              voteEndDate={proposal?.timeRemaining ? new Date(proposal.timeRemaining) : new Date()}
               quorum={0}
               votesAgainst={proposal?.noVotes}
               votesFor={proposal?.yesVotes}
