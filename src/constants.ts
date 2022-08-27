@@ -1,4 +1,4 @@
-export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics";
+export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/id/QmWrvfZh9qXPV5oJWapWZsgnPDEQAys2sGL1DBkkV7FEnt";
 export const SUBGRAPH_URL_STAGING_STUB = "https://api.thegraph.com/subgraphs/id/";
 
 /**

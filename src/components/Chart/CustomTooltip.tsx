@@ -9,7 +9,7 @@ interface TooltipPayloadItem {
   dataKey: string;
   value: number;
   payload: {
-    timestamp: number;
+    date: string;
     block: number;
   };
 }
@@ -23,7 +23,7 @@ interface TooltipPayloadItem {
  * @returns
  */
 const renderDate = (item: TooltipPayloadItem) => {
-  const date = new Date(item.payload.timestamp * 1000);
+  const date = new Date(item.payload.date);
   const block = item.payload.block;
 
   return (

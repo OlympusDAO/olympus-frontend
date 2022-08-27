@@ -4,20 +4,19 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
+import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
-  PARAM_RECORD_COUNT,
+  DEFAULT_DAYS,
+  PARAM_DAYS,
   PARAM_SUBGRAPH,
   PARAM_TOKEN,
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import {
-  DEFAULT_RECORDS_COUNT,
-  LiquidBackingPerOhmComparisonGraph,
-  ProtocolOwnedLiquidityGraph,
-  TreasuryAssets,
-} from "src/views/TreasuryDashboard/components/Graph/TreasuryGraph";
+import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
+import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
+import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import {
   BackingPerGOHM,
   BackingPerOHM,
@@ -49,8 +48,15 @@ const getSubgraphIdParameter = (): string | undefined => {
  * @returns
  */
 const MetricsDashboard = () => {
-  // State variable for the number of records shown, which is passed to the respective charts
-  const [recordCount, setRecordCount] = useState("");
+  // State variable for the number of days shown, which is passed to the respective charts
+  const [daysPrior, setDaysPrior] = useState<string | null>(null);
+  /**
+   * daysPrior is set through the `useSearchParams` hook, which loads
+   * asynchronously, so we set the initial value of daysPrior and earliestDate to null. Child components are designed to recognise this
+   * and not load data until earliestDate is a valid value.
+   */
+  const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
@@ -62,9 +68,9 @@ const MetricsDashboard = () => {
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
-    // Get the record count from the URL query parameters, or use the default
-    const queryRecordCount = searchParams.get(PARAM_RECORD_COUNT) || DEFAULT_RECORDS_COUNT.toString();
-    setRecordCount(queryRecordCount);
+    // Get the days from the URL query parameters, or use the default
+    const queryDays = searchParams.get(PARAM_DAYS) || DEFAULT_DAYS.toString();
+    setDaysPrior(queryDays);
 
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
@@ -81,7 +87,7 @@ const MetricsDashboard = () => {
    * @returns
    */
   const getSearchParamsWithUpdatedRecordCount = (recordCount: number): string => {
-    return updateSearchParams(searchParams, PARAM_RECORD_COUNT, recordCount.toString()).toString();
+    return updateSearchParams(searchParams, PARAM_DAYS, recordCount.toString()).toString();
   };
 
   /**
@@ -100,7 +106,7 @@ const MetricsDashboard = () => {
   };
 
   const isActiveRecordCount = (input: number): boolean => {
-    return recordCount === input.toString();
+    return daysPrior === input.toString();
   };
 
   const theme = useTheme();
@@ -163,8 +169,8 @@ const MetricsDashboard = () => {
                 },
                 {
                   label: "Max",
-                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(1000)}`,
-                  isActive: isActiveRecordCount(1000),
+                  to: `/dashboard?${getSearchParamsWithUpdatedRecordCount(180)}`,
+                  isActive: isActiveRecordCount(180),
                 },
               ]}
             />
@@ -196,18 +202,18 @@ const MetricsDashboard = () => {
             <LiquidBackingPerOhmComparisonGraph
               subgraphUrl={subgraphUrl}
               activeToken={token}
-              count={parseInt(recordCount)}
+              earliestDate={earliestDate}
             />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
+            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} count={parseInt(recordCount)} />
+            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
           </Paper>
         </Grid>
       </Grid>
