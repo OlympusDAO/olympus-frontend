@@ -1,12 +1,11 @@
 import { BALANCER_VAULT } from "src/constants/contracts";
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
+import { calculateBalancerLPValue } from "src/helpers/pricing/calculateBalancerLPValue";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { NetworkId } from "src/networkDetails";
 import { BalancerV2Pool__factory } from "src/typechain";
-
-import { calculateBalancerLPValue } from "../pricing/calculateBalancerLPValue";
-import { Providers } from "../providers/Providers/Providers";
-import { nonNullable } from "../types/nonNullable";
-import { getTokenByAddress } from "./getTokenByAddress";
-import { Token } from "./Token";
 
 /**
  * Returns a `Token` given the address of a Balancer token contract
@@ -15,7 +14,7 @@ import { Token } from "./Token";
  * - 0xc45d42f801105e861e86658648e3678ad7aa70f9 (OHM/DAI/wETH)
  */
 export const getBalancerLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
 
   try {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);

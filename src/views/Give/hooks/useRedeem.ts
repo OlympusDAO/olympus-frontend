@@ -9,9 +9,8 @@ import { useDynamicGiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { RedeemData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
-
-import { RedeemData } from "../Interfaces";
 
 /**
  * @notice Redeems all available yield

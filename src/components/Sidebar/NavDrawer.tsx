@@ -2,8 +2,7 @@ import { SwipeableDrawer } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-import NavContent from "./NavContent";
+import NavContent from "src/components/Sidebar/NavContent";
 
 const PREFIX = "NavDrawer";
 

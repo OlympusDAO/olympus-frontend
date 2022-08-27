@@ -8,11 +8,10 @@ import { GIVE_CONTRACT } from "src/constants/contracts";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useDynamicGiveContract, useDynamicV1GiveContract } from "src/hooks/useContract";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
-
-import { useDynamicGiveContract, useDynamicV1GiveContract } from "./useContract";
-import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
   [key: string]: boolean;

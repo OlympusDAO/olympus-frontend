@@ -16,9 +16,8 @@ import {
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useMultipleTokenContracts, useStaticFuseContract } from "src/hooks/useContract";
 import { useAccount } from "wagmi";
-
-import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);

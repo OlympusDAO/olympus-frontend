@@ -1,7 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 import { GIVE_ADDRESSES } from "src/constants/addresses";
-
-import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
+import { IBaseAddressRecipientAsyncThunk } from "src/slices/interfaces";
 
 /**
  * Gets the date of the first time a user donated to a specific recipient

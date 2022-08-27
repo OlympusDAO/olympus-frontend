@@ -10,10 +10,9 @@ import * as ZapBalances from "src/hooks/useZapTokenBalances";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
+import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
+import ZapStakeAction from "src/views/Zap/ZapStakeAction";
 import * as WAGMI from "wagmi";
-
-import { zapAPIResponse } from "../__mocks__/mockZapBalances";
-import ZapStakeAction from "../ZapStakeAction";
 
 // afterEach(() => {
 //   jest.resetAllMocks();

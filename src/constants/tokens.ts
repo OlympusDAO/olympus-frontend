@@ -1,9 +1,3 @@
-import { Token } from "src/helpers/contracts/Token";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
-import { NetworkId } from "src/networkDetails";
-import { IERC20__factory, PairContract__factory } from "src/typechain";
-
 import {
   DAI_ADDRESSES,
   FRAX_ADDRESSES,
@@ -18,7 +12,12 @@ import {
   WBTC_ADDRESSES,
   WETH_ADDRESSES,
   WSOHM_ADDRESSES,
-} from "./addresses";
+} from "src/constants/addresses";
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
+import { NetworkId } from "src/networkDetails";
+import { IERC20__factory, PairContract__factory } from "src/typechain";
 
 export const OHM_TOKEN = new Token({
   icons: ["OHM"],
@@ -131,7 +130,7 @@ export const TEST_DAI_TOKEN = new Token({
   decimals: 18,
   addresses: {
     [NetworkId.MAINNET]: DAI_ADDRESSES[NetworkId.MAINNET],
-    [NetworkId.TESTNET_RINKEBY]: "0xbc9ee0d911739cbc72cd094ada26f56e0c49eeae",
+    [NetworkId.TESTNET_GOERLI]: DAI_ADDRESSES[NetworkId.TESTNET_GOERLI],
   },
   factory: IERC20__factory,
   purchaseUrl: "",

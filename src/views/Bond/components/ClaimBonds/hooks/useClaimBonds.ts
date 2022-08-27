@@ -7,9 +7,8 @@ import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { bondNotesQueryKey } from "./useBondNotes";
 
 export const useClaimBonds = () => {
   const dispatch = useDispatch();

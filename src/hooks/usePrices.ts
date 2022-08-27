@@ -5,8 +5,7 @@ import { parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-
-import { useCurrentIndex } from "./useCurrentIndex";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 export const ohmPriceQueryKey = () => ["useOhmPrice"];
 

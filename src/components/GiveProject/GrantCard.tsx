@@ -1,6 +1,6 @@
 import "react-step-progress-bar/styles.css";
 // We import this AFTER the styles for react-step-progress-bar, so that we can override it
-import "./GrantCard.scss";
+import "src/components/GiveProject/GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
@@ -8,10 +8,11 @@ import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@mui/mate
 import { Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
-import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
+import ReactMarkdown from "react-markdown";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { Grant, RecordType } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
@@ -34,8 +35,6 @@ import {
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { useAccount, useNetwork } from "wagmi";
-
-import { InPageConnectButton } from "../ConnectButton/ConnectButton";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -225,13 +224,9 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new DecimalBigNumber(
                 value.amount.toString(),
               ).toString(NO_DECIMALS_FORMAT)} sOHM`}</Typography>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: MarkdownIt({ html: true }).render(
-                    value.description ? value.description : "No milestone information.",
-                  ),
-                }}
-              />
+              <Typography variant="body1">
+                {value.description ? <ReactMarkdown children={value.description} /> : "No milestone information."}
+              </Typography>
             </div>
           );
         })}
@@ -408,11 +403,9 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
 
     return owner + " - " + title;
   };
-
-  const getRenderedDetails = (shorten: boolean) => {
-    return {
-      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
-    };
+  const RenderedDetails = ({ shorten = false }) => {
+    const description = shorten ? shortDescription : <ReactMarkdown children={details} />;
+    return <>{description}</>;
   };
 
   /**
@@ -473,7 +466,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
               )}
               <Grid item xs={12}>
                 <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                  <RenderedDetails shorten />
                 </Typography>
               </Grid>
               <Grid item container xs={12}>
@@ -626,7 +619,9 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                   }
                   fullWidth
                 >
-                  <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                  <Typography variant="body1" className="project-content">
+                    <RenderedDetails />
+                  </Typography>
                 </Paper>
               </Grid>
             </Grid>

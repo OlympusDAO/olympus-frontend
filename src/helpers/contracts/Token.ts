@@ -2,10 +2,9 @@ import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AddressMap } from "src/constants/addresses";
 import { Contract, ContractConfig, Factory } from "src/helpers/contracts/Contract";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { getCoingeckoPrice } from "src/helpers/pricing/getCoingeckoPrice";
+import { assert } from "src/helpers/types/assert";
 import { NetworkId } from "src/networkDetails";
-
-import { getCoingeckoPrice } from "../pricing/getCoingeckoPrice";
-import { assert } from "../types/assert";
 
 export interface TokenConfig<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap>
   extends ContractConfig<TFactory, TAddressMap> {

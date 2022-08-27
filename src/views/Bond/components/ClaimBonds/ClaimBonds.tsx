@@ -5,10 +5,9 @@ import { useState } from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useScreenSize } from "src/hooks/useScreenSize";
-
-import { BondDuration } from "../BondDuration";
-import { useBondNotes } from "./hooks/useBondNotes";
-import { useClaimBonds } from "./hooks/useClaimBonds";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
+import { useClaimBonds } from "src/views/Bond/components/ClaimBonds/hooks/useClaimBonds";
 
 export const ClaimBonds = () => {
   const notes = useBondNotes().data;

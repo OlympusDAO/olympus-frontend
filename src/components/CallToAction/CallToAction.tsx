@@ -1,9 +1,8 @@
-import "./CallToAction.scss";
+import "src/components/CallToAction/CallToAction.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, SvgIcon, Typography } from "@mui/material";
-
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 
 export const LearnMoreButton = () => (
   <Button

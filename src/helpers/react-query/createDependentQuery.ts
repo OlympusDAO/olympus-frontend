@@ -1,6 +1,5 @@
 import { QueryKey, useQuery } from "@tanstack/react-query";
-
-import { nonNullable } from "../types/nonNullable";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 /**
  * Used to build a `useQuery` function for fetching necessary data in parallel for a query,

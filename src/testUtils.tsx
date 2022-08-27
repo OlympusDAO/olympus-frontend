@@ -8,13 +8,12 @@ import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import App from "src/App";
+import { chains, wagmiClient } from "src/hooks/wagmi";
+import { ReactQueryProvider } from "src/lib/react-query";
+import defaultStore from "src/store";
+import { light as lightTheme } from "src/themes/light.js";
 import { WagmiConfig } from "wagmi";
-
-import App from "./App";
-import { chains, wagmiClient } from "./hooks/wagmi";
-import { ReactQueryProvider } from "./lib/react-query";
-import defaultStore from "./store";
-import { light as lightTheme } from "./themes/light.js";
 
 const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
   const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
