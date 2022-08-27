@@ -121,8 +121,8 @@ export const frax_ohm_frax = new ExternalPool({
   stakeOn: "Fraxswap",
   pairGecko: "frax",
   rewardGecko: "frax",
-  href: "https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F",
-  address: "0x38633ed142BCc8128b45aB04A2e4A6e53774699F", //LP
+  href: "https://app.frax.finance/staking/fraxswap-v2-frax-ohm",
+  address: "0x5769071665eb8Db80e7e9226F92336Bb2897DCFA", //LP
   masterchef: "", //deposit
   rewarder: "",
   poolId: 0,
