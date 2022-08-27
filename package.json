@@ -40,7 +40,7 @@
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.14.0",
     "@mui/icons-material": "^5.10.2",
-    "@mui/material": "^5.9.1",
+    "@mui/material": "^5.10.2",
     "@mui/system": "^5.4.1",
     "@mui/x-data-grid": "^5.12.3",
     "@olympusdao/component-library": "^2.0.7",
