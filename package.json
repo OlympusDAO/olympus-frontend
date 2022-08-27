@@ -34,7 +34,7 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/styled": "^11.10.0",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.6.8",
     "@ledgerhq/iframe-provider": "^0.4.2",
