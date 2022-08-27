@@ -222,20 +222,19 @@ export const ConvexPoolAPY = (pool: ExternalPool) => {
 //TODO: Add support for Rewarder/Gauge if pool becomes incentivized.
 //Currently this only calculates APR based on swap fees since there is no concept of staking.
 export const FraxPoolAPY = (pool: ExternalPool) => {
-  const fraxAPI = "https://api.frax.finance/v2/fraxswap/pools";
+  const fraxAPI = "https://api.frax.finance/pools";
   const {
     data = { apy: 0, liquidity_locked: 0 },
     isFetched,
     isLoading,
   } = useQuery(["FraxPoolAPY", pool.address], async () => {
     const results = await axios.get(fraxAPI).then(res => {
-      const fraxPool = res.data.pools.find((pools: { poolAddress: string }) => pools.poolAddress == pool.address);
-      return fraxPool;
+      const apy = res.data.find((pool: { identifier: string }) => pool.identifier == "Fraxswap V2 FRAX/OHM");
+      return apy;
     });
-    const apy = results.fees7D && results.volumeSwap7D ? (results.fees7D / results.volumeSwap7D) * 52 : 0;
-    return { ...results, apy };
+    return results;
   });
-  return { apy: data.apy, tvl: data.tvl, isFetched, isLoading };
+  return { apy: data.apy, tvl: data.liquidity_locked, isFetched, isLoading };
 };
 
 const APY = (
