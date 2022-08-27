@@ -117,7 +117,7 @@
     "@typescript-eslint/eslint-plugin": "^5.34.0",
     "@typescript-eslint/parser": "^5.28.0",
     "assert": "^2.0.0",
-    "autoprefixer": "^10.4.7",
+    "autoprefixer": "^10.4.8",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "css-mediaquery": "^0.1.2",
