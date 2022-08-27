@@ -1,16 +1,16 @@
 overwrite: true
-schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics"
+schema: "https://api.thegraph.com/subgraphs/id/QmWrvfZh9qXPV5oJWapWZsgnPDEQAys2sGL1DBkkV7FEnt"
 documents: "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
-      # - "typescript-react-apollo"
       - "typescript-react-query"
     config:
       withHooks: true
       preResolveTypes: true
+      addInfiniteQuery: true
       scalars:
         BigDecimal: number
         BigInt: number

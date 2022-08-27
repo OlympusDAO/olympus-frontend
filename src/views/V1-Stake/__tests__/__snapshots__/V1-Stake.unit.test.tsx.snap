@@ -2616,7 +2616,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
+                    href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
@@ -5696,7 +5696,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
+                    href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
@@ -8776,7 +8776,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
+                    href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
@@ -11856,7 +11856,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                 >
                   <a
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                    href="https://facts.frax.finance/pools/0x38633ed142BCc8128b45aB04A2e4A6e53774699F"
+                    href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
