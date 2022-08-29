@@ -99,7 +99,7 @@
     "@lingui/macro": "^3.14.0",
     "@tanstack/react-query-devtools": "^4.2.1",
     "@testing-library/dom": "^8.16.0",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@typechain/ethers-v5": "^8.0.2",
     "@types/css-mediaquery": "^0.1.1",
