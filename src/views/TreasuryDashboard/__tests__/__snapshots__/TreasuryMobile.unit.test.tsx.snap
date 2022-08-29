@@ -321,7 +321,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?days=7"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -333,7 +333,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?days=30"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -345,7 +345,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?days=90"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -357,7 +357,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?days=180"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -383,7 +383,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?token=OHM"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -395,7 +395,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                   href="#/dashboard?token=gOHM"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -563,7 +563,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             href="#/dashboard?treasuryAssets=marketValue"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -575,7 +575,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             href="#/dashboard?treasuryAssets=liquidBacking"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation Button-root undefined css-199wfub-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
