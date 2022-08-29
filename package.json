@@ -150,7 +150,7 @@
     "prettier": "^2.7.1",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
-    "puppeteer": "^15.5.0",
+    "puppeteer": "^17.0.0",
     "react-app-rewired": "^2.2.1",
     "sass": "^1.54.3",
     "shelljs": "^0.8.5",
