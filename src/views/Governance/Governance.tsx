@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-
-import { CreateProposal } from "./components/CreateProposal";
-import { ProposalPage } from "./components/ProposalPage";
-import { ProposalsDashboard } from "./ProposalsDashboard";
+import { CreateProposal } from "src/views/Governance/components/CreateProposal";
+import { ProposalPage } from "src/views/Governance/components/ProposalPage";
+import { ProposalsDashboard } from "src/views/Governance/ProposalsDashboard";
 
 export const Governance = () => {
   return (
