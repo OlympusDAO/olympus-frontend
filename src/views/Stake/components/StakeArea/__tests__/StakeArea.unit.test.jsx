@@ -85,9 +85,7 @@ describe("<StakeArea/> Connected with Approval", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.getAllByText("ETH")[0]);
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
-    waitFor(async () => expect(await screen.findByText("Zap-Stake")).toBeInTheDocument(), {
-      timeout: 5000,
-    });
+    await waitFor(async () => expect(await screen.findByText("Zap-Stake")).toBeInTheDocument(), { timeout: 5000 });
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
   });
