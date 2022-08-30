@@ -76,8 +76,8 @@ export const useProposal = (instructionsIndex: number) => {
       const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : undefined;
       const currentProposal = {
         id: instructionsIndex,
-        proposalName: ethers.utils.parseBytes32String(metadata.proposalName),
-        proposer: metadata.proposer,
+        title: ethers.utils.parseBytes32String(metadata.title),
+        submitter: metadata.submitter,
         // NOTE(appleseed): multiply submissionTimestamp by 1000 to convert to JS Time from Unix Time
         submissionTimestamp: submissionTimestamp * 1000,
         timeRemaining: jsTimeRemaining,
@@ -118,7 +118,7 @@ export interface ISubmitProposal {
  * [[2,"0x5a46373152Fe723f052117fdc8E5282677808A70"]]
  * 0x6d792070726f706f73616c000000000000000000000000000000000000000000
  *
- * proposalname (2nd param above):
+ * title (2nd param above):
  * ethers.utils.formatBytes32String("my proposal name")
  *
  * gotcha:

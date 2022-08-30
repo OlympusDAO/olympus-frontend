@@ -93,7 +93,7 @@ const ProposalContainer = ({ instructionsId }: { instructionsId: number }) => {
           <Link to={`/governance/proposals/${proposal?.id}`} component={RouterLink}>
             <Proposal
               chipLabel={toCapitalCase(proposal?.state)}
-              proposalTitle={proposal?.proposalName}
+              proposalTitle={proposal?.title}
               publishedDate={new Date(proposal?.submissionTimestamp)}
               status={proposal?.state}
               voteEndDate={proposal?.timeRemaining ? new Date(proposal.timeRemaining) : new Date()}
@@ -113,7 +113,7 @@ export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
     <Skeleton width="100%">
       <Proposal
         chipLabel={toCapitalCase("active")}
-        proposalTitle={"proposal.proposalName"}
+        proposalTitle={"proposal.title"}
         publishedDate={new Date()}
         status={"active"}
         voteEndDate={new Date()}

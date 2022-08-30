@@ -18,16 +18,16 @@ export enum ProposalAction {
 
 /// Data type for return from getProposalMetadata on Governance.sol
 export interface proposalMetadata {
-  proposalName: string;
-  proposer: string;
+  title: string;
+  submitter: string;
   submissionTimestamp: number;
 }
 
 /// Data type for returning full proposal informations
 export interface Proposal {
   id: number;
-  proposalName: string;
-  proposer: string;
+  title: string;
+  submitter: string;
   submissionTimestamp: number;
   isActive: boolean;
   state: PStatus;
@@ -74,23 +74,23 @@ export const activeProposal = 0;
 /// Mock mapping data for proposalMetadata in Governance.sol
 export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
   0: {
-    proposalName: "0x4f49502d31000000000000000000000000000000000000000000000000000000",
-    proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
+    title: "0x4f49502d31000000000000000000000000000000000000000000000000000000",
+    submitter: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
     submissionTimestamp: 1653948322,
   },
   1: {
-    proposalName: "0x4f49502d32000000000000000000000000000000000000000000000000000000",
-    proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
+    title: "0x4f49502d32000000000000000000000000000000000000000000000000000000",
+    submitter: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
     submissionTimestamp: 1655157922,
   },
   2: {
-    proposalName: "0x4f49502d33000000000000000000000000000000000000000000000000000000",
-    proposer: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
+    title: "0x4f49502d33000000000000000000000000000000000000000000000000000000",
+    submitter: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
     submissionTimestamp: 1655503522,
   },
   3: {
-    proposalName: "0x4f49502d34000000000000000000000000000000000000000000000000000000",
-    proposer: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
+    title: "0x4f49502d34000000000000000000000000000000000000000000000000000000",
+    submitter: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
     submissionTimestamp: 1656626722,
   },
 };
@@ -326,8 +326,8 @@ export const MockGetNoVotesForProposal = (instructionsIndex: number) => {
 
 //TODO: Not implemented in Contract. Follow up with SC Team
 /// Function to return mock proposal URI in lieu of a contract
-export const mockGetProposalURI = (proposalName: string): string => {
-  return mockProposalURIs[proposalName];
+export const mockGetProposalURI = (title: string): string => {
+  return mockProposalURIs[title];
 };
 
 //TODO: Not implemented in Contract. Follow up with SC Team
@@ -337,8 +337,8 @@ export const mockGetProposalContent = (uri: string): string => {
 };
 
 /// Function to return mock proposal state in lieu of contract/content deployed to IPFS
-export const mockGetProposalState = (proposalName: string): PStatus => {
-  return mockProposalState[proposalName];
+export const mockGetProposalState = (title: string): PStatus => {
+  return mockProposalState[title];
 };
 
 /**
@@ -406,19 +406,19 @@ export const useProposals = (filters: IProposalState) => {
         const endorsements = MockGetProposalTotalEndorsements(i);
         const yesVotes = MockGetYesVotesForProposal(i);
         const noVotes = MockGetNoVotesForProposal(i);
-        const proposalURI = mockGetProposalURI(proposal.proposalName);
+        const proposalURI = mockGetProposalURI(proposal.title);
         const proposalContent = mockGetProposalContent(proposalURI);
         /**
          * should become parsing logic to determine a proposal's state
          * - TODO(appleseed): still need to determine methodolgy for "discussion", "draft" and "closed" states
          * @returns {PStatus} IProposalState
          */
-        const proposalState = mockGetProposalState(proposal.proposalName);
+        const proposalState = mockGetProposalState(proposal.title);
 
         const currentProposal: Proposal = {
           id: i,
-          proposalName: ethers.utils.parseBytes32String(proposal.proposalName),
-          proposer: proposal.proposer,
+          title: ethers.utils.parseBytes32String(proposal.title),
+          submitter: proposal.submitter,
           submissionTimestamp: proposal.submissionTimestamp,
           isActive: isActive,
           state: proposalState,

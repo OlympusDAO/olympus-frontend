@@ -108,12 +108,12 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
       <Grid item>
         <Typography lineHeight="18px" variant="body2" color={theme.colors.gray[90]}>
           Posted on <span style={{ color: theme.colors.gray[40] }}>{formattedPublishedDate}</span> by:{" "}
-          <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.proposer)}</span>
+          <span style={{ color: theme.colors.gray[40] }}>{shorten(proposal.submitter)}</span>
         </Typography>
       </Grid>
       <Grid item>
         <Typography fontSize="24px" lineHeight="32px" fontWeight={700}>
-          {proposal.proposalName}
+          {proposal.title}
         </Typography>
       </Grid>
       <Box display="flex" flexDirection="row" mt="4px">

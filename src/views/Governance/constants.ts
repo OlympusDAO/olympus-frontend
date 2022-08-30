@@ -2,8 +2,8 @@ import { Proposal } from "src/hooks/useProposals";
 
 export const NULL_PROPOSAL: Proposal = {
   id: -1,
-  proposalName: "",
-  proposer: "",
+  title: "",
+  submitter: "",
   submissionTimestamp: 0,
   isActive: false,
   state: "closed",
