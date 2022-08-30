@@ -115,10 +115,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const liveInverseBonds = bonds && bonds.length > 0;
 
   const ohmOnChange = (value: string, spendAsset: boolean) => {
-    if (!currentIndex || zapExchangeRate === 0) return null;
+    if (!currentIndex) return null;
     spendAsset ? setAmount(value) : setReceiveAmount(value);
     let oppositeAmount: string;
     if (currentAction === "STAKE" && contractRouting === "Zap") {
+      if (zapExchangeRate === 0) return null;
       if (spendAsset) {
         oppositeAmount = new DecimalBigNumber(value).div(new DecimalBigNumber(zapExchangeRate.toString())).toString();
       } else {
@@ -194,6 +195,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         )
       }
       disabled={isMutating}
+      inputWidth={`${
+        (currentAction === "STAKE" ? amount : receiveAmount).length > 0
+          ? (currentAction === "STAKE" ? amount : receiveAmount).length
+          : 1
+      }ch`}
     />
   );
 
@@ -210,6 +216,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         info={`Balance: ${balance ? balance.toString({ decimals: 2 }) : "0.00"} ${stakedAssetType.name}`}
         endString={currentAction === "UNSTAKE" ? "Max" : ""}
         endStringOnClick={() => balance && ohmOnChange(balance.toString(), currentAction === "UNSTAKE")}
+        inputWidth={`${
+          (currentAction === "STAKE" ? receiveAmount : amount).length > 0
+            ? (currentAction === "STAKE" ? receiveAmount : amount).length
+            : 1
+        }ch`}
         disabled={isMutating}
       />
     );

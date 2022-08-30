@@ -3317,10 +3317,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@olympusdao/component-library@^2.2.2-alpha.13":
-  version "2.2.2-alpha.13"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.13.tgz#6a816473e03f44229d41129c4eae08c54da00e08"
-  integrity sha512-J737Zkf08YSf1Ik8nWLKAM20WuXzzYCQfPBJTaPfyXB+Bi4x/Q8Y8LJ+LWb6IKutz+UIWsZ4mR8FSrFh5rathA==
+"@olympusdao/component-library@^2.2.2-alpha.14":
+  version "2.2.2-alpha.14"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.14.tgz#e88f0501d8755cc67d70fdf6ec72107a02eb76b8"
+  integrity sha512-Uxl0iJtuPfe1D9B2EOHaeFAfJxNMOpat37qRljUcdm8zgJohnj2JUW8PR6Z47k+5uUZVMXvN5wARcEirreIt9Q==
   dependencies:
     "@react-spring/web" "^9.5.2"
 
@@ -3780,10 +3780,24 @@
     lz-string "^1.4.4"
     pretty-format "^26.6.2"
 
-"@testing-library/dom@^8.0.0", "@testing-library/dom@^8.16.0":
+"@testing-library/dom@^8.0.0":
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.16.0.tgz#d6fc50250aed17b1035ca1bd64655e342db3936a"
   integrity sha512-uxF4zmnLHHDlmW4l+0WDjcgLVwCvH+OVLpD8Dfp+Bjfz85prwxWGbwXgJdLtkgjD0qfOzkJF9SmA6YZPsMYX4w==
+  dependencies:
+    "@babel/code-frame" "^7.10.4"
+    "@babel/runtime" "^7.12.5"
+    "@types/aria-query" "^4.2.0"
+    aria-query "^5.0.0"
+    chalk "^4.1.0"
+    dom-accessibility-api "^0.5.9"
+    lz-string "^1.4.4"
+    pretty-format "^27.0.2"
+
+"@testing-library/dom@^8.16.0":
+  version "8.17.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.17.1.tgz#2d7af4ff6dad8d837630fecd08835aee08320ad7"
+  integrity sha512-KnH2MnJUzmFNPW6RIKfd+zf2Wue8mEKX0M3cpX6aKl5ZXrJM1/c/Pc8c2xDNYQCnJO48Sm5ITbMXgqTr3h4jxQ==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"

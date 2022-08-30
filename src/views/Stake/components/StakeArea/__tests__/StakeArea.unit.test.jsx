@@ -1,11 +1,14 @@
 import { BigNumber } from "ethers";
+import Messages from "src/components/Messages/Messages";
 import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
-import { act, fireEvent, render, screen } from "src/testUtils";
+import { act, fireEvent, render, screen, waitFor } from "src/testUtils";
+import * as ZapFactory from "src/typechain/factories/Zap__factory";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
+import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
 
 jest.mock("src/hooks/useContractAllowance");
 let data;
@@ -52,15 +55,38 @@ describe("<StakeArea/> Connected no Approval", () => {
 describe("<StakeArea/> Connected with Approval", () => {
   beforeEach(async () => {
     connectWallet();
+    ZapFactory.Zap__factory.connect = jest.fn().mockReturnValue({
+      ZapStake: jest.fn().mockReturnValue({
+        wait: jest.fn().mockReturnValue(true),
+      }),
+    });
     useContractAllowance.mockReturnValue({ data: BigNumber.from(1000) });
     Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
-    render(<StakeArea />);
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
+    //@ts-expect-error
+
+    render(
+      <>
+        <Messages />
+        <StakeArea />
+      </>,
+    );
   });
   it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
     fireEvent.click(await screen.getAllByText("sOHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByTestId("gOHM-select"));
-    expect(await screen.findByTestId("staked-input")).toHaveValue(0.2);
+    await waitFor(async () => expect(await screen.findByTestId("staked-input")).toHaveValue(0.2));
+  });
+
+  it("gOHM conversion should appear correctly when Staking ETH to gOHM", async () => {
+    fireEvent.click(await screen.getAllByText("OHM")[0]);
+    expect(screen.getByText("Select a token"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+    fireEvent.click(await screen.findByText("Zap-Stake"));
+    expect(await screen.findByText("Successful Zap!"));
   });
 });
