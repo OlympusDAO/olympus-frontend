@@ -24,12 +24,13 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useGohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useVote } from "src/hooks/useVoting";
+import { useEndorse, useVote } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
 /**
  * parses proposal status & displays endorsements or votes
+ * @TODO may be better to refactor this into separate components
  */
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
@@ -38,6 +39,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const gohmBalance = useGohmBalance()[networks.MAINNET].data;
   const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
+  const submitEndorsement = useEndorse();
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -50,38 +52,66 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
   };
 
+  const handleEndorseSubmission = () => {
+    submitEndorsement.mutate({ proposalId: BigNumber.from(proposal.id) });
+  };
+
   return (
     <Paper fullWidth>
       <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
         <Box display="flex" flexDirection="column">
           <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
-            Cast your vote
+            {proposal.isActive ? `Cast your vote` : `Endorsements`}
           </Typography>
         </Box>
-        {isConnected && <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} gOHM`} />}
-        <Box display="flex" flexDirection="row" justifyContent="center">
-          <SecondaryButton
-            sx={{ minWidth: "120px" }}
-            disabled={!isConnected || !proposal.isActive}
-            onClick={() => setVote("yes")}
-          >
-            Yes
-          </SecondaryButton>
-          <TertiaryButton
-            sx={{ minWidth: "120px" }}
-            disabled={!isConnected || !proposal.isActive}
-            onClick={() => setVote("no")}
-          >
-            No
-          </TertiaryButton>
-        </Box>
-        <WalletConnectedGuard>
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
-              Vote
-            </PrimaryButton>
-          </Box>
-        </WalletConnectedGuard>
+        {isConnected && proposal.isActive ? (
+          <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} gOHM`} />
+        ) : isConnected && !proposal.isActive ? (
+          <Metric label="Your voting power" metric={`1 Endorsement`} />
+        ) : (
+          <></>
+        )}
+        {proposal.isActive ? (
+          <>
+            <Box display="flex" flexDirection="row" justifyContent="center">
+              <SecondaryButton
+                sx={{ minWidth: "120px" }}
+                disabled={!isConnected || !proposal.isActive}
+                onClick={() => setVote("yes")}
+              >
+                Yes
+              </SecondaryButton>
+              <TertiaryButton
+                sx={{ minWidth: "120px" }}
+                disabled={!isConnected || !proposal.isActive}
+                onClick={() => setVote("no")}
+              >
+                No
+              </TertiaryButton>
+            </Box>
+            <WalletConnectedGuard>
+              <Box display="flex" flexDirection="row" justifyContent="center">
+                <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
+                  Vote
+                </PrimaryButton>
+              </Box>
+            </WalletConnectedGuard>
+          </>
+        ) : (
+          <>
+            <WalletConnectedGuard>
+              <Box display="flex" flexDirection="row" justifyContent="center">
+                <PrimaryButton
+                  sx={{ minWidth: "120px" }}
+                  disabled={!!proposal.isActive}
+                  onClick={handleEndorseSubmission}
+                >
+                  Endorse
+                </PrimaryButton>
+              </Box>
+            </WalletConnectedGuard>
+          </>
+        )}
       </Box>
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
         Vote Breakdown
