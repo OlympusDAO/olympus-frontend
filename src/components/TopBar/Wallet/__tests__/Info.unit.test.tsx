@@ -1,8 +1,7 @@
+import Faq from "src/components/TopBar/Wallet/Info/Faq";
+import News from "src/components/TopBar/Wallet/Info/News";
+import { Proposals } from "src/components/TopBar/Wallet/Info/Proposals";
 import { render, screen } from "src/testUtils";
-
-import Faq from "../Info/Faq";
-import News from "../Info/News";
-import { Proposals } from "../Info/Proposals";
 
 describe("Info View", () => {
   it("Should Display News for news Path", async () => {

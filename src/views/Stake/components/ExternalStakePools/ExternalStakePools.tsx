@@ -23,7 +23,6 @@ import {
   fraxPools,
   joePools,
   jonesPools,
-  spiritPools,
   sushiPools,
 } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -37,7 +36,6 @@ import {
   FraxPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
-  SpiritPoolAPY,
   SushiPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolBalance";
@@ -119,9 +117,6 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {joePools.map(pool => (
       <JoePools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {spiritPools.map(pool => (
-      <SpiritPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {beetsPools.map(pool => (
       <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
@@ -272,15 +267,7 @@ const JoePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   );
 };
-const SpiritPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = SpiritPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
+
 const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
   const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
   const { apy } = BeetsPoolAPY(props.pool);
@@ -292,12 +279,11 @@ const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pro
 };
 
 const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JonesPoolAPY(props.pool);
+  const { apy, tvl } = JonesPoolAPY(props.pool);
   return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
   ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
   );
 };
 const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {

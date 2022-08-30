@@ -329,10 +329,13 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1850upb-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 css-1pg2owi-MuiGrid-root"
           >
             <div
-              class="MuiBox-root css-1vp8jwk"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 css-388ssm-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-5 MuiGrid-grid-lg-4 css-ug5vt-MuiGrid-root"
             >
               <div
                 class="TabBar-container MuiBox-root css-1yufy38"
@@ -387,6 +390,47 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                 </a>
               </div>
             </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-sm-3 MuiGrid-grid-md-1 css-12i9dv-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-5 css-b8fgsh-MuiGrid-root"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-2 css-my8xw9-MuiGrid-root"
+            >
+              <div
+                class="TabBar-container MuiBox-root css-1yufy38"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-1nffzm5-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?token=OHM"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    OHM
+                  </button>
+                </a>
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1nffzm5-MuiTypography-root-MuiLink-root"
+                  href="#/dashboard?token=gOHM"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    gOHM
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-4 css-12dj1bj-MuiGrid-root"
+            />
           </div>
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
@@ -450,7 +494,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20KeyMetrics(%24records%3A%20Int%20%3D%20100)%20%7B%0A%20%20protocolMetrics(first%3A%20%24records%2C%20orderBy%3A%20timestamp%2C%20orderDirection%3A%20desc)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentIndex%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20marketCap%0A%20%20%20%20ohmCirculatingSupply%0A%20%20%20%20ohmFloatingSupply%0A%20%20%20%20ohmPrice%0A%20%20%20%20timestamp%0A%20%20%20%20timestampISO8901%0A%20%20%20%20totalSupply%0A%20%20%20%20totalValueLocked%0A%20%20%20%20treasuryLiquidBacking%0A%20%20%20%20treasuryLiquidBackingPerOhmFloating%0A%20%20%20%20treasuryMarketValue%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20KeyMetrics(%24records%3A%20Int%20%3D%20100)%20%7B%0A%20%20protocolMetrics(first%3A%20%24records%2C%20orderBy%3A%20timestamp%2C%20orderDirection%3A%20desc)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentIndex%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20marketCap%0A%20%20%20%20ohmCirculatingSupply%0A%20%20%20%20ohmFloatingSupply%0A%20%20%20%20ohmPrice%0A%20%20%20%20timestamp%0A%20%20%20%20timestampISO8901%0A%20%20%20%20totalSupply%0A%20%20%20%20totalValueLocked%0A%20%20%20%20treasuryLiquidBacking%0A%20%20%20%20treasuryLiquidBackingPerGOhm%0A%20%20%20%20treasuryLiquidBackingPerOhmFloating%0A%20%20%20%20treasuryMarketValue%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >

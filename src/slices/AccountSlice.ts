@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
+import ierc20Abi from "src/abi/IERC20.json";
+import MockSohm from "src/abi/MockSohm.json";
+import wsOHM from "src/abi/wsOHM.json";
+import { addresses } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { handleContractError, setAll } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
+import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
 import { IERC20, IERC20__factory, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-
-import ierc20Abi from "../abi/IERC20.json";
-import MockSohm from "../abi/MockSohm.json";
-import wsOHM from "../abi/wsOHM.json";
-import { addresses } from "../constants";
-import { handleContractError, setAll } from "../helpers";
-import { IBaseAddressAsyncThunk } from "./interfaces";
 
 interface IUserBalances {
   balances: {

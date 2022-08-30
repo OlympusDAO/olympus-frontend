@@ -2,19 +2,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers, Signer } from "ethers";
 import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
-import { IERC20, IERC20__factory } from "src/typechain";
-import { OlympusTokenMigrator__factory } from "src/typechain";
-
-import { error, info } from "../slices/MessagesSlice";
-import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "./AccountSlice";
+import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "src/slices/AccountSlice";
 import {
   IChangeApprovalWithDisplayNameAsyncThunk,
   IJsonRPCError,
   IMigrateAsyncThunk,
   IMigrateSingleAsyncThunk,
   IValueAsyncThunk,
-} from "./interfaces";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+} from "src/slices/interfaces";
+import { error, info } from "src/slices/MessagesSlice";
+import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
+import { IERC20, IERC20__factory } from "src/typechain";
+import { OlympusTokenMigrator__factory } from "src/typechain";
 
 export enum TokenType {
   UNSTAKED,

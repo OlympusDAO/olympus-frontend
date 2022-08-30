@@ -1,11 +1,10 @@
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
+import { calculateGelatoLPValue } from "src/helpers/pricing/calculateGelatoLPValue";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { assert } from "src/helpers/types/assert";
 import { NetworkId } from "src/networkDetails";
 import { GUniV3Lp__factory } from "src/typechain";
-
-import { calculateGelatoLPValue } from "../pricing/calculateGelatoLPValue";
-import { Providers } from "../providers/Providers/Providers";
-import { assert } from "../types/assert";
-import { getTokenByAddress } from "./getTokenByAddress";
-import { Token } from "./Token";
 
 /**
  * Returns a `Token` given the address of a UniswapV2 or Sushi token contract
@@ -14,7 +13,7 @@ import { Token } from "./Token";
  * - 0x61a0C8d4945A61bF26c13e07c30AF1f1ca67b473 (FRAX/OHM)
  */
 export const getGelatoLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
 
   try {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);

@@ -1,22 +1,3 @@
-import { Contract } from "src/helpers/contracts/Contract";
-import {
-  BalancerVault__factory,
-  BondDepository__factory,
-  CrossChainMigrator__factory,
-  FiatDAOContract__factory,
-  FuseProxy__factory,
-  OlympusGiving__factory,
-  OlympusGivingOld__factory,
-  OlympusGovernance__factory,
-  OlympusGovInstructions__factory,
-  OlympusProV2__factory,
-  OlympusStakingv2__factory,
-  OlympusVoteIssuer__factory,
-  PrizePool__factory,
-  Zap__factory,
-} from "src/typechain";
-import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
-
 import {
   BALANCER_VAULT_ADDRESSSES,
   BOND_DEPOSITORY_ADDRESSES,
@@ -35,7 +16,25 @@ import {
   STAKING_ADDRESSES,
   VOTE_ISSUER_ADDRESSES,
   ZAP_ADDRESSES,
-} from "./addresses";
+} from "src/constants/addresses";
+import { Contract } from "src/helpers/contracts/Contract";
+import {
+  BalancerVault__factory,
+  BondDepository__factory,
+  CrossChainMigrator__factory,
+  FiatDAOContract__factory,
+  FuseProxy__factory,
+  OlympusGiving__factory,
+  OlympusGivingOld__factory,
+  OlympusGovernance__factory,
+  OlympusGovInstructions__factory,
+  OlympusProV2__factory,
+  OlympusStakingv2__factory,
+  OlympusVoteIssuer__factory,
+  PrizePool__factory,
+  Zap__factory,
+} from "src/typechain";
+import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,

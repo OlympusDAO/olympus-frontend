@@ -19,7 +19,6 @@ import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ReactComponent as DownIcon } from "src/assets/icons/arrow-down.svg";
-import { ReactComponent as ZapperIcon } from "src/assets/icons/powered-by-zapper.svg";
 import { ReactComponent as FirstStepIcon } from "src/assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "src/assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "src/assets/icons/step-complete.svg";
@@ -245,12 +244,6 @@ const ZapStakeAction: React.FC = () => {
   };
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
-
-  const zapperCredit = (
-    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <SvgIcon component={ZapperIcon} viewBox="85 0 100 80" style={{ width: "200px", height: "40px" }} />
-    </Box>
-  );
 
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
@@ -555,14 +548,13 @@ const ZapStakeAction: React.FC = () => {
           </Grid>
         </Grid>
       )}
-      {zapperCredit}
-      {SelectTokenModal(handleClose, modalOpen, zapTokenBalances.isLoading, handleSelectZapToken, zapperCredit, {
+      {SelectTokenModal(handleClose, modalOpen, zapTokenBalances.isLoading, handleSelectZapToken, {
         regularTokens: tokensBalance,
       })}
-      {SelectTokenModal(handleOutputClose, outputModalOpen, false, handleSelectOutputToken, zapperCredit, {
+      {SelectTokenModal(handleOutputClose, outputModalOpen, false, handleSelectOutputToken, {
         output: true,
       })}
-      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage, zapperCredit)}
+      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage)}
     </Root>
   );
 };

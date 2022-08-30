@@ -76,11 +76,6 @@ export class Environment {
           key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
           fallback: "https://eth-goerli.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
         });
-      case NetworkId.TESTNET_RINKEBY:
-        return this._get({
-          key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
-          fallback: "https://eth-rinkeby.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-        });
       case NetworkId.ARBITRUM:
         return this._get({
           key: `REACT_APP_ARBITRUM_NODE_URL`,

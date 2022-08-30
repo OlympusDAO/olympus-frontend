@@ -136,7 +136,6 @@ export const isTestnet = (networkId: NetworkId) => {
     NetworkId.AVALANCHE_TESTNET,
     NetworkId.FANTOM_TESTNET,
     NetworkId.POLYGON_TESTNET,
-    NetworkId.TESTNET_RINKEBY,
     NetworkId.TESTNET_GOERLI,
   ];
 
@@ -152,5 +151,5 @@ export const isChainEthereum = ({
 }): boolean => {
   if (!includeTestnets) return chainId === NetworkId.MAINNET;
 
-  return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_RINKEBY || chainId === NetworkId.TESTNET_GOERLI;
+  return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_GOERLI;
 };
