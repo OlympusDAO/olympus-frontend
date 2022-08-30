@@ -28,6 +28,9 @@ import { useVote } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
+/**
+ * parses proposal status & displays endorsements or votes
+ */
 export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
   const networks = useTestableNetworks();
