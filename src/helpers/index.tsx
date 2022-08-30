@@ -122,6 +122,14 @@ export const formatNumber = (number: number, precision = 0) => {
   }).format(number);
 };
 
+/**
+ * trims string to 31 characters max
+ * - bytes32 string must be less than 32 bytes (31 characters)
+ */
+export const stringToBytes32String = (str: string) => {
+  return str.slice(0, 31);
+};
+
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
     NetworkId.ARBITRUM_TESTNET,

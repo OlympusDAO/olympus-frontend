@@ -1,8 +1,7 @@
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { IProposalContent } from "src/hooks/useProposals";
 import { Filelike, Web3Storage } from "web3.storage";
 import { CIDString } from "web3.storage/dist/src/lib/interface";
-
-import { Environment } from "./environment/Environment/Environment";
 
 export interface IPFSFileData {
   path: string;

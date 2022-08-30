@@ -198,7 +198,13 @@ export const parseProposalState = ({ isActive }: { isActive: boolean | undefined
  * - description {string}
  * - external_url {string} - url link to discussion
  */
-export const parseProposalContent = async ({ uri }: { uri: string }): Promise<IProposalContent> => {
+export const parseProposalContent = async ({ uri }: { uri: string | undefined }): Promise<IProposalContent> => {
+  const placeholder = {
+    name: "",
+    description: "",
+    external_url: "",
+  };
+  if (!uri) return placeholder;
   let readURI = uri;
   if (~uri.indexOf("ipfs:/")) {
     readURI = `https://ipfs.io/ipfs/${uri.replace("ipfs:/", "")}`;
@@ -213,11 +219,7 @@ export const parseProposalContent = async ({ uri }: { uri: string }): Promise<IP
   } catch (error) {
     // handle error
     console.log(error);
-    return {
-      name: "",
-      description: "",
-      external_url: "",
-    };
+    return placeholder;
   }
 };
 

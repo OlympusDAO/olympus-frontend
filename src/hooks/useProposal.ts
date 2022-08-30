@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
-import { parseBigNumber } from "src/helpers";
+import { parseBigNumber, stringToBytes32String } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -50,22 +50,14 @@ export const useProposal = (instructionsIndex: number) => {
   const yesVotes = useDependentQuery("YesVotesForProposal", () => contract.yesVotesForProposal(instructionsIndex));
   const noVotes = useDependentQuery("NoVotesForProposal", () => contract.noVotesForProposal(instructionsIndex));
 
-  // TODO(appleseed): need proposalURI_ functionality on deployment
-  // TODO(appleseed): temporary randomness on proposal URI for now
-  const uris = [
-    "ipfs://bafkreidmgcatj7skn6ufob5stdc7hnt76nvyb7dpc62l72fhrbluiychly",
-    "ipfs://bafybeigyvefco3cr6htyuzgv3gz4d2ctmdoptr2mlyvffv7uj6i276xgca/proposal.json",
-  ];
-  const proposalURI = uris[Math.floor(Math.random() * uris.length)];
-
-  const proposalContent = useDependentQuery("ProposalContent", () => parseProposalContent({ uri: proposalURI }));
   const proposalState = parseProposalState({ isActive });
 
   const query = useQuery<IAnyProposal, Error>(
     queryKey,
     async () => {
-      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes && proposalContent, queryKey);
+      queryAssertion(metadata && proposalState && endorsements && yesVotes && noVotes, queryKey);
       /// For the specified proposal index, fetch the relevant data points used in the frontend
+      const proposalContent = await parseProposalContent({ uri: metadata.proposalURI });
       const content: string = proposalContent.description;
       const discussionURL: string = proposalContent.external_url;
       /**
@@ -76,7 +68,7 @@ export const useProposal = (instructionsIndex: number) => {
       const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : undefined;
       const currentProposal = {
         id: instructionsIndex,
-        title: ethers.utils.parseBytes32String(metadata.title),
+        title: proposalContent.name,
         submitter: metadata.submitter,
         // NOTE(appleseed): multiply submissionTimestamp by 1000 to convert to JS Time from Unix Time
         submissionTimestamp: submissionTimestamp * 1000,
@@ -93,7 +85,7 @@ export const useProposal = (instructionsIndex: number) => {
       return currentProposal;
     },
     {
-      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes && !!proposalContent,
+      enabled: !!metadata && !!proposalState && !!endorsements && !!yesVotes && !!noVotes,
     },
   );
 
@@ -137,9 +129,10 @@ export const useSubmitProposal = () => {
   return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
     if (!signer) throw new Error(t`Signer is not set`);
 
+    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
     await contract.connect(signer).submitProposal(
       proposal.instructions,
-      ethers.utils.formatBytes32String(proposal.name),
+      ethers.utils.formatBytes32String(stringToBytes32String(proposal.name)),
       // TODO(appleseed): add back in name after contract update
       proposal.proposalURI,
     );
@@ -149,8 +142,8 @@ export const useSubmitProposal = () => {
 export const useIPFSUpload = () => {
   return useMutation<IPFSFileData | undefined, Error, { proposal: IProposalJson }>(
     async ({ proposal }: { proposal: IProposalJson }) => {
-      const files = makeJsonFile(proposal, "proposal.json");
-      const fileInfo = await uploadToIPFS(files);
+      const file = makeJsonFile(proposal, "proposal.json");
+      const fileInfo = await uploadToIPFS(file);
       console.log("after", fileInfo);
       return fileInfo;
     },
