@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.thegraph.com/subgraphs/id/QmWrvfZh9qXPV5oJWapWZsgnPDEQAys2sGL1DBkkV7FEnt"
+schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics"
 documents: "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
