@@ -443,7 +443,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -474,15 +474,13 @@ exports[`Give View Connected should render project card with Donate Yield Button
               <div
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
                   <p>
                     Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -560,13 +558,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
-                    </p>
-                    
-
-                  </div>
+                  Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
                 </p>
               </div>
               <div
@@ -620,7 +612,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     href="#/projects/impact-market"
                   >
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -685,13 +677,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Enables charities to create an endowment that makes better use of decentralized finance.
-                    </p>
-                    
-
-                  </div>
+                  Enables charities to create an endowment that makes better use of decentralized finance.
                 </p>
               </div>
               <div
@@ -745,7 +731,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     href="#/projects/angel-protocol"
                   >
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -810,13 +796,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
-                    </p>
-                    
-
-                  </div>
+                  Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
                 </p>
               </div>
               <div
@@ -870,7 +850,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     href="#/projects/gitcoin"
                   >
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -935,13 +915,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
-                    </p>
-                    
-
-                  </div>
+                  Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
                 </p>
               </div>
               <div
@@ -995,7 +969,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     href="#/projects/kolektivo"
                   >
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -1060,13 +1034,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 <p
                   class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
-                  <div>
-                    <p>
-                      DAO whose mission is to redirect funds to social impact orgs
-                    </p>
-                    
-
-                  </div>
+                  DAO whose mission is to redirect funds to social impact orgs
                 </p>
               </div>
               <div
@@ -1120,7 +1088,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     href="#/projects/popcorndao"
                   >
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
@@ -1219,7 +1187,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   class="MuiBox-root css-u4p24i"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                   >
                     Give
                   </p>
@@ -1442,13 +1410,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
-                                  </p>
-                                  
-
-                                </div>
+                                Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
                               </p>
                             </div>
                             <div
@@ -1502,7 +1464,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   href="#/projects/impact-market"
                                 >
                                   <button
-                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                                     tabindex="0"
                                     type="button"
                                   >
@@ -1567,13 +1529,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Enables charities to create an endowment that makes better use of decentralized finance.
-                                  </p>
-                                  
-
-                                </div>
+                                Enables charities to create an endowment that makes better use of decentralized finance.
                               </p>
                             </div>
                             <div
@@ -1627,7 +1583,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   href="#/projects/angel-protocol"
                                 >
                                   <button
-                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                                     tabindex="0"
                                     type="button"
                                   >
@@ -1692,13 +1648,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
-                                  </p>
-                                  
-
-                                </div>
+                                Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
                               </p>
                             </div>
                             <div
@@ -1752,7 +1702,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   href="#/projects/gitcoin"
                                 >
                                   <button
-                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                                     tabindex="0"
                                     type="button"
                                   >
@@ -1817,13 +1767,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
-                                  </p>
-                                  
-
-                                </div>
+                                Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
                               </p>
                             </div>
                             <div
@@ -1877,7 +1821,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   href="#/projects/kolektivo"
                                 >
                                   <button
-                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                                     tabindex="0"
                                     type="button"
                                   >
@@ -1942,13 +1886,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               <p
                                 class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                               >
-                                <div>
-                                  <p>
-                                    DAO whose mission is to redirect funds to social impact orgs
-                                  </p>
-                                  
-
-                                </div>
+                                DAO whose mission is to redirect funds to social impact orgs
                               </p>
                             </div>
                             <div
@@ -2002,7 +1940,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   href="#/projects/popcorndao"
                                 >
                                   <button
-                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                                     tabindex="0"
                                     type="button"
                                   >
@@ -2306,7 +2244,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                   class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-3 css-7uaub7-MuiGrid-root"
                 >
                   <a
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                     href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2417,7 +2355,7 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
             href="#/give"
           >
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-60u5o6-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-mwop3n-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -2870,7 +2808,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -2901,15 +2839,13 @@ exports[`Give View Disconnected should render project card with connect wallet b
               <div
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
                   <p>
                     Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>

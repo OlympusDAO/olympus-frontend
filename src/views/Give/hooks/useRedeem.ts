@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
@@ -9,9 +9,8 @@ import { useDynamicGiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { RedeemData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
-
-import { RedeemData } from "../Interfaces";
 
 /**
  * @notice Redeems all available yield
@@ -66,7 +65,7 @@ export const useRedeem = () => {
           redeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
-        keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         dispatch(createInfoToast(t`Successfully redeemed all available yield`));
       },

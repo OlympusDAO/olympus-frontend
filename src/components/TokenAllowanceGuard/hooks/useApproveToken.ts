@@ -1,6 +1,6 @@
 import { MaxUint256 } from "@ethersproject/constants";
 import { ContractReceipt } from "@ethersproject/contracts";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { AddressMap } from "src/constants/addresses";
 import { useDynamicTokenContract } from "src/hooks/useContract";
@@ -31,7 +31,7 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
       onError: error => void dispatch(createErrorToast(error.message)),
       onSuccess: async () => {
         dispatch(createInfoToast("Successfully approved"));
-        await client.refetchQueries(contractAllowanceQueryKey(address, chain.id, tokenAddressMap, spenderAddressMap));
+        await client.refetchQueries([contractAllowanceQueryKey(address, chain.id, tokenAddressMap, spenderAddressMap)]);
       },
     },
   );

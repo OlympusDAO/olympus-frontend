@@ -1,6 +1,5 @@
+import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { render } from "src/testUtils";
-
-import ProjectCard, { ProjectDetailsMode } from "../ProjectCard";
 
 describe("<ProjectCard/>", () => {
   const project = {

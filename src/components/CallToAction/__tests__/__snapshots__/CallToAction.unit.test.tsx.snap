@@ -34,7 +34,7 @@ exports[`<CallToAction/> should render component 1`] = `
                 class="actionable"
               >
                 <a
-                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-60u5o6-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-mwop3n-MuiButtonBase-root-MuiButton-root"
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   style="margin-right: 10.5px;"
                   tabindex="0"

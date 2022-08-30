@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import MigrationModal from "src/components/Migration/MigrationModal";
 import { trim } from "src/helpers";
 import accountReducer from "src/slices/AccountSlice";
 import appReducer from "src/slices/AppSlice";
 import pendingTransactionsReducer from "src/slices/PendingTxnsSlice";
-
-import { render, screen } from "../../../testUtils";
-import MigrationModal from "../MigrationModal";
+import { render, screen } from "src/testUtils";
 
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {

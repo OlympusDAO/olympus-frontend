@@ -51,7 +51,7 @@ export const StakeNextRebaseAmount = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
+  const props: PropsOf<typeof DataRow> = { title: t`Your Next Rebase` };
 
   if (rebaseRate && sohmBalances && totalGohmBalance && currentIndex) {
     const nextRewardAmount = rebaseRate * totalGohmBalance.mul(currentIndex).add(totalSohmBalance).toApproxNumber();

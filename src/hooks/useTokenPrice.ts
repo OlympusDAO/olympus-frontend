@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
@@ -17,5 +17,5 @@ export const tokenPriceQueryKey = (options: UseTokenPriceOptions) => [
 export const useTokenPrice = <TToken extends Token>(options: UseTokenPriceOptions<TToken>) => {
   const _networkId = options.networkId as NetworkId;
   const key = tokenPriceQueryKey({ token: options.token, networkId: _networkId });
-  return useQuery<DecimalBigNumber, Error>(key, () => options.token.getPrice(_networkId));
+  return useQuery<DecimalBigNumber, Error>([key], () => options.token.getPrice(_networkId));
 };

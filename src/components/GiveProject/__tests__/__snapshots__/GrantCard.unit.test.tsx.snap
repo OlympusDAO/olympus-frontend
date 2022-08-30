@@ -63,13 +63,7 @@ exports[`<GrantCard/> should render card 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
               style="line-height: 20px;"
             >
-              <div>
-                <p>
-                  A short description for the card
-                </p>
-                
-
-              </div>
+              A short description for the card
             </p>
           </div>
           <div
@@ -160,13 +154,7 @@ exports[`<GrantCard/> should render card without image 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
               style="line-height: 20px;"
             >
-              <div>
-                <p>
-                  A short description for the card
-                </p>
-                
-
-              </div>
+              A short description for the card
             </p>
           </div>
           <div
@@ -537,7 +525,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -559,13 +547,13 @@ exports[`<GrantCard/> should render page 1`] = `
                       >
                         Milestone 1: 100 sOHM
                       </h6>
-                      <div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      >
                         <p>
                           Achieve 1, Achieve B, Achieve Z
                         </p>
-                        
-
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -592,7 +580,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         About
                       </p>
@@ -623,15 +611,13 @@ exports[`<GrantCard/> should render page 1`] = `
                 <div
                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                 >
-                  <div
-                    class="project-content"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                   >
                     <p>
                       A longer description for the profile
                     </p>
-                    
-
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -992,7 +978,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1014,13 +1000,13 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       >
                         Milestone 1: 100 sOHM
                       </h6>
-                      <div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      >
                         <p>
                           Achieve 1, Achieve B, Achieve Z
                         </p>
-                        
-
-                      </div>
+                      </p>
                     </div>
                     <div>
                       <h6
@@ -1028,13 +1014,13 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       >
                         Milestone 2: 200 sOHM
                       </h6>
-                      <div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      >
                         <p>
                           Achieve 3, Achieve 4, Achieve 5
                         </p>
-                        
-
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1061,7 +1047,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1092,15 +1078,13 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                 <div
                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                 >
-                  <div
-                    class="project-content"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                   >
                     <p>
                       A longer description for the profile
                     </p>
-                    
-
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1445,7 +1429,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1467,13 +1451,13 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       >
                         Milestone 1: 100 sOHM
                       </h6>
-                      <div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      >
                         <p>
                           Achieve 1, Achieve B, Achieve Z
                         </p>
-                        
-
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1500,7 +1484,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1531,15 +1515,13 @@ exports[`<GrantCard/> should render page without image 1`] = `
                 <div
                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                 >
-                  <div
-                    class="project-content"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                   >
                     <p>
                       A longer description for the profile
                     </p>
-                    
-
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1889,7 +1871,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -1911,13 +1893,11 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       >
                         Milestone 1: 100 sOHM
                       </h6>
-                      <div>
-                        <p>
-                          No milestone information.
-                        </p>
-                        
-
-                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      >
+                        No milestone information.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1944,7 +1924,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         About
                       </p>
@@ -1975,15 +1955,13 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                 <div
                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                 >
-                  <div
-                    class="project-content"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                   >
                     <p>
                       A longer description for the profile
                     </p>
-                    
-
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -2310,7 +2288,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         Milestones
                       </p>
@@ -2346,7 +2324,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       class="MuiBox-root css-u4p24i"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                       >
                         About
                       </p>
@@ -2377,15 +2355,13 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                 <div
                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                 >
-                  <div
-                    class="project-content"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                   >
                     <p>
                       A longer description for the profile
                     </p>
-                    
-
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>

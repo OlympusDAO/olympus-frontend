@@ -6,7 +6,7 @@ import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 export const StakeRebaseYield = () => {
   const { data: rebaseRate } = useStakingRebaseRate();
 
-  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Yield` };
+  const props: PropsOf<typeof DataRow> = { title: t`Next Rebase Yield` };
 
   if (rebaseRate) props.balance = `${formatNumber(rebaseRate * 100, 4)}%`;
   else props.isLoading = true;

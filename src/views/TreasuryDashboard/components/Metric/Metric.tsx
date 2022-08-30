@@ -1,31 +1,36 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
-  useGOhmPrice,
+  useGOhmPrice as useGOhmPriceFromSubgraph,
   useMarketCap,
   useOhmCirculatingSupply,
   useOhmFloatingSupply,
-  useOHMPrice,
-  useTotalSupply,
+  useOhmPrice as useOhmPriceFromSubgraph,
+  useOhmTotalSupply,
   useTotalValueDeposited,
+  useTreasuryLiquidBackingPerGOhm,
   useTreasuryLiquidBackingPerOhmFloating,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 
+export type MetricSubgraphProps = {
+  subgraphUrl?: string;
+};
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
-export const MarketCap: React.FC<AbstractedMetricProps> = props => {
-  const { data: marketCap } = useMarketCap();
-
+export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: marketCap } = useMarketCap(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`Market Cap`,
-    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply.
+    label: t`OHM Market Cap`,
+    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
+    
+    As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
 
     Note: other sources may be inaccurate.`,
   };
@@ -44,6 +49,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
+    tooltip: t`This price is sourced from the subgraph, so will lag the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -55,8 +61,8 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
 /**
  * same as OHMPrice but uses Subgraph price
  */
-export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOHMPrice();
+export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: ohmPrice } = useOhmPriceFromSubgraph(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: "OHM " + t`Price`,
@@ -69,10 +75,10 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps> = props => {
 };
 
 /**
- * uses Subgraph price
+ * uses on-chain price
  */
 export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOHMPrice();
+  const { data: ohmPrice } = useOhmPrice();
 
   const _props: MetricProps = {
     ...props,
@@ -85,13 +91,12 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const CircSupply: React.FC<AbstractedMetricProps> = props => {
-  const { data: totalSupply } = useTotalSupply();
-  const { data: circSupply } = useOhmCirculatingSupply();
-
+export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: totalSupply } = useOhmTotalSupply(props.subgraphUrl);
+  const { data: circSupply } = useOhmCirculatingSupply(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`Circulating Supply (total)`,
+    label: t`OHM Circulating Supply / Total`,
     tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
   };
 
@@ -101,15 +106,27 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
-  const { data: floatingSupply } = useOhmFloatingSupply();
+export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
+  const _props: MetricProps = {
+    ...props,
+    label: t`gOHM Circulating Supply / Total`,
+    tooltip: t`gOHM supply is synthetically derived from OHM supply divided by the index.`,
+  };
+
+  _props.metric = `- / -`;
+
+  return <Metric {..._props} />;
+};
+
+export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: floatingSupply } = useOhmFloatingSupply(props.subgraphUrl);
   /**
    * Liquid backing per OHM floating is used as the metric here.
    * Liquid backing does not include OHM in protocol-owned liquidity,
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating();
+  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating(props.subgraphUrl);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
@@ -131,9 +148,25 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
-  const { data: currentIndex } = useCurrentIndex();
+export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhm(props.subgraphUrl);
 
+  const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Liquid Backing per gOHM`,
+    tooltip: tooltip,
+  };
+
+  if (liquidBackingPerGOhmCirculating) _props.metric = `${formatCurrency(liquidBackingPerGOhmCirculating, 2)}`;
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: currentIndex } = useCurrentIndex(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Current Index`,
@@ -147,10 +180,10 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
 };
 
 /**
- * uses Subgraph price
+ * uses contract price
  */
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: gOhmPrice } = useGOhmPrice();
+  const { data: gOhmPrice } = useGohmPrice();
 
   const _props: MetricProps = {
     ...props,
@@ -167,9 +200,25 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const TotalValueDeposited: React.FC<AbstractedMetricProps> = props => {
-  const { data: totalValueDeposited } = useTotalValueDeposited();
+export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: gOhmPrice } = useGOhmPriceFromSubgraph(props.subgraphUrl);
+  const _props: MetricProps = {
+    ...props,
+    label: "gOHM " + t`Price`,
+    tooltip:
+      "gOHM = sOHM * index" +
+      "\n\n" +
+      t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
+  };
 
+  if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: totalValueDeposited } = useTotalValueDeposited(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Total Value Deposited`,
@@ -183,10 +232,9 @@ export const TotalValueDeposited: React.FC<AbstractedMetricProps> = props => {
 
 export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
   const { data: rebaseRate } = useStakingRebaseRate();
-
   const _props: MetricProps = {
     ...props,
-    label: t`APY`,
+    label: t`Annualized Rebases`,
   };
 
   if (rebaseRate) {
@@ -199,9 +247,8 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
-export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
-  const { data: treasuryMarketValue } = useTreasuryMarketValue();
-
+export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
+  const { data: treasuryMarketValue } = useTreasuryMarketValue(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
     label: t`Treasury Balance`,

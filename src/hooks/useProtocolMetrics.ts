@@ -1,4 +1,6 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
+import { getSubgraphUrl } from "src/constants";
+import { useMetricsBarLatestOnlyQuery } from "src/generated/graphql";
 import apollo from "src/lib/apolloClient";
 
 const query = `
@@ -99,13 +101,20 @@ interface ProtocolMetrics {
   treasuryXsushiMarketValue: string;
 }
 
-type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
+export type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
 
 export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
+export const protocolMetricsLiquidBackingPerOhmQueryKey = () => ["useProtocolMetricsLiquidBackingPerOhm"];
 
+/**
+ *
+ * @deprecated This function is being phased out. Use a more specific react-query hook instead.
+ * @param select
+ * @returns
+ */
 export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
   return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
-    protocolMetricsQueryKey(),
+    [protocolMetricsQueryKey()],
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 
@@ -123,27 +132,111 @@ export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: Protoc
   );
 };
 
-export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marketCap);
-export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
-export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
-export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
-export const useTreasuryLiquidBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryLiquidBacking);
-export const useTreasuryLiquidBackingPerOhmFloating = () =>
-  useProtocolMetrics(metrics => metrics[0].treasuryLiquidBackingPerOhmFloating);
-export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
-export const useOhmFloatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmFloatingSupply);
+const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
+
+export const useMarketCap = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].marketCap, ...QUERY_OPTIONS },
+  );
+
+export const useOhmTotalSupply = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].totalSupply, ...QUERY_OPTIONS },
+  );
+
+export const useGOhmTotalSupply = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
+  );
+
+export const useTotalValueDeposited = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].totalValueLocked, ...QUERY_OPTIONS },
+  );
+
+export const useTreasuryMarketValue = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].treasuryMarketValue, ...QUERY_OPTIONS },
+  );
+
+export const useTreasuryLiquidBackingPerOhmFloating = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerOhmFloating, ...QUERY_OPTIONS },
+  );
+
+export const useTreasuryLiquidBackingPerGOhm = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].treasuryLiquidBackingPerGOhm, ...QUERY_OPTIONS },
+  );
+
+export const useOhmCirculatingSupply = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].ohmCirculatingSupply, ...QUERY_OPTIONS },
+  );
+
+export const useOhmFloatingSupply = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].ohmFloatingSupply, ...QUERY_OPTIONS },
+  );
 
 /**
- * @deprecated
- * Please avoid using this method unless you are intentionally trying to read from subgraph.
- * You should typically be using `useOhmPrice` from `src/hooks/usePrices.ts`... as subgraph has an indexing delay
+ * Returns the latest OHM price (in USD).
+ *
+ * This data is fetched from the subgraph, and will not reflect market rates.
+ * Do NOT use this if you need real-time data. Instead, use `useOhmPrice` from
+ * `src/hooks/usePrices.ts`.
+ *
+ * @returns
  */
-export const useOHMPrice = () => useProtocolMetrics(metrics => metrics[0].ohmPrice);
+export const useOhmPrice = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].ohmPrice, ...QUERY_OPTIONS },
+  );
 
 /**
- * @deprecated
- * Please avoid using this method unless you are intentionally trying to read from subgraph.
- * You should typically be using `useGohmPrice` from `src/hooks/usePrices.ts`... as subgraph has an indexing delay
+ * Returns the latest gOHM price (in USD).
+ *
+ * This data is fetched from the subgraph, and will not reflect market rates.
+ * Do NOT use this if you need real-time data. Instead, use `useGohmPrice` from
+ * `src/hooks/usePrices.ts`.
+ *
+ * @returns
  */
-export const useGOhmPrice = () => useProtocolMetrics(metrics => metrics[0].gOhmPrice);
-export const useCurrentIndex = () => useProtocolMetrics(metrics => metrics[0].currentIndex);
+export const useGOhmPrice = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].gOhmPrice, ...QUERY_OPTIONS },
+  );
+
+/**
+ * Determines the current index.
+ *
+ * @returns
+ */
+export const useCurrentIndex = (subgraphUrl?: string) =>
+  useMetricsBarLatestOnlyQuery(
+    { endpoint: subgraphUrl || getSubgraphUrl() },
+    {},
+    { select: data => data.protocolMetrics[0].currentIndex, ...QUERY_OPTIONS },
+  );

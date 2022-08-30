@@ -1,0 +1,19 @@
+overwrite: true
+schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics"
+documents: "src/graphql/queries.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      # - "typescript-react-apollo"
+      - "typescript-react-query"
+    config:
+      withHooks: true
+      preResolveTypes: true
+      scalars:
+        BigDecimal: number
+        BigInt: number
+    hooks:
+      afterOneFileWrite:
+        - yarn eslint --config ./.eslintrc.js --fix

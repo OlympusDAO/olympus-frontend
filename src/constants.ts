@@ -13,19 +13,13 @@ export const SUBGRAPH_URL_STAGING_STUB = "https://api.thegraph.com/subgraphs/id/
  *
  * @returns
  */
-export const getSubgraphUrl = () => {
-  /**
-   * window.location.search (where the query parameters normally are) can't be used,
-   * as the "#" in the URL causes everything to be included in window.location.hash.
-   */
-  const source = window.location.hash.split("?subgraphId=");
-  const subgraphId = source.length > 1 && source[1] ? source[1] : null;
-
+export const getSubgraphUrl = (subgraphId?: string) => {
   // If the "staging" parameter is specified, use the staging subgraph
   if (subgraphId) {
     console.info("Using subgraph with id " + subgraphId);
     return SUBGRAPH_URL_STAGING_STUB + subgraphId;
   } else {
+    console.info("Using production subgraph");
     return SUBGRAPH_URL;
   }
 };

@@ -1,10 +1,12 @@
 import { t } from "@lingui/macro";
-import { Box, Fade, Grid, Typography } from "@mui/material";
+import { Box, Fade, Grid, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
+import { ReactComponent as balancerIcon } from "src/assets/balancer.svg";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
+import { SupplyRatePerBlock } from "src/components/TopBar/Wallet/queries";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
@@ -12,11 +14,10 @@ import {
   beetsPools,
   convexPools,
   curvePools,
+  fraxPools,
   joePools,
   jonesPools,
-  spiritPools,
   sushiPools,
-  zipPools,
 } from "src/helpers/AllExternalPools";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -31,11 +32,10 @@ import {
   BeetsPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
+  FraxPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
-  SpiritPoolAPY,
   SushiPoolAPY,
-  ZipPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import {
   BalancerPoolTVL,
@@ -43,8 +43,6 @@ import {
   useStakePoolTVL,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useNetwork } from "wagmi";
-
-import { SupplyRatePerBlock } from "./queries";
 
 const PREFIX = "GetOhm";
 
@@ -99,6 +97,14 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
+        <Box mt="9px">
+          <GetOnButton
+            href={`https://app.balancer.fi/#/trade/`}
+            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
+            exchangeName="Balancer"
+          />
+        </Box>
+
         {NetworkId.MAINNET === chain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
@@ -147,14 +153,8 @@ const GetOhm: FC = () => {
         {joePools.map((pool, index) => (
           <JoePools key={index} pool={pool} />
         ))}
-        {spiritPools.map((pool, index) => (
-          <SpiritPools key={index} pool={pool} />
-        ))}
         {beetsPools.map((pool, index) => (
           <BeetsPools key={index} pool={pool} />
-        ))}
-        {zipPools.map((pool, index) => (
-          <ZipPools key={index} pool={pool} />
         ))}
         {jonesPools.map((pool, index) => (
           <JonesPools key={index} pool={pool} />
@@ -167,6 +167,9 @@ const GetOhm: FC = () => {
         ))}
         {convexPools.map((pool, index) => (
           <ConvexPools key={index} pool={pool} />
+        ))}
+        {fraxPools.map((pool, index) => (
+          <FraxPools key={index} pool={pool} />
         ))}
 
         <Typography variant="h6" className={classes.title}>
@@ -258,27 +261,15 @@ const JoePools: React.FC<{ pool: ExternalPool }> = props => {
   const { apy } = JoePoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
-const SpiritPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = SpiritPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
-};
+
 const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
   const { apy } = BeetsPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
-
-const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = ZipPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
-};
-
 const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JonesPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+  const { apy, tvl } = JonesPoolAPY(props.pool);
+  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
 };
 const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);
@@ -292,6 +283,10 @@ const CurvePools: React.FC<{ pool: ExternalPool }> = props => {
 };
 const ConvexPools: React.FC<{ pool: ExternalPool }> = props => {
   const { apy, tvl } = ConvexPoolAPY(props.pool);
+  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
+};
+const FraxPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { apy, tvl } = FraxPoolAPY(props.pool);
   return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
 };
 

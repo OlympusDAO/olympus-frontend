@@ -1,4 +1,4 @@
-import "./Give.scss";
+import "src/views/Give/Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
@@ -9,13 +9,12 @@ import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/Proj
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
+import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import data from "src/views/Give/projects.json";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { useAccount } from "wagmi";
-
-import { error } from "../../slices/MessagesSlice";
-import { useGive } from "./hooks/useGive";
-import data from "./projects.json";
 
 type CausesDashboardProps = {
   giveAssetType: string;
@@ -110,7 +109,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
-                <PrimaryButton fullWidth size="small" onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                <PrimaryButton fullWidth onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
                   <Trans>Select Custom Recipient</Trans>
                 </PrimaryButton>
               </Grid>

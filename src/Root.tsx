@@ -5,13 +5,12 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { FC, useEffect } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import App from "src/App";
+import { wagmiClient } from "src/hooks/wagmi";
+import { ReactQueryProvider } from "src/lib/react-query";
+import { initLocale } from "src/locales";
+import store from "src/store";
 import { WagmiConfig } from "wagmi";
-
-import App from "./App";
-import { wagmiClient } from "./hooks/wagmi";
-import { ReactQueryProvider } from "./lib/react-query";
-import { initLocale } from "./locales";
-import store from "./store";
 
 const Root: FC = () => {
   useEffect(() => {

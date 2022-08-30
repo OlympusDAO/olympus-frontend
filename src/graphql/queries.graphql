@@ -1,0 +1,125 @@
+query MetricsBarLatestOnly {
+  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    currentIndex
+    gOhmPrice
+    gOhmTotalSupply
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
+    totalSupply
+    totalValueLocked
+    treasuryLiquidBackingPerGOhm
+    treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
+  }
+}
+
+query KeyMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    currentIndex
+    gOhmPrice
+    gOhmTotalSupply
+    marketCap
+    ohmCirculatingSupply
+    ohmFloatingSupply
+    ohmPrice
+    timestamp
+    timestampISO8901
+    totalSupply
+    totalValueLocked
+    treasuryLiquidBacking
+    treasuryLiquidBackingPerGOhm
+    treasuryLiquidBackingPerOhmFloating
+    treasuryMarketValue
+  }
+}
+
+query MarketValueMetrics($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryMarketValue
+    treasuryStableValue
+    treasuryVolatileValue
+    treasuryLPValue
+    treasuryLiquidBacking
+    treasuryLiquidBackingStable
+    treasuryLiquidBackingVolatile
+    treasuryLiquidBackingProtocolOwnedLiquidity
+  }
+}
+
+query MarketValueMetricsComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryStableValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryVolatileValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLPValueComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLiquidBackingStableComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLiquidBackingVolatileComponents {
+      records {
+        token
+        value
+      }
+    }
+    treasuryLiquidBackingProtocolOwnedLiquidityComponents {
+      records {
+        token
+        value
+      }
+    }
+  }
+}
+
+query ProtocolOwnedLiquidityComponents($records: Int = 100) {
+  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+    id
+    block
+    timestamp
+    timestampISO8901
+    treasuryLPValueComponents {
+      value
+      records {
+        id
+        token
+        tokenAddress
+        source
+        sourceAddress
+        balance
+        rate
+        multiplier
+        value
+      }
+    }
+  }
+}

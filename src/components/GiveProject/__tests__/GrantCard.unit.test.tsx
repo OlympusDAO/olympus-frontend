@@ -1,6 +1,5 @@
+import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { render } from "src/testUtils";
-
-import GrantCard, { GrantDetailsMode } from "../GrantCard";
 
 describe("<GrantCard/>", () => {
   const grant = {

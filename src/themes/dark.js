@@ -1,10 +1,9 @@
 import { switchClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import { darkPalette as colors } from "./darkPalette";
-import fonts from "./fonts";
-import commonSettings from "./global.js";
+import { darkPalette as colors } from "src/themes/darkPalette";
+import fonts from "src/themes/fonts";
+import commonSettings from "src/themes/global.js";
 
 export const dark = responsiveFontSizes(
   createTheme(
@@ -48,7 +47,7 @@ export const dark = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background-color:${colors.gray[700]};
+              background-color:${colors.gray[600]};
             }
             `,
           },
@@ -124,8 +123,16 @@ export const dark = responsiveFontSizes(
             styleOverrides: {
               root: {
                 ".MuiPaper-root": {
-                  background: colors.paper.background,
+                  background: colors.gray[700],
                 },
+              },
+            },
+          },
+          MuiDrawer: {
+            styleOverrides: {
+              paper: {
+                backgroundColor: colors.gray[700],
+                zIndex: 7,
               },
             },
           },

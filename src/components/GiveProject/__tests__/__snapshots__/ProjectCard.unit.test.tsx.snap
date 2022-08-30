@@ -58,13 +58,7 @@ exports[`<ProjectCard/> should render card 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
           >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
+            A short description for the card
           </p>
         </div>
         <div
@@ -145,7 +139,7 @@ exports[`<ProjectCard/> should render card 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -213,13 +207,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
           >
-            <div>
-              <p>
-                A short description for the card
-              </p>
-              
-
-            </div>
+            A short description for the card
           </p>
         </div>
         <div
@@ -300,7 +288,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-ouiggg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1j77ta-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -751,7 +739,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -782,15 +770,13 @@ exports[`<ProjectCard/> should render page 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -1237,7 +1223,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -1268,15 +1254,13 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>
@@ -1718,7 +1702,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     class="MuiBox-root css-u4p24i"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                     >
                       About
                     </p>
@@ -1749,15 +1733,13 @@ exports[`<ProjectCard/> should render page without image 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
-                <div
-                  class="project-content"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 project-content css-haqq9q-MuiTypography-root"
                 >
                   <p>
                     A longer description for the profile
                   </p>
-                  
-
-                </div>
+                </p>
               </div>
             </div>
           </div>

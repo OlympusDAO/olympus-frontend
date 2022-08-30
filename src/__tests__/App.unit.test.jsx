@@ -3,10 +3,9 @@ import "src/helpers/index";
 import * as EthersContract from "@ethersproject/contracts";
 import { BigNumber } from "ethers";
 import App from "src/App";
-import { connectWallet, disconnectedWallet } from "src/testHelpers";
+import { connectWallet, createMatchMedia, disconnectedWallet } from "src/testHelpers";
+import { act, render, renderRoute, screen } from "src/testUtils";
 import * as Contract from "src/typechain";
-
-import { act, render, renderRoute, screen } from "../testUtils";
 
 jest.mock("src/helpers/index", () => ({
   ...jest.requireActual("src/helpers/index"),
@@ -39,9 +38,6 @@ describe("<App/>", () => {
     });
     const errorMessage = await screen.queryByText("Please check your Wallet UI for connection errors");
     expect(errorMessage).toBeNull(); // expect its not found
-    await act(async () => {
-      jest.runAllTimers();
-    });
   });
   it("should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet", async () => {
     connectWallet();
@@ -114,6 +110,17 @@ describe("Staging Notification Checks", () => {
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     connectWallet();
     render(<App />);
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "264px" });
+    expect(
+      screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
+    ).toBeInTheDocument();
+  });
+  it("Should display no left Margin on Mobile", async () => {
+    connectWallet();
+    window.matchMedia = createMatchMedia("300px");
+    render(<App />);
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "0px" });
+
     expect(
       screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
     ).toBeInTheDocument();

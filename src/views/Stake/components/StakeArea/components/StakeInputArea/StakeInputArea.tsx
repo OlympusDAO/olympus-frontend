@@ -8,10 +8,9 @@ import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
-
-import { GOHMConversion } from "./components/GOHMConversion";
-import { useStakeToken } from "./hooks/useStakeToken";
-import { useUnstakeToken } from "./hooks/useUnstakeToken";
+import { GOHMConversion } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/GOHMConversion";
+import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
+import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
 
 const PREFIX = "StakeInputArea";
 
@@ -82,13 +81,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   return (
     <StyledBox mb={3}>
-      {currentAction === "UNSTAKE" && liveInverseBonds && (
-        <InfoNotification>
-          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
-          &nbsp;
-          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
-        </InfoNotification>
-      )}
       <Tabs
         centered
         textColor="primary"
@@ -105,7 +97,13 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
         <Tab aria-label="unstake-button" label={t`Unstake`} />
       </Tabs>
-
+      {currentAction === "UNSTAKE" && liveInverseBonds && (
+        <InfoNotification>
+          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+          &nbsp;
+          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+        </InfoNotification>
+      )}
       <Box my={2}>
         <TokenAllowanceGuard
           tokenAddressMap={addresses}

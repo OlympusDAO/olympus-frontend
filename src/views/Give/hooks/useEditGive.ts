@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import gOHM from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
@@ -11,9 +11,8 @@ import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { EditGiveData } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { EditGiveData } from "../Interfaces";
 
 /**
  * @notice Increases the value of an active donation
@@ -77,7 +76,7 @@ export const useIncreaseGive = () => {
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully increased sOHM deposit`));
@@ -162,7 +161,7 @@ export const useDecreaseGive = () => {
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully decreased sOHM deposit`));

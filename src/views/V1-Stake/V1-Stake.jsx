@@ -1,5 +1,5 @@
-import "../Stake/Stake.scss";
-import "./V1-Stake.scss";
+import "src/views/Stake/Stake.scss";
+import "src/views/V1-Stake/V1-Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ExpandMore } from "@mui/icons-material";
@@ -26,18 +26,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { trim } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { error } from "src/slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { changeApproval, changeStake } from "src/slices/StakeThunk";
+import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
+import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { useAccount, useNetwork, useProvider } from "wagmi";
-
-import { trim } from "../../helpers";
-import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
-import { useGohmBalance, useSohmBalance } from "../../hooks/useBalance";
-import { useTestableNetworks } from "../../hooks/useTestableNetworks";
-import { error } from "../../slices/MessagesSlice";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import { ExternalStakePools } from "../Stake/components/ExternalStakePools/ExternalStakePools";
-import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
 function V1Stake({ setMigrationModalOpen }) {
   const dispatch = useDispatch();
@@ -191,7 +190,7 @@ function V1Stake({ setMigrationModalOpen }) {
             <MetricCollection>
               <Metric
                 className="stake-apy"
-                label={`${t`APY`} (v1)`}
+                label={`${t`Annualized Rebases`} (v1)`}
                 metric={`${formattedTrimmedStakingAPY}%`}
                 isLoading={stakingAPY ? false : true}
               />
@@ -395,14 +394,14 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-                  <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
+                  <DataRow title={t`Your Next Rebase`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
-                    title={t`Next Reward Yield`}
+                    title={t`Next Rebase Yield`}
                     balance={`${stakingRebasePercentage}%`}
                     isLoading={isAppLoading}
                   />
                   <DataRow
-                    title={t`ROI (5-Day Rate)`}
+                    title={t`Rebases (5-Day Rate)`}
                     balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                     isLoading={isAppLoading}
                   />

@@ -15,10 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Token } from "@olympusdao/component-library";
+import { ReactComponent as XIcon } from "src/assets/icons/x.svg";
 import { trim } from "src/helpers";
 import { ZapperToken } from "src/hooks/useZapTokenBalances";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SelectTokenModal(
   handleClose: () => void,
@@ -26,7 +25,6 @@ function SelectTokenModal(
   isTokensLoading: boolean,
 
   handleSelectToken: { (token: string): void },
-  zapperCredit: JSX.Element,
   tokens: {
     regularTokens?: { [key: string]: ZapperToken };
     output?: boolean;
@@ -80,7 +78,7 @@ function SelectTokenModal(
                   .map(token => (
                     <ListItem button onClick={() => handleSelectToken(token[0])} key={token[1].symbol}>
                       <ListItemAvatar>
-                        <Avatar src={token[1].tokenImageUrl} />
+                        <Avatar src={token[1].displayProps.images[0]} />
                       </ListItemAvatar>
                       <ListItemText primary={token[1].symbol} />
                       <Box flexGrow={10} />
@@ -110,7 +108,6 @@ function SelectTokenModal(
             </List>
           </Paper>
         )}
-        {zapperCredit}
       </Box>
     </Dialog>
   );

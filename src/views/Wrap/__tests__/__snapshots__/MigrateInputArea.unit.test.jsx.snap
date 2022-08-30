@@ -31,7 +31,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1v1in9t-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
                 >
                   Wrap / Unwrap
                 </p>
@@ -106,7 +106,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -157,7 +157,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -208,7 +208,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-152iexv-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span

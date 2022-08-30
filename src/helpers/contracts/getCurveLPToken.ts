@@ -1,12 +1,11 @@
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
+import { Token } from "src/helpers/contracts/Token";
+import { calculateCurveLPValue } from "src/helpers/pricing/calculateCurveLPValue";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { NetworkId } from "src/networkDetails";
 import { CurveFactory__factory, CurvePool__factory } from "src/typechain";
 import { CurveToken__factory } from "src/typechain/factories/CurveToken__factory";
-
-import { calculateCurveLPValue } from "../pricing/calculateCurveLPValue";
-import { Providers } from "../providers/Providers/Providers";
-import { nonNullable } from "../types/nonNullable";
-import { getTokenByAddress } from "./getTokenByAddress";
-import { Token } from "./Token";
 
 /**
  * Returns a `Token` given the address of a Curve token contract
@@ -16,7 +15,7 @@ import { Token } from "./Token";
  * - 0x6ec38b3228251a0C5D491Faf66858e2E23d7728B (OHM/ETH pool contract)
  */
 export const getCurveLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
 
   try {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
