@@ -141,7 +141,7 @@ export const useSubmitProposal = () => {
       proposal.instructions,
       ethers.utils.formatBytes32String(proposal.name),
       // TODO(appleseed): add back in name after contract update
-      // proposal.proposalURI,
+      proposal.proposalURI,
     );
   });
 };

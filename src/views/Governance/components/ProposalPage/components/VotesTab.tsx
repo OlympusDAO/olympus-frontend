@@ -44,7 +44,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   }));
 
   const handleVoteSubmission = () => {
-    submitVote.mutate({ voteData: { instructionsId: BigNumber.from(proposal.id), vote: vote === "yes" } });
+    submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
   };
 
   return (

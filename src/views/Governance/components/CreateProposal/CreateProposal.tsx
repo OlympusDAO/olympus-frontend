@@ -42,8 +42,8 @@ export const CreateProposal = () => {
           >
             <option value={ProposalAction.InstallModule}>Install Module</option>
             <option value={ProposalAction.UpgradeModule}>Upgrade Module</option>
-            <option value={ProposalAction.ApprovePolicy}>Approve Policy</option>
-            <option value={ProposalAction.TerminatePolicy}>Terminate Policy</option>
+            <option value={ProposalAction.ActivatePolicy}>Approve Policy</option>
+            <option value={ProposalAction.DeactivatePolicy}>Terminate Policy</option>
             <option value={ProposalAction.ChangeExecutor}>Change Executor</option>
           </Select>
         </Box>

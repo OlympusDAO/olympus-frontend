@@ -7,12 +7,12 @@ import { error as createErrorToast, info as createInfoToast } from "src/slices/M
 import { useNetwork, useSigner } from "wagmi";
 
 interface Vote {
-  instructionsId: BigNumber;
+  proposalId: BigNumber;
   vote: boolean;
 }
 
 interface ActivatedProposal {
-  instructionsId: BigNumber;
+  proposalId: BigNumber;
   activationTimestamp: BigNumber;
 }
 
@@ -62,10 +62,9 @@ export const useVote = () => {
       if (!signer) throw new Error("No signer connected, cannot endorse");
 
       const activeProposal: ActivatedProposal = await contract.activeProposal();
-      const activeProposalId = activeProposal.instructionsId;
+      const activeProposalId = activeProposal.proposalId;
 
-      if (!voteData.instructionsId.eq(activeProposalId))
-        throw new Error(t`You can only vote for the activated proposal`);
+      if (!voteData.proposalId.eq(activeProposalId)) throw new Error(t`You can only vote for the activated proposal`);
 
       const transaction = await contract.connect(signer).vote(voteData.vote);
       return transaction.wait();

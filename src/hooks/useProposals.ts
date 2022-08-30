@@ -11,8 +11,8 @@ import { useNetwork } from "wagmi";
 export enum ProposalAction {
   InstallModule,
   UpgradeModule,
-  ApprovePolicy,
-  TerminatePolicy,
+  ActivatePolicy,
+  DeactivatePolicy,
   ChangeExecutor,
 }
 
@@ -240,7 +240,7 @@ export const useActiveProposal = () => {
     const unixTimeRemaining = timeRemaining({ state: "active", submissionTimestamp: activationTimestamp });
     const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : 0;
     return {
-      instructionsId: parseBigNumber(activeProposal.instructionsId, 0),
+      instructionsId: parseBigNumber(activeProposal.proposalId, 0),
       activationTimestamp,
       timeRemaining: jsTimeRemaining,
     };
