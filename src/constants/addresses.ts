@@ -147,3 +147,18 @@ export const BALANCER_VAULT_ADDRESSSES = {
 export const DEV_FAUCET = {
   [NetworkId.TESTNET_GOERLI]: "0x405940141AeE885347ef4C47d933eF4cA6A674D8",
 };
+
+export const GOVERNANCE_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xf1c6848e7b7bc93401262cdeab40dcbaf92e16ac",
+};
+
+export const GOV_INSTRUCTIONS_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xa8810f94ABe49Ffe0AA49a1c30930a40C450f288",
+};
+
+export const VOTE_ISSUER_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "0x65e44BEaf20bc8BED9643Bf996A59d478db1090b",
+};

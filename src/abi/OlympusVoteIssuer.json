@@ -1,0 +1,82 @@
+{
+  "abi": [
+    {
+      "inputs": [{ "internalType": "contract Kernel", "name": "kernel_", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [{ "internalType": "Keycode", "name": "keycode_", "type": "bytes5" }],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
+      "name": "Policy_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "Role", "name": "role_", "type": "bytes32" }],
+      "name": "Policy_OnlyRole",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "VOTES",
+      "outputs": [{ "internalType": "contract DefaultVotes", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "wallet_", "type": "address" },
+        { "internalType": "uint256", "name": "amt_", "type": "uint256" }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [{ "internalType": "Keycode[]", "name": "dependencies", "type": "bytes5[]" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "wallet_", "type": "address" },
+        { "internalType": "uint256", "name": "amt_", "type": "uint256" }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "Keycode", "name": "keycode", "type": "bytes5" },
+            { "internalType": "bytes4", "name": "funcSelector", "type": "bytes4" }
+          ],
+          "internalType": "struct Permissions[]",
+          "name": "requests",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

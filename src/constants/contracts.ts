@@ -7,11 +7,14 @@ import {
   FUSE_POOL_18_ADDRESSES,
   FUSE_POOL_36_ADDRESSES,
   GIVE_ADDRESSES,
+  GOV_INSTRUCTIONS_ADDRESSES,
+  GOVERNANCE_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OLD_GIVE_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   PT_PRIZE_POOL_ADDRESSES,
   STAKING_ADDRESSES,
+  VOTE_ISSUER_ADDRESSES,
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
 import { Contract } from "src/helpers/contracts/Contract";
@@ -23,8 +26,11 @@ import {
   FuseProxy__factory,
   OlympusGiving__factory,
   OlympusGivingOld__factory,
+  OlympusGovernance__factory,
+  OlympusGovInstructions__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
+  OlympusVoteIssuer__factory,
   PrizePool__factory,
   Zap__factory,
 } from "src/typechain";
@@ -112,4 +118,22 @@ export const OLD_GIVE_CONTRACT = new Contract({
   factory: OlympusGivingOld__factory,
   name: "Olympus Give Contract V1",
   addresses: OLD_GIVE_ADDRESSES,
+});
+
+export const GOVERNANCE_CONTRACT = new Contract({
+  factory: OlympusGovernance__factory,
+  name: "Olympus Governance",
+  addresses: GOVERNANCE_ADDRESSES,
+});
+
+export const GOV_INSTRUCTIONS_CONTRACT = new Contract({
+  factory: OlympusGovInstructions__factory,
+  name: "Olympus Governance Instructions",
+  addresses: GOV_INSTRUCTIONS_ADDRESSES,
+});
+
+export const VOTE_ISSUER_CONTRACT = new Contract({
+  factory: OlympusVoteIssuer__factory,
+  name: "Olympus Vote Issuer",
+  addresses: VOTE_ISSUER_ADDRESSES,
 });

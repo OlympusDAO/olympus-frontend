@@ -15,6 +15,8 @@ beforeAll(() => {
   i18n.activate("en");
 });
 
+jest.mock("web3.storage", () => jest.fn());
+
 /**
 afterEach(() => {
 });

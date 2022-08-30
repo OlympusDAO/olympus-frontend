@@ -231,6 +231,9 @@ const commonSettings = {
     MuiTab: {
       styleOverrides: {
         root: {
+          "&.MuiTab-root": {
+            fontSize: "15px",
+          },
           minWidth: "min-content !important",
           padding: "0px",
           margin: "0px 10px",

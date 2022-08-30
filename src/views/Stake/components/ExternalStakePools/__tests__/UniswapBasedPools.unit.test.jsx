@@ -3,7 +3,7 @@ import * as helpers from "src/helpers";
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { render, screen } from "src/testUtils";
-import Stake from "src/views/Stake/Stake";
+import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
 jest.mock("src/hooks/usePrices");
 jest.mock("src/hooks/useContract");
 
@@ -23,9 +23,14 @@ describe("Uniswap Based Farm Pool", () => {
       balanceOf: jest.fn().mockReturnValue(BigNumber.from("0xb76e0e83cbaa98e9ed")),
     });
     helpers.getTokenPrice = jest.fn().mockReturnValue(87.39);
+    render(<ExternalStakePools />);
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
   });
   it("should display the correct TVL", async () => {
-    render(<Stake />);
-    expect(await screen.findByText("$26,248,739")).toBeInTheDocument();
+    //This covers hook interactions and proper rounding on the presentation layer.
+    const waitforText = await screen.findAllByText("$26,248,739");
+    expect(waitforText[0]).toBeInTheDocument();
   });
 });

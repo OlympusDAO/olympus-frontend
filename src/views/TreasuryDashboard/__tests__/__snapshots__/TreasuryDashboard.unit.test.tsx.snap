@@ -345,7 +345,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?recordCount=7"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -357,7 +357,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?recordCount=30"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -369,7 +369,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?recordCount=90"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -381,7 +381,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?recordCount=1000"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -407,7 +407,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?token=OHM"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -419,7 +419,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                   href="#/dashboard?token=gOHM"
                 >
                   <button
-                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -587,7 +587,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             href="#/dashboard?treasuryAssets=marketValue"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -599,7 +599,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             href="#/dashboard?treasuryAssets=liquidBacking"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-14yp8hr-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jgx692-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
