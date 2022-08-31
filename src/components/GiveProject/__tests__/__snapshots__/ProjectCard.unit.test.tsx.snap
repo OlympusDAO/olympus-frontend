@@ -115,7 +115,7 @@ exports[`<ProjectCard/> should render card 1`] = `
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                    class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary ProjectCard-progress MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                     style="transform: translateX(-100%);"
                   />
                 </span>
@@ -139,7 +139,7 @@ exports[`<ProjectCard/> should render card 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -264,7 +264,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                    class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary ProjectCard-progress MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                     style="transform: translateX(-100%);"
                   />
                 </span>
@@ -288,7 +288,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
               href="#/projects/project-1"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -690,7 +690,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                 role="progressbar"
                               >
                                 <span
-                                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary ProjectCard-progress MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                   style="transform: translateX(-100%);"
                                 />
                               </span>
@@ -701,7 +701,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1174,7 +1174,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                 role="progressbar"
                               >
                                 <span
-                                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary ProjectCard-progress MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                   style="transform: translateX(-100%);"
                                 />
                               </span>
@@ -1185,7 +1185,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1653,7 +1653,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                 role="progressbar"
                               >
                                 <span
-                                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary ProjectCard-progress MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                   style="transform: translateX(-100%);"
                                 />
                               </span>
@@ -1664,7 +1664,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                         >
                           <button
-                            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >

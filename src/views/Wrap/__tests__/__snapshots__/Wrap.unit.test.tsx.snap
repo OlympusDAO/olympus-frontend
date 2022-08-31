@@ -237,13 +237,13 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select-first"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select-first"
                       role="button"
                       tabindex="0"
@@ -283,14 +283,14 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                     data-testid="second-asset-select"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -387,7 +387,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -411,7 +411,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -965,7 +965,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                   style=""
                 >
                   <button
-                    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -1223,13 +1223,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -1269,13 +1269,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -1372,7 +1372,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                 Back to Ethereum Mainnet
               </h6>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-8nixbj-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation css-8nixbj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -1674,13 +1674,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -1720,13 +1720,13 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -1823,7 +1823,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                 Back to Ethereum Mainnet
               </h6>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-8nixbj-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation css-8nixbj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >

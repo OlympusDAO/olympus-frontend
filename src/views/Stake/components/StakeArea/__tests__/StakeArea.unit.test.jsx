@@ -4,9 +4,11 @@ import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useAppro
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
+import * as Prices from "src/hooks/usePrices";
 import { connectWallet } from "src/testHelpers";
-import { act, fireEvent, render, screen, waitFor } from "src/testUtils";
+import { act, fireEvent, render, screen } from "src/testUtils";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
+import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
 import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
 
@@ -43,11 +45,10 @@ describe("<StakeArea/> Connected no Approval", () => {
     expect(await screen.findByText("Approve Unstaking")).toBeInTheDocument();
   });
   it("should successfully complete the contract approval", async () => {
-    approval.mockReturnValue({ data: { confirmations: 100 } });
     expect(screen.getByText("Approve Staking")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Approve Staking"));
     useContractAllowance.mockReturnValue({ data: BigNumber.from(100) });
-    act(async () => render(<StakeArea />));
+    await act(async () => render(<StakeArea />));
     expect(screen.getAllByText("Stake")[1]).toBeInTheDocument();
   });
 });
@@ -64,20 +65,24 @@ describe("<StakeArea/> Connected with Approval", () => {
     Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
+    //@ts-expect-error
+    Prices.useGohmPrice = jest.fn().mockReturnValue({ data: "120.56786330999999" });
+    //@ts-expect-error
+    Prices.useOhmPrice = jest.fn().mockReturnValue({ data: "12.056786331" });
 
     render(
       <>
         <Messages />
-        <StakeArea />
+        <StakeInputArea />
       </>,
     );
   });
   it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
-    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
     fireEvent.click(await screen.getAllByText("sOHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByTestId("gOHM-select"));
-    await waitFor(async () => expect(await screen.findByTestId("staked-input")).toHaveValue(0.2));
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
+    expect(await screen.findByTestId("staked-input")).toHaveValue(0.2);
   });
 
   it("gOHM conversion should appear correctly when Staking ETH to gOHM", async () => {
@@ -85,7 +90,8 @@ describe("<StakeArea/> Connected with Approval", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.getAllByText("ETH")[0]);
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
-    await waitFor(async () => expect(await screen.findByText("Zap-Stake")).toBeInTheDocument(), { timeout: 5000 });
+    expect(await screen.findByTestId("staked-input")).toHaveValue(225.44780386553904);
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
   });

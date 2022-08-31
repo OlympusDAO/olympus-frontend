@@ -36,8 +36,6 @@ const ZapTransactionDetails: FC<OHMZapTransactionDetailsProps> = ({
   const ohmMarketPrice = useOhmPrice();
   const gOhmMarketPrice = useGohmPrice();
 
-  console.log(ohmMarketPrice.data, "ohmMarketPrice");
-  console.log(gOhmMarketPrice.data, "gohm market price");
   // TODO use DecimalBigNumber
   const exchangeRate: number | null = useMemo(() => {
     if (
@@ -56,7 +54,6 @@ const ZapTransactionDetails: FC<OHMZapTransactionDetailsProps> = ({
     }
   }, [outputGOHM, ohmMarketPrice, gOhmMarketPrice, swapTokenBalance]);
 
-  console.log(exchangeRate, "echangeRate");
   const outputQuantity = exchangeRate ? (+inputQuantity / exchangeRate).toString() : "";
   // Number(outputQuantity) * (1 - +customSlippage / 100)
   const minimumAmount: DecimalBigNumber = useMemo(() => {

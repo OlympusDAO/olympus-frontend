@@ -10,6 +10,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
+import { EthersError } from "src/lib/EthersTypes";
 import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
 import { Zap__factory } from "src/typechain/factories/Zap__factory";
@@ -46,7 +47,7 @@ export const useZapExecute = () => {
   const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
 
-  return useMutation<ContractReceipt, Error, ZapExecuteOptions>(
+  return useMutation<ContractReceipt, EthersError, ZapExecuteOptions>(
     /**
      * Ideally the parameters to this async function should be the slippage, etc.
      * However the `mutationFn` parameter to `useMutation` accepts a function with
@@ -135,7 +136,7 @@ export const useZapExecute = () => {
         } else if (e.message.indexOf("TRANSFER_AMOUNT_EXCEEDS_BALANCE") > 0) {
           dispatch(error(t`Insufficient balance.`));
         } else {
-          dispatch(error(e.message));
+          dispatch(error("error" in e ? e.error.message : e.message));
         }
 
         /**

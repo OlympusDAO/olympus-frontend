@@ -1,17 +1,17 @@
 import { BigNumber } from "ethers";
+import { NetworkId } from "src/constants";
 import {
-  BOND_DEPOSITORY_CONTRACT,
-  FIATDAO_WSOHM_CONTRACT,
-  FUSE_POOL_6_CONTRACT,
-  FUSE_POOL_18_CONTRACT,
-  FUSE_POOL_36_CONTRACT,
-  MIGRATOR_CONTRACT,
-  PT_PRIZE_POOL_CONTRACT,
-  STAKING_CONTRACT,
-  ZAP_CONTRACT,
-} from "src/constants/contracts";
+  BOND_DEPOSITORY_ADDRESSES,
+  FIATDAO_WSOHM_ADDRESSES,
+  FUSE_POOL_6_ADDRESSES,
+  FUSE_POOL_18_ADDRESSES,
+  FUSE_POOL_36_ADDRESSES,
+  MIGRATOR_ADDRESSES,
+  PT_PRIZE_POOL_ADDRESSES,
+  STAKING_ADDRESSES,
+  ZAP_ADDRESSES,
+} from "src/constants/addresses";
 import { OHM_TOKEN } from "src/constants/tokens";
-import { Contract } from "src/helpers/contracts/Contract";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
@@ -25,8 +25,8 @@ export interface Transaction {
   transaction: CovalentTransaction;
 }
 
-const isContract = (contract: Contract | Token, address: string) =>
-  Object.values(contract.addresses)
+const isContract = (contractAddresses: Partial<Record<NetworkId, string>> | Token, address: string) =>
+  Object.values(contractAddresses)
     .map(address => address.toLowerCase())
     .includes(address.toLowerCase());
 
@@ -38,7 +38,7 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
     assert(transaction.log_events, "Transactions w/o logs are ignored");
     const [first, second] = transaction.log_events;
 
-    if (isContract(BOND_DEPOSITORY_CONTRACT, transaction.to_address)) {
+    if (isContract(BOND_DEPOSITORY_ADDRESSES, transaction.to_address)) {
       if (first.decoded.params[1].value.toLowerCase() === address.toLowerCase())
         results.push({
           token: OHM_TOKEN,
@@ -57,8 +57,8 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
         });
     }
 
-    if (isContract(STAKING_CONTRACT, transaction.to_address)) {
-      if (isContract(STAKING_CONTRACT, first.decoded.params[0].value) && isContract(OHM_TOKEN, first.sender_address))
+    if (isContract(STAKING_ADDRESSES, transaction.to_address)) {
+      if (isContract(STAKING_ADDRESSES, first.decoded.params[0].value) && isContract(OHM_TOKEN, first.sender_address))
         results.push({
           token: OHM_TOKEN,
           transaction,
@@ -76,7 +76,7 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
         });
     }
 
-    if (isContract(ZAP_CONTRACT, transaction.to_address))
+    if (isContract(ZAP_ADDRESSES, transaction.to_address))
       results.push({
         token: OHM_TOKEN,
         transaction,
@@ -85,7 +85,7 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
         value: new DecimalBigNumber(BigNumber.from(second.decoded.params[2].value), second.sender_contract_decimals),
       });
 
-    if (isContract(MIGRATOR_CONTRACT, transaction.to_address))
+    if (isContract(MIGRATOR_ADDRESSES, transaction.to_address))
       results.push({
         token: OHM_TOKEN,
         transaction,
@@ -94,7 +94,7 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
         value: new DecimalBigNumber(BigNumber.from(first.decoded.params[2].value), first.sender_contract_decimals),
       });
 
-    if (isContract(PT_PRIZE_POOL_CONTRACT, transaction.to_address))
+    if (isContract(PT_PRIZE_POOL_ADDRESSES, transaction.to_address))
       results.push({
         token: OHM_TOKEN,
         transaction,
@@ -103,13 +103,13 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
         value: new DecimalBigNumber(BigNumber.from(second.decoded.params[2].value), second.sender_contract_decimals),
       });
 
-    if (isContract(FUSE_POOL_36_CONTRACT, transaction.to_address)) {
+    if (isContract(FUSE_POOL_36_ADDRESSES, transaction.to_address)) {
       const event = transaction.log_events.filter((event: { decoded: { name: string }; sender_address: string }) => {
         return (
           event.decoded.name == "Transfer" &&
-          isContract(FUSE_POOL_36_CONTRACT, event.sender_address) &&
-          isContract(FUSE_POOL_18_CONTRACT, event.sender_address) &&
-          isContract(FUSE_POOL_6_CONTRACT, event.sender_address)
+          isContract(FUSE_POOL_36_ADDRESSES, event.sender_address) &&
+          isContract(FUSE_POOL_18_ADDRESSES, event.sender_address) &&
+          isContract(FUSE_POOL_6_ADDRESSES, event.sender_address)
         );
       });
 
@@ -125,8 +125,8 @@ export const interpretTransaction = (transactions: CovalentTransaction[], addres
       });
     }
 
-    if (isContract(FIATDAO_WSOHM_CONTRACT, transaction.to_address)) {
-      if (isContract(FIATDAO_WSOHM_CONTRACT, first.sender_address))
+    if (isContract(FIATDAO_WSOHM_ADDRESSES, transaction.to_address)) {
+      if (isContract(FIATDAO_WSOHM_ADDRESSES, first.sender_address))
         results.push({
           token: OHM_TOKEN,
           transaction,

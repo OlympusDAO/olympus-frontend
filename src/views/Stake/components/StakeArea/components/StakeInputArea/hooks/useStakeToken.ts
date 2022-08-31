@@ -8,6 +8,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount } from "wagmi";
 
@@ -19,7 +20,7 @@ export const useStakeToken = () => {
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, { amount: string; toToken: string }>({
+  return useMutation<ContractReceipt, EthersError, { amount: string; toToken: string }>({
     onMutate: async ({ amount, toToken }) => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
@@ -43,7 +44,7 @@ export const useStakeToken = () => {
       return transaction.wait();
     },
     onError: error => {
-      dispatch(createErrorToast(error.message));
+      dispatch(createErrorToast("error" in error ? error.error.message : error.message));
     },
     onSuccess: async (tx, data) => {
       trackGAEvent({
