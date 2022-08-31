@@ -6,7 +6,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import * as Prices from "src/hooks/usePrices";
 import { connectWallet } from "src/testHelpers";
-import { act, fireEvent, render, screen } from "src/testUtils";
+import { act, fireEvent, render, screen, waitFor } from "src/testUtils";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
 import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
@@ -82,7 +82,7 @@ describe("<StakeArea/> Connected with Approval", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByTestId("gOHM-select"));
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
-    expect(await screen.findByTestId("staked-input")).toHaveValue(0.2);
+    await waitFor(async () => expect(await screen.findByTestId("staked-input")).toHaveValue(0.2), { timeout: 5000 });
   });
 
   it("gOHM conversion should appear correctly when Staking ETH to gOHM", async () => {
@@ -90,7 +90,9 @@ describe("<StakeArea/> Connected with Approval", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.getAllByText("ETH")[0]);
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
-    expect(await screen.findByTestId("staked-input")).toHaveValue(225.44780386553904);
+    await waitFor(async () => expect(await screen.findByTestId("staked-input")).toHaveValue(225.44780386553904), {
+      timeout: 5000,
+    });
     expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
