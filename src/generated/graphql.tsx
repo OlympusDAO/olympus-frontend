@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useInfiniteQuery, UseInfiniteQueryOptions, useQuery, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -286,96 +286,17 @@ export type ProtocolMetric = {
   block: Scalars["BigInt"];
   currentAPY: Scalars["BigDecimal"];
   currentIndex: Scalars["BigDecimal"];
+  date: Scalars["String"];
   gOhmPrice: Scalars["BigDecimal"];
   gOhmTotalSupply: Scalars["BigDecimal"];
   id: Scalars["ID"];
-  marketCap: Scalars["BigDecimal"];
   nextDistributedOhm: Scalars["BigDecimal"];
   nextEpochRebase: Scalars["BigDecimal"];
-  ohmCirculatingSupply: Scalars["BigDecimal"];
-  ohmCirculatingSupplyBreakdown: TokenRecords;
-  ohmFloatingSupply: Scalars["BigDecimal"];
-  ohmFloatingSupplyBreakdown: TokenRecords;
   ohmPrice: Scalars["BigDecimal"];
-  runway2dot5k?: Maybe<Scalars["BigDecimal"]>;
-  runway5k?: Maybe<Scalars["BigDecimal"]>;
-  runway7dot5k?: Maybe<Scalars["BigDecimal"]>;
-  runway10k?: Maybe<Scalars["BigDecimal"]>;
-  runway20k?: Maybe<Scalars["BigDecimal"]>;
-  runway50k?: Maybe<Scalars["BigDecimal"]>;
-  runway70k?: Maybe<Scalars["BigDecimal"]>;
-  runway100k?: Maybe<Scalars["BigDecimal"]>;
-  runwayCurrent?: Maybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply: Scalars["BigDecimal"];
   sOhmCirculatingSupply: Scalars["BigDecimal"];
   timestamp: Scalars["BigInt"];
-  timestampISO8901: Scalars["String"];
-  totalSupply: Scalars["BigDecimal"];
   totalValueLocked: Scalars["BigDecimal"];
-  treasuryCVXMarketValue: Scalars["BigDecimal"];
-  treasuryCVXMarketValueComponents: TokenRecords;
-  treasuryDaiMarketValue: Scalars["BigDecimal"];
-  treasuryDaiMarketValueComponents: TokenRecords;
-  treasuryDaiRiskFreeValue: Scalars["BigDecimal"];
-  treasuryDaiRiskFreeValueComponents: TokenRecords;
-  treasuryFXSMarketValue: Scalars["BigDecimal"];
-  treasuryFXSMarketValueComponents: TokenRecords;
-  treasuryFeiMarketValue: Scalars["BigDecimal"];
-  treasuryFeiMarketValueComponents: TokenRecords;
-  treasuryFeiRiskFreeValue: Scalars["BigDecimal"];
-  treasuryFeiRiskFreeValueComponents: TokenRecords;
-  treasuryFraxMarketValue: Scalars["BigDecimal"];
-  treasuryFraxMarketValueComponents: TokenRecords;
-  treasuryFraxRiskFreeValue: Scalars["BigDecimal"];
-  treasuryFraxRiskFreeValueComponents: TokenRecords;
-  treasuryLPValue: Scalars["BigDecimal"];
-  treasuryLPValueComponents: TokenRecords;
-  treasuryLiquidBacking: Scalars["BigDecimal"];
-  treasuryLiquidBackingComponents: TokenRecords;
-  treasuryLiquidBackingPerGOhm: Scalars["BigDecimal"];
-  treasuryLiquidBackingPerOhmCirculating: Scalars["BigDecimal"];
-  treasuryLiquidBackingPerOhmFloating: Scalars["BigDecimal"];
-  treasuryLiquidBackingProtocolOwnedLiquidity: Scalars["BigDecimal"];
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents: TokenRecords;
-  treasuryLiquidBackingStable: Scalars["BigDecimal"];
-  treasuryLiquidBackingStableComponents: TokenRecords;
-  treasuryLiquidBackingVolatile: Scalars["BigDecimal"];
-  treasuryLiquidBackingVolatileComponents: TokenRecords;
-  treasuryLusdMarketValue: Scalars["BigDecimal"];
-  treasuryLusdMarketValueComponents: TokenRecords;
-  treasuryLusdRiskFreeValue: Scalars["BigDecimal"];
-  treasuryLusdRiskFreeValueComponents: TokenRecords;
-  treasuryMarketValue: Scalars["BigDecimal"];
-  treasuryMarketValueComponents: TokenRecords;
-  treasuryOhmDaiPOL: Scalars["BigDecimal"];
-  treasuryOhmEthPOL: Scalars["BigDecimal"];
-  treasuryOhmFraxPOL: Scalars["BigDecimal"];
-  treasuryOhmLusdPOL: Scalars["BigDecimal"];
-  treasuryOtherMarketValue: Scalars["BigDecimal"];
-  treasuryOtherMarketValueComponents: TokenRecords;
-  treasuryProtocolOwnedLiquidityBacking: Scalars["BigDecimal"];
-  treasuryProtocolOwnedLiquidityBackingComponents: TokenRecords;
-  treasuryRiskFreeValue: Scalars["BigDecimal"];
-  treasuryRiskFreeValueComponents: TokenRecords;
-  treasuryStableBacking: Scalars["BigDecimal"];
-  treasuryStableBackingComponents: TokenRecords;
-  treasuryStableValue: Scalars["BigDecimal"];
-  treasuryStableValueComponents: TokenRecords;
-  treasuryTotalBacking: Scalars["BigDecimal"];
-  treasuryTotalBackingComponents: TokenRecords;
-  treasuryUstMarketValue: Scalars["BigDecimal"];
-  treasuryUstMarketValueComponents: TokenRecords;
-  treasuryVolatileBacking: Scalars["BigDecimal"];
-  treasuryVolatileBackingComponents: TokenRecords;
-  treasuryVolatileValue: Scalars["BigDecimal"];
-  treasuryVolatileValueComponents: TokenRecords;
-  treasuryWBTCMarketValue: Scalars["BigDecimal"];
-  treasuryWBTCMarketValueComponents: TokenRecords;
-  treasuryWETHMarketValue: Scalars["BigDecimal"];
-  treasuryWETHMarketValueComponents: TokenRecords;
-  treasuryWETHRiskFreeValue: Scalars["BigDecimal"];
-  treasuryWETHRiskFreeValueComponents: TokenRecords;
-  treasuryXsushiMarketValue: Scalars["BigDecimal"];
-  treasuryXsushiMarketValueComponents: TokenRecords;
 };
 
 export type ProtocolMetric_Filter = {
@@ -405,6 +326,26 @@ export type ProtocolMetric_Filter = {
   currentIndex_lte?: InputMaybe<Scalars["BigDecimal"]>;
   currentIndex_not?: InputMaybe<Scalars["BigDecimal"]>;
   currentIndex_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  date?: InputMaybe<Scalars["String"]>;
+  date_contains?: InputMaybe<Scalars["String"]>;
+  date_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_ends_with?: InputMaybe<Scalars["String"]>;
+  date_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_gt?: InputMaybe<Scalars["String"]>;
+  date_gte?: InputMaybe<Scalars["String"]>;
+  date_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_lt?: InputMaybe<Scalars["String"]>;
+  date_lte?: InputMaybe<Scalars["String"]>;
+  date_not?: InputMaybe<Scalars["String"]>;
+  date_not_contains?: InputMaybe<Scalars["String"]>;
+  date_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_not_starts_with?: InputMaybe<Scalars["String"]>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_starts_with?: InputMaybe<Scalars["String"]>;
+  date_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   gOhmPrice?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_gt?: InputMaybe<Scalars["BigDecimal"]>;
   gOhmPrice_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -429,14 +370,6 @@ export type ProtocolMetric_Filter = {
   id_lte?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_not_in?: InputMaybe<Array<Scalars["ID"]>>;
-  marketCap?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  marketCap_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_not?: InputMaybe<Scalars["BigDecimal"]>;
-  marketCap_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   nextDistributedOhm?: InputMaybe<Scalars["BigDecimal"]>;
   nextDistributedOhm_gt?: InputMaybe<Scalars["BigDecimal"]>;
   nextDistributedOhm_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -453,64 +386,6 @@ export type ProtocolMetric_Filter = {
   nextEpochRebase_lte?: InputMaybe<Scalars["BigDecimal"]>;
   nextEpochRebase_not?: InputMaybe<Scalars["BigDecimal"]>;
   nextEpochRebase_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  ohmCirculatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupplyBreakdown?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_?: InputMaybe<TokenRecords_Filter>;
-  ohmCirculatingSupplyBreakdown_contains?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_contains_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_ends_with?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_gt?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_gte?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_in?: InputMaybe<Array<Scalars["String"]>>;
-  ohmCirculatingSupplyBreakdown_lt?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_lte?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_contains?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_ends_with?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  ohmCirculatingSupplyBreakdown_not_starts_with?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_starts_with?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupplyBreakdown_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmCirculatingSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  ohmCirculatingSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmCirculatingSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  ohmFloatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupplyBreakdown?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_?: InputMaybe<TokenRecords_Filter>;
-  ohmFloatingSupplyBreakdown_contains?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_contains_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_ends_with?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_gt?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_gte?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_in?: InputMaybe<Array<Scalars["String"]>>;
-  ohmFloatingSupplyBreakdown_lt?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_lte?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_contains?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_ends_with?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  ohmFloatingSupplyBreakdown_not_starts_with?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_starts_with?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupplyBreakdown_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  ohmFloatingSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  ohmFloatingSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
-  ohmFloatingSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   ohmPrice?: InputMaybe<Scalars["BigDecimal"]>;
   ohmPrice_gt?: InputMaybe<Scalars["BigDecimal"]>;
   ohmPrice_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -519,78 +394,14 @@ export type ProtocolMetric_Filter = {
   ohmPrice_lte?: InputMaybe<Scalars["BigDecimal"]>;
   ohmPrice_not?: InputMaybe<Scalars["BigDecimal"]>;
   ohmPrice_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway2dot5k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway2dot5k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway2dot5k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway5k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway5k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway5k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway7dot5k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway7dot5k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway7dot5k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway10k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway10k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway10k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway20k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway20k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway20k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway50k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway50k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway50k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway70k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway70k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway70k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway100k?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runway100k_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runway100k_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runwayCurrent?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  runwayCurrent_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_not?: InputMaybe<Scalars["BigDecimal"]>;
-  runwayCurrent_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  ohmTotalSupply?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  ohmTotalSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
+  ohmTotalSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   sOhmCirculatingSupply?: InputMaybe<Scalars["BigDecimal"]>;
   sOhmCirculatingSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
   sOhmCirculatingSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -600,26 +411,6 @@ export type ProtocolMetric_Filter = {
   sOhmCirculatingSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
   sOhmCirculatingSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   timestamp?: InputMaybe<Scalars["BigInt"]>;
-  timestampISO8901?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_contains?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_contains_nocase?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_ends_with?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_gt?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_gte?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_in?: InputMaybe<Array<Scalars["String"]>>;
-  timestampISO8901_lt?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_lte?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_contains?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_ends_with?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  timestampISO8901_not_starts_with?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_starts_with?: InputMaybe<Scalars["String"]>;
-  timestampISO8901_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   timestamp_gt?: InputMaybe<Scalars["BigInt"]>;
   timestamp_gte?: InputMaybe<Scalars["BigInt"]>;
   timestamp_in?: InputMaybe<Array<Scalars["BigInt"]>>;
@@ -627,14 +418,6 @@ export type ProtocolMetric_Filter = {
   timestamp_lte?: InputMaybe<Scalars["BigInt"]>;
   timestamp_not?: InputMaybe<Scalars["BigInt"]>;
   timestamp_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
-  totalSupply?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  totalSupply_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_not?: InputMaybe<Scalars["BigDecimal"]>;
-  totalSupply_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   totalValueLocked?: InputMaybe<Scalars["BigDecimal"]>;
   totalValueLocked_gt?: InputMaybe<Scalars["BigDecimal"]>;
   totalValueLocked_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -643,999 +426,23 @@ export type ProtocolMetric_Filter = {
   totalValueLocked_lte?: InputMaybe<Scalars["BigDecimal"]>;
   totalValueLocked_not?: InputMaybe<Scalars["BigDecimal"]>;
   totalValueLocked_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryCVXMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryCVXMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryCVXMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryCVXMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryCVXMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryCVXMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryCVXMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryDaiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryDaiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryDaiMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryDaiMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryDaiMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryDaiRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryDaiRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryDaiRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryDaiRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryDaiRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryDaiRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryDaiRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFXSMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryFXSMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFXSMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFXSMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFXSMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFXSMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFXSMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFeiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryFeiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFeiMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFeiMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFeiMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFeiRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryFeiRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFeiRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFeiRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFeiRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFeiRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFeiRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFraxMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryFraxMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFraxMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFraxMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFraxMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFraxRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryFraxRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFraxRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryFraxRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryFraxRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryFraxRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryFraxRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLPValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLPValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLPValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLPValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLPValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLPValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLPValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLPValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBacking?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLiquidBackingComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingPerGOhm?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingPerGOhm_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerGOhm_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingPerOhmCirculating?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingPerOhmCirculating_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmCirculating_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingPerOhmFloating?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingPerOhmFloating_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingPerOhmFloating_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingProtocolOwnedLiquidity?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidityComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingProtocolOwnedLiquidity_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingStable?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStableComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLiquidBackingStableComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingStableComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingStableComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStableComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingStable_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStable_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStable_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingStable_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStable_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStable_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingStable_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingVolatile?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatileComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLiquidBackingVolatileComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingVolatileComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLiquidBackingVolatileComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatileComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLiquidBackingVolatile_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatile_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatile_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBackingVolatile_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatile_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatile_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBackingVolatile_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLiquidBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLiquidBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLusdMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLusdMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLusdMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLusdMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLusdMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLusdRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryLusdRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLusdRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryLusdRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryLusdRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryLusdRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryLusdRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmDaiPOL?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmDaiPOL_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmDaiPOL_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmEthPOL?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmEthPOL_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmEthPOL_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmFraxPOL?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmFraxPOL_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmFraxPOL_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmLusdPOL?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOhmLusdPOL_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOhmLusdPOL_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOtherMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryOtherMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryOtherMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryOtherMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryOtherMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryOtherMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryOtherMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryProtocolOwnedLiquidityBacking?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryProtocolOwnedLiquidityBackingComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryProtocolOwnedLiquidityBackingComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryProtocolOwnedLiquidityBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryProtocolOwnedLiquidityBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryProtocolOwnedLiquidityBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryStableBacking?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryStableBackingComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryStableBackingComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryStableBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryStableBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryStableValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryStableValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryStableValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryStableValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryStableValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryStableValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryStableValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryStableValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryTotalBacking?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryTotalBackingComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryTotalBackingComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryTotalBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryTotalBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryTotalBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryTotalBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryUstMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryUstMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryUstMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryUstMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryUstMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryUstMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryUstMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryVolatileBacking?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBackingComponents?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryVolatileBackingComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryVolatileBackingComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryVolatileBackingComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBackingComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileBacking_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBacking_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBacking_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryVolatileBacking_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBacking_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBacking_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileBacking_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryVolatileValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryVolatileValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryVolatileValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryVolatileValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryVolatileValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryVolatileValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryVolatileValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWBTCMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryWBTCMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWBTCMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWBTCMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWBTCMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWBTCMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWBTCMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWETHMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryWETHMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWETHMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWETHMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWETHMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWETHRiskFreeValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryWETHRiskFreeValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWETHRiskFreeValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryWETHRiskFreeValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryWETHRiskFreeValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryWETHRiskFreeValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryWETHRiskFreeValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryXsushiMarketValue?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValueComponents?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_?: InputMaybe<TokenRecords_Filter>;
-  treasuryXsushiMarketValueComponents_contains?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_gt?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_gte?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryXsushiMarketValueComponents_lt?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_lte?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_contains?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_contains_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_ends_with?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_in?: InputMaybe<Array<Scalars["String"]>>;
-  treasuryXsushiMarketValueComponents_not_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_starts_with?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValueComponents_starts_with_nocase?: InputMaybe<Scalars["String"]>;
-  treasuryXsushiMarketValue_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValue_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValue_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  treasuryXsushiMarketValue_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValue_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValue_not?: InputMaybe<Scalars["BigDecimal"]>;
-  treasuryXsushiMarketValue_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
 };
 
 export enum ProtocolMetric_OrderBy {
   Block = "block",
   CurrentApy = "currentAPY",
   CurrentIndex = "currentIndex",
+  Date = "date",
   GOhmPrice = "gOhmPrice",
   GOhmTotalSupply = "gOhmTotalSupply",
   Id = "id",
-  MarketCap = "marketCap",
   NextDistributedOhm = "nextDistributedOhm",
   NextEpochRebase = "nextEpochRebase",
-  OhmCirculatingSupply = "ohmCirculatingSupply",
-  OhmCirculatingSupplyBreakdown = "ohmCirculatingSupplyBreakdown",
-  OhmFloatingSupply = "ohmFloatingSupply",
-  OhmFloatingSupplyBreakdown = "ohmFloatingSupplyBreakdown",
   OhmPrice = "ohmPrice",
-  Runway2dot5k = "runway2dot5k",
-  Runway5k = "runway5k",
-  Runway7dot5k = "runway7dot5k",
-  Runway10k = "runway10k",
-  Runway20k = "runway20k",
-  Runway50k = "runway50k",
-  Runway70k = "runway70k",
-  Runway100k = "runway100k",
-  RunwayCurrent = "runwayCurrent",
+  OhmTotalSupply = "ohmTotalSupply",
   SOhmCirculatingSupply = "sOhmCirculatingSupply",
   Timestamp = "timestamp",
-  TimestampIso8901 = "timestampISO8901",
-  TotalSupply = "totalSupply",
   TotalValueLocked = "totalValueLocked",
-  TreasuryCvxMarketValue = "treasuryCVXMarketValue",
-  TreasuryCvxMarketValueComponents = "treasuryCVXMarketValueComponents",
-  TreasuryDaiMarketValue = "treasuryDaiMarketValue",
-  TreasuryDaiMarketValueComponents = "treasuryDaiMarketValueComponents",
-  TreasuryDaiRiskFreeValue = "treasuryDaiRiskFreeValue",
-  TreasuryDaiRiskFreeValueComponents = "treasuryDaiRiskFreeValueComponents",
-  TreasuryFxsMarketValue = "treasuryFXSMarketValue",
-  TreasuryFxsMarketValueComponents = "treasuryFXSMarketValueComponents",
-  TreasuryFeiMarketValue = "treasuryFeiMarketValue",
-  TreasuryFeiMarketValueComponents = "treasuryFeiMarketValueComponents",
-  TreasuryFeiRiskFreeValue = "treasuryFeiRiskFreeValue",
-  TreasuryFeiRiskFreeValueComponents = "treasuryFeiRiskFreeValueComponents",
-  TreasuryFraxMarketValue = "treasuryFraxMarketValue",
-  TreasuryFraxMarketValueComponents = "treasuryFraxMarketValueComponents",
-  TreasuryFraxRiskFreeValue = "treasuryFraxRiskFreeValue",
-  TreasuryFraxRiskFreeValueComponents = "treasuryFraxRiskFreeValueComponents",
-  TreasuryLpValue = "treasuryLPValue",
-  TreasuryLpValueComponents = "treasuryLPValueComponents",
-  TreasuryLiquidBacking = "treasuryLiquidBacking",
-  TreasuryLiquidBackingComponents = "treasuryLiquidBackingComponents",
-  TreasuryLiquidBackingPerGOhm = "treasuryLiquidBackingPerGOhm",
-  TreasuryLiquidBackingPerOhmCirculating = "treasuryLiquidBackingPerOhmCirculating",
-  TreasuryLiquidBackingPerOhmFloating = "treasuryLiquidBackingPerOhmFloating",
-  TreasuryLiquidBackingProtocolOwnedLiquidity = "treasuryLiquidBackingProtocolOwnedLiquidity",
-  TreasuryLiquidBackingProtocolOwnedLiquidityComponents = "treasuryLiquidBackingProtocolOwnedLiquidityComponents",
-  TreasuryLiquidBackingStable = "treasuryLiquidBackingStable",
-  TreasuryLiquidBackingStableComponents = "treasuryLiquidBackingStableComponents",
-  TreasuryLiquidBackingVolatile = "treasuryLiquidBackingVolatile",
-  TreasuryLiquidBackingVolatileComponents = "treasuryLiquidBackingVolatileComponents",
-  TreasuryLusdMarketValue = "treasuryLusdMarketValue",
-  TreasuryLusdMarketValueComponents = "treasuryLusdMarketValueComponents",
-  TreasuryLusdRiskFreeValue = "treasuryLusdRiskFreeValue",
-  TreasuryLusdRiskFreeValueComponents = "treasuryLusdRiskFreeValueComponents",
-  TreasuryMarketValue = "treasuryMarketValue",
-  TreasuryMarketValueComponents = "treasuryMarketValueComponents",
-  TreasuryOhmDaiPol = "treasuryOhmDaiPOL",
-  TreasuryOhmEthPol = "treasuryOhmEthPOL",
-  TreasuryOhmFraxPol = "treasuryOhmFraxPOL",
-  TreasuryOhmLusdPol = "treasuryOhmLusdPOL",
-  TreasuryOtherMarketValue = "treasuryOtherMarketValue",
-  TreasuryOtherMarketValueComponents = "treasuryOtherMarketValueComponents",
-  TreasuryProtocolOwnedLiquidityBacking = "treasuryProtocolOwnedLiquidityBacking",
-  TreasuryProtocolOwnedLiquidityBackingComponents = "treasuryProtocolOwnedLiquidityBackingComponents",
-  TreasuryRiskFreeValue = "treasuryRiskFreeValue",
-  TreasuryRiskFreeValueComponents = "treasuryRiskFreeValueComponents",
-  TreasuryStableBacking = "treasuryStableBacking",
-  TreasuryStableBackingComponents = "treasuryStableBackingComponents",
-  TreasuryStableValue = "treasuryStableValue",
-  TreasuryStableValueComponents = "treasuryStableValueComponents",
-  TreasuryTotalBacking = "treasuryTotalBacking",
-  TreasuryTotalBackingComponents = "treasuryTotalBackingComponents",
-  TreasuryUstMarketValue = "treasuryUstMarketValue",
-  TreasuryUstMarketValueComponents = "treasuryUstMarketValueComponents",
-  TreasuryVolatileBacking = "treasuryVolatileBacking",
-  TreasuryVolatileBackingComponents = "treasuryVolatileBackingComponents",
-  TreasuryVolatileValue = "treasuryVolatileValue",
-  TreasuryVolatileValueComponents = "treasuryVolatileValueComponents",
-  TreasuryWbtcMarketValue = "treasuryWBTCMarketValue",
-  TreasuryWbtcMarketValueComponents = "treasuryWBTCMarketValueComponents",
-  TreasuryWethMarketValue = "treasuryWETHMarketValue",
-  TreasuryWethMarketValueComponents = "treasuryWETHMarketValueComponents",
-  TreasuryWethRiskFreeValue = "treasuryWETHRiskFreeValue",
-  TreasuryWethRiskFreeValueComponents = "treasuryWETHRiskFreeValueComponents",
-  TreasuryXsushiMarketValue = "treasuryXsushiMarketValue",
-  TreasuryXsushiMarketValueComponents = "treasuryXsushiMarketValueComponents",
 }
 
 export type Query = {
@@ -1654,7 +461,9 @@ export type Query = {
   rebases: Array<Rebase>;
   token?: Maybe<Token>;
   tokenRecord?: Maybe<TokenRecord>;
-  tokenRecords: Array<TokenRecords>;
+  tokenRecords: Array<TokenRecord>;
+  tokenSupplies: Array<TokenSupply>;
+  tokenSupply?: Maybe<TokenSupply>;
   tokens: Array<Token>;
 };
 
@@ -1757,11 +566,27 @@ export type QueryTokenRecordArgs = {
 export type QueryTokenRecordsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TokenRecords_OrderBy>;
+  orderBy?: InputMaybe<TokenRecord_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars["Int"]>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<TokenRecords_Filter>;
+  where?: InputMaybe<TokenRecord_Filter>;
+};
+
+export type QueryTokenSuppliesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<TokenSupply_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<TokenSupply_Filter>;
+};
+
+export type QueryTokenSupplyArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars["ID"];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryTokensArgs = {
@@ -1884,7 +709,9 @@ export type Subscription = {
   rebases: Array<Rebase>;
   token?: Maybe<Token>;
   tokenRecord?: Maybe<TokenRecord>;
-  tokenRecords: Array<TokenRecords>;
+  tokenRecords: Array<TokenRecord>;
+  tokenSupplies: Array<TokenSupply>;
+  tokenSupply?: Maybe<TokenSupply>;
   tokens: Array<Token>;
 };
 
@@ -1987,11 +814,27 @@ export type SubscriptionTokenRecordArgs = {
 export type SubscriptionTokenRecordsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TokenRecords_OrderBy>;
+  orderBy?: InputMaybe<TokenRecord_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars["Int"]>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<TokenRecords_Filter>;
+  where?: InputMaybe<TokenRecord_Filter>;
+};
+
+export type SubscriptionTokenSuppliesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<TokenSupply_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<TokenSupply_Filter>;
+};
+
+export type SubscriptionTokenSupplyArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars["ID"];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionTokensArgs = {
@@ -2012,14 +855,21 @@ export type Token = {
 export type TokenRecord = {
   __typename?: "TokenRecord";
   balance: Scalars["BigDecimal"];
+  block: Scalars["BigInt"];
+  category: Scalars["String"];
+  date: Scalars["String"];
   id: Scalars["ID"];
+  isBluechip: Scalars["Boolean"];
+  isLiquid: Scalars["Boolean"];
   multiplier: Scalars["BigDecimal"];
   rate: Scalars["BigDecimal"];
   source: Scalars["String"];
   sourceAddress: Scalars["String"];
+  timestamp: Scalars["BigInt"];
   token: Scalars["String"];
   tokenAddress: Scalars["String"];
   value: Scalars["BigDecimal"];
+  valueExcludingOhm: Scalars["BigDecimal"];
 };
 
 export type TokenRecord_Filter = {
@@ -2033,6 +883,54 @@ export type TokenRecord_Filter = {
   balance_lte?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  block?: InputMaybe<Scalars["BigInt"]>;
+  block_gt?: InputMaybe<Scalars["BigInt"]>;
+  block_gte?: InputMaybe<Scalars["BigInt"]>;
+  block_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  block_lt?: InputMaybe<Scalars["BigInt"]>;
+  block_lte?: InputMaybe<Scalars["BigInt"]>;
+  block_not?: InputMaybe<Scalars["BigInt"]>;
+  block_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  category?: InputMaybe<Scalars["String"]>;
+  category_contains?: InputMaybe<Scalars["String"]>;
+  category_contains_nocase?: InputMaybe<Scalars["String"]>;
+  category_ends_with?: InputMaybe<Scalars["String"]>;
+  category_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_gt?: InputMaybe<Scalars["String"]>;
+  category_gte?: InputMaybe<Scalars["String"]>;
+  category_in?: InputMaybe<Array<Scalars["String"]>>;
+  category_lt?: InputMaybe<Scalars["String"]>;
+  category_lte?: InputMaybe<Scalars["String"]>;
+  category_not?: InputMaybe<Scalars["String"]>;
+  category_not_contains?: InputMaybe<Scalars["String"]>;
+  category_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  category_not_ends_with?: InputMaybe<Scalars["String"]>;
+  category_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  category_not_starts_with?: InputMaybe<Scalars["String"]>;
+  category_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  category_starts_with?: InputMaybe<Scalars["String"]>;
+  category_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date?: InputMaybe<Scalars["String"]>;
+  date_contains?: InputMaybe<Scalars["String"]>;
+  date_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_ends_with?: InputMaybe<Scalars["String"]>;
+  date_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_gt?: InputMaybe<Scalars["String"]>;
+  date_gte?: InputMaybe<Scalars["String"]>;
+  date_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_lt?: InputMaybe<Scalars["String"]>;
+  date_lte?: InputMaybe<Scalars["String"]>;
+  date_not?: InputMaybe<Scalars["String"]>;
+  date_not_contains?: InputMaybe<Scalars["String"]>;
+  date_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_not_starts_with?: InputMaybe<Scalars["String"]>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_starts_with?: InputMaybe<Scalars["String"]>;
+  date_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
   id_gte?: InputMaybe<Scalars["ID"]>;
@@ -2041,6 +939,14 @@ export type TokenRecord_Filter = {
   id_lte?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_not_in?: InputMaybe<Array<Scalars["ID"]>>;
+  isBluechip?: InputMaybe<Scalars["Boolean"]>;
+  isBluechip_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isBluechip_not?: InputMaybe<Scalars["Boolean"]>;
+  isBluechip_not_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isLiquid?: InputMaybe<Scalars["Boolean"]>;
+  isLiquid_in?: InputMaybe<Array<Scalars["Boolean"]>>;
+  isLiquid_not?: InputMaybe<Scalars["Boolean"]>;
+  isLiquid_not_in?: InputMaybe<Array<Scalars["Boolean"]>>;
   multiplier?: InputMaybe<Scalars["BigDecimal"]>;
   multiplier_gt?: InputMaybe<Scalars["BigDecimal"]>;
   multiplier_gte?: InputMaybe<Scalars["BigDecimal"]>;
@@ -2097,6 +1003,14 @@ export type TokenRecord_Filter = {
   source_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   source_starts_with?: InputMaybe<Scalars["String"]>;
   source_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  timestamp?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_gt?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_gte?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  timestamp_lt?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_lte?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_not?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
   token?: InputMaybe<Scalars["String"]>;
   tokenAddress?: InputMaybe<Scalars["String"]>;
   tokenAddress_contains?: InputMaybe<Scalars["String"]>;
@@ -2138,6 +1052,14 @@ export type TokenRecord_Filter = {
   token_starts_with?: InputMaybe<Scalars["String"]>;
   token_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   value?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  valueExcludingOhm_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_not?: InputMaybe<Scalars["BigDecimal"]>;
+  valueExcludingOhm_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   value_gt?: InputMaybe<Scalars["BigDecimal"]>;
   value_gte?: InputMaybe<Scalars["BigDecimal"]>;
   value_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
@@ -2149,33 +1071,41 @@ export type TokenRecord_Filter = {
 
 export enum TokenRecord_OrderBy {
   Balance = "balance",
+  Block = "block",
+  Category = "category",
+  Date = "date",
   Id = "id",
+  IsBluechip = "isBluechip",
+  IsLiquid = "isLiquid",
   Multiplier = "multiplier",
   Rate = "rate",
   Source = "source",
   SourceAddress = "sourceAddress",
+  Timestamp = "timestamp",
   Token = "token",
   TokenAddress = "tokenAddress",
   Value = "value",
+  ValueExcludingOhm = "valueExcludingOhm",
 }
 
-export type TokenRecords = {
-  __typename?: "TokenRecords";
+export type TokenSupply = {
+  __typename?: "TokenSupply";
   balance: Scalars["BigDecimal"];
+  block: Scalars["BigInt"];
+  date: Scalars["String"];
   id: Scalars["ID"];
-  records: Array<TokenRecord>;
-  value: Scalars["BigDecimal"];
+  pool?: Maybe<Scalars["String"]>;
+  poolAddress?: Maybe<Scalars["String"]>;
+  source?: Maybe<Scalars["String"]>;
+  sourceAddress?: Maybe<Scalars["String"]>;
+  supplyBalance: Scalars["BigDecimal"];
+  timestamp: Scalars["BigInt"];
+  token: Scalars["String"];
+  tokenAddress: Scalars["String"];
+  type: Scalars["String"];
 };
 
-export type TokenRecordsRecordsArgs = {
-  first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TokenRecord_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars["Int"]>;
-  where?: InputMaybe<TokenRecord_Filter>;
-};
-
-export type TokenRecords_Filter = {
+export type TokenSupply_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   balance?: InputMaybe<Scalars["BigDecimal"]>;
@@ -2186,6 +1116,34 @@ export type TokenRecords_Filter = {
   balance_lte?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not?: InputMaybe<Scalars["BigDecimal"]>;
   balance_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  block?: InputMaybe<Scalars["BigInt"]>;
+  block_gt?: InputMaybe<Scalars["BigInt"]>;
+  block_gte?: InputMaybe<Scalars["BigInt"]>;
+  block_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  block_lt?: InputMaybe<Scalars["BigInt"]>;
+  block_lte?: InputMaybe<Scalars["BigInt"]>;
+  block_not?: InputMaybe<Scalars["BigInt"]>;
+  block_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  date?: InputMaybe<Scalars["String"]>;
+  date_contains?: InputMaybe<Scalars["String"]>;
+  date_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_ends_with?: InputMaybe<Scalars["String"]>;
+  date_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_gt?: InputMaybe<Scalars["String"]>;
+  date_gte?: InputMaybe<Scalars["String"]>;
+  date_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_lt?: InputMaybe<Scalars["String"]>;
+  date_lte?: InputMaybe<Scalars["String"]>;
+  date_not?: InputMaybe<Scalars["String"]>;
+  date_not_contains?: InputMaybe<Scalars["String"]>;
+  date_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with?: InputMaybe<Scalars["String"]>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  date_not_starts_with?: InputMaybe<Scalars["String"]>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  date_starts_with?: InputMaybe<Scalars["String"]>;
+  date_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
   id_gte?: InputMaybe<Scalars["ID"]>;
@@ -2194,28 +1152,178 @@ export type TokenRecords_Filter = {
   id_lte?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_not_in?: InputMaybe<Array<Scalars["ID"]>>;
-  records?: InputMaybe<Array<Scalars["String"]>>;
-  records_?: InputMaybe<TokenRecord_Filter>;
-  records_contains?: InputMaybe<Array<Scalars["String"]>>;
-  records_contains_nocase?: InputMaybe<Array<Scalars["String"]>>;
-  records_not?: InputMaybe<Array<Scalars["String"]>>;
-  records_not_contains?: InputMaybe<Array<Scalars["String"]>>;
-  records_not_contains_nocase?: InputMaybe<Array<Scalars["String"]>>;
-  value?: InputMaybe<Scalars["BigDecimal"]>;
-  value_gt?: InputMaybe<Scalars["BigDecimal"]>;
-  value_gte?: InputMaybe<Scalars["BigDecimal"]>;
-  value_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
-  value_lt?: InputMaybe<Scalars["BigDecimal"]>;
-  value_lte?: InputMaybe<Scalars["BigDecimal"]>;
-  value_not?: InputMaybe<Scalars["BigDecimal"]>;
-  value_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  pool?: InputMaybe<Scalars["String"]>;
+  poolAddress?: InputMaybe<Scalars["String"]>;
+  poolAddress_contains?: InputMaybe<Scalars["String"]>;
+  poolAddress_contains_nocase?: InputMaybe<Scalars["String"]>;
+  poolAddress_ends_with?: InputMaybe<Scalars["String"]>;
+  poolAddress_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  poolAddress_gt?: InputMaybe<Scalars["String"]>;
+  poolAddress_gte?: InputMaybe<Scalars["String"]>;
+  poolAddress_in?: InputMaybe<Array<Scalars["String"]>>;
+  poolAddress_lt?: InputMaybe<Scalars["String"]>;
+  poolAddress_lte?: InputMaybe<Scalars["String"]>;
+  poolAddress_not?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_contains?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_ends_with?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  poolAddress_not_starts_with?: InputMaybe<Scalars["String"]>;
+  poolAddress_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  poolAddress_starts_with?: InputMaybe<Scalars["String"]>;
+  poolAddress_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  pool_contains?: InputMaybe<Scalars["String"]>;
+  pool_contains_nocase?: InputMaybe<Scalars["String"]>;
+  pool_ends_with?: InputMaybe<Scalars["String"]>;
+  pool_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  pool_gt?: InputMaybe<Scalars["String"]>;
+  pool_gte?: InputMaybe<Scalars["String"]>;
+  pool_in?: InputMaybe<Array<Scalars["String"]>>;
+  pool_lt?: InputMaybe<Scalars["String"]>;
+  pool_lte?: InputMaybe<Scalars["String"]>;
+  pool_not?: InputMaybe<Scalars["String"]>;
+  pool_not_contains?: InputMaybe<Scalars["String"]>;
+  pool_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  pool_not_ends_with?: InputMaybe<Scalars["String"]>;
+  pool_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  pool_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  pool_not_starts_with?: InputMaybe<Scalars["String"]>;
+  pool_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  pool_starts_with?: InputMaybe<Scalars["String"]>;
+  pool_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  source?: InputMaybe<Scalars["String"]>;
+  sourceAddress?: InputMaybe<Scalars["String"]>;
+  sourceAddress_contains?: InputMaybe<Scalars["String"]>;
+  sourceAddress_contains_nocase?: InputMaybe<Scalars["String"]>;
+  sourceAddress_ends_with?: InputMaybe<Scalars["String"]>;
+  sourceAddress_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  sourceAddress_gt?: InputMaybe<Scalars["String"]>;
+  sourceAddress_gte?: InputMaybe<Scalars["String"]>;
+  sourceAddress_in?: InputMaybe<Array<Scalars["String"]>>;
+  sourceAddress_lt?: InputMaybe<Scalars["String"]>;
+  sourceAddress_lte?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_contains?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_ends_with?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  sourceAddress_not_starts_with?: InputMaybe<Scalars["String"]>;
+  sourceAddress_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  sourceAddress_starts_with?: InputMaybe<Scalars["String"]>;
+  sourceAddress_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  source_contains?: InputMaybe<Scalars["String"]>;
+  source_contains_nocase?: InputMaybe<Scalars["String"]>;
+  source_ends_with?: InputMaybe<Scalars["String"]>;
+  source_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  source_gt?: InputMaybe<Scalars["String"]>;
+  source_gte?: InputMaybe<Scalars["String"]>;
+  source_in?: InputMaybe<Array<Scalars["String"]>>;
+  source_lt?: InputMaybe<Scalars["String"]>;
+  source_lte?: InputMaybe<Scalars["String"]>;
+  source_not?: InputMaybe<Scalars["String"]>;
+  source_not_contains?: InputMaybe<Scalars["String"]>;
+  source_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  source_not_ends_with?: InputMaybe<Scalars["String"]>;
+  source_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  source_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  source_not_starts_with?: InputMaybe<Scalars["String"]>;
+  source_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  source_starts_with?: InputMaybe<Scalars["String"]>;
+  source_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  supplyBalance?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_gt?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_gte?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  supplyBalance_lt?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_lte?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_not?: InputMaybe<Scalars["BigDecimal"]>;
+  supplyBalance_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
+  timestamp?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_gt?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_gte?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  timestamp_lt?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_lte?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_not?: InputMaybe<Scalars["BigInt"]>;
+  timestamp_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  token?: InputMaybe<Scalars["String"]>;
+  tokenAddress?: InputMaybe<Scalars["String"]>;
+  tokenAddress_contains?: InputMaybe<Scalars["String"]>;
+  tokenAddress_contains_nocase?: InputMaybe<Scalars["String"]>;
+  tokenAddress_ends_with?: InputMaybe<Scalars["String"]>;
+  tokenAddress_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  tokenAddress_gt?: InputMaybe<Scalars["String"]>;
+  tokenAddress_gte?: InputMaybe<Scalars["String"]>;
+  tokenAddress_in?: InputMaybe<Array<Scalars["String"]>>;
+  tokenAddress_lt?: InputMaybe<Scalars["String"]>;
+  tokenAddress_lte?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_contains?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_ends_with?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  tokenAddress_not_starts_with?: InputMaybe<Scalars["String"]>;
+  tokenAddress_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  tokenAddress_starts_with?: InputMaybe<Scalars["String"]>;
+  tokenAddress_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  token_contains?: InputMaybe<Scalars["String"]>;
+  token_contains_nocase?: InputMaybe<Scalars["String"]>;
+  token_ends_with?: InputMaybe<Scalars["String"]>;
+  token_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  token_gt?: InputMaybe<Scalars["String"]>;
+  token_gte?: InputMaybe<Scalars["String"]>;
+  token_in?: InputMaybe<Array<Scalars["String"]>>;
+  token_lt?: InputMaybe<Scalars["String"]>;
+  token_lte?: InputMaybe<Scalars["String"]>;
+  token_not?: InputMaybe<Scalars["String"]>;
+  token_not_contains?: InputMaybe<Scalars["String"]>;
+  token_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  token_not_ends_with?: InputMaybe<Scalars["String"]>;
+  token_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  token_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  token_not_starts_with?: InputMaybe<Scalars["String"]>;
+  token_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  token_starts_with?: InputMaybe<Scalars["String"]>;
+  token_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  type?: InputMaybe<Scalars["String"]>;
+  type_contains?: InputMaybe<Scalars["String"]>;
+  type_contains_nocase?: InputMaybe<Scalars["String"]>;
+  type_ends_with?: InputMaybe<Scalars["String"]>;
+  type_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  type_gt?: InputMaybe<Scalars["String"]>;
+  type_gte?: InputMaybe<Scalars["String"]>;
+  type_in?: InputMaybe<Array<Scalars["String"]>>;
+  type_lt?: InputMaybe<Scalars["String"]>;
+  type_lte?: InputMaybe<Scalars["String"]>;
+  type_not?: InputMaybe<Scalars["String"]>;
+  type_not_contains?: InputMaybe<Scalars["String"]>;
+  type_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  type_not_ends_with?: InputMaybe<Scalars["String"]>;
+  type_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  type_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  type_not_starts_with?: InputMaybe<Scalars["String"]>;
+  type_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  type_starts_with?: InputMaybe<Scalars["String"]>;
+  type_starts_with_nocase?: InputMaybe<Scalars["String"]>;
 };
 
-export enum TokenRecords_OrderBy {
+export enum TokenSupply_OrderBy {
   Balance = "balance",
+  Block = "block",
+  Date = "date",
   Id = "id",
-  Records = "records",
-  Value = "value",
+  Pool = "pool",
+  PoolAddress = "poolAddress",
+  Source = "source",
+  SourceAddress = "sourceAddress",
+  SupplyBalance = "supplyBalance",
+  Timestamp = "timestamp",
+  Token = "token",
+  TokenAddress = "tokenAddress",
+  Type = "type",
 }
 
 export type Token_Filter = {
@@ -2267,356 +1375,262 @@ export enum _SubgraphErrorPolicy_ {
   Deny = "deny",
 }
 
-export type MetricsBarLatestOnlyQueryVariables = Exact<{ [key: string]: never }>;
+export type ProtocolMetricsQueryVariables = Exact<{
+  recordCount: Scalars["Int"];
+  startingRecord?: InputMaybe<Scalars["Int"]>;
+  filter?: InputMaybe<ProtocolMetric_Filter>;
+}>;
 
-export type MetricsBarLatestOnlyQuery = {
+export type ProtocolMetricsQuery = {
   __typename?: "Query";
   protocolMetrics: Array<{
     __typename?: "ProtocolMetric";
     id: string;
     block: number;
+    currentAPY: number;
     currentIndex: number;
+    date: string;
     gOhmPrice: number;
     gOhmTotalSupply: number;
-    marketCap: number;
-    ohmCirculatingSupply: number;
-    ohmFloatingSupply: number;
+    nextDistributedOhm: number;
+    nextEpochRebase: number;
     ohmPrice: number;
-    totalSupply: number;
+    ohmTotalSupply: number;
+    sOhmCirculatingSupply: number;
+    timestamp: number;
     totalValueLocked: number;
-    treasuryLiquidBackingPerGOhm: number;
-    treasuryLiquidBackingPerOhmFloating: number;
-    treasuryMarketValue: number;
   }>;
 };
 
-export type KeyMetricsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
+export type TokenRecordsQueryVariables = Exact<{
+  recordCount: Scalars["Int"];
+  startingRecord?: InputMaybe<Scalars["Int"]>;
+  filter?: InputMaybe<TokenRecord_Filter>;
 }>;
 
-export type KeyMetricsQuery = {
+export type TokenRecordsQuery = {
   __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
+  tokenRecords: Array<{
+    __typename?: "TokenRecord";
     id: string;
+    balance: number;
     block: number;
-    currentIndex: number;
-    gOhmPrice: number;
-    gOhmTotalSupply: number;
-    marketCap: number;
-    ohmCirculatingSupply: number;
-    ohmFloatingSupply: number;
-    ohmPrice: number;
+    category: string;
+    date: string;
+    isBluechip: boolean;
+    isLiquid: boolean;
+    multiplier: number;
+    rate: number;
+    source: string;
+    sourceAddress: string;
     timestamp: number;
-    timestampISO8901: string;
-    totalSupply: number;
-    totalValueLocked: number;
-    treasuryLiquidBacking: number;
-    treasuryLiquidBackingPerGOhm: number;
-    treasuryLiquidBackingPerOhmFloating: number;
-    treasuryMarketValue: number;
+    token: string;
+    tokenAddress: string;
+    value: number;
+    valueExcludingOhm: number;
   }>;
 };
 
-export type MarketValueMetricsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
+export type TokenSuppliesQueryVariables = Exact<{
+  recordCount: Scalars["Int"];
+  startingRecord?: InputMaybe<Scalars["Int"]>;
+  filter?: InputMaybe<TokenSupply_Filter>;
 }>;
 
-export type MarketValueMetricsQuery = {
+export type TokenSuppliesQuery = {
   __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
+  tokenSupplies: Array<{
+    __typename?: "TokenSupply";
     id: string;
+    balance: number;
     block: number;
+    date: string;
+    pool?: string | null;
+    poolAddress?: string | null;
+    source?: string | null;
+    sourceAddress?: string | null;
+    supplyBalance: number;
     timestamp: number;
-    timestampISO8901: string;
-    treasuryMarketValue: number;
-    treasuryStableValue: number;
-    treasuryVolatileValue: number;
-    treasuryLPValue: number;
-    treasuryLiquidBacking: number;
-    treasuryLiquidBackingStable: number;
-    treasuryLiquidBackingVolatile: number;
-    treasuryLiquidBackingProtocolOwnedLiquidity: number;
+    token: string;
+    tokenAddress: string;
+    type: string;
   }>;
 };
 
-export type MarketValueMetricsComponentsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
-}>;
-
-export type MarketValueMetricsComponentsQuery = {
-  __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
-    id: string;
-    block: number;
-    timestamp: number;
-    timestampISO8901: string;
-    treasuryStableValueComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-    treasuryVolatileValueComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-    treasuryLPValueComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-    treasuryLiquidBackingStableComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-    treasuryLiquidBackingVolatileComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-    treasuryLiquidBackingProtocolOwnedLiquidityComponents: {
-      __typename?: "TokenRecords";
-      records: Array<{ __typename?: "TokenRecord"; token: string; value: number }>;
-    };
-  }>;
-};
-
-export type ProtocolOwnedLiquidityComponentsQueryVariables = Exact<{
-  records?: InputMaybe<Scalars["Int"]>;
-}>;
-
-export type ProtocolOwnedLiquidityComponentsQuery = {
-  __typename?: "Query";
-  protocolMetrics: Array<{
-    __typename?: "ProtocolMetric";
-    id: string;
-    block: number;
-    timestamp: number;
-    timestampISO8901: string;
-    treasuryLPValueComponents: {
-      __typename?: "TokenRecords";
-      value: number;
-      records: Array<{
-        __typename?: "TokenRecord";
-        id: string;
-        token: string;
-        tokenAddress: string;
-        source: string;
-        sourceAddress: string;
-        balance: number;
-        rate: number;
-        multiplier: number;
-        value: number;
-      }>;
-    };
-  }>;
-};
-
-export const MetricsBarLatestOnlyDocument = `
-    query MetricsBarLatestOnly {
-  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+export const ProtocolMetricsDocument = `
+    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+  protocolMetrics(
+    first: $recordCount
+    skip: $startingRecord
+    where: $filter
+    orderBy: date
+    orderDirection: desc
+  ) {
     id
     block
+    currentAPY
     currentIndex
+    date
     gOhmPrice
     gOhmTotalSupply
-    marketCap
-    ohmCirculatingSupply
-    ohmFloatingSupply
+    nextDistributedOhm
+    nextEpochRebase
     ohmPrice
-    totalSupply
+    ohmTotalSupply
+    sOhmCirculatingSupply
+    timestamp
     totalValueLocked
-    treasuryLiquidBackingPerGOhm
-    treasuryLiquidBackingPerOhmFloating
-    treasuryMarketValue
   }
 }
     `;
-export const useMetricsBarLatestOnlyQuery = <TData = MetricsBarLatestOnlyQuery, TError = unknown>(
+export const useProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: MetricsBarLatestOnlyQueryVariables,
-  options?: UseQueryOptions<MetricsBarLatestOnlyQuery, TError, TData>,
+  variables: ProtocolMetricsQueryVariables,
+  options?: UseQueryOptions<ProtocolMetricsQuery, TError, TData>,
 ) =>
-  useQuery<MetricsBarLatestOnlyQuery, TError, TData>(
-    variables === undefined ? ["MetricsBarLatestOnly"] : ["MetricsBarLatestOnly", variables],
-    fetcher<MetricsBarLatestOnlyQuery, MetricsBarLatestOnlyQueryVariables>(
+  useQuery<ProtocolMetricsQuery, TError, TData>(
+    ["ProtocolMetrics", variables],
+    fetcher<ProtocolMetricsQuery, ProtocolMetricsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      MetricsBarLatestOnlyDocument,
+      ProtocolMetricsDocument,
       variables,
     ),
     options,
   );
-export const KeyMetricsDocument = `
-    query KeyMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+export const useInfiniteProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof ProtocolMetricsQueryVariables,
+  variables: ProtocolMetricsQueryVariables,
+  options?: UseInfiniteQueryOptions<ProtocolMetricsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<ProtocolMetricsQuery, TError, TData>(
+    ["ProtocolMetrics.infinite", variables],
+    metaData =>
+      fetcher<ProtocolMetricsQuery, ProtocolMetricsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        ProtocolMetricsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
+export const TokenRecordsDocument = `
+    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+  tokenRecords(
+    first: $recordCount
+    skip: $startingRecord
+    where: $filter
+    orderBy: date
+    orderDirection: desc
+  ) {
     id
+    balance
     block
-    currentIndex
-    gOhmPrice
-    gOhmTotalSupply
-    marketCap
-    ohmCirculatingSupply
-    ohmFloatingSupply
-    ohmPrice
+    category
+    date
+    isBluechip
+    isLiquid
+    multiplier
+    rate
+    source
+    sourceAddress
     timestamp
-    timestampISO8901
-    totalSupply
-    totalValueLocked
-    treasuryLiquidBacking
-    treasuryLiquidBackingPerGOhm
-    treasuryLiquidBackingPerOhmFloating
-    treasuryMarketValue
+    token
+    tokenAddress
+    value
+    valueExcludingOhm
   }
 }
     `;
-export const useKeyMetricsQuery = <TData = KeyMetricsQuery, TError = unknown>(
+export const useTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: KeyMetricsQueryVariables,
-  options?: UseQueryOptions<KeyMetricsQuery, TError, TData>,
+  variables: TokenRecordsQueryVariables,
+  options?: UseQueryOptions<TokenRecordsQuery, TError, TData>,
 ) =>
-  useQuery<KeyMetricsQuery, TError, TData>(
-    variables === undefined ? ["KeyMetrics"] : ["KeyMetrics", variables],
-    fetcher<KeyMetricsQuery, KeyMetricsQueryVariables>(
+  useQuery<TokenRecordsQuery, TError, TData>(
+    ["TokenRecords", variables],
+    fetcher<TokenRecordsQuery, TokenRecordsQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      KeyMetricsDocument,
+      TokenRecordsDocument,
       variables,
     ),
     options,
   );
-export const MarketValueMetricsDocument = `
-    query MarketValueMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+export const useInfiniteTokenRecordsQuery = <TData = TokenRecordsQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  _pageParamKey: keyof TokenRecordsQueryVariables,
+  variables: TokenRecordsQueryVariables,
+  options?: UseInfiniteQueryOptions<TokenRecordsQuery, TError, TData>,
+) =>
+  useInfiniteQuery<TokenRecordsQuery, TError, TData>(
+    ["TokenRecords.infinite", variables],
+    metaData =>
+      fetcher<TokenRecordsQuery, TokenRecordsQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        TokenRecordsDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
+    options,
+  );
+
+export const TokenSuppliesDocument = `
+    query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
+  tokenSupplies(
+    first: $recordCount
+    skip: $startingRecord
+    where: $filter
+    orderBy: date
+    orderDirection: desc
+  ) {
     id
+    balance
     block
+    date
+    pool
+    poolAddress
+    source
+    sourceAddress
+    supplyBalance
     timestamp
-    timestampISO8901
-    treasuryMarketValue
-    treasuryStableValue
-    treasuryVolatileValue
-    treasuryLPValue
-    treasuryLiquidBacking
-    treasuryLiquidBackingStable
-    treasuryLiquidBackingVolatile
-    treasuryLiquidBackingProtocolOwnedLiquidity
+    token
+    tokenAddress
+    type
   }
 }
     `;
-export const useMarketValueMetricsQuery = <TData = MarketValueMetricsQuery, TError = unknown>(
+export const useTokenSuppliesQuery = <TData = TokenSuppliesQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: MarketValueMetricsQueryVariables,
-  options?: UseQueryOptions<MarketValueMetricsQuery, TError, TData>,
+  variables: TokenSuppliesQueryVariables,
+  options?: UseQueryOptions<TokenSuppliesQuery, TError, TData>,
 ) =>
-  useQuery<MarketValueMetricsQuery, TError, TData>(
-    variables === undefined ? ["MarketValueMetrics"] : ["MarketValueMetrics", variables],
-    fetcher<MarketValueMetricsQuery, MarketValueMetricsQueryVariables>(
+  useQuery<TokenSuppliesQuery, TError, TData>(
+    ["TokenSupplies", variables],
+    fetcher<TokenSuppliesQuery, TokenSuppliesQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
-      MarketValueMetricsDocument,
+      TokenSuppliesDocument,
       variables,
     ),
     options,
   );
-export const MarketValueMetricsComponentsDocument = `
-    query MarketValueMetricsComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryStableValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryVolatileValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLPValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingStableComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingVolatileComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingProtocolOwnedLiquidityComponents {
-      records {
-        token
-        value
-      }
-    }
-  }
-}
-    `;
-export const useMarketValueMetricsComponentsQuery = <TData = MarketValueMetricsComponentsQuery, TError = unknown>(
+export const useInfiniteTokenSuppliesQuery = <TData = TokenSuppliesQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: MarketValueMetricsComponentsQueryVariables,
-  options?: UseQueryOptions<MarketValueMetricsComponentsQuery, TError, TData>,
+  _pageParamKey: keyof TokenSuppliesQueryVariables,
+  variables: TokenSuppliesQueryVariables,
+  options?: UseInfiniteQueryOptions<TokenSuppliesQuery, TError, TData>,
 ) =>
-  useQuery<MarketValueMetricsComponentsQuery, TError, TData>(
-    variables === undefined ? ["MarketValueMetricsComponents"] : ["MarketValueMetricsComponents", variables],
-    fetcher<MarketValueMetricsComponentsQuery, MarketValueMetricsComponentsQueryVariables>(
-      dataSource.endpoint,
-      dataSource.fetchParams || {},
-      MarketValueMetricsComponentsDocument,
-      variables,
-    ),
-    options,
-  );
-export const ProtocolOwnedLiquidityComponentsDocument = `
-    query ProtocolOwnedLiquidityComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryLPValueComponents {
-      value
-      records {
-        id
-        token
-        tokenAddress
-        source
-        sourceAddress
-        balance
-        rate
-        multiplier
-        value
-      }
-    }
-  }
-}
-    `;
-export const useProtocolOwnedLiquidityComponentsQuery = <
-  TData = ProtocolOwnedLiquidityComponentsQuery,
-  TError = unknown,
->(
-  dataSource: { endpoint: string; fetchParams?: RequestInit },
-  variables?: ProtocolOwnedLiquidityComponentsQueryVariables,
-  options?: UseQueryOptions<ProtocolOwnedLiquidityComponentsQuery, TError, TData>,
-) =>
-  useQuery<ProtocolOwnedLiquidityComponentsQuery, TError, TData>(
-    variables === undefined ? ["ProtocolOwnedLiquidityComponents"] : ["ProtocolOwnedLiquidityComponents", variables],
-    fetcher<ProtocolOwnedLiquidityComponentsQuery, ProtocolOwnedLiquidityComponentsQueryVariables>(
-      dataSource.endpoint,
-      dataSource.fetchParams || {},
-      ProtocolOwnedLiquidityComponentsDocument,
-      variables,
-    ),
+  useInfiniteQuery<TokenSuppliesQuery, TError, TData>(
+    ["TokenSupplies.infinite", variables],
+    metaData =>
+      fetcher<TokenSuppliesQuery, TokenSuppliesQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        TokenSuppliesDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+      )(),
     options,
   );

@@ -1,125 +1,57 @@
-query MetricsBarLatestOnly {
-  protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+  protocolMetrics(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     block
+    currentAPY
     currentIndex
+    date
     gOhmPrice
     gOhmTotalSupply
-    marketCap
-    ohmCirculatingSupply
-    ohmFloatingSupply
+    nextDistributedOhm
+    nextEpochRebase
     ohmPrice
-    totalSupply
+    ohmTotalSupply
+    sOhmCirculatingSupply
+    timestamp
     totalValueLocked
-    treasuryLiquidBackingPerGOhm
-    treasuryLiquidBackingPerOhmFloating
-    treasuryMarketValue
   }
 }
 
-query KeyMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+  tokenRecords(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
+    balance
     block
-    currentIndex
-    gOhmPrice
-    gOhmTotalSupply
-    marketCap
-    ohmCirculatingSupply
-    ohmFloatingSupply
-    ohmPrice
+    category
+    date
+    isBluechip
+    isLiquid
+    multiplier
+    rate
+    source
+    sourceAddress
     timestamp
-    timestampISO8901
-    totalSupply
-    totalValueLocked
-    treasuryLiquidBacking
-    treasuryLiquidBackingPerGOhm
-    treasuryLiquidBackingPerOhmFloating
-    treasuryMarketValue
+    token
+    tokenAddress
+    value
+    valueExcludingOhm
   }
 }
 
-query MarketValueMetrics($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
+query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
+  tokenSupplies(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
+    balance
     block
+    date
+    pool
+    poolAddress
+    source
+    sourceAddress
+    supplyBalance
     timestamp
-    timestampISO8901
-    treasuryMarketValue
-    treasuryStableValue
-    treasuryVolatileValue
-    treasuryLPValue
-    treasuryLiquidBacking
-    treasuryLiquidBackingStable
-    treasuryLiquidBackingVolatile
-    treasuryLiquidBackingProtocolOwnedLiquidity
-  }
-}
-
-query MarketValueMetricsComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryStableValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryVolatileValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLPValueComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingStableComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingVolatileComponents {
-      records {
-        token
-        value
-      }
-    }
-    treasuryLiquidBackingProtocolOwnedLiquidityComponents {
-      records {
-        token
-        value
-      }
-    }
-  }
-}
-
-query ProtocolOwnedLiquidityComponents($records: Int = 100) {
-  protocolMetrics(first: $records, orderBy: timestamp, orderDirection: desc) {
-    id
-    block
-    timestamp
-    timestampISO8901
-    treasuryLPValueComponents {
-      value
-      records {
-        id
-        token
-        tokenAddress
-        source
-        sourceAddress
-        balance
-        rate
-        multiplier
-        value
-      }
-    }
+    token
+    tokenAddress
+    type
   }
 }

@@ -5,17 +5,14 @@ import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
   useGOhmPrice as useGOhmPriceFromSubgraph,
-  useMarketCap,
-  useOhmCirculatingSupply,
-  useOhmFloatingSupply,
   useOhmPrice as useOhmPriceFromSubgraph,
   useOhmTotalSupply,
   useTotalValueDeposited,
-  useTreasuryLiquidBackingPerGOhm,
-  useTreasuryLiquidBackingPerOhmFloating,
-  useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+import { useTreasuryMarketValue } from "src/hooks/useTokenRecords";
+import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupply";
+import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmFloating, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
   subgraphUrl?: string;
@@ -126,7 +123,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerOhmFloating } = useTreasuryLiquidBackingPerOhmFloating(props.subgraphUrl);
+  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrl);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
@@ -149,7 +146,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: liquidBackingPerGOhmCirculating } = useTreasuryLiquidBackingPerGOhm(props.subgraphUrl);
+  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrl);
 
   const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
