@@ -38,8 +38,7 @@ describe("Check Stake to sOHM Error Messages", () => {
 
   it("Error message with amount <=0", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "-1" } });
-    fireEvent.click(screen.getAllByText("Stake")[1]);
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
   });
 
   it("Error message amount > 0 but no wallet balance", async () => {
@@ -71,8 +70,7 @@ describe("Check Unstake sOHM Error Messages", () => {
 
   it("Error message with amount <=0", async () => {
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "-1" } });
-    fireEvent.click(screen.getAllByText("Unstake")[1]);
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
   });
 
   it("Error message with amount <=0 gOHM", async () => {
@@ -80,8 +78,7 @@ describe("Check Unstake sOHM Error Messages", () => {
     fireEvent.click(await screen.getAllByText("sOHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByTestId("gOHM-select"));
-    fireEvent.click(screen.getAllByText("Unstake")[1]);
-    expect(screen.getAllByText("Please enter a number greater than 0")[0]).toBeInTheDocument();
+    expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
   });
 
   it("Error message amount > balance sOHM", async () => {
