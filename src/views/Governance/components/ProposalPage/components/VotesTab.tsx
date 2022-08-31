@@ -1,5 +1,6 @@
 import {
   Box,
+  Skeleton,
   styled,
   Table,
   TableBody,
@@ -22,9 +23,9 @@ import { BigNumber } from "ethers";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
-import { useGohmBalance } from "src/hooks/useBalance";
+import { useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useEndorse, useVote } from "src/hooks/useVoting";
+import { useEndorse, useUserEndorsement, useVote } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
@@ -36,10 +37,11 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
   const networks = useTestableNetworks();
   const { isConnected } = useAccount();
-  const gohmBalance = useGohmBalance()[networks.MAINNET].data;
+  const votesBalance = useVoteBalance()[networks.MAINNET].data;
   const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
   const submitEndorsement = useEndorse();
+  const { data: endorsementsValue, isLoading: isLoadingEndorsementsValue } = useUserEndorsement(proposal.id);
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -64,12 +66,11 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
             {proposal.isActive ? `Cast your vote` : `Endorsements`}
           </Typography>
         </Box>
-        {isConnected && proposal.isActive ? (
-          <Metric label="Your voting power" metric={`${formatBalance(2, gohmBalance)} gOHM`} />
-        ) : isConnected && !proposal.isActive ? (
-          <Metric label="Your voting power" metric={`1 Endorsement`} />
-        ) : (
-          <></>
+        {isConnected && (
+          <Metric
+            label={`Your ${proposal.isActive ? `voting` : `endorsements`} power`}
+            metric={`${formatBalance(2, votesBalance)} gOHM`}
+          />
         )}
         {proposal.isActive ? (
           <>
@@ -110,21 +111,42 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
                 </PrimaryButton>
               </Box>
             </WalletConnectedGuard>
+            {isLoadingEndorsementsValue && (
+              <Skeleton>
+                <Metric label={`Your have previously endorsed this proposal with `} metric={`1 gOHM`} />
+              </Skeleton>
+            )}
+            {endorsementsValue && (
+              <Metric
+                label={`You have previously endorsed this proposal with `}
+                metric={`${formatBalance(2, endorsementsValue)} gOHM`}
+              />
+            )}
           </>
         )}
       </Box>
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
-        Vote Breakdown
+        {proposal.isActive ? `Vote Breakdown` : `Endorsements Breakdown`}
       </Typography>
-      <VoteBreakdown
-        voteForLabel="Yes"
-        voteAgainstLabel="No"
-        voteParticipationLabel="Total Participants"
-        voteForCount={proposal.yesVotes}
-        voteAgainstCount={proposal.noVotes}
-        totalHoldersCount={0}
-        quorum={0}
-      />
+      {proposal.isActive ? (
+        <VoteBreakdown
+          voteForLabel="Yes"
+          voteAgainstLabel="No"
+          voteParticipationLabel="Total Participants"
+          voteForCount={proposal.yesVotes}
+          voteAgainstCount={proposal.noVotes}
+          totalHoldersCount={0}
+          quorum={0}
+        />
+      ) : (
+        <VoteBreakdown
+          voteForLabel="Endorsed"
+          voteParticipationLabel="Total Participants"
+          voteForCount={proposal.yesVotes}
+          totalHoldersCount={0}
+          quorum={0}
+        />
+      )}
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
         Top Voters
       </Typography>

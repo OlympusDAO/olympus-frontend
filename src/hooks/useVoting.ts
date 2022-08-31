@@ -1,10 +1,11 @@
 import { t } from "@lingui/macro";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
-import { useNetwork, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 interface Vote {
   proposalId: BigNumber;
@@ -15,6 +16,25 @@ interface ActivatedProposal {
   proposalId: BigNumber;
   activationTimestamp: BigNumber;
 }
+
+/**
+ * returns the total endorsement value (# of tokens) for the connected wallet for the current proposal
+ */
+export const useUserEndorsement = (proposalId: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const { isConnected, address } = useAccount();
+
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+
+  return useQuery<DecimalBigNumber, Error>(
+    ["getUserEndorsement", proposalId, address],
+    async () => {
+      const endorsementValue = await contract.userEndorsementsForProposal(proposalId, address as string);
+      return new DecimalBigNumber(endorsementValue, 3);
+    },
+    { enabled: !!isConnected && !!address },
+  );
+};
 
 export const useEndorse = () => {
   const dispatch = useDispatch();

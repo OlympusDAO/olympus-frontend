@@ -162,3 +162,8 @@ export const VOTE_ISSUER_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   [NetworkId.TESTNET_GOERLI]: "0x65e44BEaf20bc8BED9643Bf996A59d478db1090b",
 };
+
+export const VOTE_TOKEN_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xad50790dbaf78572019575bc5dce2abff1544fd0",
+};
