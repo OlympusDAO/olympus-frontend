@@ -25,7 +25,7 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useEndorse, useUserEndorsement, useVote } from "src/hooks/useVoting";
+import { useEndorse, useUserEndorsement, useVote, useVotingSupply } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
@@ -42,6 +42,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const submitVote = useVote();
   const submitEndorsement = useEndorse();
   const { data: endorsementsValue, isLoading: isLoadingEndorsementsValue } = useUserEndorsement(proposal.id);
+  const { data: totalVoteSupply, isLoading: isLoadingTotalSupply } = useVotingSupply();
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -131,20 +132,22 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
       {proposal.isActive ? (
         <VoteBreakdown
           voteForLabel="Yes"
-          voteAgainstLabel="No"
-          voteParticipationLabel="Total Participants"
           voteForCount={proposal.yesVotes}
+          voteAgainstLabel="No"
           voteAgainstCount={proposal.noVotes}
-          totalHoldersCount={0}
-          quorum={0}
+          voteParticipationLabel="Total Participants"
+          totalHoldersCount={totalVoteSupply?.toApproxNumber() || 0}
+          // TODO(appleseed): setup a config to make these quorum requirements (from the contract) easily modifiable
+          quorum={totalVoteSupply?.mul("0.33")?.toApproxNumber() || 0}
         />
       ) : (
         <VoteBreakdown
           voteForLabel="Endorsed"
+          voteForCount={proposal.endorsements}
           voteParticipationLabel="Total Participants"
-          voteForCount={proposal.yesVotes}
-          totalHoldersCount={0}
-          quorum={0}
+          totalHoldersCount={totalVoteSupply?.toApproxNumber() || 0}
+          // TODO(appleseed): setup a config to make these quorum requirements (from the contract) easily modifiable
+          quorum={totalVoteSupply?.mul("0.25")?.toApproxNumber() || 0}
         />
       )}
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">

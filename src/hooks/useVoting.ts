@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
-import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { GOVERNANCE_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork, useSigner } from "wagmi";
@@ -33,6 +33,23 @@ export const useUserEndorsement = (proposalId: number) => {
       return new DecimalBigNumber(endorsementValue, 3);
     },
     { enabled: !!isConnected && !!address },
+  );
+};
+
+/**
+ * returns the total supply of the Vote Token
+ */
+export const useVotingSupply = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = VOTE_TOKEN_CONTRACT.getEthersContract(chain.id);
+
+  return useQuery<DecimalBigNumber, Error>(
+    ["getVoteTokenTotalSupply", chain?.id],
+    async () => {
+      const votingSupply = await contract.totalSupply();
+      return new DecimalBigNumber(votingSupply, 3);
+    },
+    { enabled: !!chain?.id },
   );
 };
 

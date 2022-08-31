@@ -75,9 +75,9 @@ export const useProposal = (instructionsIndex: number) => {
         timeRemaining: jsTimeRemaining,
         isActive: isActive,
         state: proposalState,
-        endorsements: parseBigNumber(endorsements, 0),
-        yesVotes: parseBigNumber(yesVotes, 0),
-        noVotes: parseBigNumber(noVotes, 0),
+        endorsements: parseBigNumber(endorsements, 3),
+        yesVotes: parseBigNumber(yesVotes, 3),
+        noVotes: parseBigNumber(noVotes, 3),
         uri: discussionURL,
         content,
       };
