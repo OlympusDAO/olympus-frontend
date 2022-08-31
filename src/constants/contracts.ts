@@ -15,6 +15,7 @@ import {
   PT_PRIZE_POOL_ADDRESSES,
   STAKING_ADDRESSES,
   VOTE_ISSUER_ADDRESSES,
+  VOTE_TOKEN_ADDRESSES,
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
 import { Contract } from "src/helpers/contracts/Contract";
@@ -24,6 +25,7 @@ import {
   CrossChainMigrator__factory,
   FiatDAOContract__factory,
   FuseProxy__factory,
+  IERC20__factory,
   OlympusGiving__factory,
   OlympusGivingOld__factory,
   OlympusGovernance__factory,
@@ -136,4 +138,10 @@ export const VOTE_ISSUER_CONTRACT = new Contract({
   factory: OlympusVoteIssuer__factory,
   name: "Olympus Vote Issuer",
   addresses: VOTE_ISSUER_ADDRESSES,
+});
+
+export const VOTE_TOKEN_CONTRACT = new Contract({
+  factory: IERC20__factory,
+  name: "Olympus Vote Token",
+  addresses: VOTE_TOKEN_ADDRESSES,
 });
