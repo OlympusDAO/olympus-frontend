@@ -51,5 +51,5 @@ vscode:
     - mhutchie.git-graph
     - bmuskalla.vscode-tldr
     - eamodio.gitlens
-    - vespa-dev-works.jestRunIt
+    - alexeynobody.javascript-test-runner-reloaded
     - naumovs.color-highlight

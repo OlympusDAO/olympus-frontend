@@ -240,13 +240,13 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select-first"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select-first"
                       role="button"
                       tabindex="0"
@@ -286,14 +286,14 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                     data-testid="second-asset-select"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -340,11 +340,11 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                           class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-e9x9x6-MuiFormControl-root"
                         >
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
                               id="amount-input"
                               name="amount-input"
                               placeholder="Enter an amount of gOHM"
@@ -355,7 +355,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-ftyfwv-MuiButtonBase-root-MuiButton-root"
+                                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-ftyfwv-MuiButtonBase-root-MuiButton-root"
                                 style="font-weight: 500; font-size: 15px;"
                                 tabindex="0"
                                 type="button"
@@ -384,7 +384,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <button
-                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                           style="margin: 0px;"
                           tabindex="0"
                           type="submit"
@@ -454,7 +454,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -478,7 +478,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -1042,13 +1042,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select-first"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select-first"
                       role="button"
                       tabindex="0"
@@ -1088,14 +1088,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                     data-testid="second-asset-select"
                   >
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby="asset-select"
-                      class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                      class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                       id="asset-select"
                       role="button"
                       tabindex="0"
@@ -1142,11 +1142,11 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                           class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-e9x9x6-MuiFormControl-root"
                         >
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
                               id="amount-input"
                               name="amount-input"
                               placeholder="Enter an amount of sOHM"
@@ -1157,7 +1157,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-ftyfwv-MuiButtonBase-root-MuiButton-root"
+                                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-ftyfwv-MuiButtonBase-root-MuiButton-root"
                                 style="font-weight: 500; font-size: 15px;"
                                 tabindex="0"
                                 type="button"
@@ -1186,7 +1186,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                       >
                         <button
-                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1i9s4yu-MuiButtonBase-root-MuiButton-root"
                           style="margin: 0px;"
                           tabindex="0"
                           type="submit"
@@ -1256,7 +1256,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
@@ -1280,7 +1280,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation MuiButtonBase-root custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1r151zb-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"

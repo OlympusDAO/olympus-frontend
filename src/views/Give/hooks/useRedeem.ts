@@ -8,6 +8,7 @@ import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { RedeemData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
@@ -23,7 +24,7 @@ export const useRedeem = () => {
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, RedeemData>(
+  return useMutation<ContractReceipt, EthersError, RedeemData>(
     async ({ token: token_ }) => {
       if (!contract)
         throw new Error(
@@ -55,7 +56,7 @@ export const useRedeem = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async () => {
         const keysToRefetch = [

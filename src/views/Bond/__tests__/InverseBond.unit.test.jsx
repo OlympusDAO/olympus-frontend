@@ -5,7 +5,6 @@ import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-
 import {
   inverseMarketPrice,
   inverseMarkets,
@@ -15,9 +14,9 @@ import {
   mockInverseLiveMarkets,
   mockNoLiveMarkets,
   terms,
-} from "../__mocks__/mockLiveMarkets";
-import { Bond } from "../Bond";
-import { BondModalContainer } from "../components/BondModal/BondModal";
+} from "src/views/Bond/__mocks__/mockLiveMarkets";
+import { Bond } from "src/views/Bond/Bond";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 
 beforeEach(() => {
   connectWallet();

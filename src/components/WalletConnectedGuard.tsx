@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useAccount } from "wagmi";
-
-import { InPageConnectButton } from "./ConnectButton/ConnectButton";
 
 export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
   const { isConnected } = useAccount();

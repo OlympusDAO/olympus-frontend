@@ -11,8 +11,7 @@ import {
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { NetworkId } from "src/networkDetails";
 import { act, render, screen } from "src/testUtils";
-
-import { StakeBalances } from "../StakeBalances";
+import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 
 jest.mock("src/hooks/useBalance");
 jest.mock("src/hooks/useCurrentIndex");

@@ -9,6 +9,7 @@ import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { GiveData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
@@ -25,7 +26,7 @@ export const useGive = () => {
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   // Mutation to interact with the YieldDirector contract
-  return useMutation<ContractReceipt, Error, GiveData>(
+  return useMutation<ContractReceipt, EthersError, GiveData>(
     // Pass in an object with an amount and a recipient parameter
     async ({ amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
@@ -66,7 +67,7 @@ export const useGive = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (data, GiveData) => {
         const keysToRefetch = [
