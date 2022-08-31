@@ -1,4 +1,4 @@
-import { Box, Fade, Link, Typography } from "@mui/material";
+import { Box, Fade, FormControl, Link, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/component-library";
 import { FC, useState } from "react";
@@ -242,8 +242,26 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           <>
             <Typography variant="h5">Dev Faucet</Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
-              <SecondaryButton onClick={() => faucetMutation.mutate()}>
-                {isFaucetLoading ? "Loading..." : "Get OHM, ETH, and DAI Tokens"}
+              <FormControl className={classes.faucet}>
+                <Select
+                  label="Contract"
+                  disableUnderline
+                  id="contract-select"
+                  value={faucetToken}
+                  onChange={event => setFaucetToken(event.target.value)}
+                >
+                  <MenuItem value="OHM V1">OHM V1</MenuItem>
+                  <MenuItem value="OHM V2">OHM V2</MenuItem>
+                  <MenuItem value="sOHM V1">sOHM V1</MenuItem>
+                  <MenuItem value="sOHM V2">sOHM V2</MenuItem>
+                  <MenuItem value="wsOHM">wsOHM</MenuItem>
+                  <MenuItem value="gOHM">gOHM</MenuItem>
+                  <MenuItem value="DAI">DAI</MenuItem>
+                  <MenuItem value="ETH">ETH</MenuItem>
+                </Select>
+              </FormControl>
+              <SecondaryButton onClick={() => faucetMutation.mutate(faucetToken)}>
+                {isFaucetLoading ? "Loading..." : "Get Tokens"}
               </SecondaryButton>
             </Box>
           </>
