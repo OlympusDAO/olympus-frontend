@@ -52,7 +52,7 @@
     "axios": "^0.27.2",
     "class-validator": "^0.13.2",
     "date-fns": "^2.29.2",
-    "ethers": "^5.6.9",
+    "ethers": "^5.7.0",
     "get-value": "^3.0.1",
     "graphql": "^15.8.0",
     "graphql-request": "^5.0.0",
@@ -101,7 +101,7 @@
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
-    "@typechain/ethers-v5": "^8.0.2",
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/css-mediaquery": "^0.1.1",
     "@types/expect-puppeteer": "^5.0.1",
     "@types/get-value": "^3.0.3",
@@ -157,7 +157,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "type-graphql": "^1.1.1",
-    "typechain": "^6.0.2",
+    "typechain": "^8.1.0",
     "url": "^0.11.0"
   },
   "scripts": {
