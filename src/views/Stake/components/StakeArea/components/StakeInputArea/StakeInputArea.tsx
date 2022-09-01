@@ -247,15 +247,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-          {currentAction === "UNSTAKE" && liveInverseBonds && (
-            <Box>
-              <InfoNotification>
-                {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
-                &nbsp;
-                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
-              </InfoNotification>
-            </Box>
-          )}
           <SwapCollection
             UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : SohmGohmSwapCard()}
             LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
@@ -294,7 +285,25 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
               handleMinAmount={minAmount => setZapMinAmount(minAmount)}
             />
           )}
-          <Box my={2}>
+          {currentAction === "UNSTAKE" && liveInverseBonds && (
+            <Box mt="21px" mb="6.5px">
+              <InfoNotification>
+                {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+                &nbsp;
+                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+              </InfoNotification>
+            </Box>
+          )}
+          {contractRouting === "Zap" && (
+            <Box mt="21px" mb="6.5px">
+              <InfoNotification>
+                <strong>You are about to Zap. </strong>Zaps allow you to stake OHM from any other currency, all in one
+                tx, saving you gas and headache.
+                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+              </InfoNotification>
+            </Box>
+          )}
+          <Box>
             <TokenAllowanceGuard
               tokenAddressMap={contractRouting === "Stake" ? addresses : { [chain.id]: swapAssetType.address }}
               spenderAddressMap={contractAddress}
