@@ -66,7 +66,7 @@
     "react-step-progress-bar": "^1.0.3",
     "react-uid": "^2.3.2",
     "recharts": "^2.1.12",
-    "typescript": "^4.7.4",
+    "typescript": "^4.8.2",
     "wagmi": "^0.6.4"
   },
   "devDependencies": {
@@ -96,7 +96,7 @@
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
-    "@typechain/ethers-v5": "^8.0.2",
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/css-mediaquery": "^0.1.1",
     "@types/get-value": "^3.0.3",
     "@types/graphql": "^14.5.0",
@@ -106,7 +106,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.28.0",
     "assert": "^2.0.0",
     "autoprefixer": "^10.4.8",
@@ -145,7 +145,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "type-graphql": "^1.1.1",
-    "typechain": "^6.0.2",
+    "typechain": "^8.1.0",
     "url": "^0.11.0"
   },
   "scripts": {
