@@ -29,7 +29,6 @@ import TokenModal, {
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
 import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
-import ZapInfo from "src/views/Zap/ZapInfo";
 import ZapTransactionDetails from "src/views/Zap/ZapTransactionDetails";
 import { useNetwork } from "wagmi";
 
@@ -247,11 +246,13 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-          <SwapCollection
-            UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : SohmGohmSwapCard()}
-            LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
-            arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
-          />
+          <Box mb="21px">
+            <SwapCollection
+              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : SohmGohmSwapCard()}
+              LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
+              arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
+            />
+          </Box>
           {tokenModalOpen && (
             <TokenModal
               open={tokenModalOpen}
@@ -286,8 +287,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             />
           )}
           {currentAction === "UNSTAKE" && liveInverseBonds && (
-            <Box mt="21px" mb="6.5px">
-              <InfoNotification>
+            <Box mb="6.5px">
+              <InfoNotification dismissible>
                 {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
                 &nbsp;
                 <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
@@ -296,10 +297,14 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           )}
           {contractRouting === "Zap" && (
             <Box mt="21px" mb="6.5px">
-              <InfoNotification>
-                <strong>You are about to Zap. </strong>Zaps allow you to stake OHM from any other currency, all in one
+              <InfoNotification dismissible>
+                <strong>You are about to Zap.</strong> Zaps allow you to stake OHM from any other currency, all in one
                 tx, saving you gas and headache.
-                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+                <br />
+                <Link
+                  href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+                  target="_blank"
+                >{t`Learn more`}</Link>
               </InfoNotification>
             </Box>
           )}
@@ -366,7 +371,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           </Box>
         </Box>
       </Box>
-      {contractRouting === "Zap" && <ZapInfo />}
     </StyledBox>
   );
 };
