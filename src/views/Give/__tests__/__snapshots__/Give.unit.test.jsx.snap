@@ -1136,7 +1136,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1xxc2wf-MuiGrid-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -1988,7 +1988,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1xxc2wf-MuiGrid-root"
                             >
                               <button
-                                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
+                                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
                                 disabled=""
                                 tabindex="-1"
                                 type="button"
