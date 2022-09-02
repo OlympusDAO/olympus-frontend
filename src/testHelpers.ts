@@ -723,7 +723,8 @@ export const mockTotalDonated = (data: string): UseQueryResult<string, Error> =>
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -736,6 +737,7 @@ export const mockTotalDonated = (data: string): UseQueryResult<string, Error> =>
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
