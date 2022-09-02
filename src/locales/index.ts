@@ -35,9 +35,7 @@ for (const [key, locale] of Object.entries(locales)) {
 }
 
 export async function fetchLocale(locale = "en") {
-  const { messages } = await import(
-    /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
-  );
+  const { messages } = await import(`./translations/olympus-frontend/${locale}/messages.js`);
   i18n.load(locale, messages);
   i18n.activate(locale);
   translations_style_dom.innerHTML = `.MuiTypography-root { direction: ${locales[locale].direction}; !important}`;
