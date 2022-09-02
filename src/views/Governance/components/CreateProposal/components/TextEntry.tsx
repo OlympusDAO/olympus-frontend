@@ -5,15 +5,24 @@ type TextEntryProps = {
   label: "Title" | "Description" | "Discussion" | "Target";
   handleChange: (value: string) => void;
   placeholder?: string;
+  error?: boolean;
+  helperText?: string;
 };
 
 const StyledProposalBox = styled(Box)(() => ({
   padding: "10px 0px 10px 0px",
 }));
-export const TextEntry = ({ label, handleChange, placeholder }: TextEntryProps) => {
+export const TextEntry = ({ label, handleChange, placeholder, error, helperText }: TextEntryProps) => {
   return (
     <StyledProposalBox>
-      <Input id={label} label={label} placeholder={placeholder} onChange={(e: any) => handleChange(e.target.value)} />
+      <Input
+        id={label}
+        label={label}
+        placeholder={placeholder}
+        error={error}
+        helperText={helperText}
+        onChange={(e: any) => handleChange(e.target.value)}
+      />
     </StyledProposalBox>
   );
 };

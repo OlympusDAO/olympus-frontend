@@ -51,6 +51,16 @@ export const CreateProposal = () => {
     );
   };
 
+  const isTitleValid = () => {
+    if (proposalTitle.length > 32) return false;
+    return true;
+  };
+
+  const canSubmit = () => {
+    if (!isTitleValid()) return false;
+    return true;
+  };
+
   const handleFormSubmission = async () => {
     const proposal = {
       name: proposalTitle,
@@ -74,7 +84,12 @@ export const CreateProposal = () => {
       <Paper>
         <Grid container direction="column" paddingLeft="4.5px" paddingRight="4.5px">
           <BackButton />
-          <TextEntry label="Title" handleChange={setProposalTitle} />
+          <TextEntry
+            label="Title"
+            error={!isTitleValid()}
+            helperText={isTitleValid() ? "" : "Titles must be less than 32 characters"}
+            handleChange={setProposalTitle}
+          />
           <StyledInputLabel>Description</StyledInputLabel>
           <MDEditor
             preview="edit"
@@ -104,7 +119,9 @@ export const CreateProposal = () => {
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="flex-end">
-          <PrimaryButton onClick={handleFormSubmission}>Continue</PrimaryButton>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission}>
+            Continue
+          </PrimaryButton>
         </Box>
       </Paper>
     </Box>
