@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
-
-import Root from "../Root";
+import Root from "src/Root";
 
 //We need to use @testing-library vs our custom render here, or else we'll have nested routers.
 describe("<Root/>", () => {

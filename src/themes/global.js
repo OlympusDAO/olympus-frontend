@@ -100,13 +100,6 @@ const commonSettings = {
             borderRadius: "10px",
             margin: "0px",
           },
-          "&.Paper-root&.ohm-chart-card": {
-            padding: "20px 0px",
-            whiteSpace: "nowrap",
-            maxWidth: "700px",
-            width: "97%",
-            marginBottom: "1.8rem",
-          },
         },
       },
       defaultProps: {

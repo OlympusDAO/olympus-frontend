@@ -1,7 +1,7 @@
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BigNumber } from "ethers";
 import { gql, request } from "graphql-request";
-import { useInfiniteQuery, useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
 import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
@@ -16,7 +16,7 @@ import { CovalentResponse, CovalentTransaction, CovalentTransfer } from "src/lib
 import { NetworkId } from "src/networkDetails";
 import { useAccount, useNetwork } from "wagmi";
 export const ActiveProposals = () => {
-  const { data, isFetched, isLoading } = useQuery("ActiveProposals", async () => {
+  const { data, isFetched, isLoading } = useQuery(["ActiveProposals"], async () => {
     const data = await request(
       snapshotUrl,
       gql`
@@ -49,7 +49,7 @@ export const ActiveProposals = () => {
 };
 
 export const MediumArticles = () => {
-  const { data, isFetched, isLoading } = useQuery("MediumArticles", async () => {
+  const { data, isFetched, isLoading } = useQuery(["MediumArticles"], async () => {
     return await axios.get(mediumUrl).then(res => {
       return res.data;
     });
@@ -59,7 +59,7 @@ export const MediumArticles = () => {
 
 export const SupplyRatePerBlock = () => {
   const fuse = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
-  const { data, isFetched, isLoading } = useQuery("FuseSupply", async () => {
+  const { data, isFetched, isLoading } = useQuery(["FuseSupply"], async () => {
     return await fuse.supplyRatePerBlock();
   });
   return { data, isFetched, isLoading };
@@ -88,7 +88,7 @@ export const useTransactionHistory = () => {
   const { chain = { id: 1 } } = useNetwork();
 
   return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction[]>(
-    transactionHistoryQueryKey({ address, networkId: chain.id }),
+    [transactionHistoryQueryKey({ address, networkId: chain.id })],
     ({ pageParam = 0 }) => {
       return covalent.transactions.listAll({
         address,
@@ -125,7 +125,7 @@ export const useTransferHistory = <TToken extends Token>(token: TToken) => {
   const contractAddress = token.getAddress(chain.id);
 
   return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction[]>(
-    transferHistoryQueryKey({ address, networkId: chain.id, contractAddress }),
+    [transferHistoryQueryKey({ address, networkId: chain.id, contractAddress })],
     async ({ pageParam = 0 }) => {
       return covalent.transfers.listAll({
         address,

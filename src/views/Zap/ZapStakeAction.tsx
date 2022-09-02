@@ -19,7 +19,6 @@ import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ReactComponent as DownIcon } from "src/assets/icons/arrow-down.svg";
-import { ReactComponent as ZapperIcon } from "src/assets/icons/powered-by-zapper.svg";
 import { ReactComponent as FirstStepIcon } from "src/assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "src/assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "src/assets/icons/step-complete.svg";
@@ -36,11 +35,10 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances, ZapperToken } from "src/hooks/useZapTokenBalances";
 import { error } from "src/slices/MessagesSlice";
+import SelectTokenModal from "src/views/Zap/SelectTokenModal";
+import SlippageModal from "src/views/Zap/SlippageModal";
+import ZapStakeHeader from "src/views/Zap/ZapStakeHeader";
 import { useAccount, useNetwork } from "wagmi";
-
-import SelectTokenModal from "./SelectTokenModal";
-import SlippageModal from "./SlippageModal";
-import ZapStakeHeader from "./ZapStakeHeader";
 
 const PREFIX = "ZapStakeAction";
 
@@ -208,7 +206,7 @@ const ZapStakeAction: React.FC = () => {
       return Object.entries(tokensBalance)
         .filter(token => token[0] !== "sohm" && !token[1].hide)
         .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-        .map(token => token[1].tokenImageUrl)
+        .map(token => token[1].displayProps.images[0])
         .slice(0, 3);
     } else {
       return [];
@@ -246,12 +244,6 @@ const ZapStakeAction: React.FC = () => {
   };
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
-
-  const zapperCredit = (
-    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <SvgIcon component={ZapperIcon} viewBox="85 0 100 80" style={{ width: "200px", height: "40px" }} />
-    </Box>
-  );
 
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
@@ -312,7 +304,7 @@ const ZapStakeAction: React.FC = () => {
                     <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                       <ButtonBase onClick={handleOpen}>
                         <Avatar
-                          src={selectedTokenBalance ? selectedTokenBalance.tokenImageUrl : ""}
+                          src={selectedTokenBalance ? selectedTokenBalance.displayProps.images[0] : ""}
                           style={{ height: "30px", width: "30px" }}
                         />
                         <Box width="10px" />
@@ -565,14 +557,13 @@ const ZapStakeAction: React.FC = () => {
           </Grid>
         </Grid>
       )}
-      {zapperCredit}
-      {SelectTokenModal(handleClose, modalOpen, zapTokenBalances.isLoading, handleSelectZapToken, zapperCredit, {
+      {SelectTokenModal(handleClose, modalOpen, zapTokenBalances.isLoading, handleSelectZapToken, {
         regularTokens: tokensBalance,
       })}
-      {SelectTokenModal(handleOutputClose, outputModalOpen, false, handleSelectOutputToken, zapperCredit, {
+      {SelectTokenModal(handleOutputClose, outputModalOpen, false, handleSelectOutputToken, {
         output: true,
       })}
-      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage, zapperCredit)}
+      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage)}
     </Root>
   );
 };

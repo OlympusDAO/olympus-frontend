@@ -1,4 +1,4 @@
-import "./ProjectCard.scss";
+import "src/components/GiveProject/ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
@@ -6,17 +6,23 @@ import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQue
 import { Skeleton } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
-import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
+import ReactMarkdown from "react-markdown";
 import { Link as RouterLink } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
+import {
+  IUserRecipientInfo,
+  useDonationInfo,
+  useDonorNumbers,
+  useRecipientInfo,
+  useTotalDonated,
+} from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
@@ -103,6 +109,10 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
 
   // Pull data for a specific partner's wallet
   const _useRecipientInfo = useRecipientInfo(wallet);
+  const recipientInfo: IUserRecipientInfo | null = useMemo(() => {
+    return _useRecipientInfo.data === undefined ? null : _useRecipientInfo.data;
+  }, [_useRecipientInfo]);
+
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data === undefined) return new DecimalBigNumber("0");
 
@@ -189,7 +199,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
     if (recipientInfoIsLoading || _useRecipientInfo.isLoading || !totalDebt) return ZERO_NUMBER;
 
-    return totalDebt
+    const sohmDebt = recipientInfo ? new DecimalBigNumber(recipientInfo.sohmDebt) : new DecimalBigNumber("0");
+
+    return sohmDebt
       .mul(new DecimalBigNumber("100"))
       .div(new DecimalBigNumber(depositGoal.toString()), GIVE_MAX_DECIMALS);
   }, [recipientInfoIsLoading, _useRecipientInfo.isLoading, totalDebt, depositGoal]);
@@ -241,9 +253,11 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const getGoalCompletion = (): string => {
     if (!depositGoal) return "0";
     if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
+
+    const sohmDebt = recipientInfo ? new DecimalBigNumber(recipientInfo.sohmDebt) : new DecimalBigNumber("0");
     const depositGoalNumber = new DecimalBigNumber(depositGoal.toString(), GIVE_MAX_DECIMALS);
 
-    return totalDebt
+    return sohmDebt
       .mul(new DecimalBigNumber("100"))
       .div(depositGoalNumber, GIVE_MAX_DECIMALS)
       .toString({ decimals: 2 });
@@ -485,10 +499,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     return owner + " - " + title;
   };
 
-  const getRenderedDetails = (shorten: boolean) => {
-    return {
-      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
-    };
+  const RenderedDetails = ({ shorten = false }) => {
+    const description = shorten ? shortDescription : <ReactMarkdown children={details} />;
+    return <>{description}</>;
   };
 
   /**
@@ -546,7 +559,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             )}
             <Grid item xs={12}>
               <Typography variant="body1" className="project-content">
-                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                <RenderedDetails shorten />
               </Typography>
             </Grid>
             <Grid item xs />
@@ -711,7 +724,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   </Link>
                 }
               >
-                <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                <Typography variant="body1" className="project-content">
+                  <RenderedDetails />
+                </Typography>
               </Paper>
             </Grid>
           </Grid>

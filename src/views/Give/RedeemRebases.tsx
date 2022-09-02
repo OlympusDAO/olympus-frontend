@@ -5,18 +5,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, Metric, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
+import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo, useRedeemableBalance, useTotalDonated, useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useRedeem } from "src/views/Give/hooks/useRedeem";
+import { useOldRedeem } from "src/views/Give/hooks/useRedeemV1";
+import data from "src/views/Give/projects.json";
+import { RedeemCancelCallback, RedeemRebasesModal } from "src/views/Give/RedeemRebasesModal";
 import { useAccount } from "wagmi";
-
-import { Project } from "../../components/GiveProject/project.type";
-import { useRedeem } from "./hooks/useRedeem";
-import { useOldRedeem } from "./hooks/useRedeemV1";
-import data from "./projects.json";
-import { RedeemCancelCallback, RedeemRebasesModal } from "./RedeemRebasesModal";
 
 // Consistent with staking page
 const DECIMAL_PLACES = 4;

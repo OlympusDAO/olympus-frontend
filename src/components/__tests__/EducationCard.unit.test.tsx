@@ -1,4 +1,3 @@
-import { render, screen } from "../../testUtils";
 import {
   ArrowGraphic,
   CompactRebases,
@@ -7,7 +6,8 @@ import {
   LargeRebases,
   LargeVault,
   LargeWallet,
-} from "../EducationCard";
+} from "src/components/EducationCard";
+import { render, screen } from "src/testUtils";
 
 describe("<ArrowGraphic/>", () => {
   it("should render component with correct fill", () => {

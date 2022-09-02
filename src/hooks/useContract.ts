@@ -22,11 +22,9 @@ import CURVE_GAUGE_DEPOSIT_ABI from "src/abi/CurveGaugeDeposit.json";
 import CURVE_POOL_ABI from "src/abi/CurvePool.json";
 import DEV_FAUCET from "src/abi/DevFaucet.json";
 import FUSE_PROXY_ABI from "src/abi/FuseProxy.json";
-import GAUGE_ABI from "src/abi/Gauge.json";
 import IERC20_ABI from "src/abi/IERC20.json";
 import JOECHEF_ABI from "src/abi/JoeChef.json";
 import JOE_REWARDER_ABI from "src/abi/JoeRewarder.json";
-import JONES_ABI from "src/abi/Jones.json";
 import GIVE_ABI from "src/abi/OlympusGiving.json";
 import GIVE_OLD_ABI from "src/abi/OlympusGivingOld.json";
 import MOCK_GIVE_ABI from "src/abi/OlympusMockGiving.json";
@@ -35,8 +33,6 @@ import PAIR_CONTRACT_ABI from "src/abi/PairContract.json";
 import SOHM_ABI from "src/abi/sOhmv2.json";
 import SUSHI_CHEF_ABI from "src/abi/SushiChef.json";
 import SUSHI_REWARDER_ABI from "src/abi/SushiRewarder.json";
-import ZIP_REWARDER_ABI from "src/abi/ZipRewarder.json";
-import ZIP_SECONDARY_REWARDER_ABI from "src/abi/ZipSecondaryRewarder.json";
 import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
@@ -47,7 +43,6 @@ import {
   DevFaucet,
   FuseProxy,
   IERC20,
-  Jones,
   OlympusGiving,
   OlympusGivingOld,
   OlympusMockGiving,
@@ -60,13 +55,10 @@ import { BalancerVault } from "src/typechain/BalancerVault";
 import { BeethovenChef } from "src/typechain/BeethovenChef";
 import { CurveGaugeController } from "src/typechain/CurveGaugeController";
 import { CurveGaugeDeposit } from "src/typechain/CurveGaugeDeposit";
-import { Gauge } from "src/typechain/Gauge";
 import { JoeChef } from "src/typechain/JoeChef";
 import { JoeRewarder } from "src/typechain/JoeRewarder";
 import { SushiChef } from "src/typechain/SushiChef";
 import { SushiRewarder } from "src/typechain/SushiRewarder";
-import { ZipRewarder } from "src/typechain/ZipRewarder";
-import { ZipSecondaryRewarder } from "src/typechain/ZipSecondaryRewarder";
 import { useNetwork, useProvider, useSigner } from "wagmi";
 
 /**
@@ -142,15 +134,9 @@ export const useStaticChefContract = createStaticContract<SushiChef>(SUSHI_CHEF_
 export const useStaticChefRewarderContract = createStaticContract<SushiRewarder>(SUSHI_REWARDER_ABI.abi);
 export const useStaticJoeChefContract = createStaticContract<JoeChef>(JOECHEF_ABI.abi);
 export const useStaticJoeRewarderContract = createStaticContract<JoeRewarder>(JOE_REWARDER_ABI.abi);
-export const useStaticGaugeContract = createStaticContract<Gauge>(GAUGE_ABI.abi);
 export const useStaticBeethovenChefContract = createStaticContract<BeethovenChef>(BEETHOVEN_CHEF_ABI.abi);
 export const useStaticBalancerV2PoolContract = createStaticContract<BalancerV2Pool>(BALANCERV2_POOL_ABI.abi);
 export const useStaticBalancerVaultContract = createStaticContract<BalancerVault>(BALANCER_VAULT_ABI.abi);
-export const useStaticZipRewarderContract = createStaticContract<ZipRewarder>(ZIP_REWARDER_ABI.abi);
-export const useStaticZipSecondaryRewardercontract = createStaticContract<ZipSecondaryRewarder>(
-  ZIP_SECONDARY_REWARDER_ABI.abi,
-);
-export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI.abi);
 export const useStaticCurvePoolContract = createStaticContract<CurvePool>(CURVE_POOL_ABI.abi);
 export const useStaticCurveGaugeControllerContract = createStaticContract<CurveGaugeController>(
   CURVE_GAUGE_CONTROLLER_ABI.abi,

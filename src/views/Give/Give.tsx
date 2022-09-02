@@ -1,4 +1,4 @@
-import "./Give.scss";
+import "src/views/Give/Give.scss";
 
 import { t } from "@lingui/macro";
 import { Grid, Link, Typography } from "@mui/material";
@@ -11,17 +11,16 @@ import { NavLink as RouterLink } from "react-router-dom";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { CallToRedeem } from "src/views/Give/CallToRedeem";
+import CausesDashboard from "src/views/Give/CausesDashboard";
+import { GiveInfo } from "src/views/Give/GiveInfo";
+import { GohmToggle } from "src/views/Give/GohmToggle";
+import GrantInfo from "src/views/Give/GrantInfo";
+import GrantsDashboard from "src/views/Give/GrantsDashboard";
+import ProjectInfo from "src/views/Give/ProjectInfo";
+import RebaseRecipients from "src/views/Give/RebaseRecipients";
+import RedeemRebases from "src/views/Give/RedeemRebases";
 import { useNetwork } from "wagmi";
-
-import { CallToRedeem } from "./CallToRedeem";
-import CausesDashboard from "./CausesDashboard";
-import { GiveInfo } from "./GiveInfo";
-import { GohmToggle } from "./GohmToggle";
-import GrantInfo from "./GrantInfo";
-import GrantsDashboard from "./GrantsDashboard";
-import ProjectInfo from "./ProjectInfo";
-import RebaseRecipients from "./RebaseRecipients";
-import RedeemRebases from "./RedeemRebases";
 
 function Give({ selectedIndex = 0 }) {
   const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");

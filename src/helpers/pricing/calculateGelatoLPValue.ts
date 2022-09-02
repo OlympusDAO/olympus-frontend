@@ -1,8 +1,7 @@
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
 import { GUniV3Lp__factory } from "src/typechain";
-
-import { Token } from "../contracts/Token";
-import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
 export const calculateGelatoLPValue = async ({
   lpToken,

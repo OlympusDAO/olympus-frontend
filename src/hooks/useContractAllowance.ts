@@ -1,12 +1,11 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useDynamicTokenContract } from "src/hooks/useContract";
 import { useAccount, useNetwork } from "wagmi";
-
-import { useDynamicTokenContract } from "./useContract";
 
 export const contractAllowanceQueryKey = (
   address?: string,
@@ -22,7 +21,7 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
 
   const key = contractAllowanceQueryKey(address, chain.id, tokenMap, contractMap);
   return useQuery<BigNumber | null, Error>(
-    key,
+    [key],
     async () => {
       queryAssertion(address && chain.id, key);
 

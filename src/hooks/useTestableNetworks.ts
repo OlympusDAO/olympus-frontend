@@ -18,7 +18,7 @@ export const useTestableNetworks = () => {
   const { chain = { id: 1 } } = useNetwork();
 
   return {
-    MAINNET: getTestnet(NetworkId.MAINNET, NetworkId.TESTNET_GOERLI, chain.id, NetworkId.TESTNET_RINKEBY),
+    MAINNET: getTestnet(NetworkId.MAINNET, NetworkId.TESTNET_GOERLI, chain.id),
     AVALANCHE: getTestnet(NetworkId.AVALANCHE, NetworkId.AVALANCHE_TESTNET, chain.id),
     ARBITRUM: getTestnet(NetworkId.ARBITRUM, NetworkId.ARBITRUM_TESTNET, chain.id),
     POLYGON: getTestnet(NetworkId.POLYGON, NetworkId.POLYGON_TESTNET, chain.id),

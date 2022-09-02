@@ -1,4 +1,4 @@
-import { hashQueryKey, QueryKey } from "react-query";
+import { hashQueryKey, QueryKey } from "@tanstack/react-query";
 import { queryCache, queryClient } from "src/lib/react-query";
 
 /**
@@ -30,7 +30,7 @@ export const getQueryData = async <TData>(queryKey: QueryKey, queryFn: () => Pro
     const hashedKey = hashQueryKey(queryKey);
     const unsubscribe = queryCache.subscribe(event => {
       if (event?.query.queryHash === hashedKey) {
-        if (event.type === "queryUpdated") {
+        if (event.type === "updated") {
           unsubscribe();
 
           const { state } = event.query;

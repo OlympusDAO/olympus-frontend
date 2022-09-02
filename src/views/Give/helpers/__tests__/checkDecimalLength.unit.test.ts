@@ -1,4 +1,4 @@
-import { removeTrailingZeros } from "../checkDecimalLength";
+import { removeTrailingZeros } from "src/views/Give/helpers/checkDecimalLength";
 
 describe("removeTrailingZeros", () => {
   it("Should remove all but one trailing zeros", () => {

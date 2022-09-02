@@ -1,9 +1,8 @@
 import { switchClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import fonts from "./fonts";
-import commonSettings from "./global.js";
+import fonts from "src/themes/fonts";
+import commonSettings from "src/themes/global.js";
 
 // TODO: Break repeated use color values out into list of consts declared here
 // then set the values in darkTheme using the global color variables
@@ -189,9 +188,6 @@ export const dark = responsiveFontSizes(
                 },
                 "&.ohm-modal": {
                   backgroundColor: darkTheme.modalBg,
-                },
-                "&.MuiPaper-root&.tooltip-container": {
-                  background: darkTheme.paperBg,
                 },
                 "&.ohm-menu": {
                   background: darkTheme.menuBg,

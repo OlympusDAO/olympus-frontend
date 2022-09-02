@@ -1,16 +1,17 @@
 import { t } from "@lingui/macro";
+import { useMutation } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { DEV_FAUCET } from "src/constants/addresses";
 import { useDynamicFaucetContract } from "src/hooks/useContract";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useFaucet = () => {
   const dispatch = useDispatch();
   const contract = useDynamicFaucetContract(DEV_FAUCET, true);
 
-  return useMutation<ContractReceipt, Error, string>(
+  return useMutation<ContractReceipt, EthersError, string>(
     async token_ => {
       if (!contract)
         throw new Error(t`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
@@ -40,8 +41,7 @@ export const useFaucet = () => {
     },
     {
       onError: error => {
-        console.error(error.message);
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async () => {
         dispatch(createInfoToast(t`Successfully requested tokens from Faucet`));

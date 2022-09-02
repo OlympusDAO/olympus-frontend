@@ -1,5 +1,5 @@
-import "../Stake/Stake.scss";
-import "./V1-Stake.scss";
+import "src/views/Stake/Stake.scss";
+import "src/views/V1-Stake/V1-Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { ExpandMore } from "@mui/icons-material";
@@ -19,25 +19,28 @@ import {
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { DataRow, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { trim } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { error } from "src/slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { changeApproval, changeStake } from "src/slices/StakeThunk";
+import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
+import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
+import { StakeFiveDayRate } from "src/views/Stake/components/StakeArea/components/StakeFiveDayRate";
+import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
+import { StakeRebaseRate } from "src/views/Stake/components/StakeArea/components/StakeRebaseRate";
+import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 import { useAccount, useNetwork, useProvider } from "wagmi";
-
-import { trim } from "../../helpers";
-import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
-import { useGohmBalance, useSohmBalance } from "../../hooks/useBalance";
-import { useTestableNetworks } from "../../hooks/useTestableNetworks";
-import { error } from "../../slices/MessagesSlice";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import { ExternalStakePools } from "../Stake/components/ExternalStakePools/ExternalStakePools";
-import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
 function V1Stake({ setMigrationModalOpen }) {
   const dispatch = useDispatch();
@@ -55,9 +58,7 @@ function V1Stake({ setMigrationModalOpen }) {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
-  const fiveDayRate = useSelector(state => {
-    return state.app.fiveDayRate;
-  });
+
   const ohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.ohmV1;
   });
@@ -72,15 +73,6 @@ function V1Stake({ setMigrationModalOpen }) {
   });
   const unstakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmUnstakeV1;
-  });
-  const stakingRebase = useSelector(state => {
-    return state.app.stakingRebase;
-  });
-  const stakingAPY = useSelector(state => {
-    return state.app.stakingAPY;
-  });
-  const stakingTVL = useSelector(state => {
-    return state.app.stakingTVL;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -167,46 +159,20 @@ function V1Stake({ setMigrationModalOpen }) {
       .reduce((a, b) => a + b, 0)
       .toFixed(4),
   );
-  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
-  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   const goToV2Stake = () => {
     navigate("/stake");
   };
 
-  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
-  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(stakingTVL);
-  const formattedCurrentIndex = trim(currentIndex, 1);
   return (
     <div id="v1-stake-view">
       <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
             <MetricCollection>
-              <Metric
-                className="stake-apy"
-                label={`${t`Annualized Rebases`} (v1)`}
-                metric={`${formattedTrimmedStakingAPY}%`}
-                isLoading={stakingAPY ? false : true}
-              />
-              <Metric
-                className="stake-tvl"
-                label={`${t`TVL`} (v1)`}
-                metric={formattedStakingTVL}
-                isLoading={stakingTVL ? false : true}
-              />
-              <Metric
-                className="stake-index"
-                label={`${t`Current Index`} (v1)`}
-                metric={`${formattedCurrentIndex} OHM`}
-                isLoading={currentIndex ? false : true}
-              />
+              <StakingAPY className="stake-apy" />
+              <TotalValueDeposited className="stake-tvl" />
+              <CurrentIndex className="stake-index" />
             </MetricCollection>
           </Grid>
 
@@ -395,17 +361,12 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-                  <DataRow title={t`Your Next Rebase`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
-                  <DataRow
-                    title={t`Next Rebase Rate`}
-                    balance={`${stakingRebasePercentage}%`}
-                    isLoading={isAppLoading}
-                  />
-                  <DataRow
-                    title={t`Rebases (5-Day Rate)`}
-                    balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                    isLoading={isAppLoading}
-                  />
+
+                  <StakeNextRebaseAmount />
+
+                  <StakeRebaseRate />
+
+                  <StakeFiveDayRate />
                 </div>
               </>
             )}

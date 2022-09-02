@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
@@ -8,6 +8,7 @@ import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicV1GiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey, v1RedeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork } from "wagmi";
 /**
@@ -22,7 +23,7 @@ export const useOldRedeem = () => {
   const networks = useTestableNetworks();
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error>(
+  return useMutation<ContractReceipt, EthersError>(
     async () => {
       if (chain.id != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
@@ -57,7 +58,7 @@ export const useOldRedeem = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async () => {
         const keysToRefetch = [
@@ -68,7 +69,7 @@ export const useOldRedeem = () => {
           v1RedeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
-        keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         dispatch(createInfoToast(t`Successfully redeemed all rebases off the old contract`));
       },

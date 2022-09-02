@@ -1,9 +1,8 @@
 import { switchClasses, tabClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
-
-import fonts from "./fonts";
-import commonSettings, { handleBackdropFilter } from "./global.js";
+import fonts from "src/themes/fonts";
+import commonSettings, { handleBackdropFilter } from "src/themes/global.js";
 
 const lightTheme = {
   color: "#181A1D",
@@ -138,9 +137,6 @@ export const light = responsiveFontSizes(
               root: {
                 background: lightTheme.paperBg,
                 "&.ohm-card": {
-                  background: lightTheme.paperBg,
-                },
-                "&.MuiPaper-root&.tooltip-container": {
                   background: lightTheme.paperBg,
                 },
                 "&.ohm-modal": {

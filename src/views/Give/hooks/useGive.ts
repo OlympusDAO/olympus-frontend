@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
@@ -9,10 +9,10 @@ import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { GiveData } from "src/views/Give/Interfaces";
 import { useAccount } from "wagmi";
-
-import { GiveData } from "../Interfaces";
 
 /**
  * @notice Creates a new deposit
@@ -26,7 +26,7 @@ export const useGive = () => {
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   // Mutation to interact with the YieldDirector contract
-  return useMutation<ContractReceipt, Error, GiveData>(
+  return useMutation<ContractReceipt, EthersError, GiveData>(
     // Pass in an object with an amount and a recipient parameter
     async ({ amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
@@ -67,7 +67,7 @@ export const useGive = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (data, GiveData) => {
         const keysToRefetch = [
@@ -77,7 +77,7 @@ export const useGive = () => {
           recipientInfoQueryKey(GiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully deposited sOHM`));

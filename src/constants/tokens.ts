@@ -1,15 +1,10 @@
-import { Token } from "src/helpers/contracts/Token";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
-import { NetworkId } from "src/networkDetails";
-import { IERC20__factory, PairContract__factory } from "src/typechain";
-
 import {
   DAI_ADDRESSES,
   FRAX_ADDRESSES,
   GOHM_ADDRESSES,
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
+  OHM_DAI_ETH_LP_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
   SOHM_ADDRESSES,
   UST_ADDRESSES,
@@ -18,7 +13,14 @@ import {
   WBTC_ADDRESSES,
   WETH_ADDRESSES,
   WSOHM_ADDRESSES,
-} from "./addresses";
+} from "src/constants/addresses";
+import { BALANCER_VAULT } from "src/constants/contracts";
+import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { calculateBalancerLPValue } from "src/helpers/pricing/calculateBalancerLPValue";
+import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
+import { NetworkId } from "src/networkDetails";
+import { BalancerV2Pool__factory, IERC20__factory, PairContract__factory } from "src/typechain";
 
 export const OHM_TOKEN = new Token({
   icons: ["OHM"],
@@ -29,17 +31,6 @@ export const OHM_TOKEN = new Token({
   purchaseUrl:
     "https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
 });
-
-/**
- * We have to add the custom pricing func after
- * the token has been initialised to prevent
- * circular references during initialisation.
- */
-OHM_TOKEN.customPricingFunc = async () => {
-  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
-  const [ohm, dai] = await contract.getReserves();
-  return new DecimalBigNumber(dai.div(ohm), 9);
-};
 
 export const SOHM_TOKEN = new Token({
   icons: ["sOHM"],
@@ -131,7 +122,7 @@ export const TEST_DAI_TOKEN = new Token({
   decimals: 18,
   addresses: {
     [NetworkId.MAINNET]: DAI_ADDRESSES[NetworkId.MAINNET],
-    [NetworkId.TESTNET_RINKEBY]: "0xbc9ee0d911739cbc72cd094ada26f56e0c49eeae",
+    [NetworkId.TESTNET_GOERLI]: DAI_ADDRESSES[NetworkId.TESTNET_GOERLI],
   },
   factory: IERC20__factory,
   purchaseUrl: "",
@@ -168,6 +159,23 @@ export const OHM_DAI_LP_TOKEN = new Token({
 OHM_DAI_LP_TOKEN.customPricingFunc = networkId =>
   calculateUniOrSushiLPValue({ networkId, lpToken: OHM_DAI_LP_TOKEN, poolTokens: [OHM_TOKEN, DAI_TOKEN] });
 
+export const OHM_DAI_ETH_LP_TOKEN = new Token({
+  decimals: 18,
+  name: "50OHM-25DAI-25WETH",
+  icons: ["OHM", "DAI", "ETH"],
+  factory: BalancerV2Pool__factory,
+  addresses: OHM_DAI_ETH_LP_ADDRESSES,
+  purchaseUrl: "https://app.balancer.fi/#/trade",
+});
+
+OHM_DAI_ETH_LP_TOKEN.customPricingFunc = networkId => {
+  return calculateBalancerLPValue({
+    networkId,
+    lpToken: OHM_DAI_ETH_LP_TOKEN,
+    poolTokens: [OHM_TOKEN, DAI_TOKEN, WETH_TOKEN],
+  });
+};
+
 export const UST_TOKEN = new Token({
   icons: ["UST"],
   name: "UST",
@@ -194,3 +202,22 @@ export const WBTC_TOKEN = new Token({
   factory: IERC20__factory,
   purchaseUrl: "",
 });
+
+/**
+ * We have to add the custom pricing func after
+ * the token has been initialised to prevent
+ * circular references during initialisation.
+ */
+OHM_TOKEN.customPricingFunc = async () => {
+  const contract = OHM_DAI_ETH_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+  const vault = BALANCER_VAULT.getEthersContract(NetworkId.MAINNET);
+  const poolId = await contract.getPoolId();
+  const poolTokens = await vault.getPoolTokens(poolId);
+  const ethPrice = await WETH_TOKEN.getPrice(NetworkId.MAINNET);
+  const daiPrice = await DAI_TOKEN.getPrice(NetworkId.MAINNET);
+  const ethUSDValue = ethPrice.mul(new DecimalBigNumber(poolTokens.balances[2], 18));
+  const daiUSDValue = daiPrice.mul(new DecimalBigNumber(poolTokens.balances[1], 18));
+  const usdValue = ethUSDValue.add(daiUSDValue);
+
+  return usdValue.div(new DecimalBigNumber(poolTokens.balances[0], 9));
+};

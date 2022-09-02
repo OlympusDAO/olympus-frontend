@@ -1,4 +1,4 @@
-import "./CallToRedeem.scss";
+import "src/views/Give/CallToRedeem.scss";
 
 import { Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";

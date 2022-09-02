@@ -1,4 +1,4 @@
-import "./RebaseRecipients.scss";
+import "src/views/Give/RebaseRecipients.scss";
 
 import { Trans } from "@lingui/macro";
 import { Divider, Grid, Link, Typography, useTheme } from "@mui/material";
@@ -9,8 +9,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
-
-import { DepositTableRow } from "./DepositRow";
+import { DepositTableRow } from "src/views/Give/DepositRow";
 
 type RecipientModalProps = {
   giveAssetType: string;
@@ -21,13 +20,9 @@ export default function RebaseRecipients({ giveAssetType, changeAssetType }: Rec
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const rawDonationInfo = useDonationInfo().data;
-  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
-  const isDonationInfoLoading = useDonationInfo().isLoading;
+  const { data: donationInfo = [], isFetching } = useDonationInfo();
 
-  const isLoading = isDonationInfoLoading;
-
-  if (isLoading) {
+  if (isFetching) {
     return <Skeleton />;
   }
 

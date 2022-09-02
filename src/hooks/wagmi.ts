@@ -65,11 +65,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
     },
-    chain.rinkeby,
     chain.goerli,
   ],
   [
-    alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
     publicProvider(),
   ],

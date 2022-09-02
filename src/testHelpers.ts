@@ -1,16 +1,14 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { MockConnector } from "@wagmi/core/connectors/mock";
 import mediaQuery from "css-mediaquery";
 import { BigNumber, ethers, providers } from "ethers";
 import { Wallet } from "ethers/lib/ethers";
-import { UseQueryResult } from "react-query";
+import { NetworkId } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { IUserRecipientInfo } from "src/hooks/useGiveInfo";
+import { IUserDonationInfo } from "src/views/Give/Interfaces";
 import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
-
-import { NetworkId } from "./constants";
-import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
-import { IUserRecipientInfo } from "./hooks/useGiveInfo";
-import { ZapHelperBalancesResponse } from "./hooks/useZapTokenBalances";
-import { IUserDonationInfo } from "./views/Give/Interfaces";
 
 const provider = new ethers.providers.StaticJsonRpcProvider();
 
@@ -149,214 +147,6 @@ export function connectWallet() {
       status: "success",
     };
   });
-  //@ts-ignore
-  // WAGMI.useNetwork = jest.fn(() => {
-  //   return {
-  //     activeChain: {
-  //       id: 1,
-  //       name: "Ethereum",
-  //       network: "homestead",
-  //       nativeCurrency: {
-  //         name: "Ether",
-  //         symbol: "ETH",
-  //         decimals: 18,
-  //       },
-  //       rpcUrls: {
-  //         alchemy: "https://eth-mainnet.alchemyapi.io/v2",
-  //         infura: "https://mainnet.infura.io/v3",
-  //         default: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //       },
-  //       blockExplorers: {
-  //         etherscan: {
-  //           name: "Etherscan",
-  //           url: "https://etherscan.io",
-  //         },
-  //         default: {
-  //           name: "Etherscan",
-  //           url: "https://etherscan.io",
-  //         },
-  //       },
-  //     },
-  //     chains: [
-  //       {
-  //         id: 1,
-  //         name: "Ethereum",
-  //         network: "homestead",
-  //         nativeCurrency: {
-  //           name: "Ether",
-  //           symbol: "ETH",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           alchemy: "https://eth-mainnet.alchemyapi.io/v2",
-  //           infura: "https://mainnet.infura.io/v3",
-  //           default: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //         },
-  //         blockExplorers: {
-  //           etherscan: {
-  //             name: "Etherscan",
-  //             url: "https://etherscan.io",
-  //           },
-  //           default: {
-  //             name: "Etherscan",
-  //             url: "https://etherscan.io",
-  //           },
-  //         },
-  //       },
-  //       {
-  //         id: 137,
-  //         name: "Polygon",
-  //         network: "matic",
-  //         nativeCurrency: {
-  //           name: "MATIC",
-  //           symbol: "MATIC",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           alchemy: "https://polygon-mainnet.g.alchemy.com/v2",
-  //           infura: "https://polygon-mainnet.infura.io/v3",
-  //           default: "https://polygon-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //         },
-  //         blockExplorers: {
-  //           etherscan: {
-  //             name: "PolygonScan",
-  //             url: "https://polygonscan.com",
-  //           },
-  //           default: {
-  //             name: "PolygonScan",
-  //             url: "https://polygonscan.com",
-  //           },
-  //         },
-  //       },
-  //       {
-  //         id: 10,
-  //         name: "Optimism",
-  //         network: "optimism",
-  //         nativeCurrency: {
-  //           name: "Ether",
-  //           symbol: "ETH",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           alchemy: "https://opt-mainnet.g.alchemy.com/v2",
-  //           infura: "https://optimism-mainnet.infura.io/v3",
-  //           default: "https://opt-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //         },
-  //         blockExplorers: {
-  //           etherscan: {
-  //             name: "Etherscan",
-  //             url: "https://optimistic.etherscan.io",
-  //           },
-  //           default: {
-  //             name: "Etherscan",
-  //             url: "https://optimistic.etherscan.io",
-  //           },
-  //         },
-  //       },
-  //       {
-  //         id: 42161,
-  //         name: "Arbitrum",
-  //         network: "arbitrum",
-  //         nativeCurrency: {
-  //           name: "Ether",
-  //           symbol: "AETH",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           alchemy: "https://arb-mainnet.g.alchemy.com/v2",
-  //           infura: "https://arbitrum-mainnet.infura.io/v3",
-  //           default: "https://arb-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //         },
-  //         blockExplorers: {
-  //           arbitrum: {
-  //             name: "Arbitrum Explorer",
-  //             url: "https://explorer.arbitrum.io",
-  //           },
-  //           etherscan: {
-  //             name: "Arbiscan",
-  //             url: "https://arbiscan.io",
-  //           },
-  //           default: {
-  //             name: "Arbiscan",
-  //             url: "https://arbiscan.io",
-  //           },
-  //         },
-  //       },
-  //       {
-  //         id: 4,
-  //         name: "Rinkeby",
-  //         network: "rinkeby",
-  //         nativeCurrency: {
-  //           name: "Rinkeby Ether",
-  //           symbol: "rETH",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           alchemy: "https://eth-rinkeby.alchemyapi.io/v2",
-  //           infura: "https://rinkeby.infura.io/v3",
-  //           default: "https://eth-rinkeby.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  //         },
-  //         blockExplorers: {
-  //           etherscan: {
-  //             name: "Etherscan",
-  //             url: "https://rinkeby.etherscan.io",
-  //           },
-  //           default: {
-  //             name: "Etherscan",
-  //             url: "https://rinkeby.etherscan.io",
-  //           },
-  //         },
-  //         testnet: true,
-  //       },
-  //       {
-  //         id: 288,
-  //         name: "Boba Network",
-  //         network: "boba",
-  //         nativeCurrency: {
-  //           name: "Boba",
-  //           symbol: "BOBA",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           default: "https://mainnet.boba.network",
-  //         },
-  //         testnet: false,
-  //         iconUrl:
-  //           "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=64&q=100",
-  //       },
-  //       {
-  //         name: "Avalanche",
-  //         network: "avalanche",
-  //         id: 43114,
-  //         nativeCurrency: {
-  //           name: "Avalanche",
-  //           symbol: "AVAX",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           default: "https://api.avax.network/ext/bc/C/rpc",
-  //         },
-  //         iconUrl:
-  //           "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=64&q=100",
-  //       },
-  //       {
-  //         name: "Fantom",
-  //         network: "fantom",
-  //         id: 250,
-  //         nativeCurrency: {
-  //           name: "Fantom",
-  //           symbol: "FTM",
-  //           decimals: 18,
-  //         },
-  //         rpcUrls: {
-  //           default: "https://rpc.fantom.network",
-  //         },
-  //         iconUrl:
-  //           "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=64&q=100",
-  //       },
-  //     ],
-  //   };
-  // });
 
   //@ts-ignore
   WAGMI.useSigner = jest.fn(() => {
@@ -382,44 +172,6 @@ export function setupClient(config: Config = {}) {
   });
 }
 
-// TODO abstract out return object
-export const mockZapTokenBalances = (
-  data: ZapHelperBalancesResponse,
-): UseQueryResult<ZapHelperBalancesResponse, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isIdle: false,
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-  };
-};
-
 export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUserRecipientInfo, Error> => {
   return {
     data: data,
@@ -428,7 +180,6 @@ export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUse
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -439,41 +190,8 @@ export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUse
     isRefetching: false,
     isStale: false,
     status: "success",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-  };
-};
-
-export const mockOhmPrice = (data: number): UseQueryResult<number, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isIdle: false,
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
+    isPaused: false,
+    fetchStatus: "idle",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
     errorUpdateCount: 0,
@@ -498,42 +216,8 @@ export const mockRedeemableBalance = (data: string): UseQueryResult<string, Erro
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-  };
-};
-
-export const mockGohmPrice = (data: number): UseQueryResult<number, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -568,7 +252,8 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -596,8 +281,8 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
 };
 
 export const mockSohmBalance = (
-  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, DecimalBigNumber>,
-): Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, UseQueryResult<DecimalBigNumber, Error>> => {
+  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, DecimalBigNumber>,
+): Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, UseQueryResult<DecimalBigNumber, Error>> => {
   return {
     [NetworkId.MAINNET]: {
       data: data[NetworkId.MAINNET],
@@ -606,7 +291,8 @@ export const mockSohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -631,14 +317,15 @@ export const mockSohmBalance = (
         });
       },
     },
-    [NetworkId.TESTNET_RINKEBY]: {
-      data: data[NetworkId.TESTNET_RINKEBY],
+    [NetworkId.TESTNET_GOERLI]: {
+      data: data[NetworkId.TESTNET_GOERLI],
       error: null,
       isError: false,
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -669,7 +356,7 @@ export const mockSohmBalance = (
 export const mockGohmBalance = (
   data: Record<
     | NetworkId.MAINNET
-    | NetworkId.TESTNET_RINKEBY
+    | NetworkId.TESTNET_GOERLI
     | NetworkId.ARBITRUM
     | NetworkId.ARBITRUM_TESTNET
     | NetworkId.AVALANCHE
@@ -681,7 +368,7 @@ export const mockGohmBalance = (
   >,
 ): Record<
   | NetworkId.MAINNET
-  | NetworkId.TESTNET_RINKEBY
+  | NetworkId.TESTNET_GOERLI
   | NetworkId.ARBITRUM
   | NetworkId.ARBITRUM_TESTNET
   | NetworkId.AVALANCHE
@@ -699,7 +386,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -724,14 +412,15 @@ export const mockGohmBalance = (
         });
       },
     },
-    [NetworkId.TESTNET_RINKEBY]: {
-      data: data[NetworkId.TESTNET_RINKEBY],
+    [NetworkId.TESTNET_GOERLI]: {
+      data: data[NetworkId.TESTNET_GOERLI],
       error: null,
       isError: false,
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -763,7 +452,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -795,7 +485,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -827,7 +518,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -859,7 +551,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -891,7 +584,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -923,7 +617,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -955,7 +650,8 @@ export const mockGohmBalance = (
       isSuccess: true,
       isLoading: false,
       isLoadingError: false,
-      isIdle: false,
+      isPaused: false,
+      fetchStatus: "idle",
       isRefetchError: false,
       failureCount: 0,
       isFetched: true,
@@ -991,7 +687,8 @@ export const mockDonationInfo = (data: IUserDonationInfo): UseQueryResult<IUserD
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -1026,7 +723,8 @@ export const mockContractAllowance = (data: BigNumber): UseQueryResult<BigNumber
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,
@@ -1053,7 +751,7 @@ export const mockContractAllowance = (data: BigNumber): UseQueryResult<BigNumber
   };
 };
 
-export const mockCurrentIndex = (data: string): UseQueryResult<string, Error> => {
+export const mockCurrentIndex = (data: DecimalBigNumber): UseQueryResult<DecimalBigNumber, Error> => {
   return {
     data: data,
     error: null,
@@ -1061,42 +759,8 @@ export const mockCurrentIndex = (data: string): UseQueryResult<string, Error> =>
     isSuccess: true,
     isLoading: false,
     isLoadingError: false,
-    isIdle: false,
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-  };
-};
-
-export const mockTotalDonated = (data: DecimalBigNumber): UseQueryResult<DecimalBigNumber, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isIdle: false,
+    isPaused: false,
+    fetchStatus: "idle",
     isRefetchError: false,
     failureCount: 0,
     isFetched: true,

@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EthereumNetwork, NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
@@ -75,7 +75,7 @@ export const bondQueryKey = (options: UseBondOptions) => ["useBond", options] as
 export const useBond = ({ id, isInverseBond = false }: Omit<UseBondOptions, "networkId">) => {
   const networks = useTestableNetworks();
   const args = { id, networkId: networks.MAINNET, isInverseBond };
-  return useQuery(bondQueryKey(args), () => fetchBond(args));
+  return useQuery([bondQueryKey(args)], () => fetchBond(args));
 };
 
 export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions) => {

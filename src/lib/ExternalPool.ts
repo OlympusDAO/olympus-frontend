@@ -18,6 +18,7 @@ export class ExternalPool {
   readonly rewardGecko: string;
   readonly vault: string;
   readonly bonusGecko: string;
+  readonly mintAndSync: boolean;
 
   constructor(poolOpts: StakePoolOpts) {
     this.poolName = poolOpts.poolName;
@@ -34,6 +35,7 @@ export class ExternalPool {
     this.rewardGecko = poolOpts.rewardGecko;
     this.bonusGecko = poolOpts.bonusGecko ? poolOpts.bonusGecko : "";
     this.vault = poolOpts.vault ? poolOpts.vault : "";
+    this.mintAndSync = poolOpts.mintAndSync ? true : false;
   }
 }
 
@@ -51,6 +53,7 @@ export interface StakePoolOpts {
   rewardGecko: string;
   bonusGecko?: string;
   vault?: string;
+  mintAndSync?: boolean;
 }
 
 export interface ExternalPoolwBalance extends ExternalPool {

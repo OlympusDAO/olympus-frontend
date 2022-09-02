@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
-import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import gOHM from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
@@ -10,10 +10,10 @@ import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { EditGiveData } from "src/views/Give/Interfaces";
 import { useAccount, useNetwork, useSigner } from "wagmi";
-
-import { EditGiveData } from "../Interfaces";
 
 /**
  * @notice Increases the value of an active donation
@@ -27,7 +27,7 @@ export const useIncreaseGive = () => {
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   // Mutation to interact with the YieldDirector contract
-  return useMutation<ContractReceipt, Error, EditGiveData>(
+  return useMutation<ContractReceipt, EthersError, EditGiveData>(
     // Pass in an object with an amount and a recipient parameter
     async ({ id: id_, amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
@@ -66,7 +66,7 @@ export const useIncreaseGive = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (data, EditGiveData) => {
         // Refetch sOHM balance and donation info
@@ -77,7 +77,7 @@ export const useIncreaseGive = () => {
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully increased sOHM deposit`));
@@ -105,7 +105,7 @@ export const useDecreaseGive = () => {
   );
 
   // Mutation to interact with the YieldDirector contract
-  return useMutation<ContractReceipt, Error, EditGiveData>(
+  return useMutation<ContractReceipt, EthersError, EditGiveData>(
     // Pass in an object with an amount and a recipient parameter
     async ({ id: id_, amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
@@ -151,7 +151,7 @@ export const useDecreaseGive = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (data, EditGiveData) => {
         // Refetch balances and donation info
@@ -162,7 +162,7 @@ export const useDecreaseGive = () => {
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
         dispatch(createInfoToast(t`Successfully decreased sOHM deposit`));

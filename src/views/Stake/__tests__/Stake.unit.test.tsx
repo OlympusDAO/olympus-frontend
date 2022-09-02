@@ -1,5 +1,5 @@
-import { render, screen } from "../../../testUtils";
-import Stake from "../Stake";
+import { render, screen } from "src/testUtils";
+import Stake from "src/views/Stake/Stake";
 
 describe("<Stake/>", () => {
   it("should render component", async () => {
@@ -26,11 +26,6 @@ describe("<Stake/>", () => {
     );
     // there should be two sushi contracts, one on Arbitrum and the other on Polygon
     const sushiContracts = await screen.findAllByText("gOHM-wETH");
-    expect(sushiContracts).toHaveLength(3);
-    expect(await screen.getByText("gOHM-FTM")).toBeInTheDocument();
-    expect(await screen.getByText("Stake on Spirit").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.spiritswap.finance/#/farms/allfarms",
-    );
+    expect(sushiContracts).toHaveLength(2);
   });
 });

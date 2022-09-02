@@ -3,14 +3,13 @@ import { Box, Divider, Grid } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
+import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
+import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
+import { StakeFiveDayRate } from "src/views/Stake/components/StakeArea/components/StakeFiveDayRate";
+import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
+import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
+import { StakeRebaseRate } from "src/views/Stake/components/StakeArea/components/StakeRebaseRate";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
-
-import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
-import { StakeBalances } from "./components/StakeBalances";
-import { StakeFiveDayRate } from "./components/StakeFiveDayRate";
-import { StakeInputArea } from "./components/StakeInputArea/StakeInputArea";
-import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
-import { StakeRebaseRate } from "./components/StakeRebaseRate";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);

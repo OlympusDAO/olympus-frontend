@@ -16,10 +16,10 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6mamqx-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-62jtqx-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1kqbqpo-MuiPaper-root-MuiDrawer-paper"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-w1su4o-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-zz034z-MuiPaper-root"
           >
             <div
               class="dapp-sidebar-inner MuiBox-root css-155ff3i"
@@ -87,7 +87,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       class="NavItem-root nav-item-container css-2pdow1"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-1nhesla-MuiPaper-root-MuiAccordion-root"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-1k44raq-MuiPaper-root-MuiAccordion-root"
                       >
                         <div
                           aria-expanded="true"
@@ -621,7 +621,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 </a>
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                  href="https://discord.gg/OlympusDAO"
+                  href="https://discord-invite.olympusdao.finance"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

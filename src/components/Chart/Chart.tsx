@@ -1,17 +1,11 @@
-import "./chart.scss";
-
-import { t } from "@lingui/macro";
-import { Box, CircularProgress, SvgIcon, Typography } from "@mui/material";
-import { Skeleton } from "@mui/material";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
   Bar,
   BarChart,
-  CartesianGrid,
+  ComposedChart,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -19,386 +13,708 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
-import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
+import { CategoricalChartFunc, CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
+import { ChartType, DataFormat } from "src/components/Chart/Constants";
+import CustomTooltip from "src/components/Chart/CustomTooltip";
+import ExpandedChart from "src/components/Chart/ExpandedChart";
+import {
+  getAreaColor,
+  getDataIntersections,
+  getDataWithRange,
+  getIntersectionColor,
+  RANGE_KEY,
+} from "src/components/Chart/IntersectionHelper";
 import { formatCurrency, trim } from "src/helpers";
+import { getFloat } from "src/helpers/NumberHelper";
+import { getMaximumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
-import CustomTooltip from "./CustomTooltip";
-import ExpandedChart from "./ExpandedChart";
+const TICK_COUNT = 5;
+const TICK_COUNT_EXPANDED = 5;
+const XAXIS_PADDING_RIGHT = 30;
+const TICK_INTERVAL_XAXIS = 10;
+const LINE_STROKE_WIDTH = 3;
 
-const tickCount = 3;
-const expandedTickCount = 5;
+export const formatCurrencyTick = (value: unknown): string => {
+  const valueNum: number = getFloat(value);
 
-const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
-  return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
+  if (!valueNum) return "";
+
+  if (valueNum > 1000000) {
+    return `${formatCurrency(valueNum / 1000000)}M`;
+  }
+
+  if (valueNum > 1000) {
+    return `${formatCurrency(valueNum / 1000)}k`;
+  }
+
+  return formatCurrency(valueNum, 2);
+};
+
+export const formatPercentTick = (value: unknown): string => {
+  const valueNum: number = getFloat(value);
+
+  if (!valueNum) return "";
+
+  return trim(valueNum, 2) + "%";
+};
+
+export const formatDateMonthTick = (value: unknown): string => {
+  const valueNum: number = getFloat(value);
+
+  if (!valueNum) return "";
+
+  return format(new Date(valueNum), "MMM dd");
+};
+
+const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
+  if (dataFormat == DataFormat.Currency) return formatCurrencyTick(value);
+
+  if (dataFormat == DataFormat.Percentage) return formatPercentTick(value);
+
+  if (dataFormat == DataFormat.DateMonth) return formatDateMonthTick(value);
+
+  return "";
 };
 
 const renderAreaChart = (
-  data: any[],
-  dataKey: string[],
-  stopColor: string[][],
-  stroke: string[],
-  dataFormat: string,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
-  itemType: string,
-  isStaked: boolean,
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
-  isPOL: boolean,
   margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
+
+  return (
+    <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <defs>
+        <linearGradient id={`color-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={dataKeyColor} stopOpacity={1} />
+          <stop offset="90%" stopColor={dataKeyColor} stopOpacity={0.9} />
+        </linearGradient>
+      </defs>
+      <XAxis
+        dataKey="timestamp"
+        interval={30}
+        axisLine={false}
+        tickLine={false}
+        tick={tickStyle}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        reversed={true}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        axisLine={false}
+        tickLine={false}
+        tick={tickStyle}
+        width={dataFormat == DataFormat.Percentage ? 33 : 55}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[0, maximumYValue]}
+        dx={3}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Area dataKey={dataKey} stroke="none" fill={`url(#color-${dataKey})`} fillOpacity={1} />
+    </AreaChart>
+  );
+};
+
+/**
+ * Converts a given string (usually a data key) into a valid CSS selector.
+ *
+ * Failing to do this would result in the defined CSS style not matching against the
+ * data key.
+ *
+ * Invalid characters are: (space), (, )
+ *
+ * OlympusDAO/olympus-frontend#2133:
+ * We differentiate between the CSS styling for the expanded and standard charts,
+ * as closing the expanded chart modal in iOS Safari results in the standard
+ * chart being rendered in black. Most likely the CSS styles are unloaded and
+ * not restored by the standard chart component.
+ */
+const getValidCSSSelector = (value: string, isExpanded: boolean): string => {
+  return `color${isExpanded ? "-expanded" : ""}-${value.replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "")}`;
+};
+
+const renderStackedAreaChart = (
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
 ) => (
-  <AreaChart data={data} margin={margin}>
+  <AreaChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <defs>
-      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
-      </linearGradient>
+      {dataKeys.map((value: string) => {
+        return (
+          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
+          </linearGradient>
+        );
+      })}
     </defs>
     <XAxis
       dataKey="timestamp"
-      interval={30}
+      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
+      tick={tickStyle}
       tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
-      padding={{ right: 20 }}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
+      axisLine={false}
+      width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tick={tickStyle}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+      tickLine={false}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
+      domain={[0, maximumYValue]}
+      allowDataOverflow={false}
+    />
+    <Tooltip
+      formatter={(value: string) => trim(parseFloat(value), 2)}
+      content={
+        <CustomTooltip
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
+          dataFormat={dataFormat}
+          dataKeys={dataKeys}
+          displayTotal={displayTooltipTotal}
+        />
+      }
+    />
+    {dataKeys.map((value: string) => {
+      return (
+        <Area
+          dataKey={value}
+          stroke={dataKeyColors.get(value)}
+          fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
+          fillOpacity={1}
+          stackId="1"
+        />
+      );
+    })}
+  </AreaChart>
+);
+
+/**
+ * Renders a composed (area & line) chart.
+ */
+const renderComposedChart = (
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  displayTooltipTotal?: boolean,
+  composedLineDataKeys?: string[],
+  onMouseMove?: CategoricalChartFunc,
+) => (
+  <ComposedChart data={data} margin={margin} onMouseMove={onMouseMove}>
+    <defs>
+      {dataKeys.map((value: string) => {
+        return (
+          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
+          </linearGradient>
+        );
+      })}
+    </defs>
+    <XAxis
+      dataKey="timestamp"
+      interval={TICK_INTERVAL_XAXIS}
+      axisLine={false}
+      tick={tickStyle}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      reversed={true}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
+    />
+    <YAxis
+      axisLine={false}
+      width={dataFormat == DataFormat.Percentage ? 33 : 55}
+      tick={tickStyle}
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+      tickLine={false}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
+      domain={[0, maximumYValue]}
+      allowDataOverflow={false}
+    />
+    <Tooltip
+      formatter={(value: string) => trim(parseFloat(value), 2)}
+      content={
+        <CustomTooltip
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
+          dataFormat={dataFormat}
+          dataKeys={dataKeys}
+          dataKeysExcludedFromTotal={composedLineDataKeys}
+          displayTotal={displayTooltipTotal}
+        />
+      }
+    />
+    {dataKeys.map((value: string) => {
+      /**
+       * Any elements in the composed data keys are rendered as values
+       * on a dashed, thick line.
+       */
+      if (composedLineDataKeys && composedLineDataKeys.includes(value)) {
+        return (
+          <Line
+            dataKey={value}
+            stroke={dataKeyColors.get(value)}
+            fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
+            dot={false}
+            strokeWidth={LINE_STROKE_WIDTH}
+            strokeDasharray={"4 1"}
+          />
+        );
+      }
+
+      return (
+        <Area
+          dataKey={value}
+          stroke={dataKeyColors.get(value)}
+          fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
+          fillOpacity={1}
+          stackId="1"
+        />
+      );
+    })}
+  </ComposedChart>
+);
+
+const renderLineChart = (
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  scale?: string,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
+
+  return (
+    <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <XAxis
+        dataKey="timestamp"
+        interval={100}
+        axisLine={false}
+        tick={tickStyle}
+        tickCount={3}
+        tickLine={false}
+        reversed={true}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        tickCount={scale == "log" ? 1 : isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        axisLine={false}
+        tick={tickStyle}
+        tickLine={false}
+        width={32}
+        scale={() => scale}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Line type="monotone" dataKey={dataKey} stroke={dataKeyColor} color={dataKeyColor} dot={false} />
+    </LineChart>
+  );
+};
+
+/**
+ * Returns true if the value corresponding to keys[0] is greater than keys[1].
+ *
+ * @param data
+ * @param keys
+ * @returns
+ */
+const isLineOneHigher = (data: Record<string, unknown>[], keys: string[]): boolean => {
+  if (!data.length) return false;
+  if (keys.length < 2) return false;
+
+  if (!objectHasProperty(data[0], keys[0])) {
+    throw new Error(`isLineOneHigher: Unable to access ${keys[0]} property in object`);
+  }
+
+  if (!objectHasProperty(data[0], keys[1])) {
+    throw new Error(`isLineOneHigher: Unable to access ${keys[1]} property in object`);
+  }
+
+  const value1 = getFloat(data[0][keys[0]]);
+  const value2 = getFloat(data[0][keys[1]]);
+
+  return value1 > value2;
+};
+
+const renderAreaDifferenceChart = (
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  itemDecimals?: number,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
+) => {
+  // Intersections code from: https://codesandbox.io/s/qdlyi?file=/src/tests/ComparisonChart.js
+  /**
+   * We add the "range" key to the incoming data.
+   * This contains the lower and higher values for the contents of {dataKey}.
+   */
+  const dataWithRange = getDataWithRange(data, dataKeys);
+  /**
+   * This obtains the points where any line intersects with the other,
+   * which is used to fill an Area element.
+   *
+   * The data we receive from the subgraph is in reverse-chronological order.
+   * The intersections code relies on the data being in chronological order,
+   * so we need to reverse the order of the array without mutating the original
+   * one.
+   */
+  const intersections = getDataIntersections(data.slice().reverse(), dataKeys);
+  const nonIntersectingAreaColor = getAreaColor(isLineOneHigher(data, dataKeys));
+
+  /**
+   * OlympusDAO/olympus-frontend#2133:
+   * We differentiate between the CSS styling for the expanded and standard charts,
+   * as closing the expanded chart modal in iOS Safari results in the standard
+   * chart being rendered in black. Most likely the CSS styles are unloaded and
+   * not restored by the standard chart component.
+   */
+  const getRangeCssSelector = () => {
+    return `color${isExpanded ? "-expanded" : ""}-${RANGE_KEY}`;
+  };
+
+  return (
+    <ComposedChart data={dataWithRange} margin={margin} onMouseMove={onMouseMove}>
+      <defs>
+        <linearGradient id={getRangeCssSelector()}>
+          {intersections.length ? (
+            intersections.map((intersection, index) => {
+              const nextIntersection = intersections[index + 1];
+
+              const isLast = index === intersections.length - 1;
+              const closeColor = getIntersectionColor(intersection, false);
+              const startColor = isLast
+                ? getIntersectionColor(intersection, true)
+                : getIntersectionColor(nextIntersection, false);
+
+              // Determine the offset from the start of the x-axis
+              const offset =
+                (intersection.x || 0) /
+                (data.filter(value => value[dataKeys[0]] !== undefined && value[dataKeys[1]] != undefined).length - 1);
+
+              return (
+                <>
+                  <stop offset={offset} stopColor={closeColor} stopOpacity={0.8} />
+                  <stop offset={offset} stopColor={startColor} stopOpacity={0.8} />
+                </>
+              );
+            })
+          ) : (
+            <>
+              {/* If there are no intersections in the line, we still want to highlight the area */}
+              <stop offset="0%" stopColor={nonIntersectingAreaColor} stopOpacity={0.8} />
+              <stop offset="100%" stopColor={nonIntersectingAreaColor} stopOpacity={0.8} />
+            </>
+          )}
+        </linearGradient>
+      </defs>
+      <XAxis
+        dataKey="timestamp"
+        interval={TICK_INTERVAL_XAXIS}
+        axisLine={false}
+        reversed={true}
+        tick={tickStyle}
+        tickCount={TICK_COUNT}
+        tickLine={false}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        axisLine={false}
+        tick={tickStyle}
+        tickLine={false}
+        width={25}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        domain={[0, maximumYValue]}
+        allowDataOverflow={false}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            itemDecimals={itemDecimals}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#${getRangeCssSelector()})`} />
+      {dataKeys.map((value: string) => {
+        return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+      })}
+    </ComposedChart>
+  );
+};
+
+const renderMultiLineChart = (
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
+  isExpanded: boolean,
+  margin: CategoricalChartProps["margin"],
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  itemDecimals?: number,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
+) => (
+  <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
+    <XAxis
+      dataKey="timestamp"
+      interval={TICK_INTERVAL_XAXIS}
+      axisLine={false}
+      reversed={true}
+      tick={tickStyle}
+      tickCount={TICK_COUNT}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
+    />
+    <YAxis
+      tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       axisLine={false}
       tickLine={false}
-      width={dataFormat === "percent" ? 33 : 55}
-      tickFormatter={number =>
-        number !== 0
-          ? dataFormat !== "percent"
-            ? `${formatCurrency(parseFloat(number) / 1000000)}M`
-            : `${trim(parseFloat(number), 2)}%`
-          : ""
-      }
-      domain={[0, "auto"]}
-      dx={3}
+      tick={tickStyle}
+      width={25}
+      tickFormatter={number => getTickFormatter(dataFormat, number)}
+      domain={[0, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
       content={
         <CustomTooltip
-          bulletpointColors={bulletpointColors}
-          itemNames={itemNames}
-          itemType={itemType}
-          isStaked={isStaked}
-          isPOL={isPOL}
+          dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
+          dataFormat={dataFormat}
+          itemDecimals={itemDecimals}
+          dataKeys={dataKeys}
+          displayTotal={displayTooltipTotal}
         />
       }
     />
-    <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
-  </AreaChart>
-);
-
-const renderStackedAreaChart = (
-  data: any[],
-  dataKey: string[],
-  stopColor: string[][],
-  stroke: string[],
-  dataFormat: string,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
-  itemType: string,
-  isExpanded: boolean,
-  expandedGraphStrokeColor: string,
-  margin: CategoricalChartProps["margin"],
-) => (
-  <AreaChart data={data} margin={margin}>
-    <defs>
-      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[1]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[1][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[1][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[2]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[2][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[2][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[3]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[3][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[3][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[4]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[4][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[4][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[5]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[5][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[5][1]} stopOpacity={0.9} />
-      </linearGradient>
-      <linearGradient id={`color-${dataKey[6]}`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={stopColor[6][0]} stopOpacity={1} />
-        <stop offset="90%" stopColor={stopColor[6][1]} stopOpacity={0.9} />
-      </linearGradient>
-    </defs>
-    <XAxis
-      dataKey="timestamp"
-      interval={30}
-      axisLine={false}
-      tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      reversed={true}
-      padding={{ right: 20 }}
-    />
-    <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
-      axisLine={false}
-      tickLine={false}
-      width={dataFormat === "percent" ? 33 : 55}
-      tickFormatter={number => {
-        if (number !== 0) {
-          if (dataFormat === "percent") {
-            return `${trim(parseFloat(number), 2)}%`;
-          } else if (dataFormat === "k") return `${formatCurrency(parseFloat(number) / 1000)}k`;
-          else return `${formatCurrency(parseFloat(number) / 1000000)}M`;
-        }
-        return "";
-      }}
-      domain={[0, "auto"]}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      formatter={(value: string) => trim(parseFloat(value), 2)}
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
-    />
-    <Area
-      dataKey={dataKey[0]}
-      stroke={stroke ? stroke[0] : "none"}
-      fill={`url(#color-${dataKey[0]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[1]}
-      stroke={stroke ? stroke[1] : "none"}
-      fill={`url(#color-${dataKey[1]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[2]}
-      stroke={stroke ? stroke[2] : "none"}
-      fill={`url(#color-${dataKey[2]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[3]}
-      stroke={stroke ? stroke[3] : "none"}
-      fill={`url(#color-${dataKey[3]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[4]}
-      stroke={stroke ? stroke[4] : "none"}
-      fill={`url(#color-${dataKey[4]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[5]}
-      stroke={stroke ? stroke[5] : "none"}
-      fill={`url(#color-${dataKey[5]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    <Area
-      dataKey={dataKey[6]}
-      stroke={stroke ? stroke[6] : "none"}
-      fill={`url(#color-${dataKey[6]})`}
-      fillOpacity={1}
-      stackId="1"
-    />
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
-  </AreaChart>
-);
-
-const renderLineChart = (
-  data: any[],
-  dataKey: string[],
-  stroke: string[],
-  color: string,
-  dataFormat: string,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
-  itemType: string,
-  isExpanded: boolean,
-  expandedGraphStrokeColor: string,
-  scale: string,
-  margin: CategoricalChartProps["margin"],
-) => (
-  <LineChart data={data} margin={margin}>
-    <XAxis
-      dataKey="timestamp"
-      interval={100}
-      axisLine={false}
-      tickCount={3}
-      tickLine={false}
-      reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
-    />
-    <YAxis
-      tickCount={scale == "log" ? 1 : isExpanded ? expandedTickCount : tickCount}
-      axisLine={false}
-      tickLine={false}
-      width={32}
-      scale={() => scale}
-      tickFormatter={number =>
-        number !== 0 ? (dataFormat !== "percent" ? `${number}` : `${parseFloat(number) / 1000}k`) : ""
-      }
-      domain={[scale == "log" ? "dataMin" : 0, "auto"]}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
-    />
-    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke[0] : "none"} color={color} dot={false} />;
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
-  </LineChart>
-);
-
-const renderMultiLineChart = (
-  data: any[],
-  dataKey: string[],
-  stroke: string[],
-  color: string,
-  dataFormat: string,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
-  itemType: string,
-  isExpanded: boolean,
-  expandedGraphStrokeColor: string,
-  margin: CategoricalChartProps["margin"],
-) => (
-  <LineChart data={data} margin={margin}>
-    <XAxis
-      dataKey="timestamp"
-      interval={30}
-      axisLine={false}
-      tickCount={3}
-      tickLine={false}
-      reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
-    />
-    <YAxis
-      tickCount={isExpanded ? expandedTickCount : tickCount}
-      axisLine={false}
-      tickLine={false}
-      width={25}
-      tickFormatter={number => (number !== 0 ? `${trim(parseFloat(number), 2)}` : "")}
-      domain={[0, "auto"]}
-      allowDataOverflow={false}
-    />
-    <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
-    />
-    <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
-    <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
-    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;
-    <Line dataKey={dataKey[3]} stroke={stroke[3]} dot={false} />;
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
+    {dataKeys.map((value: string) => {
+      return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+    })}
   </LineChart>
 );
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
-  data: any[],
-  dataKey: string[],
-  stroke: string[],
-  dataFormat: string,
-  bulletpointColors: CSSProperties[],
-  itemNames: string[],
-  itemType: string,
+  data: Record<string, unknown>[],
+  dataKeys: string[],
+  dataKeyColors: Map<string, string>,
+  dataFormat: DataFormat,
+  dataKeyBulletpointStyles: Map<string, CSSProperties>,
+  dataKeyLabels: Map<string, string>,
   isExpanded: boolean,
-  expandedGraphStrokeColor: string,
   margin: CategoricalChartProps["margin"],
-) => (
-  <BarChart data={data} margin={margin}>
-    <XAxis
-      dataKey="timestamp"
-      interval={30}
-      axisLine={false}
-      tickCount={tickCount}
-      tickLine={false}
-      reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 20 }}
-    />
-    <YAxis
-      axisLine={false}
-      tickLine={false}
-      tickCount={isExpanded ? expandedTickCount : tickCount}
-      width={33}
-      domain={[0, "auto"]}
-      allowDataOverflow={false}
-      tickFormatter={number => (number !== 0 ? number : "")}
-    />
-    <Tooltip
-      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
-    />
-    <Bar dataKey={dataKey[0]} fill={stroke[0]} />
-    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
-  </BarChart>
-);
+  tickStyle: Record<string, string | number>,
+  maximumYValue: number,
+  displayTooltipTotal?: boolean,
+  onMouseMove?: CategoricalChartFunc,
+) => {
+  const dataKey = dataKeys[0];
+  const dataKeyColor = dataKeyColors.get(dataKey);
 
+  return (
+    <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
+      <XAxis
+        dataKey="timestamp"
+        interval={30}
+        axisLine={false}
+        tickCount={TICK_COUNT}
+        tick={tickStyle}
+        tickLine={false}
+        reversed={true}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
+      />
+      <YAxis
+        axisLine={false}
+        tick={tickStyle}
+        tickLine={false}
+        tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
+        width={33}
+        domain={[0, maximumYValue]}
+        allowDataOverflow={false}
+        tickFormatter={number => (number !== 0 ? number : "")}
+      />
+      <Tooltip
+        content={
+          <CustomTooltip
+            dataKeyBulletpointStyles={dataKeyBulletpointStyles}
+            dataKeyLabels={dataKeyLabels}
+            dataFormat={dataFormat}
+            dataKeys={dataKeys}
+            displayTotal={displayTooltipTotal}
+          />
+        }
+      />
+      <Bar dataKey={dataKey} fill={dataKeyColor} />
+    </BarChart>
+  );
+};
+
+/**
+ * Functional React component that renders a chart with tooltips.
+ *
+ * @param param0
+ * @returns
+ */
 function Chart({
   type,
   data,
   scale,
-  dataKey,
-  color,
-  stopColor,
-  stroke,
+  dataKeys,
+  dataKeyColors,
   headerText,
   dataFormat,
   headerSubText,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isStaked,
+  dataKeyBulletpointStyles,
+  dataKeyLabels,
   infoTooltipMessage,
-  expandedGraphStrokeColor,
-  isPOL,
+  isLoading,
+  tickStyle,
   margin = {
     top: 0,
     right: 0,
     bottom: 0,
     left: 0,
   },
+  itemDecimals,
+  subgraphQueryUrl,
+  displayTooltipTotal,
+  composedLineDataKeys,
+  onMouseMove,
 }: {
-  type: string;
-  data: any[];
-  scale: string;
-  dataKey: string[];
-  color: string;
-  stopColor: string[][];
-  stroke: string[];
+  type: ChartType;
+  data: Record<string, unknown>[];
+  scale?: string;
+  /** string array with all of the dataKeys that should be rendered */
+  dataKeys: string[];
+  /** mapping of data keys to colors used for stroke/fill */
+  dataKeyColors: Map<string, string>;
   headerText: string;
-  dataFormat: string;
+  dataFormat: DataFormat;
   headerSubText: string;
-  bulletpointColors: CSSProperties[];
-  itemNames: string[];
-  itemType: string;
-  isStaked: boolean;
+  /** map between data keys and the color of the bulletpoint */
+  dataKeyBulletpointStyles: Map<string, CSSProperties>;
+  /** map between data keys and their labels */
+  dataKeyLabels: Map<string, string>;
   infoTooltipMessage: string;
-  expandedGraphStrokeColor: string;
-  isPOL: boolean;
+  isLoading: boolean;
+  tickStyle: Record<string, string | number>;
   margin?: CategoricalChartProps["margin"];
+  itemDecimals?: number;
+  subgraphQueryUrl?: string;
+  displayTooltipTotal?: boolean;
+  /** optional string array with the dataKeys that should be rendered as lines */
+  composedLineDataKeys?: string[];
+  onMouseMove?: CategoricalChartFunc;
 }) {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [maximumYValue, setMaximumYValue] = useState(0.0);
+
+  /**
+   * Recharts has a bug where using "auto" or "dataMax" as the
+   * higher value in the domain does not always result
+   * in rendering all of the data. So we calculate the
+   * maximum value in the y-axis manually.
+   *
+   * It is inclosed in useMemo, as it will only need to be recalculated when
+   * the dependencies change.
+   */
+  useMemo(() => {
+    if (!data || !data.length) {
+      setMaximumYValue(0.0);
+      return;
+    }
+
+    const tempMaxValue = getMaximumValue(data, dataKeys, type, composedLineDataKeys);
+    // Give a bit of a buffer
+    setMaximumYValue(tempMaxValue * 1.1);
+  }, [data, dataKeys, type, composedLineDataKeys]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -408,156 +724,162 @@ function Chart({
     setOpen(false);
   };
 
-  const renderChart = (type: string, isExpanded: boolean) => {
-    if (type === "line")
-      return renderLineChart(
-        data,
-        dataKey,
-        stroke,
-        color,
-        dataFormat,
-        bulletpointColors,
-        itemNames,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        scale,
-        margin,
-      );
-    if (type === "area")
-      return renderAreaChart(
-        data,
-        dataKey,
-        stopColor,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        itemNames,
-        itemType,
-        isStaked,
-        isExpanded,
-        expandedGraphStrokeColor,
-        isPOL,
-        margin,
-      );
-    if (type === "stack")
-      return renderStackedAreaChart(
-        data,
-        dataKey,
-        stopColor,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        itemNames,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-      );
-    if (type === "multi")
-      return renderMultiLineChart(
-        data,
-        dataKey,
-        stroke,
-        color,
-        dataFormat,
-        bulletpointColors,
-        itemNames,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-      );
-
-    if (type === "bar")
-      return renderBarChart(
-        data,
-        dataKey,
-        stroke,
-        dataFormat,
-        bulletpointColors,
-        itemNames,
-        itemType,
-        isExpanded,
-        expandedGraphStrokeColor,
-        margin,
-      );
-    return <></>;
+  const renderChart = (type: ChartType, isExpanded: boolean) => {
+    switch (type) {
+      case ChartType.Line: {
+        return renderLineChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          scale,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.Area: {
+        return renderAreaChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.StackedArea: {
+        return renderStackedAreaChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.MultiLine: {
+        return renderMultiLineChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          itemDecimals,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.AreaDifference: {
+        return renderAreaDifferenceChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          itemDecimals,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.Bar: {
+        return renderBarChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+          onMouseMove,
+        );
+      }
+      case ChartType.Composed: {
+        return renderComposedChart(
+          data,
+          dataKeys,
+          dataKeyColors,
+          dataFormat,
+          dataKeyBulletpointStyles,
+          dataKeyLabels,
+          isExpanded,
+          margin,
+          tickStyle,
+          maximumYValue,
+          displayTooltipTotal,
+          composedLineDataKeys,
+          onMouseMove,
+        );
+      }
+      default: {
+        return <></>;
+      }
+    }
   };
 
-  useEffect(() => {
-    if (data) {
-      setLoading(false);
-    }
-  }, [data]);
+  const expandedChart = (
+    <ExpandedChart
+      open={open}
+      handleClose={handleClose}
+      renderChart={renderChart(type, true)}
+      data={data}
+      infoTooltipMessage={infoTooltipMessage}
+      headerText={headerText}
+      headerSubText={headerSubText}
+      subgraphQueryUrl={subgraphQueryUrl}
+    />
+  );
 
-  return loading ? (
-    <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <CircularProgress />
-    </Box>
-  ) : (
-    <Box style={{ width: "100%", height: "100%" }}>
-      <div className="chart-card-header">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          style={{ width: "100%", overflow: "hidden" }}
-        >
-          <Box display="flex" width="90%" alignItems="center">
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              className="card-title-text"
-              style={{ fontWeight: 400, overflow: "hidden" }}
-            >
-              {headerText}
-            </Typography>
-            <Typography variant={"h6"} color="textSecondary">
-              <InfoTooltip message={infoTooltipMessage} />
-            </Typography>
-          </Box>
-          {/* could make this svgbutton */}
-
-          <SvgIcon
-            component={Fullscreen}
-            color="primary"
-            onClick={handleOpen}
-            style={{ fontSize: "1rem", cursor: "pointer" }}
-          />
-          <ExpandedChart
-            open={open}
-            handleClose={handleClose}
-            renderChart={renderChart(type, true)}
-            data={data}
-            infoTooltipMessage={infoTooltipMessage}
-            headerText={headerText}
-            headerSubText={headerSubText}
-          />
-        </Box>
-        {loading ? (
-          <Skeleton variant="text" width={100} />
-        ) : (
-          <Box display="flex">
-            <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-              {headerSubText}
-            </Typography>
-            <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              {type !== "multi" && t`Today`}
-            </Typography>
-          </Box>
-        )}
-      </div>
-      <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
-        {loading || (data && data.length > 0) ? (
-          <ResponsiveContainer minHeight={260} width="100%">
-            {renderChart(type, false)}
-          </ResponsiveContainer>
-        ) : (
-          <Skeleton variant="rectangular" width="100%" height={260} />
-        )}
-      </Box>
-    </Box>
+  /**
+   * Setting the width to 99% ensures that the chart resizes correctly.
+   *
+   * Source: https://stackoverflow.com/a/53205850
+   */
+  return (
+    <ChartCard
+      headerText={headerText}
+      headerTooltip={infoTooltipMessage}
+      headerSubtext={headerSubText}
+      subgraphQueryUrl={subgraphQueryUrl}
+      expandedChart={expandedChart}
+      handleOpenExpandedChart={handleOpen}
+      isLoading={isLoading}
+    >
+      <ResponsiveContainer height={DEFAULT_HEIGHT} width="99%">
+        {renderChart(type, false)}
+      </ResponsiveContainer>
+    </ChartCard>
   );
 }
 

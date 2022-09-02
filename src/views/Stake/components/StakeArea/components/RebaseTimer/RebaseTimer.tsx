@@ -1,11 +1,10 @@
-import "./RebaseTimer.scss";
+import "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
+import { prettifySeconds } from "src/helpers/timeUtil";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
-
-import { prettifySeconds } from "../../../../../../helpers/timeUtil";
 
 const RebaseTimer: React.FC = () => {
   const { data: nextRebaseDate } = useNextRebaseDate();

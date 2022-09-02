@@ -1,8 +1,8 @@
-import SquareBoldWOFF from "../assets/fonts/EuclidSquare-Bold.woff";
-import SquareItalicWOFF from "../assets/fonts/EuclidSquare-Italic.woff";
-import SquareLightWOFF from "../assets/fonts/EuclidSquare-Light.woff";
-import SquareMediumWOFF from "../assets/fonts/EuclidSquare-Medium.woff";
-import SquareWOFF from "../assets/fonts/EuclidSquare-Regular.woff";
+import SquareBoldWOFF from "src/assets/fonts/EuclidSquare-Bold.woff";
+import SquareItalicWOFF from "src/assets/fonts/EuclidSquare-Italic.woff";
+import SquareLightWOFF from "src/assets/fonts/EuclidSquare-Light.woff";
+import SquareMediumWOFF from "src/assets/fonts/EuclidSquare-Medium.woff";
+import SquareWOFF from "src/assets/fonts/EuclidSquare-Regular.woff";
 
 const square = `
 @font-face {

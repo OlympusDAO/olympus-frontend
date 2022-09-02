@@ -69,11 +69,6 @@ export class Environment {
           key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
           fallback: "https://eth-goerli.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
         });
-      case NetworkId.TESTNET_RINKEBY:
-        return this._get({
-          key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
-          fallback: "https://eth-rinkeby.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-        });
       case NetworkId.ARBITRUM:
         return this._get({
           key: `REACT_APP_ARBITRUM_NODE_URL`,
@@ -144,17 +139,6 @@ export class Environment {
    */
   public static isGiveEnabled() {
     const isDisabled = this.env.REACT_APP_GIVE_ENABLED === "false";
-
-    return !isDisabled;
-  }
-
-  /**
-   * Indicates whether the multifarm dashboard feature is enabled.
-   *
-   * Defaults to true. Only false when `REACT_APP_MULTIFARM_DASHBOARD_ENABLED` === "false"
-   */
-  public static isMultifarmDashboardEnabled() {
-    const isDisabled = this.env.REACT_APP_MULTIFARM_DASHBOARD_ENABLED === "false";
 
     return !isDisabled;
   }
