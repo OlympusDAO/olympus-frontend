@@ -51,6 +51,11 @@ export const CreateProposal = () => {
     );
   };
 
+  const canSubmit = () => {
+    if (submitProposal.isLoading) return false;
+    return true;
+  };
+
   const handleFormSubmission = async () => {
     const proposal = {
       name: proposalTitle,
@@ -104,7 +109,9 @@ export const CreateProposal = () => {
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="flex-end">
-          <PrimaryButton onClick={handleFormSubmission}>Continue</PrimaryButton>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission}>
+            {submitProposal.isLoading ? "Submitting..." : "Continue"}
+          </PrimaryButton>
         </Box>
       </Paper>
     </Box>
