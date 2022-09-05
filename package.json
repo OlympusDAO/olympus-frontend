@@ -38,7 +38,7 @@
     "@ethersproject/providers": "^5.7.0",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.14.0",
-    "@mui/icons-material": "^5.10.2",
+    "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.3",
     "@mui/system": "^5.10.3",
     "@mui/x-data-grid": "^5.17.0",
