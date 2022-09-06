@@ -106,8 +106,6 @@ export const OperatorPrice = () => {
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", chain], async () => {
-    console.log("testing");
-    console.log(parseBigNumber(await contract.getCurrentPrice(), 18), "operator price");
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };

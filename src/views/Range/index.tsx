@@ -84,8 +84,6 @@ export const Range = () => {
   const discount =
     (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);
 
-  console.log("discount", discount);
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setModalOpen(true);
