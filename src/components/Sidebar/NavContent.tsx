@@ -66,7 +66,7 @@ const NavContent: React.VFC = () => {
                     </NavItem>
                   )}
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-                  <NavItem to="/zap" icon="zap" label={t`Zap`} />
+
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />

@@ -3,10 +3,13 @@ import { Box, Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "@olympusdao/component-library";
+import { ethers } from "ethers";
 import React, { ReactNode } from "react";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -52,37 +55,55 @@ const StyledAllowanceGuard = styled("div")(({ theme }) => ({
 }));
 
 export const TokenAllowanceGuard: React.FC<{
-  message: ReactNode;
+  message?: ReactNode;
   isVertical?: boolean;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
   approvalText?: string;
-}> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children, approvalText = t`Approve` }) => {
+  approvalPendingText?: string;
+}> = ({
+  message,
+  isVertical = false,
+  tokenAddressMap,
+  spenderAddressMap,
+  approvalText = "Approve",
+  approvalPendingText = "Approving...",
+  children,
+}) => {
+  const { chain = { id: 1 } } = useNetwork();
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
-  if (!allowance)
+  if (!allowance && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height={isVertical ? "84px" : "40px"}>
         <Skeleton width="150px" />
       </Box>
     );
 
-  if (allowance.eq(0))
+  if (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero)
     return (
       <Grid container alignItems="center">
-        <Grid item xs={12} sm={isVertical ? 12 : 8}>
-          <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
-            <Typography variant="body1" color="textSecondary">
-              <em>{message}</em>
-            </Typography>
-          </Box>
-        </Grid>
+        {message && (
+          <Grid item xs={12} sm={isVertical ? 12 : 8}>
+            <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
+              <Typography variant="body1" color="textSecondary">
+                <em>{message}</em>
+              </Typography>
+            </Box>
+          </Grid>
+        )}
 
         <Grid item xs={12} sm={isVertical ? 12 : 4}>
-          <Box display="flex" alignItems="center" justifyContent="center" mt={[2, isVertical ? 2 : 0]}>
-            <PrimaryButton fullWidth className="" onClick={approveMutation.mutate} disabled={approveMutation.isLoading}>
-              {approveMutation.isLoading ? t`Approving...` : approvalText}
+          <Box display="flex" alignItems="center" justifyContent="center" mt={[2, isVertical && message ? 2 : 0]}>
+            <PrimaryButton
+              loading={approveMutation.isLoading}
+              fullWidth
+              className=""
+              onClick={approveMutation.mutate}
+              disabled={approveMutation.isLoading}
+            >
+              {approveMutation.isLoading ? t`${approvalPendingText}` : t`${approvalText}`}
             </PrimaryButton>
           </Box>
         </Grid>

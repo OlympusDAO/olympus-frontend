@@ -28,16 +28,19 @@ export const StakeArea: React.FC = () => {
 
       <WalletConnectedGuard message="Connect your wallet to stake OHM">
         <StakeInputArea isZoomed={isZoomed} />
+        <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+            <StakeBalances />
 
-        <StakeBalances />
+            <Divider />
 
-        <Divider />
+            <StakeNextRebaseAmount />
 
-        <StakeNextRebaseAmount />
+            <StakeRebaseYield />
 
-        <StakeRebaseYield />
-
-        <StakeFiveDayYield />
+            <StakeFiveDayYield />
+          </Box>
+        </Box>
       </WalletConnectedGuard>
     </Paper>
   );

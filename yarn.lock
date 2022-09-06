@@ -3608,12 +3608,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@olympusdao/component-library@^2.2.2-alpha.11":
-  version "2.2.2-alpha.11"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.11.tgz#4703287f691514703b8bbf757ef840006f0c9c84"
-  integrity sha512-8i0cHVOWOB5bnFcrJXHjRipLCKxTl5+8ey8K0xU/eshxJERb2IJub/WdlG0WBdxdqGzrG5li4S5dS+jSANjSWQ==
+"@olympusdao/component-library@^2.2.2-alpha.16":
+  version "2.2.2-alpha.16"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.16.tgz#e6f3f5319328e20459ff01e45c90e25e5ba4d912"
+  integrity sha512-GiuCTm4LCiaHU8vqQ0RAVIYMNVKgc2mfJ6qhgHpWWySIT05TTdBsDEhOlPBmU2QejJdfFeg5FCiHeA5Dv5wlkg==
   dependencies:
-    "@react-spring/web" "^9.5.0"
+    "@react-spring/web" "^9.5.2"
 
 "@peculiar/asn1-schema@^2.1.6":
   version "2.3.0"
@@ -3715,7 +3715,7 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-spring/web@^9.5.0":
+"@react-spring/web@^9.5.2":
   version "9.5.2"
   resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.5.2.tgz#762ee6b3c8fea40281e1298f5cf1c0515ad6a794"
   integrity sha512-cusTjbOGTgtbsnpBDjb6Ia+B0lQLE0Fk5rGDog6Sww7hWnLIQ521PMiOBnAWtkntB9eXDUfj7L91nwJviEC0lw==
