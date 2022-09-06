@@ -28,21 +28,23 @@ const commonSettings = {
     h1: {
       fontSize: "32px",
       fontWeight: 500,
+      lineHeight: "36px",
     },
     h2: {
       fontSize: "27px",
+      lineHeight: "32px",
     },
     h3: {
       fontSize: "24px",
+      lineHeight: "32px",
     },
     body1: {
-      fontSize: "0.875rem",
-      lineHeight: "20px",
+      fontSize: "15px",
+      lineHeight: "24px",
     },
     body2: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1,
+      fontSize: "12px",
+      lineHeight: "15px",
     },
     button: {
       textTransform: "none",
