@@ -44,7 +44,7 @@ function Give({ selectedIndex = 0 }) {
           element={
             <Grid container direction="column" alignItems="center" className="give-container">
               <Grid item xs={12} sm={10} md={10} lg={8}>
-                <Paper headerText={t`Give`} fullWidth className="no-container-padding" zoom={false}>
+                <Paper fullWidth className="no-container-padding" zoom={false}>
                   {!isSupportedChain(chain.id) ? (
                     <Typography variant="h6">
                       Note: You are currently using an unsupported network. Please switch to Ethereum to experience the

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Divider, Grid, Link, Typography } from "@mui/material";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -17,7 +16,7 @@ const Wrap: React.FC = () => {
 
   return (
     <div id="stake-view">
-      <Paper headerText={t`Wrap / Unwrap`} topRight={<GOHMExternalLink />}>
+      <Paper topLeft={<></>} topRight={<GOHMExternalLink />}>
         <Box mb="28px">
           <Grid>
             <MetricCollection>

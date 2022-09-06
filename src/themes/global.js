@@ -23,28 +23,17 @@ export const handleBackdropFilter = rgbaString => {
 const commonSettings = {
   direction: "ltr",
   typography: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "NHassGrotesk",
     h1: {
-      fontSize: "3.3rem",
+      fontSize: "32px",
+      fontWeight: 500,
     },
     h2: {
-      fontSize: "2.3rem",
-      fontWeight: 600,
-      letterSpacing: "1.3px",
+      fontSize: "27px",
     },
     h3: {
-      fontSize: "1.75rem",
-    },
-    h4: {
-      fontSize: "1.5rem",
-    },
-    h5: {
-      fontSize: "1.25rem",
-      letterSpacing: "0.4px",
-    },
-    h6: {
-      fontSize: "1rem",
+      fontSize: "24px",
     },
     body1: {
       fontSize: "0.875rem",
@@ -82,10 +71,12 @@ const commonSettings = {
         disableRipple: true,
       },
     },
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          justifyContent: "flex-end",
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h4: "h3",
+          h5: "h3",
+          h6: "h3",
         },
       },
     },

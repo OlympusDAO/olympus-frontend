@@ -234,7 +234,7 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/give/*" element={<Give />} />
+                  <Route key="Give" path="/give/*" element={<Give />} />
 
                   <Route path="/olympusgive" element={<Navigate to="/give" />} />
                   <Route path="/olygive" element={<Navigate to="/give" />} />

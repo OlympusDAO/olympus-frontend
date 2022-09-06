@@ -34,7 +34,7 @@ const Bridge = () => {
           </Box>
         </Paper>
       )}
-      <Paper headerText="Bridge">
+      <Paper>
         <Box display="flex" flexDirection="row">
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
