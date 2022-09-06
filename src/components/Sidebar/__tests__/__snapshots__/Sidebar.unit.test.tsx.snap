@@ -213,38 +213,6 @@ exports[`<Sidebar/> should render component 1`] = `
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/zap"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 18.176 7.27 C 18.54 7.27 18.812 7.453 18.994 7.817 C 19.174 8.09 19.083 8.454 18.903 8.726 L 9.819 19.636 C 9.637 19.909 9.365 20 9.092 20 C 9.002 20 8.82 20 8.729 19.909 C 8.365 19.818 8.092 19.365 8.184 19 L 9.002 12.725 L 1.825 12.725 C 1.492 12.728 1.183 12.555 1.007 12.27 C 0.826 11.908 0.916 11.545 1.099 11.27 L 10.183 0.363 C 10.43 0.016 10.892 -0.098 11.273 0.09 C 11.635 0.181 11.908 0.635 11.817 0.999 L 11 7.272 L 18.176 7.272 Z M 10.909 11.907 L 10.364 16.089 L 16.177 9.088 L 9.91 9.088 C 9.672 9.078 9.445 8.982 9.274 8.817 C 9.16 8.59 9.098 8.342 9.092 8.088 L 9.547 3.906 L 3.733 10.906 L 10 10.906 C 10.273 10.906 10.545 10.997 10.728 11.179 C 10.819 11.363 10.909 11.634 10.909 11.907 Z"
-                              />
-                            </svg>
-                            Zap
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/give"
                       >
                         <div

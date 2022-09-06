@@ -123,7 +123,7 @@ export const dark = responsiveFontSizes(
             styleOverrides: {
               root: {
                 ".MuiPaper-root": {
-                  background: colors.gray[700],
+                  background: colors.gray[600],
                 },
               },
             },
