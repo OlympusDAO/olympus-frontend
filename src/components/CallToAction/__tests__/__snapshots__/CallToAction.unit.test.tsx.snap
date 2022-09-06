@@ -24,12 +24,12 @@ exports[`<CallToAction/> should render component 1`] = `
             <div
               class="MuiBox-root css-1lekzkb"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+              <h3
+                class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                 style="font-size: 21px; font-weight: 700;"
               >
                 You have assets ready to migrate to v2
-              </h5>
+              </h3>
               <div
                 class="actionable"
               >
@@ -46,7 +46,7 @@ exports[`<CallToAction/> should render component 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >

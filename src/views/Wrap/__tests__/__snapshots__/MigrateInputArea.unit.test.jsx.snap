@@ -28,14 +28,8 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
-                >
-                  Wrap / Unwrap
-                </p>
-              </div>
+                class="top-left"
+              />
               <div
                 class="top-right"
               >
@@ -58,7 +52,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                      
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                       focusable="false"
                       style="margin-left: 5px;"
                       viewBox="0 0 20 20"
@@ -144,7 +138,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -195,7 +189,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -260,7 +254,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -306,7 +300,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -450,12 +444,12 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             <div
               class="MuiBox-root css-na3zg8"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+              <h3
+                class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                 style="margin: 15px 0px 10px 0px;"
               >
                 Back to Ethereum Mainnet
-              </h6>
+              </h3>
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation css-8nixbj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
@@ -463,7 +457,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 28px;"
                   viewBox="0 0 32 32"
@@ -507,12 +501,12 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     </lineargradient>
                   </defs>
                 </svg>
-                <h6
-                  class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                   style="margin-left: 8px;"
                 >
                   Ethereum
-                </h6>
+                </h3>
               </button>
             </div>
           </div>

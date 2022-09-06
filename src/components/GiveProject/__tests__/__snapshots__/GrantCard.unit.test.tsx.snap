@@ -22,13 +22,13 @@ exports[`<GrantCard/> should render card 1`] = `
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
             href="#/give/grants/grant-1"
           >
-            <h4
-              class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+            <h3
+              class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
             >
               <strong>
                 Grant Owner - some grant
               </strong>
-            </h4>
+            </h3>
           </a>
         </div>
         <div
@@ -118,13 +118,13 @@ exports[`<GrantCard/> should render card without image 1`] = `
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
             href="#/give/grants/grant-1"
           >
-            <h4
-              class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+            <h3
+              class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
             >
               <strong>
                 Grant Owner - some grant
               </strong>
-            </h4>
+            </h3>
           </a>
         </div>
         <div
@@ -235,7 +235,7 @@ exports[`<GrantCard/> should render page 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -250,11 +250,11 @@ exports[`<GrantCard/> should render page 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Grant Owner - some grant
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -317,7 +317,7 @@ exports[`<GrantCard/> should render page 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -404,7 +404,7 @@ exports[`<GrantCard/> should render page 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -542,11 +542,11 @@ exports[`<GrantCard/> should render page 1`] = `
                     class="milestone-deliverables"
                   >
                     <div>
-                      <h6
-                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
-                      </h6>
+                      </h3>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                       >
@@ -596,7 +596,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -677,7 +677,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -692,11 +692,11 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Grant Owner - some grant
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -759,7 +759,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -846,7 +846,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -995,11 +995,11 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     class="milestone-deliverables"
                   >
                     <div>
-                      <h6
-                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
-                      </h6>
+                      </h3>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                       >
@@ -1009,11 +1009,11 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       </p>
                     </div>
                     <div>
-                      <h6
-                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                       >
                         Milestone 2: 200 sOHM
-                      </h6>
+                      </h3>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                       >
@@ -1063,7 +1063,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -1144,7 +1144,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -1159,11 +1159,11 @@ exports[`<GrantCard/> should render page without image 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Grant Owner - some grant
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -1221,7 +1221,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1308,7 +1308,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1446,11 +1446,11 @@ exports[`<GrantCard/> should render page without image 1`] = `
                     class="milestone-deliverables"
                   >
                     <div>
-                      <h6
-                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
-                      </h6>
+                      </h3>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                       >
@@ -1500,7 +1500,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -1581,7 +1581,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -1596,11 +1596,11 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Grant Owner - some grant
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -1663,7 +1663,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1750,7 +1750,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1888,11 +1888,11 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                     class="milestone-deliverables"
                   >
                     <div>
-                      <h6
-                        class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                       >
                         Milestone 1: 100 sOHM
-                      </h6>
+                      </h3>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                       >
@@ -1940,7 +1940,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -2021,7 +2021,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -2036,11 +2036,11 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Grant Owner - some grant
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -2103,7 +2103,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2190,7 +2190,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2340,7 +2340,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >

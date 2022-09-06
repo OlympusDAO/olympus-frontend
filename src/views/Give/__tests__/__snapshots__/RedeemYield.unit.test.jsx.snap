@@ -15,7 +15,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
       >
         <h3
-          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-bhxxca-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-ad7hj2-MuiTypography-root"
           data-testid="redeemable-balance"
         >
           100
@@ -178,7 +178,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
       >
         <h3
-          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-bhxxca-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-ad7hj2-MuiTypography-root"
           data-testid="redeemable-balance"
         >
           100
@@ -227,11 +227,11 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             <div
               class="grey-box  MuiBox-root css-h33641"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-8d2q6-MuiTypography-root"
+              <h3
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-1a5bnby-MuiTypography-root"
               >
                 200
-              </h5>
+              </h3>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-z28w78-MuiTypography-root"
               >
@@ -245,12 +245,12 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             <div
               class="grey-box  MuiBox-root css-h33641"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-8d2q6-MuiTypography-root"
+              <h3
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-1a5bnby-MuiTypography-root"
                 data-testid="project-deposit"
               >
                 1,000
-              </h5>
+              </h3>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-z28w78-MuiTypography-root"
               >
@@ -264,13 +264,13 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             <div
               class="grey-box  MuiBox-root css-h33641"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-8d2q6-MuiTypography-root"
+              <h3
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter css-1a5bnby-MuiTypography-root"
                 data-testid="project-goal-achievement"
               >
                 500
                 %
-              </h5>
+              </h3>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-z28w78-MuiTypography-root"
               >
@@ -406,7 +406,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
       >
         <h3
-          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-bhxxca-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter css-ad7hj2-MuiTypography-root"
           data-testid="redeemable-balance"
         >
           100

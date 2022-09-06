@@ -66,7 +66,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-1szvxe0-MuiSvgIcon-root"
             data-testid="ExpandMoreIcon"
             focusable="false"
             viewBox="0 0 20 20"

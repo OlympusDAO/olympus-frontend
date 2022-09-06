@@ -41,16 +41,12 @@ exports[`<Stake/> should render component. not connected 1`] = `
               class="MuiBox-root css-k008qs"
             >
               <div
-                class="rebase-timer MuiBox-root css-0"
+                class="MuiBox-root css-0"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                    style="width: 155px;"
-                  />
-                </p>
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                  style="width: 155px;"
+                />
               </div>
             </div>
           </div>
@@ -156,7 +152,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -205,11 +201,11 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </button>
                     </div>
                   </div>
-                  <h6
-                    class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                  <h3
+                    class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
                   >
                     Connect your wallet to stake OHM
-                  </h6>
+                  </h3>
                 </div>
               </div>
             </div>
@@ -256,21 +252,21 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
@@ -294,7 +290,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -343,7 +339,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -396,7 +392,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -748,7 +744,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -776,7 +772,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -825,7 +821,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -878,7 +874,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -934,7 +930,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -962,7 +958,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1011,7 +1007,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1034,7 +1030,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -1094,7 +1090,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -1122,7 +1118,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1171,7 +1167,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1226,7 +1222,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -1318,7 +1314,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -1346,7 +1342,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1478,7 +1474,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1534,7 +1530,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -1889,7 +1885,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -1917,7 +1913,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1935,7 +1931,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -1953,7 +1949,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2006,7 +2002,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -2099,7 +2095,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2127,7 +2123,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2145,7 +2141,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2198,7 +2194,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -2288,7 +2284,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2316,7 +2312,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2334,7 +2330,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2387,7 +2383,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -2477,7 +2473,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2505,7 +2501,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2523,7 +2519,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -2558,7 +2554,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 10px;"
                             viewBox="0 0 20 20"
@@ -2572,7 +2568,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -2662,7 +2658,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2724,16 +2720,12 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
               class="MuiBox-root css-k008qs"
             >
               <div
-                class="rebase-timer MuiBox-root css-0"
+                class="MuiBox-root css-0"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                    style="width: 155px;"
-                  />
-                </p>
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                  style="width: 155px;"
+                />
               </div>
             </div>
           </div>
@@ -2839,7 +2831,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -2940,7 +2932,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -3038,7 +3030,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-1szvxe0-MuiSvgIcon-root"
                           data-testid="ExpandMoreIcon"
                           focusable="false"
                           viewBox="0 0 20 20"
@@ -3247,28 +3239,28 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     APY
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
@@ -3292,7 +3284,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -3341,7 +3333,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -3394,7 +3386,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -3760,7 +3752,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -3788,7 +3780,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -3837,7 +3829,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -3890,7 +3882,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -3960,7 +3952,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -3988,7 +3980,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4037,7 +4029,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4060,7 +4052,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -4134,7 +4126,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -4162,7 +4154,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4211,7 +4203,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4266,7 +4258,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -4372,7 +4364,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -4400,7 +4392,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4532,7 +4524,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -4588,7 +4580,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -4957,7 +4949,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -4985,7 +4977,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5003,7 +4995,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5021,7 +5013,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5074,7 +5066,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -5181,7 +5173,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -5209,7 +5201,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5227,7 +5219,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5280,7 +5272,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -5384,7 +5376,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -5412,7 +5404,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5430,7 +5422,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5483,7 +5475,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -5587,7 +5579,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -5615,7 +5607,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5633,7 +5625,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -5668,7 +5660,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 10px;"
                             viewBox="0 0 20 20"
@@ -5682,7 +5674,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -5786,7 +5778,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -5848,16 +5840,12 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
               class="MuiBox-root css-k008qs"
             >
               <div
-                class="rebase-timer MuiBox-root css-0"
+                class="MuiBox-root css-0"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                    style="width: 155px;"
-                  />
-                </p>
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                  style="width: 155px;"
+                />
               </div>
             </div>
           </div>
@@ -5963,7 +5951,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -6064,7 +6052,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -6162,7 +6150,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-1szvxe0-MuiSvgIcon-root"
                           data-testid="ExpandMoreIcon"
                           focusable="false"
                           viewBox="0 0 20 20"
@@ -6371,28 +6359,28 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     APY
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
@@ -6416,7 +6404,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -6465,7 +6453,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -6518,7 +6506,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -6884,7 +6872,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -6912,7 +6900,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -6961,7 +6949,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7014,7 +7002,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -7084,7 +7072,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -7112,7 +7100,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7161,7 +7149,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7184,7 +7172,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -7258,7 +7246,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -7286,7 +7274,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7335,7 +7323,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7390,7 +7378,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -7496,7 +7484,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -7524,7 +7512,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7656,7 +7644,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -7712,7 +7700,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -8081,7 +8069,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -8109,7 +8097,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8127,7 +8115,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8145,7 +8133,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8198,7 +8186,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -8305,7 +8293,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -8333,7 +8321,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8351,7 +8339,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8404,7 +8392,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -8508,7 +8496,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -8536,7 +8524,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8554,7 +8542,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8607,7 +8595,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -8711,7 +8699,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -8739,7 +8727,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8757,7 +8745,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -8792,7 +8780,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 10px;"
                             viewBox="0 0 20 20"
@@ -8806,7 +8794,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -8910,7 +8898,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -8972,16 +8960,12 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
               class="MuiBox-root css-k008qs"
             >
               <div
-                class="rebase-timer MuiBox-root css-0"
+                class="MuiBox-root css-0"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                    style="width: 155px;"
-                  />
-                </p>
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                  style="width: 155px;"
+                />
               </div>
             </div>
           </div>
@@ -9087,7 +9071,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -9188,7 +9172,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                           focusable="false"
                           viewBox="0 0 20 20"
                         >
@@ -9286,7 +9270,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-1szvxe0-MuiSvgIcon-root"
                           data-testid="ExpandMoreIcon"
                           focusable="false"
                           viewBox="0 0 20 20"
@@ -9495,28 +9479,28 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
                     APY
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
                     scope="col"
                     style="width: 100px; padding: 8px 0px;"
                   >
@@ -9540,7 +9524,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -9589,7 +9573,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -9642,7 +9626,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -10008,7 +9992,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -10036,7 +10020,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10085,7 +10069,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10138,7 +10122,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -10208,7 +10192,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -10236,7 +10220,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10285,7 +10269,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10308,7 +10292,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -10382,7 +10366,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -10410,7 +10394,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10459,7 +10443,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10514,7 +10498,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -10620,7 +10604,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -10648,7 +10632,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10780,7 +10764,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -10836,7 +10820,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -11205,7 +11189,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -11233,7 +11217,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11251,7 +11235,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11269,7 +11253,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11322,7 +11306,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -11429,7 +11413,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -11457,7 +11441,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11475,7 +11459,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11528,7 +11512,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -11632,7 +11616,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -11660,7 +11644,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11678,7 +11662,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11731,7 +11715,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -11835,7 +11819,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -11863,7 +11847,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11881,7 +11865,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1; font-size: 24px;"
                         viewBox="0 0 32 32"
@@ -11916,7 +11900,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 10px;"
                             viewBox="0 0 20 20"
@@ -11930,7 +11914,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                       focusable="false"
                       style="font-size: 15px;"
                       viewBox="0 0 32 32"
@@ -12034,7 +12018,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >

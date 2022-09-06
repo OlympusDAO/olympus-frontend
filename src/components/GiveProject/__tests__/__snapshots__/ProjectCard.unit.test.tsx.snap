@@ -18,13 +18,13 @@ exports[`<ProjectCard/> should render card 1`] = `
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
           href="#/give/projects/project-1"
         >
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+          <h3
+            class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
           >
             <strong>
               project Owner - some project
             </strong>
-          </h4>
+          </h3>
         </a>
       </div>
       <div
@@ -172,13 +172,13 @@ exports[`<ProjectCard/> should render card without image 1`] = `
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
           href="#/give/projects/project-1"
         >
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+          <h3
+            class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
           >
             <strong>
               project Owner - some project
             </strong>
-          </h4>
+          </h3>
         </a>
       </div>
       <div
@@ -351,7 +351,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -366,11 +366,11 @@ exports[`<ProjectCard/> should render page 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             project Owner - some project
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -436,7 +436,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -519,7 +519,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -577,7 +577,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -642,7 +642,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -755,7 +755,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -835,7 +835,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -850,11 +850,11 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             project Owner - some project
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -920,7 +920,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1003,7 +1003,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1061,7 +1061,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1126,7 +1126,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1239,7 +1239,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -1319,7 +1319,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -1334,11 +1334,11 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             project Owner - some project
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -1399,7 +1399,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1482,7 +1482,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1540,7 +1540,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1605,7 +1605,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -1718,7 +1718,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >

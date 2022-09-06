@@ -64,7 +64,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -145,7 +145,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -196,7 +196,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -247,7 +247,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -298,7 +298,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -457,13 +457,13 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-p6fi3e-MuiGrid-root"
                         >
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             OHM Backing
-                          </h6>
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          </h3>
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             <div
                               class="MuiBox-root css-0"
@@ -471,7 +471,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -481,7 +481,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 />
                               </svg>
                             </div>
-                          </h6>
+                          </h3>
                         </div>
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1c16yah-MuiGrid-root"
@@ -504,7 +504,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                     focusable="false"
                                     style="width: 16px; height: 16px;"
                                     viewBox="0 0 100 100"
@@ -523,7 +523,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
                                   focusable="false"
                                   style="font-size: 1rem; cursor: pointer;"
                                   viewBox="0 0 20 20"
@@ -622,13 +622,13 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-p6fi3e-MuiGrid-root"
                         >
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             Market Value of Treasury Assets
-                          </h6>
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          </h3>
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             <div
                               class="MuiBox-root css-0"
@@ -636,7 +636,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -646,7 +646,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 />
                               </svg>
                             </div>
-                          </h6>
+                          </h3>
                         </div>
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1c16yah-MuiGrid-root"
@@ -669,7 +669,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                     focusable="false"
                                     style="width: 16px; height: 16px;"
                                     viewBox="0 0 100 100"
@@ -688,7 +688,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
                                   focusable="false"
                                   style="font-size: 1rem; cursor: pointer;"
                                   viewBox="0 0 20 20"
@@ -730,13 +730,13 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-p6fi3e-MuiGrid-root"
                         >
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             Holdings
-                          </h6>
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          </h3>
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             <div
                               class="MuiBox-root css-0"
@@ -744,7 +744,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -754,7 +754,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 />
                               </svg>
                             </div>
-                          </h6>
+                          </h3>
                         </div>
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1c16yah-MuiGrid-root"
@@ -777,7 +777,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                     focusable="false"
                                     style="width: 16px; height: 16px;"
                                     viewBox="0 0 100 100"
@@ -796,8 +796,8 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                       >
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4 css-1vjl3uq-MuiTypography-root"
+                        <h3
+                          class="MuiTypography-root MuiTypography-h4 css-1x4lhj9-MuiTypography-root"
                         />
                       </div>
                     </div>
@@ -886,14 +886,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <button
                                         aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                         tabindex="-1"
                                         title="Sort"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1szvxe0-MuiSvgIcon-root"
                                           data-testid="ArrowDownwardIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
@@ -912,7 +912,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                       aria-controls="mui-4"
                                       aria-haspopup="true"
                                       aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                       id="mui-5"
                                       tabindex="-1"
                                       title="Menu"
@@ -920,7 +920,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                         data-testid="TripleDotsVerticalIcon"
                                         focusable="false"
                                         viewBox="0 0 20 20"
@@ -938,7 +938,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-1szvxe0-MuiSvgIcon-root"
                                     data-testid="SeparatorIcon"
                                     focusable="false"
                                     viewBox="0 0 20 20"
@@ -981,14 +981,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <button
                                         aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                         tabindex="-1"
                                         title="Sort"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1szvxe0-MuiSvgIcon-root"
                                           data-testid="ArrowDownwardIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
@@ -1007,7 +1007,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                       aria-controls="mui-7"
                                       aria-haspopup="true"
                                       aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                       id="mui-8"
                                       tabindex="-1"
                                       title="Menu"
@@ -1015,7 +1015,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                         data-testid="TripleDotsVerticalIcon"
                                         focusable="false"
                                         viewBox="0 0 20 20"
@@ -1033,7 +1033,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-1szvxe0-MuiSvgIcon-root"
                                     data-testid="SeparatorIcon"
                                     focusable="false"
                                     viewBox="0 0 20 20"
@@ -1076,14 +1076,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <button
                                         aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                         tabindex="-1"
                                         title="Sort"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1szvxe0-MuiSvgIcon-root"
                                           data-testid="ArrowDownwardIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
@@ -1102,7 +1102,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                       aria-controls="mui-10"
                                       aria-haspopup="true"
                                       aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1vp8oyq-MuiButtonBase-root-MuiIconButton-root"
+                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1s03k78-MuiButtonBase-root-MuiIconButton-root"
                                       id="mui-11"
                                       tabindex="-1"
                                       title="Menu"
@@ -1110,7 +1110,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                         data-testid="TripleDotsVerticalIcon"
                                         focusable="false"
                                         viewBox="0 0 20 20"
@@ -1128,7 +1128,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-1szvxe0-MuiSvgIcon-root"
                                     data-testid="SeparatorIcon"
                                     focusable="false"
                                     viewBox="0 0 20 20"
@@ -1180,10 +1180,10 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           >
                             <div />
                             <div
-                              class="MuiTablePagination-root css-1lt7h57-MuiTablePagination-root"
+                              class="MuiTablePagination-root css-6pv0qm-MuiTablePagination-root"
                             >
                               <div
-                                class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1q7dvge-MuiToolbar-root-MuiTablePagination-toolbar"
+                                class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
                               >
                                 <div
                                   class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
@@ -1198,7 +1198,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <button
                                     aria-label="Go to previous page"
-                                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-5wnerk-MuiButtonBase-root-MuiIconButton-root"
+                                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1a90ahb-MuiButtonBase-root-MuiIconButton-root"
                                     disabled=""
                                     tabindex="-1"
                                     title="Go to previous page"
@@ -1206,7 +1206,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                       data-testid="KeyboardArrowLeftIcon"
                                       focusable="false"
                                       viewBox="0 0 20 20"
@@ -1218,7 +1218,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                   </button>
                                   <button
                                     aria-label="Go to next page"
-                                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-5wnerk-MuiButtonBase-root-MuiIconButton-root"
+                                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1a90ahb-MuiButtonBase-root-MuiIconButton-root"
                                     disabled=""
                                     tabindex="-1"
                                     title="Go to next page"
@@ -1226,7 +1226,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                       data-testid="KeyboardArrowRightIcon"
                                       focusable="false"
                                       viewBox="0 0 20 20"
@@ -1273,13 +1273,13 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-p6fi3e-MuiGrid-root"
                         >
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             Protocol-Owned Liquidity
-                          </h6>
-                          <h6
-                            class="MuiTypography-root MuiTypography-h6 css-13bj08-MuiTypography-root"
+                          </h3>
+                          <h3
+                            class="MuiTypography-root MuiTypography-h6 css-1nvas7c-MuiTypography-root"
                           >
                             <div
                               class="MuiBox-root css-0"
@@ -1287,7 +1287,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -1297,7 +1297,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 />
                               </svg>
                             </div>
-                          </h6>
+                          </h3>
                         </div>
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1c16yah-MuiGrid-root"
@@ -1320,7 +1320,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                                     focusable="false"
                                     style="width: 16px; height: 16px;"
                                     viewBox="0 0 100 100"
@@ -1339,7 +1339,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
                                   focusable="false"
                                   style="font-size: 1rem; cursor: pointer;"
                                   viewBox="0 0 20 20"

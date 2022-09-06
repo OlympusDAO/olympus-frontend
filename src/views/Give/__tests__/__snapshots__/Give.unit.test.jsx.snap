@@ -48,7 +48,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -63,11 +63,11 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Angel Protocol
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -220,7 +220,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -279,7 +279,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -345,7 +345,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -459,7 +459,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -518,13 +518,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/projects/impact-market"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                 >
                   <strong>
                     Impact Market
                   </strong>
-                </h4>
+                </h3>
               </a>
             </div>
             <div
@@ -637,13 +637,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/projects/angel-protocol"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                 >
                   <strong>
                     Angel Protocol
                   </strong>
-                </h4>
+                </h3>
               </a>
             </div>
             <div
@@ -756,13 +756,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/projects/gitcoin"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                 >
                   <strong>
                     Gitcoin
                   </strong>
-                </h4>
+                </h3>
               </a>
             </div>
             <div
@@ -875,13 +875,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/projects/kolektivo"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                 >
                   <strong>
                     Kolektivo
                   </strong>
-                </h4>
+                </h3>
               </a>
             </div>
             <div
@@ -994,13 +994,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="#/give/projects/popcorndao"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                 >
                   <strong>
                     PopcornDAO
                   </strong>
-                </h4>
+                </h3>
               </a>
             </div>
             <div
@@ -1114,11 +1114,11 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
               >
-                <h4
-                  class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-w2dumq-MuiTypography-root"
+                <h3
+                  class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-jwxr81-MuiTypography-root"
                 >
                   Want to give to a different cause?
-                </h4>
+                </h3>
               </div>
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
@@ -1177,26 +1177,6 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
           <div
             class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
           >
-            <div
-              class="MuiGrid-root MuiGrid-item card-header css-13i4rnv-MuiGrid-root"
-            >
-              <div
-                class="MuiBox-root css-gg4vpm"
-              >
-                <div
-                  class="MuiBox-root css-u4p24i"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
-                  >
-                    Give
-                  </p>
-                </div>
-                <div
-                  class="top-right"
-                />
-              </div>
-            </div>
             <div
               class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
             >
@@ -1339,7 +1319,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                           focusable="false"
                           style="margin: 0px 5px; font-size: 1em;"
                           viewBox="0 0 20 20"
@@ -1370,13 +1350,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                               href="#/give/projects/impact-market"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                               >
                                 <strong>
                                   Impact Market
                                 </strong>
-                              </h4>
+                              </h3>
                             </a>
                           </div>
                           <div
@@ -1489,13 +1469,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                               href="#/give/projects/angel-protocol"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                               >
                                 <strong>
                                   Angel Protocol
                                 </strong>
-                              </h4>
+                              </h3>
                             </a>
                           </div>
                           <div
@@ -1608,13 +1588,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                               href="#/give/projects/gitcoin"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                               >
                                 <strong>
                                   Gitcoin
                                 </strong>
-                              </h4>
+                              </h3>
                             </a>
                           </div>
                           <div
@@ -1727,13 +1707,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                               href="#/give/projects/kolektivo"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                               >
                                 <strong>
                                   Kolektivo
                                 </strong>
-                              </h4>
+                              </h3>
                             </a>
                           </div>
                           <div
@@ -1846,13 +1826,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                               href="#/give/projects/popcorndao"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 css-kn0jnx-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 css-17eo8me-MuiTypography-root"
                               >
                                 <strong>
                                   PopcornDAO
                                 </strong>
-                              </h4>
+                              </h3>
                             </a>
                           </div>
                           <div
@@ -1966,11 +1946,11 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
                             >
-                              <h4
-                                class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-w2dumq-MuiTypography-root"
+                              <h3
+                                class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-jwxr81-MuiTypography-root"
                               >
                                 Want to give to a different cause?
-                              </h4>
+                              </h3>
                             </div>
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
@@ -2033,7 +2013,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2097,7 +2077,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2165,7 +2145,7 @@ You can withdraw or edit your principal sOHM amount at any time.
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2256,7 +2236,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -2417,7 +2397,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
                               data-testid="ChevronLeftIcon"
                               focusable="false"
                               style="width: 12px; height: 12px;"
@@ -2432,11 +2412,11 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         <div
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
-                          <h5
-                            class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                          <h3
+                            class="MuiTypography-root MuiTypography-h5 css-r0crnj-MuiTypography-root"
                           >
                             Angel Protocol
-                          </h5>
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -2502,7 +2482,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -2585,7 +2565,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -2644,7 +2624,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -2710,7 +2690,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                         focusable="false"
                                         viewBox="0 0 20 20"
                                       >
@@ -2824,7 +2804,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >

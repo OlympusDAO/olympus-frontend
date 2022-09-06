@@ -28,14 +28,8 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
-                >
-                  Wrap / Unwrap
-                </p>
-              </div>
+                class="top-left"
+              />
               <div
                 class="top-right"
               >
@@ -58,7 +52,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                      
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                       focusable="false"
                       style="margin-left: 5px;"
                       viewBox="0 0 20 20"
@@ -144,7 +138,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -195,7 +189,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -261,7 +255,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -308,7 +302,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -454,14 +448,14 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1ffhuvx-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-right: 8px;"
                   viewBox="0 0 32 32"
@@ -478,14 +472,14 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1ffhuvx-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-right: 8px;"
                   viewBox="0 0 32 32"
@@ -830,14 +824,8 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root css-u4p24i"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
-                >
-                  Wrap / Unwrap
-                </p>
-              </div>
+                class="top-left"
+              />
               <div
                 class="top-right"
               >
@@ -860,7 +848,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                      
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                       focusable="false"
                       style="margin-left: 5px;"
                       viewBox="0 0 20 20"
@@ -946,7 +934,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -997,7 +985,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -1063,7 +1051,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -1110,7 +1098,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-tj8vb-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 20 20"
@@ -1256,14 +1244,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1ffhuvx-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-right: 8px;"
                   viewBox="0 0 32 32"
@@ -1280,14 +1268,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 Avalanche
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1jsnrwg-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-disableElevation custom-root  css-1ffhuvx-MuiButtonBase-root-MuiButton-root"
                 style="margin: 0.3rem;"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-right: 8px;"
                   viewBox="0 0 32 32"
