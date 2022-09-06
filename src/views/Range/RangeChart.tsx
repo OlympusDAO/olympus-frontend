@@ -159,7 +159,13 @@ const RangeChart = (props: {
           tickFormatter={number => formatCurrency(number, 2)}
           orientation="right"
           type="number"
-          domain={[(dataMin: number) => trim(dataMin * 0.95, 2), (dataMax: number) => trim(dataMax * 1.05, 2)]}
+          domain={[
+            (dataMin: number) =>
+              Math.min(dataMin, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 0.95,
+            (dataMax: number) =>
+              Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 1.05,
+          ]}
+          padding={{ top: 20, bottom: 20 }}
           width={42}
         />
         <Tooltip content={<TooltipContent />} />
