@@ -46,13 +46,13 @@ exports[`<Stake/> should render component 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Annualized Rebases
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -76,13 +76,13 @@ exports[`<Stake/> should render component 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Time to Next Rebase
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span>
@@ -112,7 +112,7 @@ exports[`<Stake/> should render component 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Current Index
                             </p>
@@ -139,7 +139,7 @@ exports[`<Stake/> should render component 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -164,7 +164,7 @@ exports[`<Stake/> should render component 1`] = `
                   style=""
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -172,11 +172,11 @@ exports[`<Stake/> should render component 1`] = `
                   </button>
                 </div>
               </div>
-              <h3
-                class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-m77z2n-MuiTypography-root"
               >
                 Connect your wallet to stake OHM
-              </h3>
+              </h6>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
                 >
                   Farm Pool
                 </p>
@@ -212,7 +212,7 @@ exports[`<Stake/> should render component 1`] = `
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
           >
             <table
-              class="MuiTable-root css-5kt5wr-MuiTable-root"
+              class="MuiTable-root css-dcenn1-MuiTable-root"
             >
               <thead
                 class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1qbtru2-MuiTableHead-root"
@@ -221,21 +221,21 @@ exports[`<Stake/> should render component 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
@@ -247,7 +247,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -354,7 +354,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
@@ -670,11 +670,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -684,22 +684,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -729,7 +729,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -836,7 +836,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
@@ -856,11 +856,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -870,22 +870,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -915,7 +915,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -992,7 +992,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
@@ -1016,11 +1016,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -1030,22 +1030,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1075,7 +1075,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -1184,7 +1184,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
@@ -1240,11 +1240,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -1254,22 +1254,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1299,7 +1299,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -1492,7 +1492,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
@@ -1808,11 +1808,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -1822,11 +1822,11 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -1836,11 +1836,11 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -1870,7 +1870,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -1964,7 +1964,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
@@ -2018,11 +2018,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -2032,11 +2032,11 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -2046,11 +2046,11 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2080,7 +2080,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -2156,7 +2156,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
@@ -2210,11 +2210,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -2224,22 +2224,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2269,7 +2269,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -2345,7 +2345,7 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
@@ -2399,11 +2399,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -2413,22 +2413,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2458,7 +2458,7 @@ exports[`<Stake/> should render component 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -2508,12 +2508,12 @@ exports[`<Stake/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-FRAX
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1k3fjb8-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-23pk5e-MuiTypography-root"
                       >
                         Mint and Sync
                          
@@ -2584,11 +2584,11 @@ exports[`<Stake/> should render component 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -2598,22 +2598,22 @@ exports[`<Stake/> should render component 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -2694,13 +2694,13 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Annualized Rebases
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -2724,13 +2724,13 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Time to Next Rebase
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span>
@@ -2760,7 +2760,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Current Index
                             </p>
@@ -2787,7 +2787,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -2812,7 +2812,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   style=""
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -2820,11 +2820,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </button>
                 </div>
               </div>
-              <h3
-                class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-m77z2n-MuiTypography-root"
               >
                 Connect your wallet to stake OHM
-              </h3>
+              </h6>
             </div>
           </div>
         </div>
@@ -2846,7 +2846,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiBox-root css-u4p24i"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
                 >
                   Farm Pool
                 </p>
@@ -2860,7 +2860,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
           >
             <table
-              class="MuiTable-root css-5kt5wr-MuiTable-root"
+              class="MuiTable-root css-dcenn1-MuiTable-root"
             >
               <thead
                 class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1qbtru2-MuiTableHead-root"
@@ -2869,21 +2869,21 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 250px; padding: 8px 0px;"
                   >
                     Asset
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
                     TVL
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1nxmzo6-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-19qvo9u-MuiTableCell-root"
                     scope="col"
                     style="width: 150px; padding: 8px 0px;"
                   >
@@ -2895,7 +2895,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -3002,7 +3002,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
@@ -3318,11 +3318,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -3332,22 +3332,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -3377,7 +3377,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -3484,7 +3484,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wETH
@@ -3504,11 +3504,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -3518,22 +3518,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.sushi.com/farm?filter=2x"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -3563,7 +3563,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -3640,7 +3640,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-AVAX
@@ -3664,11 +3664,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -3678,22 +3678,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -3723,7 +3723,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -3832,7 +3832,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       gOHM-wFTM
@@ -3888,11 +3888,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -3902,22 +3902,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -3947,7 +3947,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -4140,7 +4140,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       jgOHM-gOHM
@@ -4456,11 +4456,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -4470,11 +4470,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -4484,11 +4484,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://jonesdao.io/farms"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4518,7 +4518,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -4612,7 +4612,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-DAI-wETH
@@ -4666,11 +4666,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -4680,11 +4680,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -4694,11 +4694,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4728,7 +4728,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -4804,7 +4804,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
@@ -4858,11 +4858,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -4872,22 +4872,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://curve.fi/factory-crypto/21/deposit"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -4917,7 +4917,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -4993,7 +4993,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-ETH
@@ -5047,11 +5047,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -5061,22 +5061,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://www.convexfinance.com/stake"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -5106,7 +5106,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <div
@@ -5156,12 +5156,12 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       style="line-height: 1.4; margin-left: 14px; margin-right: 10px;"
                     >
                       OHM-FRAX
                       <p
-                        class="MuiTypography-root MuiTypography-body1 css-1k3fjb8-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 css-23pk5e-MuiTypography-root"
                       >
                         Mint and Sync
                          
@@ -5232,11 +5232,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     <span
@@ -5246,22 +5246,22 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     style="line-height: 1.4;"
                   >
                     0.00%
                   </p>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-sizeMedium css-1lwqo68-MuiTableCell-root"
                   style="padding: 8px 0px;"
                 >
                   <a
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
                     href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
                     rel="noopener noreferrer"
                     tabindex="0"

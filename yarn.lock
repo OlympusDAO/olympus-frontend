@@ -3608,10 +3608,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@olympusdao/component-library@^2.2.2-alpha.16":
-  version "2.2.2-alpha.16"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.16.tgz#e6f3f5319328e20459ff01e45c90e25e5ba4d912"
-  integrity sha512-GiuCTm4LCiaHU8vqQ0RAVIYMNVKgc2mfJ6qhgHpWWySIT05TTdBsDEhOlPBmU2QejJdfFeg5FCiHeA5Dv5wlkg==
+"@olympusdao/component-library@^2.2.2-alpha.17":
+  version "2.2.2-alpha.17"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-2.2.2-alpha.17.tgz#6e3c282db8f7b4603387d9d5935c02a5ce32303c"
+  integrity sha512-/XovfO0NEYtixIH+C7bSODWjMfEk3Y1l4YOSLziDFjEn/1FpMaSYgY6wGo7Wvzl+KcTkS7zJVHkd6NgvKijkKw==
   dependencies:
     "@react-spring/web" "^9.5.2"
 

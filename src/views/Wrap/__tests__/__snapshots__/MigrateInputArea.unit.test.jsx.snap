@@ -45,7 +45,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     class="MuiBox-root css-70qvj9"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                     >
                       gOHM
                     </p>
@@ -94,13 +94,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               sOHM Price
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -124,7 +124,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Current Index
                             </p>
@@ -151,7 +151,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -175,7 +175,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               gOHM Price
                             </p>
@@ -202,7 +202,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -224,7 +224,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 class="MuiBox-root css-70qvj9"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   Migrate
                 </p>
@@ -233,7 +233,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-165m0tn-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
@@ -266,7 +266,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   </div>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   <span
                     class="asset-select-label"
@@ -279,7 +279,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   style="margin: 0px 10px;"
                 >
                   <div
-                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                    class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-165m0tn-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   >
                     <div
                       aria-expanded="false"
@@ -332,7 +332,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                           class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-e9x9x6-MuiFormControl-root"
                         >
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-apze54-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
@@ -347,7 +347,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                             >
                               <button
-                                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-ftyfwv-MuiButtonBase-root-MuiButton-root"
+                                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-1fre6y-MuiButtonBase-root-MuiButton-root"
                                 style="font-weight: 500; font-size: 15px;"
                                 tabindex="0"
                                 type="button"
@@ -379,7 +379,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                           class="MuiBox-root css-w4egcq"
                         >
                           <button
-                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-e1do9p-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1q9n6lo-MuiButtonBase-root-MuiButton-root"
                             data-testid="migrate-button"
                             style="height: 43px;"
                             tabindex="0"
@@ -401,13 +401,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   wsOHM Balance (Avalanche)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -423,13 +423,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   gOHM Balance (Avalanche)
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -444,14 +444,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             <div
               class="MuiBox-root css-na3zg8"
             >
-              <h3
-                class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-m77z2n-MuiTypography-root"
                 style="margin: 15px 0px 10px 0px;"
               >
                 Back to Ethereum Mainnet
-              </h3>
+              </h6>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation css-8nixbj-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation css-15c4wnt-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -501,12 +501,12 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     </lineargradient>
                   </defs>
                 </svg>
-                <h3
-                  class="MuiTypography-root MuiTypography-h6 css-1px79iq-MuiTypography-root"
+                <h6
+                  class="MuiTypography-root MuiTypography-h6 css-m77z2n-MuiTypography-root"
                   style="margin-left: 8px;"
                 >
                   Ethereum
-                </h3>
+                </h6>
               </button>
             </div>
           </div>

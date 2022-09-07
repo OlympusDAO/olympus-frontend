@@ -46,7 +46,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       olympus-nav-header.svg
                     </svg>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-1kfxwbv-MuiTypography-root"
                     >
                       Olympus
                     </p>
