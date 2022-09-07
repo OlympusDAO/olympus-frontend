@@ -38,6 +38,18 @@ const commonSettings = {
       fontSize: "24px",
       lineHeight: "32px",
     },
+    h4: {
+      fontSize: "24px",
+      lineHeight: "32px",
+    },
+    h5: {
+      fontSize: "24px",
+      lineHeight: "32px",
+    },
+    h6: {
+      fontSize: "24px",
+      lineHeight: "32px",
+    },
     body1: {
       fontSize: "15px",
       lineHeight: "24px",
@@ -71,15 +83,6 @@ const commonSettings = {
         disableElevation: true,
         disableFocusRipple: true,
         disableRipple: true,
-      },
-    },
-    MuiTypography: {
-      defaultProps: {
-        variantMapping: {
-          h4: "h3",
-          h5: "h3",
-          h6: "h3",
-        },
       },
     },
     MuiPaper: {

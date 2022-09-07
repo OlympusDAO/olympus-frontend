@@ -247,10 +247,22 @@ function App() {
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
-                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                  <Route
+                    path={"/info/*"}
+                    element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/utility"}
+                    element={<Wallet open={true} component="utility" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/wallet/history"}
+                    element={<Wallet open={true} component="wallet/history" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path="/wallet"
+                    element={<Wallet open={true} component="wallet" theme={theme} toggleTheme={toggleTheme} />}
+                  ></Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

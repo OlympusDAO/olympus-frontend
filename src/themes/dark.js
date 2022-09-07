@@ -206,22 +206,22 @@ export const dark = createTheme(
         MuiToggleButton: {
           styleOverrides: {
             root: {
-              background: colors.paper.background,
+              background: colors.gray[600],
               "&:hover": {
                 color: colors.gray[10],
-                background: `${colors.paper.cardHover} !important`,
+                background: `${colors.gray[500]} !important`,
               },
               selected: {
-                background: colors.paper.cardHover,
+                background: colors.gray[500],
               },
               "@media (hover:none)": {
                 "&:hover": {
                   color: colors.gray[10],
-                  background: colors.paper.cardHover,
+                  background: colors.gray[500],
                 },
                 "&:focus": {
                   color: colors.gray[10],
-                  background: colors.paper.background,
+                  background: colors.gray[600],
                   borderColor: "transparent",
                   outline: "#00000000",
                 },
@@ -255,23 +255,23 @@ export const dark = createTheme(
             },
             containedSecondary: {
               height: "39px",
-              background: colors.paper.background,
+              background: colors.gray[600],
               color: colors.gray[10],
               fontWeight: 500,
               "&:hover": {
-                background: `${colors.paper.cardHover} !important`,
+                background: `${colors.gray[500]} !important`,
               },
               "&:active": {
-                background: colors.paper.cardHover,
+                background: colors.gray[500],
               },
               "&:focus": {
-                background: colors.paper.background,
+                background: colors.gray[600],
               },
               "@media (hover:none)": {
                 color: colors.gray[10],
-                background: colors.paper.background,
+                background: colors.gray[600],
                 "&:hover": {
-                  background: `${colors.paper.cardHover} !important`,
+                  background: `${colors.gray[500]} !important`,
                 },
               },
             },

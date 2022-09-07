@@ -221,16 +221,16 @@ export const light = createTheme(
         MuiToggleButton: {
           styleOverrides: {
             root: {
-              background: colors.paper.background,
+              background: colors.paper.card,
               "&:hover": {
                 background: colors.paper.cardHover,
               },
               "@media (hover:none)": {
                 "&:hover": {
-                  background: colors.paper.card,
+                  background: colors.paper.cardHover,
                 },
                 "&:focus": {
-                  background: colors.paper.card,
+                  background: colors.paper.cardHover,
                 },
               },
             },
@@ -276,7 +276,7 @@ export const light = createTheme(
             },
             containedSecondary: {
               height: "39px",
-              background: colors.paper.background,
+              background: colors.paper.card,
               color: colors.gray[10],
               fontWeight: 500,
               "&:hover": {
@@ -286,11 +286,11 @@ export const light = createTheme(
                 background: colors.paper.cardHover,
               },
               "&:focus": {
-                background: colors.paper.background,
+                background: colors.paper.cardHover,
               },
               "@media (hover:none)": {
                 color: colors.gray[10],
-                background: colors.paper.background,
+                background: colors.paper.card,
                 "&:hover": {
                   background: `${colors.paper.cardHover} !important`,
                 },

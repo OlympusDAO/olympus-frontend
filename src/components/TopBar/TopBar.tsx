@@ -1,16 +1,11 @@
 import "src/components/TopBar/TopBar.scss";
 
-import { i18n } from "@lingui/core";
-import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { LocaleSwitcher } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
-import { locales, selectLocale } from "src/locales";
 
 const PREFIX = "TopBar";
 
@@ -52,9 +47,8 @@ interface TopBarProps {
   handleDrawerToggle: () => void;
 }
 
-function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
+function TopBar({ handleDrawerToggle }: TopBarProps) {
   const location = useLocation();
-  const muiTheme = useTheme();
   const [pageTitle, setPageTitle] = useState("");
 
   //Dynamic Page Title in Topbar. Maybe there's a better way.
@@ -112,13 +106,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
         </Box>
         <Box display="flex" alignItems="center">
           <ConnectButton />
-          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
-          <LocaleSwitcher
-            initialLocale={i18n.locale}
-            locales={locales}
-            onLocaleChange={selectLocale}
-            label={t`Change locale`}
-          />
         </Box>
       </Box>
     </StyledAppBar>
