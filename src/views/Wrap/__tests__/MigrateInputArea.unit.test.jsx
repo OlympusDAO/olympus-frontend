@@ -7,7 +7,6 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import { MigrateInputArea } from "src/views/Wrap/components/MigrateInputArea/MigrateInputArea";
-import Wrap from "src/views/Wrap/Wrap";
 import * as WAGMI from "wagmi";
 
 jest.mock("src/hooks/useContractAllowance");
@@ -28,7 +27,7 @@ beforeEach(async () => {
   ({ container } = render(
     <>
       <Messages />
-      <Wrap />
+      <MigrateInputArea />
     </>,
   ));
 });
@@ -36,14 +35,6 @@ beforeEach(async () => {
 afterEach(() => {
   jest.clearAllMocks();
   jest.restoreAllMocks();
-});
-
-describe("Wrap Input Area", () => {
-  it("Should Render Input when has Token Approval", async () => {
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "1" } });
-    expect(screen.getByTestId("migrate-button"));
-    expect(container).toMatchSnapshot();
-  });
 });
 
 describe("Check Migrate to gOHM Error Messages", () => {
