@@ -103,6 +103,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
             ) : (
               <>
                 <TokenItem name="OHM" balance={ohmBalance} />
+                {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
                 {Object.entries(tokensBalance)
                   .filter(token => !token[1].hide)
                   .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
@@ -122,7 +123,6 @@ const TokenModal: FC<OHMTokenModalProps> = ({
             )
           ) : (
             <>
-              <TokenItem name="sOHM" balance={sOhmBalance} />
               <TokenItem name="gOHM" balance={gOhmBalance} data-testid="gOHM-select" />
             </>
           )}
