@@ -227,6 +227,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
+  console.log(contractRouting, amountExceedsBalance, balance, amount, "debug");
 
   return (
     <StyledBox mb={3}>
@@ -343,7 +344,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"
-                    : !amount
+                    : !amount || parseInt(amount) === 0
                     ? "Enter an amount"
                     : currentAction === "STAKE"
                     ? isMutating
