@@ -335,7 +335,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   data-testid="submit-button"
                   loading={isMutating}
                   fullWidth
-                  disabled={isMutating || !amount || amountExceedsBalance}
+                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
                   onClick={() =>
                     currentAction === "STAKE"
                       ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
@@ -344,7 +344,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"
-                    : !amount || parseInt(amount) === 0
+                    : !amount || parseFloat(amount) === 0
                     ? "Enter an amount"
                     : currentAction === "STAKE"
                     ? isMutating
@@ -361,16 +361,16 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   data-testid="submit-button"
                   loading={isMutating}
                   fullWidth
-                  disabled={isMutating || !amount || amountExceedsBalance}
+                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
                   onClick={() => currentAction === "STAKE" && wrapMutation.mutate(amount)}
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"
-                    : !amount
+                    : !amount || parseFloat(amount) === 0
                     ? "Enter an amount"
                     : currentAction === "STAKE"
                     ? isMutating
-                      ? "Confirming Wraping in your wallet"
+                      ? "Confirming Wrapping in your wallet"
                       : "Wrap to gOHM"
                     : isMutating
                     ? "Confirming Unstaking in your wallet "
@@ -384,7 +384,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                     zapExecute.isLoading ||
                     zapOutputAmount === "" ||
                     (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                    process.env.DISABLE_ZAPS
+                    process.env.DISABLE_ZAPS ||
+                    parseFloat(amount) === 0
                   }
                   onClick={onZap}
                 >

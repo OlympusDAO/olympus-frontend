@@ -7,6 +7,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
+import * as StakeFactory from "src/typechain/factories/OlympusStakingv2__factory";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
 import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
@@ -19,6 +20,11 @@ beforeEach(() => {
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
   ZapFactory.Zap__factory.connect = jest.fn().mockReturnValue({
     ZapStake: jest.fn().mockReturnValue({
+      wait: jest.fn().mockReturnValue(true),
+    }),
+  });
+  StakeFactory.OlympusStakingv2__factory.connect = jest.fn().mockReturnValue({
+    wrap: jest.fn().mockResolvedValue({
       wait: jest.fn().mockReturnValue(true),
     }),
   });
@@ -42,10 +48,19 @@ afterEach(() => {
 
 describe("Wrap ", () => {
   it("Should display Wrap to gOHM when selecting sOHM as the FROM asset", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     fireEvent.click(screen.getAllByText("OHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
     expect(await screen.findByText("Wrap to gOHM"));
+  });
+  it("Should display successfully wrapped sOHM to gOHM when clicking submit", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
+    fireEvent.click(screen.getAllByText("OHM")[0]);
+    expect(screen.getByText("Select a token"));
+    fireEvent.click(await screen.findByText("sOHM"));
+    fireEvent.click(await screen.findByText("Wrap to gOHM"));
+    expect(await screen.findByText("Successfully wrapped sOHM to gOHM")).toBeInTheDocument();
   });
   it("Should display Approve Staking when wrapping sOHM and staking contract not approved", async () => {
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
@@ -62,8 +77,7 @@ describe("Check Wrap to gOHM Error Messages", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0" } });
-    fireEvent.click(screen.getByText("Wrap to gOHM"));
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(screen.getByText("Enter an amount"));
   });
 
   it("Error message amount > 0 and no undefined wallet balance", async () => {
