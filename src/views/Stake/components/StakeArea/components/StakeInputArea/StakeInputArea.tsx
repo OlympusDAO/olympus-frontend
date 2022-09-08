@@ -166,47 +166,45 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     }
   };
 
-  const upperBalanceValue =
-    contractRouting === "Zap"
-      ? `${swapAssetType.balance} ${swapAssetType.name}`
-      : `${ohmBalance ? ohmBalance.toString({ decimals: 2 }) : "0.00"} OHM`;
+  const OhmSwapCard = () => {
+    const balance =
+      swapAssetType.name === "sOHM"
+        ? sOhmBalance
+          ? sOhmBalance.toString({ decimals: 2 })
+          : "0.00"
+        : swapAssetType.name === "OHM"
+        ? ohmBalance
+          ? ohmBalance.toString({ decimals: 2 })
+          : "0.00"
+        : swapAssetType.balance;
 
-  const OhmSwapCard = () => (
-    <SwapCard
-      id="ohm-input"
-      token={
-        swapAssetType.icon ? (
-          <Avatar src={swapAssetType.icon} sx={{ width: "21px", height: "21px" }} />
-        ) : (
-          (swapAssetType.name as OHMSwapCardProps["token"])
-        )
-      }
-      tokenName={swapAssetType.name}
-      tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
-      inputProps={{ "data-testid": "ohm-input", min: "0" }}
-      value={currentAction === "STAKE" ? amount : receiveAmount}
-      onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "STAKE")}
-      info={`Balance: ${upperBalanceValue}`}
-      endString={currentAction === "STAKE" ? "Max" : ""}
-      endStringOnClick={() =>
-        balance &&
-        ohmOnChange(
-          contractRouting === "Zap"
-            ? swapAssetType.balance
-              ? swapAssetType.balance.toString()
-              : "0"
-            : balance.toString(),
-          currentAction === "STAKE",
-        )
-      }
-      disabled={isMutating}
-      inputWidth={`${
-        (currentAction === "STAKE" ? amount : receiveAmount).length > 0
-          ? (currentAction === "STAKE" ? amount : receiveAmount).length
-          : 1
-      }ch`}
-    />
-  );
+    return (
+      <SwapCard
+        id="ohm-input"
+        token={
+          swapAssetType.icon ? (
+            <Avatar src={swapAssetType.icon} sx={{ width: "21px", height: "21px" }} />
+          ) : (
+            (swapAssetType.name as OHMSwapCardProps["token"])
+          )
+        }
+        tokenName={swapAssetType.name}
+        tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
+        inputProps={{ "data-testid": "ohm-input", min: "0" }}
+        value={currentAction === "STAKE" ? amount : receiveAmount}
+        onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "STAKE")}
+        info={`Balance: ${balance} ${swapAssetType.name}`}
+        endString={currentAction === "STAKE" ? "Max" : ""}
+        endStringOnClick={() => balance && ohmOnChange(balance, currentAction === "STAKE")}
+        disabled={isMutating}
+        inputWidth={`${
+          (currentAction === "STAKE" ? amount : receiveAmount).length > 0
+            ? (currentAction === "STAKE" ? amount : receiveAmount).length
+            : 1
+        }ch`}
+      />
+    );
+  };
 
   const SohmGohmSwapCard = () => {
     const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
