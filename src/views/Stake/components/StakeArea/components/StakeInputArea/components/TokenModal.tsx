@@ -50,6 +50,8 @@ const TokenModal: FC<OHMTokenModalProps> = ({
     price?: number;
     decimals?: number;
   };
+
+  console.log(sOhmBalance, "sohmBalance", showZap, "test", isLoading);
   const TokenItem: FC<TokenItem> = ({ name, balance = "0", icon, address = "", price, decimals, ...props }) => {
     return (
       <ListItem

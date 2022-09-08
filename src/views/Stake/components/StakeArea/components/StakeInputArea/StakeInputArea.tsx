@@ -206,7 +206,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     );
   };
 
-  const SohmGohmSwapCard = () => {
+  const GohmSwapCard = () => {
     const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
     return (
       <SwapCard
@@ -251,8 +251,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
           <Box mb="21px">
             <SwapCollection
-              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : SohmGohmSwapCard()}
-              LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
+              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : GohmSwapCard()}
+              LowerSwapCard={currentAction === "STAKE" ? GohmSwapCard() : OhmSwapCard()}
               arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
             />
           </Box>
@@ -321,7 +321,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
               spenderAddressMap={contractAddress}
               approvalText={
                 currentAction === "STAKE"
-                  ? contractRouting === "Stake"
+                  ? contractRouting === "Stake" || contractRouting === "Wrap"
                     ? "Approve Staking"
                     : `Approve Zap from ${swapAssetType.name}`
                   : "Approve Unstaking"
