@@ -109,6 +109,8 @@ export const ExternalStakePools = () => {
   );
 };
 
+console.log(balancerPools, "balancer");
+
 const AllPools = (props: { isSmallScreen: boolean }) => (
   <>
     {sushiPools.map(pool => (

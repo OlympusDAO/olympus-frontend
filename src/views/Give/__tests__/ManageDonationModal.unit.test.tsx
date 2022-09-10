@@ -27,18 +27,18 @@ describe("ManageDonationModal", () => {
 
   beforeEach(() => {
     // Has a contract allowance
-    jest
-      .spyOn(useContractAllowance, "useContractAllowance")
-      .mockReturnValue(mockContractAllowance(BigNumber.from(1000000)));
+    vi.spyOn(useContractAllowance, "useContractAllowance").mockReturnValue(
+      mockContractAllowance(BigNumber.from(1000000)),
+    );
 
-    jest.spyOn(useBalance, "useSohmBalance").mockReturnValue(
+    vi.spyOn(useBalance, "useSohmBalance").mockReturnValue(
       mockSohmBalance({
         [NetworkId.MAINNET]: new DecimalBigNumber("10"),
         [NetworkId.TESTNET_GOERLI]: new DecimalBigNumber("0"),
       }),
     );
 
-    jest.spyOn(useBalance, "useGohmBalance").mockReturnValue(
+    vi.spyOn(useBalance, "useGohmBalance").mockReturnValue(
       mockGohmBalance({
         [NetworkId.MAINNET]: new DecimalBigNumber("10"),
         [NetworkId.TESTNET_GOERLI]: new DecimalBigNumber("0"),
@@ -78,14 +78,14 @@ describe("ManageDonationModal", () => {
       website: "https://foo.com",
     };
 
-    jest.spyOn(useGiveInfo, "useRecipientInfo").mockReturnValue(
+    vi.spyOn(useGiveInfo, "useRecipientInfo").mockReturnValue(
       mockRecipientInfo({
         sohmDebt: "1.0",
         gohmDebt: "1.0",
       }),
     );
 
-    jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("10")));
+    vi.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("10")));
   });
 
   it("Should show project stats", async () => {
@@ -381,10 +381,10 @@ describe("ManageDonationModal", () => {
       />,
     );
 
-    expect(screen.getByTestId("edit-donation")).toBeInTheDocument();
+    expect(screen.getByTestId("edit-donation"));
     expect(screen.getByTestId("edit-donation").innerHTML).toEqual("Edit Donation");
 
-    expect(screen.getByTestId("stop-donation")).toBeInTheDocument();
+    expect(screen.getByTestId("stop-donation"));
     expect(screen.getByTestId("stop-donation").innerHTML).toEqual("Stop Donation");
   });
 
@@ -410,6 +410,6 @@ describe("ManageDonationModal", () => {
 
     fireEvent.click(screen.getByTestId("edit-donation"));
 
-    expect(screen.getByText("Continue")).toBeInTheDocument();
+    expect(screen.getByText("Continue"));
   });
 });

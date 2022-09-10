@@ -7,9 +7,8 @@ import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { IUserRecipientInfo } from "src/hooks/useGiveInfo";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
+import { vi } from "vitest";
 import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
-import * as WAGMI from "wagmi";
-
 const provider = new ethers.providers.StaticJsonRpcProvider();
 
 export const createMatchMedia = (width: string) => {
@@ -43,7 +42,7 @@ class EthersProviderWrapper extends providers.StaticJsonRpcProvider {
 export function getProvider({ chainId }: { chainId?: number } = {}) {
   const chain = allChains.find(x => x.id === chainId) ?? chain_.hardhat;
   const network = getNetwork(chain);
-  const url = chain_.mainnet.rpcUrls.default.toString();
+  const url = chain_.hardhat.rpcUrls.default.toString();
   const provider = new EthersProviderWrapper(url, network);
   provider.pollingInterval = 1_000;
   return provider;
@@ -60,98 +59,83 @@ export const mockConnector = new MockConnector({
 });
 
 export function disconnectedWallet() {
-  //@ts-ignore
-  WAGMI.useConnect = jest.fn(() => {
-    return {
-      activeConnector: mockConnector,
-      connectors: [mockConnector],
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useAccount = jest.fn(() => {
-    return {
-      isConnected: false,
-      address: "",
-      connector: mockConnector,
-      error: null,
-      fetchStatus: "idle",
-      internal: {
-        dataUpdatedAt: 1654570110046,
-        errorUpdatedAt: 0,
-        failureCount: 0,
-        isFetchedAfterMount: true,
-        isLoadingError: false,
-        isPaused: false,
-        isPlaceholderData: false,
-        isPreviousData: false,
-        isRefetchError: false,
-        isStale: true,
-      },
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isIdle: false,
-      isLoading: false,
-      isRefetching: false,
-      isSuccess: true,
-      refetch: jest.fn(),
-      status: "success",
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useSigner = jest.fn(() => {
-    return {
-      data: getSigners()[0],
-    };
-  });
+  // //@ts-ignore
+  // WAGMI.useConnect = vi.fn(() => {
+  //   return {
+  //     activeConnector: mockConnector,
+  //     connectors: [mockConnector],
+  //   };
+  // });
+  // //@ts-ignore
+  // WAGMI.useAccount = vi.fn(() => {
+  //   return {
+  //     isConnected: false,
+  //     address: "",
+  //     connector: mockConnector,
+  //     error: null,
+  //     fetchStatus: "idle",
+  //     internal: {
+  //       dataUpdatedAt: 1654570110046,
+  //       errorUpdatedAt: 0,
+  //       failureCount: 0,
+  //       isFetchedAfterMount: true,
+  //       isLoadingError: false,
+  //       isPaused: false,
+  //       isPlaceholderData: false,
+  //       isPreviousData: false,
+  //       isRefetchError: false,
+  //       isStale: true,
+  //     },
+  //     isError: false,
+  //     isFetched: true,
+  //     isFetching: false,
+  //     isIdle: false,
+  //     isLoading: false,
+  //     isRefetching: false,
+  //     isSuccess: true,
+  //     refetch: vi.fn(),
+  //     status: "success",
+  //   };
+  // });
+  //   //@ts-ignore
+  //   WAGMI.useSigner = vi.fn(() => {
+  //     return {
+  //       data: getSigners()[0],
+  //     };
+  //   });
 }
 export function connectWallet() {
-  //@ts-ignore
-  WAGMI.useConnect = jest.fn(() => {
+  return vi.mock("wagmi", async () => {
+    const wagmiImport: any = await vi.importActual("wagmi");
     return {
-      activeConnector: mockConnector,
-      connectors: [mockConnector],
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useAccount = jest.fn(() => {
-    return {
-      address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      connector: mockConnector,
-      isConnected: true,
-      error: null,
-      fetchStatus: "idle",
-      internal: {
-        dataUpdatedAt: 1654570110046,
-        errorUpdatedAt: 0,
-        failureCount: 0,
-        isFetchedAfterMount: true,
-        isLoadingError: false,
-        isPaused: false,
-        isPlaceholderData: false,
-        isPreviousData: false,
-        isRefetchError: false,
-        isStale: true,
-      },
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isIdle: false,
-      isLoading: false,
-      isRefetching: false,
-      isSuccess: true,
-      refetch: jest.fn(),
-      status: "success",
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useSigner = jest.fn(() => {
-    return {
-      data: getSigners()[0],
+      ...wagmiImport,
+      useAccount: vi.fn().mockReturnValue({
+        address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        isConnected: true,
+        error: null,
+        fetchStatus: "idle",
+        internal: {
+          dataUpdatedAt: 1654570110046,
+          errorUpdatedAt: 0,
+          failureCount: 0,
+          isFetchedAfterMount: true,
+          isLoadingError: false,
+          isPaused: false,
+          isPlaceholderData: false,
+          isPreviousData: false,
+          isRefetchError: false,
+          isStale: true,
+        },
+        isError: false,
+        isFetched: true,
+        isFetching: false,
+        isIdle: false,
+        isLoading: false,
+        isRefetching: false,
+        isSuccess: true,
+        refetch: vi.fn(),
+        status: "success",
+      }),
     };
   });
 }

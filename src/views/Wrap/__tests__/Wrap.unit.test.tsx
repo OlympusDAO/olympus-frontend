@@ -4,8 +4,8 @@ import Wrap from "src/views/Wrap/Wrap";
 import * as WAGMI from "wagmi";
 
 afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
+  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("<Wrap/>", () => {
@@ -17,7 +17,7 @@ describe("<Wrap/>", () => {
     connectWallet();
 
     //@ts-ignore
-    WAGMI.useNetwork = jest.fn(() => {
+    WAGMI.useNetwork = vi.fn(() => {
       return {
         chain: {
           id: 43114,
@@ -34,7 +34,7 @@ describe("<Wrap/>", () => {
   it("should Render Migrate Input Area on Arbitrum", async () => {
     connectWallet();
     //@ts-ignore
-    WAGMI.useNetwork = jest.fn(() => {
+    WAGMI.useNetwork = vi.fn(() => {
       return {
         chain: {
           id: 42161,
@@ -52,7 +52,7 @@ describe("<Wrap/>", () => {
   it("Should Render Wrap Input Area with Wallet Connected", async () => {
     connectWallet();
     //@ts-ignore
-    WAGMI.useNetwork = jest.fn(() => {
+    WAGMI.useNetwork = vi.fn(() => {
       return {
         chain: {
           id: 1,

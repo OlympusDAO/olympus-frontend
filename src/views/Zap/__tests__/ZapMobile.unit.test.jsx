@@ -10,6 +10,6 @@ beforeAll(() => {
 
 describe("Zap Mobile", () => {
   it("should display Any asset text in the header", () => {
-    expect(screen.getByText("Any asset")).toBeInTheDocument();
+    expect(screen.getByText("Any asset"));
   });
 });

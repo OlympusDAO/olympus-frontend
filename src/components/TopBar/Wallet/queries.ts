@@ -16,7 +16,9 @@ import { CovalentResponse, CovalentTransaction, CovalentTransfer } from "src/lib
 import { NetworkId } from "src/networkDetails";
 import { useAccount, useNetwork } from "wagmi";
 export const ActiveProposals = () => {
+  console.log("testing");
   const { data, isFetched, isLoading } = useQuery(["ActiveProposals"], async () => {
+    console.log("before");
     const data = await request(
       snapshotUrl,
       gql`
@@ -43,6 +45,7 @@ export const ActiveProposals = () => {
         }
       `,
     );
+    console.log("after");
     return data;
   });
   return { data, isFetched, isLoading };

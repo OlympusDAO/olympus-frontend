@@ -7,14 +7,15 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen, within } from "src/testUtils";
 import Wrap from "src/views/Wrap/Wrap";
+import { vi } from "vitest";
 
-jest.mock("src/hooks/useContractAllowance");
+vi.mock("src/hooks/useContractAllowance");
 let container;
 
 beforeEach(() => {
   connectWallet();
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
-  Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+  Balance.useBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   ({ container } = render(
     <>
       <Messages />
@@ -24,8 +25,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
+  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("Wrap Input Area", () => {
@@ -47,26 +48,26 @@ describe("Wrap Input Area", () => {
 describe("Check Wrap to gOHM Error Messages", () => {
   it("Error message with no amount", async () => {
     fireEvent.click(await screen.getByText("Wrap to gOHM"));
-    expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number"));
   });
 
   it("Error message with amount <=0", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of sOHM"), { target: { value: "-1" } });
     fireEvent.click(await screen.getByText("Wrap to gOHM"));
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number greater than 0"));
   });
 
   it("Error message amount > 0 and no undefined wallet balance", async () => {
-    Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: undefined } });
+    Balance.useBalance = vi.fn().mockReturnValue({ 1: { data: undefined } });
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of sOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByText("Wrap to gOHM"));
-    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    expect(await screen.findByText("Please refresh your page and try again"));
   });
 
   it("Error message amount > wallet balance", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of sOHM"), { target: { value: "10000" } });
     fireEvent.click(await screen.getByText("Wrap to gOHM"));
-    expect(await screen.findByText("You cannot wrap more than your sOHM balance")).toBeInTheDocument();
+    expect(await screen.findByText("You cannot wrap more than your sOHM balance"));
   });
 });
 
@@ -78,30 +79,30 @@ describe("Check Unwrap from gOHM Error Messages", () => {
   });
   it("Error message with no amount", async () => {
     fireEvent.click(screen.getByText("Unwrap from gOHM"));
-    expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number"));
   });
 
   it("Error message with amount <=0", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of gOHM"), { target: { value: "-1" } });
     fireEvent.click(screen.getByText("Unwrap from gOHM"));
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number greater than 0"));
   });
 
   it("Error message amount > 0 and no undefined wallet balance", async () => {
-    Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: undefined } });
+    Balance.useBalance = vi.fn().mockReturnValue({ 1: { data: undefined } });
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of gOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByText("Unwrap from gOHM"));
-    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    expect(await screen.findByText("Please refresh your page and try again"));
   });
 
   it("Error message amount >  wallet balance", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of gOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByText("Unwrap from gOHM"));
-    expect(await screen.findByText("You cannot unwrap more than your gOHM balance")).toBeInTheDocument();
+    expect(await screen.findByText("You cannot unwrap more than your gOHM balance"));
   });
   it("Error message if no contract address", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of gOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByText("Unwrap from gOHM"));
-    expect(await screen.findByText("You cannot unwrap more than your gOHM balance")).toBeInTheDocument();
+    expect(await screen.findByText("You cannot unwrap more than your gOHM balance"));
   });
 });

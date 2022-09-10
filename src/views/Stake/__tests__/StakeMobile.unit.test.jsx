@@ -7,7 +7,7 @@ beforeAll(() => {
 describe("Mobile Resolution", () => {
   it("should render all supported multi chain staking contracts for mobile", async () => {
     const { container } = await render(<Stake />);
-    expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
+    expect(await screen.getByText("gOHM-AVAX"));
     expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(
       "href",
       "https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",

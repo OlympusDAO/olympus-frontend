@@ -6,12 +6,12 @@ import * as Index from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
 import { act, fireEvent, render, screen } from "src/testUtils";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
-
-jest.mock("src/hooks/useContractAllowance");
+import { afterEach, beforeEach, describe, it, vi } from "vitest";
+vi.mock("src/hooks/useContractAllowance");
 let data;
 afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
+  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("<StakeArea/> Disconnected", () => {
@@ -19,35 +19,35 @@ describe("<StakeArea/> Disconnected", () => {
     render(<StakeArea />);
   });
   it("should ask user to connect wallet", () => {
-    expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
+    expect(screen.getByText("Connect Wallet"));
   });
 });
 
 describe("<StakeArea/> Connected no Approval", () => {
-  jest.mock("src/components/TokenAllowanceGuard/hooks/useApproveToken");
+  vi.mock("src/components/TokenAllowanceGuard/hooks/useApproveToken");
   let approval;
   beforeEach(async () => {
     connectWallet();
-    approval = jest.spyOn(ApproveToken, "useApproveToken");
+    approval = vi.spyOn(ApproveToken, "useApproveToken");
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
     render(<StakeArea />);
   });
   it("should render the stake input Area when connected", async () => {
-    expect(screen.getByText("Unstaked Balance")).toBeInTheDocument();
+    expect(screen.getByText("Unstaked Balance"));
   });
 
   it("should display unstake approval message when clicking unstake", async () => {
     fireEvent.click(screen.getByText("Unstake"));
-    expect(await screen.findByText("Approve")).toBeInTheDocument();
+    expect(await screen.findByText("Approve"));
   });
 
   it("should successfully complete the contract approval", async () => {
     approval.mockReturnValue({ data: { confirmations: 100 } });
-    expect(screen.getByText("Approve")).toBeInTheDocument();
+    expect(screen.getByText("Approve"));
     fireEvent.click(screen.getByText("Approve"));
     useContractAllowance.mockReturnValue({ data: BigNumber.from(100) });
     act(async () => render(<StakeArea />));
-    expect(screen.getByText("Stake to sOHM")).toBeInTheDocument();
+    expect(screen.getByText("Stake to sOHM"));
   });
 });
 
@@ -55,18 +55,18 @@ describe("<StakeArea/> Connected with Approval", () => {
   beforeEach(async () => {
     connectWallet();
     useContractAllowance.mockReturnValue({ data: BigNumber.from(1000) });
-    Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
+    Index.useCurrentIndex = vi.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     render(<StakeArea />);
   });
   it("should switch to gOHM when toggle is selected", async () => {
     fireEvent.click(await screen.findByRole("checkbox"));
-    expect(screen.getByText("Stake to gOHM")).toBeInTheDocument();
+    expect(screen.getByText("Stake to gOHM"));
   });
 
   it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
     fireEvent.click(await screen.findByRole("checkbox"));
-    expect(screen.getByText("Stake to gOHM")).toBeInTheDocument();
+    expect(screen.getByText("Stake to gOHM"));
     fireEvent.input(await screen.findByRole("textbox"), { target: { value: "2" } });
-    expect(screen.getByText("Stake 2 OHM → 0.2 gOHM")).toBeInTheDocument();
+    expect(screen.getByText("Stake 2 OHM → 0.2 gOHM"));
   });
 });

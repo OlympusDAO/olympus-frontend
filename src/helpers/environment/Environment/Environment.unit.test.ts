@@ -1,14 +1,14 @@
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 beforeEach(() => {
-  jest.spyOn(console, "warn").mockImplementation();
+  vi.spyOn(console, "warn").mockImplementation();
 });
 
 afterEach(() => {
   delete process.env.REACT_APP_GOOGLE_ANALYTICS_API_KEY;
   delete process.env.REACT_APP_GA_4_API_KEY;
   delete process.env.REACT_APP_COVALENT_API_KEY;
-  jest.spyOn(console, "warn").mockReset();
+  vi.spyOn(console, "warn").mockReset();
 });
 
 describe("Environment", () => {

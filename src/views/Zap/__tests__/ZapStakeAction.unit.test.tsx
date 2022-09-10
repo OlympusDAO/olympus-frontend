@@ -14,29 +14,20 @@ import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
 import ZapStakeAction from "src/views/Zap/ZapStakeAction";
 import * as WAGMI from "wagmi";
 
-// afterEach(() => {
-//   jest.resetAllMocks();
-//   jest.restoreAllMocks();
-// });
-
-// beforeAll(() => {
-//   connectWallet();
-// });
-
 describe("<ZapStakeAction/> ", () => {
   beforeEach(() => {
     connectWallet();
-    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: vi.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
-    Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useSohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     //@ts-expect-error
-    Balances.useGohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useGohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     //@ts-expect-error
-    Prices.useGohmPrice = jest.fn().mockReturnValue({ data: "3400.00" });
+    Prices.useGohmPrice = vi.fn().mockReturnValue({ data: "3400.00" });
     //@ts-expect-error
-    Prices.useOhmPrice = jest.fn().mockReturnValue({ data: "32.00" });
+    Prices.useOhmPrice = vi.fn().mockReturnValue({ data: "32.00" });
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(0) });
   });
 
   it("gOHM should autopopulate with correct value based on ETH input", async () => {
@@ -53,16 +44,16 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("Enter Amount"));
     fireEvent.click(await screen.findByTestId("zap-output"));
     fireEvent.click(await screen.getAllByText("gOHM")[0]);
-    expect(await screen.getByDisplayValue("0.7994635294117648")).toBeInTheDocument();
-    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+    expect(await screen.getByDisplayValue("0.7994635294117648"));
+    expect(await screen.findByText("Zap-Stake"));
   });
 
   it("Should Execute Zap Successfully", async () => {
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
-    ZapFactory.Zap__factory.connect = jest.fn().mockReturnValue({
-      ZapStake: jest.fn().mockReturnValue({
-        wait: jest.fn().mockReturnValue(true),
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ZapFactory.Zap__factory.connect = vi.fn().mockReturnValue({
+      ZapStake: vi.fn().mockReturnValue({
+        wait: vi.fn().mockReturnValue(true),
       }),
     });
     render(
@@ -82,7 +73,7 @@ describe("<ZapStakeAction/> ", () => {
 
   it("sOHM should autopopulate with correct value based on ETH input", async () => {
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
         <ZapStakeAction />
@@ -94,19 +85,19 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("Enter Amount"));
     fireEvent.click(await screen.findByTestId("zap-output"));
     fireEvent.click(await screen.getAllByText("sOHM")[0]);
-    expect(await screen.getByDisplayValue("84.943")).toBeInTheDocument();
-    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+    expect(await screen.getByDisplayValue("84.943"));
+    expect(await screen.findByText("Zap-Stake"));
   });
 
   it("Should Approve", async () => {
     //@ts-expect-error
-    Contract.useDynamicTokenContract = jest.fn().mockReturnValue({
-      approve: jest.fn().mockReturnValue({
-        wait: jest.fn().mockResolvedValue(true),
+    Contract.useDynamicTokenContract = vi.fn().mockReturnValue({
+      approve: vi.fn().mockReturnValue({
+        wait: vi.fn().mockResolvedValue(true),
       }),
     });
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(0) });
     render(
       <>
         <Messages />
@@ -119,21 +110,21 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "5000" } });
     fireEvent.click(await screen.getAllByText("gOHM")[0]);
     fireEvent.click(await screen.getByText("Approve"));
-    expect(await screen.findByText("Successfully approved")).toBeInTheDocument();
+    expect(await screen.findByText("Successfully approved"));
   });
 });
 
 describe("Loading Balances", () => {
   beforeEach(() => {
     connectWallet();
-    const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
+    const zapBalances = vi.spyOn(ZapBalances, "useZapTokenBalances");
     zapBalances.mockReturnValueOnce({ isLoading: true });
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(0) });
     //@ts-expect-error
-    Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useSohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     //@ts-expect-error
-    Balances.useGohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useGohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
   });
 
   it("should display loading modal if balances are still loading", () => {
@@ -145,7 +136,7 @@ describe("Loading Balances", () => {
     );
 
     fireEvent.click(screen.getByTestId("zap-input"));
-    expect(screen.getByText("Dialing Zapper...")).toBeInTheDocument();
+    expect(screen.getByText("Dialing Zapper..."));
   });
 });
 
@@ -153,26 +144,26 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
   beforeEach(() => {
     connectWallet();
     //@ts-ignore
-    WAGMI.useNetwork = jest.fn(() => {
+    WAGMI.useNetwork = vi.fn(() => {
       return {
         chain: {
           id: 123,
         },
       };
     });
-    const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
+    const zapBalances = vi.spyOn(ZapBalances, "useZapTokenBalances");
     zapBalances.mockReturnValueOnce({ isLoading: true });
-    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: vi.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
-    Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useSohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     //@ts-expect-error
-    Balances.useGohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
+    Balances.useGohmBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     //@ts-expect-error
-    Prices.useGohmPrice = jest.fn().mockReturnValue({ data: "3400.00" });
+    Prices.useGohmPrice = vi.fn().mockReturnValue({ data: "3400.00" });
     //@ts-expect-error
-    Prices.useOhmPrice = jest.fn().mockReturnValue({ data: "32.00" });
+    Prices.useOhmPrice = vi.fn().mockReturnValue({ data: "32.00" });
     //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
+    ContractAllowance.useContractAllowance = vi.fn().mockReturnValue({ data: BigNumber.from(0) });
   });
 
   it("should display a message if not on Mainnet", () => {
@@ -182,9 +173,7 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
         <ZapStakeAction />
       </>,
     );
-    expect(
-      screen.getByText("Zaps are only available on Ethereum Mainnet. Please switch networks."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Zaps are only available on Ethereum Mainnet. Please switch networks."));
 
     expect(screen.getByText("Enter Amount").closest("button")).toBeDisabled();
   });

@@ -11,6 +11,7 @@ import { DepositTableRow } from "src/views/Give/DepositRow";
 import Give from "src/views/Give/Give";
 import GrantsDashboard from "src/views/Give/GrantsDashboard";
 import YieldRecipients from "src/views/Give/YieldRecipients";
+import { vi } from "vitest";
 
 const project = {
   title: "Angel Protocol",
@@ -27,10 +28,10 @@ const project = {
   website: "https://www.angelprotocol.io/",
 };
 
-jest.mock("src/hooks/useCurrentIndex");
+vi.mock("src/hooks/useCurrentIndex");
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("Give View Disconnected", () => {
@@ -84,7 +85,7 @@ describe("Give View Disconnected", () => {
       ));
     });
 
-    expect(await screen.getByText("Donate to a cause")).toBeInTheDocument();
+    expect(await screen.getByText("Donate to a cause"));
     expect(container).toMatchSnapshot();
   });
 
@@ -102,7 +103,7 @@ describe("Give View Disconnected", () => {
         />,
       ));
     });
-    expect(await screen.getByText("Connect Wallet")).toBeInTheDocument();
+    expect(await screen.getByText("Connect Wallet"));
     expect(container).toMatchSnapshot();
   });
 });
@@ -146,7 +147,7 @@ describe("Give View Connected", () => {
         store,
       ));
     });
-    expect(await screen.getByText("Donate Yield")).toBeInTheDocument();
+    expect(await screen.getByText("Donate Yield"));
     expect(container).toMatchSnapshot();
   });
 
@@ -174,8 +175,8 @@ describe("Give View Connected", () => {
 
     const sohmBal = await screen.getByText("120 sOHM");
     const sohmYield = await screen.getByText("10 sOHM");
-    expect(sohmBal).toBeInTheDocument();
-    expect(sohmYield).toBeInTheDocument();
+    expect(sohmBal);
+    expect(sohmYield);
   });
 
   /*
@@ -217,16 +218,16 @@ describe("Give View Connected", () => {
       );
     });
 
-    expect(await screen.getByText("2")).toBeInTheDocument();
-    expect(await screen.getByText("gOHM Goal")).toBeInTheDocument();
+    expect(await screen.getByText("2"));
+    expect(await screen.getByText("gOHM Goal"));
 
-    expect(await screen.getByText("1.2")).toBeInTheDocument();
-    expect(await screen.getByText("Total gOHM Donated")).toBeInTheDocument();
+    expect(await screen.getByText("1.2"));
+    expect(await screen.getByText("Total gOHM Donated"));
 
-    expect(await screen.getByText("60%")).toBeInTheDocument();
-    expect(await screen.getByText("of gOHM Goal")).toBeInTheDocument();
+    expect(await screen.getByText("60%"));
+    expect(await screen.getByText("of gOHM Goal"));
 
-    expect(await screen.getByText("0.1 gOHM")).toBeInTheDocument();
+    expect(await screen.getByText("0.1 gOHM"));
 
     giveAssetType = "sOHM";
     await act(async () => {
@@ -251,20 +252,20 @@ describe("Give View Connected", () => {
 
     const sohmGoal = await screen.getByText("200");
     const sohmGoalText = await screen.getByText("sOHM Goal");
-    expect(sohmGoal).toBeInTheDocument();
-    expect(sohmGoalText).toBeInTheDocument();
+    expect(sohmGoal);
+    expect(sohmGoalText);
 
     const sohmDeposit = await screen.getByText("120");
     const sohmDepositText = await screen.getByText("Total sOHM Donated");
-    expect(sohmDeposit).toBeInTheDocument();
-    expect(sohmDepositText).toBeInTheDocument();
+    expect(sohmDeposit);
+    expect(sohmDepositText);
 
     const sohmPctGoalText = await screen.getByText("of sOHM Goal");
-    expect(pctOfGoal).toBeInTheDocument();
-    expect(sohmPctGoalText).toBeInTheDocument();
+    expect(pctOfGoal);
+    expect(sohmPctGoalText);
 
     const sohmYield = await screen.getByText("10 sOHM");
-    expect(sohmYield).toBeInTheDocument();
+    expect(sohmYield);
   });
   */
 });

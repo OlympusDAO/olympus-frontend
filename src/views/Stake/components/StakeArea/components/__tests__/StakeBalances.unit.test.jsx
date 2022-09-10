@@ -10,11 +10,12 @@ import {
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { NetworkId } from "src/networkDetails";
-import { act, render, screen } from "src/testUtils";
+import { render, screen } from "src/testUtils";
 import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
+import { describe, expect, it, vi } from "vitest";
 
-jest.mock("src/hooks/useBalance");
-jest.mock("src/hooks/useCurrentIndex");
+vi.mock("src/hooks/useBalance");
+vi.mock("src/hooks/useCurrentIndex");
 
 describe("<StakeBalances/>", () => {
   it("should render balances and rebase info", async () => {
@@ -63,14 +64,11 @@ describe("<StakeBalances/>", () => {
       return bals;
     });
 
-    const stakeBalances = <StakeBalances />;
-    var container;
-    await act(async () => {
-      ({ container } = render(stakeBalances));
-    });
+    const { container } = render(<StakeBalances />);
+
     expect(container).toMatchSnapshot();
-    expect(await screen.getByText("Unstaked Balance")).toBeInTheDocument();
-    expect(await screen.getByText("Total Staked Balance")).toBeInTheDocument();
+    expect(screen.getByText("Unstaked Balance"));
+    expect(screen.getByText("Total Staked Balance"));
     // expect to find the correct token balances on the staking screen
     var bals = {
       "Unstaked Balance": "15.0000 OHM",
@@ -92,9 +90,9 @@ describe("<StakeBalances/>", () => {
     // screen.debug(undefined, 100000);
     for (const [key, value] of Object.entries(bals)) {
       const section = await screen.getByText(key);
-      expect(section).toBeInTheDocument();
+      expect(section);
       const bal = await screen.getByText(value);
-      expect(bal).toBeInTheDocument();
+      expect(bal);
     }
   });
 });

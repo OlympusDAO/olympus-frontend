@@ -8,14 +8,15 @@ import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import { MigrateInputArea } from "src/views/Wrap/components/MigrateInputArea/MigrateInputArea";
 import Wrap from "src/views/Wrap/Wrap";
+import { vi } from "vitest";
 import * as WAGMI from "wagmi";
 
-jest.mock("src/hooks/useContractAllowance");
+vi.mock("src/hooks/useContractAllowance");
 let container;
 
 beforeEach(async () => {
   connectWallet();
-  WAGMI.useNetwork = jest.fn(() => {
+  WAGMI.useNetwork = vi.fn(() => {
     return {
       chain: {
         id: 43114,
@@ -23,7 +24,7 @@ beforeEach(async () => {
     };
   });
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
-  Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: new DecimalBigNumber("10", 9) } });
+  Balance.useBalance = vi.fn().mockReturnValue({ 43114: { data: new DecimalBigNumber("10", 9) } });
 
   ({ container } = render(
     <>
@@ -34,8 +35,8 @@ beforeEach(async () => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
+  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("Wrap Input Area", () => {
@@ -48,7 +49,7 @@ describe("Wrap Input Area", () => {
 
 describe("Check Migrate to gOHM Error Messages", () => {
   it("Should error when not on Avalanche or Arbitrum", async () => {
-    WAGMI.useNetwork = jest.fn(() => {
+    WAGMI.useNetwork = vi.fn(() => {
       return {
         chain: {
           id: 137, //polygon isnt supported for wsOHM to gOHM
@@ -62,28 +63,28 @@ describe("Check Migrate to gOHM Error Messages", () => {
 
   it("Error message with no amount", async () => {
     // Workaround for long-running tasks
-    jest.setTimeout(60000);
+    vi.setTimeout(60000);
 
     fireEvent.click(screen.getByTestId("migrate-button"));
-    expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number"));
   });
 
   it("Error message with amount <=0", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "-1" } });
     fireEvent.click(screen.getByTestId("migrate-button"));
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number greater than 0"));
   });
 
   it("Error message amount > wallet balance", async () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByTestId("migrate-button"));
-    expect(await screen.findByText("You cannot migrate more than your wsOHM balance")).toBeInTheDocument();
+    expect(await screen.findByText("You cannot migrate more than your wsOHM balance"));
   });
 
   it("Error message amount and no wallet balance", async () => {
-    Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: undefined } });
+    Balance.useBalance = vi.fn().mockReturnValue({ 43114: { data: undefined } });
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
     fireEvent.click(screen.getByTestId("migrate-button"));
-    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    expect(await screen.findByText("Please refresh your page and try again"));
   });
 });

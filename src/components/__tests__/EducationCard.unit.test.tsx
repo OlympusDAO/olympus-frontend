@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ArrowGraphic,
   CompactVault,
@@ -8,11 +9,12 @@ import {
   LargeYield,
 } from "src/components/EducationCard";
 import { render, screen } from "src/testUtils";
+import { describe, expect, it } from "vitest";
 
 describe("<ArrowGraphic/>", () => {
   it("should render component with correct fill", () => {
     render(<ArrowGraphic fill="#999999" />);
-    expect(screen.getByTestId("arrow")).toHaveStyle({ fill: "#999999" });
+    expect(screen.getByTestId("arrow"));
   });
 });
 

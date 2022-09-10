@@ -1,7 +1,7 @@
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import react from "@vitejs/plugin-react";
-import rollupNodePolyFill from "rollup-plugin-node-polyfills";
+import polyfillNode from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
@@ -17,7 +17,7 @@ export default ({ mode }) => {
       }),
       viteTsconfigPaths(),
       svgrPlugin(),
-      rollupNodePolyFill({ fs: true }),
+      polyfillNode({ fs: true }),
     ],
     define: {
       "process.env.NODE_ENV": `"${mode}"`,
@@ -29,6 +29,11 @@ export default ({ mode }) => {
         os: "rollup-plugin-node-polyfills/polyfills/os",
         Buffer: "rollup-plugin-node-polyfills/polyfills/buffer",
       },
+    },
+    test: {
+      setupFiles: "src/setupTests.tsx",
+      environment: "happy-dom", // or 'jsdom', 'node'
+      globals: true,
     },
     optimizeDeps: {
       esbuildOptions: {
