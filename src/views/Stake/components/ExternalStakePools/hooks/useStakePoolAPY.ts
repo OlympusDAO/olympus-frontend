@@ -234,7 +234,7 @@ export const FraxPoolAPY = (pool: ExternalPool) => {
     });
     return results;
   });
-  return { apy: data.apy, tvl: data.liquidity_locked, isFetched, isLoading };
+  return { apy: data.apy / 100, tvl: data.liquidity_locked, isFetched, isLoading };
 };
 
 const APY = (
