@@ -16,7 +16,7 @@ const StyledNotification = styled("div")(() => ({
   },
 
   [`& .${classes.notification}`]: {
-    marginLeft: "312px",
+    marginLeft: "264px",
   },
 }));
 
@@ -30,7 +30,7 @@ const StagingNotification = () => {
           className={`${isSmallScreen ? classes.contentShift : classes.notification}`}
           data-testid="staging-notification"
         >
-          <WarningNotification dismissible={true}>
+          <WarningNotification dismissible square>
             You are on the staging site. Any interaction could result in loss of assets.{" "}
             <a href="https://app.olympusdao.finance">Exit Here</a>
           </WarningNotification>

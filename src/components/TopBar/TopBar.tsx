@@ -32,7 +32,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
   [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up(981)]: {
+    [theme.breakpoints.up(1048)]: {
       display: "none",
     },
   },

@@ -109,7 +109,7 @@ export const WrapInputArea = () => {
               </Grid>
 
               <Grid item xs={12} sm={4}>
-                <PrimaryButton fullWidth type="submit" className="" disabled={isMutating} style={{ height: "43px" }}>
+                <PrimaryButton fullWidth type="submit" className="" disabled={isMutating} style={{ margin: "0px" }}>
                   {currentAction === "WRAP"
                     ? isMutating
                       ? "Wrapping..."

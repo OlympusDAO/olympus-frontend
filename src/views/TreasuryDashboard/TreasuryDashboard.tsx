@@ -115,6 +115,7 @@ const MetricsDashboard = () => {
 
   const paperProps = {
     fullWidth: true,
+    enableBackground: true,
   };
 
   /**

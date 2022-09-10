@@ -6,33 +6,33 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-e20x9a-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
       style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item card-header css-ieinjk-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item card-header css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root css-1xhj18k"
+              class="MuiBox-root css-u4p24i"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+              <p
+                class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
               >
                 Wrap / Unwrap
-              </h5>
+              </p>
             </div>
             <div
               class="top-right"
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 rel="noopener noreferrer"
                 style="text-decoration: none;"
@@ -42,7 +42,7 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
                   class="MuiBox-root css-70qvj9"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
                   >
                     gOHM
                   </p>
@@ -64,36 +64,40 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root css-1xcwb1n-MuiGrid-root"
+              class="MuiGrid-root css-vj1n65-MuiGrid-root"
             >
               <div
                 class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1djfsf6-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-jhdc2n-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-17kya8e"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          sOHM Price
-                        </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -105,20 +109,24 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-17kya8e"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          Current Index
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            Current Index
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -138,9 +146,9 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -152,20 +160,24 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1ss4yyi-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-17kya8e"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          gOHM Price
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                          >
+                            gOHM Price
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -185,9 +197,9 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -211,7 +223,7 @@ exports[`<Wrap/> > Should show Connect Button when not Connected 1`] = `
               Connect Wallet
             </div>
             <h6
-              class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
             >
               Connect your wallet to wrap/unwrap your staked tokens
             </h6>

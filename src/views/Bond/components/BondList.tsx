@@ -89,7 +89,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
               </Typography>
 
               <Box ml="4px">
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                <SvgIcon component={ArrowUp} />
               </Box>
             </Box>
           </Link>
@@ -256,31 +256,28 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
   </TableRow>
 );
 
-const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, explorer }) => {
-  return (
-    <Box display="flex" alignItems="center">
-      <TokenStack tokens={token.icons} />
+const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, explorer }) => (
+  <Box display="flex" alignItems="center">
+    <TokenStack tokens={token.icons} />
 
-      <Box display="flex" flexDirection="column" ml="16px">
-        <Typography style={{ fontSize: "12px", fontWeight: 600, lineHeight: "18px" }}>{token.name}</Typography>
+    <Box display="flex" flexDirection="column" ml="16px">
+      <Typography style={{ fontSize: "12px", fontWeight: 600, lineHeight: "18px" }}>{token.name}</Typography>
 
-        <Link
-          color="primary"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={explorer ? `https://etherscan.io/token/${token.addresses[NetworkId.MAINNET]}` : token.purchaseUrl}
-        >
-          <Box display="flex" alignItems="center">
-            <Typography style={{ fontSize: "12px", lineHeight: "18px" }}>
-              {explorer ? t`Explorer` : t`Get Asset`}
-            </Typography>
+      <Link
+        color="primary"
+        target="_blank"
+        href={explorer ? `https://etherscan.io/token/${token.addresses[NetworkId.MAINNET]}` : token.purchaseUrl}
+      >
+        <Box display="flex" alignItems="center">
+          <Typography style={{ fontSize: "12px", lineHeight: "18px" }}>
+            {explorer ? t`Explorer` : t`Get Asset`}
+          </Typography>
 
-            <Box ml="4px">
-              <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-            </Box>
+          <Box ml="4px">
+            <SvgIcon component={ArrowUp} />
           </Box>
-        </Link>
-      </Box>
+        </Box>
+      </Link>
     </Box>
-  );
-};
+  </Box>
+);

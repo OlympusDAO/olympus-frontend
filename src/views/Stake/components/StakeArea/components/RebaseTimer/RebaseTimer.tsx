@@ -11,7 +11,7 @@ const RebaseTimer: React.FC = () => {
 
   return (
     <Box className="rebase-timer">
-      <Typography variant="body2">
+      <Typography variant="body1">
         {nextRebaseDate ? (
           <>
             <strong>{prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}&nbsp;</strong>

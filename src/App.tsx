@@ -41,7 +41,6 @@ const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryD
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
 const Wrap = lazy(() => import("./views/Wrap/Wrap"));
-const Zap = lazy(() => import("./views/Zap/Zap"));
 
 const PREFIX = "App";
 
@@ -90,7 +89,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.notification}`]: {
-    marginLeft: "312px",
+    marginLeft: "264px",
   },
 }));
 
@@ -102,7 +101,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
-const drawerWidth = 312;
+const drawerWidth = 264;
 const transitionDuration = 969;
 console.log(RainbowKitProvider);
 function App() {
@@ -125,7 +124,7 @@ function App() {
     setMigrationModalOpen(false);
   };
 
-  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 1047px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   async function loadDetails(whichDetails: string) {
@@ -244,7 +243,6 @@ function App() {
                   <Route path="/ohmgive" element={<Navigate to="/give" />} />
 
                   <Route path="/wrap" element={<Wrap />} />
-                  <Route path="/zap" element={<Zap />} />
                   <Route path="/bonds/*" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />

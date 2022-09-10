@@ -10,7 +10,11 @@ interface IThemeSwitcherProps {
 function ThemeSwitcher({ theme, toggleTheme }: IThemeSwitcherProps) {
   return (
     <ToggleButton className="toggle-button" type="button" title={t`Change Theme`} value="check" onClick={toggleTheme}>
-      {theme === "dark" ? <Icon name={"moon"} color={"primary"} /> : <Icon name={"sun"} color={"primary"} />}
+      {theme === "dark" ? (
+        <Icon name={"moon"} color={"primary"} style={{ fontSize: "17.5px" }} />
+      ) : (
+        <Icon name={"sun"} color={"primary"} style={{ fontSize: "17.5px" }} />
+      )}
     </ToggleButton>
   );
 }

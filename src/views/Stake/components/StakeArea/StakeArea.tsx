@@ -15,7 +15,7 @@ export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />} childPaperBackground={true}>
+    <Paper headerText={t`Single Stake`} headerChip="(3,3)" subHeader={<RebaseTimer />}>
       <Box mb="28px">
         <Grid>
           <MetricCollection>
@@ -28,16 +28,19 @@ export const StakeArea: React.FC = () => {
 
       <WalletConnectedGuard message="Connect your wallet to stake OHM">
         <StakeInputArea isZoomed={isZoomed} />
+        <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+            <StakeBalances />
 
-        <StakeBalances />
+            <Divider />
 
-        <Divider />
+            <StakeNextRebaseAmount />
 
-        <StakeNextRebaseAmount />
+            <StakeRebaseYield />
 
-        <StakeRebaseYield />
-
-        <StakeFiveDayYield />
+            <StakeFiveDayYield />
+          </Box>
+        </Box>
       </WalletConnectedGuard>
     </Paper>
   );

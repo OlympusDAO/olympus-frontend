@@ -82,7 +82,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
   };
 
   const customRecipientBoxStyle = {
-    backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.gray[10],
+    backgroundColor: theme.colors.paper.card,
     borderRadius: "10px",
   };
 
@@ -109,7 +109,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
-                <PrimaryButton fullWidth size="small" onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                <PrimaryButton fullWidth onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
                   <Trans>Select Custom Recipient</Trans>
                 </PrimaryButton>
               </Grid>

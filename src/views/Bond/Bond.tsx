@@ -52,7 +52,10 @@ export const Bond = () => {
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
-        <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+        <Paper
+          headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`}` : `${t`Bond`}`}
+          headerChip={currentAction === "INVERSE" ? "(3,1)" : "(4,4)"}
+        >
           <MetricCollection>
             <TreasuryBalance />
             <OHMPrice />
@@ -74,14 +77,8 @@ export const Bond = () => {
                   data-testid="bond-tab"
                   aria-label="bond-button"
                   label={t({ message: "Bond", comment: "Bonding tab" })}
-                  style={{ fontSize: "1rem" }}
                 />
-                <Tab
-                  data-testid="inverse-bond-tab"
-                  aria-label="inverse-bond-button"
-                  label={t`Inverse Bond`}
-                  style={{ fontSize: "1rem" }}
-                />
+                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
               </Tabs>
             )}
 

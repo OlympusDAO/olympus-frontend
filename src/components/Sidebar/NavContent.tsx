@@ -5,7 +5,6 @@ import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
-import WalletAddressEns from "src/components/TopBar/Wallet/WalletAddressEns";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -37,13 +36,14 @@ const NavContent: React.VFC = () => {
             <Link href="https://olympusdao.finance" target="_blank" rel="noopener noreferrer">
               <SvgIcon
                 color="primary"
-                viewBox="0 0 151 100"
+                viewBox="0 0 50 50"
                 component={OlympusIcon}
-                style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
+                style={{ minWidth: "51px", minHeight: "51px", width: "51px" }}
               />
+              <Typography fontSize="24px" fontWeight="700" lineHeight="32px">
+                Olympus
+              </Typography>
             </Link>
-
-            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
@@ -58,8 +58,6 @@ const NavContent: React.VFC = () => {
                   </NavItem>
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-
-                  <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
 
@@ -91,27 +89,27 @@ const NavContent: React.VFC = () => {
 
               <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={t`Docs`} />
 
-              <NavItem href="https://immunefi.com/bounty/olympus/" icon="bug-report" label={t`Bug Bounty`} />
+              <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={t`Bug Bounty`} />
 
               <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={t`Grants`} />
             </div>
           </div>
         </div>
 
-        <StyledBox display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
-          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+        <StyledBox display="flex" paddingX="17.84px" paddingY="24px">
+          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="github" className={classes.gray} />
           </Link>
 
-          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="medium" className={classes.gray} />
           </Link>
 
-          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer">
+          <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer" pr="25px">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>
@@ -151,7 +149,7 @@ const InverseBonds: React.VFC = () => {
   if (!bonds || bonds.length === 0) return null;
 
   return (
-    <Box ml="26px" mt="16px" mb="12px">
+    <Box ml="26px" mt="12px" mb="12px">
       <Typography variant="body2" color="textSecondary">
         <Trans>Inverse Bonds</Trans>
       </Typography>

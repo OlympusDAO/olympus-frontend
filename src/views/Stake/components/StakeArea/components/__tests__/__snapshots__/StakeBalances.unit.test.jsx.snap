@@ -9,13 +9,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
       class="MuiBox-root css-1xhj18k"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
       >
         Unstaked Balance
       </p>
     </div>
     <p
-      class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
       id="user-balance"
       style="text-align: right;"
     >
@@ -23,7 +23,7 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
     </p>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-sh1dh9-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-w5x1nb-MuiPaper-root-MuiAccordion-root"
   >
     <div
       aria-expanded="true"
@@ -41,13 +41,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
             class="MuiBox-root css-1xhj18k"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
             >
               Total Staked Balance
             </p>
           </div>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
             id="user-staked-balance"
             style="text-align: right;"
           >
@@ -96,13 +96,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     sOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   id="sohm-balance"
                   style="text-align: right;"
                 >
@@ -117,13 +117,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   131.0000 gOHM
@@ -137,13 +137,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Arbitrum)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   132.0000 gOHM
@@ -157,13 +157,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Avalanche)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   133.0000 gOHM
@@ -177,13 +177,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Polygon)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   134.0000 gOHM
@@ -197,13 +197,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Fantom)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   135.0000 gOHM
@@ -217,13 +217,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Optimism)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   136.0000 gOHM
@@ -237,13 +237,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Tokemak)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   14.0000 gOHM
@@ -257,13 +257,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     gOHM (Fuse)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   11.0000 gOHM
@@ -277,13 +277,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     sOHM (v1)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   16.0000 sOHM
@@ -297,13 +297,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     wsOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   171.0000 wsOHM
@@ -317,13 +317,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     wsOHM (Arbitrum)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   172.0000 wsOHM
@@ -337,13 +337,13 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   >
                     wsOHM (Avalanche)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
                   style="text-align: right;"
                 >
                   173.0000 wsOHM
