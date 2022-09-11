@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
@@ -72,11 +71,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const DisconnectButton = () => {
     const { disconnect } = useDisconnect();
-    return (
-      <SecondaryButton onClick={disconnect}>
-        <Trans>Disconnect</Trans>
-      </SecondaryButton>
-    );
+    return <SecondaryButton onClick={disconnect}>Disconnect</SecondaryButton>;
   };
 
   const ConnectMessage = () => (

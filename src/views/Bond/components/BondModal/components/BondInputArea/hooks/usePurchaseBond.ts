@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -35,39 +34,38 @@ export const usePurchaseBond = (bond: Bond) => {
     }
   >(
     async ({ amount, slippage, recipientAddress, isInverseBond }) => {
-      if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
-      if (!slippage || isNaN(Number(slippage))) throw new Error(t`Please enter a valid slippage amount`);
+      if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
+      if (!slippage || isNaN(Number(slippage))) throw new Error(`Please enter a valid slippage amount`);
 
       const parsedAmount = new DecimalBigNumber(amount, bond.quoteToken.decimals);
       const parsedSlippage = new DecimalBigNumber(slippage, bond.quoteToken.decimals);
 
-      if (!parsedAmount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
+      if (!parsedAmount.gt("0")) throw new Error(`Please enter a number greater than 0`);
 
-      if (!parsedSlippage.gt("0")) throw new Error(t`Please enter a slippage amount greater than 0`);
+      if (!parsedSlippage.gt("0")) throw new Error(`Please enter a slippage amount greater than 0`);
 
-      if (!balance) throw new Error(t`Please refresh your page and try again`);
+      if (!balance) throw new Error(`Please refresh your page and try again`);
 
       if (parsedAmount.gt(balance))
-        throw new Error(t`You cannot bond more than your` + ` ${bond.quoteToken.name} ` + `balance`);
+        throw new Error(`You cannot bond more than your` + ` ${bond.quoteToken.name} ` + `balance`);
 
       if (parsedAmount.gt(bond.maxPayout.inQuoteToken))
         throw new Error(
-          t`The maximum you can bond at this time is` +
+          `The maximum you can bond at this time is` +
             ` ${bond.maxPayout.inQuoteToken.toString()} ${bond.quoteToken.name}`,
         );
 
       if (parsedAmount.gt(bond.capacity.inQuoteToken))
         throw new Error(
-          t`The maximum you can bond at this time is` +
+          `The maximum you can bond at this time is` +
             ` ${bond.capacity.inQuoteToken.toString()} ${bond.quoteToken.name}`,
         );
 
-      if (!isValidAddress(recipientAddress)) throw new Error(t`Please enter a valid address as the recipient address`);
+      if (!isValidAddress(recipientAddress)) throw new Error(`Please enter a valid address as the recipient address`);
 
-      if (!signer) throw new Error(t`Please connect a wallet to purchase a bond`);
+      if (!signer) throw new Error(`Please connect a wallet to purchase a bond`);
 
-      if (chain.id !== networks.MAINNET)
-        throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
+      if (chain.id !== networks.MAINNET) throw new Error(`Please switch to the Ethereum network to purchase this bond`);
 
       const slippageAsPercent = parsedSlippage.div("100");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
@@ -132,7 +130,7 @@ export const usePurchaseBond = (bond: Bond) => {
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully bonded` + ` ${bond.quoteToken.name}`));
+        dispatch(createInfoToast(`Successfully bonded` + ` ${bond.quoteToken.name}`));
       },
     },
   );

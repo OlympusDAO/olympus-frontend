@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, Skeleton, Typography } from "@mui/material";
 import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
@@ -88,15 +87,12 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
           <Metric
-            label={t`Bond Price`}
+            label={`Bond Price`}
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
             metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
           />
-          <Metric
-            label={t`Market Price`}
-            metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
-          />
-          <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
+          <Metric label={`Market Price`} metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />} />
+          <Metric label={`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
           <Box display="flex" flexDirection="column" alignItems="center">
@@ -104,7 +100,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
               color="textSecondary"
               style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
             >
-              <Trans>You Give</Trans>
+              You Give
             </Typography>
             <TokenStack tokens={bond.quoteToken.icons} />
           </Box>
@@ -118,7 +114,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             </Typography>
             <Box display="flex" flexGrow={1} alignItems="center">
               <Typography style={{ lineHeight: "20px" }}>
-                {isInverseBond ? t`Instantly` : <BondDuration duration={bond.duration} />}
+                {isInverseBond ? `Instantly` : <BondDuration duration={bond.duration} />}
               </Typography>
             </Box>
           </Box>
@@ -127,7 +123,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
               color="textSecondary"
               style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
             >
-              <Trans>You Get</Trans>
+              You Get
             </Typography>
             <Typography style={{ lineHeight: "20px" }}>
               <TokenStack tokens={bond.baseToken.icons} />

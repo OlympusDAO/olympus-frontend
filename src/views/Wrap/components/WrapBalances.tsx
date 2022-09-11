@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
 import { useGohmBalance, useSohmBalance, useWsohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -23,12 +22,12 @@ export const WrapBalances = () => {
       <>
         <DataRow
           isLoading={!wsohmAvax}
-          title={t`wsOHM Balance (Avalanche)`}
+          title={`wsOHM Balance (Avalanche)`}
           balance={wsohmAvax?.toString({ decimals: 4, trim: false, format: true }) + ` wsOHM`}
         />
         <DataRow
           isLoading={!gohmAvax}
-          title={t`gOHM Balance (Avalanche)`}
+          title={`gOHM Balance (Avalanche)`}
           balance={gohmAvax?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
         />
       </>
@@ -39,12 +38,12 @@ export const WrapBalances = () => {
       <>
         <DataRow
           isLoading={!wsohmArb}
-          title={t`wsOHM Balance (Arbitrum)`}
+          title={`wsOHM Balance (Arbitrum)`}
           balance={wsohmArb?.toString({ decimals: 4, trim: false, format: true }) + ` wsOHM`}
         />
         <DataRow
           isLoading={!gohmArb}
-          title={t`gOHM Balance (Arbitrum)`}
+          title={`gOHM Balance (Arbitrum)`}
           balance={gohmArb?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
         />
       </>
@@ -53,12 +52,12 @@ export const WrapBalances = () => {
   return (
     <>
       <DataRow
-        title={t`sOHM Balance`}
+        title={`sOHM Balance`}
         isLoading={!sohmBalance}
         balance={sohmBalance?.toString({ decimals: 4, trim: false, format: true }) + ` sOHM`}
       />
       <DataRow
-        title={t`gOHM Balance`}
+        title={`gOHM Balance`}
         isLoading={!gohmMainnet}
         balance={gohmMainnet?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
       />

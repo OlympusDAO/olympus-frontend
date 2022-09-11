@@ -1,14 +1,10 @@
 import "src/components/TopBar/TopBar.scss";
 
-import { i18n } from "@lingui/core";
-import { t } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { LocaleSwitcher } from "@olympusdao/component-library";
 import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
-import { locales, selectLocale } from "src/locales";
 
 const PREFIX = "TopBar";
 
@@ -62,12 +58,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
         <Box display="flex" alignItems="center">
           <ConnectButton />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
-          <LocaleSwitcher
-            initialLocale={i18n.locale}
-            locales={locales}
-            onLocaleChange={selectLocale}
-            label={t`Change locale`}
-          />
         </Box>
       </Toolbar>
     </StyledAppBar>

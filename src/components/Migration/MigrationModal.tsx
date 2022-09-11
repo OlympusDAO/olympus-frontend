@@ -1,6 +1,5 @@
 import "src/components/Migration/MigrationModal.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
@@ -123,10 +122,10 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
         closePosition={"left"}
         headerText={
           isMigrationComplete || !oldAssetsDetected
-            ? t`Migration complete`
+            ? `Migration complete`
             : isAllApproved
-            ? t`You are now ready to migrate`
-            : t`You have assets ready to migrate to v2`
+            ? `You are now ready to migrate`
+            : `You have assets ready to migrate to v2`
         }
       >
         <>
@@ -134,8 +133,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
             <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
               <Typography id="migration-modal-description" variant="body2" className={isMobileScreen ? `mobile` : ``}>
                 {isAllApproved
-                  ? t`Click on the Migrate button to complete the upgrade to v2.`
-                  : t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
+                  ? `Click on the Migrate button to complete the upgrade to v2.`
+                  : `Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
                 <a
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   target="_blank"
@@ -143,16 +142,14 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   rel="noopener noreferrer"
                   className="docs-link"
                 >
-                  <u>
-                    <Trans>Learn More</Trans>
-                  </u>
+                  <u>Learn More</u>
                 </a>
               </Typography>
             </Box>
           )}
           <Box display="flex" justifyContent="center" marginTop={1}>
             <Typography variant="h5" color="textSecondary">
-              <Trans>Migration Output</Trans>
+              Migration Output
             </Typography>
           </Box>
           <Tabs
@@ -186,11 +183,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                       {isMigrationComplete || !oldAssetsDetected ? (
                         <Typography align="center" sx={classes.custom}>
-                          <Trans>Migrated</Trans>
+                          Migrated
                         </Typography>
                       ) : row.fullApproval ? (
                         <Typography align="center" sx={classes.custom}>
-                          <Trans>Approved</Trans>
+                          Approved
                         </Typography>
                       ) : (
                         <Button
@@ -206,7 +203,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                             {txnButtonText(
                               pendingTransactions,
                               `approve_migration_${row.initialAsset.toLowerCase()}`,
-                              t`Approve`,
+                              `Approve`,
                             )}
                           </Typography>
                         </Button>
@@ -225,11 +222,9 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   <TableCell align="left">
                     <Box display="flex">
                       <Box display="inline-flex">
-                        <Typography>
-                          <Trans>Pre-migration</Trans>
-                        </Typography>
+                        <Typography>Pre-migration</Typography>
                         <InfoTooltip
-                          message={t`This is the current balance of v1 assets in your wallet.`}
+                          message={`This is the current balance of v1 assets in your wallet.`}
                           children={undefined}
                         />
                       </Box>
@@ -238,19 +233,15 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   <TableCell align="left">
                     <Box display="flex" flexDirection="column">
                       <Box display="inline-flex">
-                        <Typography>
-                          <Trans>Post-migration</Trans>
-                        </Typography>
+                        <Typography>Post-migration</Typography>
                         <InfoTooltip
-                          message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
+                          message={`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
                           children={undefined}
                         />
                       </Box>
                     </Box>
                     <Box display="inline-flex">
-                      <Typography variant="body2">
-                        <Trans>(includes rebase rewards)</Trans>
-                      </Typography>
+                      <Typography variant="body2">(includes rebase rewards)</Typography>
                     </Box>
                   </TableCell>
 
@@ -284,11 +275,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                       <TableCell align="left">
                         {isMigrationComplete || !oldAssetsDetected ? (
                           <Typography align="center" sx={classes.custom}>
-                            <Trans>Migrated</Trans>
+                            Migrated
                           </Typography>
                         ) : row.fullApproval ? (
                           <Typography align="center" sx={classes.custom}>
-                            <Trans>Approved</Trans>
+                            Approved
                           </Typography>
                         ) : (
                           <Button
@@ -303,7 +294,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                               {txnButtonText(
                                 pendingTransactions,
                                 `approve_migration_${row.initialAsset.toLowerCase()}`,
-                                t`Approve`,
+                                `Approve`,
                               )}
                             </Typography>
                           </Button>
@@ -327,7 +318,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 <Typography>
                   {isMigrationComplete || !oldAssetsDetected
                     ? "Close"
-                    : txnButtonText(pendingTransactions, "migrate_all", t`Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`)}
+                    : txnButtonText(pendingTransactions, "migrate_all", `Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`)}
                 </Typography>
               </Box>
             </Button>
@@ -335,10 +326,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
           <div className="help-text">
             <em>
               <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
-                <Trans>
-                  Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each asset
-                  asset above must be approved before all can be migrated.
-                </Trans>
+                Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each asset
+                asset above must be approved before all can be migrated.
               </Typography>
             </em>
           </div>

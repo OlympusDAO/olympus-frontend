@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Paper, PrimaryButton, Tab, Tabs, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
@@ -44,7 +43,7 @@ export const ClaimBonds = () => {
       <Box display="flex" justifyContent="center">
         <Box display="flex" flexDirection="column" alignItems="center" mt="24px" width={isSmallScreen ? "100%" : "50%"}>
           <Typography variant="h5" align="center" color="textSecondary" style={{ fontSize: "1.2rem" }}>
-            <Trans>Claimable Balance</Trans>
+            Claimable Balance
           </Typography>
 
           <Box mt="4px" mb="8px">
@@ -62,8 +61,8 @@ export const ClaimBonds = () => {
             onClick={() => claimBondsMutation.mutate({ isPayoutGohm })}
           >
             {claimBondsMutation.isLoading && !claimBondsMutation.variables?.hasOwnProperty("id")
-              ? t`Claiming all...`
-              : t`Claim All`}
+              ? `Claiming all...`
+              : `Claim All`}
           </PrimaryButton>
         </Box>
       </Box>
@@ -109,8 +108,8 @@ export const ClaimBonds = () => {
                     onClick={() => claimBondsMutation.mutate({ id: note.id, isPayoutGohm })}
                   >
                     {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === note.id
-                      ? t`Claiming...`
-                      : t`Claim`}
+                      ? `Claiming...`
+                      : `Claim`}
                   </TertiaryButton>
                 </Box>
               </Box>
@@ -121,18 +120,10 @@ export const ClaimBonds = () => {
             <Table aria-label="Available bonds" style={{ tableLayout: "fixed" }}>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "230px", padding: "8px 0" }}>
-                    <Trans>Token</Trans>
-                  </TableCell>
-                  <TableCell style={{ padding: "8px 0" }}>
-                    <Trans>Duration</Trans>
-                  </TableCell>
-                  <TableCell style={{ padding: "8px 0" }}>
-                    <Trans>Remaining</Trans>
-                  </TableCell>
-                  <TableCell style={{ padding: "8px 0" }}>
-                    <Trans>Payout</Trans>
-                  </TableCell>
+                  <TableCell style={{ width: "230px", padding: "8px 0" }}>Token</TableCell>
+                  <TableCell style={{ padding: "8px 0" }}>Duration</TableCell>
+                  <TableCell style={{ padding: "8px 0" }}>Remaining</TableCell>
+                  <TableCell style={{ padding: "8px 0" }}>Payout</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -179,8 +170,8 @@ export const ClaimBonds = () => {
                         onClick={() => claimBondsMutation.mutate({ id: note.id, isPayoutGohm })}
                       >
                         {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === note.id
-                          ? t`Claiming...`
-                          : t`Claim`}
+                          ? `Claiming...`
+                          : `Claim`}
                       </TertiaryButton>
                     </TableCell>
                   </TableRow>

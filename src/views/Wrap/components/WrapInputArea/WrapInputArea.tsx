@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Grid, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
@@ -80,15 +79,15 @@ export const WrapInputArea = () => {
           message={
             currentAction === "WRAP" ? (
               <>
-                <Trans>First time wrapping</Trans> <b>sOHM</b>?
+                First time wrapping <b>sOHM</b>?
                 <br />
-                <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for wrapping</Trans>.
+                Please approve Olympus DAO to use your <b>sOHM</b> for wrapping.
               </>
             ) : (
               <>
-                <Trans>First time unwrapping</Trans> <b>gOHM</b>?
+                First time unwrapping <b>gOHM</b>?
                 <br />
-                <Trans>Please approve Olympus DAO to use your</Trans> <b>gOHM</b> <Trans>for unwrapping</Trans>.
+                Please approve Olympus DAO to use your <b>gOHM</b> for unwrapping.
               </>
             )
           }
@@ -99,12 +98,12 @@ export const WrapInputArea = () => {
                 <Input
                   value={amount}
                   id="amount-input"
-                  endString={t`Max`}
+                  endString={`Max`}
                   name="amount-input"
                   disabled={isMutating}
                   endStringOnClick={setMax}
                   onChange={event => setAmount(event.target.value)}
-                  placeholder={t`Enter an amount of` + ` ${currentAction === "WRAP" ? "sOHM" : "gOHM"}`}
+                  placeholder={`Enter an amount of` + ` ${currentAction === "WRAP" ? "sOHM" : "gOHM"}`}
                 />
               </Grid>
 

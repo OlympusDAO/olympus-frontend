@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -24,20 +23,20 @@ export const useMigrateWsohm = () => {
 
   return useMutation<ContractReceipt, EthersError, string>(
     async amount => {
-      if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
+      if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
 
       const _amount = new DecimalBigNumber(amount, 18);
 
-      if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt("0")) throw new Error(`Please enter a number greater than 0`);
 
       if (!contract || (chain.id !== networks.AVALANCHE && chain.id !== networks.ARBITRUM))
-        throw new Error(t`Please switch to the Abritrum or Avalanche networks to migrate`);
+        throw new Error(`Please switch to the Abritrum or Avalanche networks to migrate`);
 
       const balance = balances[chain.id].data;
 
-      if (!balance) throw new Error(t`Please refresh your page and try again`);
+      if (!balance) throw new Error(`Please refresh your page and try again`);
 
-      if (_amount.gt(balance)) throw new Error(t`You cannot migrate more than your wsOHM balance`);
+      if (_amount.gt(balance)) throw new Error(`You cannot migrate more than your wsOHM balance`);
 
       const transaction = await contract.migrate(_amount.toBigNumber());
       return transaction.wait();
@@ -62,7 +61,7 @@ export const useMigrateWsohm = () => {
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully migrated from wsOHM to gOHM`));
+        dispatch(createInfoToast(`Successfully migrated from wsOHM to gOHM`));
       },
     },
   );

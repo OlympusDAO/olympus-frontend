@@ -1,5 +1,4 @@
 import { isAddress } from "@ethersproject/address";
-import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
 import { Grid, Link, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -274,25 +273,25 @@ export function ManageDonationModal({
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Please enter a value`);
+      setIsDepositAmountValidError(`Please enter a value`);
       return;
     }
 
     if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value must be positive`);
+      setIsDepositAmountValidError(`Value must be positive`);
       return;
     }
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
+      setIsDepositAmountValidError(`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
+        `Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
         )}`,
       );
@@ -388,12 +387,12 @@ export function ManageDonationModal({
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <PrimaryButton data-testid="edit-donation" onClick={() => setIsEditing(true)} fullWidth>
-                    <Trans>Edit Donation</Trans>
+                    Edit Donation
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
                   <TertiaryButton data-testid="stop-donation" onClick={() => setIsWithdrawing(true)} fullWidth>
-                    <Trans>Stop Donation</Trans>
+                    Stop Donation
                   </TertiaryButton>
                 </Grid>
               </Grid>
@@ -427,7 +426,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? t`Goal` : `${giveAssetType} ${t` Goal`}`}
+              {isSmallScreen ? `Goal` : `${giveAssetType} ${` Goal`}`}
             </Typography>
           </Box>
         </Grid>
@@ -437,7 +436,7 @@ export function ManageDonationModal({
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? t`Total ${giveAssetType}` : t`Total ${giveAssetType} Donated`}
+              {isSmallScreen ? `Total ${giveAssetType}` : `Total ${giveAssetType} Donated`}
             </Typography>
           </Box>
         </Grid>
@@ -452,7 +451,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? t`of Goal` : t`of ${giveAssetType} Goal`}
+              {isSmallScreen ? `of Goal` : `of ${giveAssetType} Goal`}
             </Typography>
           </Box>
         </Grid>
@@ -467,15 +466,15 @@ export function ManageDonationModal({
     return (
       <>
         <Box>
-          <DataRow title={t`Date`} balance={depositDate} />
-          <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
+          <DataRow title={`Date`} balance={depositDate} />
+          <DataRow title={`Recipient`} balance={getRecipientTitle()} />
           <DataRow
-            title={t`Deposited`}
+            title={`Deposited`}
             id="deposited"
             balance={`${getCurrentDepositAmount().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
           />
           <DataRow
-            title={t`Yield Sent`}
+            title={`Yield Sent`}
             id="yield-sent"
             balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
           />
@@ -574,9 +573,9 @@ export function ManageDonationModal({
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Typography variant="body1" color="textSecondary">
-                  <Trans>New</Trans> {giveAssetType} <Trans>Amount</Trans>
+                  New {giveAssetType} Amount
                   <InfoTooltip
-                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                    message={`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -586,18 +585,18 @@ export function ManageDonationModal({
                   id="amount-input"
                   inputProps={{ "data-testid": "amount-input" }}
                   type="number"
-                  placeholder={t`Enter an amount`}
+                  placeholder={`Enter an amount`}
                   value={depositAmount}
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
+                      ? `Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                   error={!isDepositAmountValid}
                   startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
-                  endString={t`Max`}
+                  endString={`Max`}
                   // Specific value and not formatted
                   endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
                 />
@@ -610,7 +609,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
-                <Trans>Continue</Trans>
+                Continue
               </PrimaryButton>
             </Grid>
             <Grid item xs />
@@ -626,7 +625,7 @@ export function ManageDonationModal({
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={4}>
             <Typography variant="body1" className="modal-confirmation-title">
-              <Trans>Current</Trans> {giveAssetType} <Trans>deposit</Trans>
+              Current {giveAssetType} deposit
             </Typography>
             <Typography variant="h6">
               {getCurrentDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
@@ -646,7 +645,7 @@ export function ManageDonationModal({
             <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
               <Grid item xs={12}>
                 <Typography variant="body1" className="modal-confirmation-title">
-                  <Trans>New</Trans> {giveAssetType} <Trans>deposit</Trans>
+                  New {giveAssetType} deposit
                 </Typography>
                 <Typography variant="h6">
                   {isWithdrawing ? 0 : getDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
@@ -682,12 +681,12 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
+                    {isMutationLoading ? `Withdrawing ${giveAssetType}` : `Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
                   <TertiaryButton onClick={() => setIsWithdrawing(false)} fullWidth>
-                    <Trans>Cancel</Trans>
+                    Cancel
                   </TertiaryButton>
                 </Grid>
               </Grid>
@@ -720,7 +719,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
+                {isMutationLoading ? `Depositing ${giveAssetType}` : `Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

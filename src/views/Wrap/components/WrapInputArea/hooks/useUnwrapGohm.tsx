@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -22,19 +21,19 @@ export const useUnwrapGohm = () => {
 
   return useMutation<ContractReceipt, EthersError, string>(
     async amount => {
-      if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
+      if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
 
       const _amount = new DecimalBigNumber(amount, 18);
 
-      if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt("0")) throw new Error(`Please enter a number greater than 0`);
 
-      if (!balance) throw new Error(t`Please refresh your page and try again`);
+      if (!balance) throw new Error(`Please refresh your page and try again`);
 
-      if (_amount.gt(balance)) throw new Error(t`You cannot unwrap more than your gOHM balance`);
+      if (_amount.gt(balance)) throw new Error(`You cannot unwrap more than your gOHM balance`);
 
-      if (!contract) throw new Error(t`Please switch to the Ethereum network to unwrap your gOHM`);
+      if (!contract) throw new Error(`Please switch to the Ethereum network to unwrap your gOHM`);
 
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(`Please refresh your page and try again`);
 
       const transaction = await contract.unwrap(address, _amount.toBigNumber());
       return transaction.wait();
@@ -59,7 +58,7 @@ export const useUnwrapGohm = () => {
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully unwrapped from gOHM to sOHM`));
+        dispatch(createInfoToast(`Successfully unwrapped from gOHM to sOHM`));
       },
     },
   );

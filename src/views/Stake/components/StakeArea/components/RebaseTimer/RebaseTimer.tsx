@@ -1,6 +1,5 @@
 import "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer.scss";
 
-import { Trans } from "@lingui/macro";
 import { Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { prettifySeconds } from "src/helpers/timeUtil";
@@ -15,7 +14,7 @@ const RebaseTimer: React.FC = () => {
         {nextRebaseDate ? (
           <>
             <strong>{prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}&nbsp;</strong>
-            <Trans>to next rebase</Trans>
+            to next rebase
           </>
         ) : (
           <Skeleton width="155px" />

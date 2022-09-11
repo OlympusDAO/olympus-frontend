@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Grid, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
@@ -64,7 +63,7 @@ export const MigrateInputArea = () => {
           spenderAddressMap={MIGRATOR_ADDRESSES}
           message={
             <>
-              <Trans>Please approve Olympus DAO to use your</Trans> <b>wsOHM</b> <Trans>for migrating</Trans>.
+              Please approve Olympus DAO to use your <b>wsOHM</b> for migrating.
             </>
           }
         >
@@ -74,10 +73,10 @@ export const MigrateInputArea = () => {
                 <Input
                   value={amount}
                   id="amount-input"
-                  endString={t`Max`}
+                  endString={`Max`}
                   name="amount-input"
                   endStringOnClick={setMax}
-                  placeholder={t`Enter an amount of wsOHM`}
+                  placeholder={`Enter an amount of wsOHM`}
                   disabled={migrateMutation.isLoading}
                   onChange={event => setAmount(event.target.value)}
                 />

@@ -1,6 +1,5 @@
 import "src/views/404/NotFound.scss";
 
-import { Trans } from "@lingui/macro";
 import OlympusLogo from "src/assets/Olympus Logo.svg";
 
 export default function NotFound() {
@@ -11,9 +10,7 @@ export default function NotFound() {
           <img className="branding-header-icon" src={OlympusLogo} alt="OlympusDAO" />
         </a>
 
-        <h4>
-          <Trans>Page not found</Trans>
-        </h4>
+        <h4>Page not found</h4>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -26,7 +25,7 @@ export const useOldRedeem = () => {
   return useMutation<ContractReceipt, EthersError>(
     async () => {
       if (chain.id != 1)
-        throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
+        throw new Error(`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
 
       if (!contract)
         throw new Error(
@@ -71,7 +70,7 @@ export const useOldRedeem = () => {
 
         keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
-        dispatch(createInfoToast(t`Successfully redeemed all yield off the old contract`));
+        dispatch(createInfoToast(`Successfully redeemed all yield off the old contract`));
       },
     },
   );

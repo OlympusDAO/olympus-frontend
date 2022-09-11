@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
@@ -50,26 +49,26 @@ const NavContent: React.VFC = () => {
             <div className="dapp-nav" id="navbarNav">
               {chain.id === networks.MAINNET ? (
                 <>
-                  <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
+                  <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
 
-                  <NavItem to="/bonds" icon="bond" label={t`Bond`}>
+                  <NavItem to="/bonds" icon="bond" label={`Bond`}>
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
 
-                  <NavItem to="/stake" icon="stake" label={t`Stake`} />
+                  <NavItem to="/stake" icon="stake" label={`Stake`} />
 
-                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
+                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={`Give`} />}
 
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
+                  <NavItem to="/wrap" icon="wrap" label={`Wrap`} />
 
-                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
+                  <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
 
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
 
-                  <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} />
+                  <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={`Olympus Pro`} />
 
                   <Box className="menu-divider">
                     <Divider />
@@ -77,21 +76,21 @@ const NavContent: React.VFC = () => {
                 </>
               ) : (
                 <>
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
+                  <NavItem to="/wrap" icon="wrap" label={`Wrap`} />
 
-                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
+                  <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
                 </>
               )}
 
-              <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={t`Forum`} />
+              <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
 
-              <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={t`Governance`} />
+              <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={`Governance`} />
 
-              <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={t`Docs`} />
+              <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
 
-              <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={t`Bug Bounty`} />
+              <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
 
-              <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={t`Grants`} />
+              <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
             </div>
           </div>
         </div>
@@ -151,7 +150,7 @@ const InverseBonds: React.VFC = () => {
   return (
     <Box ml="26px" mt="12px" mb="12px">
       <Typography variant="body2" color="textSecondary">
-        <Trans>Inverse Bonds</Trans>
+        Inverse Bonds
       </Typography>
 
       <Box mt="12px">

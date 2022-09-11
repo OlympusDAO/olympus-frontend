@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
 import gOHM from "src/abi/gOHM.json";
@@ -63,7 +62,7 @@ export const useDonationInfo = () => {
     // If there's no contract (i.e. on a non-ETH network), throw error
     if (!contract)
       throw new Error(
-        t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
       );
 
     // Get set of all a user's deposits and begin to iterate through them. depositIds and allDeposits are
@@ -170,7 +169,7 @@ export const useRedeemableBalance = (address: string) => {
       // If no contract is established throw an error to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Set default redeemable balance value
@@ -208,12 +207,12 @@ export const useV1RedeemableBalance = () => {
       queryAssertion([address, chain.id], v1RedeemableBalanceQueryKey(address, chain.id));
 
       if (chain.id != 1)
-        throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
+        throw new Error(`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
 
       // If no contract is established throw an error to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give V1 is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give V1 is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Set default redeemable balance value
@@ -273,7 +272,7 @@ export const useRecipientInfo = (address: string) => {
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Create recipient info object with default values
@@ -362,7 +361,7 @@ export const useTotalYieldDonated = (address: string) => {
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Default values for totalRedeemed and totalDonated
@@ -438,7 +437,7 @@ export const useDonorNumbers = (address: string) => {
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Initialize donorAddresses and donationsToAddress

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -51,7 +50,7 @@ export const StakeNextRebaseAmount = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const props: PropsOf<typeof DataRow> = { title: t`Your Next Rebase` };
+  const props: PropsOf<typeof DataRow> = { title: `Your Next Rebase` };
 
   if (rebaseRate && sohmBalances && totalGohmBalance && currentIndex) {
     const nextRewardAmount = rebaseRate * totalGohmBalance.mul(currentIndex).add(totalSohmBalance).toApproxNumber();

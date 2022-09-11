@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -175,7 +174,7 @@ export default function RedeemYield() {
           <Grid item xs />
           <Grid item xs={12} sm={6}>
             <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
-              <Trans>Redeem Yield</Trans>
+              Redeem Yield
             </PrimaryButton>
           </Grid>
           <Grid item xs />
@@ -190,7 +189,7 @@ export default function RedeemYield() {
                   {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
-                  <Trans>sOHM Goal</Trans>
+                  sOHM Goal
                 </Typography>
               </Box>
             </Grid>
@@ -214,7 +213,7 @@ export default function RedeemYield() {
                   %
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
-                  <Trans>of sOHM Goal</Trans>
+                  of sOHM Goal
                 </Typography>
               </Box>
             </Grid>
@@ -226,32 +225,32 @@ export default function RedeemYield() {
       <Grid item xs={12}>
         <Box>
           <DataRow
-            title={t`Deposited sOHM`}
+            title={`Deposited sOHM`}
             // Exact number
-            balance={`${contract === "new" ? totalDebt.toString(NO_DECIMAL_FORMAT) : ZERO_NUMBER} ${t`sOHM`}`}
+            balance={`${contract === "new" ? totalDebt.toString(NO_DECIMAL_FORMAT) : ZERO_NUMBER} ${`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-deposited-sohm"
           />
           <DataRow
-            title={t`Redeemable Amount`}
-            balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+            title={`Redeemable Amount`}
+            balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-redeemable-balance"
           />
           <DataRow
-            title={t`Your Next Rebase`}
-            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
+            title={`Your Next Rebase`}
+            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${`sOHM`}`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-amount"
           />
           <DataRow
-            title={t`Next Rebase Yield`}
+            title={`Next Rebase Yield`}
             balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-yield"
           />
           <DataRow
-            title={t`Rebases (5-Day Rate)`}
+            title={`Rebases (5-Day Rate)`}
             balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
             isLoading={isStakingRebaseRateLoading}
             data-testid="data-roi"

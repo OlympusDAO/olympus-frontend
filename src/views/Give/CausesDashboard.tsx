@@ -1,6 +1,5 @@
 import "src/views/Give/Give.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
 import { PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
@@ -70,7 +69,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
     depositAmount: DecimalBigNumber,
   ) => {
     if (depositAmount.eq(ZERO_NUMBER)) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     const amount = depositAmount.toString();
@@ -99,18 +98,18 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
             >
               <Grid item xs={12}>
                 <Typography variant="h4" align="center">
-                  <Trans>Want to give to a different cause?</Trans>
+                  Want to give to a different cause?
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" align="center">
-                  <Trans>You can direct your yield to a recipient of your choice</Trans>
+                  You can direct your yield to a recipient of your choice
                 </Typography>
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
                 <PrimaryButton fullWidth onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
-                  <Trans>Select Custom Recipient</Trans>
+                  Select Custom Recipient
                 </PrimaryButton>
               </Grid>
               <Grid item xs />

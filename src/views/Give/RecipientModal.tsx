@@ -1,5 +1,4 @@
 import { isAddress } from "@ethersproject/address";
-import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
 import { Grid, Link, SvgIcon, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
@@ -144,25 +143,25 @@ export function RecipientModal({
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Please enter a value`);
+      setIsDepositAmountValidError(`Please enter a value`);
       return;
     }
 
     if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value must be positive`);
+      setIsDepositAmountValidError(`Value must be positive`);
       return;
     }
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
+      setIsDepositAmountValidError(`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
+        `Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
       );
       return;
     }
@@ -188,13 +187,13 @@ export function RecipientModal({
   const checkIsWalletAddressValid = (value: string) => {
     if (!isAddress(value)) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValidError(t`Please enter a valid Ethereum address`);
+      setIsWalletAddressValiderror(`Please enter a valid Ethereum address`);
       return;
     }
 
     if (value == address) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValidError(t`Please enter a different address: cannot direct to the same wallet`);
+      setIsWalletAddressValiderror(`Please enter a different address: cannot direct to the same wallet`);
       return;
     }
 
@@ -209,7 +208,7 @@ export function RecipientModal({
   };
 
   const getTitle = (): string => {
-    return t`Donate Yield`;
+    return `Donate Yield`;
   };
 
   /**
@@ -307,7 +306,7 @@ export function RecipientModal({
     return (
       <Input
         id="wallet-input"
-        placeholder={t`Enter a wallet address in the form of 0x ...`}
+        placeholder={`Enter a wallet address in the form of 0x ...`}
         value={walletAddress}
         error={!isWalletAddressValid}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -353,9 +352,8 @@ export function RecipientModal({
             spenderAddressMap={GIVE_ADDRESSES}
             message={
               <>
-                <Trans>Is this your first time donating</Trans> <b>{giveAssetType}</b>?{" "}
-                <Trans>Please approve Olympus DAO to use your </Trans>
-                <b>{giveAssetType}</b> <Trans> for donating.</Trans>
+                Is this your first time donating <b>{giveAssetType}</b>? Please approve Olympus DAO to use your
+                <b>{giveAssetType}</b> for donating.
               </>
             }
           >
@@ -363,16 +361,16 @@ export function RecipientModal({
             <Grid container justifyContent="space-between" spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary">
-                  {giveAssetType} <Trans>Deposit</Trans>
+                  {giveAssetType} Deposit
                   <InfoTooltip
-                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                    message={`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary" align="right">
-                  <Trans>Balance:</Trans> {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
+                  Balance: {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
                 </Typography>
               </Grid>
             </Grid>
@@ -380,7 +378,7 @@ export function RecipientModal({
               <Input
                 id="amount-input"
                 inputProps={{ "data-testid": "amount-input" }}
-                placeholder={t`Enter an amount`}
+                placeholder={`Enter an amount`}
                 type="number"
                 // We used to use BigNumber/DecimalBigNumber here, but it behaves
                 // weirdly and would refuse to recognise some numbers, e.g. 100
@@ -391,16 +389,16 @@ export function RecipientModal({
                 onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                 error={!isDepositAmountValid}
                 startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
-                endString={t`Max`}
+                endString={`Max`}
                 // This uses toString() as it is a specific value and not formatted
                 endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
               />
             </Grid>
             <Grid item xs={12} style={{ paddingBottom: "0px" }}>
               <Typography variant="body2" className="subtext">
-                <Trans>Recipient Address</Trans>
+                Recipient Address
                 <InfoTooltip
-                  message={t`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
+                  message={`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
                   children={null}
                 />
               </Typography>
@@ -457,7 +455,7 @@ export function RecipientModal({
                 <Grid item xs />
                 <Grid item xs={8}>
                   <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
-                    <Trans>Continue</Trans>
+                    Continue
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs />
@@ -489,9 +487,9 @@ export function RecipientModal({
               <Grid item container xs={12} sm={4} alignItems="center">
                 <Grid xs={12}>
                   <Typography variant="body1" className="grey-text">
-                    {giveAssetType} <Trans>Deposit</Trans>
+                    {giveAssetType} Deposit
                     <InfoTooltip
-                      message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                      message={`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                       children={null}
                     />
                   </Typography>
@@ -517,9 +515,9 @@ export function RecipientModal({
                 <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                   <Grid item xs={12}>
                     <Typography variant="body1" className="grey-text">
-                      <Trans>Recipient Address</Trans>
+                      Recipient Address
                       <InfoTooltip
-                        message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                        message={`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
                         children={null}
                       />
                     </Typography>
@@ -541,8 +539,8 @@ export function RecipientModal({
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? t`Depositing ${giveAssetType}`
-                    : t`Confirm ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
+                    ? `Depositing ${giveAssetType}`
+                    : `Confirm ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />

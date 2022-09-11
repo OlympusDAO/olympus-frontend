@@ -1,6 +1,5 @@
 import "src/views/Give/YieldRecipients.scss";
 
-import { t } from "@lingui/macro";
 import { Grid, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -85,7 +84,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     depositAmountDiff,
   ) => {
     if (!depositAmountDiff) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     if (depositAmountDiff.eq(ZERO_NUMBER)) return;

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { TabBar } from "@olympusdao/component-library";
@@ -73,12 +72,12 @@ export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
               disableRouting
               items={[
                 {
-                  label: t`Market Value`,
+                  label: `Market Value`,
                   to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_MARKET_VALUE)}`,
                   isActive: isTreasuryAssetActive(QUERY_TREASURY_MARKET_VALUE),
                 },
                 {
-                  label: t`Liquid Backing`,
+                  label: `Liquid Backing`,
                   to: `/dashboard?${getSearchParamsWithUpdatedTreasuryAssets(QUERY_TREASURY_LIQUID_BACKING)}`,
                   isActive: isTreasuryAssetActive(QUERY_TREASURY_LIQUID_BACKING),
                 },

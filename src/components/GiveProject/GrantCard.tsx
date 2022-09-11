@@ -2,7 +2,6 @@ import "react-step-progress-bar/styles.css";
 // We import this AFTER the styles for react-step-progress-bar, so that we can override it
 import "src/components/GiveProject/GrantCard.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
 import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@mui/material";
 import { Skeleton } from "@mui/material";
@@ -221,7 +220,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         {milestones.map((value, index) => {
           return (
             <div key={`milestone-${index}`}>
-              <Typography variant="h6">{t`Milestone ${index + 1}: ${new DecimalBigNumber(
+              <Typography variant="h6">{`Milestone ${index + 1}: ${new DecimalBigNumber(
                 value.amount.toString(),
               ).toString(NO_DECIMALS_FORMAT)} sOHM`}</Typography>
               <Typography variant="body1">
@@ -259,7 +258,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Donors</Trans>
+                Donors
               </Grid>
             </Grid>
           </Grid>
@@ -276,7 +275,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Total Milestone Amount</Trans>
+                Total Milestone Amount
               </Grid>
             </Grid>
           </Grid>
@@ -327,7 +326,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     depositAmount: DecimalBigNumber,
   ) => {
     if (depositAmount.eq(ZERO_NUMBER)) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     giveMutation.mutate({
@@ -351,11 +350,11 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     depositAmountDiff,
   ) => {
     if (donationId == -1) {
-      return dispatch(error(t`No wallet set or user is not donating to this recipient`));
+      return dispatch(error(`No wallet set or user is not donating to this recipient`));
     }
 
     if (!depositAmountDiff) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     if (depositAmountDiff.eq(ZERO_NUMBER)) return;
@@ -476,9 +475,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     href={`#/give/grants/${grant.slug}`}
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
-                    <PrimaryButton fullWidth>
-                      <Trans>View Details</Trans>
-                    </PrimaryButton>
+                    <PrimaryButton fullWidth>View Details</PrimaryButton>
                   </Link>
                 </Grid>
               </Grid>
@@ -541,7 +538,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             disabled={!isSupportedChain(chain.id)}
                             fullWidth
                           >
-                            <Trans>Donate Yield</Trans>
+                            Donate Yield
                           </PrimaryButton>
                         )}
                       </Grid>
@@ -553,7 +550,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper headerText={t`Your Donations`} fullWidth>
+                  <Paper headerText={`Your Donations`} fullWidth>
                     <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
@@ -566,7 +563,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Deposited</Trans>
+                            {giveAssetType} Deposited
                           </Grid>
                         </Grid>
                       </Grid>
@@ -583,7 +580,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Yield Sent</Trans>
+                            {giveAssetType} Yield Sent
                           </Grid>
                         </Grid>
                       </Grid>
@@ -595,7 +592,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                           style={{ marginTop: "24px" }}
                           fullWidth
                         >
-                          <Trans>Edit Donation</Trans>
+                          Edit Donation
                         </PrimaryButton>
                       </Grid>
                     </Grid>

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -68,7 +67,7 @@ export const useRedeem = () => {
 
         keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
-        dispatch(createInfoToast(t`Successfully redeemed all available yield`));
+        dispatch(createInfoToast(`Successfully redeemed all available yield`));
       },
     },
   );

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
 import { useDispatch } from "react-redux";
@@ -31,14 +30,14 @@ export const useIncreaseGive = () => {
     // Pass in an object with an amount and a recipient parameter
     async ({ id: id_, amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
-      if (parseFloat(amount_) <= 0) throw new Error(t`An increase Give amount must be positive`);
+      if (parseFloat(amount_) <= 0) throw new Error(`An increase Give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(`Please refresh your page and try again`);
 
       const uaData: IUAData = {
         address: address,
@@ -80,7 +79,7 @@ export const useIncreaseGive = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully increased sOHM deposit`));
+        dispatch(createInfoToast(`Successfully increased sOHM deposit`));
       },
     },
   );
@@ -109,14 +108,14 @@ export const useDecreaseGive = () => {
     // Pass in an object with an amount and a recipient parameter
     async ({ id: id_, amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
-      if (parseFloat(amount_) <= 0) throw new Error(t`A decrease Give amount must be positive`);
+      if (parseFloat(amount_) <= 0) throw new Error(`A decrease Give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!address) throw new Error(t`No account available`);
+      if (!address) throw new Error(`No account available`);
       const uaData: IUAData = {
         address,
         value: amount_,
@@ -165,7 +164,7 @@ export const useDecreaseGive = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully decreased sOHM deposit`));
+        dispatch(createInfoToast(`Successfully decreased sOHM deposit`));
       },
     },
   );

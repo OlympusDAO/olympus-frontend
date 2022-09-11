@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -153,21 +152,21 @@ export const TreasuryAssetsTable = ({
   const columns: GridColDef[] = [
     {
       field: "token",
-      headerName: t`Asset`,
-      description: t`The token asset that is held`,
+      headerName: `Asse`,
+      description: `The token asset that is held`,
       flex: 1,
       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
     },
     {
       field: "category",
-      headerName: t`Category`,
-      description: t`The category of the token asset`,
+      headerName: `Category`,
+      description: `The category of the token asse`,
       flex: 1,
     },
     {
       field: "value",
-      headerName: t`Value`,
-      description: t`The total value of the token asset in USD`,
+      headerName: `Value`,
+      description: `The total value of the token asset in USD`,
       flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
@@ -182,7 +181,7 @@ export const TreasuryAssetsTable = ({
     },
   ];
 
-  const headerText = t`Holdings`;
+  const headerText = `Holdings`;
 
   return (
     <ChartCard
@@ -190,8 +189,8 @@ export const TreasuryAssetsTable = ({
       headerSubtext={headerSubtext}
       headerTooltip={
         isLiquidBackingActive
-          ? t`This table lists the details of the treasury assets that make up the liquid backing`
-          : t`This table lists the details of the treasury assets that make up the market value`
+          ? `This table lists the details of the treasury assets that make up the liquid backing`
+          : `This table lists the details of the treasury assets that make up the market value`
       }
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}

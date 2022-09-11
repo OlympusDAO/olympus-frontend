@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
@@ -59,7 +58,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
 export function CompactWallet({ quantity, isQuantityExact, asset, verb = "retained" }: EducationGraphicProps) {
   return (
     <CompactGraphic
-      title={t`Wallet`}
+      title={`Wallet`}
       icon={<Icon name="vault-wallet" fontSize="large" />}
       subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
     />
@@ -75,7 +74,7 @@ export function CompactVault({
 }: EducationGraphicProps) {
   return (
     <CompactGraphic
-      title={t`Vault`}
+      title={`Vault`}
       icon={<Icon name="vault-lock" fontSize="large" />}
       subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
       isSubtextContentLoading={isLoading}
@@ -86,9 +85,9 @@ export function CompactVault({
 export function CompactYield({ quantity, isQuantityExact, asset }: EducationGraphicProps) {
   return (
     <CompactGraphic
-      title={t`Recipient`}
+      title={`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={t`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
+      subtext={`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }
@@ -134,9 +133,9 @@ export function LargeWallet() {
   return (
     <LargeGraphic
       icon={<Icon name="vault-wallet" fontSize="large" />}
-      title={t`Wallet`}
-      subtitle={t`Deposit sOHM from wallet`}
-      subtext={t`Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.`}
+      title={`Wallet`}
+      subtitle={`Deposit sOHM from wallet`}
+      subtext={`Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.`}
     />
   );
 }
@@ -145,9 +144,9 @@ export function LargeVault() {
   return (
     <LargeGraphic
       icon={<Icon name="vault-lock" fontSize="large" />}
-      title={t`Vault`}
-      subtitle={t`Lock sOHM in vault`}
-      subtext={t`Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
+      title={`Vault`}
+      subtitle={`Lock sOHM in vault`}
+      subtext={`Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
       You can withdraw or edit your principal sOHM amount at any time.`}
     />
   );
@@ -157,9 +156,9 @@ export function LargeYield() {
   return (
     <LargeGraphic
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      title={t`Recipient`}
-      subtitle={t`Recipient earns sOHM rebases`}
-      subtext={t`The recipient you specified, or the project you selected, will then receive the rebases associated with your
+      title={`Recipient`}
+      subtitle={`Recipient earns sOHM rebases`}
+      subtext={`The recipient you specified, or the project you selected, will then receive the rebases associated with your
       sOHM deposit until you withdraw your sOHM principal from the vault.`}
     />
   );

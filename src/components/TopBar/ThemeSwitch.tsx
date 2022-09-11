@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import ToggleButton from "@mui/material/ToggleButton";
 import { Icon } from "@olympusdao/component-library";
 
@@ -9,7 +8,7 @@ interface IThemeSwitcherProps {
 
 function ThemeSwitcher({ theme, toggleTheme }: IThemeSwitcherProps) {
   return (
-    <ToggleButton className="toggle-button" type="button" title={t`Change Theme`} value="check" onClick={toggleTheme}>
+    <ToggleButton className="toggle-button" type="button" title={`Change Theme`} value="check" onClick={toggleTheme}>
       {theme === "dark" ? (
         <Icon name={"moon"} color={"primary"} style={{ fontSize: "17.5px" }} />
       ) : (

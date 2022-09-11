@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
 import { useDispatch } from "react-redux";
@@ -30,14 +29,14 @@ export const useGive = () => {
     // Pass in an object with an amount and a recipient parameter
     async ({ amount: amount_, recipient: recipient_, token: token_ }) => {
       // Validate inputs
-      if (parseFloat(amount_) <= 0) throw new Error(t`A give amount must be positive`);
+      if (parseFloat(amount_) <= 0) throw new Error(`A give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          `Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(`Please refresh your page and try again`);
 
       const uaData: IUAData = {
         address: address,
@@ -80,7 +79,7 @@ export const useGive = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully deposited sOHM`));
+        dispatch(createInfoToast(`Successfully deposited sOHM`));
       },
     },
   );

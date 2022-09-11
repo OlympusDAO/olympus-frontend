@@ -1,6 +1,5 @@
 import "src/views/Give/YieldRecipients.scss";
 
-import { Trans } from "@lingui/macro";
 import { Divider, Grid, Link, Typography, useTheme } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -31,15 +30,11 @@ export default function YieldRecipients({ giveAssetType, changeAssetType }: Reci
       <Box>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} container justifyContent="center">
-            <Typography variant="body1">
-              <Trans>Looks like you haven’t made any donations yet</Trans>
-            </Typography>
+            <Typography variant="body1">Looks like you haven’t made any donations yet</Typography>
           </Grid>
           <Grid item xs={12} container justifyContent="center">
             <Link to="/give" component={RouterLink}>
-              <TertiaryButton>
-                <Trans>Donate to a cause</Trans>
-              </TertiaryButton>
+              <TertiaryButton>Donate to a cause</TertiaryButton>
             </Link>
           </Grid>
         </Grid>
@@ -53,25 +48,25 @@ export default function YieldRecipients({ giveAssetType, changeAssetType }: Reci
         {!isSmallScreen && (
           <Grid item xs={2}>
             <Typography variant="body1" className="grey">
-              <Trans>DATE</Trans>
+              DATE
             </Typography>
           </Grid>
         )}
         <Grid item xs={4} sm={3}>
           <Typography variant="body1" className="grey">
-            <Trans>RECIPIENT</Trans>
+            RECIPIENT
           </Typography>
         </Grid>
         {!isSmallScreen && (
           <Grid item xs={2} style={{ textAlign: "right" }}>
             <Typography variant="body1" className="grey">
-              <Trans>DEPOSITED</Trans>
+              DEPOSITED
             </Typography>
           </Grid>
         )}
         <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
           <Typography variant="body1" className="grey">
-            <Trans>YIELD SENT</Trans>
+            YIELD SENT
           </Typography>
         </Grid>
         <Grid item xs={4} sm={3} />

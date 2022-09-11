@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -61,17 +60,17 @@ export function RedeemYieldModal({
   };
 
   return (
-    <Modal open={isModalOpen} onClose={cancelFunc} headerText={t`Redeem Yield`} closePosition="left" minHeight="200px">
+    <Modal open={isModalOpen} onClose={cancelFunc} headerText={`Redeem Yield`} closePosition="left" minHeight="200px">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={4}>
                 <Typography variant="body1" className="grey-text">
-                  <Trans>Redeemable Yield</Trans>
+                  Redeemable Yield
                 </Typography>
                 <Typography variant="h6">
-                  {redeemableBalance.toString(DECIMAL_FORMAT)} {t` sOHM`}
+                  {redeemableBalance.toString(DECIMAL_FORMAT)} {` sOHM`}
                 </Typography>
               </Grid>
               {!isSmallScreen ? (
@@ -89,7 +88,7 @@ export function RedeemYieldModal({
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                     <Grid item xs={12}>
                       <Typography variant="body1" className="grey-text">
-                        <Trans>My Wallet Address</Trans>
+                        My Wallet Address
                       </Typography>
                       <Typography variant="h6">{shorten(address)}</Typography>
                     </Grid>
@@ -105,8 +104,8 @@ export function RedeemYieldModal({
             <Grid item xs={12} md={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
                 {isMutationLoading
-                  ? t`Redeeming ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`
-                  : t`Redeem ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
+                  ? `Redeeming ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`
+                  : `Redeem ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

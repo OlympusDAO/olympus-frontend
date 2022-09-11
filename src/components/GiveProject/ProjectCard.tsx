@@ -1,6 +1,5 @@
 import "src/components/GiveProject/ProjectCard.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { ChevronLeft } from "@mui/icons-material";
 import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { Skeleton } from "@mui/material";
@@ -206,9 +205,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             <Typography variant="body2">00:00:00</Typography>
           </Grid>
           <Grid>
-            <Typography variant="body2">
-              <Trans>Completed</Trans>
-            </Typography>
+            <Typography variant="body2">Completed</Typography>
           </Grid>
         </Grid>
       );
@@ -219,7 +216,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
             <Grid item>
               <Tooltip
-                title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
+                title={!finishDateObject ? "" : `Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
                 arrow
               >
                 <Typography variant="body2">
@@ -228,9 +225,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               </Tooltip>
             </Grid>
             <Grid item>
-              <Typography variant="body2">
-                <Trans>Remaining</Trans>
-              </Typography>
+              <Typography variant="body2">Remaining</Typography>
             </Grid>
           </Grid>
         </>
@@ -296,7 +291,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              {giveAssetType} <Trans>Yield</Trans>
+              {giveAssetType} Yield
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -315,7 +310,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                {giveAssetType} <Trans>Deposit Goal</Trans>
+                {giveAssetType} Deposit Goal
               </Grid>
             </Grid>
           </Grid>
@@ -348,7 +343,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Donors</Trans>
+                Donors
               </Grid>
             </Grid>
           </Grid>
@@ -365,7 +360,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                {giveAssetType} <Trans>Deposited</Trans>
+                {giveAssetType} Deposited
               </Grid>
             </Grid>
           </Grid>
@@ -416,7 +411,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     depositAmount: DecimalBigNumber,
   ) => {
     if (depositAmount.eq(ZERO_NUMBER)) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     await giveMutation.mutate({
@@ -438,7 +433,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     depositAmountDiff,
   ) => {
     if (!depositAmountDiff) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     if (depositAmountDiff.eq(ZERO_NUMBER)) return;
@@ -559,9 +554,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <TertiaryButton fullWidth>
-                    <Trans>View Details</Trans>
-                  </TertiaryButton>
+                  <TertiaryButton fullWidth>View Details</TertiaryButton>
                 </Link>
               </Grid>
             </Grid>
@@ -628,7 +621,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                         <Grid item xs={12}>
                           {!isConnected ? (
                             <PrimaryButton onClick={connect} fullWidth>
-                              <Trans>Connect Wallet</Trans>
+                              Connect Wallet
                             </PrimaryButton>
                           ) : isUserDonating ? (
                             <></>
@@ -638,7 +631,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                               disabled={!isSupportedChain(chain.id)}
                               fullWidth
                             >
-                              <Trans>Donate Yield</Trans>
+                              Donate Yield
                             </PrimaryButton>
                           )}
                         </Grid>
@@ -651,7 +644,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper headerText={t`Your Donations`}>
+                  <Paper headerText={`Your Donations`}>
                     <Grid container alignItems="flex-end" spacing={2}>
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
@@ -664,7 +657,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Deposited</Trans>
+                            {giveAssetType} Deposited
                           </Grid>
                         </Grid>
                       </Grid>
@@ -681,7 +674,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            {giveAssetType} <Trans>Yield Sent</Trans>
+                            {giveAssetType} Yield Sent
                           </Grid>
                         </Grid>
                       </Grid>
@@ -691,7 +684,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                           disabled={!isSupportedChain(chain.id)}
                           fullWidth
                         >
-                          <Trans>Edit Donation</Trans>
+                          Edit Donation
                         </PrimaryButton>
                       </Grid>
                     </Grid>

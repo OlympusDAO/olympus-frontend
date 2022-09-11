@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
@@ -20,14 +19,14 @@ export const useClaimBonds = () => {
   const { chain = { id: 1 } } = useNetwork();
   return useMutation<ContractReceipt, EthersError, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
-      if (!signer) throw new Error(t`Please connect a wallet to claim bonds`);
+      if (!signer) throw new Error(`Please connect a wallet to claim bonds`);
       if (chain.id !== networks.MAINNET)
         throw new Error(
           typeof id === "undefined"
-            ? t`Please switch to the Ethereum network to claim all bonds`
-            : t`Please switch to the Ethereum network to claim this bond`,
+            ? `Please switch to the Ethereum network to claim all bonds`
+            : `Please switch to the Ethereum network to claim this bond`,
         );
-      if (!isValidAddress(address) || !address) throw new Error(t`Invalid address`);
+      if (!isValidAddress(address) || !address) throw new Error(`Invalid address`);
 
       const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
 
@@ -66,7 +65,7 @@ export const useClaimBonds = () => {
         await Promise.all(promises);
 
         dispatch(
-          createInfoToast(typeof id === "undefined" ? t`Claimed all bonds successfully` : t`Claimed bond successfully`),
+          createInfoToast(typeof id === "undefined" ? `Claimed all bonds successfully` : `Claimed bond successfully`),
         );
       },
     },

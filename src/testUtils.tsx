@@ -1,5 +1,3 @@
-import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 // Rainbowkit
@@ -21,16 +19,14 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
     <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
-          <I18nProvider i18n={i18n}>
-            <HashRouter>
-              <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={lightTheme}>
-                  <CssBaseline />
-                  {children}
-                </ThemeProvider>
-              </StyledEngineProvider>
-            </HashRouter>
-          </I18nProvider>
+          <HashRouter>
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={lightTheme}>
+                <CssBaseline />
+                {children}
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </HashRouter>
         </Provider>
       </ReactQueryProvider>
     </WagmiConfig>

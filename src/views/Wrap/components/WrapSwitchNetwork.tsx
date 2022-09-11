@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
 import { TertiaryButton, Token } from "@olympusdao/component-library";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -31,9 +30,7 @@ export const WrapSwitchNetwork = () => {
   return (
     <>
       <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-        <Trans>
-          Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
-        </Trans>
+        Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
       </Typography>
 
       <TertiaryButton size="large" onClick={() => switchNetwork?.(NetworkId.AVALANCHE)} style={{ margin: "0.3rem" }}>

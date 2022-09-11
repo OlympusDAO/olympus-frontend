@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Divider, Grid } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
@@ -15,7 +14,7 @@ export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <Paper headerText={t`Single Stake`} headerChip="(3,3)" subHeader={<RebaseTimer />}>
+    <Paper headerText={`Single Stake`} headerChip="(3,3)" subHeader={<RebaseTimer />}>
       <Box mb="28px">
         <Grid>
           <MetricCollection>

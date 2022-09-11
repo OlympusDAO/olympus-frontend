@@ -11,13 +11,10 @@ export default ({ mode }) => {
     plugins: [
       react({
         include: "**/*.tsx",
-        babel: {
-          plugins: ["macros"],
-        },
       }),
       viteTsconfigPaths(),
       svgrPlugin(),
-      polyfillNode({ fs: true }),
+      { ...polyfillNode({ fs: true }), enforce: "post" },
     ],
     define: {
       "process.env.NODE_ENV": `"${mode}"`,
@@ -29,6 +26,9 @@ export default ({ mode }) => {
         os: "rollup-plugin-node-polyfills/polyfills/os",
         Buffer: "rollup-plugin-node-polyfills/polyfills/buffer",
       },
+    },
+    build: {
+      outDir: "./build",
     },
     test: {
       setupFiles: "src/setupTests.tsx",
@@ -42,6 +42,7 @@ export default ({ mode }) => {
       ],
     },
     optimizeDeps: {
+      include: ["@emotion/use-insertion-effect-with-fallbacks"],
       esbuildOptions: {
         // Node.js global to browser globalThis
         define: {

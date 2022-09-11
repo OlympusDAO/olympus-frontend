@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, Link, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -83,23 +82,17 @@ export const ExternalStakePools = () => {
       {isSmallScreen ? (
         <AllPools isSmallScreen={isSmallScreen} />
       ) : (
-        <Paper headerText={t`Farm Pool`}>
+        <Paper headerText={`Farm Pool`}>
           <Table>
             <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
-                <TableCell style={{ width: "250px", padding: "8px 0" }}>
-                  <Trans>Asset</Trans>
-                </TableCell>
+                <TableCell style={{ width: "250px", padding: "8px 0" }}>Asset</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
-                  <Trans>TVL</Trans>
-                </TableCell>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>TVL</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
-                  <Trans>APY</Trans>
-                </TableCell>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>APY</TableCell>
 
-                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
+                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{`Balance`}</TableCell>}
               </TableRow>
             </StyledTableHeader>
             <AllPools isSmallScreen={isSmallScreen} />
@@ -200,7 +193,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 
       <TableCell style={{ padding: "8px 0" }}>
         <TertiaryButton target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
-          {t`Stake on`} {props.pool.stakeOn}
+          {`Stake on`} {props.pool.stakeOn}
         </TertiaryButton>
       </TableCell>
     </TableRow>
@@ -235,14 +228,14 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
 
       {isConnected && (
         <DataRow
-          title={t`Balance`}
+          title={`Balance`}
           isLoading={!userBalance}
           balance={userBalance && `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`}
         />
       )}
 
       <SecondaryButton href={props.pool.href} fullWidth>
-        {t`Stake on`} {props.pool.stakeOn}
+        {`Stake on`} {props.pool.stakeOn}
       </SecondaryButton>
     </Paper>
   );

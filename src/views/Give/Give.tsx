@@ -1,6 +1,5 @@
 import "src/views/Give/Give.scss";
 
-import { t } from "@lingui/macro";
 import { Grid, Link, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -44,7 +43,7 @@ function Give({ selectedIndex = 0 }) {
           element={
             <Grid container direction="column" alignItems="center" className="give-container">
               <Grid item xs={12} sm={10} md={10} lg={8}>
-                <Paper headerText={t`Give`} fullWidth className="no-container-padding" zoom={false}>
+                <Paper headerText={`Give`} fullWidth className="no-container-padding" zoom={false}>
                   {!isSupportedChain(chain.id) ? (
                     <Typography variant="h6">
                       Note: You are currently using an unsupported network. Please switch to Ethereum to experience the
@@ -62,16 +61,16 @@ function Give({ selectedIndex = 0 }) {
                     TabIndicatorProps={{ style: { display: "none" } }}
                   >
                     <Link to="/give" component={RouterLink} end>
-                      <Tab label={t`Causes`} />
+                      <Tab label={`Causes`} />
                     </Link>
                     <Link to="/give/grants" component={RouterLink}>
-                      <Tab label={t`Grants`} />
+                      <Tab label={`Grants`} />
                     </Link>
                     <Link to="/give/donations" component={RouterLink}>
-                      <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
+                      <Tab label={`My Donations`} style={{ whiteSpace: "nowrap" }} />
                     </Link>
                     <Link to="/give/redeem" component={RouterLink}>
-                      <Tab label={t`Redeem`} />
+                      <Tab label={`Redeem`} />
                     </Link>
                   </Tabs>
                   <Outlet />

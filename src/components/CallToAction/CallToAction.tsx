@@ -1,12 +1,11 @@
 import "src/components/CallToAction/CallToAction.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
 import { Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 
 export const LearnMoreButton = () => (
   <TertiaryButton href="https://docs.olympusdao.finance/main/basics/migration" style={{ marginRight: "10.5px" }}>
-    <Trans>Learn More</Trans>
+    Learn More
   </TertiaryButton>
 );
 
@@ -34,11 +33,11 @@ const CallToAction = ({ setMigrationModalOpen }: CallToActionProps) => (
     <Paper enableBackground>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography style={{ fontSize: "21px", fontWeight: "700" }} variant="h5">
-          <Trans>You have assets ready to migrate to v2</Trans>
+          You have assets ready to migrate to v2
         </Typography>
         <div className="actionable">
           <LearnMoreButton />
-          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Get Started`} />
+          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={`Get Started`} />
         </div>
       </Box>
     </Paper>

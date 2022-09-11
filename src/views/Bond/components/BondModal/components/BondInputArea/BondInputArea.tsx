@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { DataRow, InputWrapper } from "@olympusdao/component-library";
@@ -99,9 +98,8 @@ export const BondInputArea: React.VFC<{
               spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
               message={
                 <>
-                  <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
-                  <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
-                  <Trans>for bonding</Trans>.
+                  First time bonding <b>{props.bond.quoteToken.name}</b>? <br /> Please approve Olympus DAO to use your{" "}
+                  <b>{props.bond.quoteToken.name}</b> for bonding.
                 </>
               }
             >
@@ -111,11 +109,11 @@ export const BondInputArea: React.VFC<{
                   type="string"
                   name="amount"
                   value={amount}
-                  endString={t`Max`}
+                  endString={`Max`}
                   endStringOnClick={setMax}
                   id="outlined-adornment-amount"
                   onChange={event => setAmount(event.currentTarget.value)}
-                  placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
+                  placeholder={`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
                   buttonText={purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
                   disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
                   buttonType="submit"
@@ -133,8 +131,8 @@ export const BondInputArea: React.VFC<{
                       }
                       label={
                         isInverseBond
-                          ? t`I understand that I'm buying a negative premium bond`
-                          : t`I understand that I'm buying a negative discount bond`
+                          ? `I understand that I'm buying a negative premium bond`
+                          : `I understand that I'm buying a negative discount bond`
                       }
                     />
                   </Box>
@@ -148,12 +146,12 @@ export const BondInputArea: React.VFC<{
       <Box mt="24px">
         <DataRow
           isLoading={!balance}
-          title={t`Your Balance`}
+          title={`Your Balance`}
           balance={`${balance?.toString({ decimals: 4, format: true, trim: true })} ${props.bond.quoteToken.name}`}
         />
 
         <DataRow
-          title={t`You Will Get`}
+          title={`You Will Get`}
           balance={
             <span>
               {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
@@ -165,12 +163,12 @@ export const BondInputArea: React.VFC<{
               )}
             </span>
           }
-          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
+          tooltip={`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
         />
 
         <DataRow
-          title={isInverseBond ? t`Max You Can Sell` : t`Max You Can Buy`}
-          tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
+          title={isInverseBond ? `Max You Can Sell` : `Max You Can Buy`}
+          tooltip={`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
               {isInverseBond
@@ -181,23 +179,23 @@ export const BondInputArea: React.VFC<{
         />
 
         <DataRow
-          title={isInverseBond ? t`Premium` : t`Discount`}
+          title={isInverseBond ? `Premium` : `Discount`}
           balance={<BondDiscount discount={props.bond.discount} textOnly />}
-          tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
+          tooltip={`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
             isInverseBond ? props.bond.baseToken.name : `OHM`
           }'s market value and the bond's price.`}
         />
 
         {!isInverseBond && (
           <DataRow
-            title={t`Duration`}
+            title={`Duration`}
             balance={<BondDuration duration={props.bond.duration} />}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            tooltip={`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
           />
         )}
 
         {props.recipientAddress !== address && (
-          <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />
+          <DataRow title={`Recipient`} balance={shorten(props.recipientAddress)} />
         )}
       </Box>
     </Box>

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import Chart from "src/components/Chart/Chart";
@@ -361,17 +360,17 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     setDataKeys(tempDataKeys);
 
     const itemNames: string[] = isActiveTokenOHM
-      ? [t`OHM Price`, t`Liquid Backing per Floating OHM`]
-      : [t`gOHM Price`, t`Liquid Backing per gOHM`];
+      ? [`OHM Price`, `Liquid Backing per Floating OHM`]
+      : [`gOHM Price`, `Liquid Backing per gOHM`];
 
     setCategoriesMap(getCategoriesMap(itemNames, tempDataKeys));
     setBulletpointStylesMap(getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, tempDataKeys));
     setColorsMap(getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys));
-    setHeaderText(isActiveTokenOHM ? t`OHM Backing` : t`gOHM Backing`);
+    setHeaderText(isActiveTokenOHM ? `OHM Backing` : `gOHM Backing`);
     setTooltipText(
       isActiveTokenOHM
-        ? t`This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
-        : t`This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`,
+        ? `This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.`
+        : `This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.`,
     );
   }, [isActiveTokenOHM]);
 

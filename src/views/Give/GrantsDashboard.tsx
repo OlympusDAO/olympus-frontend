@@ -1,6 +1,5 @@
 import "src/views/Give/Give.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
@@ -57,11 +56,7 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
 
     if (activeGrants > 0) return grantElements;
 
-    return (
-      <Typography variant="body2">
-        <Trans>We don't have any grants open right now, but check back soon!</Trans>
-      </Typography>
-    );
+    return <Typography variant="body2">We don't have any grants open right now, but check back soon!</Typography>;
   }, [grants]);
 
   const handleCustomGiveModalSubmit: SubmitCallback = async (
@@ -70,7 +65,7 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
     depositAmount: DecimalBigNumber,
   ) => {
     if (depositAmount.eq(new DecimalBigNumber("0"))) {
-      return dispatch(error(t`Please enter a value!`));
+      return dispatch(error(`Please enter a value!`));
     }
 
     await giveMutation.mutate({ amount: depositAmount.toString(), recipient: walletAddress, token: giveAssetType });
@@ -86,12 +81,10 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="body1">
-              <Trans>
-                Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
-                is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
-                other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
-                mission.
-              </Trans>
+              Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance is
+              rewarded every 8 hours through the yield your grant generates; you then can also receive support from
+              other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
+              mission.
             </Typography>
           </Grid>
           <Grid item xs={12}>

@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Grid } from "@mui/material";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { LargeVault, LargeWallet, LargeYield } from "src/components/EducationCard";
@@ -25,7 +24,7 @@ export function GiveInfo() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Trans>Learn More</Trans>
+              Learn More
             </TertiaryButton>
           </Grid>
           <Grid item xs />

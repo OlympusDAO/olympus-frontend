@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
@@ -53,7 +52,7 @@ export const Bond = () => {
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
         <Paper
-          headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`}` : `${t`Bond`}`}
+          headerText={currentAction === "INVERSE" ? `${`Inverse Bond`}` : `${`Bond`}`}
           headerChip={currentAction === "INVERSE" ? "(3,1)" : "(4,4)"}
         >
           <MetricCollection>
@@ -76,9 +75,9 @@ export const Bond = () => {
                 <Tab
                   data-testid="bond-tab"
                   aria-label="bond-button"
-                  label={t({ message: "Bond", comment: "Bonding tab" })}
+                  label={{ message: "Bond", comment: "Bonding tab" }}
                 />
-                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={`Inverse Bond`} />
               </Tabs>
             )}
 
