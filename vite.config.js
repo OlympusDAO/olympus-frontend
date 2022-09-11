@@ -16,9 +16,6 @@ export default ({ mode }) => {
       svgrPlugin(),
       { ...polyfillNode({ fs: true }), enforce: "post" },
     ],
-    define: {
-      "process.env.NODE_ENV": `"${mode}"`,
-    },
     resolve: {
       alias: {
         path: "rollup-plugin-node-polyfills/polyfills/path",

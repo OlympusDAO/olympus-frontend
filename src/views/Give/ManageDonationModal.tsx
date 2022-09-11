@@ -497,7 +497,7 @@ export function ManageDonationModal({
               style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}
             >
               <Grid item xs>
-                <img width="100%" src={`${process.env.PUBLIC_URL}${project.photos[0]}`} />
+                <img width="100%" src={`${import.meta.env.PUBLIC_URL}${project.photos[0]}`} />
               </Grid>
             </Grid>
           </Grid>

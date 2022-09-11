@@ -68,7 +68,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
     chain.goerli,
   ],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    alchemyProvider({ apiKey: import.meta.env.ALCHEMY_ID }),
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
     publicProvider(),
   ],

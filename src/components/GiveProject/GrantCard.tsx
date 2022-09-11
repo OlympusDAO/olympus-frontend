@@ -298,7 +298,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     else {
       imageElement = (
         <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Image")}>
-          <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+          <img width="100%" src={`${import.meta.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
       );
     }

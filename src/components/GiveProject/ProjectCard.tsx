@@ -383,7 +383,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           component={RouterLink}
           onClick={() => handleProjectDetailsButtonClick("Image")}
         >
-          <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+          <img width="100%" src={`${import.meta.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
       );
     }
