@@ -87,17 +87,6 @@ export const useZapExecute = () => {
       const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
 
       console.debug("Commencing Zap");
-      console.log(
-        tokenAddress,
-        sellAmount,
-        toToken,
-        ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
-        swapData.to,
-        swapData.data,
-        address,
-        additionalOptions,
-        "transaction zap",
-      );
       const transaction = await contract.ZapStake(
         tokenAddress,
         sellAmount,

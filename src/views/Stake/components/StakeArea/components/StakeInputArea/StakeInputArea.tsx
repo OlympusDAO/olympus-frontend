@@ -224,7 +224,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
-
   return (
     <StyledBox mb={3}>
       <Tabs

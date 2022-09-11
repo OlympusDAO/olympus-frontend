@@ -7,7 +7,7 @@ exports[`<Stake/> > should render component 1`] = `
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
-      style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
@@ -165,7 +165,7 @@ exports[`<Stake/> > should render component 1`] = `
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
-                                style="margin: 0 5px; font-size: 1em;"
+                                style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -210,7 +210,7 @@ exports[`<Stake/> > should render component 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
-      style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
@@ -250,21 +250,21 @@ exports[`<Stake/> > should render component 1`] = `
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 250px; padding: 8px 0;"
+                  style="width: 250px; padding: 8px 0px;"
                 >
                   Asset
                 </th>
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 150px; padding: 8px 0;"
+                  style="width: 150px; padding: 8px 0px;"
                 >
                   TVL
                 </th>
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 150px; padding: 8px 0;"
+                  style="width: 150px; padding: 8px 0px;"
                 >
                   APY
                 </th>
@@ -275,7 +275,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -698,7 +698,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -712,7 +712,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -723,7 +723,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -757,7 +757,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -884,7 +884,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -898,7 +898,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -909,7 +909,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -943,7 +943,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -1044,7 +1044,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1058,7 +1058,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1069,7 +1069,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -1103,7 +1103,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -1268,7 +1268,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1282,7 +1282,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1293,7 +1293,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -1327,7 +1327,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -1836,7 +1836,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1850,7 +1850,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -1864,7 +1864,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -1898,7 +1898,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -2046,7 +2046,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2060,7 +2060,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2074,7 +2074,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -2108,7 +2108,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -2238,7 +2238,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2252,7 +2252,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2263,7 +2263,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -2297,7 +2297,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -2427,7 +2427,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2441,7 +2441,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2452,7 +2452,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -2486,7 +2486,7 @@ exports[`<Stake/> > should render component 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -2612,7 +2612,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2626,7 +2626,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -2637,7 +2637,7 @@ exports[`<Stake/> > should render component 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -2681,7 +2681,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
-      style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
@@ -2839,7 +2839,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
-                                style="margin: 0 5px; font-size: 1em;"
+                                style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -2884,7 +2884,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
-      style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
@@ -2924,21 +2924,21 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 250px; padding: 8px 0;"
+                  style="width: 250px; padding: 8px 0px;"
                 >
                   Asset
                 </th>
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 150px; padding: 8px 0;"
+                  style="width: 150px; padding: 8px 0px;"
                 >
                   TVL
                 </th>
                 <th
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-170kb6k-MuiTableCell-root"
                   scope="col"
-                  style="width: 150px; padding: 8px 0;"
+                  style="width: 150px; padding: 8px 0px;"
                 >
                   APY
                 </th>
@@ -2949,7 +2949,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -3372,7 +3372,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3386,7 +3386,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3397,7 +3397,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -3431,7 +3431,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -3558,7 +3558,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3572,7 +3572,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3583,7 +3583,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -3617,7 +3617,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -3718,7 +3718,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3732,7 +3732,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3743,7 +3743,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -3777,7 +3777,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -3942,7 +3942,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3956,7 +3956,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -3967,7 +3967,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -4001,7 +4001,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -4510,7 +4510,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4524,7 +4524,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4538,7 +4538,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -4572,7 +4572,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -4720,7 +4720,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4734,7 +4734,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4748,7 +4748,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -4782,7 +4782,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -4912,7 +4912,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4926,7 +4926,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -4937,7 +4937,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -4971,7 +4971,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -5101,7 +5101,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -5115,7 +5115,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -5126,7 +5126,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"
@@ -5160,7 +5160,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <div
                   class="MuiBox-root css-u4p24i"
@@ -5286,7 +5286,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -5300,7 +5300,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
@@ -5311,7 +5311,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-sizeMedium css-1hlfqas-MuiTableCell-root"
-                style="padding: 8px 0;"
+                style="padding: 8px 0px;"
               >
                 <a
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1awd26d-MuiButtonBase-root-MuiButton-root"

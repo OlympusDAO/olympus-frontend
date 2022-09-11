@@ -28,7 +28,6 @@ export const BondModalContainer: React.VFC = () => {
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
-  console.log("container", pathname, id);
   const bonds = useLiveBonds({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
 

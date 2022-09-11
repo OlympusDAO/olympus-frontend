@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "target": "ESNext",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "skipLibCheck": true,
     "allowJs": true,

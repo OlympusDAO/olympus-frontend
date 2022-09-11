@@ -17,6 +17,7 @@ import {
 import { fireEvent, render, screen } from "src/testUtils";
 import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
+import { expect } from "vitest";
 
 describe("ManageDonationModal", () => {
   let submitFunc: SubmitEditCallback;
@@ -230,7 +231,7 @@ describe("ManageDonationModal", () => {
 
     fireEvent.click(screen.getByTestId("edit-donation"));
 
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1");
+    expect(screen.getByTestId("amount-input")).property("value", "1");
   });
 
   it("Should truncate to 9 decimals on load", async () => {
@@ -255,7 +256,7 @@ describe("ManageDonationModal", () => {
 
     fireEvent.click(screen.getByTestId("edit-donation"));
 
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1.123400001");
+    expect(screen.getByTestId("amount-input")).property("value", "1.123400001");
   });
 
   it("Should accept integer amount", async () => {
@@ -280,7 +281,7 @@ describe("ManageDonationModal", () => {
 
     fireEvent.click(screen.getByTestId("edit-donation"));
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2" } });
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2");
+    expect(screen.getByTestId("amount-input")).property("value", "2");
   });
 
   it("Should accept integer amount with zero padding", async () => {
@@ -306,7 +307,7 @@ describe("ManageDonationModal", () => {
     fireEvent.click(screen.getByTestId("edit-donation"));
 
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.0" } });
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.0");
+    expect(screen.getByTestId("amount-input")).property("value", "2.0");
   });
 
   it("Should accept decimal amount", async () => {
@@ -332,7 +333,7 @@ describe("ManageDonationModal", () => {
     fireEvent.click(screen.getByTestId("edit-donation"));
 
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.1" } });
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.1");
+    expect(screen.getByTestId("amount-input")).property("value", "2.1");
   });
 
   it("Should limit decimal amounts to 9 decimals", async () => {
@@ -358,7 +359,7 @@ describe("ManageDonationModal", () => {
     fireEvent.click(screen.getByTestId("edit-donation"));
 
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.10000000301203" } });
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.100000003");
+    expect(screen.getByTestId("amount-input")).property("value", "2.100000003");
   });
 
   it("Should have correct button options on starting screen", async () => {

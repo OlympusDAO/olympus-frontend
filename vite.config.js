@@ -32,8 +32,14 @@ export default ({ mode }) => {
     },
     test: {
       setupFiles: "src/setupTests.tsx",
-      environment: "happy-dom", // or 'jsdom', 'node'
+      environment: "jsdom", // or 'jsdom', 'node'
       globals: true,
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/cypress/**",
+        "**/.{idea,git,cache,output,temp}/**, **/src/typechain/**",
+      ],
     },
     optimizeDeps: {
       esbuildOptions: {

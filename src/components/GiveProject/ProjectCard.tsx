@@ -84,6 +84,7 @@ const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
   const { address = "", isConnected } = useAccount();
   const { connect } = useConnect();
+
   const { chain = { id: 1 } } = useNetwork();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);

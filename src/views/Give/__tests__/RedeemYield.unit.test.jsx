@@ -1,4 +1,3 @@
-import { wallet } from "@rainbow-me/rainbowkit";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
@@ -9,6 +8,7 @@ import {
   mockRecipientInfo,
   mockRedeemableBalance,
   mockStakingRebaseRate,
+  useAccount,
 } from "src/testHelpers";
 import { act, render, screen } from "src/testUtils";
 import * as useRedeem from "src/views/Give/hooks/useRedeem";
@@ -102,10 +102,10 @@ describe("Redeem Yield", () => {
 
   it("should show extra content if project wallet", async () => {
     //@ts-ignore
-    WAGMI.useAccount = vi.fn(() => {
-      return { ...wallet, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" };
+    vi.spyOn(WAGMI, "useAccount").mockReturnValue({
+      ...useAccount,
+      address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c",
     });
-
     const result = render(<RedeemYield />);
     expect(screen.getByText("sOHM Goal"));
     expect(result.container).toMatchSnapshot();

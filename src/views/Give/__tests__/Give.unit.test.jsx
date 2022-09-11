@@ -11,7 +11,7 @@ import { DepositTableRow } from "src/views/Give/DepositRow";
 import Give from "src/views/Give/Give";
 import GrantsDashboard from "src/views/Give/GrantsDashboard";
 import YieldRecipients from "src/views/Give/YieldRecipients";
-import { vi } from "vitest";
+import { beforeEach, vi } from "vitest";
 
 const project = {
   title: "Angel Protocol",
@@ -30,11 +30,10 @@ const project = {
 
 vi.mock("src/hooks/useCurrentIndex");
 
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
 describe("Give View Disconnected", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
   let giveAssetType = "sOHM";
 
   const changeGiveAssetType = checked => {
@@ -47,43 +46,33 @@ describe("Give View Disconnected", () => {
 
   it("should render Causes Dashboard as Default", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    let container;
-    await act(async () => {
-      ({ container } = await render(<Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />));
-    });
+    const { container } = render(<Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />);
     expect(container).toMatchSnapshot();
   });
 
   it("should render Causes Dashboard", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    let container;
-    await act(async () => {
-      ({ container } = await render(
-        <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />,
-      ));
-    });
+    const { container } = render(
+      <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />,
+    );
+
     expect(container).toMatchSnapshot();
   });
 
   it("should render Grants Dashboard", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    let container;
-    await act(async () => {
-      ({ container } = await render(
-        <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />,
-      ));
-    });
+    const { container } = render(
+      <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />,
+    );
+
     expect(container).toMatchSnapshot();
   });
 
   it("should render Yield Recipients Screen with Donate to a cause button", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    let container;
-    await act(async () => {
-      ({ container } = await render(
-        <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} changeView={() => null} />,
-      ));
-    });
+    const { container } = render(
+      <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} changeView={() => null} />,
+    );
 
     expect(await screen.getByText("Donate to a cause"));
     expect(container).toMatchSnapshot();
@@ -91,18 +80,15 @@ describe("Give View Disconnected", () => {
 
   it("should render project card with connect wallet button", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    let container;
-    await act(async () => {
-      ({ container } = render(
-        <ProjectCard
-          key={project.slug}
-          project={project}
-          giveAssetType={giveAssetType}
-          changeAssetType={changeGiveAssetType}
-          mode={ProjectDetailsMode.Page}
-        />,
-      ));
-    });
+    const { container } = render(
+      <ProjectCard
+        key={project.slug}
+        project={project}
+        giveAssetType={giveAssetType}
+        changeAssetType={changeGiveAssetType}
+        mode={ProjectDetailsMode.Page}
+      />,
+    );
     expect(await screen.getByText("Connect Wallet"));
     expect(container).toMatchSnapshot();
   });

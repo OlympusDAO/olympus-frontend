@@ -14,7 +14,6 @@ const fireAnalyticsEvent = () => {
 };
 
 export const InPageConnectButton = () => {
-  console.log(RainbowConnectButton);
   return (
     <RainbowConnectButton.Custom>
       {({ account, chain, openConnectModal, mounted }) => {

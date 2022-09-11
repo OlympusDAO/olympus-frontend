@@ -36,12 +36,6 @@ beforeEach(() => {
   i18n.loadLocaleData("en", { plurals: en });
   i18n.load("en", messages);
   i18n.activate("en");
-  // vi.mock("wagmi", async () => {
-  //   const wagmiImport: any = await vi.importActual("wagmi");
-  //   return {
-  //     ...wagmiImport,
-  //   };
-  // });
 });
 
 afterEach(() => {

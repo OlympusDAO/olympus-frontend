@@ -64,7 +64,6 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   const navigate = useNavigate();
 
   const { isConnected } = useAccount();
-  console.log(isConnected, "isConnected");
 
   // only enable backdrop transition on ios devices,
   // because we can assume IOS is hosted on hight-end devices and will not drop frames
