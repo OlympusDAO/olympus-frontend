@@ -964,7 +964,7 @@ exports[`<TreasuryDashboard/> Mobile > should render component 1`] = `
                             >
                               <div
                                 aria-colindex="1"
-                                aria-label="Asset"
+                                aria-label="Asse"
                                 aria-sort="none"
                                 class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
                                 data-field="token"
@@ -987,7 +987,7 @@ exports[`<TreasuryDashboard/> Mobile > should render component 1`] = `
                                         class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                         data-mui-internal-clone-element="true"
                                       >
-                                        Asset
+                                        Asse
                                       </div>
                                     </div>
                                     <div
@@ -1079,7 +1079,7 @@ exports[`<TreasuryDashboard/> Mobile > should render component 1`] = `
                                       class="MuiDataGrid-columnHeaderTitleContainerContent"
                                     >
                                       <div
-                                        aria-label="The category of the token asset"
+                                        aria-label="The category of the token asse"
                                         class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                         data-mui-internal-clone-element="true"
                                       >

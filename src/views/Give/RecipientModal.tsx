@@ -187,13 +187,13 @@ export function RecipientModal({
   const checkIsWalletAddressValid = (value: string) => {
     if (!isAddress(value)) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValiderror(`Please enter a valid Ethereum address`);
+      setIsWalletAddressValidError(`Please enter a valid Ethereum address`);
       return;
     }
 
     if (value == address) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValiderror(`Please enter a different address: cannot direct to the same wallet`);
+      setIsWalletAddressValidError(`Please enter a different address: cannot direct to the same wallet`);
       return;
     }
 

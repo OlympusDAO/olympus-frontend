@@ -249,8 +249,7 @@ exports[`Give View Connected > should render project card with Donate Yield Butt
                                 class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                               >
                                 sOHM
-                                 
-                                Deposited
+                                 Deposited
                               </div>
                             </div>
                           </div>
@@ -315,8 +314,7 @@ exports[`Give View Connected > should render project card with Donate Yield Butt
                               class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                             >
                               sOHM
-                               
-                              Yield
+                               Yield
                             </div>
                           </div>
                           <div
@@ -372,8 +370,7 @@ exports[`Give View Connected > should render project card with Donate Yield Butt
                                 class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                               >
                                 sOHM
-                                 
-                                Deposit Goal
+                                 Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -2129,7 +2126,7 @@ exports[`Give View Disconnected > should render Causes Dashboard as Default 1`] 
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-1p5ht64-MuiTypography-root"
                     >
                       Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
-You can withdraw or edit your principal sOHM amount at any time.
+      You can withdraw or edit your principal sOHM amount at any time.
                     </p>
                   </div>
                 </div>
@@ -2212,7 +2209,7 @@ You can withdraw or edit your principal sOHM amount at any time.
                       class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-1p5ht64-MuiTypography-root"
                     >
                       The recipient you specified, or the project you selected, will then receive the rebases associated with your
-sOHM deposit until you withdraw your sOHM principal from the vault.
+      sOHM deposit until you withdraw your sOHM principal from the vault.
                     </p>
                   </div>
                 </div>
@@ -2579,8 +2576,7 @@ exports[`Give View Disconnected > should render project card with connect wallet
                                 class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                               >
                                 sOHM
-                                 
-                                Deposited
+                                 Deposited
                               </div>
                             </div>
                           </div>
@@ -2645,8 +2641,7 @@ exports[`Give View Disconnected > should render project card with connect wallet
                               class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                             >
                               sOHM
-                               
-                              Yield
+                               Yield
                             </div>
                           </div>
                           <div
@@ -2702,8 +2697,7 @@ exports[`Give View Disconnected > should render project card with connect wallet
                                 class="MuiGrid-root MuiGrid-item subtext css-13i4rnv-MuiGrid-root"
                               >
                                 sOHM
-                                 
-                                Deposit Goal
+                                 Deposit Goal
                               </div>
                             </div>
                           </div>

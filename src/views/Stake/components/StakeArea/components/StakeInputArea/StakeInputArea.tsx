@@ -237,7 +237,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
         onChange={(_, view: number) => setCurrentAction(view === 0 ? "STAKE" : "UNSTAKE")}
       >
-        <Tab aria-label="stake-button" label={t({ message: "Stake", comment: "The action of staking (verb)" })} />
+        <Tab aria-label="stake-button" label="Stake" />
 
         <Tab aria-label="unstake-button" label={`Unstake`} />
       </Tabs>
