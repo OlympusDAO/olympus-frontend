@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { DataRow, InputWrapper, OHMSwapCardProps, SwapCard, SwapCollection } from "@olympusdao/component-library";
+import { DataRow, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -65,21 +65,12 @@ export const BondInputArea: React.VFC<{
   };
 
   const purchaseBondMutation = usePurchaseBond(props.bond);
-  const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
-    event.preventDefault();
-    purchaseBondMutation.mutate({
-      amount,
-      isInverseBond,
-      slippage: props.slippage,
-      recipientAddress: props.recipientAddress,
-    });
-  };
 
   const baseTokenString = `${(props.bond.maxPayout.inBaseToken.lt(props.bond.capacity.inBaseToken)
     ? props.bond.maxPayout.inBaseToken
     : props.bond.capacity.inBaseToken
   ).toString({ decimals: 4, format: true })}${" "}
-  ${isInverseBond ? props.bond.baseToken.name : `sOHM`}`;
+  ${isInverseBond ? props.bond.baseToken.name : `OHM`}`;
 
   const quoteTokenString = `
     ${(props.bond.maxPayout.inQuoteToken.lt(props.bond.capacity.inQuoteToken)
@@ -91,13 +82,38 @@ export const BondInputArea: React.VFC<{
   console.log(props.bond.baseToken.name);
   return (
     <Box display="flex" flexDirection="column">
-      <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
-        <Box display="flex" justifyContent="center">
-          <Box display="flex" flexDirection="column" width="100%">
+      <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+        <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+          <Box mb="21px">
+            <SwapCollection
+              UpperSwapCard={
+                <SwapCard
+                  id="from"
+                  token={props.bond.quoteToken.name as OHMSwapCardProps["token"]}
+                  info={`${balance?.toString({ decimals: 4, format: true, trim: true }) || "0.00"} ${
+                    props.bond.quoteToken.name
+                  }`}
+                  endString="Max"
+                  endStringOnClick={setMax}
+                  value={amount}
+                  onChange={event => setAmount(event.currentTarget.value)}
+                />
+              }
+              LowerSwapCard={
+                <SwapCard
+                  id="to"
+                  token={props.bond.baseToken.name as OHMSwapCardProps["token"]}
+                  value={amountInBaseToken.toString()}
+                />
+              }
+            />
+          </Box>
+          <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
             <TokenAllowanceGuard
               isVertical
               tokenAddressMap={props.bond.quoteToken.addresses}
               spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
+              approvalText={`Approve ${props.bond.quoteToken.name} to Bond`}
               message={
                 <>
                   <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
@@ -106,82 +122,51 @@ export const BondInputArea: React.VFC<{
                 </>
               }
             >
-              <SwapCollection
-                UpperSwapCard={
-                  <SwapCard
-                    id="from"
-                    token={props.bond.quoteToken.name as OHMSwapCardProps["token"]}
-                    info={`${balance?.toString({ decimals: 4, format: true, trim: true })} ${
-                      props.bond.quoteToken.name
-                    }`}
-                    endString="Max"
-                    endStringOnClick={setMax}
-                    value={amount}
-                    onChange={event => setAmount(event.currentTarget.value)}
-                  />
+              <PrimaryButton
+                fullWidth
+                disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
+                onClick={() =>
+                  purchaseBondMutation.mutate({
+                    amount,
+                    isInverseBond,
+                    slippage: props.slippage,
+                    recipientAddress: props.recipientAddress,
+                  })
                 }
-                LowerSwapCard={
-                  <SwapCard
-                    id="to"
-                    token={props.bond.baseToken.name as OHMSwapCardProps["token"]}
-                    value={amountInBaseToken.toString()}
+              >
+                {purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
+              </PrimaryButton>
+              {showDisclaimer && (
+                <Box mt="28px">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={event => setChecked(event.target.checked)}
+                        icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                        checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                      />
+                    }
+                    label={
+                      isInverseBond
+                        ? t`I understand that I'm buying a negative premium bond`
+                        : t`I understand that I'm buying a negative discount bond`
+                    }
                   />
-                }
-                arrowOnClick={() => null}
-              />
-
-              <form onSubmit={handleSubmit}>
-                <InputWrapper
-                  fullWidth
-                  type="string"
-                  name="amount"
-                  value={amount}
-                  endString={t`Max`}
-                  id="outlined-adornment-amount"
-                  onChange={event => setAmount(event.currentTarget.value)}
-                  placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
-                  buttonText={purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
-                  disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
-                  buttonType="submit"
-                />
-                {showDisclaimer && (
-                  <Box mt="28px">
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checked}
-                          onChange={event => setChecked(event.target.checked)}
-                          icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-                          checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-                        />
-                      }
-                      label={
-                        isInverseBond
-                          ? t`I understand that I'm buying a negative premium bond`
-                          : t`I understand that I'm buying a negative discount bond`
-                      }
-                    />
-                  </Box>
-                )}
-              </form>
+                </Box>
+              )}
             </TokenAllowanceGuard>
-          </Box>
+          </WalletConnectedGuard>
         </Box>
-      </WalletConnectedGuard>
+      </Box>
 
       <Box mt="24px">
-        <DataRow
-          isLoading={!balance}
-          title={t`Your Balance`}
-          balance={`${balance?.toString({ decimals: 4, format: true, trim: true })} ${props.bond.quoteToken.name}`}
-        />
-
         <DataRow
           title={t`You Will Get`}
           balance={
             <span>
               {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
-              {isInverseBond ? props.bond.baseToken.name : `sOHM`}{" "}
+              {isInverseBond ? props.bond.baseToken.name : `OHM`}{" "}
               {!isInverseBond && !!currentIndex && (
                 <span>
                   (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
@@ -189,7 +174,7 @@ export const BondInputArea: React.VFC<{
               )}
             </span>
           }
-          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
+          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (OHM quantity will be higher due to rebasing)`}
         />
 
         <DataRow
