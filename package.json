@@ -92,7 +92,7 @@
     "@lingui/cli": "^3.14.0",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.14.0",
-    "@tanstack/react-query-devtools": "^4.2.1",
+    "@tanstack/react-query-devtools": "^4.2.3",
     "@testing-library/dom": "^8.17.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
