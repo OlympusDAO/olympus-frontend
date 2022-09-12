@@ -87,7 +87,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const zapExecute = useZapExecute();
   const wrapMutation = useWrapSohm();
 
-  const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType;
+  const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType.name;
 
   // Max balance stuff
   const [amount, setAmount] = useState("");
@@ -152,6 +152,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     if (currentAction === "UNSTAKE") {
       setSwapAssetType({ name: "OHM" });
     }
+    if (currentAction === "STAKE" && stakedAssetType.name === "sOHM") {
+      setStakedAssetType({ name: "gOHM" });
+    }
   }, [currentAction]);
 
   const onZap = async () => {
@@ -208,6 +211,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   const GohmSwapCard = () => {
     const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
+    const tokenOnClick =
+      sOhmBalance && currentAction === "UNSTAKE" ? { tokenOnClick: () => setTokenModalOpen(true) } : {};
+
     return (
       <SwapCard
         id="staked-input"
@@ -224,6 +230,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             : 1
         }ch`}
         disabled={isMutating}
+        {...tokenOnClick}
       />
     );
   };

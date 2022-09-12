@@ -125,6 +125,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
             )
           ) : (
             <>
+              {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
               <TokenItem name="gOHM" balance={gOhmBalance} data-testid="gOHM-select" />
             </>
           )}
