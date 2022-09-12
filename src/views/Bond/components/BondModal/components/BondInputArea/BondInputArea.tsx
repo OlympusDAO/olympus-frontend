@@ -214,7 +214,7 @@ export const BondInputArea: React.VFC<{
 
         {!isInverseBond && (
           <DataRow
-            title={t`Duration`}
+            title={t`Vesting Term`}
             balance={<BondDuration duration={props.bond.duration} />}
             tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
           />

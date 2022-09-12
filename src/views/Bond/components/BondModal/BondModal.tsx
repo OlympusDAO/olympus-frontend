@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Box, Skeleton, Typography } from "@mui/material";
 import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
@@ -11,7 +11,6 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { BondDuration } from "src/views/Bond/components/BondDuration";
 import { BondInfoText } from "src/views/Bond/components/BondInfoText";
 import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
@@ -98,42 +97,6 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
           />
           <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
-        </Box>
-        <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              <Trans>You Give</Trans>
-            </Typography>
-            <TokenStack tokens={bond.quoteToken.icons} />
-          </Box>
-
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              Vested
-            </Typography>
-            <Box display="flex" flexGrow={1} alignItems="center">
-              <Typography style={{ lineHeight: "20px" }}>
-                {isInverseBond ? t`Instantly` : <BondDuration duration={bond.duration} />}
-              </Typography>
-            </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              <Trans>You Get</Trans>
-            </Typography>
-            <Typography style={{ lineHeight: "20px" }}>
-              <TokenStack tokens={bond.baseToken.icons} />
-            </Typography>
-          </Box>
         </Box>
 
         <Box width="100%" mt="24px">
