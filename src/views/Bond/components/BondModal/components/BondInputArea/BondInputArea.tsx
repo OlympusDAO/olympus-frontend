@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { DataRow, InputWrapper } from "@olympusdao/component-library";
+import { DataRow, InputWrapper, OHMSwapCardProps, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -88,6 +88,7 @@ export const BondInputArea: React.VFC<{
     ).toString({ decimals: 4, format: true })}${" "}
     ${props.bond.quoteToken.name}`;
 
+  console.log(props.bond.baseToken.name);
   return (
     <Box display="flex" flexDirection="column">
       <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
@@ -105,6 +106,30 @@ export const BondInputArea: React.VFC<{
                 </>
               }
             >
+              <SwapCollection
+                UpperSwapCard={
+                  <SwapCard
+                    id="from"
+                    token={props.bond.quoteToken.name as OHMSwapCardProps["token"]}
+                    info={`${balance?.toString({ decimals: 4, format: true, trim: true })} ${
+                      props.bond.quoteToken.name
+                    }`}
+                    endString="Max"
+                    endStringOnClick={setMax}
+                    value={amount}
+                    onChange={event => setAmount(event.currentTarget.value)}
+                  />
+                }
+                LowerSwapCard={
+                  <SwapCard
+                    id="to"
+                    token={props.bond.baseToken.name as OHMSwapCardProps["token"]}
+                    value={amountInBaseToken.toString()}
+                  />
+                }
+                arrowOnClick={() => null}
+              />
+
               <form onSubmit={handleSubmit}>
                 <InputWrapper
                   fullWidth
@@ -112,7 +137,6 @@ export const BondInputArea: React.VFC<{
                   name="amount"
                   value={amount}
                   endString={t`Max`}
-                  endStringOnClick={setMax}
                   id="outlined-adornment-amount"
                   onChange={event => setAmount(event.currentTarget.value)}
                   placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
