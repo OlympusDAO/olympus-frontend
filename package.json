@@ -48,7 +48,7 @@
     "@tanstack/react-query": "^4.2.3",
     "axios": "^0.27.2",
     "class-validator": "^0.13.2",
-    "date-fns": "^2.29.2",
+    "date-fns": "^2.29.3",
     "ethers": "^5.7.0",
     "get-value": "^3.0.1",
     "graphql": "^15.8.0",
