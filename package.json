@@ -43,7 +43,7 @@
     "@mui/system": "^5.10.3",
     "@mui/x-data-grid": "^5.17.0",
     "@olympusdao/component-library": "^2.0.7",
-    "@rainbow-me/rainbowkit": "^0.5.0",
+    "@rainbow-me/rainbowkit": "^0.5.2",
     "@reduxjs/toolkit": "^1.8.5",
     "@tanstack/react-query": "^4.2.3",
     "axios": "^0.27.2",
@@ -67,7 +67,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.1.12",
     "typescript": "^4.8.3",
-    "wagmi": "^0.6.4"
+    "wagmi": "^0.6.6"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
@@ -109,7 +109,7 @@
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "assert": "^2.0.0",
-    "autoprefixer": "^10.4.8",
+    "autoprefixer": "^10.4.10",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "css-mediaquery": "^0.1.2",
