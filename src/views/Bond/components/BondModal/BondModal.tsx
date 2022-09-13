@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Skeleton, Typography } from "@mui/material";
-import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
+import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
@@ -60,22 +60,17 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   }, [address]);
 
   return (
-    <Modal
-      open
-      minHeight="auto"
-      closePosition="right"
-      onClose={() => navigate(`/bonds`)}
-      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
-      headerContent={
-        <Box display="flex" flexDirection="row">
-          <TokenStack tokens={bond.quoteToken.icons} />
+    //TODO: Settings need to go in the confirm modal.
+    //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
 
-          <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-            <Typography variant="h5">{bond.quoteToken.name}</Typography>
-          </Box>
+    <Box>
+      <Box display="flex" flexDirection="row">
+        <TokenStack tokens={bond.quoteToken.icons} />
+
+        <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+          <Typography variant="h5">{bond.quoteToken.name}</Typography>
         </Box>
-      }
-    >
+      </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
         <BondSettingsModal
           slippage={slippage}
@@ -113,7 +108,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
         </Box>
         <BondConfirmModal />
       </Box>
-    </Modal>
+    </Box>
   );
 };
 

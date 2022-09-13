@@ -159,57 +159,56 @@ export const BondInputArea: React.VFC<{
               )}
             </TokenAllowanceGuard>
           </WalletConnectedGuard>
-        </Box>
-      </Box>
-
-      <Box mt="24px">
-        <DataRow
-          title={t`You Will Get`}
-          balance={
-            <span>
-              {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
-              {isInverseBond ? props.bond.baseToken.name : `OHM`}{" "}
-              {!isInverseBond && !!currentIndex && (
+          <Box mt="24px">
+            <DataRow
+              title={t`You Will Get`}
+              balance={
                 <span>
-                  (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
+                  {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
+                  {isInverseBond ? props.bond.baseToken.name : `OHM`}{" "}
+                  {!isInverseBond && !!currentIndex && (
+                    <span>
+                      (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
+                    </span>
+                  )}
                 </span>
-              )}
-            </span>
-          }
-          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (OHM quantity will be higher due to rebasing)`}
-        />
+              }
+              tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (OHM quantity will be higher due to rebasing)`}
+            />
 
-        <DataRow
-          title={isInverseBond ? t`Max You Can Sell` : t`Max You Can Buy`}
-          tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
-          balance={
-            <span>
-              {isInverseBond
-                ? `${quoteTokenString} (≈${baseTokenString})`
-                : `${baseTokenString} (≈${quoteTokenString})`}
-            </span>
-          }
-        />
+            <DataRow
+              title={isInverseBond ? t`Max You Can Sell` : t`Max You Can Buy`}
+              tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
+              balance={
+                <span>
+                  {isInverseBond
+                    ? `${quoteTokenString} (≈${baseTokenString})`
+                    : `${baseTokenString} (≈${quoteTokenString})`}
+                </span>
+              }
+            />
 
-        <DataRow
-          title={isInverseBond ? t`Premium` : t`Discount`}
-          balance={<BondDiscount discount={props.bond.discount} textOnly />}
-          tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
-            isInverseBond ? props.bond.baseToken.name : `OHM`
-          }'s market value and the bond's price.`}
-        />
+            <DataRow
+              title={isInverseBond ? t`Premium` : t`Discount`}
+              balance={<BondDiscount discount={props.bond.discount} textOnly />}
+              tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
+                isInverseBond ? props.bond.baseToken.name : `OHM`
+              }'s market value and the bond's price.`}
+            />
 
-        {!isInverseBond && (
-          <DataRow
-            title={t`Vesting Term`}
-            balance={<BondDuration duration={props.bond.duration} />}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-          />
-        )}
+            {!isInverseBond && (
+              <DataRow
+                title={t`Vesting Term`}
+                balance={<BondDuration duration={props.bond.duration} />}
+                tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+              />
+            )}
 
-        {props.recipientAddress !== address && (
-          <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />
-        )}
+            {props.recipientAddress !== address && (
+              <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />
+            )}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

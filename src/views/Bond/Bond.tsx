@@ -48,52 +48,55 @@ export const Bond = () => {
     }
   }, [liveBonds.isSuccess, liveBonds.data]);
 
+  const BondIndex = () => (
+    <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+      <ClaimBonds />
+      <Paper
+        headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`}` : `${t`Bond`}`}
+        headerChip={currentAction === "INVERSE" ? "(3,1)" : "(4,4)"}
+      >
+        <MetricCollection>
+          <TreasuryBalance />
+          <OHMPrice />
+        </MetricCollection>
+
+        <Box mt="24px">
+          {showTabs && (
+            <Tabs
+              centered
+              textColor="primary"
+              aria-label="bond tabs"
+              indicatorColor="primary"
+              value={currentAction === "BOND" ? 0 : 1}
+              onChange={changeTab}
+              // Hides the tab underline while <Zoom> is zooming
+              TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
+            >
+              <Tab
+                data-testid="bond-tab"
+                aria-label="bond-button"
+                label={t({ message: "Bond", comment: "Bonding tab" })}
+              />
+              <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+            </Tabs>
+          )}
+
+          {!!bonds && !!inverse && (
+            <Box mt="24px">
+              <BondList
+                isInverseBond={currentAction === "INVERSE"}
+                bonds={currentAction === "BOND" ? bonds : inverse}
+              />
+            </Box>
+          )}
+        </Box>
+      </Paper>
+    </Box>
+  );
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
-        <ClaimBonds />
-        <Paper
-          headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`}` : `${t`Bond`}`}
-          headerChip={currentAction === "INVERSE" ? "(3,1)" : "(4,4)"}
-        >
-          <MetricCollection>
-            <TreasuryBalance />
-            <OHMPrice />
-          </MetricCollection>
-
-          <Box mt="24px">
-            {showTabs && (
-              <Tabs
-                centered
-                textColor="primary"
-                aria-label="bond tabs"
-                indicatorColor="primary"
-                value={currentAction === "BOND" ? 0 : 1}
-                onChange={changeTab}
-                // Hides the tab underline while <Zoom> is zooming
-                TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
-              >
-                <Tab
-                  data-testid="bond-tab"
-                  aria-label="bond-button"
-                  label={t({ message: "Bond", comment: "Bonding tab" })}
-                />
-                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
-              </Tabs>
-            )}
-
-            {!!bonds && !!inverse && (
-              <Box mt="24px">
-                <BondList
-                  isInverseBond={currentAction === "INVERSE"}
-                  bonds={currentAction === "BOND" ? bonds : inverse}
-                />
-              </Box>
-            )}
-          </Box>
-        </Paper>
-      </Box>
       <Routes>
+        <Route index element={<BondIndex />} />
         <Route path=":id" element={<BondModalContainer />} />
         <Route path="inverse/:id" element={<BondModalContainer />} />
       </Routes>
