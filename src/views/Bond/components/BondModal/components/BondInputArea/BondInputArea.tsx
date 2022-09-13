@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { DataRow, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
+import { DataRow, PrimaryButton, SwapCard, SwapCollection, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -89,7 +89,8 @@ export const BondInputArea: React.VFC<{
               UpperSwapCard={
                 <SwapCard
                   id="from"
-                  token={props.bond.quoteToken.name as OHMSwapCardProps["token"]}
+                  token={<TokenStack tokens={props.bond.quoteToken.icons} sx={{ fontSize: "21px" }} />}
+                  tokenName={props.bond.quoteToken.name}
                   info={`${balance?.toString({ decimals: 4, format: true, trim: true }) || "0.00"} ${
                     props.bond.quoteToken.name
                   }`}
@@ -102,7 +103,8 @@ export const BondInputArea: React.VFC<{
               LowerSwapCard={
                 <SwapCard
                   id="to"
-                  token={props.bond.baseToken.name as OHMSwapCardProps["token"]}
+                  token={<TokenStack tokens={props.bond.baseToken.icons} sx={{ fontSize: "21px" }} />}
+                  tokenName={props.bond.baseToken.name}
                   value={amountInBaseToken.toString()}
                 />
               }

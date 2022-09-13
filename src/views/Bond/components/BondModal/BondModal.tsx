@@ -11,7 +11,7 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { BondInfoText } from "src/views/Bond/components/BondInfoText";
+import BondConfirmModal from "src/views/Bond/components/BondModal/components/BondConfirmModal";
 import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
 import { BondPrice } from "src/views/Bond/components/BondPrice";
@@ -109,10 +109,9 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
         </Box>
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
-          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-            <BondInfoText isInverseBond={isInverseBond} />
-          </Typography>
+          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}></Typography>
         </Box>
+        <BondConfirmModal />
       </Box>
     </Modal>
   );
