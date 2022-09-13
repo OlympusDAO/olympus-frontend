@@ -57,7 +57,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
               id="user-staked-balance"
               style="text-align: right;"
             >
-              134,228.0000 sOHM
+              134,228.0000 OHM
             </p>
           </div>
         </div>

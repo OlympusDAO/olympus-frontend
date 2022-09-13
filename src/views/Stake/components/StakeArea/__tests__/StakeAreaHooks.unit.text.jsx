@@ -7,7 +7,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
+import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 
 jest.mock("src/hooks/useContractAllowance");
 jest.mock("src/hooks/useCurrentIndex");
@@ -21,7 +21,7 @@ beforeEach(async () => {
   render(
     <>
       <Messages />
-      <StakeArea />
+      <StakeInputArea />
     </>,
   );
 });
@@ -31,7 +31,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-describe("Check Stake to sOHM Error Messages", () => {
+describe("Check Stake to gOHM Error Messages", () => {
   it("Error message with no amount", async () => {
     expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
   });
@@ -60,7 +60,7 @@ describe("Check Stake to sOHM Error Messages", () => {
   });
 });
 
-describe("Check Unstake sOHM Error Messages", () => {
+describe("Check Unstake gOHM Error Messages", () => {
   beforeEach(() => {
     fireEvent.click(screen.getByText("Unstake"));
   });
@@ -68,30 +68,13 @@ describe("Check Unstake sOHM Error Messages", () => {
     expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
   });
 
-  it("Error message with amount <=0", async () => {
-    fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "-1" } });
-    expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
-  });
-
   it("Error message with amount <=0 gOHM", async () => {
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "-1" } });
-    fireEvent.click(await screen.getAllByText("sOHM")[0]);
-    expect(screen.getByText("Select a token"));
-    fireEvent.click(await screen.findByTestId("gOHM-select"));
     expect(await screen.findByText("Enter an amount")).toBeInTheDocument();
-  });
-
-  it("Error message amount > balance sOHM", async () => {
-    fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "11" } });
-    fireEvent.click(screen.getByText("Unstake"));
-    expect(await screen.findByText("Amount exceeds balance")).toBeInTheDocument();
   });
 
   it("Error message amount > balance gOHM", async () => {
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "11" } });
-    fireEvent.click(await screen.getAllByText("sOHM")[0]);
-    expect(screen.getByText("Select a token"));
-    fireEvent.click(await screen.findByTestId("gOHM-select"));
     fireEvent.click(screen.getByText("Unstake"));
     expect(await screen.findByText("Amount exceeds balance")).toBeInTheDocument();
   });
