@@ -97,6 +97,7 @@ export const Bond = () => {
     <>
       <Routes>
         <Route index element={<BondIndex />} />
+        <Route path="inverse" element={<BondIndex />} />
         <Route path=":id" element={<BondModalContainer />} />
         <Route path="inverse/:id" element={<BondModalContainer />} />
       </Routes>
