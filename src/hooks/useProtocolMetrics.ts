@@ -1,5 +1,5 @@
-import { getSubgraphUrl } from "src/constants";
 import { useProtocolMetricsQuery } from "src/generated/graphql";
+import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 

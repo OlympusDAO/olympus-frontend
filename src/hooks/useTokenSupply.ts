@@ -1,6 +1,6 @@
-import { getSubgraphUrl } from "src/constants";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
 import { getOhmCirculatingSupply, getOhmFloatingSupply } from "src/helpers/subgraph/TreasuryQueryHelper";
+import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 import { useTokenRecordsLatestBlock } from "src/hooks/useTokenRecords";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 

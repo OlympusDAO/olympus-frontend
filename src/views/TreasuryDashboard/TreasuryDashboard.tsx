@@ -3,9 +3,9 @@ import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-l
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
-import { getSubgraphUrl } from "src/constants";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
+import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
