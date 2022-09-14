@@ -1,4 +1,4 @@
-const SUBGRAPH_URL_ETHEREUM = "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/3.0.21";
+const SUBGRAPH_URL_ETHEREUM = "https://api.thegraph.com/subgraphs/id/QmVxcAWUBy32Xepsps45V3igRHoMXyAJECs6c8ZQZnZKU8";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/0xjem/protocol-metrics-test-arbitrum";
 const SUBGRAPH_URL_FANTOM = "https://api.thegraph.com/subgraphs/name/0xjem/protocol-metrics-test-fantom";
 const SUBGRAPH_URL_POLYGON = "https://api.thegraph.com/subgraphs/name/0xjem/protocol-metrics-test-polygon";
