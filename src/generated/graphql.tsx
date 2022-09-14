@@ -856,6 +856,7 @@ export type TokenRecord = {
   __typename?: "TokenRecord";
   balance: Scalars["BigDecimal"];
   block: Scalars["BigInt"];
+  blockchain: Scalars["String"];
   category: Scalars["String"];
   date: Scalars["String"];
   id: Scalars["ID"];
@@ -891,6 +892,26 @@ export type TokenRecord_Filter = {
   block_lte?: InputMaybe<Scalars["BigInt"]>;
   block_not?: InputMaybe<Scalars["BigInt"]>;
   block_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  blockchain?: InputMaybe<Scalars["String"]>;
+  blockchain_contains?: InputMaybe<Scalars["String"]>;
+  blockchain_contains_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_ends_with?: InputMaybe<Scalars["String"]>;
+  blockchain_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_gt?: InputMaybe<Scalars["String"]>;
+  blockchain_gte?: InputMaybe<Scalars["String"]>;
+  blockchain_in?: InputMaybe<Array<Scalars["String"]>>;
+  blockchain_lt?: InputMaybe<Scalars["String"]>;
+  blockchain_lte?: InputMaybe<Scalars["String"]>;
+  blockchain_not?: InputMaybe<Scalars["String"]>;
+  blockchain_not_contains?: InputMaybe<Scalars["String"]>;
+  blockchain_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_not_ends_with?: InputMaybe<Scalars["String"]>;
+  blockchain_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  blockchain_not_starts_with?: InputMaybe<Scalars["String"]>;
+  blockchain_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_starts_with?: InputMaybe<Scalars["String"]>;
+  blockchain_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   category?: InputMaybe<Scalars["String"]>;
   category_contains?: InputMaybe<Scalars["String"]>;
   category_contains_nocase?: InputMaybe<Scalars["String"]>;
@@ -1072,6 +1093,7 @@ export type TokenRecord_Filter = {
 export enum TokenRecord_OrderBy {
   Balance = "balance",
   Block = "block",
+  Blockchain = "blockchain",
   Category = "category",
   Date = "date",
   Id = "id",
@@ -1349,6 +1371,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars["Bytes"]>;
   /** The block number */
   number: Scalars["Int"];
+  /** Timestamp of the block if available, format depends on the chain */
+  timestamp?: Maybe<Scalars["String"]>;
 };
 
 /** The type for the top-level _meta field */
@@ -1415,6 +1439,7 @@ export type TokenRecordsQuery = {
     id: string;
     balance: number;
     block: number;
+    blockchain: string;
     category: string;
     date: string;
     isBluechip: boolean;
@@ -1528,6 +1553,7 @@ export const TokenRecordsDocument = `
     id
     balance
     block
+    blockchain
     category
     date
     isBluechip

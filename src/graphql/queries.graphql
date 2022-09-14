@@ -22,6 +22,7 @@ query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenR
     id
     balance
     block
+    blockchain
     category
     date
     isBluechip
