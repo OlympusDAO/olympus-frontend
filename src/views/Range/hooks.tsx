@@ -19,7 +19,7 @@ import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { BondTeller__factory, IERC20__factory } from "src/typechain";
-import { BandStruct, LineStruct, RangeStructOutput, SideStruct } from "src/typechain/Range";
+import { OlympusRange } from "src/typechain/Range";
 import { useNetwork, useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
@@ -165,7 +165,7 @@ export const RangeData = () => {
       low: sideStruct,
       wall: band,
       cushion: band,
-    } as RangeStructOutput,
+    } as OlympusRange.RangeStructOutput,
     isFetched,
     isLoading,
   } = useQuery(["getRangeData", chain.id], async () => {
@@ -175,18 +175,18 @@ export const RangeData = () => {
   return { data, isFetched, isLoading };
 };
 
-const sideStruct: SideStruct = {
+const sideStruct: OlympusRange.SideStruct = {
   active: false,
   lastActive: 0,
   capacity: BigNumber.from(0),
   threshold: BigNumber.from(0),
   market: BigNumber.from(-1),
 };
-const line: LineStruct = {
+const line: OlympusRange.LineStruct = {
   price: BigNumber.from(0),
 };
 
-const band: BandStruct = {
+const band: OlympusRange.BandStruct = {
   high: line,
   low: line,
   spread: BigNumber.from(0),

@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers";
-import { RangeStruct } from "src/typechain/Range";
+import { OlympusRange } from "src/typechain/Range";
 
-export const RangeData: RangeStruct = {
+export const RangeData: OlympusRange.RangeStruct = {
   cushion: {
     high: {
       price: BigNumber.from("22161077252064087762"),
