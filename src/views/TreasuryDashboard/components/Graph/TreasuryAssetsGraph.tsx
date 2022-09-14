@@ -55,7 +55,7 @@ export const TreasuryAssetsGraph = ({
   const chartName = "TreasuryAssetsGraph";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const queryResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
 
   /**
    * Chart population:
@@ -65,10 +65,13 @@ export const TreasuryAssetsGraph = ({
   const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
   const [total, setTotal] = useState("");
   useMemo(() => {
+    if (!tokenRecordResults) {
+      return;
+    }
+
     // We need to flatten the tokenRecords from all of the pages arrays
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
 
-    const dateTokenRecords = queryResults;
     const tempByDateMetrics: DateTreasuryMetrics[] = [];
 
     /**
@@ -76,7 +79,7 @@ export const TreasuryAssetsGraph = ({
      *
      * The relevant total is calculated by applying certain filters and summing (reducing) the value for the matching records.
      */
-    dateTokenRecords.forEach((value, key) => {
+    tokenRecordResults.forEach((value, key) => {
       const marketStable = getTreasuryAssetValue(value, false, [CATEGORY_STABLE]);
       const marketVolatile = getTreasuryAssetValue(value, false, [CATEGORY_VOLATILE]);
       const marketPol = getTreasuryAssetValue(value, false, [CATEGORY_POL]);
@@ -104,7 +107,7 @@ export const TreasuryAssetsGraph = ({
     });
 
     setByDateMetrics(tempByDateMetrics);
-  }, [queryResults]);
+  }, [tokenRecordResults]);
 
   /**
    * Set total

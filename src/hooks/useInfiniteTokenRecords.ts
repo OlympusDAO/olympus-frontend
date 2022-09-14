@@ -67,7 +67,7 @@ export const useInfiniteTokenRecordsQueries = (
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  const [byDateTokenRecords, setByDateTokenRecords] = useState(new Map<string, TokenRecord[]>());
+  const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
 
   useMemo(() => {
     if (hasNextPage || !data) {
