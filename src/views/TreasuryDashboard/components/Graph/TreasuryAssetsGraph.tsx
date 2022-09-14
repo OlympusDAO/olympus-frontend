@@ -1,17 +1,10 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import {
-  TokenRecord_Filter,
-  TokenRecordsDocument,
-  TokenRecordsQuery,
-  TokenRecordsQueryVariables,
-  useInfiniteTokenRecordsQuery,
-} from "src/generated/graphql";
+import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { CATEGORY_POL, CATEGORY_STABLE, CATEGORY_VOLATILE } from "src/helpers/subgraph/Constants";
 import {
   getBulletpointStylesMap,
@@ -19,22 +12,15 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
+import { useInfiniteTokenRecordsQueries } from "src/hooks/useInfiniteTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
-  DEFAULT_RECORD_COUNT,
   GraphProps,
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import {
-  getNextPageStartDate,
-  getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import {
-  getNextPageParamFactory,
-  getTokenRecordDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 type DateTreasuryMetrics = {
   date: string;
@@ -67,77 +53,9 @@ export const TreasuryAssetsGraph = ({
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
-
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  /**
-   * Pagination:
-   *
-   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
-   */
-  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [baseFilter, earliestDate]);
-
-  /**
-   * This code block kicks off data fetching with an initial date range.
-   *
-   * The definition of getNextPageParam() handles pagination.
-   */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter != null,
-      getNextPageParam: paginator.current,
-    },
-  );
-
-  const resetCachedData = () => {
-    setByDateMetrics([]);
-    setTotal("");
-  };
-
-  /**
-   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
-   *
-   * react-query's infinite query functionality apparently does not support automatically
-   * fetching all pages. This code block achieves that.
-   */
-  useEffect(() => {
-    if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
-      fetchNextPage();
-      return;
-    }
-  }, [data, hasNextPage, fetchNextPage]);
+  const queryResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
 
   /**
    * Chart population:
@@ -147,18 +65,10 @@ export const TreasuryAssetsGraph = ({
   const [byDateMetrics, setByDateMetrics] = useState<DateTreasuryMetrics[]>([]);
   const [total, setTotal] = useState("");
   useMemo(() => {
-    if (hasNextPage || !data) {
-      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
-      resetCachedData();
-
-      return;
-    }
-
     // We need to flatten the tokenRecords from all of the pages arrays
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
-    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
 
-    const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
+    const dateTokenRecords = queryResults;
     const tempByDateMetrics: DateTreasuryMetrics[] = [];
 
     /**
@@ -194,7 +104,7 @@ export const TreasuryAssetsGraph = ({
     });
 
     setByDateMetrics(tempByDateMetrics);
-  }, [data, hasNextPage]);
+  }, [queryResults]);
 
   /**
    * Set total
