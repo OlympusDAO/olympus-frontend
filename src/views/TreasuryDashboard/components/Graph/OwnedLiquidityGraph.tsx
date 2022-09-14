@@ -1,17 +1,10 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import {
-  TokenRecord_Filter,
-  TokenRecordsDocument,
-  TokenRecordsQuery,
-  TokenRecordsQueryVariables,
-  useInfiniteTokenRecordsQuery,
-} from "src/generated/graphql";
+import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
   getBulletpointStylesMap,
@@ -19,21 +12,17 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { useInfiniteTokenRecordsQueries } from "src/hooks/useInfiniteTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
-  DEFAULT_RECORD_COUNT,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import {
-  getNextPageStartDate,
-  getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
   getDateTokenSummary,
-  getNextPageParamFactory,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
@@ -44,60 +33,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
-
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
   const [baseFilter] = useState<TokenRecord_Filter>({
     category: CATEGORY_POL,
   });
 
-  /**
-   * Pagination:
-   *
-   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
-   */
-  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [baseFilter, earliestDate]);
-
-  /**
-   * This code block kicks off data fetching with an initial date range.
-   *
-   * The definition of getNextPageParam() handles pagination.
-   */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: paginator.current,
-    },
-  );
+  const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
 
   const resetCachedData = () => {
     setByDateTokenSummary([]);
@@ -105,20 +45,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     setDataKeys([]);
     setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
   };
-
-  /**
-   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
-   *
-   * react-query's infinite query functionality apparently does not support automatically
-   * fetching all pages. This code block achieves that.
-   */
-  useEffect(() => {
-    if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
-      fetchNextPage();
-      return;
-    }
-  }, [data, hasNextPage, fetchNextPage]);
 
   /**
    * Chart population:
@@ -134,21 +60,17 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   const [dataKeyColorsMap, setDataKeyColorsMap] = useState(new Map<string, string>());
   const [total, setTotal] = useState("");
   useMemo(() => {
-    // While data is loading, ensure dependent data is empty
-    if (hasNextPage || !data) {
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
+    if (!tokenRecordResults) {
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
-    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-
-    const newDateTokenSummary = getDateTokenSummary(tokenRecords);
+    const flatRecords = Array.from(tokenRecordResults.values()).flat();
+    const newDateTokenSummary = getDateTokenSummary(flatRecords);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const tokenCategories = Array.from(new Set(tokenRecords.map(tokenRecord => tokenRecord.token))).sort();
+    const tokenCategories = Array.from(new Set(flatRecords.map(tokenRecord => tokenRecord.token))).sort();
 
     const tempDataKeys = getDataKeysFromTokens(tokenCategories);
     setDataKeys(tempDataKeys);
@@ -161,7 +83,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
     const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
     setDataKeyColorsMap(tempColorsMap);
-  }, [data, hasNextPage]);
+  }, [tokenRecordResults]);
 
   /**
    * Set total
