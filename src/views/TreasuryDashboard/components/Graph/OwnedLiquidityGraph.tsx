@@ -39,13 +39,6 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
   const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
 
-  const resetCachedData = () => {
-    setByDateTokenSummary([]);
-    setCategoryDataKeyMap(new Map<string, string>());
-    setDataKeys([]);
-    setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
-  };
-
   /**
    * Chart population:
    *
