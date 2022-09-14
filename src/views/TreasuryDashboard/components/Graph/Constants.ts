@@ -10,8 +10,6 @@ export const PARAM_TOKEN = "token";
 export const PARAM_TOKEN_OHM = "OHM";
 export const PARAM_TOKEN_GOHM = "gOHM";
 
-export const PARAM_SUBGRAPH = "subgraphId";
-
 export type GraphProps = {
   subgraphUrl: string;
   /**

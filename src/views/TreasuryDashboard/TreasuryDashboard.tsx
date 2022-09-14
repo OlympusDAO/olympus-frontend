@@ -5,11 +5,10 @@ import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
-import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
+import { getSubgraphIdParameter, getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
-  PARAM_SUBGRAPH,
   PARAM_TOKEN,
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
@@ -29,18 +28,6 @@ import {
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
-
-/**
- * Obtains the value of the subgraphId parameter using window.location
- *
- * useSearchParams was previously used, but it was asynchronous and led to
- * data being fetched from the standard subgraph URL before the subgraphId
- * parameter was resolved.
- */
-const getSubgraphIdParameter = (): string | undefined => {
-  const source = window.location.hash.split(`${PARAM_SUBGRAPH}=`);
-  return source.length > 1 && source[1] ? source[1].split("&")[0] : undefined;
-};
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
