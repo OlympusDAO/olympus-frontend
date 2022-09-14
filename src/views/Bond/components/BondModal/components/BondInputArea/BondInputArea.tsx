@@ -14,6 +14,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { BondDuration } from "src/views/Bond/components/BondDuration";
+import BondConfirmModal from "src/views/Bond/components/BondModal/components/BondConfirmModal";
 import { usePurchaseBond } from "src/views/Bond/components/BondModal/components/BondInputArea/hooks/usePurchaseBond";
 import { Bond } from "src/views/Bond/hooks/useBond";
 import { useAccount } from "wagmi";
@@ -23,6 +24,7 @@ export const BondInputArea: React.VFC<{
   slippage: string;
   recipientAddress: string;
   isInverseBond: boolean;
+  handleSettingsOpen: () => void;
 }> = props => {
   const { pathname } = useLocation();
   const isInverseBond: boolean = pathname.includes("inverse");
@@ -35,6 +37,7 @@ export const BondInputArea: React.VFC<{
 
   const [amount, setAmount] = useState("");
   const [checked, setChecked] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
   const amountInBaseToken = parsedAmount.div(props.bond.price.inBaseToken, 4);
 
@@ -79,7 +82,11 @@ export const BondInputArea: React.VFC<{
     ).toString({ decimals: 4, format: true })}${" "}
     ${props.bond.quoteToken.name}`;
 
-  console.log(props.bond.baseToken.name);
+  //close the confirmation modal after transaction.
+  if (purchaseBondMutation.isSuccess) {
+    purchaseBondMutation.reset();
+    setConfirmOpen(false);
+  }
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -124,39 +131,30 @@ export const BondInputArea: React.VFC<{
                 </>
               }
             >
+              {showDisclaimer && (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      onChange={event => setChecked(event.target.checked)}
+                      icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                      checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                    />
+                  }
+                  label={
+                    isInverseBond
+                      ? t`I understand that I'm buying a negative premium bond`
+                      : t`I understand that I'm buying a negative discount bond`
+                  }
+                />
+              )}
               <PrimaryButton
                 fullWidth
                 disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
-                onClick={() =>
-                  purchaseBondMutation.mutate({
-                    amount,
-                    isInverseBond,
-                    slippage: props.slippage,
-                    recipientAddress: props.recipientAddress,
-                  })
-                }
+                onClick={() => setConfirmOpen(true)}
               >
                 {purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
               </PrimaryButton>
-              {showDisclaimer && (
-                <Box mt="28px">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={event => setChecked(event.target.checked)}
-                        icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-                        checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-                      />
-                    }
-                    label={
-                      isInverseBond
-                        ? t`I understand that I'm buying a negative premium bond`
-                        : t`I understand that I'm buying a negative discount bond`
-                    }
-                  />
-                </Box>
-              )}
             </TokenAllowanceGuard>
           </WalletConnectedGuard>
           <Box mt="24px">
@@ -210,6 +208,24 @@ export const BondInputArea: React.VFC<{
           </Box>
         </Box>
       </Box>
+      <BondConfirmModal
+        bond={props.bond}
+        slippage={props.slippage}
+        recipientAddress={props.recipientAddress}
+        spendAmount={amount}
+        receiveAmount={amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}
+        onSubmit={() =>
+          purchaseBondMutation.mutate({
+            amount,
+            isInverseBond,
+            slippage: props.slippage,
+            recipientAddress: props.recipientAddress,
+          })
+        }
+        handleSettingsOpen={props.handleSettingsOpen}
+        isOpen={confirmOpen}
+        handleConfirmClose={() => setConfirmOpen(false)}
+      />
     </Box>
   );
 };
