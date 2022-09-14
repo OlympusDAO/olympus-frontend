@@ -51,26 +51,17 @@ const NavContent: React.VFC = () => {
               {chain.id === networks.MAINNET ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
-
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
-
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
-
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
-
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-
                   <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} />
-
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
@@ -78,19 +69,13 @@ const NavContent: React.VFC = () => {
               ) : (
                 <>
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
                 </>
               )}
-
               <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={t`Forum`} />
-
               <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={t`Governance`} />
-
               <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={t`Docs`} />
-
               <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={t`Bug Bounty`} />
-
               <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={t`Grants`} />
             </div>
           </div>
