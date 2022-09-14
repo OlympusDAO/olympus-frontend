@@ -16,13 +16,14 @@ import {
 
 export const useInfiniteTokenRecordsQueries = (
   chartName: string,
-  subgraphUrl: string,
+  subgraphUrl: string, // shift to type with url per blockchain
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
 ) => {
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO restore offset
 
+  // one paginator per blockchain
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
@@ -40,6 +41,7 @@ export const useInfiniteTokenRecordsQueries = (
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [baseFilter, earliestDate]);
 
+  // run multiple queries, one per blockchain
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -72,6 +74,8 @@ export const useInfiniteTokenRecordsQueries = (
       console.debug(`${chartName}: Removing cached data, as query is in progress.`);
       return;
     }
+
+    // todo combine data once all queries have finished
 
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
