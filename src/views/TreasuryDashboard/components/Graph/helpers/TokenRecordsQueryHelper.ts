@@ -34,6 +34,7 @@ export const getNextPageParamFactory = (
   earliestDate: string,
   recordCount: number,
   baseFilter: TokenRecord_Filter,
+  endpoint: string,
   dateOffset?: number,
 ) => {
   const logPrefix = `${queryName}/TokenRecord/${earliestDate}`;
@@ -71,6 +72,7 @@ export const getNextPageParamFactory = (
     return {
       filter: filter,
       recordCount: recordCount,
+      endpoint: endpoint,
     };
   };
 };

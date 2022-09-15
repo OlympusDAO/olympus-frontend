@@ -56,11 +56,10 @@ export const useTokenRecordsQuery = (
     refetch();
 
     // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl);
   }, [baseFilter, earliestDate]);
 
   // Create a paginator
-  // TODO fix react-query not differentiating between endpoints
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -71,6 +70,7 @@ export const useTokenRecordsQuery = (
         date_lt: initialFinishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
+      endpoint: subgraphUrl,
     },
     {
       enabled: earliestDate !== null && baseFilter != null,
@@ -157,18 +157,12 @@ export const useTokenRecordsQueries = (
     existingResults: Map<string, TokenRecord[]>,
   ): void => {
     results.forEach((records: TokenRecord[], date: string) => {
-      console.debug(`${chartName}/${blockchain}:combineQueryResults: current date: ${date}`);
-      console.debug(`${chartName}/${blockchain}:combineQueryResults: record count: ${records.length}`);
-
       // Get the existing value
       const existingRecords = existingResults.get(date);
 
       // Combine, if needed
       const combinedRecords: TokenRecord[] = records.slice();
       if (existingRecords) {
-        console.debug(
-          `${chartName}/${blockchain}:combineQueryResults: combining with ${existingRecords.length} existing values`,
-        );
         combinedRecords.push(...existingRecords);
       }
 
@@ -193,9 +187,10 @@ export const useTokenRecordsQueries = (
     combineQueryResults(BLOCKCHAINS.Fantom, fantomResults, tempResults);
     combineQueryResults(BLOCKCHAINS.Polygon, polygonResults, tempResults);
 
-    // console.log(`results = ${JSON.stringify(tempResults.get("2022-05-04"), null, 2)}`);
+    // We need to sort by key (date), as the ordering of arrival of results will result in them being out of order
+    const sortedResults = new Map([...tempResults].sort().reverse());
 
-    setCombinedResults(tempResults);
+    setCombinedResults(sortedResults);
   };
 
   // Handle receiving the finalised data from each blockchain

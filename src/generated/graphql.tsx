@@ -1371,8 +1371,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars["Bytes"]>;
   /** The block number */
   number: Scalars["Int"];
-  /** Timestamp of the block if available, format depends on the chain */
-  timestamp?: Maybe<Scalars["String"]>;
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars["Int"]>;
 };
 
 /** The type for the top-level _meta field */
@@ -1430,6 +1430,7 @@ export type TokenRecordsQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<TokenRecord_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type TokenRecordsQuery = {
@@ -1542,7 +1543,7 @@ export const useInfiniteProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TE
   );
 
 export const TokenRecordsDocument = `
-    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter, $endpoint: String!) {
   tokenRecords(
     first: $recordCount
     skip: $startingRecord

@@ -13,14 +13,18 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
  * @param subgraphUrl
  * @returns
  */
-export const useTokenRecordsLatestBlock = (subgraphUrl?: string) =>
-  useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useTokenRecordsLatestBlock = (subgraphUrl?: string) => {
+  const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
+
+  return useTokenRecordsQuery(
+    { endpoint: finalSubgraphUrl },
     {
       recordCount: 1,
+      endpoint: finalSubgraphUrl,
     },
     { select: data => data.tokenRecords[0].block, ...QUERY_OPTIONS },
   );
+};
 
 /**
  * Provides the market value of the treasury for the latest data available in the subgraph.
@@ -32,12 +36,14 @@ export const useTokenRecordsLatestBlock = (subgraphUrl?: string) =>
  */
 export const useTreasuryMarketValue = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
 
   return useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+    { endpoint: finalSubgraphUrl },
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
+      endpoint: finalSubgraphUrl,
     },
     {
       // We just need the total of the tokenRecord value
@@ -58,12 +64,14 @@ export const useTreasuryMarketValue = (subgraphUrl?: string) => {
  */
 export const useTreasuryLiquidValue = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
 
   return useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+    { endpoint: finalSubgraphUrl },
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data, isLiquid: true },
+      endpoint: finalSubgraphUrl,
     },
     {
       // We just need the total of the tokenRecord value

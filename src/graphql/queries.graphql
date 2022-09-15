@@ -17,7 +17,8 @@ query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: Pro
   }
 }
 
-query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+# endpoint is given as a variable, so that queries to different endpoints are treated by react-query as unique
+query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter, $endpoint: String!) {
   tokenRecords(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     balance
