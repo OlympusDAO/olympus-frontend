@@ -84,13 +84,20 @@ export const TreasuryAssetsTable = ({
       field: "category",
       headerName: t`Category`,
       description: t`The category of the token asset`,
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "blockchain",
       headerName: t`Blockchain`,
       description: t`The blockchain of the token asset`,
-      flex: 1,
+      flex: 0.5,
+    },
+    {
+      field: "isLiquid",
+      headerName: t`Liquid`,
+      description: t`Whether the token asset is liquid`,
+      flex: 0.5,
+      valueGetter: (params: GridValueGetterParams) => (params.row.isLiquid ? "Yes" : "No"),
     },
     {
       field: "value",
@@ -138,6 +145,12 @@ export const TreasuryAssetsTable = ({
         initialState={{
           sorting: {
             sortModel: [{ field: "value", sort: "desc" }],
+          },
+          columns: {
+            columnVisibilityModel: {
+              blockchain: false,
+              isLiquid: false,
+            },
           },
         }}
         // Only ascending or descending sort
