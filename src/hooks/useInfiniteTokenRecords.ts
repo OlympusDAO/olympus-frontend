@@ -22,9 +22,9 @@ export const useInfiniteTokenRecordsQueries = (
 ) => {
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO restore offset
-
-  // one paginator per blockchain
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+
+  // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
     if (!earliestDate || !baseFilter) {
@@ -32,6 +32,9 @@ export const useInfiniteTokenRecordsQueries = (
     }
 
     console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // We need to wipe the data, otherwise it will be inconsistent
+    setByDateTokenRecords(null);
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
@@ -41,7 +44,7 @@ export const useInfiniteTokenRecordsQueries = (
     paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
   }, [baseFilter, earliestDate]);
 
-  // run multiple queries, one per blockchain
+  // Create a paginator
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -59,6 +62,7 @@ export const useInfiniteTokenRecordsQueries = (
     },
   );
 
+  // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
       console.debug(chartName + ": fetching next page");
@@ -69,6 +73,7 @@ export const useInfiniteTokenRecordsQueries = (
 
   const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
 
+  // Group by date
   useMemo(() => {
     if (hasNextPage || !data) {
       console.debug(`${chartName}: Removing cached data, as query is in progress.`);
@@ -76,7 +81,7 @@ export const useInfiniteTokenRecordsQueries = (
     }
 
     // todo combine data once all queries have finished
-
+    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
     setByDateTokenRecords(dateTokenRecords);
