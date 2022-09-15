@@ -25,7 +25,7 @@ import {
   getLiquidBackingPerOhmFloating,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useInfiniteTokenRecordsQueries } from "src/hooks/useInfiniteTokenRecords";
+import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -61,7 +61,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO remove offset
 
-  const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
 
   /**
    * Active token:

@@ -6,7 +6,7 @@ import {
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
-import { useTokenRecordsLatestBlock, useTreasuryLiquidValue } from "src/hooks/useTokenRecords";
+import { useTokenRecordsLatestBlock, useTreasuryLiquidValue } from "src/hooks/useTokenRecordsMetrics";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds

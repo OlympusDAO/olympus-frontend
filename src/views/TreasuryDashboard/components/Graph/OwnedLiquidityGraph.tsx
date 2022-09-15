@@ -12,7 +12,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useInfiniteTokenRecordsQueries } from "src/hooks/useInfiniteTokenRecords";
+import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -37,7 +37,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
     category: CATEGORY_POL,
   });
 
-  const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
 
   /**
    * Chart population:

@@ -1,75 +1,91 @@
-import { useTokenRecordsQuery } from "src/generated/graphql";
-import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  TokenRecord,
+  TokenRecord_Filter,
+  TokenRecordsQuery,
+  TokenRecordsQueryVariables,
+  useInfiniteTokenRecordsQuery,
+} from "src/generated/graphql";
+import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import {
+  getNextPageParamFactory,
+  getTokenRecordDateMap,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
+export const useTokenRecordsQuery = (
+  chartName: string,
+  subgraphUrl: string, // shift to type with url per blockchain
+  baseFilter: TokenRecord_Filter,
+  earliestDate: string | null,
+) => {
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO restore offset
+  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
 
-/**
- * Returns the latest block of the latest day in the TokenRecord query.
- *
- * This relies on the query being sorted by date AND block in descending order.
- *
- * @param subgraphUrl
- * @returns
- */
-export const useTokenRecordsLatestBlock = (subgraphUrl?: string) =>
-  useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+  // Handle date changes
+  useEffect(() => {
+    // We can't create the paginator until we have an earliestDate
+    if (!earliestDate || !baseFilter) {
+      return;
+    }
+
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // We need to wipe the data, otherwise it will be inconsistent
+    setByDateTokenRecords(null);
+
+    // Force fetching of data with the new paginator
+    // Calling refetch() after setting the new paginator causes the query to never finish
+    refetch();
+
+    // Create a new paginator with the new earliestDate
+    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
+  }, [baseFilter, earliestDate]);
+
+  // Create a paginator
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+    { endpoint: subgraphUrl },
+    "filter",
     {
-      recordCount: 1,
-    },
-    { select: data => data.tokenRecords[0].block, ...QUERY_OPTIONS },
-  );
-
-/**
- * Provides the market value of the treasury for the latest data available in the subgraph.
- *
- * The market value is the sum of all TokenRecord objects in the subgraph, and includes vested/illiquid tokens.
- *
- * @param subgraphUrl
- * @returns
- */
-export const useTreasuryMarketValue = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-
-  return useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
-    {
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
       recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
     },
     {
-      // We just need the total of the tokenRecord value
-      select: data => data.tokenRecords.reduce((previousValue, tokenRecord) => previousValue + +tokenRecord.value, 0),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
+      enabled: earliestDate !== null && baseFilter != null,
+      getNextPageParam: paginator.current,
     },
   );
-};
 
-/**
- * Provides the liquid backing of the treasury for the latest data available in the subgraph.
- *
- * Liquid backing is defined as the value of all liquid assets in the treasury.
- *
- * @param subgraphUrl
- * @returns
- */
-export const useTreasuryLiquidValue = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  // Handle subsequent pages
+  useEffect(() => {
+    if (hasNextPage) {
+      console.debug(chartName + ": fetching next page");
+      fetchNextPage();
+      return;
+    }
+  }, [data, hasNextPage, fetchNextPage]);
 
-  return useTokenRecordsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data, isLiquid: true },
-    },
-    {
-      // We just need the total of the tokenRecord value
-      select: data => getTreasuryAssetValue(data.tokenRecords, true),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
+
+  // Group by date
+  useMemo(() => {
+    if (hasNextPage || !data) {
+      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
+      return;
+    }
+
+    // todo combine data once all queries have finished
+    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
+    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+    const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
+    setByDateTokenRecords(dateTokenRecords);
+  }, [hasNextPage, data]);
+
+  return byDateTokenRecords;
 };

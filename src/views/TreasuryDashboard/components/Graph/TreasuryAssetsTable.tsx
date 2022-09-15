@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useInfiniteTokenRecordsQueries } from "src/hooks/useInfiniteTokenRecords";
+import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -31,7 +31,7 @@ export const TreasuryAssetsTable = ({
   const chartName = "TreasuryAssetsTable";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useInfiniteTokenRecordsQueries(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
 
   /**
    * Chart population:
