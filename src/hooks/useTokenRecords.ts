@@ -7,6 +7,7 @@ import {
   useInfiniteTokenRecordsQuery,
 } from "src/generated/graphql";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
+import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
@@ -14,12 +15,26 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+/**
+ * Fetches TokenRecords from {subgraphUrl}, returning the records
+ * grouped by date.
+ *
+ * Only the records belonging to the latest block per date are returned.
+ *
+ * This hook handles paging and returns the completed results up to {earliestDate}.
+ *
+ * @param chartName
+ * @param subgraphUrl
+ * @param baseFilter
+ * @param earliestDate
+ * @returns Records grouped by date, or null if still fetching
+ */
 export const useTokenRecordsQuery = (
   chartName: string,
   subgraphUrl: string, // shift to type with url per blockchain
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
-) => {
+): Map<string, TokenRecord[]> | null => {
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO restore offset
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
@@ -83,9 +98,101 @@ export const useTokenRecordsQuery = (
     // todo combine data once all queries have finished
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-    const dateTokenRecords = getTokenRecordDateMap(tokenRecords);
+    const dateTokenRecords = getTokenRecordDateMap(tokenRecords, true);
     setByDateTokenRecords(dateTokenRecords);
   }, [hasNextPage, data]);
 
   return byDateTokenRecords;
+};
+
+/**
+ * Fetches TokenRecords from each of the given subgraph URLs,
+ * returning the combined records grouped by date.
+ *
+ * Only the records belonging to the latest block per date are returned.
+ *
+ * This hook handles paging and returns the completed results up to {earliestDate}.
+ *
+ * @param chartName
+ * @param subgraphUrls
+ * @param baseFilter
+ * @param earliestDate
+ * @returns Records grouped by date, or null if still fetching
+ */
+export const useTokenRecordsQueries = (
+  chartName: string,
+  subgraphUrls: SUBGRAPH_URLS,
+  baseFilter: TokenRecord_Filter,
+  earliestDate: string | null,
+): Map<string, TokenRecord[]> | null => {
+  // Start queries
+  const arbitrumResults = useTokenRecordsQuery(chartName, subgraphUrls.Arbitrum, baseFilter, earliestDate);
+  const ethereumResults = useTokenRecordsQuery(chartName, subgraphUrls.Ethereum, baseFilter, earliestDate);
+  const fantomResults = useTokenRecordsQuery(chartName, subgraphUrls.Fantom, baseFilter, earliestDate);
+  const polygonResults = useTokenRecordsQuery(chartName, subgraphUrls.Polygon, baseFilter, earliestDate);
+  const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
+
+  /**
+   * Combines the contents of {results} with the existing map of {currentResults}.
+   *
+   * If {currentResults} contains values for a key, the values are merged.
+   *
+   * @param results
+   * @param currentResults
+   */
+  const combineQueryResults = (
+    results: Map<string, TokenRecord[]>,
+    currentResults: Map<string, TokenRecord[]>,
+  ): void => {
+    results.forEach((records: TokenRecord[], date: string) => {
+      // Get the existing value
+      const existingRecords = currentResults.get(date);
+
+      // Combine, if needed
+      const combinedRecords: TokenRecord[] = records;
+      if (existingRecords) {
+        records.push(...existingRecords);
+      }
+
+      // Set in the resulting map
+      currentResults.set(date, combinedRecords);
+    });
+  };
+
+  /**
+   * Combines results from different blockchain queries, once they have all been completed.
+   */
+  const handleQueryResults = (): void => {
+    // Only combine (and trigger a re-render) when all results have been received
+    if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
+      return;
+    }
+
+    const tempResults = new Map<string, TokenRecord[]>();
+    combineQueryResults(arbitrumResults, tempResults);
+    combineQueryResults(ethereumResults, tempResults);
+    combineQueryResults(fantomResults, tempResults);
+    combineQueryResults(polygonResults, tempResults);
+
+    setCombinedResults(tempResults);
+  };
+
+  // Handle receiving the finalised data from each blockchain
+  useEffect(() => {
+    handleQueryResults();
+  }, [arbitrumResults]);
+
+  useEffect(() => {
+    handleQueryResults();
+  }, [ethereumResults]);
+
+  useEffect(() => {
+    handleQueryResults();
+  }, [fantomResults]);
+
+  useEffect(() => {
+    handleQueryResults();
+  }, [polygonResults]);
+
+  return combinedResults;
 };
