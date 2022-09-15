@@ -83,6 +83,12 @@ export const TreasuryAssetsTable = ({
       flex: 1,
     },
     {
+      field: "blockchain",
+      headerName: t`Blockchain`,
+      description: t`The blockchain of the token asset`,
+      flex: 1,
+    },
+    {
       field: "value",
       headerName: t`Value`,
       description: t`The total value of the token asset in USD`,

@@ -4,6 +4,8 @@ import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Gra
 export type TokenRow = {
   token: string;
   category: string;
+  isLiquid: boolean;
+  blockchain: string;
   value: string;
   valueExcludingOhm: string;
 };
@@ -166,6 +168,8 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
     const tokenRecord = dateSummary.tokens[record.token] || ({} as TokenRow);
     tokenRecord.token = record.token;
     tokenRecord.category = record.category;
+    tokenRecord.isLiquid = record.isLiquid;
+    tokenRecord.blockchain = record.blockchain;
 
     const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
     // record.value is typed as a number, but is actually a string

@@ -7,7 +7,7 @@ import {
   useInfiniteTokenRecordsQuery,
 } from "src/generated/graphql";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
-import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
+import { BLOCKCHAINS, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
@@ -60,6 +60,7 @@ export const useTokenRecordsQuery = (
   }, [baseFilter, earliestDate]);
 
   // Create a paginator
+  // TODO fix react-query not differentiating between endpoints
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
     "filter",
@@ -148,24 +149,31 @@ export const useTokenRecordsQueries = (
    * If {currentResults} contains values for a key, the values are merged.
    *
    * @param results
-   * @param currentResults
+   * @param existingResults
    */
   const combineQueryResults = (
+    blockchain: BLOCKCHAINS,
     results: Map<string, TokenRecord[]>,
-    currentResults: Map<string, TokenRecord[]>,
+    existingResults: Map<string, TokenRecord[]>,
   ): void => {
     results.forEach((records: TokenRecord[], date: string) => {
+      console.debug(`${chartName}/${blockchain}:combineQueryResults: current date: ${date}`);
+      console.debug(`${chartName}/${blockchain}:combineQueryResults: record count: ${records.length}`);
+
       // Get the existing value
-      const existingRecords = currentResults.get(date);
+      const existingRecords = existingResults.get(date);
 
       // Combine, if needed
-      const combinedRecords: TokenRecord[] = records;
+      const combinedRecords: TokenRecord[] = records.slice();
       if (existingRecords) {
-        records.push(...existingRecords);
+        console.debug(
+          `${chartName}/${blockchain}:combineQueryResults: combining with ${existingRecords.length} existing values`,
+        );
+        combinedRecords.push(...existingRecords);
       }
 
       // Set in the resulting map
-      currentResults.set(date, combinedRecords);
+      existingResults.set(date, combinedRecords);
     });
   };
 
@@ -175,16 +183,17 @@ export const useTokenRecordsQueries = (
   const handleQueryResults = (): void => {
     // Only combine (and trigger a re-render) when all results have been received
     if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
-      console.debug(`${chartName}: have not received all results yet. Waiting.`);
       return;
     }
 
     console.debug(`${chartName}: received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();
-    combineQueryResults(arbitrumResults, tempResults);
-    combineQueryResults(ethereumResults, tempResults);
-    combineQueryResults(fantomResults, tempResults);
-    combineQueryResults(polygonResults, tempResults);
+    combineQueryResults(BLOCKCHAINS.Arbitrum, arbitrumResults, tempResults);
+    combineQueryResults(BLOCKCHAINS.Ethereum, ethereumResults, tempResults);
+    combineQueryResults(BLOCKCHAINS.Fantom, fantomResults, tempResults);
+    combineQueryResults(BLOCKCHAINS.Polygon, polygonResults, tempResults);
+
+    // console.log(`results = ${JSON.stringify(tempResults.get("2022-05-04"), null, 2)}`);
 
     setCombinedResults(tempResults);
   };
