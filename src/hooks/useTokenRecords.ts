@@ -165,9 +165,11 @@ export const useTokenRecordsQueries = (
   const handleQueryResults = (): void => {
     // Only combine (and trigger a re-render) when all results have been received
     if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
+      console.debug(`${chartName}: have not received all results yet. Waiting.`);
       return;
     }
 
+    console.debug(`${chartName}: received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();
     combineQueryResults(arbitrumResults, tempResults);
     combineQueryResults(ethereumResults, tempResults);
