@@ -60,7 +60,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate }: Grap
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
     const flatRecords = Array.from(tokenRecordResults.values()).flat();
-    const newDateTokenSummary = getDateTokenSummary(flatRecords);
+    /**
+     * latestOnly is false as the "latest" block is different on each blockchain.
+     * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
+     */
+    const newDateTokenSummary = getDateTokenSummary(flatRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
 
     const tokenCategories = Array.from(new Set(flatRecords.map(tokenRecord => tokenRecord.token))).sort();

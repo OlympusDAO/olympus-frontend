@@ -51,7 +51,11 @@ export const TreasuryAssetsTable = ({
     const flatRecords = Array.from(tokenRecordResults.values()).flat();
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive ? flatRecords.filter(value => value.isLiquid == true) : flatRecords;
-    const newDateTokenSummary = getDateTokenSummary(filteredRecords);
+    /**
+     * latestOnly is false as the "latest" block is different on each blockchain.
+     * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
+     */
+    const newDateTokenSummary = getDateTokenSummary(filteredRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
 
