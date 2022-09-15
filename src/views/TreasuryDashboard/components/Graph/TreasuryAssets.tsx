@@ -20,7 +20,7 @@ const QUERY_TREASURY = "treasuryAssets";
  *
  * The assets table will update according to the toggle selection.
  */
-export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
+export const TreasuryAssets = ({ subgraphUrls, earliestDate }: GraphProps) => {
   const isTreasuryAssetActive = (assets: string): boolean => {
     return selectedTreasuryAssets === assets;
   };
@@ -88,13 +88,13 @@ export const TreasuryAssets = ({ subgraphUrl, earliestDate }: GraphProps) => {
         </Grid>
       </Grid>
       <TreasuryAssetsGraph
-        subgraphUrl={subgraphUrl}
+        subgraphUrls={subgraphUrls}
         isLiquidBackingActive={isLiquidBackingActive}
         onMouseMove={onMouseMove}
         earliestDate={earliestDate}
       />
       <TreasuryAssetsTable
-        subgraphUrl={subgraphUrl}
+        subgraphUrls={subgraphUrls}
         earliestDate={earliestDate}
         isLiquidBackingActive={isLiquidBackingActive}
         selectedIndex={selectedIndex}

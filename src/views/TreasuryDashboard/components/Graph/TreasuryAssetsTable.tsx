@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
+import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -22,16 +22,16 @@ import {
  * Data grid that displays the details of treasury assets.
  */
 export const TreasuryAssetsTable = ({
-  subgraphUrl,
+  subgraphUrls,
   earliestDate,
   isLiquidBackingActive,
   selectedIndex,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const chartName = "TreasuryAssetsTable";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
 
   /**
    * Chart population:

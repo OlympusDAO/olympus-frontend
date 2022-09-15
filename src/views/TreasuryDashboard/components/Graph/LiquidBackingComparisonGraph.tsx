@@ -25,7 +25,7 @@ import {
   getLiquidBackingPerOhmFloating,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
+import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -51,9 +51,9 @@ import {
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per floating OHM.
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, activeToken }: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrls, earliestDate, activeToken }: GraphProps) => {
   // TODO look at how to combine query documents
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrl);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
   const [baseFilter] = useState<TokenRecord_Filter>({});
@@ -61,7 +61,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO remove offset
 
-  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
 
   /**
    * Active token:
@@ -125,7 +125,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     fetchNextPage: tokenSuppliesFetchNextPage,
     refetch: tokenSuppliesRefetch,
   } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrl },
+    { endpoint: subgraphUrls.Ethereum },
     "filter",
     {
       filter: {
@@ -148,7 +148,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     fetchNextPage: protocolMetricsFetchNextPage,
     refetch: protocolMetricsRefetch,
   } = useInfiniteProtocolMetricsQuery(
-    { endpoint: subgraphUrl },
+    { endpoint: subgraphUrls.Ethereum },
     "filter",
     {
       filter: {
@@ -233,12 +233,14 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
       const currentTokenRecords = value;
       const currentTokenSupplies = byDateTokenSupplies.get(key);
       if (!currentTokenSupplies) {
-        throw new Error(`${chartName}: expected tokenSupplies on date ${key} to exist`);
+        return; // TODO resotre
+        // throw new Error(`${chartName}: expected tokenSupplies on date ${key} to exist`);
       }
 
       const currentProtocolMetrics = byDateProtocolMetrics.get(key);
       if (!currentProtocolMetrics) {
-        throw new Error(`${chartName}: expected protocolMetrics on date ${key} to exist`);
+        return; // TODO restore
+        // throw new Error(`${chartName}: expected protocolMetrics on date ${key} to exist`);
       }
 
       const latestTokenRecord = currentTokenRecords[0];

@@ -126,10 +126,20 @@ export const useTokenRecordsQueries = (
   earliestDate: string | null,
 ): Map<string, TokenRecord[]> | null => {
   // Start queries
-  const arbitrumResults = useTokenRecordsQuery(chartName, subgraphUrls.Arbitrum, baseFilter, earliestDate);
-  const ethereumResults = useTokenRecordsQuery(chartName, subgraphUrls.Ethereum, baseFilter, earliestDate);
-  const fantomResults = useTokenRecordsQuery(chartName, subgraphUrls.Fantom, baseFilter, earliestDate);
-  const polygonResults = useTokenRecordsQuery(chartName, subgraphUrls.Polygon, baseFilter, earliestDate);
+  const arbitrumResults = useTokenRecordsQuery(
+    `${chartName}/Arbitrum`,
+    subgraphUrls.Arbitrum,
+    baseFilter,
+    earliestDate,
+  );
+  const ethereumResults = useTokenRecordsQuery(
+    `${chartName}/Ethereum`,
+    subgraphUrls.Ethereum,
+    baseFilter,
+    earliestDate,
+  );
+  const fantomResults = useTokenRecordsQuery(`${chartName}/Fantom`, subgraphUrls.Fantom, baseFilter, earliestDate);
+  const polygonResults = useTokenRecordsQuery(`${chartName}/Polygon`, subgraphUrls.Polygon, baseFilter, earliestDate);
   const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
 
   /**

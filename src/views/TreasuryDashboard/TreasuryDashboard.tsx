@@ -5,7 +5,12 @@ import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { SafariFooter } from "src/components/SafariFooter";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
-import { getSubgraphIdParameter, getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
+import {
+  BLOCKCHAINS,
+  getSubgraphIdForBlockchain,
+  getSubgraphUrlForBlockchain,
+  getSubgraphUrls,
+} from "src/helpers/SubgraphUrlHelper";
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
@@ -50,8 +55,12 @@ const MetricsDashboard = () => {
   // Determine the subgraph URL
   // Originally, this was performed at the component level, but it ended up with a lot of redundant
   // calls to useSearchParams that could have led to wonky behaviour.
-  const subgraphUrl = getSubgraphUrl(getSubgraphIdParameter());
-  console.debug("Subgraph URL set to " + subgraphUrl);
+  const subgraphUrls = getSubgraphUrls();
+  const subgraphUrlEthereum = getSubgraphUrlForBlockchain(
+    BLOCKCHAINS.Ethereum,
+    getSubgraphIdForBlockchain(BLOCKCHAINS.Ethereum),
+  );
+  console.debug("Subgraph URLs are: " + JSON.stringify(subgraphUrls));
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -64,7 +73,8 @@ const MetricsDashboard = () => {
     setToken(queryToken);
   }, [searchParams]);
 
-  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrl };
+  // Used by the Metrics
+  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrlEthereum };
 
   /**
    * After changing the value for the record count, returns the search parameters as a
@@ -187,7 +197,7 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph
-              subgraphUrl={subgraphUrl}
+              subgraphUrls={subgraphUrls}
               activeToken={token}
               earliestDate={earliestDate}
             />
@@ -195,12 +205,12 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
+            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
+            <ProtocolOwnedLiquidityGraph subgraphUrls={subgraphUrls} earliestDate={earliestDate} />
           </Paper>
         </Grid>
       </Grid>

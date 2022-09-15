@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
+import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 
 export const PARAM_DAYS = "days";
 export const DEFAULT_DAYS = 30;
@@ -11,7 +12,7 @@ export const PARAM_TOKEN_OHM = "OHM";
 export const PARAM_TOKEN_GOHM = "gOHM";
 
 export type GraphProps = {
-  subgraphUrl: string;
+  subgraphUrls: SUBGRAPH_URLS;
   /**
    * A value of null indicates that no earliestDate has been loaded (asynchronously).
    * Components should avoid loading any data until earliestDate is non-null.

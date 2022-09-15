@@ -12,7 +12,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
+import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -29,15 +29,15 @@ import {
 /**
  * Stacked area chart that displays protocol-owned liquidity.
  */
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate }: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
   const [baseFilter] = useState<TokenRecord_Filter>({
     category: CATEGORY_POL,
   });
 
-  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
 
   /**
    * Chart population:

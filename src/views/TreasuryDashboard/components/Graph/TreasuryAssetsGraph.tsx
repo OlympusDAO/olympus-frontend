@@ -12,7 +12,7 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsQuery } from "src/hooks/useTokenRecords";
+import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -45,17 +45,17 @@ type DateTreasuryMetrics = {
  * specified by the `isLiquidBackingActive` prop.
  */
 export const TreasuryAssetsGraph = ({
-  subgraphUrl,
+  subgraphUrls,
   earliestDate,
   onMouseMove,
   isLiquidBackingActive,
 }: GraphProps & LiquidBackingProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQuery(chartName, subgraphUrl, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
 
   /**
    * Chart population:
