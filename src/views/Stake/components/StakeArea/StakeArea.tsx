@@ -1,5 +1,5 @@
 import { Box, Divider, Grid } from "@mui/material";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
@@ -18,7 +18,7 @@ export const StakeArea: React.FC = () => {
   return (
     <>
       <PageTitle name="Stake" />
-      <Paper>
+      <Box>
         <Box mb="28px">
           <Grid>
             <MetricCollection>
@@ -45,7 +45,7 @@ export const StakeArea: React.FC = () => {
             </Box>
           </Box>
         )}
-      </Paper>
+      </Box>
     </>
   );
 };
