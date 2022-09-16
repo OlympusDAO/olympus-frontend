@@ -29,7 +29,6 @@ export const BondModalContainer: React.VFC = () => {
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
-
   const bonds = useLiveBonds({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
 
@@ -78,9 +77,11 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
               </Box>
             </Link>
 
-            <TokenStack tokens={bond.quoteToken.icons} />
+            <TokenStack tokens={bond.quoteToken.icons} sx={{ fontSize: "27px" }} />
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-              <Typography variant="h1">{bond.quoteToken.name}</Typography>
+              <Typography variant="h4" fontWeight={500}>
+                {bond.quoteToken.name}
+              </Typography>
             </Box>
           </Box>
         }

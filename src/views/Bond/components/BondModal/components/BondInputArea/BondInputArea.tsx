@@ -88,8 +88,6 @@ export const BondInputArea: React.VFC<{
     setConfirmOpen(false);
   }
 
-  console.log(props.bond);
-
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">

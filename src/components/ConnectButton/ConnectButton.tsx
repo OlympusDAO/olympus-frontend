@@ -204,21 +204,42 @@ export const ConnectButton = () => {
                       state={{ prevPath: location.pathname }}
                       style={{ marginRight: "0px" }}
                     >
-                      <Button
-                        sx={{
-                          borderRadius: "6px",
-                          padding: "9px 18px",
-                          marginLeft: "9px",
-                          fontSize: "0.875rem",
-                          height: "39px",
-                          background: theme.colors.gray[500],
-                          color: theme.colors.gray[10],
-                          "&:hover": { background: theme.colors.gray[90], color: theme.colors.gray[10] },
-                        }}
-                      >
-                        <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                        {chain.unsupported ? "Unsupported Network" : account.displayName}
-                      </Button>
+                      {mobile ? (
+                        <Button
+                          sx={{
+                            fontSize: "0.875rem",
+                            height: "39px",
+                            minWidth: "39px",
+                            borderRadius: "6px",
+                            background:
+                              theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.card,
+                            color: theme.colors.gray[10],
+                            "&:hover": {
+                              background:
+                                theme.palette.mode === "dark" ? theme.colors.gray[90] : theme.colors.paper.cardHover,
+                              color: theme.colors.gray[10],
+                            },
+                          }}
+                        >
+                          <SvgIcon component={WalletIcon} />
+                        </Button>
+                      ) : (
+                        <Button
+                          sx={{
+                            borderRadius: "6px",
+                            padding: "9px 18px",
+                            marginLeft: "9px",
+                            fontSize: "0.875rem",
+                            height: "39px",
+                            background: theme.colors.gray[500],
+                            color: theme.colors.gray[10],
+                            "&:hover": { background: theme.colors.gray[90], color: theme.colors.gray[10] },
+                          }}
+                        >
+                          <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+                          {chain.unsupported ? "Unsupported Network" : account.displayName}
+                        </Button>
+                      )}
                     </Link>
                   )}
                 </Box>
