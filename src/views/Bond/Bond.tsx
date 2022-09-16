@@ -3,6 +3,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { BondList } from "src/views/Bond/components/BondList";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
@@ -50,6 +51,7 @@ export const Bond = () => {
 
   return (
     <>
+      <PageTitle name="Bonds" />
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
         <Paper>

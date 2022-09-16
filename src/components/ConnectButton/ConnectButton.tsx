@@ -102,6 +102,7 @@ export const ConnectButton = () => {
                       to={"/wallet"}
                       state={{ prevPath: location.pathname }}
                       style={{ marginRight: "0px" }}
+                      sx={{ zIndex: 18 }}
                     >
                       <PrimaryButton>
                         <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />

@@ -1,9 +1,7 @@
-import "src/components/TopBar/TopBar.scss";
+// import "src/components/TopBar/TopBar.scss";
 
-import { AppBar, Box, Button, SvgIcon, Typography } from "@mui/material";
+import { AppBar, Box, Button, SvgIcon, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 
@@ -20,14 +18,12 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     [theme.breakpoints.up("sm")]: {
       width: "100%",
       padding: "10px",
+      paddingTop: "22.5px",
     },
-    background: "transparent",
     backdropFilter: "none",
-    zIndex: 10,
   },
 
   [`& .${classes.menuButton}`]: {
-    marginRight: theme.spacing(2),
     [theme.breakpoints.up(1048)]: {
       display: "none",
     },
@@ -48,45 +44,10 @@ interface TopBarProps {
 }
 
 function TopBar({ handleDrawerToggle }: TopBarProps) {
-  const location = useLocation();
-  const [pageTitle, setPageTitle] = useState("");
-
-  //Dynamic Page Title in Topbar. Maybe there's a better way.
-  //This seemed the least messy
-  useEffect(() => {
-    switch (location.pathname) {
-      case "/stake":
-        setPageTitle("Stake");
-        break;
-      case "/bonds/":
-      case "/bonds":
-        setPageTitle("Bond");
-        break;
-      case "/bonds/inverse":
-        setPageTitle("Inverse Bond");
-        break;
-      case "/give":
-      case "/give/grants":
-      case "/give/donations":
-      case "/give/redeem":
-        setPageTitle("Give");
-        break;
-      case "/range":
-        setPageTitle("Range");
-        break;
-      case "/wrap":
-        setPageTitle("Wrap");
-        break;
-      case "/bridge":
-        setPageTitle("Bridge");
-        break;
-      default:
-        setPageTitle("");
-    }
-  }, [location.pathname]);
-
+  const theme = useTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up(1048));
   return (
-    <StyledAppBar position="sticky" className={classes.appBar} elevation={0}>
+    <StyledAppBar position="sticky" className={classes.appBar} elevation={0} sx={{ zIndex: 20 }}>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Button
@@ -97,16 +58,16 @@ function TopBar({ handleDrawerToggle }: TopBarProps) {
             color="secondary"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
+            sx={{ zIndex: 18 }}
           >
             <SvgIcon component={MenuIcon} />
           </Button>
-          <Box display="flex" className={classes.pageTitle} alignItems="center">
-            {pageTitle && <Typography variant="h1">{pageTitle}</Typography>}
+        </Box>
+        {desktop && (
+          <Box display="flex" alignItems="center">
+            <ConnectButton />
           </Box>
-        </Box>
-        <Box display="flex" alignItems="center">
-          <ConnectButton />
-        </Box>
+        )}
       </Box>
     </StyledAppBar>
   );
