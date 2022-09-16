@@ -9,14 +9,16 @@ import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/
 import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
 import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
 import { CurrentIndex, StakingAPY } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import { useAccount } from "wagmi";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
+  const { isConnected } = useAccount();
 
   return (
     <>
       <PageTitle name="Stake" />
-      <Paper subHeader={<RebaseTimer />}>
+      <Paper>
         <Box mb="28px">
           <Grid>
             <MetricCollection>
@@ -28,19 +30,21 @@ export const StakeArea: React.FC = () => {
         </Box>
 
         <StakeInputArea isZoomed={isZoomed} />
-        <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
-          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-            <StakeBalances />
+        {isConnected && (
+          <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+            <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+              <StakeBalances />
 
-            <Divider />
+              <Divider />
 
-            <StakeNextRebaseAmount />
+              <StakeNextRebaseAmount />
 
-            <StakeRebaseYield />
+              <StakeRebaseYield />
 
-            <StakeFiveDayYield />
+              <StakeFiveDayYield />
+            </Box>
           </Box>
-        </Box>
+        )}
       </Paper>
     </>
   );

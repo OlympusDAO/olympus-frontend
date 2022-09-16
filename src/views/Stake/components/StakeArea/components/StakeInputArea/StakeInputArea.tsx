@@ -235,7 +235,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
-  console.log(contractRouting, amountExceedsBalance, balance, amount, "debug");
 
   return (
     <StyledBox mb={3}>
