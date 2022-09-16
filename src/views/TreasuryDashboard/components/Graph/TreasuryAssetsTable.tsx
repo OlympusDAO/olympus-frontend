@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
-import { formatCurrency } from "src/helpers";
+import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
@@ -100,6 +100,20 @@ export const TreasuryAssetsTable = ({
       valueGetter: (params: GridValueGetterParams) => (params.row.isLiquid ? "Yes" : "No"),
     },
     {
+      field: "balance",
+      headerName: t`Balance`,
+      description: t`The total balance of the token asset`,
+      flex: 0.5,
+      type: "string",
+      sortComparator: (v1, v2) => {
+        // Get rid of all non-number characters
+        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+      },
+      valueGetter: (params: GridValueGetterParams) => formatNumber(parseFloat(params.row.balance)),
+    },
+    {
       field: "value",
       headerName: t`Value`,
       description: t`The total value of the token asset in USD`,
@@ -147,9 +161,10 @@ export const TreasuryAssetsTable = ({
             sortModel: [{ field: "value", sort: "desc" }],
           },
           columns: {
+            // Hide these columns by default
             columnVisibilityModel: {
-              blockchain: false,
               isLiquid: false,
+              balance: false,
             },
           },
         }}
