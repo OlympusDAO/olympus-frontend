@@ -11,19 +11,15 @@ exports[`<Stake/> should render component 1`] = `
     <div
       id="stake-view"
     >
-      <header
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky css-j2x41h-MuiPaper-root-MuiAppBar-root"
+      <div
+        class="MuiBox-root css-xrxhyi"
       >
-        <div
-          class="MuiBox-root css-cnhn83"
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-f2reur-MuiTypography-root"
         >
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-j1zvnf-MuiTypography-root"
-          >
-            Stake
-          </h4>
-        </div>
-      </header>
+          Stake
+        </h1>
+      </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
@@ -2672,19 +2668,15 @@ exports[`<Stake/> should render correct staking headers 1`] = `
     <div
       id="stake-view"
     >
-      <header
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky css-j2x41h-MuiPaper-root-MuiAppBar-root"
+      <div
+        class="MuiBox-root css-xrxhyi"
       >
-        <div
-          class="MuiBox-root css-cnhn83"
+        <h1
+          class="MuiTypography-root MuiTypography-h1 css-f2reur-MuiTypography-root"
         >
-          <h4
-            class="MuiTypography-root MuiTypography-h4 css-j1zvnf-MuiTypography-root"
-          >
-            Stake
-          </h4>
-        </div>
-      </header>
+          Stake
+        </h1>
+      </div>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"

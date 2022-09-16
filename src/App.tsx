@@ -67,10 +67,8 @@ const StyledDiv = styled("div")(({ theme }) => ({
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
     }),
-    height: "100%",
-    overflow: "auto",
     marginLeft: drawerWidth,
-    marginTop: "-82.5px",
+    marginTop: "-48.5px",
   },
 
   [`& .${classes.contentShift}`]: {
