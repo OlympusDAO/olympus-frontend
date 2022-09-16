@@ -45,7 +45,6 @@ exports[`<Stake/> should render component. not connected 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                  style="width: 155px;"
                 />
               </div>
             </div>
@@ -2733,7 +2732,6 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                  style="width: 155px;"
                 />
               </div>
             </div>
@@ -5853,7 +5851,6 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                  style="width: 155px;"
                 />
               </div>
             </div>
@@ -8973,7 +8970,6 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                  style="width: 155px;"
                 />
               </div>
             </div>
