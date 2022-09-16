@@ -31,6 +31,7 @@ import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -238,7 +239,10 @@ function App() {
                   <Route path="/tyche" element={<Navigate to="/give" />} />
                   <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
                   <Route path="/ohmgive" element={<Navigate to="/give" />} />
-                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds/inverse" element={<Bond />} />
+                  <Route path="/bonds/inverse/:id" element={<BondModalContainer />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route

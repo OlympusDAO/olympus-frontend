@@ -88,6 +88,8 @@ export const BondInputArea: React.VFC<{
     setConfirmOpen(false);
   }
 
+  console.log(props.bond);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -197,13 +199,11 @@ export const BondInputArea: React.VFC<{
               }'s market value and the bond's price.`}
             />
 
-            {!isInverseBond && (
-              <DataRow
-                title={t`Vesting Term`}
-                balance={<BondDuration duration={props.bond.duration} />}
-                tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-              />
-            )}
+            <DataRow
+              title={t`Vesting Term`}
+              balance={<BondDuration duration={props.bond.duration} />}
+              tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            />
 
             {props.recipientAddress !== address && (
               <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />

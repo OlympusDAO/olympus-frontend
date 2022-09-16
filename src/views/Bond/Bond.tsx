@@ -2,10 +2,9 @@ import { t } from "@lingui/macro";
 import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BondList } from "src/views/Bond/components/BondList";
-import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
@@ -49,7 +48,7 @@ export const Bond = () => {
     }
   }, [liveBonds.isSuccess, liveBonds.data]);
 
-  const BondIndex = () => (
+  return (
     <>
       <PageTitle name={currentAction === "INVERSE" ? "Inverse Bonds" : "Bonds"} />
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
@@ -92,16 +91,6 @@ export const Bond = () => {
           </Box>
         </Paper>
       </Box>
-    </>
-  );
-  return (
-    <>
-      <Routes>
-        <Route index element={<BondIndex />} />
-        <Route path="inverse" element={<BondIndex />} />
-        <Route path=":id" element={<BondModalContainer />} />
-        <Route path="inverse/:id" element={<BondModalContainer />} />
-      </Routes>
     </>
   );
 };

@@ -77,7 +77,7 @@ describe("Inverse Bonds", () => {
     jest.spyOn(Router, "useParams").mockReturnValue({});
 
     render(<Bond />);
-
+    expect(await screen.findByText("Inverse Bond"));
     fireEvent.click(await screen.findByTestId("inverse-bond-tab"));
     expect(await screen.findByText("DAI")).toBeInTheDocument();
   });
@@ -103,7 +103,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
 
     expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-    expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+    expect(screen.getAllByText("Inverse Bond")[1]).toBeInTheDocument(); // Price of the DAI inverse bond.
   });
 });
 
@@ -129,7 +129,6 @@ describe("Bond Modal", () => {
     jest.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
 
     render(<BondModalContainer />);
-    fireEvent.click(screen.getByText("Bond"));
     expect(await screen.findByText("Instantly")).toBeInTheDocument();
     // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)
     expect(await screen.findByText("0 DAI")).toBeInTheDocument();
