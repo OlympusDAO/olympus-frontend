@@ -2,7 +2,6 @@ import { Box, Divider, Grid } from "@mui/material";
 import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
-import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
@@ -28,22 +27,20 @@ export const StakeArea: React.FC = () => {
           </Grid>
         </Box>
 
-        <WalletConnectedGuard message="Connect your wallet to stake OHM">
-          <StakeInputArea isZoomed={isZoomed} />
-          <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
-            <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-              <StakeBalances />
+        <StakeInputArea isZoomed={isZoomed} />
+        <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+            <StakeBalances />
 
-              <Divider />
+            <Divider />
 
-              <StakeNextRebaseAmount />
+            <StakeNextRebaseAmount />
 
-              <StakeRebaseYield />
+            <StakeRebaseYield />
 
-              <StakeFiveDayYield />
-            </Box>
+            <StakeFiveDayYield />
           </Box>
-        </WalletConnectedGuard>
+        </Box>
       </Paper>
     </>
   );
