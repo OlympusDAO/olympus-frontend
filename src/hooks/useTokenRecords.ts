@@ -6,7 +6,7 @@ import {
   TokenRecordsQueryVariables,
   useInfiniteTokenRecordsQuery,
 } from "src/generated/graphql";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
+import { adjustDateByDays, dateGreaterThan, getISO8601String } from "src/helpers/DateHelper";
 import { BLOCKCHAINS, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
@@ -155,8 +155,12 @@ export const useTokenRecordsQueries = (
     blockchain: BLOCKCHAINS,
     results: Map<string, TokenRecord[]>,
     existingResults: Map<string, TokenRecord[]>,
+    latestDate: string | null,
   ): void => {
     results.forEach((records: TokenRecord[], date: string) => {
+      // Skip if greater than latestDate
+      if (latestDate && dateGreaterThan(date, latestDate)) return;
+
       // Get the existing value
       const existingRecords = existingResults.get(date);
 
@@ -172,6 +176,50 @@ export const useTokenRecordsQueries = (
   };
 
   /**
+   * Returns the date representing the latest date in the given results.
+   *
+   * If the results are empty, null is returned.
+   *
+   * @param results
+   * @returns
+   */
+  const getLatestDate = (results: Map<string, TokenRecord[]>): string | null => {
+    const sortedKeys = Array.from(results.keys()).sort();
+
+    if (sortedKeys.length == 0) return null;
+
+    return sortedKeys[sortedKeys.length - 1];
+  };
+
+  /**
+   * Iterate over all of the query results and returns the
+   * latest date that is common across all of the results.
+   */
+  const getCommonLatestDate = (): string | null => {
+    if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
+      return null;
+    }
+
+    const latestDates = [
+      getLatestDate(arbitrumResults),
+      getLatestDate(ethereumResults),
+      getLatestDate(fantomResults),
+      getLatestDate(polygonResults),
+    ];
+
+    // Return the smallest, latest date
+    return latestDates.reduce((previousValue: string | null, currentValue: string | null) => {
+      if (!currentValue || currentValue.length == 0) return previousValue;
+
+      if (!previousValue || previousValue.length == 0) return currentValue;
+
+      if (new Date(previousValue).getTime() < new Date(currentValue).getTime()) return previousValue;
+
+      return currentValue;
+    }, "");
+  };
+
+  /**
    * Combines results from different blockchain queries, once they have all been completed.
    */
   const handleQueryResults = (): void => {
@@ -180,12 +228,14 @@ export const useTokenRecordsQueries = (
       return;
     }
 
+    const commonLatestDate = getCommonLatestDate();
+
     console.debug(`${chartName}: received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();
-    combineQueryResults(BLOCKCHAINS.Arbitrum, arbitrumResults, tempResults);
-    combineQueryResults(BLOCKCHAINS.Ethereum, ethereumResults, tempResults);
-    combineQueryResults(BLOCKCHAINS.Fantom, fantomResults, tempResults);
-    combineQueryResults(BLOCKCHAINS.Polygon, polygonResults, tempResults);
+    combineQueryResults(BLOCKCHAINS.Arbitrum, arbitrumResults, tempResults, commonLatestDate);
+    combineQueryResults(BLOCKCHAINS.Ethereum, ethereumResults, tempResults, commonLatestDate);
+    combineQueryResults(BLOCKCHAINS.Fantom, fantomResults, tempResults, commonLatestDate);
+    combineQueryResults(BLOCKCHAINS.Polygon, polygonResults, tempResults, commonLatestDate);
 
     // We need to sort by key (date), as the ordering of arrival of results will result in them being out of order
     const sortedResults = new Map([...tempResults].sort().reverse());
