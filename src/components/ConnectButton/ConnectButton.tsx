@@ -13,7 +13,7 @@ const fireAnalyticsEvent = () => {
   });
 };
 
-export const InPageConnectButton = () => {
+export const InPageConnectButton = ({ fullWidth = false }: { fullWidth?: boolean }) => {
   return (
     <RainbowConnectButton.Custom>
       {({ account, chain, openConnectModal, mounted }) => {
@@ -32,11 +32,13 @@ export const InPageConnectButton = () => {
               if (!mounted || !account || !chain) {
                 return (
                   <PrimaryButton
+                    fullWidth={fullWidth}
                     onClick={() => {
                       fireAnalyticsEvent();
                       openConnectModal();
                     }}
                   >
+                    <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
                     Connect Wallet
                   </PrimaryButton>
                 );

@@ -117,7 +117,7 @@ export const BondInputArea: React.VFC<{
               }
             />
           </Box>
-          <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
+          <WalletConnectedGuard fullWidth>
             <TokenAllowanceGuard
               isVertical
               tokenAddressMap={props.bond.quoteToken.addresses}
