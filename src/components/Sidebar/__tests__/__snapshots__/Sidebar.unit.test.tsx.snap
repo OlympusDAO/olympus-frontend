@@ -16,7 +16,7 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1l360wv-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1lt5il1-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-14vh17f-MuiPaper-root"
@@ -51,6 +51,36 @@ exports[`<Sidebar/> should render component 1`] = `
                       Olympus
                     </p>
                   </a>
+                  <div
+                    class="MuiBox-root css-focgf"
+                  >
+                    <div
+                      style=""
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-1vlsz04-MuiTypography-root-MuiLink-root"
+                        href="#/wallet"
+                        style="margin-right: 0px;"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
+                            focusable="false"
+                            style="margin-right: 9px;"
+                            viewBox="0 0 20 20"
+                          >
+                            wallet.svg
+                          </svg>
+                          Connect Wallet
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="dapp-menu-links"
