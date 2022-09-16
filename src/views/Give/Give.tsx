@@ -8,6 +8,7 @@ import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Outlet, Route, Routes } from "react-router";
 import { NavLink as RouterLink } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { ChangeAssetType } from "src/slices/interfaces";
@@ -42,43 +43,46 @@ function Give({ selectedIndex = 0 }) {
         <Route
           path="/"
           element={
-            <Grid container direction="column" alignItems="center" className="give-container">
-              <Grid item xs={12} sm={10} md={10} lg={8}>
-                <Paper headerText={t`Give`} fullWidth className="no-container-padding" zoom={false}>
-                  {!isSupportedChain(chain.id) ? (
-                    <Typography variant="h6">
-                      Note: You are currently using an unsupported network. Please switch to Ethereum to experience the
-                      full functionality.
-                    </Typography>
-                  ) : (
-                    <></>
-                  )}
-                  {hasV1Assets && <CallToRedeem />}
-                  <Tabs
-                    centered
-                    value={selectedIndex}
-                    className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
-                    aria-label="stake tabs"
-                    TabIndicatorProps={{ style: { display: "none" } }}
-                  >
-                    <Link to="/give" component={RouterLink} end>
-                      <Tab label={t`Causes`} />
-                    </Link>
-                    <Link to="/give/grants" component={RouterLink}>
-                      <Tab label={t`Grants`} />
-                    </Link>
-                    <Link to="/give/donations" component={RouterLink}>
-                      <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
-                    </Link>
-                    <Link to="/give/redeem" component={RouterLink}>
-                      <Tab label={t`Redeem`} />
-                    </Link>
-                  </Tabs>
-                  <Outlet />
-                </Paper>
-                <GiveInfo />
+            <>
+              <PageTitle name="Give" />
+              <Grid container direction="column" alignItems="center" className="give-container">
+                <Grid item xs={12} sm={10} md={10} lg={8}>
+                  <Paper fullWidth className="no-container-padding" zoom={false}>
+                    {!isSupportedChain(chain.id) ? (
+                      <Typography variant="h6">
+                        Note: You are currently using an unsupported network. Please switch to Ethereum to experience
+                        the full functionality.
+                      </Typography>
+                    ) : (
+                      <></>
+                    )}
+                    {hasV1Assets && <CallToRedeem />}
+                    <Tabs
+                      centered
+                      value={selectedIndex}
+                      className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
+                      aria-label="stake tabs"
+                      TabIndicatorProps={{ style: { display: "none" } }}
+                    >
+                      <Link to="/give" component={RouterLink} end>
+                        <Tab label={t`Causes`} />
+                      </Link>
+                      <Link to="/give/grants" component={RouterLink}>
+                        <Tab label={t`Grants`} />
+                      </Link>
+                      <Link to="/give/donations" component={RouterLink}>
+                        <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
+                      </Link>
+                      <Link to="/give/redeem" component={RouterLink}>
+                        <Tab label={t`Redeem`} />
+                      </Link>
+                    </Tabs>
+                    <Outlet />
+                  </Paper>
+                  <GiveInfo />
+                </Grid>
               </Grid>
-            </Grid>
+            </>
           }
         >
           <Route

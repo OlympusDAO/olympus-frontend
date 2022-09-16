@@ -1,10 +1,11 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
+import { Box, Divider, Link, Paper, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -27,6 +28,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const NavContent: React.VFC = () => {
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
+  const theme = useTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up(1048));
 
   return (
     <Paper className="dapp-sidebar">
@@ -44,6 +47,11 @@ const NavContent: React.VFC = () => {
                 Olympus
               </Typography>
             </Link>
+            {!desktop && (
+              <Box mt="24px" display="flex" justifyContent="center" alignItems="center">
+                <ConnectButton />
+              </Box>
+            )}
           </Box>
 
           <div className="dapp-menu-links">

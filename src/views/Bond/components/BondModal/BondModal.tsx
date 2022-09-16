@@ -3,6 +3,7 @@ import { Box, Skeleton, Typography } from "@mui/material";
 import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import PageTitle from "src/components/PageTitle";
 import { NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
@@ -63,13 +64,17 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
 
     <Box>
-      <Box display="flex" flexDirection="row">
-        <TokenStack tokens={bond.quoteToken.icons} />
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row">
+            <TokenStack tokens={bond.quoteToken.icons} />
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography variant="h1">{bond.quoteToken.name}</Typography>
+            </Box>
+          </Box>
+        }
+      ></PageTitle>
 
-        <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-          <Typography variant="h5">{bond.quoteToken.name}</Typography>
-        </Box>
-      </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
         <BondSettingsModal
           slippage={slippage}

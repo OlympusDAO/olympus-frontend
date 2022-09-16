@@ -16,7 +16,7 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1l360wv-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1lt5il1-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-14vh17f-MuiPaper-root"
@@ -38,7 +38,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
                       focusable="false"
                       style="min-width: 51px; min-height: 51px; width: 51px;"
                       viewBox="0 0 50 50"
@@ -46,11 +46,41 @@ exports[`<Sidebar/> should render component 1`] = `
                       olympus-nav-header.svg
                     </svg>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-1kfxwbv-MuiTypography-root"
                     >
                       Olympus
                     </p>
                   </a>
+                  <div
+                    class="MuiBox-root css-focgf"
+                  >
+                    <div
+                      style=""
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-1vlsz04-MuiTypography-root-MuiLink-root"
+                        href="#/wallet"
+                        style="margin-right: 0px;"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
+                            focusable="false"
+                            style="margin-right: 9px;"
+                            viewBox="0 0 20 20"
+                          >
+                            wallet.svg
+                          </svg>
+                          Connect Wallet
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="dapp-menu-links"
@@ -77,7 +107,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -123,7 +153,7 @@ exports[`<Sidebar/> should render component 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="font-size: 21px;"
                                     viewBox="0 0 20 20"
@@ -142,7 +172,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 12px;"
                               viewBox="0 0 20 20"
@@ -194,7 +224,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -226,7 +256,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -258,7 +288,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -321,7 +351,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -333,7 +363,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Olympus Pro
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -371,7 +401,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -385,7 +415,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Forum
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -416,7 +446,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -430,7 +460,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Governance
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -461,7 +491,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -475,7 +505,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Docs
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -506,7 +536,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -518,7 +548,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Bug Bounty
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -549,7 +579,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -563,7 +593,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             Grants
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -589,7 +619,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -606,7 +636,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -623,7 +653,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -640,7 +670,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >

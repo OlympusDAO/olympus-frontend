@@ -11,6 +11,19 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
     <div
       id="stake-view"
     >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky css-j2x41h-MuiPaper-root-MuiAppBar-root"
+      >
+        <div
+          class="MuiBox-root css-cnhn83"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-j1zvnf-MuiTypography-root"
+          >
+            Stake
+          </h4>
+        </div>
+      </header>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1px9s0k-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
@@ -18,55 +31,6 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
         >
-          <div
-            class="MuiGrid-root MuiGrid-item card-header css-13i4rnv-MuiGrid-root"
-          >
-            <div
-              class="MuiBox-root css-gg4vpm"
-            >
-              <div
-                class="MuiBox-root css-u4p24i"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 header-text css-1r0s3mh-MuiTypography-root"
-                >
-                  Single Stake
-                </p>
-                <div
-                  class="MuiBox-root css-1isemmb"
-                >
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault Chip-chip css-q07b3o-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
-                    >
-                      (3,3)
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="top-right"
-              />
-            </div>
-            <div
-              class="MuiBox-root css-k008qs"
-            >
-              <div
-                class="rebase-timer MuiBox-root css-0"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                    style="width: 155px;"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
           <div
             class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
           >
@@ -95,13 +59,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Annualized Rebases
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -116,7 +80,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <div
-                        class="Metric-root stake-tvl css-17kya8e"
+                        class="Metric-root  css-17kya8e"
                       >
                         <div
                           class="MuiBox-root css-g45inh"
@@ -125,19 +89,25 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
-                              Total Value Deposited
+                              Time to Next Rebase
                             </p>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
-                            <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                              style="width: 100%;"
-                            />
+                            <span>
+                              <div
+                                class="MuiBox-root css-0"
+                              >
+                                <span
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                                  style="width: 155px;"
+                                />
+                              </div>
+                            </span>
                           </p>
                         </div>
                       </div>
@@ -155,7 +125,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             class="MuiBox-root css-1n2mv2k"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1lub2vt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 Metric-label css-1ehg17p-MuiTypography-root"
                             >
                               Current Index
                             </p>
@@ -169,7 +139,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -182,7 +152,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                             </div>
                           </div>
                           <p
-                            class="MuiTypography-root MuiTypography-body1 css-1q5p5g-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
@@ -207,7 +177,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                   style=""
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -216,7 +186,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </div>
               </div>
               <h6
-                class="MuiTypography-root MuiTypography-h6 css-1wdxjpy-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h6 css-m77z2n-MuiTypography-root"
               >
                 Connect your wallet to stake OHM
               </h6>
@@ -242,7 +212,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -291,7 +261,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -340,7 +310,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   gOHM-wETH
                 </p>
@@ -350,7 +320,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -665,13 +635,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -687,13 +657,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -703,7 +673,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://app.sushi.com/farm?filter=2x"
               tabindex="0"
               target="_blank"
@@ -716,7 +686,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -747,7 +717,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -796,7 +766,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -845,7 +815,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   gOHM-wETH
                 </p>
@@ -855,7 +825,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -874,13 +844,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -896,13 +866,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -912,7 +882,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://app.sushi.com/farm?filter=2x"
               tabindex="0"
               target="_blank"
@@ -925,7 +895,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -956,7 +926,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1005,7 +975,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1024,7 +994,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   gOHM-AVAX
                 </p>
@@ -1034,7 +1004,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -1057,13 +1027,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1079,13 +1049,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1095,7 +1065,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
               tabindex="0"
               target="_blank"
@@ -1108,7 +1078,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -1139,7 +1109,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1188,7 +1158,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1239,7 +1209,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   gOHM-wFTM
                 </p>
@@ -1249,7 +1219,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -1304,13 +1274,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1326,13 +1296,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1342,7 +1312,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
               tabindex="0"
               target="_blank"
@@ -1355,7 +1325,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -1386,7 +1356,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1518,7 +1488,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1570,7 +1540,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   jgOHM-gOHM
                 </p>
@@ -1580,7 +1550,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -1895,13 +1865,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1917,13 +1887,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -1933,7 +1903,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://jonesdao.io/farms"
               tabindex="0"
               target="_blank"
@@ -1946,7 +1916,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -1977,7 +1947,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -1995,7 +1965,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2013,7 +1983,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2062,7 +2032,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   OHM-DAI-wETH
                 </p>
@@ -2072,7 +2042,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -2125,13 +2095,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2147,13 +2117,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2163,7 +2133,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
               tabindex="0"
               target="_blank"
@@ -2176,7 +2146,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -2207,7 +2177,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2225,7 +2195,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2274,7 +2244,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   OHM-ETH
                 </p>
@@ -2284,7 +2254,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -2337,13 +2307,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2359,13 +2329,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2375,7 +2345,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://curve.fi/factory-crypto/21/deposit"
               tabindex="0"
               target="_blank"
@@ -2388,7 +2358,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -2419,7 +2389,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2437,7 +2407,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2486,7 +2456,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   OHM-ETH
                 </p>
@@ -2496,7 +2466,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -2549,13 +2519,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2571,13 +2541,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2587,7 +2557,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://www.convexfinance.com/stake"
               tabindex="0"
               target="_blank"
@@ -2600,7 +2570,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -2631,7 +2601,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2649,7 +2619,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: -6px; z-index: 1; font-size: 24px;"
                   viewBox="0 0 32 32"
@@ -2672,7 +2642,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="ExternalStakePools-poolName"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                 >
                   OHM-FRAX
                 </p>
@@ -2682,7 +2652,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
                   focusable="false"
                   style="font-size: 15px;"
                   viewBox="0 0 32 32"
@@ -2735,13 +2705,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   TVL
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2757,13 +2727,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                 class="MuiBox-root css-1xhj18k"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 >
                   APY
                 </p>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
                 style="text-align: right;"
               >
                 <span
@@ -2773,7 +2743,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-bjth9-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-xtniq9-MuiButtonBase-root-MuiButton-root"
               href="https://app.frax.finance/staking/fraxswap-v2-frax-ohm"
               tabindex="0"
               target="_blank"
@@ -2786,7 +2756,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >

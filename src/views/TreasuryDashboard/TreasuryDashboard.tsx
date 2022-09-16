@@ -2,6 +2,7 @@ import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
 import { getSubgraphUrl } from "src/constants";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
@@ -228,14 +229,18 @@ const PageWrapper = () => {
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
 
   return (
-    <Container
-      style={{
-        paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-        paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-      }}
-    >
-      <Outlet />
-    </Container>
+    <>
+      <PageTitle name="Dashboard" />
+
+      <Container
+        style={{
+          paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+          paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+        }}
+      >
+        <Outlet />
+      </Container>
+    </>
   );
 };
 const TreasuryDashboard = () => {
