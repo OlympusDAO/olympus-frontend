@@ -1,8 +1,10 @@
 import { t } from "@lingui/macro";
-import { Box, Skeleton, Typography } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { Box, Link, Skeleton, Typography } from "@mui/material";
 import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
@@ -66,7 +68,16 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     <Box>
       <PageTitle
         name={
-          <Box display="flex" flexDirection="row">
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Link component={RouterLink} to="/bonds">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                  Back
+                </Typography>
+              </Box>
+            </Link>
+
             <TokenStack tokens={bond.quoteToken.icons} />
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
               <Typography variant="h1">{bond.quoteToken.name}</Typography>
