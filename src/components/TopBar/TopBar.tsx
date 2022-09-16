@@ -67,7 +67,6 @@ function TopBar({ handleDrawerToggle }: TopBarProps) {
             color="secondary"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
-            // sx={{ zIndex: 18 }}
           >
             <SvgIcon component={MenuIcon} />
           </Button>

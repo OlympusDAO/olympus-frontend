@@ -51,36 +51,6 @@ exports[`<Sidebar/> should render component 1`] = `
                       Olympus
                     </p>
                   </a>
-                  <div
-                    class="MuiBox-root css-focgf"
-                  >
-                    <div
-                      style=""
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-1vlsz04-MuiTypography-root-MuiLink-root"
-                        href="#/wallet"
-                        style="margin-right: 0px;"
-                      >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
-                            focusable="false"
-                            style="margin-right: 9px;"
-                            viewBox="0 0 20 20"
-                          >
-                            wallet.svg
-                          </svg>
-                          Connect Wallet
-                        </button>
-                      </a>
-                    </div>
-                  </div>
                 </div>
                 <div
                   class="dapp-menu-links"
