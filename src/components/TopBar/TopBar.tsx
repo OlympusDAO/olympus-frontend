@@ -47,29 +47,33 @@ function TopBar({ handleDrawerToggle }: TopBarProps) {
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up(1048));
   return (
-    <StyledAppBar position="sticky" className={classes.appBar} elevation={0} sx={{ zIndex: 20 }}>
-      <Box display="flex" flexDirection="row" justifyContent="space-between">
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="flex-end"
+      paddingTop="21px"
+      marginRight={desktop ? "33px" : "0px"}
+    >
+      <Box display="flex" alignItems="center">
         <Box display="flex" alignItems="center">
+          <ConnectButton />
+        </Box>
+        {!desktop && (
           <Button
             id="hamburger"
             aria-label="open drawer"
             size="large"
-            variant="contained"
+            variant="text"
             color="secondary"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
-            sx={{ zIndex: 18 }}
+            // sx={{ zIndex: 18 }}
           >
             <SvgIcon component={MenuIcon} />
           </Button>
-        </Box>
-        {desktop && (
-          <Box display="flex" alignItems="center">
-            <ConnectButton />
-          </Box>
         )}
       </Box>
-    </StyledAppBar>
+    </Box>
   );
 }
 

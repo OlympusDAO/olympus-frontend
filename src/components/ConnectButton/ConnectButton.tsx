@@ -51,7 +51,7 @@ export const InPageConnectButton = () => {
 export const ConnectButton = () => {
   const location = useLocation();
   const theme = useTheme();
-  const mobileWidth = useMediaQuery(theme.breakpoints.up("sm"));
+  const desktopTablet = useMediaQuery(theme.breakpoints.up("sm"));
 
   const walletDrawerOpen =
     location.pathname === "/wallet" || location.pathname === "/utility" || location.pathname === "/info" ? true : false;
@@ -104,10 +104,27 @@ export const ConnectButton = () => {
                       style={{ marginRight: "0px" }}
                       sx={{ zIndex: 18 }}
                     >
-                      <PrimaryButton>
-                        <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                        {t`Connect Wallet`}
-                      </PrimaryButton>
+                      {desktopTablet ? (
+                        <PrimaryButton>
+                          <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+                          {t`Connect Wallet`}
+                        </PrimaryButton>
+                      ) : (
+                        <Button
+                          sx={{
+                            fontSize: "0.875rem",
+                            height: "39px",
+                            minWidth: "39px",
+                            borderRadius: "6px",
+                            background:
+                              theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.card,
+                            color: theme.colors.gray[10],
+                            "&:hover": { background: theme.colors.gray[90], color: theme.colors.gray[10] },
+                          }}
+                        >
+                          <SvgIcon component={WalletIcon} />
+                        </Button>
+                      )}
                     </Link>
                   );
                 }
