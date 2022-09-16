@@ -12,7 +12,7 @@ exports[`<Stake/> should render component 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiBox-root css-xrxhyi"
+        class="MuiBox-root css-6y4wdt"
       >
         <h1
           class="MuiTypography-root MuiTypography-h1 css-f2reur-MuiTypography-root"
@@ -2674,7 +2674,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
       id="stake-view"
     >
       <div
-        class="MuiBox-root css-xrxhyi"
+        class="MuiBox-root css-6y4wdt"
       >
         <h1
           class="MuiTypography-root MuiTypography-h1 css-f2reur-MuiTypography-root"
