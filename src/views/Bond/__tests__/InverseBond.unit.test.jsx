@@ -1,10 +1,11 @@
-import { fireEvent } from "@testing-library/dom";
+import { BigNumber } from "ethers";
 import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import * as ContractAllowance from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
-import { render, screen } from "src/testUtils";
+import { fireEvent, render, screen } from "src/testUtils";
 import {
   inverseMarketPrice,
   inverseMarkets,
@@ -125,7 +126,10 @@ describe("Bond Modal", () => {
   it("Should display bond modal with Instant Payout Bond (Inverse)", async () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
+    jest.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+
     render(<BondModalContainer />);
+    fireEvent.click(screen.getByText("Bond"));
     expect(await screen.findByText("Instantly")).toBeInTheDocument();
     // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)
     expect(await screen.findByText("0 DAI")).toBeInTheDocument();

@@ -87,6 +87,7 @@ export const BondInputArea: React.VFC<{
     purchaseBondMutation.reset();
     setConfirmOpen(false);
   }
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -105,6 +106,7 @@ export const BondInputArea: React.VFC<{
                   endStringOnClick={setMax}
                   value={amount}
                   onChange={event => setAmount(event.currentTarget.value)}
+                  inputProps={{ "data-testId": "fromInput" }}
                 />
               }
               LowerSwapCard={
@@ -113,6 +115,7 @@ export const BondInputArea: React.VFC<{
                   token={<TokenStack tokens={props.bond.baseToken.icons} sx={{ fontSize: "21px" }} />}
                   tokenName={props.bond.baseToken.name}
                   value={amountInBaseToken.toString()}
+                  inputProps={{ "data-testId": "toInput" }}
                 />
               }
             />
