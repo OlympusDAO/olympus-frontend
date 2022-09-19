@@ -112,15 +112,16 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     tokenRecordResults.forEach((value, key) => {
       const currentTokenRecords = value;
       const currentTokenSupplies = tokenSupplyResults.get(key);
-      if (!currentTokenSupplies) {
-        return; // TODO resotre
-        // throw new Error(`${chartName}: expected tokenSupplies on date ${key} to exist`);
-      }
-
       const currentProtocolMetrics = protocolMetricResults.get(key);
-      if (!currentProtocolMetrics) {
-        return; // TODO restore
-        // throw new Error(`${chartName}: expected protocolMetrics on date ${key} to exist`);
+
+      if (!currentTokenSupplies || !currentProtocolMetrics) {
+        /**
+         * Similar to the other charts (except that it is abstracted into {useTokenRecordsQueries}),
+         * once we reach a date that does not contain TokenSupply or ProtocolMetric records, we abort.
+         *
+         * This will cause the chart to display up to (but not including) that date.
+         */
+        return;
       }
 
       const latestTokenRecord = currentTokenRecords[0];
