@@ -35,6 +35,29 @@ export const useProtocolMetricsQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, ProtocolMetric[]> | null => {
+  // Create a paginator
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
+  const paginator = useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
+
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteProtocolMetricsQuery(
+    { endpoint: subgraphUrl },
+    "filter",
+    {
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
+      recordCount: DEFAULT_RECORD_COUNT,
+      endpoint: subgraphUrl,
+    },
+    {
+      enabled: earliestDate !== null && baseFilter != null,
+      getNextPageParam: paginator.current,
+    },
+  );
+
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
@@ -60,30 +83,7 @@ export const useProtocolMetricsQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, earliestDate]);
-
-  // Create a paginator
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
-  const paginator = useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
-
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteProtocolMetricsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: subgraphUrl,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter != null,
-      getNextPageParam: paginator.current,
-    },
-  );
+  }, [baseFilter, chartName, dateOffset, earliestDate, refetch, subgraphUrl]);
 
   // Handle subsequent pages
   useEffect(() => {
@@ -92,7 +92,7 @@ export const useProtocolMetricsQuery = (
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage]);
+  }, [data, hasNextPage, fetchNextPage, chartName]);
 
   const [byDateProtocolMetrics, setByDateProtocolMetrics] = useState<Map<string, ProtocolMetric[]> | null>(null);
 
@@ -107,7 +107,7 @@ export const useProtocolMetricsQuery = (
     const records = data.pages.map(query => query.protocolMetrics).flat();
     const dateRecords = getProtocolMetricDateMap(records, true);
     setByDateProtocolMetrics(dateRecords);
-  }, [hasNextPage, data]);
+  }, [hasNextPage, data, chartName]);
 
   return byDateProtocolMetrics;
 };
