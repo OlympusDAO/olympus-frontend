@@ -35,6 +35,29 @@ export const useTokenSuppliesQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenSupply[]> | null => {
+  // Create a paginator
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
+  const paginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
+
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
+    { endpoint: subgraphUrl },
+    "filter",
+    {
+      filter: {
+        ...baseFilter,
+        date_gte: initialStartDate,
+        date_lt: initialFinishDate,
+      },
+      recordCount: DEFAULT_RECORD_COUNT,
+      endpoint: subgraphUrl,
+    },
+    {
+      enabled: earliestDate !== null && baseFilter != null,
+      getNextPageParam: paginator.current,
+    },
+  );
+
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
@@ -60,30 +83,7 @@ export const useTokenSuppliesQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, earliestDate]);
-
-  // Create a paginator
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
-  const paginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
-
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: subgraphUrl,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter != null,
-      getNextPageParam: paginator.current,
-    },
-  );
+  }, [baseFilter, chartName, dateOffset, earliestDate, refetch, subgraphUrl]);
 
   // Handle subsequent pages
   useEffect(() => {
@@ -92,7 +92,7 @@ export const useTokenSuppliesQuery = (
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage]);
+  }, [data, hasNextPage, fetchNextPage, chartName]);
 
   const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
 
@@ -107,7 +107,7 @@ export const useTokenSuppliesQuery = (
     const records = data.pages.map(query => query.tokenSupplies).flat();
     const dateRecords = getTokenSupplyDateMap(records, true);
     setByDateTokenSupplies(dateRecords);
-  }, [hasNextPage, data]);
+  }, [hasNextPage, data, chartName]);
 
   return byDateTokenSupplies;
 };
