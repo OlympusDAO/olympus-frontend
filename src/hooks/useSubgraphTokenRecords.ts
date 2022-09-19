@@ -40,26 +40,6 @@ export const useTokenRecordsQuery = (
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
 
-  // Handle date changes
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenRecords(null);
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl);
-  }, [baseFilter, earliestDate]);
-
   // Create a paginator
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
     { endpoint: subgraphUrl },
@@ -79,6 +59,33 @@ export const useTokenRecordsQuery = (
     },
   );
 
+  // Handle date changes
+  useEffect(() => {
+    // We can't create the paginator until we have an earliestDate
+    if (!earliestDate || !baseFilter) {
+      return;
+    }
+
+    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+
+    // We need to wipe the data, otherwise it will be inconsistent
+    setByDateTokenRecords(null);
+
+    // Force fetching of data with the new paginator
+    // Calling refetch() after setting the new paginator causes the query to never finish
+    refetch();
+
+    // Create a new paginator with the new earliestDate
+    paginator.current = getNextPageParamFactory(
+      chartName,
+      earliestDate,
+      DEFAULT_RECORD_COUNT,
+      baseFilter,
+      subgraphUrl,
+      dateOffset,
+    );
+  }, [baseFilter, earliestDate, chartName, refetch, subgraphUrl, dateOffset]);
+
   // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
@@ -86,7 +93,7 @@ export const useTokenRecordsQuery = (
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage]);
+  }, [data, hasNextPage, fetchNextPage, chartName]);
 
   const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
 
@@ -101,7 +108,7 @@ export const useTokenRecordsQuery = (
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords, true);
     setByDateTokenRecords(dateTokenRecords);
-  }, [hasNextPage, data]);
+  }, [hasNextPage, data, chartName]);
 
   return byDateTokenRecords;
 };
@@ -190,58 +197,56 @@ export const useTokenRecordsQueries = (
     });
   };
 
-  /**
-   * Returns the date representing the latest date in the given results.
-   *
-   * If the results are empty, null is returned.
-   *
-   * @param results
-   * @returns
-   */
-  const getLatestDate = (results: Map<string, TokenRecord[]>): string | null => {
-    const sortedKeys = Array.from(results.keys()).sort();
-
-    if (sortedKeys.length == 0) return null;
-
-    return sortedKeys[sortedKeys.length - 1];
-  };
-
-  /**
-   * Iterate over all of the query results and returns the
-   * latest date that is common across all of the results.
-   */
-  const getCommonLatestDate = (): string | null => {
-    if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
-      return null;
-    }
-
-    const latestDates = [
-      getLatestDate(arbitrumResults),
-      getLatestDate(ethereumResults),
-      getLatestDate(fantomResults),
-      getLatestDate(polygonResults),
-    ];
-
-    // Return the smallest, latest date
-    return latestDates.reduce((previousValue: string | null, currentValue: string | null) => {
-      if (!currentValue || currentValue.length == 0) return previousValue;
-
-      if (!previousValue || previousValue.length == 0) return currentValue;
-
-      if (new Date(previousValue).getTime() < new Date(currentValue).getTime()) return previousValue;
-
-      return currentValue;
-    }, "");
-  };
-
-  /**
-   * Combines results from different blockchain queries, once they have all been completed.
-   */
-  const handleQueryResults = (): void => {
+  // Handle receiving the finalised data from each blockchain
+  useEffect(() => {
     // Only combine (and trigger a re-render) when all results have been received
     if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
       return;
     }
+
+    /**
+     * Returns the date representing the latest date in the given results.
+     *
+     * If the results are empty, null is returned.
+     *
+     * @param results
+     * @returns
+     */
+    const getLatestDate = (results: Map<string, TokenRecord[]>): string | null => {
+      const sortedKeys = Array.from(results.keys()).sort();
+
+      if (sortedKeys.length == 0) return null;
+
+      return sortedKeys[sortedKeys.length - 1];
+    };
+
+    /**
+     * Iterate over all of the query results and returns the
+     * latest date that is common across all of the results.
+     */
+    const getCommonLatestDate = (): string | null => {
+      if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
+        return null;
+      }
+
+      const latestDates = [
+        getLatestDate(arbitrumResults),
+        getLatestDate(ethereumResults),
+        getLatestDate(fantomResults),
+        getLatestDate(polygonResults),
+      ];
+
+      // Return the smallest, latest date
+      return latestDates.reduce((previousValue: string | null, currentValue: string | null) => {
+        if (!currentValue || currentValue.length == 0) return previousValue;
+
+        if (!previousValue || previousValue.length == 0) return currentValue;
+
+        if (new Date(previousValue).getTime() < new Date(currentValue).getTime()) return previousValue;
+
+        return currentValue;
+      }, "");
+    };
 
     const commonLatestDate = getCommonLatestDate();
 
@@ -256,24 +261,7 @@ export const useTokenRecordsQueries = (
     const sortedResults = new Map([...tempResults].sort().reverse());
 
     setCombinedResults(sortedResults);
-  };
-
-  // Handle receiving the finalised data from each blockchain
-  useEffect(() => {
-    handleQueryResults();
-  }, [arbitrumResults]);
-
-  useEffect(() => {
-    handleQueryResults();
-  }, [ethereumResults]);
-
-  useEffect(() => {
-    handleQueryResults();
-  }, [fantomResults]);
-
-  useEffect(() => {
-    handleQueryResults();
-  }, [polygonResults]);
+  }, [arbitrumResults, chartName, ethereumResults, fantomResults, polygonResults]);
 
   return combinedResults;
 };
