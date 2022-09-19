@@ -12,7 +12,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,

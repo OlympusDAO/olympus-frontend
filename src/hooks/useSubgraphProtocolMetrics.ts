@@ -1,21 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  TokenSuppliesQuery,
-  TokenSuppliesQueryVariables,
-  TokenSupply,
-  TokenSupply_Filter,
-  useInfiniteTokenSuppliesQuery,
+  ProtocolMetric,
+  ProtocolMetric_Filter,
+  ProtocolMetricsQuery,
+  ProtocolMetricsQueryVariables,
+  useInfiniteProtocolMetricsQuery,
 } from "src/generated/graphql";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   getNextPageParamFactory,
-  getTokenSupplyDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
+  getProtocolMetricDateMap,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
+import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
- * Fetches TokenSupply records from {subgraphUrl}, returning the records
+ * Fetches ProtocolMetrics records from {subgraphUrl}, returning the records
  * grouped by date.
  *
  * Only the records belonging to the latest block per date are returned.
@@ -28,13 +28,13 @@ import {
  * @param earliestDate
  * @returns Records grouped by date, or null if still fetching
  */
-export const useTokenSuppliesQuery = (
+export const useProtocolMetricsQuery = (
   chartName: string,
   subgraphUrl: string, // shift to type with url per blockchain
-  baseFilter: TokenSupply_Filter,
+  baseFilter: ProtocolMetric_Filter,
   earliestDate: string | null,
   dateOffset?: number,
-): Map<string, TokenSupply[]> | null => {
+): Map<string, ProtocolMetric[]> | null => {
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
@@ -45,7 +45,7 @@ export const useTokenSuppliesQuery = (
     console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
 
     // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenRecords(null);
+    setByDateProtocolMetrics(null);
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
@@ -65,9 +65,9 @@ export const useTokenSuppliesQuery = (
   // Create a paginator
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
-  const paginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
+  const paginator = useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
 
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteProtocolMetricsQuery(
     { endpoint: subgraphUrl },
     "filter",
     {
@@ -94,7 +94,7 @@ export const useTokenSuppliesQuery = (
     }
   }, [data, hasNextPage, fetchNextPage]);
 
-  const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenSupply[]> | null>(null);
+  const [byDateProtocolMetrics, setByDateProtocolMetrics] = useState<Map<string, ProtocolMetric[]> | null>(null);
 
   // Group by date
   useMemo(() => {
@@ -104,10 +104,10 @@ export const useTokenSuppliesQuery = (
     }
 
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
-    const tokenRecords = data.pages.map(query => query.tokenSupplies).flat();
-    const dateTokenRecords = getTokenSupplyDateMap(tokenRecords, true);
-    setByDateTokenRecords(dateTokenRecords);
+    const records = data.pages.map(query => query.protocolMetrics).flat();
+    const dateRecords = getProtocolMetricDateMap(records, true);
+    setByDateProtocolMetrics(dateRecords);
   }, [hasNextPage, data]);
 
-  return byDateTokenRecords;
+  return byDateProtocolMetrics;
 };

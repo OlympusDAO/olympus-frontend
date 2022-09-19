@@ -22,8 +22,8 @@ import {
   getLiquidBackingPerOhmFloating,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
-import { useTokenSuppliesQuery } from "src/hooks/useTokenSupplies";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
