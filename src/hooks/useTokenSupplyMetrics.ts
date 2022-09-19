@@ -8,12 +8,14 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+    { endpoint: endpoint },
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
+      endpoint: endpoint,
     },
     {
       select: data => getOhmCirculatingSupply(data.tokenSupplies),
@@ -25,12 +27,14 @@ export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
 
 export const useOhmFloatingSupply = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+    { endpoint: endpoint },
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
+      endpoint: endpoint,
     },
     {
       select: data => getOhmFloatingSupply(data.tokenSupplies),
@@ -42,12 +46,14 @@ export const useOhmFloatingSupply = (subgraphUrl?: string) => {
 
 export const useGOhmSyntheticSupply = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+    { endpoint: endpoint },
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
+      endpoint: endpoint,
     },
     {
       select: data => getOhmFloatingSupply(data.tokenSupplies),

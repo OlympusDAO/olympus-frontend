@@ -1461,6 +1461,7 @@ export type TokenSuppliesQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<TokenSupply_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type TokenSuppliesQuery = {
@@ -1605,7 +1606,7 @@ export const useInfiniteTokenRecordsQuery = <TData = TokenRecordsQuery, TError =
   );
 
 export const TokenSuppliesDocument = `
-    query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
+    query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter, $endpoint: String!) {
   tokenSupplies(
     first: $recordCount
     skip: $startingRecord

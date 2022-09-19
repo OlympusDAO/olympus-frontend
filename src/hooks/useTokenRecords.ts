@@ -31,7 +31,7 @@ import {
  */
 export const useTokenRecordsQuery = (
   chartName: string,
-  subgraphUrl: string, // shift to type with url per blockchain
+  subgraphUrl: string,
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
   dateOffset?: number,
@@ -97,7 +97,6 @@ export const useTokenRecordsQuery = (
       return;
     }
 
-    // todo combine data once all queries have finished
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords, true);

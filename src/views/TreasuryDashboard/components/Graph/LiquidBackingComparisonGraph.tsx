@@ -8,10 +8,7 @@ import {
   ProtocolMetricsQuery,
   ProtocolMetricsQueryVariables,
   TokenRecord_Filter,
-  TokenSuppliesQuery,
-  TokenSuppliesQueryVariables,
   useInfiniteProtocolMetricsQuery,
-  useInfiniteTokenSuppliesQuery,
 } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
@@ -26,6 +23,7 @@ import {
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenRecordsQueries } from "src/hooks/useTokenRecords";
+import { useTokenSuppliesQuery } from "src/hooks/useTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -42,10 +40,6 @@ import {
   getNextPageStartDate,
   getSubgraphQueryExplorerUrl,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import {
-  getNextPageParamFactory as getNextPageParamTokenSupplyFactory,
-  getTokenSupplyDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -63,14 +57,17 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   const chartName = "LiquidBackingComparison";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate
-    ? null
-    : getNextPageStartDate(initialFinishDate, earliestDate, subgraphDaysOffset);
-
   const tokenRecordResults = useTokenRecordsQueries(
     chartName,
     subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
+
+  const tokenSupplyResults = useTokenSuppliesQuery(
+    chartName,
+    subgraphUrls.Ethereum,
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
@@ -91,7 +88,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
    *
    * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
    */
-  const tokenSuppliesPaginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
   const protocolMetricsPaginator =
     useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
   useEffect(() => {
@@ -104,17 +100,9 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
-    tokenSuppliesRefetch();
     protocolMetricsRefetch();
 
     // Create a new paginator with the new earliestDate
-    tokenSuppliesPaginator.current = getNextPageParamTokenSupplyFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-      subgraphDaysOffset,
-    );
     protocolMetricsPaginator.current = getNextPageParamProtocolMetricFactory(
       chartName,
       earliestDate,
@@ -131,29 +119,10 @@ export const LiquidBackingPerOhmComparisonGraph = ({
    *
    * The definition of getNextPageParam() handles pagination.
    */
-  // TokenSupply
-  const {
-    data: tokenSuppliesData,
-    hasNextPage: tokenSuppliesHasNextPage,
-    fetchNextPage: tokenSuppliesFetchNextPage,
-    refetch: tokenSuppliesRefetch,
-  } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrls.Ethereum },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: tokenSuppliesPaginator.current,
-    },
-  );
-
+  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+  const initialStartDate = !earliestDate
+    ? null
+    : getNextPageStartDate(initialFinishDate, earliestDate, subgraphDaysOffset);
   // ProtocolMetric
   const {
     data: protocolMetricsData,
@@ -188,14 +157,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
    * fetching all pages. This code block achieves that.
    */
   useEffect(() => {
-    if (tokenSuppliesHasNextPage) {
-      console.debug(chartName + ": fetching next page of tokenSupplies");
-      tokenSuppliesFetchNextPage();
-      return;
-    }
-  }, [tokenSuppliesData, tokenSuppliesHasNextPage, tokenSuppliesFetchNextPage]);
-
-  useEffect(() => {
     if (protocolMetricsHasNextPage) {
       console.debug(chartName + ": fetching next page of protocolMetrics");
       protocolMetricsFetchNextPage();
@@ -222,13 +183,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   const [byDateLiquidBacking, setByDateLiquidBacking] = useState<LiquidBackingComparison[]>([]);
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
-    if (
-      tokenSuppliesHasNextPage ||
-      protocolMetricsHasNextPage ||
-      !tokenSuppliesData ||
-      !protocolMetricsData ||
-      !tokenRecordResults
-    ) {
+    if (protocolMetricsHasNextPage || !protocolMetricsData || !tokenRecordResults || !tokenSupplyResults) {
       console.debug(`${chartName}: removing cached data, as query is in progress.`);
       resetCachedData();
       return;
@@ -236,7 +191,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
     // We need to flatten the records from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
-    const byDateTokenSupplies = getTokenSupplyDateMap(tokenSuppliesData.pages.map(query => query.tokenSupplies).flat());
     const byDateProtocolMetrics = getProtocolMetricDateMap(
       protocolMetricsData.pages.map(query => query.protocolMetrics).flat(),
     );
@@ -244,7 +198,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
     tokenRecordResults.forEach((value, key) => {
       const currentTokenRecords = value;
-      const currentTokenSupplies = byDateTokenSupplies.get(key);
+      const currentTokenSupplies = tokenSupplyResults.get(key);
       if (!currentTokenSupplies) {
         return; // TODO resotre
         // throw new Error(`${chartName}: expected tokenSupplies on date ${key} to exist`);
@@ -279,13 +233,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     });
 
     setByDateLiquidBacking(tempByDateLiquidBacking);
-  }, [
-    tokenSuppliesHasNextPage,
-    protocolMetricsHasNextPage,
-    tokenSuppliesData,
-    protocolMetricsData,
-    tokenRecordResults,
-  ]);
+  }, [protocolMetricsHasNextPage, protocolMetricsData, tokenRecordResults, tokenSupplyResults]);
 
   /**
    * Header subtext

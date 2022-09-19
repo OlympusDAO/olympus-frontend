@@ -11,7 +11,7 @@ import {
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
-import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupply";
+import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmFloating, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
