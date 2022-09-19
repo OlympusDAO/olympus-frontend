@@ -1,6 +1,11 @@
 # endpoint is given as a variable, so that queries to different endpoints are treated by react-query as unique
 
-query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+query ProtocolMetrics(
+  $recordCount: Int!
+  $startingRecord: Int = 0
+  $filter: ProtocolMetric_filter
+  $endpoint: String!
+) {
   protocolMetrics(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     block

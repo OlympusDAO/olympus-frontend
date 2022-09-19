@@ -1403,6 +1403,7 @@ export type ProtocolMetricsQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<ProtocolMetric_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type ProtocolMetricsQuery = {
@@ -1485,7 +1486,7 @@ export type TokenSuppliesQuery = {
 };
 
 export const ProtocolMetricsDocument = `
-    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter, $endpoint: String!) {
   protocolMetrics(
     first: $recordCount
     skip: $startingRecord
