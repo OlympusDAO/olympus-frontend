@@ -26,12 +26,19 @@ export const TreasuryAssetsTable = ({
   earliestDate,
   isLiquidBackingActive,
   selectedIndex,
+  subgraphDaysOffset,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const chartName = "TreasuryAssetsTable";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
 
   /**
    * Chart population:

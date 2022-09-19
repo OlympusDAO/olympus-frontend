@@ -34,9 +34,10 @@ export const useTokenRecordsQuery = (
   subgraphUrl: string, // shift to type with url per blockchain
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
+  dateOffset?: number,
 ): Map<string, TokenRecord[]> | null => {
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO restore offset
+  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
 
   // Handle date changes
@@ -125,6 +126,7 @@ export const useTokenRecordsQueries = (
   subgraphUrls: SUBGRAPH_URLS,
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
+  dateOffset?: number,
 ): Map<string, TokenRecord[]> | null => {
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
@@ -132,15 +134,29 @@ export const useTokenRecordsQueries = (
     subgraphUrls.Arbitrum,
     baseFilter,
     earliestDate,
+    dateOffset,
   );
   const ethereumResults = useTokenRecordsQuery(
     `${chartName}/Ethereum`,
     subgraphUrls.Ethereum,
     baseFilter,
     earliestDate,
+    dateOffset,
   );
-  const fantomResults = useTokenRecordsQuery(`${chartName}/Fantom`, subgraphUrls.Fantom, baseFilter, earliestDate);
-  const polygonResults = useTokenRecordsQuery(`${chartName}/Polygon`, subgraphUrls.Polygon, baseFilter, earliestDate);
+  const fantomResults = useTokenRecordsQuery(
+    `${chartName}/Fantom`,
+    subgraphUrls.Fantom,
+    baseFilter,
+    earliestDate,
+    dateOffset,
+  );
+  const polygonResults = useTokenRecordsQuery(
+    `${chartName}/Polygon`,
+    subgraphUrls.Polygon,
+    baseFilter,
+    earliestDate,
+    dateOffset,
+  );
   const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
 
   /**

@@ -29,7 +29,7 @@ import {
 /**
  * Stacked area chart that displays protocol-owned liquidity.
  */
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
@@ -37,7 +37,13 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate }: Grap
     category: CATEGORY_POL,
   });
 
-  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
 
   /**
    * Chart population:

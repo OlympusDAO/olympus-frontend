@@ -14,6 +14,7 @@ import {
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
+  PARAM_DAYS_OFFSET,
   PARAM_TOKEN,
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
@@ -48,6 +49,15 @@ const MetricsDashboard = () => {
    * and not load data until earliestDate is a valid value.
    */
   const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+  /**
+   * State variable for the number of days to offset each subgraph query with.
+   *
+   * This should be a negative number.
+   *
+   * If the number is too large and the results of any query page are greater than 1000, clipping
+   * will take place.
+   */
+  const [daysOffset, setDaysOffset] = useState<number | undefined>(undefined);
 
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
@@ -71,6 +81,14 @@ const MetricsDashboard = () => {
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
+
+    // Get the days offset
+    const offset = searchParams.get(PARAM_DAYS_OFFSET);
+    if (offset) {
+      const offsetInt = parseInt(offset);
+      console.info(`Setting days offset to ${offsetInt}`);
+      setDaysOffset(offsetInt);
+    }
   }, [searchParams]);
 
   // Used by the Metrics
@@ -200,17 +218,22 @@ const MetricsDashboard = () => {
               subgraphUrls={subgraphUrls}
               activeToken={token}
               earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
             />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} />
+            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrls={subgraphUrls} earliestDate={earliestDate} />
+            <ProtocolOwnedLiquidityGraph
+              subgraphUrls={subgraphUrls}
+              earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
+            />
           </Paper>
         </Grid>
       </Grid>

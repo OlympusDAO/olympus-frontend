@@ -51,7 +51,12 @@ import {
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per floating OHM.
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrls, earliestDate, activeToken }: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({
+  subgraphUrls,
+  earliestDate,
+  activeToken,
+  subgraphDaysOffset,
+}: GraphProps) => {
   // TODO look at how to combine query documents
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
@@ -59,9 +64,17 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrls, earliestDate,
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, -180); // TODO remove offset
+  const initialStartDate = !earliestDate
+    ? null
+    : getNextPageStartDate(initialFinishDate, earliestDate, subgraphDaysOffset);
 
-  const tokenRecordResults = useTokenRecordsQueries(chartName, subgraphUrls, baseFilter, earliestDate);
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
 
   /**
    * Active token:
@@ -100,14 +113,14 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrls, earliestDate,
       earliestDate,
       DEFAULT_RECORD_COUNT,
       baseFilter,
-      -180, // TODO remove offset
+      subgraphDaysOffset,
     );
     protocolMetricsPaginator.current = getNextPageParamProtocolMetricFactory(
       chartName,
       earliestDate,
       DEFAULT_RECORD_COUNT,
       baseFilter,
-      -180, // TODO remove offset
+      subgraphDaysOffset,
     );
   }, [baseFilter, earliestDate]);
 

@@ -11,6 +11,8 @@ export const PARAM_TOKEN = "token";
 export const PARAM_TOKEN_OHM = "OHM";
 export const PARAM_TOKEN_GOHM = "gOHM";
 
+export const PARAM_DAYS_OFFSET = "daysOffset";
+
 export type GraphProps = {
   subgraphUrls: SUBGRAPH_URLS;
   /**
@@ -18,6 +20,7 @@ export type GraphProps = {
    * Components should avoid loading any data until earliestDate is non-null.
    */
   earliestDate: string | null;
+  subgraphDaysOffset: number | undefined;
   activeToken?: string;
   onMouseMove?: CategoricalChartFunc;
 };
