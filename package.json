@@ -107,7 +107,7 @@
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
-    "@typescript-eslint/parser": "^5.37.0",
+    "@typescript-eslint/parser": "^5.38.0",
     "assert": "^2.0.0",
     "autoprefixer": "^10.4.11",
     "babel-plugin-macros": "^3.1.0",
