@@ -222,7 +222,11 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
 
     <TableCell style={{ padding: "8px 0" }}>
       <Typography>
-        {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+        {bond.isSoldOut ? (
+          "--"
+        ) : (
+          <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} isV3Bond={bond.isV3Bond} />
+        )}
       </Typography>
     </TableCell>
 

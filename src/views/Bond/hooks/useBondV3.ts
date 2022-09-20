@@ -1,107 +1,56 @@
 import { useQuery } from "@tanstack/react-query";
-import { EthereumNetwork, NetworkId } from "src/constants";
-import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { NetworkId } from "src/constants";
+import { BOND_FIXED_TERM_SDA_ADDRESSES } from "src/constants/addresses";
+import {
+  BOND_AGGREGATOR_CONTRACT,
+  BOND_FIXED_EXPIRY_SDA_CONTRACT,
+  BOND_FIXED_TERM_SDA_CONTRACT,
+} from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
-import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { UseBondOptions } from "src/views/Bond/hooks/useBond";
 
-export interface Bond {
-  /**
-   * Market id of this bond
-   */
-  id: string;
-  /**
-   * The token the market buys from the protocol
-   */
-  baseToken: Token;
-  /**
-   * The token that the market sells to the protocol
-   */
-  quoteToken: Token;
-  /**
-   * The discount relative to the current market price of the token being sold
-   */
-  discount: DecimalBigNumber;
-  /**
-   * The duration until the bond matures in seconds
-   */
-  duration: number;
-  /**
-   * Boolean describing whether this bond is
-   * either fixed-term, or fixed-expiration
-   */
-  isFixedTerm: boolean;
-  /**
-   * A boolean describing whether or not this bond is
-   * sold out at the current point in time.
-   */
-  isSoldOut: boolean;
-  /**
-   * Price of the bond
-   */
-  price: {
-    inUsd: DecimalBigNumber;
-    inBaseToken: DecimalBigNumber;
-  };
-  /*
-   * Capacity is the number of tokens
-   * left available for purchase
-   */
-  capacity: {
-    inBaseToken: DecimalBigNumber;
-    inQuoteToken: DecimalBigNumber;
-  };
-  /*
-   * Max payout is the number of tokens left available
-   * in this specific deposit interval.
-   */
-  maxPayout: {
-    inBaseToken: DecimalBigNumber;
-    inQuoteToken: DecimalBigNumber;
-  };
-  isV3Bond?: boolean;
-}
+export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options] as const;
 
-export interface UseBondOptions {
-  id: string;
-  isInverseBond?: boolean;
-  networkId: EthereumNetwork;
-}
-
-export const bondQueryKey = (options: UseBondOptions) => ["useBond", options] as const;
-
-export const useBond = ({ id, isInverseBond = false }: Omit<UseBondOptions, "networkId">) => {
+export const useBondV3 = ({ id, isInverseBond = false }: Omit<UseBondOptions, "networkId">) => {
+  console.log(id, "id");
   const networks = useTestableNetworks();
   const args = { id, networkId: networks.MAINNET, isInverseBond };
-  return useQuery([bondQueryKey(args)], () => fetchBond(args));
+  return useQuery([bondV3QueryKey(args)], () => fetchBondV3(args));
 };
 
-export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions) => {
-  const contract = isInverseBond
-    ? OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId)
-    : BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
+export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptions) => {
+  const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
+  const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
+  const fixedTerm = auctioneerAddress === BOND_FIXED_TERM_SDA_ADDRESSES[networkId];
+  console.log(fixedTerm, auctioneerAddress, BOND_FIXED_TERM_SDA_ADDRESSES[networkId], "fixedTerm", id);
+  const auctioneerContract = fixedTerm
+    ? BOND_FIXED_TERM_SDA_CONTRACT.getEthersContract(networkId)
+    : BOND_FIXED_EXPIRY_SDA_CONTRACT.getEthersContract(networkId);
 
-  const [terms, market] = await Promise.all([contract.terms(id), contract.markets(id)]);
+  const market = await auctioneerContract.markets(id);
+  const terms = await auctioneerContract.terms(id);
+  console.log(id, market, terms, "test", isInverseBond);
+  const baseToken = !isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
+  console.log(id, baseToken, isInverseBond, "base token", market.payoutToken);
+  assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
 
-  const baseToken = isInverseBond
-    ? await getTokenByAddress({ address: (market as any).baseToken, networkId })
-    : OHM_TOKEN;
-  assert(baseToken, `Unknown base token address: ${(market as any).baseToken}`);
-
-  const quoteToken = isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
+  const quoteToken = !isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
   assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
 
   const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
     baseToken.getPrice(NetworkId.MAINNET),
     quoteToken.getPrice(NetworkId.MAINNET),
-    contract.marketPrice(id).then(price => new DecimalBigNumber(price, baseToken.decimals)),
+    auctioneerContract.marketPrice(id).then(price => new DecimalBigNumber(price, 36)),
   ]);
 
+  console.log(baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken, baseTokenPerUsd, id, "debug");
+
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
-  const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
+  const discount = priceInUsd.sub(baseTokenPerUsd).div(priceInUsd);
 
   /**
    * Bonds mature with a cliff at a set timestamp
@@ -118,7 +67,7 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    * i.e. expiration = day 10. when alice deposits on day 1, her term
    * is 9 days. when bob deposits on day 2, his term is 8 days.
    */
-  const duration = terms.fixedTerm ? terms.vesting : terms.conclusion - Date.now() / 1000;
+  const duration = fixedTerm ? terms.vesting : terms.conclusion - Date.now() / 1000;
 
   /*
    * each market is initialized with a capacity
@@ -169,7 +118,7 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
     discount,
     duration,
     isSoldOut,
-    isFixedTerm: terms.fixedTerm,
+    isFixedTerm: fixedTerm,
     price: {
       inUsd: priceInUsd,
       inBaseToken: quoteTokenPerBaseToken,
@@ -182,5 +131,6 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
       inBaseToken: maxPayoutInBaseToken,
       inQuoteToken: maxPayoutInQuoteToken,
     },
+    isV3Bond: true,
   };
 };

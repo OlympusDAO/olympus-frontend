@@ -65,13 +65,11 @@ export const usePurchaseBond = (bond: Bond) => {
       if (!isValidAddress(recipientAddress)) throw new Error(t`Please enter a valid address as the recipient address`);
 
       if (!signer) throw new Error(t`Please connect a wallet to purchase a bond`);
-
       if (chain.id !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
       const slippageAsPercent = parsedSlippage.div("100");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
-
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
 
       if (isInverseBond) {
@@ -89,7 +87,14 @@ export const usePurchaseBond = (bond: Bond) => {
 
         return transaction.wait();
       }
-
+      console.log("before");
+      console.log(
+        bond.id,
+        parsedAmount.toBigNumber(),
+        maxPrice.toBigNumber(bond.baseToken.decimals),
+        recipientAddress,
+        referrer,
+      );
       const transaction = await BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
         .connect(signer)
         .deposit(
@@ -99,6 +104,8 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
+      console.log("after");
+
       return transaction.wait();
     },
     {
