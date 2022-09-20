@@ -8,10 +8,11 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount } from "wagmi";
 
-export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
+export const useStakeToken = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const { address = "" } = useAccount();
@@ -19,8 +20,8 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, string>(
-    async amount => {
+  return useMutation<ContractReceipt, EthersError, { amount: string; toToken: string }>({
+    onMutate: async ({ amount, toToken }) => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
       const _amount = new DecimalBigNumber(amount, 9);
@@ -42,39 +43,37 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
       return transaction.wait();
     },
-    {
-      onError: error => {
-        dispatch(createErrorToast(error.message));
-      },
-      onSuccess: async (tx, amount) => {
-        trackGAEvent({
-          category: "Staking",
-          action: "stake",
-          label: `Stake to ${toToken}`,
-          value: new DecimalBigNumber(amount, 9).toApproxNumber(),
-          dimension1: tx.transactionHash,
-          dimension2: address,
-        });
-
-        trackGtagEvent("Stake Test 2", {
-          event_category: "Staking",
-          value: new DecimalBigNumber(amount, 9).toApproxNumber(),
-          address: address.slice(2),
-          txHash: tx.transactionHash.slice(2),
-          token: toToken,
-        });
-
-        const keysToRefetch = [
-          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
-        ];
-
-        const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
-
-        await Promise.all(promises);
-
-        dispatch(createInfoToast(t`Successfully staked OHM`));
-      },
+    onError: error => {
+      dispatch(createErrorToast("error" in error ? error.error.message : error.message));
     },
-  );
+    onSuccess: async (tx, data) => {
+      trackGAEvent({
+        category: "Staking",
+        action: "stake",
+        label: `Stake to ${data.toToken}`,
+        value: new DecimalBigNumber(data.amount, 9).toApproxNumber(),
+        dimension1: tx.transactionHash,
+        dimension2: address,
+      });
+
+      trackGtagEvent("Stake Test 2", {
+        event_category: "Staking",
+        value: new DecimalBigNumber(data.amount, 9).toApproxNumber(),
+        address: address.slice(2),
+        txHash: tx.transactionHash.slice(2),
+        token: data.toToken,
+      });
+
+      const keysToRefetch = [
+        balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+        balanceQueryKey(address, data.toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
+      ];
+
+      const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
+
+      await Promise.all(promises);
+
+      dispatch(createInfoToast(t`Successfully staked OHM`));
+    },
+  });
 };

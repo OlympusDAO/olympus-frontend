@@ -26,6 +26,11 @@ export const OHM_DAI_LP_ADDRESSES = {
   [NetworkId.MAINNET]: "0x055475920a8c93CfFb64d039A8205F7AcC7722d3",
 };
 
+export const OHM_DAI_ETH_LP_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xc45D42f801105e861e86658648e3678aD7aa70f9",
+  [NetworkId.TESTNET_GOERLI]: "",
+};
+
 export const WBTC_ADDRESSES = {
   [NetworkId.MAINNET]: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 };
@@ -49,15 +54,6 @@ export const DAI_ADDRESSES = {
 
 export const WETH_ADDRESSES = {
   [NetworkId.MAINNET]: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-};
-
-export const GIVE_ADDRESSES = {
-  [NetworkId.TESTNET_GOERLI]: "0x6982CcD55F95A7469746C123f73D54377f382454",
-  [NetworkId.MAINNET]: "0x42842Fd91c83B84D51D1be514B9716d62c61CbEF",
-};
-
-export const OLD_GIVE_ADDRESSES = {
-  [NetworkId.MAINNET]: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
 };
 
 export const GOHM_ADDRESSES = {
@@ -130,6 +126,7 @@ export const FUSE_POOL_36_ADDRESSES = {
 
 export const ZAP_ADDRESSES = {
   [NetworkId.MAINNET]: "0x6F5CC3EDEa92AB52b75bad50Bcf4C6daa781B87e",
+  [NetworkId.TESTNET_GOERLI]: "",
 };
 
 export const PT_PRIZE_POOL_ADDRESSES = {

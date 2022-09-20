@@ -81,18 +81,20 @@ export const StakeBalances = () => {
             id="user-staked-balance"
             isLoading={!allBalancesLoaded}
             title={t`Total Staked Balance`}
-            balance={`${totalStakedBalance} sOHM`}
+            balance={`${totalStakedBalance} OHM`}
           />
         </AccordionSummary>
 
         <AccordionDetails>
-          <DataRow
-            indented
-            title={t`sOHM`}
-            id="sohm-balance"
-            isLoading={!sohmBalance}
-            balance={`${formatBalance(sohmBalance)} sOHM`}
-          />
+          {sohmBalance?.gt("0") && (
+            <DataRow
+              indented
+              title={t`sOHM`}
+              id="sohm-balance"
+              isLoading={!sohmBalance}
+              balance={`${formatBalance(sohmBalance)} sOHM`}
+            />
+          )}
 
           <DataRow
             indented

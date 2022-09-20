@@ -213,107 +213,6 @@ exports[`<Sidebar/> should render component 1`] = `
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/zap"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 18.176 7.27 C 18.54 7.27 18.812 7.453 18.994 7.817 C 19.174 8.09 19.083 8.454 18.903 8.726 L 9.819 19.636 C 9.637 19.909 9.365 20 9.092 20 C 9.002 20 8.82 20 8.729 19.909 C 8.365 19.818 8.092 19.365 8.184 19 L 9.002 12.725 L 1.825 12.725 C 1.492 12.728 1.183 12.555 1.007 12.27 C 0.826 11.908 0.916 11.545 1.099 11.27 L 10.183 0.363 C 10.43 0.016 10.892 -0.098 11.273 0.09 C 11.635 0.181 11.908 0.635 11.817 0.999 L 11 7.272 L 18.176 7.272 Z M 10.909 11.907 L 10.364 16.089 L 16.177 9.088 L 9.91 9.088 C 9.672 9.078 9.445 8.982 9.274 8.817 C 9.16 8.59 9.098 8.342 9.092 8.088 L 9.547 3.906 L 3.733 10.906 L 10 10.906 C 10.273 10.906 10.545 10.997 10.728 11.179 C 10.819 11.363 10.909 11.634 10.909 11.907 Z"
-                              />
-                            </svg>
-                            Zap
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/give"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M10 2.734C8.985 1.546 7.5.8 5.95.8 3.052.8.8 3.28.8 6.395c0 1.914.792 3.638 2.15 5.449 1.346 1.795 3.265 3.697 5.56 5.969l.044.044 1.306 1.285.14.14.14-.14 1.306-1.295.02-.02c2.305-2.278 4.234-4.184 5.585-5.984 1.358-1.81 2.149-3.534 2.149-5.448C19.2 3.28 16.948.8 14.05.8c-1.551 0-3.035.746-4.05 1.934Zm0 13.327c-2.123-2.095-3.871-3.825-5.094-5.383C3.673 9.108 3 7.745 3 6.395c0-1.868 1.276-3.233 2.95-3.233 1.298 0 2.575.915 3.025 2.182l.047.133h1.966l.047-.134c.44-1.266 1.716-2.181 3.015-2.181 1.674 0 2.95 1.365 2.95 3.233 0 1.35-.672 2.713-1.906 4.283-1.223 1.558-2.971 3.288-5.094 5.383Z"
-                              />
-                            </svg>
-                            Give
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/wrap"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 17.119 9.976 C 17.119 13.338 14.855 16.142 11.808 16.951 L 11.808 17.868 C 11.772 17.97 11.752 18.079 11.752 18.194 C 11.752 18.308 11.772 18.417 11.808 18.519 L 11.808 18.924 C 11.884 18.909 11.96 18.892 12.035 18.875 C 12.208 19.047 12.448 19.154 12.712 19.154 L 19.04 19.154 C 19.57 19.154 20 18.724 20 18.194 C 20 17.663 19.57 17.233 19.04 17.233 L 15.487 17.233 C 17.647 15.565 19.04 12.935 19.04 9.976 C 19.04 4.933 14.993 0.845 10 0.845 C 5.008 0.845 0.961 4.933 0.961 9.976 C 0.961 12.935 2.354 15.565 4.514 17.233 L 0.961 17.233 C 0.43 17.233 0 17.663 0 18.194 C 0 18.724 0.43 19.154 0.961 19.154 L 7.289 19.154 C 7.553 19.154 7.792 19.047 7.966 18.875 C 8.041 18.892 8.117 18.909 8.192 18.924 L 8.192 18.519 C 8.229 18.417 8.249 18.308 8.249 18.194 C 8.249 18.08 8.229 17.97 8.192 17.868 L 8.192 16.951 C 5.146 16.142 2.882 13.338 2.882 9.976 C 2.882 5.976 6.087 2.766 10 2.766 C 13.914 2.766 17.119 5.976 17.119 9.976 Z"
-                              />
-                              <path
-                                clip-rule="evenodd"
-                                d="M 12.712 9.976 C 12.712 11.489 11.498 12.715 10 12.715 C 8.503 12.715 7.289 11.489 7.289 9.976 C 7.289 8.463 8.503 7.237 10 7.237 C 11.498 7.237 12.712 8.463 12.712 9.976 Z M 10.791 9.976 C 10.791 10.446 10.419 10.794 10 10.794 C 9.582 10.794 9.209 10.446 9.209 9.976 C 9.209 9.506 9.582 9.158 10 9.158 C 10.419 9.158 10.791 9.506 10.791 9.976 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Wrap
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/bridge"
                       >
                         <div
@@ -486,6 +385,51 @@ exports[`<Sidebar/> should render component 1`] = `
                               />
                             </svg>
                             Forum
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              focusable="false"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div
+                      class="NavItem-root nav-item-container css-20fmbk"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
+                        href="https://vote.olympusdao.finance/"
+                        target="_blank"
+                      >
+                        <div
+                          class="link-container MuiBox-root css-b2udjo"
+                        >
+                          <div
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              focusable="false"
+                              style="font-size: 21px;"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M 7.5 3.334 C 6.119 3.334 5 4.453 5 5.834 C 5 7.214 6.119 8.334 7.5 8.334 C 8.881 8.334 10 7.214 10 5.834 C 10 4.453 8.881 3.334 7.5 3.334 Z M 3.333 5.834 C 3.333 3.532 5.199 1.667 7.5 1.667 C 9.801 1.667 11.667 3.532 11.667 5.834 C 11.667 8.135 9.801 10 7.5 10 C 5.199 10 3.333 8.135 3.333 5.834 Z M 12.526 2.402 C 12.64 1.956 13.093 1.687 13.54 1.801 C 14.436 2.031 15.231 2.552 15.798 3.283 C 16.365 4.014 16.673 4.913 16.673 5.838 C 16.673 6.763 16.365 7.662 15.798 8.393 C 15.231 9.124 14.436 9.645 13.54 9.874 C 13.093 9.988 12.64 9.72 12.526 9.274 C 12.412 8.828 12.681 8.374 13.127 8.26 C 13.663 8.122 14.141 7.809 14.481 7.371 C 14.822 6.932 15.007 6.393 15.007 5.838 C 15.007 5.283 14.822 4.743 14.481 4.305 C 14.141 3.866 13.663 3.554 13.127 3.416 C 12.681 3.302 12.412 2.848 12.526 2.402 Z M 1.22 12.887 C 2.002 12.106 3.062 11.667 4.167 11.667 L 10.833 11.667 C 11.938 11.667 12.998 12.106 13.78 12.887 C 14.561 13.669 15 14.729 15 15.834 L 15 17.5 C 15 17.96 14.627 18.334 14.167 18.334 C 13.706 18.334 13.333 17.96 13.333 17.5 L 13.333 15.834 C 13.333 15.17 13.07 14.535 12.601 14.066 C 12.132 13.597 11.496 13.334 10.833 13.334 L 4.167 13.334 C 3.504 13.334 2.868 13.597 2.399 14.066 C 1.93 14.535 1.667 15.17 1.667 15.834 L 1.667 17.5 C 1.667 17.96 1.294 18.334 0.833 18.334 C 0.373 18.334 0 17.96 0 17.5 L 0 15.834 C 0 14.729 0.439 13.669 1.22 12.887 Z M 15.86 12.4 C 15.975 11.955 16.428 11.687 16.875 11.802 C 17.768 12.033 18.561 12.554 19.126 13.283 C 19.692 14.013 19.998 14.91 20 15.833 L 20 17.5 C 20 17.96 19.627 18.334 19.167 18.334 C 18.706 18.334 18.333 17.96 18.333 17.5 L 18.333 15.834 C 18.333 15.28 18.148 14.742 17.808 14.305 C 17.47 13.867 16.995 13.554 16.458 13.416 C 16.013 13.301 15.745 12.846 15.86 12.4 Z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                            Governance
                             <svg
                               aria-hidden="true"
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"

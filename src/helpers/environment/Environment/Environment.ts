@@ -139,30 +139,6 @@ export class Environment {
     }
   };
 
-  /**
-   * Indicates whether the give feature is enabled.
-   *
-   * Defaults to true. Only false when `REACT_APP_GIVE_ENABLED` === "false"
-   */
-  public static isGiveEnabled() {
-    const isDisabled = this.env.REACT_APP_GIVE_ENABLED === "false";
-
-    return !isDisabled;
-  }
-
-  /**
-   * Indicates whether mockSohm is enabled.
-   * This is needed for easily manually testing rebases for Give on testnet
-   *
-   * Defaults to false. Only true when the `mock_sohm` query param is present or `REACT_APP_MOCK_SOHM_ENABLED` === "true"
-   */
-  public static isMockSohmEnabled(url: string) {
-    const isQueryParamActive = url.includes("mock_sohm");
-    const isEnvTrue = this.env.REACT_APP_MOCK_SOHM_ENABLED === "true";
-
-    return isQueryParamActive || isEnvTrue;
-  }
-
   public static isWalletNewsEnabled() {
     return this.env.REACT_APP_DISABLE_NEWS !== "true";
   }
