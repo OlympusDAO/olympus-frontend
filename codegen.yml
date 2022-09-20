@@ -14,6 +14,7 @@ generates:
       scalars:
         BigDecimal: number
         BigInt: number
+        Bytes: Uint8Array # https://thegraph.com/docs/en/developing/assemblyscript-api/#bytes
     hooks:
       afterOneFileWrite:
         - yarn eslint --config ./.eslintrc.js --fix

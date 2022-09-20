@@ -33,7 +33,7 @@ export type Scalars = {
   Float: number;
   BigDecimal: number;
   BigInt: number;
-  Bytes: any;
+  Bytes: Uint8Array;
 };
 
 export type BlockChangedFilter = {
