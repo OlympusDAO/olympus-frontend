@@ -39,6 +39,7 @@ export const useProtocolMetricsQuery = (
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
+  const functionName = `${chartName}/ProtocolMetric`;
 
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteProtocolMetricsQuery(
     { endpoint: subgraphUrl },
@@ -65,7 +66,7 @@ export const useProtocolMetricsQuery = (
       return;
     }
 
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+    console.info(`${functionName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
 
     // We need to wipe the data, otherwise it will be inconsistent
     setByDateProtocolMetrics(null);
@@ -83,31 +84,30 @@ export const useProtocolMetricsQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, chartName, dateOffset, earliestDate, refetch, subgraphUrl]);
+  }, [baseFilter, chartName, dateOffset, earliestDate, functionName, refetch, subgraphUrl]);
 
   // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
+      console.debug(`${functionName}: fetching next page`);
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage, chartName]);
+  }, [data, hasNextPage, fetchNextPage, chartName, functionName]);
 
   const [byDateProtocolMetrics, setByDateProtocolMetrics] = useState<Map<string, ProtocolMetric[]> | null>(null);
 
   // Group by date
   useMemo(() => {
     if (hasNextPage || !data) {
-      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
       return;
     }
 
-    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
+    console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
     const records = data.pages.map(query => query.protocolMetrics).flat();
     const dateRecords = getProtocolMetricDateMap(records, true);
     setByDateProtocolMetrics(dateRecords);
-  }, [hasNextPage, data, chartName]);
+  }, [hasNextPage, data, functionName]);
 
   return byDateProtocolMetrics;
 };

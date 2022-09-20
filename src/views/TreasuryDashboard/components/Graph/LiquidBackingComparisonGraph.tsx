@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { ProtocolMetricsDocument, TokenRecord_Filter } from "src/generated/graphql";
@@ -77,10 +77,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     setIsActiveTokenOHM(activeToken === PARAM_TOKEN_OHM);
   }, [activeToken]);
 
-  const resetCachedData = () => {
-    setByDateLiquidBacking([]);
-  };
-
   /**
    * Chart population:
    *
@@ -101,8 +97,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
     if (!protocolMetricResults || !tokenRecordResults || !tokenSupplyResults) {
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
       return;
     }
 
@@ -148,6 +142,13 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
     setByDateLiquidBacking(tempByDateLiquidBacking);
   }, [protocolMetricResults, tokenRecordResults, tokenSupplyResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateLiquidBacking([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Header subtext

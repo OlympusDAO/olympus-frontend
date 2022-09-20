@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
@@ -115,6 +115,13 @@ export const TreasuryAssetsGraph = ({
 
     setByDateMetrics(tempByDateMetrics);
   }, [tokenRecordResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateMetrics([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Set total

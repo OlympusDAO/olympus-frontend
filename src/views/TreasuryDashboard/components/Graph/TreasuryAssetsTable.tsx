@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
@@ -65,6 +65,13 @@ export const TreasuryAssetsTable = ({
     const newDateTokenSummary = getDateTokenSummary(filteredRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateTokenSummary([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Cache the tokens for the current value of selectedIndex.

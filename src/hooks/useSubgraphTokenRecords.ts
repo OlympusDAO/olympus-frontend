@@ -39,6 +39,7 @@ export const useTokenRecordsQuery = (
   const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+  const functionName = `${chartName}/TokenRecord`;
 
   // Create a paginator
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
@@ -66,7 +67,7 @@ export const useTokenRecordsQuery = (
       return;
     }
 
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
+    console.info(`${functionName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
 
     // We need to wipe the data, otherwise it will be inconsistent
     setByDateTokenRecords(null);
@@ -84,31 +85,30 @@ export const useTokenRecordsQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, earliestDate, chartName, refetch, subgraphUrl, dateOffset]);
+  }, [baseFilter, earliestDate, chartName, refetch, subgraphUrl, dateOffset, functionName]);
 
   // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
+      console.debug(`${functionName}: fetching next page`);
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage, chartName]);
+  }, [data, hasNextPage, fetchNextPage, chartName, functionName]);
 
   const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
 
   // Group by date
   useMemo(() => {
     if (hasNextPage || !data) {
-      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
       return;
     }
 
-    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
+    console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords, true);
     setByDateTokenRecords(dateTokenRecords);
-  }, [hasNextPage, data, chartName]);
+  }, [hasNextPage, data, functionName]);
 
   return byDateTokenRecords;
 };
