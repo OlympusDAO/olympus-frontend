@@ -213,38 +213,6 @@ exports[`<Sidebar/> should render component 1`] = `
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/give"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M10 2.734C8.985 1.546 7.5.8 5.95.8 3.052.8.8 3.28.8 6.395c0 1.914.792 3.638 2.15 5.449 1.346 1.795 3.265 3.697 5.56 5.969l.044.044 1.306 1.285.14.14.14-.14 1.306-1.295.02-.02c2.305-2.278 4.234-4.184 5.585-5.984 1.358-1.81 2.149-3.534 2.149-5.448C19.2 3.28 16.948.8 14.05.8c-1.551 0-3.035.746-4.05 1.934Zm0 13.327c-2.123-2.095-3.871-3.825-5.094-5.383C3.673 9.108 3 7.745 3 6.395c0-1.868 1.276-3.233 2.95-3.233 1.298 0 2.575.915 3.025 2.182l.047.133h1.966l.047-.134c.44-1.266 1.716-2.181 3.015-2.181 1.674 0 2.95 1.365 2.95 3.233 0 1.35-.672 2.713-1.906 4.283-1.223 1.558-2.971 3.288-5.094 5.383Z"
-                              />
-                            </svg>
-                            Give
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
                         href="#/bridge"
                       >
                         <div

@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
@@ -66,7 +65,6 @@ const NavContent: React.VFC = () => {
                     </NavItem>
                   )}
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
                   <Box className="menu-divider">
                     <Divider />

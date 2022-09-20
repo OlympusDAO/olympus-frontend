@@ -25,9 +25,6 @@ import FUSE_PROXY_ABI from "src/abi/FuseProxy.json";
 import IERC20_ABI from "src/abi/IERC20.json";
 import JOECHEF_ABI from "src/abi/JoeChef.json";
 import JOE_REWARDER_ABI from "src/abi/JoeRewarder.json";
-import GIVE_ABI from "src/abi/OlympusGiving.json";
-import GIVE_OLD_ABI from "src/abi/OlympusGivingOld.json";
-import MOCK_GIVE_ABI from "src/abi/OlympusMockGiving.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import PAIR_CONTRACT_ABI from "src/abi/PairContract.json";
 import SOHM_ABI from "src/abi/sOhmv2.json";
@@ -43,9 +40,6 @@ import {
   DevFaucet,
   FuseProxy,
   IERC20,
-  OlympusGiving,
-  OlympusGivingOld,
-  OlympusMockGiving,
   OlympusStakingv2,
   PairContract,
   SOhmv2,
@@ -129,7 +123,6 @@ export const useStaticPairContract = createStaticContract<PairContract>(PAIR_CON
 export const useStaticStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
 export const useStaticBondContract = createStaticContract<BondDepository>(BOND_ABI.abi);
 
-export const useStaticMockGiveContract = createStaticContract<OlympusMockGiving>(MOCK_GIVE_ABI.abi);
 export const useStaticChefContract = createStaticContract<SushiChef>(SUSHI_CHEF_ABI.abi);
 export const useStaticChefRewarderContract = createStaticContract<SushiRewarder>(SUSHI_REWARDER_ABI.abi);
 export const useStaticJoeChefContract = createStaticContract<JoeChef>(JOECHEF_ABI.abi);
@@ -146,8 +139,6 @@ export const useStaticCurveGaugeDepositContract = createStaticContract<CurveGaug
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI.abi);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
-export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI.abi);
-export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI.abi);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI.abi);
 export const useDynamicFaucetContract = createDynamicContract<DevFaucet>(DEV_FAUCET.abi);
 

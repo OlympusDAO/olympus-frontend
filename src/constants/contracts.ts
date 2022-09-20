@@ -3,7 +3,6 @@ import {
   BOND_AUCTIONEER_ADDRESSES,
   BOND_DEPOSITORY_ADDRESSES,
   DEV_FAUCET,
-  GIVE_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
@@ -18,7 +17,6 @@ import {
   BondAuctioneer__factory,
   BondDepository__factory,
   CrossChainMigrator__factory,
-  OlympusGiving__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   Range__factory,
@@ -91,10 +89,4 @@ export const FAUCET = new Contract({
   factory: DevFaucet__factory,
   name: "Goerli Faucet Contract",
   addresses: DEV_FAUCET,
-});
-
-export const GIVE_CONTRACT = new Contract({
-  factory: OlympusGiving__factory,
-  name: "Olympus Give Contract",
-  addresses: GIVE_ADDRESSES,
 });
