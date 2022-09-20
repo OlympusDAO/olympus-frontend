@@ -3,7 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
-import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import {
+  BOND_DEPOSITORY_CONTRACT,
+  BOND_FIXED_EXPIRY_TELLER,
+  BOND_FIXED_TERM_TELLER,
+  OP_BOND_DEPOSITORY_CONTRACT,
+} from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
@@ -32,6 +37,7 @@ export const usePurchaseBond = (bond: Bond) => {
       slippage: string;
       isInverseBond: boolean;
       recipientAddress: string;
+      isV3Bond?: string;
     }
   >(
     async ({ amount, slippage, recipientAddress, isInverseBond }) => {
@@ -71,12 +77,11 @@ export const usePurchaseBond = (bond: Bond) => {
       const slippageAsPercent = parsedSlippage.div("100");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+      const minAmountOut = parsedAmount
+        .div(bond.price.inBaseToken)
+        .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
 
-      if (isInverseBond) {
-        const minAmountOut = parsedAmount
-          .div(bond.price.inBaseToken)
-          .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
-
+      if (isInverseBond && !bond.isV3Bond) {
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
           .deposit(
@@ -87,14 +92,23 @@ export const usePurchaseBond = (bond: Bond) => {
 
         return transaction.wait();
       }
-      console.log("before");
-      console.log(
-        bond.id,
-        parsedAmount.toBigNumber(),
-        maxPrice.toBigNumber(bond.baseToken.decimals),
-        recipientAddress,
-        referrer,
-      );
+      //TODO: V3 Bond only supports Fixed Expiry. Not tested for fixed term/ERC-1155
+      if (bond.isV3Bond) {
+        const amountOut = isInverseBond ? minAmountOut : maxPrice;
+        const bondContract = bond.isFixedTerm ? BOND_FIXED_TERM_TELLER : BOND_FIXED_EXPIRY_TELLER;
+        const transaction = await bondContract
+          .getEthersContract(networks.MAINNET)
+          .connect(signer)
+          .purchase(
+            recipientAddress,
+            referrer,
+            bond.id,
+            parsedAmount.toBigNumber(),
+            amountOut.toBigNumber(bond.baseToken.decimals),
+          );
+
+        return transaction.wait();
+      }
       const transaction = await BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
         .connect(signer)
         .deposit(
@@ -104,12 +118,12 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
-      console.log("after");
 
       return transaction.wait();
     },
     {
       onError: error => {
+        console.log(error);
         dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (tx, { amount }) => {

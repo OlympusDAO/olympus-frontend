@@ -55,7 +55,7 @@ export const fetchLiveBondsV3 = async ({ networkId, isInverseBond }: UseLiveBond
   console.log("fetch live bonds v3", contract);
 
   const markets = await contract
-    .liveMarketsFor(OHM_ADDRESSES[networkId], isInverseBond ? true : false)
+    .liveMarketsFor(OHM_ADDRESSES[networkId], isInverseBond ? false : true)
     .then(ids => ids.map(id => id.toString()));
 
   console.log(markets, "markets");

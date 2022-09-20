@@ -206,7 +206,7 @@ const payoutTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
     : bond.capacity.inBaseToken
   ).toString()}`;
   return `${payoutFormatter.format(parseInt(payoutTokenCapacity))} ${" "}
-  ${isInverseBond ? bond.baseToken.name : `sOHM`}`;
+  ${isInverseBond ? bond.baseToken.name : `OHM`}`;
 };
 const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
   <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
@@ -249,7 +249,14 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
     )}
 
     <TableCell style={{ padding: "8px 0" }}>
-      <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
+      <Link
+        component={NavLink}
+        to={
+          isInverseBond
+            ? `/bonds/${bond.isV3Bond ? `v3/` : ""}inverse/${bond.id}`
+            : `/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`
+        }
+      >
         <TertiaryButton fullWidth disabled={bond.isSoldOut}>
           {bond.isSoldOut
             ? t({ message: "Sold Out", comment: "Bond is sold out" })

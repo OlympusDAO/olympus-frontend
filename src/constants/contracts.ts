@@ -5,6 +5,7 @@ import {
   BOND_FIXED_EXPIRY_SDA_ADDRESSES,
   BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
   BOND_FIXED_TERM_SDA_ADDRESSES,
+  BOND_FIXED_TERM_TELLER_ADDRESSES,
   DEV_FAUCET,
   GIVE_ADDRESSES,
   MIGRATOR_ADDRESSES,
@@ -19,6 +20,7 @@ import {
   BondFixedExpirySDA__factory,
   BondFixedExpiryTeller__factory,
   BondFixedTermSDA__factory,
+  BondFixedTermTeller__factory,
   CrossChainMigrator__factory,
   OlympusGiving__factory,
   OlympusProV2__factory,
@@ -98,4 +100,10 @@ export const BOND_FIXED_TERM_SDA_CONTRACT = new Contract({
   factory: BondFixedTermSDA__factory,
   name: "Bond Fixed Term SDA Contract",
   addresses: BOND_FIXED_TERM_SDA_ADDRESSES,
+});
+
+export const BOND_FIXED_TERM_TELLER = new Contract({
+  factory: BondFixedTermTeller__factory,
+  name: "Bond Fixed Term Teller Contract",
+  addresses: BOND_FIXED_TERM_TELLER_ADDRESSES,
 });

@@ -63,6 +63,7 @@ export interface Bond {
     inQuoteToken: DecimalBigNumber;
   };
   isV3Bond?: boolean;
+  bondToken?: string;
 }
 
 export interface UseBondOptions {

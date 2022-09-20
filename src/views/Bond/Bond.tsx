@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { BondList } from "src/views/Bond/components/BondList";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
+import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
+import { ClaimBondsV3 } from "src/views/Bond/components/ClaimBonds/ClaimBondsV3";
 import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
@@ -22,8 +24,6 @@ export const Bond = () => {
 
   const bonds = liveBondsV2.concat(liveBondsV3);
   const inverse = inverseV2.concat(inverseV3);
-
-  console.log(inverse, "inverse");
 
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
@@ -53,12 +53,13 @@ export const Bond = () => {
       console.info("There are no live bonds. Switching to inverse bonds instead.");
       setCurrentTab("INVERSE");
     }
-  }, [liveBondsV3Sucess, liveBondsV2Sucess, bonds]);
+  }, [liveBondsV2Sucess, liveBondsV3Sucess]);
 
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
+        <ClaimBondsV3 />
         <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
           <MetricCollection>
             <TreasuryBalance />
@@ -104,6 +105,8 @@ export const Bond = () => {
         </Paper>
       </Box>
       <Routes>
+        <Route path="v3/:id" element={<BondModalContainerV3 />} />
+        <Route path="v3/inverse/:id" element={<BondModalContainerV3 />} />
         <Route path=":id" element={<BondModalContainer />} />
         <Route path="inverse/:id" element={<BondModalContainer />} />
       </Routes>

@@ -4,6 +4,7 @@ import { BOND_FIXED_TERM_SDA_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_AGGREGATOR_CONTRACT,
   BOND_FIXED_EXPIRY_SDA_CONTRACT,
+  BOND_FIXED_EXPIRY_TELLER,
   BOND_FIXED_TERM_SDA_CONTRACT,
 } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
@@ -32,14 +33,20 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     : BOND_FIXED_EXPIRY_SDA_CONTRACT.getEthersContract(networkId);
 
   const market = await auctioneerContract.markets(id);
-  const terms = await auctioneerContract.terms(id);
-  console.log(id, market, terms, "test", isInverseBond);
-  const baseToken = !isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
-  console.log(id, baseToken, isInverseBond, "base token", market.payoutToken);
+
+  console.log(id, isInverseBond, market.payoutToken, market.quoteToken, "v3");
+
+  const baseToken = isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
   assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
 
-  const quoteToken = !isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
+  const quoteToken = isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
   assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
+
+  //we shouldnt return an OHM bond as an inverse bond
+  if (baseToken === quoteToken && isInverseBond) return null;
+  const terms = await auctioneerContract.terms(id);
+  console.log(id, market, terms, "test", isInverseBond);
+  console.log(id, baseToken, isInverseBond, "base token", market.payoutToken);
 
   const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
     baseToken.getPrice(NetworkId.MAINNET),
@@ -48,7 +55,8 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   ]);
 
   console.log(baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken, baseTokenPerUsd, id, "debug");
-
+  const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
+  const bondToken = await bondTeller.getBondTokenForMarket(id);
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
   const discount = priceInUsd.sub(baseTokenPerUsd).div(priceInUsd);
 
@@ -67,7 +75,7 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
    * i.e. expiration = day 10. when alice deposits on day 1, her term
    * is 9 days. when bob deposits on day 2, his term is 8 days.
    */
-  const duration = fixedTerm ? terms.vesting : terms.conclusion - Date.now() / 1000;
+  const duration = fixedTerm ? terms.vesting : terms.vesting - Date.now() / 1000;
 
   /*
    * each market is initialized with a capacity
@@ -132,5 +140,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
       inQuoteToken: maxPayoutInQuoteToken,
     },
     isV3Bond: true,
+    bondToken,
   };
 };
