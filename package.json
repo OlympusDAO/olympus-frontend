@@ -61,7 +61,7 @@
     "react-ga4": "^1.4.1",
     "react-markdown": "^8.0.3",
     "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.4.0",
     "react-scripts": "^5.0.1",
     "react-step-progress-bar": "^1.0.3",
     "react-uid": "^2.3.2",
