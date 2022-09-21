@@ -74,8 +74,12 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
     setByDateTokenSummary(newDateTokenSummary);
 
     const tokenCategories = Array.from(new Set(flatRecords.map(tokenRecord => tokenRecord.token))).sort();
+    // Replicates the format of the keys returned by getDateTokenSummary
+    const tokenIds = Array.from(
+      new Set(flatRecords.map(tokenRecord => `${tokenRecord.token}/${tokenRecord.blockchain}`)),
+    ).sort();
 
-    const tempDataKeys = getDataKeysFromTokens(tokenCategories);
+    const tempDataKeys = getDataKeysFromTokens(tokenIds);
     setDataKeys(tempDataKeys);
 
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
