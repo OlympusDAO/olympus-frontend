@@ -94,7 +94,6 @@ export const usePurchaseBond = (bond: Bond) => {
       }
       //TODO: V3 Bond only supports Fixed Expiry. Not tested for fixed term/ERC-1155
       if (bond.isV3Bond) {
-        const amountOut = isInverseBond ? minAmountOut : maxPrice;
         const bondContract = bond.isFixedTerm ? BOND_FIXED_TERM_TELLER : BOND_FIXED_EXPIRY_TELLER;
         const transaction = await bondContract
           .getEthersContract(networks.MAINNET)
@@ -104,7 +103,7 @@ export const usePurchaseBond = (bond: Bond) => {
             referrer,
             bond.id,
             parsedAmount.toBigNumber(),
-            amountOut.toBigNumber(bond.baseToken.decimals),
+            minAmountOut.toBigNumber(bond.baseToken.decimals),
           );
 
         return transaction.wait();

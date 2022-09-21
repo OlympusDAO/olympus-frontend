@@ -1,3 +1,4 @@
+import { OHMTokenProps } from "@olympusdao/component-library";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ethers } from "ethers";
@@ -8,11 +9,15 @@ import { BondFixedExpiryTeller__factory, IERC20__factory } from "src/typechain";
 import { ERC20BondToken__factory } from "src/typechain/factories";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 
+/**
+ * Queries alchemy API for ERC_20 Token created topic and returns all events.
+ * Filters events by underlying asset == OHM
+ */
 export const useBondTokens = () => {
   const { chain = { name: "mainnet", id: 1 } } = useNetwork();
   const network = chain.name === "ethereum" ? "mainnet" : chain.name;
   const networks = useTestableNetworks();
-  return useQuery(["useBondToken"], async () => {
+  return useQuery<string[]>(["useBondToken"], async () => {
     const options = {
       method: "POST",
       url: `https://eth-${network}.alchemyapi.io/v2/${process.env.REACT_APP_ETHEREUM_ALCHEMY_IDS}`,
@@ -47,13 +52,24 @@ export const useBondTokens = () => {
   });
 };
 
+/**
+ * Maps through bond tokens and retrieves the underlying balances, symbol,
+ * and expiry.
+ */
 export const useGetBondTokenBalances = () => {
   const { data: tokens = [] } = useBondTokens();
   const { address = "" } = useAccount();
   const provider = useProvider();
-  const networks = useTestableNetworks();
 
-  return useQuery(["useGetTokenBalances", address, tokens], async () => {
+  return useQuery<
+    {
+      balance: DecimalBigNumber;
+      symbol: string;
+      token: string;
+      matured: number;
+      underlyingTokenSymbol: OHMTokenProps["name"];
+    }[]
+  >(["useGetTokenBalances", address, tokens], async () => {
     const tokenMap = await Promise.all(
       tokens.map(async (token: string) => {
         const contract = ERC20BondToken__factory.connect(token, provider);
@@ -61,8 +77,7 @@ export const useGetBondTokenBalances = () => {
         const balance = new DecimalBigNumber(await contract.balanceOf(address), await contract.decimals());
         const symbol = await contract.symbol();
         const matured = await contract.expiry();
-        console.log(matured, "matured", Date.now() / 1000);
-        const underlyingTokenSymbol = await underlyingContract.symbol();
+        const underlyingTokenSymbol = (await underlyingContract.symbol()) as OHMTokenProps["name"];
         return { balance, symbol, token, matured, underlyingTokenSymbol };
       }),
     );

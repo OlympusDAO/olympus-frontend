@@ -17,7 +17,6 @@ import { UseBondOptions } from "src/views/Bond/hooks/useBond";
 export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options] as const;
 
 export const useBondV3 = ({ id, isInverseBond = false }: Omit<UseBondOptions, "networkId">) => {
-  console.log(id, "id");
   const networks = useTestableNetworks();
   const args = { id, networkId: networks.MAINNET, isInverseBond };
   return useQuery([bondV3QueryKey(args)], () => fetchBondV3(args));
@@ -26,16 +25,13 @@ export const useBondV3 = ({ id, isInverseBond = false }: Omit<UseBondOptions, "n
 export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptions) => {
   const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
   const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
+
   const fixedTerm = auctioneerAddress === BOND_FIXED_TERM_SDA_ADDRESSES[networkId];
-  console.log(fixedTerm, auctioneerAddress, BOND_FIXED_TERM_SDA_ADDRESSES[networkId], "fixedTerm", id);
   const auctioneerContract = fixedTerm
     ? BOND_FIXED_TERM_SDA_CONTRACT.getEthersContract(networkId)
     : BOND_FIXED_EXPIRY_SDA_CONTRACT.getEthersContract(networkId);
 
   const market = await auctioneerContract.markets(id);
-
-  console.log(id, isInverseBond, market.payoutToken, market.quoteToken, "v3");
-
   const baseToken = isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
   assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
 
@@ -44,9 +40,8 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
 
   //we shouldnt return an OHM bond as an inverse bond
   if (baseToken === quoteToken && isInverseBond) return null;
+
   const terms = await auctioneerContract.terms(id);
-  console.log(id, market, terms, "test", isInverseBond);
-  console.log(id, baseToken, isInverseBond, "base token", market.payoutToken);
 
   const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
     baseToken.getPrice(NetworkId.MAINNET),
@@ -54,11 +49,12 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     auctioneerContract.marketPrice(id).then(price => new DecimalBigNumber(price, 36)),
   ]);
 
-  console.log(baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken, baseTokenPerUsd, id, "debug");
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
-  const discount = priceInUsd.sub(baseTokenPerUsd).div(priceInUsd);
+  console.log(priceInUsd);
+  const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
+  console.log(discount, "discount", id);
 
   /**
    * Bonds mature with a cliff at a set timestamp
