@@ -326,9 +326,17 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 - Give: by default it is enabled. It can be disabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "false".
 
-## Dashboard Known Issues
+## Dashboard
 
-The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited [here](src/views/TreasuryDashboard/components/warnings/warnings.md).
+The Treasury Dashboard utilises subgraphs served by the Graph Protocol. Each subgraph can index only one blockchain, so there are subgraphs deployed for each blockchain. As a result, for each dashboard chart, multiple subgraphs are queried and the returned data is stitched together.
+
+### Known Issues
+
+The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited within the GitHub interface [here](src/views/TreasuryDashboard/components/warnings/warnings.md).
+
+If editing the production content, opt to create a new branch and pull request, so that it can be merged into production.
+
+![How to commit changes to the Known Issues Markdown file](src/assets/known-issues-commit.png)
 
 ## 👏🏽 Contributing Guidelines
 
