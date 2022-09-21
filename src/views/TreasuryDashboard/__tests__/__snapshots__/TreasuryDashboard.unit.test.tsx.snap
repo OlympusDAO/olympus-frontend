@@ -305,43 +305,6 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17164l1-MuiGrid-root"
-          >
-            <div
-              class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-1x62zq9-MuiCollapse-root"
-              style="min-height: 0px;"
-            >
-              <div
-                class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
-              >
-                <div
-                  class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
-                >
-                  <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-filledInfo MuiAlert-filled Notification-root css-1bwm0gf-MuiPaper-root-MuiAlert-root"
-                    role="alert"
-                  >
-                    <div
-                      class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
-                    >
-                      <div
-                        class="MuiBox-root css-gmuwbf"
-                      >
-                        <div
-                          class="MuiBox-root css-70qvj9"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Notification-text css-69sme-MuiTypography-root"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 css-sa1xok-MuiGrid-root"
           >
             <div
@@ -1388,6 +1351,43 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-16gucqp-MuiSkeleton-root"
                         style="width: 100%; height: 400px;"
                       />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
+          >
+            <div
+              class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-1x62zq9-MuiCollapse-root"
+              style="min-height: 0px;"
+            >
+              <div
+                class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+              >
+                <div
+                  class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                >
+                  <div
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-filledInfo MuiAlert-filled Notification-root css-1bwm0gf-MuiPaper-root-MuiAlert-root"
+                    role="alert"
+                  >
+                    <div
+                      class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+                    >
+                      <div
+                        class="MuiBox-root css-gmuwbf"
+                      >
+                        <div
+                          class="MuiBox-root css-70qvj9"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Notification-text css-69sme-MuiTypography-root"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
