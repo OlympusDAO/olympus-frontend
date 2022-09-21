@@ -168,7 +168,7 @@ export const TreasuryAssetsTable = ({
         columns={columns}
         rowsPerPageOptions={[10]}
         pageSize={10}
-        getRowId={row => row.token}
+        getRowId={row => row.id}
         // Sort by value descending
         initialState={{
           sorting: {

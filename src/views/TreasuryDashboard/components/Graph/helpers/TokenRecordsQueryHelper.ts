@@ -2,6 +2,7 @@ import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVa
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 export type TokenRow = {
+  id: string;
   token: string;
   category: string;
   isLiquid: boolean;
@@ -171,6 +172,7 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
 
     const tokenId = `${record.token}/${record.blockchain}`;
     const tokenRecord = dateSummary.tokens[tokenId] || ({} as TokenRow);
+    tokenRecord.id = tokenId;
     tokenRecord.token = record.token;
     tokenRecord.category = record.category;
     tokenRecord.isLiquid = record.isLiquid;
