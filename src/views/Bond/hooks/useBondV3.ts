@@ -12,7 +12,7 @@ import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { UseBondOptions } from "src/views/Bond/hooks/useBond";
+import { calculateCapacity, UseBondOptions } from "src/views/Bond/hooks/useBond";
 
 export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options] as const;
 
@@ -52,9 +52,7 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
-  console.log(priceInUsd);
   const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
-  console.log(discount, "discount", id);
 
   /**
    * Bonds mature with a cliff at a set timestamp
@@ -73,28 +71,13 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
    */
   const duration = fixedTerm ? terms.vesting : terms.vesting - Date.now() / 1000;
 
-  /*
-   * each market is initialized with a capacity
-   *
-   * this is either the number of OHM that the market can sell
-   * (if capacity in quote is false),
-   *
-   * or the number of quote tokens that the market can buy
-   * (if capacity in quote is true)
-   */
-  const capacity = new DecimalBigNumber(
-    market.capacity,
-    market.capacityInQuote ? quoteToken.decimals : baseToken.decimals,
-  );
-
-  const capacityInQuoteToken = market.capacityInQuote
-    ? capacity
-    : new DecimalBigNumber(capacity.mul(quoteTokenPerBaseToken).toString(), quoteToken.decimals); // Convert to quoteToken if capacity is denominated in baseToken
-
-  const capacityInBaseToken = market.capacityInQuote
-    ? new DecimalBigNumber(capacity.div(quoteTokenPerBaseToken).toString(), baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
-    : capacity;
-
+  const capacityData = calculateCapacity({
+    capacity: market.capacity,
+    capacityInQuote: market.capacityInQuote,
+    quoteTokenDecimals: quoteToken.decimals,
+    baseTokenDecimals: baseToken.decimals,
+    quoteTokenPerBaseToken,
+  });
   /*
    * maxPayout is the amount of capacity that should be utilized in a deposit
    * interval. for example, if capacity is 1,000 OHM, there are 10 days to conclusion,
@@ -112,8 +95,8 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
    */
 
   const isSoldOut = isInverseBond
-    ? capacityInQuoteToken.lt("1")
-    : capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
+    ? capacityData.capacityInQuoteToken.lt("1")
+    : capacityData.capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
   return {
     id,
@@ -128,8 +111,8 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
       inBaseToken: quoteTokenPerBaseToken,
     },
     capacity: {
-      inBaseToken: capacityInBaseToken,
-      inQuoteToken: capacityInQuoteToken,
+      inBaseToken: capacityData.capacityInBaseToken,
+      inQuoteToken: capacityData.capacityInQuoteToken,
     },
     maxPayout: {
       inBaseToken: maxPayoutInBaseToken,

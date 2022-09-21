@@ -15,7 +15,6 @@ export const BondModalContainerV3: React.VFC = () => {
 
   const bonds = useLiveBondsV3({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
-  console.log(bond, bonds, "modal");
 
   if (!bond) return null;
 
