@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
 import { BOND_FIXED_TERM_SDA_ADDRESSES } from "src/constants/addresses";
 import {
@@ -43,12 +44,21 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
 
   const terms = await auctioneerContract.terms(id);
 
-  const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
+  const [baseTokenPerUsd, quoteTokenPerUsd, bondMarketPrice] = await Promise.all([
     baseToken.getPrice(NetworkId.MAINNET),
     quoteToken.getPrice(NetworkId.MAINNET),
-    auctioneerContract.marketPrice(id).then(price => new DecimalBigNumber(price, 36)),
+    auctioneerContract.marketPrice(id).then(price => price),
   ]);
+  const scale = await auctioneerContract.marketScale(id);
+  const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
+  console.log(baseScale, "baseScale");
+  const shift = BigNumber.from(baseScale).div(scale);
+  console.log(shift, "shift");
+  console.log(bondMarketPrice, shift);
 
+  const test = bondMarketPrice.mul(shift);
+  console.log(test, "test");
+  const quoteTokenPerBaseToken = new DecimalBigNumber(bondMarketPrice.mul(shift), 36);
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
