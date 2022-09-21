@@ -305,7 +305,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1x426av-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17164l1-MuiGrid-root"
           >
             <div
               class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-1x62zq9-MuiCollapse-root"
