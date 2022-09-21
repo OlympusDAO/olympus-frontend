@@ -160,10 +160,6 @@ const MetricsDashboard = () => {
             </MetricCollection>
           </Paper>
         </Grid>
-        {/* Custom paddingBottom to ensure that the spacing is consistent */}
-        <Grid item xs={12} paddingBottom={"20px"}>
-          <DashboardWarnings />
-        </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
@@ -240,6 +236,9 @@ const MetricsDashboard = () => {
               subgraphDaysOffset={daysOffset}
             />
           </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <DashboardWarnings />
         </Grid>
       </Grid>
       <SafariFooter />
