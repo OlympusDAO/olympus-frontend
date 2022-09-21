@@ -25,8 +25,6 @@ export const Bond = () => {
   const bonds = liveBondsV2.concat(liveBondsV3);
   const inverse = inverseV2.concat(inverseV3);
 
-  console.log(bonds, "bonds", inverse);
-
   const showTabs = !!inverse && inverse.length > 0 && !!bonds && bonds.length > 0;
 
   /**
