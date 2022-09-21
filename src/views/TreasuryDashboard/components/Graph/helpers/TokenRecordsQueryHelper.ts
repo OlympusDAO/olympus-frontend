@@ -153,7 +153,7 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
     }
   });
 
-  // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token
+  // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token-blockchain combination
   const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
   tokenRecords.forEach(record => {
     const latestBlock = dateBlockMap.get(record.date);
@@ -169,7 +169,8 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
     };
     dateSummaryMap.set(record.date, dateSummary);
 
-    const tokenRecord = dateSummary.tokens[record.token] || ({} as TokenRow);
+    const tokenId = `${record.token}/${record.blockchain}`;
+    const tokenRecord = dateSummary.tokens[tokenId] || ({} as TokenRow);
     tokenRecord.token = record.token;
     tokenRecord.category = record.category;
     tokenRecord.isLiquid = record.isLiquid;
@@ -184,7 +185,7 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
     // record.valueExcludingOhm is typed as a number, but is actually a string
     tokenRecord.valueExcludingOhm = (existingValueExcludingOhm + +record.valueExcludingOhm).toString(); // TODO consider shifting to use number
 
-    dateSummary.tokens[record.token] = tokenRecord;
+    dateSummary.tokens[tokenId] = tokenRecord;
   });
 
   return Array.from(dateSummaryMap.values()).sort((a, b) => {
