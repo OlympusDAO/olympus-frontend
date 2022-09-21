@@ -95,6 +95,7 @@ export const BondInputArea: React.VFC<{
           <Box display="flex" flexDirection="column" width="100%">
             <TokenAllowanceGuard
               isVertical
+              balance={balance ? balance : new DecimalBigNumber("0")}
               tokenAddressMap={props.bond.quoteToken.addresses}
               spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
               message={
