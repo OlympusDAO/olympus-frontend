@@ -32,6 +32,7 @@ import {
   OhmCirculatingSupply,
   OHMPriceFromSubgraph,
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import DashboardWarnings from "src/views/TreasuryDashboard/components/warnings/DashboardWarnings";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -158,6 +159,10 @@ const MetricsDashboard = () => {
               <CurrentIndex {...sharedMetricProps} />
             </MetricCollection>
           </Paper>
+        </Grid>
+        {/* Custom paddingBottom to ensure that the spacing is consistent */}
+        <Grid item xs={12} paddingBottom={"20px"}>
+          <DashboardWarnings />
         </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}

@@ -101,6 +101,7 @@ Here is a useful [cheat sheet](https://testing-library.com/docs/react-testing-li
 When testing components that use React Hooks to third party libraries such as React Query or Web3Provider, it is sometimes convenient to mock these hooks in order to simulate various data inputs and edge cases.
 
 [Here is an example test case](src/views/Stake/components/StakeArea/components/StakeActionArea/components/__tests__/StakeBalances.unit.test.jsx) that shows how to mock React Hooks that use Web3Provider and React Query APIs.
+
 ### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
@@ -149,20 +150,20 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 ## Rinkeby V2-Bond Creation
 
 1. `create` [here](https://rinkeby.etherscan.io/address/0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042#writeContract)
-2. _name: `DAI` <- name is not used in the frontend / does not matter
-3. _quoteToken: `0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C` <- this is DAI, make it whatever asset you want to bond
-4. _market: `[10000000000000000000000000,60000000000,1000000]` <- [capacity (in OHM or quote), initial price (9 decimals), debt buffer (3 decimals)]
-5. _booleans: `[true,true]` <- [capacity in quote, fixed term]
-6. _terms: `[100,1677008640]` <- [vesting length (if fixed term) or vested timestamp, conclusion timestamp], grab a timestamp [here](https://www.unixtimestamp.com/index.php)
-7. _intervals: `[14400,86400]` <- [deposit interval, tune interval]
+2. \_name: `DAI` <- name is not used in the frontend / does not matter
+3. \_quoteToken: `0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C` <- this is DAI, make it whatever asset you want to bond
+4. \_market: `[10000000000000000000000000,60000000000,1000000]` <- [capacity (in OHM or quote), initial price (9 decimals), debt buffer (3 decimals)]
+5. \_booleans: `[true,true]` <- [capacity in quote, fixed term]
+6. \_terms: `[100,1677008640]` <- [vesting length (if fixed term) or vested timestamp, conclusion timestamp], grab a timestamp [here](https://www.unixtimestamp.com/index.php)
+7. \_intervals: `[14400,86400]` <- [deposit interval, tune interval]
 
 ## Rinkeby Inverse-Bond Creation (must have a whitelisted wallet to create)
 
 1. `create` [here](https://rinkeby.etherscan.io/address/0x22AE99D07584A2AE1af748De573c83f1B9Cdb4c0#writeContract)
-2. _token: `0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE` <- this is the payout token, the deposit token will be OHM
-3. _market: `[10000000000000000000000000,25000000000000000,10000000000000000,10000]`
-4. _intervals: `[14400,3600]`
-5. _conclusion: `1680760325` <- a unix timestamp
+2. \_token: `0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE` <- this is the payout token, the deposit token will be OHM
+3. \_market: `[10000000000000000000000000,25000000000000000,10000000000000000,10000]`
+4. \_intervals: `[14400,3600]`
+5. \_conclusion: `1680760325` <- a unix timestamp
 
 ## Gitpod Continuous Dev Environment (optional)
 
@@ -324,6 +325,10 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 ### Feature Flags
 
 - Give: by default it is enabled. It can be disabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "false".
+
+## Dashboard Known Issues
+
+The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited [here](src/views/TreasuryDashboard/components/warnings/warnings.md).
 
 ## 👏🏽 Contributing Guidelines
 
