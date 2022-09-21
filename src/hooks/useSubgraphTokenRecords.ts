@@ -1,3 +1,4 @@
+import { useIsFetching } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   TokenRecord,
@@ -164,6 +165,7 @@ export const useTokenRecordsQueries = (
     dateOffset,
   );
   const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
+  const isFetchingCount = useIsFetching(["TokenRecords.infinite"]);
 
   /**
    * Combines the contents of {results} with the existing map of {currentResults}.
@@ -175,10 +177,12 @@ export const useTokenRecordsQueries = (
    */
   const combineQueryResults = (
     blockchain: BLOCKCHAINS,
-    results: Map<string, TokenRecord[]>,
+    results: Map<string, TokenRecord[]> | null,
     existingResults: Map<string, TokenRecord[]>,
     latestDate: string | null,
   ): void => {
+    if (!results) return;
+
     results.forEach((records: TokenRecord[], date: string) => {
       // Skip if greater than latestDate
       if (latestDate && dateGreaterThan(date, latestDate)) return;
@@ -199,8 +203,11 @@ export const useTokenRecordsQueries = (
 
   // Handle receiving the finalised data from each blockchain
   useEffect(() => {
+    // During a re-fetch (due to prop changes), some subgraphs without query results never return, so we work around that
+    const hasHangingQuery = isFetchingCount === 0;
+
     // Only combine (and trigger a re-render) when all results have been received
-    if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
+    if (!hasHangingQuery && (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults)) {
       return;
     }
 
@@ -261,7 +268,7 @@ export const useTokenRecordsQueries = (
     const sortedResults = new Map([...tempResults].sort().reverse());
 
     setCombinedResults(sortedResults);
-  }, [arbitrumResults, chartName, ethereumResults, fantomResults, polygonResults]);
+  }, [arbitrumResults, chartName, ethereumResults, fantomResults, isFetchingCount, polygonResults]);
 
   return combinedResults;
 };
