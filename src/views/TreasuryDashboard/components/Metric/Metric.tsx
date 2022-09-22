@@ -166,10 +166,10 @@ export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps>
   const _props: MetricProps = {
     ...props,
     label: `Current Index`,
-    tooltip: `The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
+    tooltip: `The current index tracks the amount of OHM accumulated since the beginning of staking. Basically, how much OHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} sOHM`;
+  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} OHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

@@ -28,6 +28,7 @@ import TokenModal, {
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
 import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
+import { useWrapSohm } from "src/views/Wrap/components/WrapInputArea/hooks/useWrapSohm";
 import ZapTransactionDetails from "src/views/Zap/ZapTransactionDetails";
 import { useNetwork } from "wagmi";
 
@@ -73,7 +74,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const networks = useTestableNetworks();
-  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({ name: "sOHM" });
+  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({ name: "gOHM" });
   const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({ name: "OHM" });
   const { chain = { id: 1 } } = useNetwork();
 
@@ -83,8 +84,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [zapSlippageAmount, setZapSlippageAmount] = useState("");
   const [zapMinAmount, setZapMinAmount] = useState("");
   const zapExecute = useZapExecute();
+  const wrapMutation = useWrapSohm();
 
-  const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType;
+  const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType.name;
 
   // Max balance stuff
   const [amount, setAmount] = useState("");
@@ -99,8 +101,12 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const gOhmBalance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const { data: currentIndex } = useCurrentIndex();
 
-  const contractRouting = ["OHM", "sOHM", "gOHM"].includes(swapAssetType.name) ? "Stake" : "Zap";
-  const contractAddress = contractRouting === "Stake" ? STAKING_ADDRESSES : ZAP_ADDRESSES;
+  const contractRouting = ["OHM", "gOHM"].includes(swapAssetType.name)
+    ? "Stake"
+    : swapAssetType.name === "sOHM"
+    ? "Wrap"
+    : "Zap";
+  const contractAddress = contractRouting === "Stake" || contractRouting === "Wrap" ? STAKING_ADDRESSES : ZAP_ADDRESSES;
 
   // Staking/unstaking mutation stuff
   const stakeMutation = useStakeToken();
@@ -145,6 +151,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     if (currentAction === "UNSTAKE") {
       setSwapAssetType({ name: "OHM" });
     }
+    if (currentAction === "STAKE" && stakedAssetType.name === "sOHM") {
+      setStakedAssetType({ name: "gOHM" });
+    }
   }, [currentAction]);
 
   const onZap = async () => {
@@ -159,56 +168,56 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     }
   };
 
-  const upperBalanceValue =
-    contractRouting === "Zap"
-      ? `${swapAssetType.balance} ${swapAssetType.name}`
-      : `${ohmBalance ? ohmBalance.toString({ decimals: 2 }) : "0.00"} OHM`;
+  const OhmSwapCard = () => {
+    const balance =
+      swapAssetType.name === "sOHM"
+        ? sOhmBalance
+          ? sOhmBalance.toString({ decimals: 2 })
+          : "0.00"
+        : swapAssetType.name === "OHM"
+        ? ohmBalance
+          ? ohmBalance.toString({ decimals: 2 })
+          : "0.00"
+        : swapAssetType.balance;
 
-  const OhmSwapCard = () => (
-    <SwapCard
-      id="ohm-input"
-      token={
-        swapAssetType.icon ? (
-          <Avatar src={swapAssetType.icon} sx={{ width: "21px", height: "21px" }} />
-        ) : (
-          (swapAssetType.name as OHMSwapCardProps["token"])
-        )
-      }
-      tokenName={swapAssetType.name}
-      tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
-      inputProps={{ "data-testid": "ohm-input", min: "0" }}
-      value={currentAction === "STAKE" ? amount : receiveAmount}
-      onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "STAKE")}
-      info={`Balance: ${upperBalanceValue}`}
-      endString={currentAction === "STAKE" ? "Max" : ""}
-      endStringOnClick={() =>
-        balance &&
-        ohmOnChange(
-          contractRouting === "Zap"
-            ? swapAssetType.balance
-              ? swapAssetType.balance.toString()
-              : "0"
-            : balance.toString(),
-          currentAction === "STAKE",
-        )
-      }
-      disabled={isMutating}
-      inputWidth={`${
-        (currentAction === "STAKE" ? amount : receiveAmount).length > 0
-          ? (currentAction === "STAKE" ? amount : receiveAmount).length
-          : 1
-      }ch`}
-    />
-  );
+    return (
+      <SwapCard
+        id="ohm-input"
+        token={
+          swapAssetType.icon ? (
+            <Avatar src={swapAssetType.icon} sx={{ width: "21px", height: "21px" }} />
+          ) : (
+            (swapAssetType.name as OHMSwapCardProps["token"])
+          )
+        }
+        tokenName={swapAssetType.name}
+        tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
+        inputProps={{ "data-testid": "ohm-input", min: "0" }}
+        value={currentAction === "STAKE" ? amount : receiveAmount}
+        onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "STAKE")}
+        info={`Balance: ${balance} ${swapAssetType.name}`}
+        endString={currentAction === "STAKE" ? "Max" : ""}
+        endStringOnClick={() => balance && ohmOnChange(balance, currentAction === "STAKE")}
+        disabled={isMutating}
+        inputWidth={`${
+          (currentAction === "STAKE" ? amount : receiveAmount).length > 0
+            ? (currentAction === "STAKE" ? amount : receiveAmount).length
+            : 1
+        }ch`}
+      />
+    );
+  };
 
-  const SohmGohmSwapCard = () => {
+  const GohmSwapCard = () => {
     const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
+    const tokenOnClick =
+      sOhmBalance && currentAction === "UNSTAKE" ? { tokenOnClick: () => setTokenModalOpen(true) } : {};
+
     return (
       <SwapCard
         id="staked-input"
         inputProps={{ "data-testid": "staked-input", min: "0" }}
         token={stakedAssetType.name as OHMSwapCardProps["token"]}
-        tokenOnClick={() => setTokenModalOpen(true)}
         value={currentAction === "STAKE" ? receiveAmount : amount}
         onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "UNSTAKE")}
         info={`Balance: ${balance ? balance.toString({ decimals: 2 }) : "0.00"} ${stakedAssetType.name}`}
@@ -220,6 +229,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             : 1
         }ch`}
         disabled={isMutating}
+        {...tokenOnClick}
       />
     );
   };
@@ -246,8 +256,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
           <Box mb="21px">
             <SwapCollection
-              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : SohmGohmSwapCard()}
-              LowerSwapCard={currentAction === "STAKE" ? SohmGohmSwapCard() : OhmSwapCard()}
+              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : GohmSwapCard()}
+              LowerSwapCard={currentAction === "STAKE" ? GohmSwapCard() : OhmSwapCard()}
               arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
             />
           </Box>
@@ -308,11 +318,15 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           )}
           <Box>
             <TokenAllowanceGuard
-              tokenAddressMap={contractRouting === "Stake" ? addresses : { [chain.id]: swapAssetType.address }}
+              tokenAddressMap={
+                contractRouting === "Stake" || contractRouting === "Wrap"
+                  ? addresses
+                  : { [chain.id]: swapAssetType.address }
+              }
               spenderAddressMap={contractAddress}
               approvalText={
                 currentAction === "STAKE"
-                  ? contractRouting === "Stake"
+                  ? contractRouting === "Stake" || contractRouting === "Wrap"
                     ? "Approve Staking"
                     : `Approve Zap from ${swapAssetType.name}`
                   : "Approve Unstaking"
@@ -325,7 +339,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   data-testid="submit-button"
                   loading={isMutating}
                   fullWidth
-                  disabled={isMutating || !amount || amountExceedsBalance}
+                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
                   onClick={() =>
                     currentAction === "STAKE"
                       ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
@@ -334,12 +348,34 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 >
                   {amountExceedsBalance
                     ? "Amount exceeds balance"
-                    : !amount
+                    : !amount || parseFloat(amount) === 0
                     ? "Enter an amount"
                     : currentAction === "STAKE"
                     ? isMutating
                       ? "Confirming Staking in your wallet"
                       : "Stake"
+                    : isMutating
+                    ? "Confirming Unstaking in your wallet "
+                    : "Unstake"}
+                </PrimaryButton>
+              )}
+
+              {contractRouting === "Wrap" && (
+                <PrimaryButton
+                  data-testid="submit-button"
+                  loading={isMutating}
+                  fullWidth
+                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
+                  onClick={() => currentAction === "STAKE" && wrapMutation.mutate(amount)}
+                >
+                  {amountExceedsBalance
+                    ? "Amount exceeds balance"
+                    : !amount || parseFloat(amount) === 0
+                    ? "Enter an amount"
+                    : currentAction === "STAKE"
+                    ? isMutating
+                      ? "Confirming Wrapping in your wallet"
+                      : "Wrap to gOHM"
                     : isMutating
                     ? "Confirming Unstaking in your wallet "
                     : "Unstake"}
@@ -352,7 +388,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                     zapExecute.isLoading ||
                     zapOutputAmount === "" ||
                     (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                    import.meta.env.DISABLE_ZAPS
+                    import.meta.env.DISABLE_ZAPS ||
+                    parseFloat(amount) === 0
                   }
                   onClick={onZap}
                 >

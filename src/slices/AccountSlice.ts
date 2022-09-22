@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import ierc20Abi from "src/abi/IERC20.json";
-import MockSohm from "src/abi/MockSohm.json";
 import wsOHM from "src/abi/wsOHM.json";
 import { addresses } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { handleContractError, setAll } from "src/helpers";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
 import { IERC20, IERC20__factory, WsOHM } from "src/typechain";
@@ -17,7 +15,6 @@ interface IUserBalances {
     ohmV1: string;
     sohmV1: string;
     wsohm: string;
-    mockSohm: string;
   };
 }
 
@@ -26,7 +23,6 @@ export const getBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
-    let mockSohmBalance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
     try {
       const wsohmContract = new ethers.Contract(
@@ -58,31 +54,12 @@ export const getBalances = createAsyncThunk(
     } catch (e) {
       handleContractError(e);
     }
-    /*
-      Needed a sOHM contract on testnet that could easily
-      be manually rebased to test redeem features
-    */
-    try {
-      if (Environment.isGiveEnabled() && addresses[networkID] && addresses[networkID].MOCK_SOHM) {
-        const mockSohmContract = new ethers.Contract(
-          addresses[networkID].MOCK_SOHM as string,
-          MockSohm.abi,
-          provider,
-        ) as IERC20;
-        mockSohmBalance = await mockSohmContract.balanceOf(address);
-      } else {
-        console.debug("Unable to find MOCK_SOHM contract on chain ID " + networkID);
-      }
-    } catch (e) {
-      handleContractError(e);
-    }
 
     return {
       balances: {
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
-        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
       },
     };
   },
@@ -233,7 +210,6 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     sohmV1: string;
     dai: string;
     wsohm: string;
-    mockSohm: string;
   };
   loading: boolean;
   staking: {
@@ -256,7 +232,6 @@ const initialState: IAccountSlice = {
     sohmV1: "",
     dai: "",
     wsohm: "",
-    mockSohm: "",
   },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },

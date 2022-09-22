@@ -72,7 +72,7 @@ describe("<StakeBalances/>", () => {
     // expect to find the correct token balances on the staking screen
     var bals = {
       "Unstaked Balance": "15.0000 OHM",
-      "Total Staked Balance": "134,228.0000 sOHM",
+      "Total Staked Balance": "134,228.0000 OHM",
       sOHM: "12.0000 sOHM",
       gOHM: "131.0000 gOHM",
       "gOHM (Arbitrum)": "132.0000 gOHM",

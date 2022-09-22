@@ -5,7 +5,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
@@ -50,26 +49,16 @@ const NavContent: React.VFC = () => {
               {chain.id === networks.MAINNET ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
-
                   <NavItem to="/bonds" icon="bond" label={`Bond`}>
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
-
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
-
-                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={`Give`} />}
-
-                  <NavItem to="/wrap" icon="wrap" label={`Wrap`} />
-
-                  <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
-
+                  <NavItem to="/stake" icon="stake" label="Stake" />
+                  <NavItem icon="bridge" label="Bridge" to="/bridge" />
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-
                   <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={`Olympus Pro`} />
-
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
@@ -77,19 +66,13 @@ const NavContent: React.VFC = () => {
               ) : (
                 <>
                   <NavItem to="/wrap" icon="wrap" label={`Wrap`} />
-
                   <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
                 </>
               )}
-
               <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
-
               <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={`Governance`} />
-
               <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
-
               <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
-
               <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
             </div>
           </div>

@@ -36,11 +36,9 @@ import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 // Dynamic Imports for code splitting
 const Bond = lazy(() => import("./views/Bond"));
 const Bridge = lazy(() => import("./views/Bridge"));
-const Give = lazy(() => import("./views/Give/Give"));
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
-const Wrap = lazy(() => import("./views/Wrap/Wrap"));
 
 const PREFIX = "App";
 
@@ -233,19 +231,9 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/give/*" element={<Give />} />
-
-                  <Route path="/olympusgive" element={<Navigate to="/give" />} />
-                  <Route path="/olygive" element={<Navigate to="/give" />} />
-                  <Route path="/tyche" element={<Navigate to="/give" />} />
-                  <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-                  <Route path="/ohmgive" element={<Navigate to="/give" />} />
-
-                  <Route path="/wrap" element={<Wrap />} />
                   <Route path="/bonds/*" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
-
                   <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
                   <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
                   <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
