@@ -73,7 +73,7 @@ describe("<StakeArea/> Connected with Approval", () => {
   });
   it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
-    expect(await screen.findByTestId("staked-input")).toHaveValue(0.2);
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
   });
 
   it("gOHM conversion should appear correctly when Staking ETH to gOHM", async () => {
@@ -81,7 +81,7 @@ describe("<StakeArea/> Connected with Approval", () => {
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("ETH"));
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
-    expect(await screen.findByTestId("staked-input")).toHaveValue(22.5447803865539);
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
     expect(await screen.findByText("Zap-Stake"));
     fireEvent.click(await screen.findByText("Zap-Stake"));
     expect(await screen.findByText("Successful Zap!"));
