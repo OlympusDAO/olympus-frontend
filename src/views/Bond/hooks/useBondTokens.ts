@@ -1,45 +1,29 @@
 import { OHMTokenProps } from "@olympusdao/component-library";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { ethers } from "ethers";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedExpiryTeller__factory, IERC20__factory } from "src/typechain";
 import { ERC20BondToken__factory } from "src/typechain/factories";
-import { useAccount, useNetwork, useProvider } from "wagmi";
+import { useAccount, useProvider } from "wagmi";
 
 /**
  * Queries alchemy API for ERC_20 Token created topic and returns all events.
  * Filters events by underlying asset == OHM
  */
 export const useBondTokens = () => {
-  const { chain = { name: "mainnet", id: 1 } } = useNetwork();
-  const network = chain.name === "ethereum" ? "mainnet" : chain.name;
+  const provider = useProvider();
   const networks = useTestableNetworks();
-  return useQuery<string[]>(["useBondToken"], async () => {
-    const options = {
-      method: "POST",
-      url: `https://eth-${network}.alchemyapi.io/v2/${process.env.REACT_APP_ETHEREUM_ALCHEMY_IDS}`,
-      headers: { accept: "application/json", "content-type": "application/json" },
-      data: {
-        id: 1,
-        jsonrpc: "2.0",
-        method: "eth_getLogs",
-        params: [
-          {
-            fromBlock: "earliest",
-            toBlock: "latest",
-            topics: ["0x4fd9a46575749d9ddf290fadaa5729fc640790e2b6360df8cc8af35e418dcec0"],
-          },
-        ],
-      },
-    };
+  return useQuery(["useBondToken"], async () => {
+    const logs = await provider.getLogs({
+      fromBlock: "earliest",
+      toBlock: "latest",
+      topics: [BondFixedExpiryTeller__factory.createInterface().getEventTopic("ERC20BondTokenCreated")],
+    });
     try {
-      const response = await axios.request(options);
       const iface = new ethers.utils.Interface(BondFixedExpiryTeller__factory.abi);
-      const results = response.data.result;
-      const tokens = results
+      const tokens: string[] = logs
         .map((result: { topics: string[]; data: string }) => {
           const parsed = iface.parseLog({ topics: result.topics, data: result.data });
           if (parsed.args.underlying === OHM_ADDRESSES[networks.MAINNET]) return parsed.args.bondToken;
