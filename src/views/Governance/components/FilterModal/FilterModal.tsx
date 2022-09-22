@@ -3,7 +3,7 @@ import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
-import { CancelCallback } from "src/views/Give/Interfaces";
+import { CancelCallback } from "src/views/Governance/interfaces";
 
 type FilterModalProps = {
   isModalOpen: boolean;
