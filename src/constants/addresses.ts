@@ -160,6 +160,7 @@ export const GOV_INSTRUCTIONS_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0x42bb80bad7e1e8bfd59417c5ae49f09e6988a795",
 };
 
+/** NOT USED */
 export const VOTE_ISSUER_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   [NetworkId.TESTNET_GOERLI]: "0x65e44BEaf20bc8BED9643Bf996A59d478db1090b",
