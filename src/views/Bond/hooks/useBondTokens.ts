@@ -4,6 +4,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedExpiryTeller__factory, IERC20__factory } from "src/typechain";
 import { ERC20BondToken__factory } from "src/typechain/factories";
@@ -15,12 +16,11 @@ import { useAccount, useNetwork, useProvider } from "wagmi";
  */
 export const useBondTokens = () => {
   const { chain = { name: "mainnet", id: 1 } } = useNetwork();
-  const network = chain.name === "ethereum" ? "mainnet" : chain.name;
   const networks = useTestableNetworks();
   return useQuery<string[]>(["useBondToken"], async () => {
     const options = {
       method: "POST",
-      url: `https://eth-${network}.alchemyapi.io/v2/${process.env.REACT_APP_ETHEREUM_ALCHEMY_IDS}`,
+      url: Providers.getProviderUrl(chain.id),
       headers: { accept: "application/json", "content-type": "application/json" },
       data: {
         id: 1,
