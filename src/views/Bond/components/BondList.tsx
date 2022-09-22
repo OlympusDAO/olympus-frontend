@@ -271,7 +271,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
             {bond.isSoldOut
               ? t({ message: "Sold Out", comment: "Bond is sold out" })
               : t({
-                  message: isInverseBond ? `Bond ${quoteTokenName} for ${baseTokenName}` : `Bond for ${quoteTokenName}`,
+                  message: isInverseBond ? `Bond for ${baseTokenName}` : `Bond for ${quoteTokenName}`,
                   comment: "The act of bonding",
                 })}
           </TertiaryButton>
