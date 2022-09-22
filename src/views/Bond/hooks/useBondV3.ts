@@ -49,15 +49,17 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     quoteToken.getPrice(NetworkId.MAINNET),
     auctioneerContract.marketPrice(id).then(price => price),
   ]);
+
+  /**
+   * The price decimal scaling for a market is split between
+   * the price value and the scale value to be able to support a broader range of inputs.
+   * Specifically, half of it is in the scale and half in the price.
+   * To normalize the price value for display, we can add the half that is in the scale factor back to it.
+   */
   const scale = await auctioneerContract.marketScale(id);
   const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
-  console.log(baseScale, "baseScale");
-  const shift = BigNumber.from(baseScale).div(scale);
-  console.log(shift, "shift");
-  console.log(bondMarketPrice, shift);
+  const shift = Number(baseScale) / Number(scale);
 
-  const test = bondMarketPrice.mul(shift);
-  console.log(test, "test");
   const quoteTokenPerBaseToken = new DecimalBigNumber(bondMarketPrice.mul(shift), 36);
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
@@ -103,7 +105,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
    * Bonds are sold out if either there is no capacity left,
    * or the maximum has been paid out for a specific interval.
    */
-
   const isSoldOut = isInverseBond
     ? capacityData.capacityInQuoteToken.lt("1")
     : capacityData.capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
