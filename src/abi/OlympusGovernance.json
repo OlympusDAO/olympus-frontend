@@ -1,3 +1,591 @@
 {
-    "abi": [{"inputs":[{"internalType":"contract Kernel","name":"kernel_","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"ActivationTimelockStillActive","type":"error"},{"inputs":[],"name":"CannotRegisterForActivatedProposal","type":"error"},{"inputs":[],"name":"CannotRegisterForInvalidProposal","type":"error"},{"inputs":[],"name":"ExecutionTimelockStillActive","type":"error"},{"inputs":[],"name":"ExecutionWindowExpired","type":"error"},{"inputs":[],"name":"ExecutorNotSubmitter","type":"error"},{"inputs":[{"internalType":"address","name":"caller_","type":"address"}],"name":"KernelAdapter_OnlyKernel","type":"error"},{"inputs":[],"name":"NotAuthorizedToActivateProposal","type":"error"},{"inputs":[],"name":"NotEnoughEndorsementsToActivateProposal","type":"error"},{"inputs":[],"name":"NotEnoughVotesToExecute","type":"error"},{"inputs":[],"name":"NotEnoughVotesToPropose","type":"error"},{"inputs":[{"internalType":"Keycode","name":"keycode_","type":"bytes5"}],"name":"Policy_ModuleDoesNotExist","type":"error"},{"inputs":[],"name":"ProposalAlreadyActivated","type":"error"},{"inputs":[],"name":"ProposalAlreadyExecuted","type":"error"},{"inputs":[],"name":"ProposalIsNotActive","type":"error"},{"inputs":[],"name":"RegistrationDeadlinePassed","type":"error"},{"inputs":[],"name":"SubmittedProposalHasExpired","type":"error"},{"inputs":[],"name":"UserAlreadyVoted","type":"error"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ProposalActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"proposalId","type":"uint256"}],"name":"ProposalExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"voter","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ProposalRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"string","name":"title","type":"string"},{"indexed":false,"internalType":"string","name":"proposalURI","type":"string"}],"name":"ProposalSubmitted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"address","name":"voter","type":"address"},{"indexed":false,"internalType":"bool","name":"approve","type":"bool"},{"indexed":false,"internalType":"uint256","name":"userVotes","type":"uint256"}],"name":"VotesCast","type":"event"},{"inputs":[],"name":"ACTIVATION_TIMELOCK","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EXECUTION_DEADLINE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EXECUTION_THRESHOLD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"EXECUTION_TIMELOCK","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"INSTR","outputs":[{"internalType":"contract OlympusInstructions","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REGISTRATION_DEADLINE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"REGISTRATION_THRESHOLD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SUBMISSION_REQUIREMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"VOTES","outputs":[{"internalType":"contract OlympusVotes","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"VOTING_PERIOD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"proposalId_","type":"uint256"}],"name":"activateProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract Kernel","name":"newKernel_","type":"address"}],"name":"changeKernel","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"configureDependencies","outputs":[{"internalType":"Keycode[]","name":"dependencies","type":"bytes5[]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"proposalId_","type":"uint256"}],"name":"executeProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"getProposalMetadata","outputs":[{"internalType":"address","name":"submitter","type":"address"},{"internalType":"uint256","name":"submissionTimestamp","type":"uint256"},{"internalType":"uint256","name":"totalRegisteredVotes","type":"uint256"},{"internalType":"uint256","name":"activationTimestamp","type":"uint256"},{"internalType":"uint256","name":"yesVotes","type":"uint256"},{"internalType":"uint256","name":"noVotes","type":"uint256"},{"internalType":"bool","name":"isExecuted","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isActive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"kernel","outputs":[{"internalType":"contract Kernel","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"proposalId_","type":"uint256"}],"name":"registerForProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"requestPermissions","outputs":[{"components":[{"internalType":"Keycode","name":"keycode","type":"bytes5"},{"internalType":"bytes4","name":"funcSelector","type":"bytes4"}],"internalType":"struct Permissions[]","name":"requests","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bool","name":"activate_","type":"bool"}],"name":"setActiveStatus","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"enum Actions","name":"action","type":"uint8"},{"internalType":"address","name":"target","type":"address"}],"internalType":"struct Instruction[]","name":"instructions_","type":"tuple[]"},{"internalType":"string","name":"title_","type":"string"},{"internalType":"string","name":"proposalURI_","type":"string"}],"name":"submitProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"proposalId_","type":"uint256"},{"internalType":"bool","name":"approve_","type":"bool"}],"name":"vote","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+    "abi": [
+        {
+            "inputs": [
+                {
+                    "internalType": "contract Kernel",
+                    "name": "kernel_",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [],
+            "name": "ActivationTimelockStillActive",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "CannotRegisterForActivatedProposal",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "CannotRegisterForInvalidProposal",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ExecutionTimelockStillActive",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ExecutionWindowExpired",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ExecutorNotSubmitter",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "caller_",
+                    "type": "address"
+                }
+            ],
+            "name": "KernelAdapter_OnlyKernel",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotAuthorizedToActivateProposal",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotEnoughEndorsementsToActivateProposal",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotEnoughVotesToExecute",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotEnoughVotesToPropose",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "Keycode",
+                    "name": "keycode_",
+                    "type": "bytes5"
+                }
+            ],
+            "name": "Policy_ModuleDoesNotExist",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ProposalAlreadyActivated",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ProposalAlreadyExecuted",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ProposalIsNotActive",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "RegistrationDeadlinePassed",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "SubmittedProposalHasExpired",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "UserAlreadyVoted",
+            "type": "error"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ProposalActivated",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ProposalExecuted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "voter",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ProposalRegistered",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "proposalURI",
+                    "type": "string"
+                }
+            ],
+            "name": "ProposalSubmitted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "voter",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "approve",
+                    "type": "bool"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "userVotes",
+                    "type": "uint256"
+                }
+            ],
+            "name": "VotesCast",
+            "type": "event"
+        },
+        {
+            "inputs": [],
+            "name": "ACTIVATION_TIMELOCK",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "EXECUTION_DEADLINE",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "EXECUTION_THRESHOLD",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "EXECUTION_TIMELOCK",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "INSTR",
+            "outputs": [
+                {
+                    "internalType": "contract OlympusInstructions",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "REGISTRATION_DEADLINE",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "REGISTRATION_THRESHOLD",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "SUBMISSION_REQUIREMENT",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "VOTES",
+            "outputs": [
+                {
+                    "internalType": "contract OlympusVotes",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "VOTING_PERIOD",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "proposalId_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "activateProposal",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "contract Kernel",
+                    "name": "newKernel_",
+                    "type": "address"
+                }
+            ],
+            "name": "changeKernel",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "configureDependencies",
+            "outputs": [
+                {
+                    "internalType": "Keycode[]",
+                    "name": "dependencies",
+                    "type": "bytes5[]"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "proposalId_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "executeProposal",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getProposalMetadata",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "submitter",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "submissionTimestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalRegisteredVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "activationTimestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "yesVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "noVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isExecuted",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "isActive",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "kernel",
+            "outputs": [
+                {
+                    "internalType": "contract Kernel",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "proposalId_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "registerForProposal",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "requestPermissions",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "Keycode",
+                            "name": "keycode",
+                            "type": "bytes5"
+                        },
+                        {
+                            "internalType": "bytes4",
+                            "name": "funcSelector",
+                            "type": "bytes4"
+                        }
+                    ],
+                    "internalType": "struct Permissions[]",
+                    "name": "requests",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bool",
+                    "name": "activate_",
+                    "type": "bool"
+                }
+            ],
+            "name": "setActiveStatus",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "enum Actions",
+                            "name": "action",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "target",
+                            "type": "address"
+                        }
+                    ],
+                    "internalType": "struct Instruction[]",
+                    "name": "instructions_",
+                    "type": "tuple[]"
+                },
+                {
+                    "internalType": "string",
+                    "name": "title_",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "proposalURI_",
+                    "type": "string"
+                }
+            ],
+            "name": "submitProposal",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "proposalId_",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "approve_",
+                    "type": "bool"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ]
 }
