@@ -9,7 +9,7 @@ import { ERC20BondToken__factory } from "src/typechain/factories";
 import { useAccount, useProvider } from "wagmi";
 
 /**
- * Queries alchemy API for ERC_20 Token created topic and returns all events.
+ * Queries eth_logs ERC_20 Token created topic and returns all events.
  * Filters events by underlying asset == OHM
  */
 export const useBondTokens = () => {
