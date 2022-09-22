@@ -10,7 +10,7 @@ import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
@@ -121,7 +121,10 @@ const NavContent: React.VFC = () => {
 };
 
 const Bonds: React.VFC = () => {
-  const bonds = useLiveBonds().data;
+  const { data: bondsV2 = [] } = useLiveBonds();
+  const { data: bondsV3 = [] } = useLiveBondsV3();
+
+  const bonds = bondsV2?.concat(bondsV3);
 
   if (!bonds || bonds.length === 0) return null;
 
