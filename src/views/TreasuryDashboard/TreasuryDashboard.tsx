@@ -22,6 +22,7 @@ import {
 import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
+import KnownIssues from "src/views/TreasuryDashboard/components/KnownIssues/KnownIssues";
 import {
   BackingPerGOHM,
   BackingPerOHM,
@@ -32,7 +33,6 @@ import {
   OhmCirculatingSupply,
   OHMPriceFromSubgraph,
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
-import DashboardWarnings from "src/views/TreasuryDashboard/components/warnings/DashboardWarnings";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
 
@@ -238,7 +238,9 @@ const MetricsDashboard = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <DashboardWarnings />
+          <Paper {...paperProps} style={paperStyles}>
+            <KnownIssues />
+          </Paper>
         </Grid>
       </Grid>
       <SafariFooter />
