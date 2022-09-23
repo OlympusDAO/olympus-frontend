@@ -17,12 +17,13 @@ export const objectHasProperty = (object: unknown, property: string): object is 
  */
 export const renameToken = (value: string): string => {
   const tokenMap = new Map<string, string>([
-    ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Liquidity Pool"],
-    ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Liquidity Pool"],
-    ["cvxOHMETH", "Curve OHM-ETH Pool (Staked in Convex)"],
-    ["Balancer OHM-DAI-WETH Pool", "Balancer V2 OHM-DAI-wETH Liquidity Pool"],
-    ["Balancer WETH-FDT Pool", "Balancer V2 wETH-FDT Liquidity Pool"],
-    ["vlCVX V2", "vlCVX"],
+    ["Balancer V2 OHM-DAI-WETH Liquidity Pool", "Balancer V2 OHM-DAI-wETH Liquidity Pool"],
+    [
+      "Balancer V2 OHM-DAI-WETH Liquidity Pool (Staked in AURA)",
+      "Balancer V2 OHM-DAI-wETH Liquidity Pool (Staked in Aura)",
+    ],
+    ["Balancer V2 WETH-FDT Liquidity Pool", "Balancer V2 wETH-FDT Liquidity Pool"],
+    ["Balancer V2 WETH-FDT Liquidity Pool - Gauge Deposit", "Balancer V2 wETH-FDT Liquidity Pool - Gauge Deposit"],
     ["Uniswap V2 OHM-BTRFLY V1 Liquidity Pool", "SushiSwap OHM-BTRFLY V1 Liquidity Pool"],
     ["UniswapV2 gOHM-wETH Liquidity Pool", "SushiSwap gOHM-wETH Liquidity Pool"],
   ]);
