@@ -82,7 +82,8 @@ const adjustColor = (color: tinycolor.Instance, multiple: number): string => {
  * @returns
  */
 const getCorrectedColor = (colors: string[], index: number): string => {
-  const multiple = index / (colors.length - 1);
+  // We want 0, 1, 2, etc
+  const multiple = Math.floor(index / (colors.length - 1));
   const correctedIndex = index % (colors.length - 1);
 
   return adjustColor(tinycolor(colors[correctedIndex]), multiple);
