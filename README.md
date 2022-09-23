@@ -332,7 +332,7 @@ The Treasury Dashboard utilises subgraphs served by the Graph Protocol. Each sub
 
 ### Known Issues
 
-The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited within the GitHub interface [here](src/views/TreasuryDashboard/components/warnings/warnings.md).
+The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited within the GitHub interface [here](src/views/TreasuryDashboard/components/KnownIssues/content.md).
 
 If editing the production content, opt to create a new branch and pull request, so that it can be merged into production.
 
