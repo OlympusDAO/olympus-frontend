@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -22,7 +23,7 @@ const KnownIssues = (): JSX.Element => {
       <Grid item xs={12}>
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
-          Known Issues
+          <Trans>Disclaimers</Trans>
         </Typography>
       </Grid>
       <Grid
