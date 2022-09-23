@@ -1361,34 +1361,30 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
           >
             <div
-              class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-1x62zq9-MuiCollapse-root"
-              style="min-height: 0px;"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-wcytrk-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; padding-left: 10px; padding-right: 10px;"
             >
               <div
-                class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
               >
                 <div
-                  class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                  class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-filledInfo MuiAlert-filled Notification-root css-1bwm0gf-MuiPaper-root-MuiAlert-root"
-                    role="alert"
+                    class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
                   >
                     <div
-                      class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
                     >
-                      <div
-                        class="MuiBox-root css-gmuwbf"
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-1e2mgue-MuiTypography-root"
                       >
-                        <div
-                          class="MuiBox-root css-70qvj9"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 Notification-text css-69sme-MuiTypography-root"
-                          />
-                        </div>
-                      </div>
+                        Disclaimers
+                      </h6>
                     </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1ztvrz-MuiGrid-root"
+                    />
                   </div>
                 </div>
               </div>
