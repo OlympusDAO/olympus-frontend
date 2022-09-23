@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
+import { TokenRecord, TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
@@ -73,11 +73,21 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
     const newDateTokenSummary = getDateTokenSummary(flatRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const tokenCategories = Array.from(new Set(flatRecords.map(tokenRecord => tokenRecord.token))).sort();
+    const getTokenId = (record: TokenRecord): string => {
+      return `${record.token}/${record.blockchain}`;
+    };
+
+    // Sort the source records array, so that anything generated from this doesn't need to be sorted again, and is consistent.
+    const sortedRecords = flatRecords.sort((a: TokenRecord, b: TokenRecord) => {
+      if (getTokenId(a) < getTokenId(b)) return -1;
+      if (getTokenId(a) > getTokenId(b)) return 1;
+
+      return 0;
+    });
+
+    const tokenCategories = Array.from(new Set(sortedRecords.map(tokenRecord => tokenRecord.token)));
     // Replicates the format of the keys returned by getDateTokenSummary
-    const tokenIds = Array.from(
-      new Set(flatRecords.map(tokenRecord => `${tokenRecord.token}/${tokenRecord.blockchain}`)),
-    ).sort();
+    const tokenIds = Array.from(new Set(sortedRecords.map(tokenRecord => getTokenId(tokenRecord))));
 
     const tempDataKeys = getDataKeysFromTokens(tokenIds);
     setDataKeys(tempDataKeys);
