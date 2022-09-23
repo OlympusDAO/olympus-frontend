@@ -1,0 +1,175 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20[]",
+          "name": "tokens_",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address",
+          "name": "to_",
+          "type": "address"
+        }
+      ],
+      "name": "claimFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        }
+      ],
+      "name": "getFee",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmountOut_",
+          "type": "uint256"
+        }
+      ],
+      "name": "purchase",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint48",
+          "name": "fee_",
+          "type": "uint48"
+        }
+      ],
+      "name": "setProtocolFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint48",
+          "name": "fee_",
+          "type": "uint48"
+        }
+      ],
+      "name": "setReferrerFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "claimFees(address[],address)": {
+        "params": {
+          "to_": "Address to send fees to",
+          "tokens_": "Array of tokens to claim fees for"
+        }
+      },
+      "getFee(address)": {
+        "params": {
+          "referrer_": "Address of the referrer"
+        },
+        "returns": {
+          "_0": "Fee in basis points (3 decimal places)"
+        }
+      },
+      "purchase(address,address,uint256,uint256,uint256)": {
+        "params": {
+          "amount_": "Amount to deposit in exchange for bond",
+          "id_": "ID of the Market the bond is being purchased from",
+          "minAmountOut_": "Minimum acceptable amount of bond to receive. Prevents frontrunning",
+          "recipient_": "Address of recipient of bond. Allows deposits for other addresses",
+          "referrer_": "Address of referrer who will receive referral fee. For frontends to fill.                         Direct calls can use the zero address for no referrer fee."
+        },
+        "returns": {
+          "_0": "Amount of payout token to be received from the bond",
+          "_1": "Timestamp at which the bond token can be redeemed for the underlying token"
+        }
+      },
+      "setProtocolFee(uint48)": {
+        "params": {
+          "fee_": "Protocol fee in basis points (3 decimal places)"
+        }
+      },
+      "setReferrerFee(uint48)": {
+        "params": {
+          "fee_": "Referrer fee in basis points (3 decimal places)"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "claimFees(address[],address)": {
+        "notice": "Claim fees accrued for input tokens and sends to protocolMust be guardian"
+      },
+      "getFee(address)": {
+        "notice": "Get current fee charged by the teller based on the combined protocol and referrer fee"
+      },
+      "purchase(address,address,uint256,uint256,uint256)": {
+        "notice": "Exchange quote tokens for a bond in a specified market"
+      },
+      "setProtocolFee(uint48)": {
+        "notice": "Set protocol feeMust be guardian"
+      },
+      "setReferrerFee(uint48)": {
+        "notice": "Set your fee as a referrer to the protocolFee is set for sending address"
+      }
+    },
+    "version": 1
+  }
+}
