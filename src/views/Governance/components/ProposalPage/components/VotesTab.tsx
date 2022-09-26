@@ -51,6 +51,13 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     fontWeight: "400",
   }));
 
+  const canEndorse = () => {
+    if (!votesBalance) return false;
+    if (!endorsementsValue) return false;
+
+    return !votesBalance.eq(endorsementsValue);
+  };
+
   const handleVoteSubmission = () => {
     submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
   };
@@ -105,7 +112,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
               <Box display="flex" flexDirection="row" justifyContent="center">
                 <PrimaryButton
                   sx={{ minWidth: "120px" }}
-                  disabled={!!proposal.isActive}
+                  disabled={!!proposal.isActive || !canEndorse()}
                   onClick={handleEndorseSubmission}
                 >
                   Endorse
