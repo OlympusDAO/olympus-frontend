@@ -234,7 +234,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
-  console.log(contractRouting, amountExceedsBalance, balance, amount, "debug");
 
   return (
     <StyledBox mb={3}>
@@ -245,7 +244,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         indicatorColor="primary"
         key={String(props.isZoomed)}
         className="stake-tab-buttons"
-        value={currentAction === "STAKE" ? 0 : 1}
+        value={false}
         //hides the tab underline sliding animation in while <Zoom> is loading
         TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
         onChange={(_, view: number) => setCurrentAction(view === 0 ? "STAKE" : "UNSTAKE")}

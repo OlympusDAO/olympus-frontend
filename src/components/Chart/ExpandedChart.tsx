@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 
-function ExpandedChart({
+const ExpandedChart = ({
   open,
   handleClose,
   renderChart,
@@ -25,7 +25,7 @@ function ExpandedChart({
   headerSubText: string;
   runwayExtraInfo?: string;
   subgraphQueryUrl?: string;
-}) {
+}) => {
   /**
    * Ensure that the expanded chart modal closes when pressing escape.
    *
@@ -110,6 +110,6 @@ function ExpandedChart({
       </Grid>
     </Modal>
   );
-}
+};
 
 export default ExpandedChart;
