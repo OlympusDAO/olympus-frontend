@@ -22,7 +22,10 @@ const KnownIssues = (): JSX.Element => {
   }, []);
 
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={{ marginBottom: "-1.5rem" }} /* Ensure that the spacing from the bottom of the Paper component is the same */
+    >
       <Grid item xs={12} textAlign="center">
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
