@@ -19,7 +19,7 @@ const KnownIssues = (): JSX.Element => {
   }, []);
 
   return (
-    <Grid container>
+    <Grid container sx={{ maxWidth: "80ch" }}>
       <Grid item xs={12}>
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
