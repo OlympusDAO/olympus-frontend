@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
+import toast from "react-hot-toast";
 import ierc20ABI from "src/abi/IERC20.json";
 import StakingHelperABI from "src/abi/StakingHelper.json";
 import { addresses } from "src/constants";
@@ -7,7 +8,6 @@ import { OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { fetchAccountSuccess, getBalances } from "src/slices/AccountSlice";
 import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "src/slices/interfaces";
-import { error, info } from "src/slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "src/slices/PendingTxnsSlice";
 import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
 
@@ -51,7 +51,7 @@ export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
   async ({ token, provider, address, networkID, version2 }: IChangeApprovalWithVersionAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
     const signer = provider.getSigner();
@@ -88,7 +88,7 @@ export const changeApproval = createAsyncThunk(
     );
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2, version2)) {
-      dispatch(info("Approval completed."));
+      toast("Approval completed.");
       return dispatch(
         fetchAccountSuccess({
           staking: {
@@ -134,7 +134,7 @@ export const changeApproval = createAsyncThunk(
         await approveTx.wait();
       }
     } catch (e: unknown) {
-      dispatch(error((e as IJsonRPCError).message));
+      toast.error((e as IJsonRPCError).message);
       return;
     } finally {
       if (approveTx) {
@@ -171,7 +171,7 @@ export const changeStake = createAsyncThunk(
   "stake/changeStake",
   async ({ action, value, provider, address, networkID, version2, rebase }: IStakeAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
 
@@ -232,11 +232,11 @@ export const changeStake = createAsyncThunk(
       uaData.approved = false;
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
-        dispatch(
-          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        toast.error(
+          "You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow",
         );
       } else {
-        dispatch(error(rpcError.message));
+        toast.error(rpcError.message);
       }
       return;
     } finally {
