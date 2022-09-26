@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import MarkdownContent from "src/views/TreasuryDashboard/components/KnownIssues/content.md";
@@ -11,6 +11,9 @@ import MarkdownContent from "src/views/TreasuryDashboard/components/KnownIssues/
 const KnownIssues = (): JSX.Element => {
   const [warningContent, setWarningContent] = useState("");
 
+  const theme = useTheme();
+  const hideSidePadding = useMediaQuery(theme.breakpoints.down("sm"));
+
   // On component mounting, load the content from the Markdown file
   useEffect(() => {
     fetch(MarkdownContent)
@@ -19,16 +22,18 @@ const KnownIssues = (): JSX.Element => {
   }, []);
 
   return (
-    <Grid container sx={{ maxWidth: "80ch" }}>
+    <Grid container>
       <Grid item xs={12}>
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
           <Trans>Disclaimers</Trans>
         </Typography>
       </Grid>
+      {hideSidePadding || <Grid item xs={1} md={2} />}
       <Grid
         item
-        xs={12}
+        xs={10}
+        md={8}
         sx={{
           // Consistent with the fontSize of TreasuryAssetsTable
           fontSize: "14px",
@@ -37,6 +42,7 @@ const KnownIssues = (): JSX.Element => {
       >
         <ReactMarkdown children={warningContent} />
       </Grid>
+      {hideSidePadding || <Grid item xs={1} md={2} />}
     </Grid>
   );
 };
