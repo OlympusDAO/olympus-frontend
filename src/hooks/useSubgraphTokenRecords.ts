@@ -275,7 +275,15 @@ export const useTokenRecordsQueries = (
     const sortedResults = new Map([...tempResults].sort().reverse());
 
     setCombinedResults(sortedResults);
-  }, [arbitrumResults, chartName, ethereumResults, fantomResults, isFetchingCount, polygonResults]);
+  }, [
+    arbitrumResults,
+    chartName,
+    ethereumResults,
+    fantomResults,
+    isFetchingCount,
+    polygonResults,
+    shouldHandleHangingQuery,
+  ]);
 
   return combinedResults;
 };
