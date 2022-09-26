@@ -125,7 +125,9 @@ export const useTokenRecordsQuery = (
  * @param chartName
  * @param subgraphUrls
  * @param baseFilter
- * @param earliestDate
+ * @param earliestDate the earliest date to fetch, in YYYY-MM-DD format
+ * @param dateOffset the number of days to fetch in each page/request
+ * @param shouldHandleHangingQuery if true, will return results even when there is a hanging query
  * @returns Records grouped by date, or null if still fetching
  */
 export const useTokenRecordsQueries = (
@@ -134,6 +136,8 @@ export const useTokenRecordsQueries = (
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
   dateOffset?: number,
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  shouldHandleHangingQuery: boolean = false,
 ): Map<string, TokenRecord[]> | null => {
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
@@ -207,7 +211,10 @@ export const useTokenRecordsQueries = (
     const hasHangingQuery = isFetchingCount === 0;
 
     // Only combine (and trigger a re-render) when all results have been received
-    if (!hasHangingQuery && (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults)) {
+    if (
+      (!shouldHandleHangingQuery || !hasHangingQuery) &&
+      (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults)
+    ) {
       return;
     }
 

@@ -43,6 +43,7 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
+    true,
   );
 
   /**
