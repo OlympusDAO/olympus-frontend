@@ -12,7 +12,7 @@ const KnownIssues = (): JSX.Element => {
   const [warningContent, setWarningContent] = useState("");
 
   const theme = useTheme();
-  const hideSidePadding = useMediaQuery(theme.breakpoints.down("sm"));
+  const shouldHideSidePadding = useMediaQuery(theme.breakpoints.down("sm"));
 
   // On component mounting, load the content from the Markdown file
   useEffect(() => {
@@ -23,13 +23,13 @@ const KnownIssues = (): JSX.Element => {
 
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid item xs={12} textAlign="center">
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
           <Trans>Disclaimers</Trans>
         </Typography>
       </Grid>
-      {hideSidePadding || <Grid item xs={1} md={2} />}
+      {shouldHideSidePadding || <Grid item xs={1} md={2} />}
       <Grid
         item
         xs={10}
@@ -42,7 +42,7 @@ const KnownIssues = (): JSX.Element => {
       >
         <ReactMarkdown children={warningContent} />
       </Grid>
-      {hideSidePadding || <Grid item xs={1} md={2} />}
+      {shouldHideSidePadding || <Grid item xs={1} md={2} />}
     </Grid>
   );
 };

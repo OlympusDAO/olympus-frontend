@@ -1374,7 +1374,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                     class="MuiGrid-root MuiGrid-container css-19lq5o1-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-zpclep-MuiGrid-root"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6 css-1e2mgue-MuiTypography-root"
