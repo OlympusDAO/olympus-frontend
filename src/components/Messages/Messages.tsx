@@ -1,5 +1,3 @@
-import "src/components/Messages/ConsoleInterceptor";
-
 import { AlertProps, LinearProgress, Snackbar } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
