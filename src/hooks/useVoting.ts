@@ -4,7 +4,10 @@ import { BigNumber, ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
 import { GOVERNANCE_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useProposal } from "src/hooks/useProposal";
+import { IAnyProposal } from "src/hooks/useProposals";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { NULL_PROPOSAL } from "src/views/Governance/constants";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 interface Vote {
@@ -23,16 +26,19 @@ interface ActivatedProposal {
 export const useUserEndorsement = (proposalId: number) => {
   const { chain = { id: 1 } } = useNetwork();
   const { isConnected, address } = useAccount();
-
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  // const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const _useProposal = useProposal(proposalId);
+  const proposal: IAnyProposal = _useProposal.isLoading || !_useProposal.data ? NULL_PROPOSAL : _useProposal.data;
 
   return useQuery<DecimalBigNumber, Error>(
     ["getUserEndorsement", proposalId, address],
     async () => {
-      const endorsementValue = await contract.userEndorsementsForProposal(proposalId, address as string);
+      // TODO(appleseed): this function isn't accessible rn
+      const endorsementValue = await _useProposal.data.votesRegisteredByUser(proposalId, address as string);
+      // const endorsementValue = await contract.userEndorsementsForProposal(proposalId, address as string);
       return new DecimalBigNumber(endorsementValue, 3);
     },
-    { enabled: !!isConnected && !!address },
+    { enabled: !!isConnected && !!address && _useProposal.isFetched },
   );
 };
 
@@ -71,7 +77,7 @@ export const useEndorse = () => {
       //                ever be passed as some sort of default value
       if (proposalId.eq(-1)) throw new Error(t`Cannot endorse proposal with invalid ID`);
 
-      const transaction = await contract.connect(signer).endorseProposal(proposalId);
+      const transaction = await contract.connect(signer).registerForProposal(proposalId);
       return transaction.wait();
     },
     {
@@ -98,12 +104,12 @@ export const useVote = () => {
     async ({ voteData }: { voteData: Vote }) => {
       if (!signer) throw new Error("No signer connected, cannot endorse");
 
-      const activeProposal: ActivatedProposal = await contract.activeProposal();
-      const activeProposalId = activeProposal.proposalId;
+      // const activeProposal: ActivatedProposal = await contract.activeProposal();
+      // const activeProposalId = activeProposal.proposalId;
 
-      if (!voteData.proposalId.eq(activeProposalId)) throw new Error(t`You can only vote for the activated proposal`);
+      // if (!voteData.proposalId.eq(activeProposalId)) throw new Error(t`You can only vote for the activated proposal`);
 
-      const transaction = await contract.connect(signer).vote(voteData.vote);
+      const transaction = await contract.connect(signer).vote(voteData.proposalId, voteData.vote);
       return transaction.wait();
     },
     {
