@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import MarkdownContent from "src/views/TreasuryDashboard/components/KnownIssues/content.md";
@@ -10,9 +10,6 @@ import MarkdownContent from "src/views/TreasuryDashboard/components/KnownIssues/
  */
 const KnownIssues = (): JSX.Element => {
   const [warningContent, setWarningContent] = useState("");
-
-  const theme = useTheme();
-  const shouldHideSidePadding = useMediaQuery(theme.breakpoints.down("sm"));
 
   // On component mounting, load the content from the Markdown file
   useEffect(() => {
@@ -32,20 +29,21 @@ const KnownIssues = (): JSX.Element => {
           <Trans>Disclaimers</Trans>
         </Typography>
       </Grid>
-      {shouldHideSidePadding || <Grid item xs={1} md={2} />}
       <Grid
         item
-        xs={10}
-        md={8}
+        xs={12}
         sx={{
           // Consistent with the fontSize of TreasuryAssetsTable
           fontSize: "14px",
           lineHeight: "20px",
         }}
+        style={{
+          maxWidth: "80ch", // Limit width and improve readability
+          margin: "0 auto", // Centers
+        }}
       >
         <ReactMarkdown children={warningContent} />
       </Grid>
-      {shouldHideSidePadding || <Grid item xs={1} md={2} />}
     </Grid>
   );
 };

@@ -1383,13 +1383,8 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </h6>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 css-hbbp4b-MuiGrid-root"
-                    />
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10 MuiGrid-grid-md-8 css-l9m7xy-MuiGrid-root"
-                    />
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-md-2 css-hbbp4b-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1ztvrz-MuiGrid-root"
+                      style="max-width: 80ch; margin: 0px auto;"
                     />
                   </div>
                 </div>
