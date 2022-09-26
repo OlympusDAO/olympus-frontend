@@ -6,9 +6,11 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import App from "src/App";
+import Messages from "src/components/Messages/Messages";
 import { chains, wagmiClient } from "src/hooks/wagmi";
 import { ReactQueryProvider } from "src/lib/react-query";
 import defaultStore from "src/store";
@@ -26,6 +28,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
                 <StyledEngineProvider injectFirst>
                   <ThemeProvider theme={lightTheme}>
                     <CssBaseline />
+                    <Toaster>{t => <Messages toast={t} />}</Toaster>
                     {children}
                   </ThemeProvider>
                 </StyledEngineProvider>
@@ -51,6 +54,7 @@ const renderRoute = function (route: string, store = defaultStore) {
               <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={lightTheme}>
                   <CssBaseline />
+                  <Toaster>{t => <Messages toast={t} />}</Toaster>
                   <App />
                 </ThemeProvider>
               </StyledEngineProvider>

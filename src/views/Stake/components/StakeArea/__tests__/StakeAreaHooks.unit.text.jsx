@@ -1,6 +1,5 @@
 import { fireEvent } from "@testing-library/react";
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -20,7 +19,6 @@ beforeEach(async () => {
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   render(
     <>
-      <Messages />
       <StakeInputArea />
     </>,
   );

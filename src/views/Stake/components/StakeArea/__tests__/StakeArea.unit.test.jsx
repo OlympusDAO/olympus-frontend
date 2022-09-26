@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -72,7 +71,6 @@ describe("<StakeArea/> Connected with Approval", () => {
 
     render(
       <>
-        <Messages />
         <StakeInputArea />
       </>,
     );

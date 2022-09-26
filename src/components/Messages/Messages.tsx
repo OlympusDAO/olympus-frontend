@@ -1,14 +1,9 @@
-import "src/components/Messages/ConsoleInterceptor";
-
 import Alert from "@mui/material/Alert";
 import { Icon } from "@olympusdao/component-library";
-import { useState } from "react";
 import { resolveValue, toast as hotToast } from "react-hot-toast";
 
 // A component that displays error messages
 const Messages = ({ toast }: { toast: any }) => {
-  const [dismiss, setDismiss] = useState(false);
-
   return (
     <Alert
       variant="filled"
