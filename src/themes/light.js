@@ -96,7 +96,7 @@ export const light = responsiveFontSizes(
           MuiModal: {
             styleOverrides: {
               root: {
-                ".MuiPaper-root": {
+                ".Modal-paper": {
                   background: colors.gray[700],
                 },
               },

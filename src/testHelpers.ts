@@ -55,6 +55,16 @@ export const mockConnector = new MockConnector({
   options: { signer: getSigners()[0] },
 });
 
+export function invalidAddress() {
+  //@ts-ignore
+  vi.spyOn(WAGMI, "useConnect").mockReturnValue(() => {
+    return {
+      activeConnector: mockConnector,
+      connectors: [mockConnector],
+    };
+  });
+}
+
 export function disconnectedWallet() {
   // //@ts-ignore
   // WAGMI.useConnect = vi.fn(() => {

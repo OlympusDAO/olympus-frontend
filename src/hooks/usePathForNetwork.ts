@@ -40,6 +40,15 @@ export function usePathForNetwork({
           navigate("/stake");
           break;
         }
+      case "range":
+        if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].range) {
+          console.log("is true");
+          break;
+        } else {
+          console.log("is not true");
+          navigate("/wrap");
+          break;
+        }
       default:
         console.log("pathForNetwork ok");
     }

@@ -240,7 +240,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
         })()}
         {chain.id === NetworkId.TESTNET_GOERLI && (
           <>
-            <Typography variant="h5">Faucet</Typography>
+            <Typography variant="h5">Dev Faucet</Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
               <FormControl className={classes.faucet}>
                 <Select
