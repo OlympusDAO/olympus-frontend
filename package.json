@@ -66,6 +66,7 @@
     "react-step-progress-bar": "^1.0.3",
     "react-uid": "^2.3.2",
     "recharts": "^2.1.14",
+    "tinycolor2": "^1.4.2",
     "typescript": "^4.8.3",
     "wagmi": "^0.6.6"
   },
@@ -105,6 +106,7 @@
     "@types/react-dom": "^18.0.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
+    "@types/tinycolor2": "^1.4.3",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",

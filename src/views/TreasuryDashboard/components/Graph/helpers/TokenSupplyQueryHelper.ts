@@ -26,6 +26,7 @@ export const getNextPageParamFactory = (
   earliestDate: string,
   recordCount: number,
   baseFilter: TokenSupply_Filter,
+  endpoint: string,
   dateOffset?: number,
 ) => {
   const logPrefix = `${queryName}/TokenSupply/${earliestDate}`;
@@ -63,6 +64,7 @@ export const getNextPageParamFactory = (
         date_lt: newFinishDate,
       },
       recordCount: recordCount,
+      endpoint: endpoint,
     };
   };
 };

@@ -15,6 +15,7 @@ const createTokenRecord = (
   return {
     balance: 0,
     block: block || 0,
+    blockchain: "Ethereum",
     category: category || "",
     date: date || "",
     id: "",
@@ -70,22 +71,26 @@ describe("getDateTokenSummary", () => {
 
     const byDateRecords = getDateTokenSummary(records, false);
 
+    const tokenId = "token/Ethereum";
+
     const dateTwo = byDateRecords[0];
     expect(dateTwo).toBeDefined();
     expect(dateTwo.date).toEqual("2022-06-06");
     expect(dateTwo.block).toEqual(2);
-    expect(dateTwo.tokens["token"].category).toEqual("POL");
-    expect(dateTwo.tokens["token"].value).toEqual("1");
-    expect(dateTwo.tokens["token"].valueExcludingOhm).toEqual("0.5");
+    expect(dateTwo.tokens[tokenId].id).toEqual(tokenId);
+    expect(dateTwo.tokens[tokenId].category).toEqual("POL");
+    expect(dateTwo.tokens[tokenId].value).toEqual("1");
+    expect(dateTwo.tokens[tokenId].valueExcludingOhm).toEqual("0.5");
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     const dateOne = byDateRecords[1];
     expect(dateOne).toBeDefined();
     expect(dateOne.date).toEqual("2022-06-05");
     expect(dateOne.block).toEqual(1);
-    expect(dateOne.tokens["token"].category).toEqual("Foo");
-    expect(dateOne.tokens["token"].value).toEqual("2");
-    expect(dateOne.tokens["token"].valueExcludingOhm).toEqual("1.5");
+    expect(dateOne.tokens[tokenId].id).toEqual(tokenId);
+    expect(dateOne.tokens[tokenId].category).toEqual("Foo");
+    expect(dateOne.tokens[tokenId].value).toEqual("2");
+    expect(dateOne.tokens[tokenId].valueExcludingOhm).toEqual("1.5");
     expect(Object.keys(dateOne.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(2);
@@ -99,13 +104,16 @@ describe("getDateTokenSummary", () => {
 
     const byDateRecords = getDateTokenSummary(records);
 
+    const tokenId = "token/Ethereum";
+
     const dateTwo = byDateRecords[0];
     expect(dateTwo).toBeDefined();
     expect(dateTwo.date).toEqual("2022-06-06");
     expect(dateTwo.block).toEqual(2);
-    expect(dateTwo.tokens["token"].category).toEqual("POL");
-    expect(dateTwo.tokens["token"].value).toEqual("1");
-    expect(dateTwo.tokens["token"].valueExcludingOhm).toEqual("0.5");
+    expect(dateTwo.tokens[tokenId].id).toEqual(tokenId);
+    expect(dateTwo.tokens[tokenId].category).toEqual("POL");
+    expect(dateTwo.tokens[tokenId].value).toEqual("1");
+    expect(dateTwo.tokens[tokenId].valueExcludingOhm).toEqual("0.5");
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(1);

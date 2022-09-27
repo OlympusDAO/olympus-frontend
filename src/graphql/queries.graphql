@@ -1,4 +1,11 @@
-query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+# endpoint is given as a variable, so that queries to different endpoints are treated by react-query as unique
+
+query ProtocolMetrics(
+  $recordCount: Int!
+  $startingRecord: Int = 0
+  $filter: ProtocolMetric_filter
+  $endpoint: String!
+) {
   protocolMetrics(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     block
@@ -17,11 +24,12 @@ query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: Pro
   }
 }
 
-query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter, $endpoint: String!) {
   tokenRecords(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     balance
     block
+    blockchain
     category
     date
     isBluechip
@@ -38,7 +46,7 @@ query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenR
   }
 }
 
-query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
+query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter, $endpoint: String!) {
   tokenSupplies(first: $recordCount, skip: $startingRecord, where: $filter, orderBy: date, orderDirection: desc) {
     id
     balance
