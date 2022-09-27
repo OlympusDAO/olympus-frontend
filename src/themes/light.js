@@ -95,7 +95,7 @@ export const light = createTheme(
         MuiModal: {
           styleOverrides: {
             root: {
-              ".MuiPaper-root": {
+              ".Modal-paper": {
                 background: colors.gray[700],
               },
             },

@@ -6,10 +6,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
-import { Environment } from "src/helpers/environment/Environment/Environment";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { DetermineRangeDiscount } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
@@ -55,8 +57,14 @@ const NavContent: React.VFC = () => {
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
+                  {/* TODO: Replace w/ mainnet when contracts are on more than one network. */}
+                  {chain.id === NetworkId.TESTNET_GOERLI && (
+                    <NavItem to="/range" icon="range" label={t`Range`}>
+                      <RangePrice bidOrAsk="ask" />
+                      <RangePrice bidOrAsk="bid" />
+                    </NavItem>
+                  )}
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
-                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
                   <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
                   <Box className="menu-divider">
                     <Divider />
@@ -125,6 +133,33 @@ const Bonds: React.VFC = () => {
           </Box>
         ))}
     </Box>
+  );
+};
+
+const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
+  const { data, isFetched } = DetermineRangeDiscount(props.bidOrAsk);
+  return (
+    <>
+      {isFetched && (
+        <Box ml="26px" mt="12px" mb="12px">
+          <Typography variant="body2" color="textSecondary">
+            {props.bidOrAsk === "bid" ? t`Bid` : t`Ask`}
+          </Typography>
+          <Box mt="12px">
+            <Box mt="8px">
+              <Link component={NavLink} to={`/range`}>
+                <Typography variant="body1">
+                  <Box display="flex" flexDirection="row" justifyContent="space-between">
+                    {data.quoteToken}
+                    <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
+                  </Box>
+                </Typography>
+              </Link>
+            </Box>
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };
 

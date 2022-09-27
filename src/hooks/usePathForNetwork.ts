@@ -23,20 +23,29 @@ export function usePathForNetwork({
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].stake) {
           break;
         } else {
-          navigate("/wrap");
+          navigate("/stake");
           break;
         }
       case "bonds":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].bonds) {
           break;
         } else {
-          navigate("/wrap");
+          navigate("/stake");
           break;
         }
       case "zap":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].zap) {
           break;
         } else {
+          navigate("/stake");
+          break;
+        }
+      case "range":
+        if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].range) {
+          console.log("is true");
+          break;
+        } else {
+          console.log("is not true");
           navigate("/wrap");
           break;
         }

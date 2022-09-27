@@ -46,6 +46,7 @@
     "@rainbow-me/rainbowkit": "^0.5.0",
     "@reduxjs/toolkit": "^1.8.5",
     "@tanstack/react-query": "^4.2.3",
+    "@types/recharts": "^1.8.23",
     "axios": "^0.27.2",
     "class-validator": "^0.13.2",
     "date-fns": "^2.29.2",
@@ -140,6 +141,7 @@
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
+    "resize-observer-polyfill": "^1.5.1",
     "sass": "^1.54.3",
     "shelljs": "^0.8.5",
     "stream-browserify": "^3.0.0",
@@ -159,7 +161,7 @@
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
-    "snapshot": "react-scripts test --updateSnapshot --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
+    "snapshot": "react-scripts test --updateSnapshot --maxWorkers=2 --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
     "predocker-start": "docker build -t olympus-frontend -f Dockerfile .",
     "docker-start": "yarn run postinstall && docker run -it --rm -v `pwd`/src:/usr/src/app/src -v `pwd`/public:/usr/src/app/public -p 3000:3000 olympus-frontend",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
@@ -196,7 +198,7 @@
   },
   "majestic": {
     "args": [
-      "--transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\""
+      "--maxWorkers=2 --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\""
     ]
   }
 }

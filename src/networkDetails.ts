@@ -165,6 +165,7 @@ interface IViewsForNetwork {
   bonds: boolean;
   network: boolean;
   bondsV2: boolean;
+  range: boolean;
 }
 
 export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
@@ -177,6 +178,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: true,
     network: true,
     bondsV2: true,
+    range: false,
   },
   [NetworkId.TESTNET_GOERLI]: {
     dashboard: true,
@@ -187,6 +189,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: true,
     network: true,
     bondsV2: true,
+    range: true,
   },
   [NetworkId.ARBITRUM]: {
     dashboard: true,
@@ -197,6 +200,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: false,
     network: true,
     bondsV2: false,
+    range: false,
   },
   [NetworkId.ARBITRUM_TESTNET]: {
     dashboard: true,
@@ -207,6 +211,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: false,
     network: true,
     bondsV2: false,
+    range: false,
   },
   [NetworkId.AVALANCHE]: {
     dashboard: true,
@@ -217,6 +222,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: false,
     network: true,
     bondsV2: false,
+    range: false,
   },
   [NetworkId.AVALANCHE_TESTNET]: {
     dashboard: true,
@@ -227,5 +233,6 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: false,
     network: true,
     bondsV2: false,
+    range: false,
   },
 };
