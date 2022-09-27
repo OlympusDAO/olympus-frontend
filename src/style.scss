@@ -13,8 +13,6 @@ body,
   font-family: "NHassGrotesk";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-
   --ohm-gold: #f8cc82;
   --ohm-card-border-radius: 10px;
   --light-paper-bg: linear-gradient(65.7deg, #f5f5f5 8.35%, #ffffff 100%);
@@ -35,7 +33,6 @@ body {
   z-index: 1;
   background-size: cover;
   font-family: "NHassGrotesk";
-  overflow: hidden;
   transition: all ease 0.33ms;
 }
 

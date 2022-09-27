@@ -25,7 +25,7 @@ exports[`<CallToAction/> should render component 1`] = `
               class="MuiBox-root css-1lekzkb"
             >
               <h5
-                class="MuiTypography-root MuiTypography-h5 css-grjkp8-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h5 css-j1zvnf-MuiTypography-root"
                 style="font-size: 21px; font-weight: 700;"
               >
                 You have assets ready to migrate to v2
@@ -34,7 +34,7 @@ exports[`<CallToAction/> should render component 1`] = `
                 class="actionable"
               >
                 <a
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation custom-root  css-doo3xg-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation custom-root  css-fmy0hn-MuiButtonBase-root-MuiButton-root"
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   style="margin-right: 10.5px;"
                   tabindex="0"
@@ -46,7 +46,7 @@ exports[`<CallToAction/> should render component 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -57,7 +57,7 @@ exports[`<CallToAction/> should render component 1`] = `
                   </span>
                 </a>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-6ewrs0-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation custom-root  css-1uoh7wv-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
