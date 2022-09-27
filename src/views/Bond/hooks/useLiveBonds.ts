@@ -1,9 +1,15 @@
 import { QueryKey, useQuery } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
-import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { OHM_ADDRESSES } from "src/constants/addresses";
+import {
+  BOND_AGGREGATOR_CONTRACT,
+  BOND_DEPOSITORY_CONTRACT,
+  OP_BOND_DEPOSITORY_CONTRACT,
+} from "src/constants/contracts";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
+import { bondV3QueryKey, fetchBondV3 } from "src/views/Bond/hooks/useBondV3";
 
 export interface UseLiveBondsOptions {
   isInverseBond: boolean;
@@ -11,11 +17,17 @@ export interface UseLiveBondsOptions {
 }
 
 export const liveBondsQueryKey = (options: UseLiveBondsOptions): QueryKey => ["useLiveBonds", options];
+export const liveBondsV3QueryKey = (options: UseLiveBondsOptions): QueryKey => ["useLiveBondsV3", options];
 
 export const useLiveBonds = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
   const networks = useTestableNetworks();
   const args = { networkId: networks.MAINNET, isInverseBond };
   return useQuery<Bond[], Error>([liveBondsQueryKey(args)], () => fetchLiveBonds(args));
+};
+export const useLiveBondsV3 = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
+  const networks = useTestableNetworks();
+  const args = { networkId: networks.MAINNET, isInverseBond };
+  return useQuery<Bond[], Error>([liveBondsV3QueryKey(args)], () => fetchLiveBondsV3(args));
 };
 
 export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsOptions) => {
@@ -29,6 +41,25 @@ export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsO
     markets.map(id => {
       const args = { id, isInverseBond, networkId };
       return getQueryData(bondQueryKey(args), () => fetchBond(args));
+    }),
+  );
+
+  return promises
+    .filter(({ status }) => status === "fulfilled")
+    .map(promise => (promise as PromiseFulfilledResult<Bond>).value);
+};
+
+export const fetchLiveBondsV3 = async ({ networkId, isInverseBond }: UseLiveBondsOptions) => {
+  console.log("fetchv3");
+  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
+
+  const markets = await contract
+    .liveMarketsFor(OHM_ADDRESSES[networkId], isInverseBond ? false : true)
+    .then(ids => ids.map(id => id.toString()));
+  const promises = await Promise.allSettled(
+    markets.map(id => {
+      const args = { id, isInverseBond, networkId };
+      return getQueryData(bondV3QueryKey(args), () => fetchBondV3(args));
     }),
   );
 

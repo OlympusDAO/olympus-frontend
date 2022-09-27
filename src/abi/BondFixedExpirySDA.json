@@ -1,0 +1,1272 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract IBondTeller",
+          "name": "teller_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondAggregator",
+          "name": "aggregator_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "guardian_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract Authority",
+          "name": "authority_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_AmountLessThanMinimum",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_BadExpiry",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_InitialPriceLessThanMin",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_InvalidCallback",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_InvalidParams",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "conclusion_",
+          "type": "uint256"
+        }
+      ],
+      "name": "Auctioneer_MarketConcluded",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_MaxPayoutExceeded",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_NewMarketsNotAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_NotAuthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_NotEnoughCapacity",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Auctioneer_OnlyMarketOwner",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "MarketClosed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "payoutToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "quoteToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint48",
+          "name": "vesting",
+          "type": "uint48"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "initialPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "MarketCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "oldControlVariable",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newControlVariable",
+          "type": "uint256"
+        }
+      ],
+      "name": "Tuned",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "adjustments",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "change",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint48",
+          "name": "lastAdjustment",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint48",
+          "name": "timeToAdjusted",
+          "type": "uint48"
+        },
+        {
+          "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "allowNewMarkets",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "callbackAuthorized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "closeMarket",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "params_",
+          "type": "bytes"
+        }
+      ],
+      "name": "createMarket",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "currentCapacity",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "currentControlVariable",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "currentDebt",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "defaultTuneAdjustment",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "defaultTuneInterval",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAggregator",
+      "outputs": [
+        {
+          "internalType": "contract IBondAggregator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMarketInfoForPurchase",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "callbackAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "payoutToken",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "quoteToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint48",
+          "name": "vesting",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxPayout",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTeller",
+      "outputs": [
+        {
+          "internalType": "contract IBondTeller",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "isInstantSwap",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "isLive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "marketPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "marketScale",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "markets",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "payoutToken",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "quoteToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "callbackAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "capacityInQuote",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "capacity",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalDebt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxPayout",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "sold",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "purchased",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "scale",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        }
+      ],
+      "name": "maxAmountAccepted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "metadata",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "lastTune",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint48",
+          "name": "lastDecay",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint32",
+          "name": "length",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "depositInterval",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "tuneInterval",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "tuneAdjustmentDelay",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "debtDecayInterval",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tuneIntervalCapacity",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tuneBelowCapacity",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastTuneDebt",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minDebtBuffer",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minDebtDecayInterval",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minDepositInterval",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minMarketDuration",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "newOwners",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        }
+      ],
+      "name": "payoutFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "pullOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmountOut_",
+          "type": "uint256"
+        }
+      ],
+      "name": "purchaseBond",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "payout",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "newOwner_",
+          "type": "address"
+        }
+      ],
+      "name": "pushOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "status_",
+          "type": "bool"
+        }
+      ],
+      "name": "setAllowNewMarkets",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "setAuthority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "creator_",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "status_",
+          "type": "bool"
+        }
+      ],
+      "name": "setCallbackAuthStatus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32[6]",
+          "name": "defaults_",
+          "type": "uint32[6]"
+        }
+      ],
+      "name": "setDefaults",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32[3]",
+          "name": "intervals_",
+          "type": "uint32[3]"
+        }
+      ],
+      "name": "setIntervals",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "terms",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "controlVariable",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxDebt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint48",
+          "name": "vesting",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint48",
+          "name": "conclusion",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "author": "Oighty, Zeus, Potted Meat, indigo",
+    "details": "Bond Protocol is a permissionless system to create Olympus-style bond markets      for any token pair. The markets do not require maintenance and will manage      bond prices based on activity. Bond issuers create BondMarkets that pay out      a Payout Token in exchange for deposited Quote Tokens. Users can purchase      future-dated Payout Tokens with Quote Tokens at the current market price and      receive Bond Tokens to represent their position while their bond vests.      Once the Bond Tokens vest, they can redeem it for the Quote Tokens.The Fixed-Expiry Auctioneer is an implementation of the      Bond Base Sequential Dutch Auctioneer contract specific to creating bond markets where      all purchases on that market vest at a certain timestamp.",
+    "kind": "dev",
+    "methods": {
+      "closeMarket(uint256)": {
+        "params": {
+          "id_": "ID of market to close"
+        }
+      },
+      "createMarket(bytes)": {
+        "details": "See specific auctioneer implementations for details on encoding the parameters.",
+        "params": {
+          "params_": "Configuration data needed for market creation, encoded in a bytes array"
+        },
+        "returns": {
+          "_0": "id              ID of new bond market"
+        }
+      },
+      "currentControlVariable(uint256)": {
+        "details": "Accounts for control variable adjustment",
+        "params": {
+          "id_": "ID of market"
+        },
+        "returns": {
+          "_0": "Control variable for market in payout token decimals"
+        }
+      },
+      "currentDebt(uint256)": {
+        "details": "Accounts for debt decay since last deposit",
+        "params": {
+          "id_": "ID of market"
+        },
+        "returns": {
+          "_0": "Current debt for market in payout token decimals"
+        }
+      },
+      "getMarketInfoForPurchase(uint256)": {
+        "params": {
+          "id_": "Market ID"
+        },
+        "returns": {
+          "callbackAddr": "   Address of the callback contract to get tokens for payouts",
+          "maxPayout": "      Maximum amount of payout tokens you can purchase in one transaction",
+          "owner": "          Address of the market owner (tokens transferred from this address if no callback)",
+          "payoutToken": "    Payout Token (token paid out) for the Market",
+          "quoteToken": "     Quote Token (token received) for the Market",
+          "vesting": "        Timestamp or duration for vesting, implementation-dependent"
+        }
+      },
+      "isInstantSwap(uint256)": {
+        "params": {
+          "id_": "Market ID to search for"
+        }
+      },
+      "isLive(uint256)": {
+        "params": {
+          "id_": "ID of market"
+        }
+      },
+      "marketPrice(uint256)": {
+        "details": "Accounts for debt and control variable decay since last deposit (vs _marketPrice())",
+        "params": {
+          "id_": "ID of market"
+        },
+        "returns": {
+          "_0": "Price for market in configured decimals (see MarketParams)"
+        }
+      },
+      "marketScale(uint256)": {
+        "params": {
+          "id_": "ID of market"
+        },
+        "returns": {
+          "_0": "Scaling factor for market in configured decimals"
+        }
+      },
+      "maxAmountAccepted(uint256,address)": {
+        "params": {
+          "id_": "ID of market",
+          "referrer_": "Address of referrer, used to get fees to calculate accurate payout amount.                     Inputting the zero address will take into account just the protocol fee."
+        }
+      },
+      "ownerOf(uint256)": {
+        "params": {
+          "id_": "ID of market"
+        }
+      },
+      "payoutFor(uint256,uint256,address)": {
+        "details": "Accounts for debt and control variable decay so it is up to date",
+        "params": {
+          "amount_": "Amount of quote tokens to spend",
+          "id_": "ID of market",
+          "referrer_": "Address of referrer, used to get fees to calculate accurate payout amount.                     Inputting the zero address will take into account just the protocol fee."
+        },
+        "returns": {
+          "_0": "amount of payout tokens to be paid"
+        }
+      },
+      "pullOwnership(uint256)": {
+        "details": "The existing owner must call pushOwnership prior to the newOwner calling this function",
+        "params": {
+          "id_": "Market ID"
+        }
+      },
+      "purchaseBond(uint256,uint256,uint256)": {
+        "params": {
+          "amount_": "Amount to deposit in exchange for bond (after fee has been deducted)",
+          "id_": "ID of the Market the bond is being purchased from",
+          "minAmountOut_": "Minimum acceptable amount of bond to receive. Prevents frontrunning"
+        },
+        "returns": {
+          "payout": "         Amount of payout token to be received from the bond"
+        }
+      },
+      "pushOwnership(uint256,address)": {
+        "details": "Doesn't change permissions until newOwner calls pullOwnership",
+        "params": {
+          "id_": "Market ID",
+          "newOwner_": "New address to give ownership to"
+        }
+      },
+      "setAllowNewMarkets(bool)": {
+        "details": "Setting to false and allowing active markets to end will sunset the auctioneer",
+        "params": {
+          "status_": "Allow market creation (true) : Disallow market creation (false)"
+        }
+      },
+      "setCallbackAuthStatus(address,bool)": {
+        "details": "Callback is believed to be safe, but a whitelist is implemented to prevent abuse",
+        "params": {
+          "creator_": "Address of market creator",
+          "status_": "Allow callback (true) : Disallow callback (false)"
+        }
+      },
+      "setDefaults(uint32[6])": {
+        "details": "The defaults set here are important to avoid edge cases in market behavior, e.g. a very short market reacts doesn't tune wellOnly applies to new markets that are created after the change",
+        "params": {
+          "defaults_": "Array of default values                     1. Tune interval - amount of time between tuning adjustments                     2. Tune adjustment delay - amount of time to apply downward tuning adjustments                     3. Minimum debt decay interval - minimum amount of time to let debt decay to zero                     4. Minimum deposit interval - minimum amount of time to wait between deposits                     5. Minimum market duration - minimum amount of time a market can be created for                     6. Minimum debt buffer - the minimum amount of debt over the initial debt to trigger a market shutdown"
+        }
+      },
+      "setIntervals(uint256,uint32[3])": {
+        "details": "Changing the intervals could cause markets to behave in unexpected way                                 tuneInterval should be greater than tuneAdjustmentDelay",
+        "params": {
+          "id_": "Market ID",
+          "intervals_": "Array of intervals (3)                                 1. Tune interval - Frequency of tuning                                 2. Tune adjustment delay - Time to implement downward tuning adjustments                                 3. Debt decay interval - Interval over which debt should decay completely"
+        }
+      }
+    },
+    "title": "Bond Fixed-Expiry Sequential Dutch Auctioneer",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "adjustments(uint256)": {
+        "notice": "Control variable changes"
+      },
+      "allowNewMarkets()": {
+        "notice": "Whether or not the auctioneer allows new markets to be created"
+      },
+      "callbackAuthorized(address)": {
+        "notice": "Whether or not the market creator is authorized to use a callback address"
+      },
+      "closeMarket(uint256)": {
+        "notice": "Disable existing bond marketMust be market owner"
+      },
+      "createMarket(bytes)": {
+        "notice": "Creates a new bond market"
+      },
+      "currentCapacity(uint256)": {
+        "notice": "Returns current capacity of a market"
+      },
+      "currentControlVariable(uint256)": {
+        "notice": "Up to date control variable"
+      },
+      "currentDebt(uint256)": {
+        "notice": "Calculate debt factoring in decay"
+      },
+      "defaultTuneInterval()": {
+        "notice": "Sane defaults for tuning. Can be adjusted for a specific market via setters."
+      },
+      "getAggregator()": {
+        "notice": "Returns the Aggregator that services the Auctioneer"
+      },
+      "getMarketInfoForPurchase(uint256)": {
+        "notice": "Provides information for the Teller to execute purchases on a Market"
+      },
+      "getTeller()": {
+        "notice": "Returns the Teller that services the Auctioneer"
+      },
+      "isInstantSwap(uint256)": {
+        "notice": "Does market send payout immediately"
+      },
+      "isLive(uint256)": {
+        "notice": "Is a given market accepting deposits"
+      },
+      "marketPrice(uint256)": {
+        "notice": "Calculate current market price of payout token in quote tokens"
+      },
+      "marketScale(uint256)": {
+        "notice": "Scale value to use when converting between quote token and payout token amounts with marketPrice()"
+      },
+      "markets(uint256)": {
+        "notice": "Main information pertaining to bond market"
+      },
+      "maxAmountAccepted(uint256,address)": {
+        "notice": "Returns maximum amount of quote token accepted by the market"
+      },
+      "metadata(uint256)": {
+        "notice": "Data needed for tuning bond market"
+      },
+      "minDebtDecayInterval()": {
+        "notice": "Minimum values for decay, deposit interval, market duration and debt buffer."
+      },
+      "newOwners(uint256)": {
+        "notice": "New address to designate as market owner. They must accept ownership to transfer permissions."
+      },
+      "ownerOf(uint256)": {
+        "notice": "Returns the address of the market owner"
+      },
+      "payoutFor(uint256,uint256,address)": {
+        "notice": "Payout due for amount of quote tokens"
+      },
+      "pullOwnership(uint256)": {
+        "notice": "Accept ownership of a marketMust be market newOwner"
+      },
+      "purchaseBond(uint256,uint256,uint256)": {
+        "notice": "Exchange quote tokens for a bond in a specified marketMust be teller"
+      },
+      "pushOwnership(uint256,address)": {
+        "notice": "Designate a new owner of a marketMust be market owner"
+      },
+      "setAllowNewMarkets(bool)": {
+        "notice": "Change the status of the auctioneer to allow creation of new markets"
+      },
+      "setCallbackAuthStatus(address,bool)": {
+        "notice": "Change whether a market creator is allowed to use a callback address in their markets or notMust be guardian"
+      },
+      "setDefaults(uint32[6])": {
+        "notice": "Set the auctioneer defaultsMust be policy"
+      },
+      "setIntervals(uint256,uint32[3])": {
+        "notice": "Set market intervals to different values than the defaultsMust be market owner"
+      },
+      "terms(uint256)": {
+        "notice": "Information used to control how a bond market changes"
+      }
+    },
+    "notice": "Bond Fixed-Expiry Sequential Dutch Auctioneer Contract",
+    "version": 1
+  }
+}
