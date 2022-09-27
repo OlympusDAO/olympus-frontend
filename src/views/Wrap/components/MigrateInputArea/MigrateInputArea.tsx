@@ -4,7 +4,6 @@ import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -61,7 +60,6 @@ export const MigrateInputArea = () => {
 
       <Box my={1}>
         <TokenAllowanceGuard
-          balance={balance ? balance : new DecimalBigNumber("0")}
           tokenAddressMap={WSOHM_ADDRESSES}
           spenderAddressMap={MIGRATOR_ADDRESSES}
           message={

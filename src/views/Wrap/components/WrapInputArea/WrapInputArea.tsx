@@ -4,7 +4,6 @@ import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useUnwrapGohm } from "src/views/Wrap/components/WrapInputArea/hooks/useUnwrapGohm";
@@ -76,7 +75,6 @@ export const WrapInputArea = () => {
 
       <Box my={1}>
         <TokenAllowanceGuard
-          balance={balance ? balance : new DecimalBigNumber("0")}
           spenderAddressMap={STAKING_ADDRESSES}
           tokenAddressMap={currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES}
           message={

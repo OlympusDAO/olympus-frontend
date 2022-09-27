@@ -349,7 +349,6 @@ export function RecipientModal({
       <>
         <Grid container alignItems="center" spacing={2}>
           <GiveTokenAllowanceGuard
-            balance={getBalance()}
             tokenAddressMap={giveAssetType === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES}
             spenderAddressMap={GIVE_ADDRESSES}
             message={

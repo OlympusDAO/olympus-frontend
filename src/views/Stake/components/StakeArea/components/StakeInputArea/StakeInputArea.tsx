@@ -5,7 +5,6 @@ import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
@@ -110,7 +109,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
       <Box my={2}>
         <TokenAllowanceGuard
-          balance={balance ? balance : new DecimalBigNumber("0")}
           tokenAddressMap={addresses}
           spenderAddressMap={STAKING_ADDRESSES}
           message={

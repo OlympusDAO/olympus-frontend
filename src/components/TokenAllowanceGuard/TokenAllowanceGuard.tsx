@@ -7,7 +7,9 @@ import React, { ReactNode } from "react";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -53,14 +55,20 @@ const StyledAllowanceGuard = styled("div")(({ theme }) => ({
 }));
 
 export const TokenAllowanceGuard: React.FC<{
-  balance: DecimalBigNumber;
   message: ReactNode;
   isVertical?: boolean;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
-}> = ({ balance, message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
+}> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
+  const networks = useTestableNetworks();
+  const balance = useBalance(tokenAddressMap)[networks.MAINNET].data;
+
+  const getBalance = (): DecimalBigNumber => {
+    if (balance) return balance;
+    return new DecimalBigNumber("0");
+  };
 
   if (!allowance)
     return (
@@ -69,7 +77,7 @@ export const TokenAllowanceGuard: React.FC<{
       </Box>
     );
 
-  if (allowance.eq(0) || allowance.lt(balance.toBigNumber()))
+  if (allowance.eq(0) || allowance.lt(getBalance().toBigNumber()))
     return (
       <Grid container>
         <Grid item xs={12} sm={isVertical ? 12 : 8}>
@@ -94,13 +102,20 @@ export const TokenAllowanceGuard: React.FC<{
 };
 
 export const GiveTokenAllowanceGuard: React.FC<{
-  balance: DecimalBigNumber;
   message: ReactNode;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
 }> = props => {
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
+
+  const networks = useTestableNetworks();
+  const balance = useBalance(props.tokenAddressMap)[networks.MAINNET].data;
+
+  const getBalance = (): DecimalBigNumber => {
+    if (balance) return balance;
+    return new DecimalBigNumber("0");
+  };
 
   if (_useContractAllowance.isLoading)
     return (
@@ -112,7 +127,7 @@ export const GiveTokenAllowanceGuard: React.FC<{
   if (
     !_useContractAllowance.data ||
     _useContractAllowance.data.eq(0) ||
-    _useContractAllowance.data.lt(props.balance.toBigNumber())
+    _useContractAllowance.data.lt(getBalance().toBigNumber())
   )
     return (
       <Grid container className={classes.inputRow} direction="column" spacing={5}>
