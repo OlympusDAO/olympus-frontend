@@ -77,7 +77,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
     setTimeout(async () => {
       expect(await screen.findByText("DAI")).toBeInTheDocument();
-    }, 10000);
+    }, 30000);
   });
 
   it("Shouldn't display bond tabs when only inverse bonds are live", async () => {
