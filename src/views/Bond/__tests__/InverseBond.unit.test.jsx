@@ -79,10 +79,6 @@ describe("Inverse Bonds", () => {
   });
 
   it("Shouldn't display bond tabs when only inverse bonds are live", async () => {
-    // Starts on the inverse bond screen
-    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
-    jest.spyOn(Router, "useParams").mockReturnValue({});
-
     render(<Bond />);
 
     // Frontend now defaults to the inverse bonds tab if there are no bonds
@@ -93,7 +89,6 @@ describe("Inverse Bonds", () => {
   it("should default to inverse bond tab", async () => {
     // Starts on the bond screen
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds" });
-    jest.spyOn(Router, "useParams").mockReturnValue({});
 
     render(<Bond />);
 
