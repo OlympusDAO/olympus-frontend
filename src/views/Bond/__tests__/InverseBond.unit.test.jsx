@@ -72,15 +72,19 @@ describe("Inverse Bonds", () => {
   });
 
   it("should display OHM DAI Inverse Bond", async () => {
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
     // Starts on the inverse bond screen
 
     render(<Bond />);
     setTimeout(async () => {
-      expect(await screen.findByText("DAI")).toBeInTheDocument();
+      expect(screen.getByText("DAI")).toBeInTheDocument();
     }, 30000);
   });
 
   it("Shouldn't display bond tabs when only inverse bonds are live", async () => {
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
     render(<Bond />);
 
     // Frontend now defaults to the inverse bonds tab if there are no bonds
@@ -91,6 +95,7 @@ describe("Inverse Bonds", () => {
   it("should default to inverse bond tab", async () => {
     // Starts on the bond screen
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
 
     render(<Bond />);
 
