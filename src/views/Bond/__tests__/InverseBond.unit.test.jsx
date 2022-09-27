@@ -63,6 +63,8 @@ describe("Inverse Bonds", () => {
         return Promise.resolve(inverseMarketPrice[id]);
       }),
     });
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
   });
 
   afterEach(() => {
@@ -71,8 +73,6 @@ describe("Inverse Bonds", () => {
 
   it("should display OHM DAI Inverse Bond", async () => {
     // Starts on the inverse bond screen
-    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
-    jest.spyOn(Router, "useParams").mockReturnValue({});
 
     render(<Bond />);
     expect(await screen.findByText("DAI")).toBeInTheDocument();
