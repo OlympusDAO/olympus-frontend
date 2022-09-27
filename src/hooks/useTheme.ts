@@ -27,7 +27,7 @@ const useTheme = (): [string, (e: KeyboardEvent) => void, boolean] => {
       ? setMode("dark")
       : localTheme
       ? setTheme(localTheme)
-      : setMode("light");
+      : setMode("dark");
     setMounted(true);
   }, []);
 
