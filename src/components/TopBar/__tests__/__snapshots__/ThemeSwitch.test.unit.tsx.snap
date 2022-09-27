@@ -12,7 +12,7 @@ exports[`<ThemeSwitch/> should render component 1`] = `
       style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
     />
     <button
-      class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard toggle-button css-1s83e6p-MuiButtonBase-root-MuiToggleButton-root"
+      class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard toggle-button css-1eofbta-MuiButtonBase-root-MuiToggleButton-root"
       tabindex="0"
       title="Change Theme"
       type="button"
@@ -20,7 +20,7 @@ exports[`<ThemeSwitch/> should render component 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-xeezxv-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1pjbcqr-MuiSvgIcon-root"
         focusable="false"
         style="font-size: 17.5px;"
         viewBox="0 0 20 20"

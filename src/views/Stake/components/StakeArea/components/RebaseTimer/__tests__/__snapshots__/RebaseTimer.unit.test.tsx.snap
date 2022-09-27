@@ -12,16 +12,11 @@ exports[`<RebaseTimer/> should render component 1`] = `
       style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
     />
     <div
-      class="rebase-timer MuiBox-root css-0"
+      class="MuiBox-root css-0"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-haqq9q-MuiTypography-root"
-      >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-          style="width: 155px;"
-        />
-      </p>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+      />
     </div>
   </div>
 </div>

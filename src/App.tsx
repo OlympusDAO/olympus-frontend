@@ -31,6 +31,7 @@ import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -62,14 +63,13 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
   [`& .${classes.content}`]: {
     flexGrow: 1,
-    padding: theme.spacing(1),
+    padding: "9px",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
     }),
-    height: "100%",
-    overflow: "auto",
     marginLeft: drawerWidth,
+    marginTop: "-48.5px",
   },
 
   [`& .${classes.contentShift}`]: {
@@ -233,14 +233,29 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds/inverse" element={<Bond />} />
+                  <Route path="/bonds/inverse/:id" element={<BondModalContainer />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />
-                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                  <Route
+                    path={"/info/*"}
+                    element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/utility"}
+                    element={<Wallet open={true} component="utility" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/wallet/history"}
+                    element={<Wallet open={true} component="wallet/history" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path="/wallet"
+                    element={<Wallet open={true} component="wallet" theme={theme} toggleTheme={toggleTheme} />}
+                  ></Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
