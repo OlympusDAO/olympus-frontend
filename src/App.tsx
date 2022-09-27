@@ -31,6 +31,7 @@ import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -62,7 +63,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
   [`& .${classes.content}`]: {
     flexGrow: 1,
-    padding: theme.spacing(1),
+    padding: "9px",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
@@ -232,7 +233,10 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds/inverse" element={<Bond />} />
+                  <Route path="/bonds/inverse/:id" element={<BondModalContainer />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />

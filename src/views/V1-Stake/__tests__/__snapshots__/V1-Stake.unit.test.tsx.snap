@@ -197,6 +197,15 @@ exports[`<Stake/> should render component. not connected 1`] = `
                         tabindex="0"
                         type="button"
                       >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
+                          focusable="false"
+                          style="margin-right: 9px;"
+                          viewBox="0 0 20 20"
+                        >
+                          wallet.svg
+                        </svg>
                         Connect Wallet
                       </button>
                     </div>

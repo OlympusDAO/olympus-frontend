@@ -1,8 +1,7 @@
 import { Box, Divider, Grid } from "@mui/material";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
-import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
@@ -10,14 +9,16 @@ import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/
 import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
 import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
 import { CurrentIndex, StakingAPY } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import { useAccount } from "wagmi";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
+  const { isConnected } = useAccount();
 
   return (
     <>
       <PageTitle name="Stake" />
-      <Paper subHeader={<RebaseTimer />}>
+      <Box>
         <Box mb="28px">
           <Grid>
             <MetricCollection>
@@ -28,8 +29,8 @@ export const StakeArea: React.FC = () => {
           </Grid>
         </Box>
 
-        <WalletConnectedGuard message="Connect your wallet to stake OHM">
-          <StakeInputArea isZoomed={isZoomed} />
+        <StakeInputArea isZoomed={isZoomed} />
+        {isConnected && (
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <StakeBalances />
@@ -43,8 +44,8 @@ export const StakeArea: React.FC = () => {
               <StakeFiveDayYield />
             </Box>
           </Box>
-        </WalletConnectedGuard>
-      </Paper>
+        )}
+      </Box>
     </>
   );
 };

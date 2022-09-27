@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Button, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Icon, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, OHMButtonProps, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
@@ -13,7 +13,13 @@ const fireAnalyticsEvent = () => {
   });
 };
 
-export const InPageConnectButton = () => {
+export const InPageConnectButton = ({
+  fullWidth = false,
+  size = "medium",
+}: {
+  fullWidth?: boolean;
+  size?: OHMButtonProps["size"];
+}) => {
   return (
     <RainbowConnectButton.Custom>
       {({ account, chain, openConnectModal, mounted }) => {
@@ -32,11 +38,14 @@ export const InPageConnectButton = () => {
               if (!mounted || !account || !chain) {
                 return (
                   <PrimaryButton
+                    fullWidth={fullWidth}
                     onClick={() => {
                       fireAnalyticsEvent();
                       openConnectModal();
                     }}
+                    size={size}
                   >
+                    <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
                     Connect Wallet
                   </PrimaryButton>
                 );

@@ -89,9 +89,14 @@ export function Wallet(props: {
   };
 
   const ConnectMessage = () => (
-    <Box display="flex" justifyContent="center" mt={"32px"}>
-      <Typography variant={"h6"}> Please Connect Your Wallet </Typography>
-    </Box>
+    <>
+      <Box display="flex" justifyContent="center" mt={"61px"}>
+        <Typography fontWeight={500}> Please Connect Your Wallet </Typography>
+      </Box>
+      <Box mt={"75px"}>
+        <InPageConnectButton size="large" fullWidth />
+      </Box>
+    </>
   );
 
   return (
@@ -164,16 +169,18 @@ export function Wallet(props: {
           })()}
         </Box>
       </Box>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="center"
-        style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
-        pt={"21px"}
-        pb={"21px"}
-      >
-        {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
-      </Box>
+      {(props.component !== "wallet" || isConnected) && (
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
+          pt={"21px"}
+          pb={"21px"}
+        >
+          {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
+        </Box>
+      )}
     </StyledSwipeableDrawer>
   );
 }
