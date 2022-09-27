@@ -39,6 +39,7 @@ const Bridge = lazy(() => import("./views/Bridge"));
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
+const Range = lazy(() => import("./views/Range"));
 
 const PREFIX = "App";
 
@@ -234,6 +235,7 @@ function App() {
                   <Route path="/bonds/*" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+                  <Route path="/range/*" element={<Range />} />
                   <Route
                     path={"/info/*"}
                     element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
