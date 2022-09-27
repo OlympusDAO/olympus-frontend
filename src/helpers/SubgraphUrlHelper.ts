@@ -1,4 +1,4 @@
-const SUBGRAPH_URL_ETHEREUM = "https://api.thegraph.com/subgraphs/id/QmQNDt3SYMs9t45GpoDk73wpsfGQFEo8LnMNo1ddGRGk4S"; // TODO restore to production
+const SUBGRAPH_URL_ETHEREUM = "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-arbitrum";
 const SUBGRAPH_URL_FANTOM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-fantom";
 const SUBGRAPH_URL_POLYGON = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-polygon";
