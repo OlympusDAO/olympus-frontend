@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
@@ -123,7 +122,6 @@ describe("Upper Wall Active Bond Market", () => {
     RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "14.12" } });
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );

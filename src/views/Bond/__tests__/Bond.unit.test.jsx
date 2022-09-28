@@ -1,7 +1,6 @@
 import { fireEvent } from "@testing-library/dom";
 import { BigNumber } from "ethers";
 import Router from "react-router";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -160,7 +159,6 @@ describe("Bond Modal", () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
@@ -173,7 +171,6 @@ describe("Bond Modal", () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
@@ -189,7 +186,6 @@ describe("Bond Modal", () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
@@ -205,7 +201,6 @@ describe("Bond Modal", () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
@@ -223,7 +218,6 @@ describe("Bond Modal", () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );

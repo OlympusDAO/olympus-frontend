@@ -1,6 +1,5 @@
 import { fireEvent } from "@testing-library/react";
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -13,7 +12,6 @@ import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/
 import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
 
 jest.mock("src/hooks/useContractAllowance");
-let container;
 
 beforeEach(() => {
   connectWallet();
@@ -33,12 +31,7 @@ beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
 
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
-  ({ container } = render(
-    <>
-      <Messages />
-      <StakeInputArea />
-    </>,
-  ));
+  render(<StakeInputArea />);
 });
 
 afterEach(() => {

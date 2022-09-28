@@ -1,16 +1,14 @@
 import { MaxUint256 } from "@ethersproject/constants";
 import { ContractReceipt } from "@ethersproject/contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { AddressMap } from "src/constants/addresses";
 import { useDynamicTokenContract } from "src/hooks/useContract";
 import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork } from "wagmi";
 
 export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: AddressMap) => {
-  const dispatch = useDispatch();
   const client = useQueryClient();
 
   const { address = "" } = useAccount();
@@ -29,9 +27,9 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
       return transaction.wait();
     },
     {
-      onError: error => void dispatch(createErrorToast("error" in error ? error.error.message : error.message)),
+      onError: error => toast.error("error" in error ? error.error.message : error.message),
       onSuccess: async () => {
-        dispatch(createInfoToast("Successfully approved"));
+        toast.success("Successfully approved");
         await client.refetchQueries([contractAllowanceQueryKey(address, chain.id, tokenAddressMap, spenderAddressMap)]);
       },
     },

@@ -22,6 +22,7 @@ import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { DataRow, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
@@ -31,7 +32,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { error } from "src/slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
@@ -112,17 +112,17 @@ function V1Stake({ setMigrationModalOpen }) {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      return dispatch(error("Please enter a value!"));
+      return toast.error("Please enter a value!");
     }
 
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
-      return dispatch(error("You cannot stake more than your OHM balance."));
+      return toast.error("You cannot stake more than your OHM balance.");
     }
 
     if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error("You cannot unstake more than your sOHM balance."));
+      return toast.error("You cannot unstake more than your sOHM balance.");
     }
 
     await dispatch(
