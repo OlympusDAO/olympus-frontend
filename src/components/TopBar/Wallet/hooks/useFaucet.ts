@@ -1,14 +1,12 @@
 import { t } from "@lingui/macro";
 import { useMutation } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { DEV_FAUCET } from "src/constants/addresses";
 import { useDynamicFaucetContract } from "src/hooks/useContract";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useFaucet = () => {
-  const dispatch = useDispatch();
   const contract = useDynamicFaucetContract(DEV_FAUCET, true);
 
   return useMutation<ContractReceipt, EthersError, string>(
@@ -41,10 +39,10 @@ export const useFaucet = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+        toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async () => {
-        dispatch(createInfoToast(t`Successfully requested tokens from Faucet`));
+        toast.success(t`Successfully requested tokens from Faucet`);
       },
     },
   );

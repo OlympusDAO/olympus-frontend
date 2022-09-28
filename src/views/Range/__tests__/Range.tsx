@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
@@ -94,7 +93,6 @@ describe("Default Main Range View", () => {
   it("Should Successfully execute a buy swap", async () => {
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );
@@ -107,7 +105,6 @@ describe("Default Main Range View", () => {
   it("Should Show a message when mutating", async () => {
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );
@@ -235,7 +232,6 @@ describe("Error Checks Disconnected", () => {
   it("Should render an error when empty/invalid address", async () => {
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );
@@ -256,7 +252,6 @@ describe("Error Checks Disconnected", () => {
     });
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );

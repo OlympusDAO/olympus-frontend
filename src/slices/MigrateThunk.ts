@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers, Signer } from "ethers";
+import toast from "react-hot-toast";
 import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
 import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "src/slices/AccountSlice";
@@ -10,7 +11,6 @@ import {
   IMigrateSingleAsyncThunk,
   IValueAsyncThunk,
 } from "src/slices/interfaces";
-import { error, info } from "src/slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
 import { IERC20, IERC20__factory } from "src/typechain";
 import { OlympusTokenMigrator__factory } from "src/typechain";
@@ -47,7 +47,7 @@ export const changeMigrationApproval = createAsyncThunk(
   ) => {
     // NOTE (Appleseed): what is `insertName`??? it looks like it's always true???
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
     const tokenContract = chooseContract(token, networkID, signer);
@@ -62,7 +62,7 @@ export const changeMigrationApproval = createAsyncThunk(
 
     // return early if approval has already happened
     if (migrateAllowance.gt(currentBalance)) {
-      dispatch(info("Approval completed."));
+      toast("Approval completed.");
       dispatch(getMigrationAllowances({ address, provider, networkID }));
       return;
     }
@@ -78,9 +78,9 @@ export const changeMigrationApproval = createAsyncThunk(
 
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();
-      dispatch(info(`${displayName} Approval complete`));
+      toast(`${displayName} Approval complete`);
     } catch (e: unknown) {
-      dispatch(error((e as IJsonRPCError).message));
+      toast.error((e as IJsonRPCError).message);
       return;
     } finally {
       dispatch(getMigrationAllowances({ address, provider, networkID }));
@@ -97,7 +97,7 @@ export const bridgeBack = createAsyncThunk(
   "migrate/bridgeBack",
   async ({ provider, address, networkID, value }: IValueAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
 
@@ -117,10 +117,10 @@ export const bridgeBack = createAsyncThunk(
       if (unMigrateTx) {
         dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
         await unMigrateTx.wait();
-        dispatch(info("Successfully unwrapped gOHM!"));
+        toast("Successfully unwrapped gOHM!");
       }
     } catch (e: unknown) {
-      dispatch(error((e as IJsonRPCError).message));
+      toast.error((e as IJsonRPCError).message);
     } finally {
       dispatch(getBalances({ address, provider, networkID }));
       if (unMigrateTx) {
@@ -136,7 +136,7 @@ export const migrateSingle = createAsyncThunk(
   "migrate/migrateSingle",
   async ({ provider, address, networkID, type, amount, gOHM, signer }: IMigrateSingleAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
 
@@ -158,10 +158,10 @@ export const migrateSingle = createAsyncThunk(
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
         await migrateTx.wait();
-        dispatch(info(`Successfully migrated ${TokenType[type]}`));
+        toast(`Successfully migrated ${TokenType[type]}`);
       }
     } catch (e: unknown) {
-      dispatch(error((e as IJsonRPCError).message));
+      toast.error((e as IJsonRPCError).message);
     } finally {
       dispatch(getBalances({ address, provider, networkID }));
       if (migrateTx) {
@@ -175,7 +175,7 @@ export const migrateAll = createAsyncThunk(
   "migrate/migrateAll",
   async ({ provider, address, networkID, gOHM, signer }: IMigrateAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      toast.error("Please connect your wallet!");
       return;
     }
 
@@ -194,10 +194,10 @@ export const migrateAll = createAsyncThunk(
       if (migrateAllTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateAllTx.hash, text, type: pendingTxnType }));
         await migrateAllTx.wait();
-        dispatch(info("All assets have been successfully migrated!"));
+        toast("All assets have been successfully migrated!");
       }
     } catch (e: unknown) {
-      dispatch(error((e as IJsonRPCError).message));
+      toast.error((e as IJsonRPCError).message);
       throw e;
     } finally {
       dispatch(getBalances({ address, provider, networkID }));

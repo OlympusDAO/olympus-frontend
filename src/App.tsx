@@ -9,6 +9,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Messages from "src/components/Messages/Messages";
@@ -26,7 +27,6 @@ import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
 import { getMigrationAllowances, loadAccountDetails } from "src/slices/AccountSlice";
 import { loadAppDetails } from "src/slices/AppSlice";
-import { error, info } from "src/slices/MessagesSlice";
 import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
@@ -168,7 +168,7 @@ function App() {
   // ... been reloaded within App.
   useEffect(() => {
     if (shouldTriggerSafetyCheck()) {
-      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+      toast("Safety Check: Always verify you're on app.olympusdao.finance!");
     }
     loadDetails("app");
   }, []);
@@ -182,7 +182,7 @@ function App() {
   }, [isConnected, chain.id, provider]);
 
   useEffect(() => {
-    if (errorMessage) dispatch(error(errorMessage.message));
+    if (errorMessage) toast.error(errorMessage.message);
   }, [errorMessage]);
 
   const handleDrawerToggle = () => {
@@ -212,8 +212,8 @@ function App() {
         <ThemeProvider theme={themeMode}>
           <CssBaseline />
           <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+            <Toaster>{t => <Messages toast={t} />}</Toaster>
             <StagingNotification />
-            <Messages />
             <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
             <nav className={classes.drawer}>
               {isSmallerScreen ? (
