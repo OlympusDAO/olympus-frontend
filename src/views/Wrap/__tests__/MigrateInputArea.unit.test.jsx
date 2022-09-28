@@ -22,7 +22,7 @@ beforeEach(async () => {
       },
     };
   });
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("10000000000000000000000") });
   Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: new DecimalBigNumber("10", 9) } });
 
   ({ container } = render(
