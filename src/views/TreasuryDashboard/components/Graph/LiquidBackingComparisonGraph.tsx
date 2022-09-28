@@ -1,23 +1,10 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import {
-  ProtocolMetricsDocument,
-  ProtocolMetricsQuery,
-  ProtocolMetricsQueryVariables,
-  TokenRecord_Filter,
-  TokenRecordsQuery,
-  TokenRecordsQueryVariables,
-  TokenSuppliesQuery,
-  TokenSuppliesQueryVariables,
-  useInfiniteProtocolMetricsQuery,
-  useInfiniteTokenRecordsQuery,
-  useInfiniteTokenSuppliesQuery,
-} from "src/generated/graphql";
+import { ProtocolMetricsDocument, TokenRecord_Filter } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -28,45 +15,57 @@ import {
   getLiquidBackingPerOhmFloating,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
+import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
-  DEFAULT_RECORD_COUNT,
   GraphProps,
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import {
-  getNextPageParamFactory as getNextPageParamProtocolMetricFactory,
-  getProtocolMetricDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import {
-  getNextPageStartDate,
-  getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import {
-  getNextPageParamFactory as getNextPageParamTokenRecordFactory,
-  getTokenRecordDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
-import {
-  getNextPageParamFactory as getNextPageParamTokenSupplyFactory,
-  getTokenSupplyDateMap,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
+import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per floating OHM.
  */
-export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, activeToken }: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({
+  subgraphUrls,
+  earliestDate,
+  activeToken,
+  subgraphDaysOffset,
+}: GraphProps) => {
   // TODO look at how to combine query documents
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrl);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
-
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
   const [baseFilter] = useState<TokenRecord_Filter>({});
+
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
+
+  const tokenSupplyResults = useTokenSuppliesQuery(
+    chartName,
+    subgraphUrls.Ethereum,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
+
+  const protocolMetricResults = useProtocolMetricsQuery(
+    chartName,
+    subgraphUrls.Ethereum,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
 
   /**
    * Active token:
@@ -77,163 +76,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   useMemo(() => {
     setIsActiveTokenOHM(activeToken === PARAM_TOKEN_OHM);
   }, [activeToken]);
-
-  /**
-   * Pagination:
-   *
-   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
-   */
-  const tokenRecordsPaginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  const tokenSuppliesPaginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
-  const protocolMetricsPaginator =
-    useRef<(lastPage: ProtocolMetricsQuery) => ProtocolMetricsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    tokenRecordsRefetch();
-    tokenSuppliesRefetch();
-    protocolMetricsRefetch();
-
-    // Create a new paginator with the new earliestDate
-    tokenRecordsPaginator.current = getNextPageParamTokenRecordFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-    );
-    tokenSuppliesPaginator.current = getNextPageParamTokenSupplyFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-    );
-    protocolMetricsPaginator.current = getNextPageParamProtocolMetricFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-    );
-  }, [baseFilter, earliestDate]);
-
-  /**
-   * Data Fetching:
-   *
-   * This code block kicks off data fetching with an initial date range.
-   *
-   * The definition of getNextPageParam() handles pagination.
-   */
-  // TokenRecord
-  const {
-    data: tokenRecordsData,
-    hasNextPage: tokenRecordsHasNextPage,
-    fetchNextPage: tokenRecordsFetchNextPage,
-    refetch: tokenRecordsRefetch,
-  } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: tokenRecordsPaginator.current,
-    },
-  );
-
-  // TokenSupply
-  const {
-    data: tokenSuppliesData,
-    hasNextPage: tokenSuppliesHasNextPage,
-    fetchNextPage: tokenSuppliesFetchNextPage,
-    refetch: tokenSuppliesRefetch,
-  } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: tokenSuppliesPaginator.current,
-    },
-  );
-
-  // ProtocolMetric
-  const {
-    data: protocolMetricsData,
-    hasNextPage: protocolMetricsHasNextPage,
-    fetchNextPage: protocolMetricsFetchNextPage,
-    refetch: protocolMetricsRefetch,
-  } = useInfiniteProtocolMetricsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: protocolMetricsPaginator.current,
-    },
-  );
-
-  const resetCachedData = () => {
-    setByDateLiquidBacking([]);
-  };
-
-  /**
-   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
-   *
-   * react-query's infinite query functionality apparently does not support automatically
-   * fetching all pages. This code block achieves that.
-   */
-  useEffect(() => {
-    if (tokenRecordsHasNextPage) {
-      console.debug(chartName + ": fetching next page of tokenRecords");
-      tokenRecordsFetchNextPage();
-      return;
-    }
-  }, [tokenRecordsData, tokenRecordsHasNextPage, tokenRecordsFetchNextPage]);
-
-  useEffect(() => {
-    if (tokenSuppliesHasNextPage) {
-      console.debug(chartName + ": fetching next page of tokenSupplies");
-      tokenSuppliesFetchNextPage();
-      return;
-    }
-  }, [tokenSuppliesData, tokenSuppliesHasNextPage, tokenSuppliesFetchNextPage]);
-
-  useEffect(() => {
-    if (protocolMetricsHasNextPage) {
-      console.debug(chartName + ": fetching next page of protocolMetrics");
-      protocolMetricsFetchNextPage();
-      return;
-    }
-  }, [protocolMetricsData, protocolMetricsHasNextPage, protocolMetricsFetchNextPage]);
 
   /**
    * Chart population:
@@ -254,38 +96,26 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
   const [byDateLiquidBacking, setByDateLiquidBacking] = useState<LiquidBackingComparison[]>([]);
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
-    if (
-      tokenRecordsHasNextPage ||
-      tokenSuppliesHasNextPage ||
-      protocolMetricsHasNextPage ||
-      !tokenRecordsData ||
-      !tokenSuppliesData ||
-      !protocolMetricsData
-    ) {
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
+    if (!protocolMetricResults || !tokenRecordResults || !tokenSupplyResults) {
       return;
     }
 
     // We need to flatten the records from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
-    const byDateTokenRecords = getTokenRecordDateMap(tokenRecordsData.pages.map(query => query.tokenRecords).flat());
-    const byDateTokenSupplies = getTokenSupplyDateMap(tokenSuppliesData.pages.map(query => query.tokenSupplies).flat());
-    const byDateProtocolMetrics = getProtocolMetricDateMap(
-      protocolMetricsData.pages.map(query => query.protocolMetrics).flat(),
-    );
-
     const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
-    byDateTokenRecords.forEach((value, key) => {
+    tokenRecordResults.forEach((value, key) => {
       const currentTokenRecords = value;
-      const currentTokenSupplies = byDateTokenSupplies.get(key);
-      if (!currentTokenSupplies) {
-        throw new Error(`${chartName}: expected tokenSupplies on date ${key} to exist`);
-      }
+      const currentTokenSupplies = tokenSupplyResults.get(key);
+      const currentProtocolMetrics = protocolMetricResults.get(key);
 
-      const currentProtocolMetrics = byDateProtocolMetrics.get(key);
-      if (!currentProtocolMetrics) {
-        throw new Error(`${chartName}: expected protocolMetrics on date ${key} to exist`);
+      if (!currentTokenSupplies || !currentProtocolMetrics) {
+        /**
+         * Similar to the other charts (except that it is abstracted into {useTokenRecordsQueries}),
+         * once we reach a date that does not contain TokenSupply or ProtocolMetric records, we abort.
+         *
+         * This will cause the chart to display up to (but not including) that date.
+         */
+        return;
       }
 
       const latestTokenRecord = currentTokenRecords[0];
@@ -311,14 +141,14 @@ export const LiquidBackingPerOhmComparisonGraph = ({ subgraphUrl, earliestDate, 
     });
 
     setByDateLiquidBacking(tempByDateLiquidBacking);
-  }, [
-    tokenRecordsHasNextPage,
-    tokenSuppliesHasNextPage,
-    protocolMetricsHasNextPage,
-    tokenRecordsData,
-    tokenSuppliesData,
-    protocolMetricsData,
-  ]);
+  }, [protocolMetricResults, tokenRecordResults, tokenSupplyResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateLiquidBacking([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Header subtext

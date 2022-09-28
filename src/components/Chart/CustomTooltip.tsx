@@ -17,14 +17,15 @@ interface TooltipPayloadItem {
 /**
  * Renders the date in the format: "May 30, 2022"
  *
- * As of OlympusDAO/olympus-frontend#2134, this also shows the block number.
+ * As of OlympusDAO/olympus-frontend#2134, this showed the block number.
+ * Following the addition of multi-chain assets (which have different block numbers),
+ * the block number was removed.
  *
  * @param item
  * @returns
  */
 const renderDate = (item: TooltipPayloadItem) => {
   const date = new Date(item.payload.date);
-  const block = item.payload.block;
 
   return (
     <>
@@ -32,7 +33,7 @@ const renderDate = (item: TooltipPayloadItem) => {
         {date.toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
         {date.toLocaleString("default", { month: "long" }).slice(1)}
         &nbsp;
-        {date.getDate()}, {date.getFullYear()} - Block {block.toString()}
+        {date.getDate()}, {date.getFullYear()}
       </Grid>
     </>
   );

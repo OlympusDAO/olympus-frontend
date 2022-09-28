@@ -37,7 +37,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
+export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address = "" } = useAccount();
@@ -60,6 +60,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     if (address) setRecipientAddress(address);
   }, [address]);
 
+  console.log("in the modal");
   return (
     //TODO: Settings need to go in the confirm modal.
     //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}

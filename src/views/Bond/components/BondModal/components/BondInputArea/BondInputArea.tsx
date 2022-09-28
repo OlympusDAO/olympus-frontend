@@ -6,7 +6,12 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { BOND_DEPOSITORY_ADDRESSES, OP_BOND_DEPOSITORY_ADDRESSES } from "src/constants/addresses";
+import {
+  BOND_DEPOSITORY_ADDRESSES,
+  BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
+  BOND_FIXED_TERM_TELLER_ADDRESSES,
+  OP_BOND_DEPOSITORY_ADDRESSES,
+} from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -81,7 +86,14 @@ export const BondInputArea: React.VFC<{
       : props.bond.capacity.inQuoteToken
     ).toString({ decimals: 4, format: true })}${" "}
     ${props.bond.quoteToken.name}`;
-
+  const v3FixedEpiry = props.bond.isV3Bond && !props.bond.isFixedTerm;
+  const v2SpenderContract =
+    !props.bond.isV3Bond && isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES;
+  const spenderContract = props.bond.isV3Bond
+    ? v3FixedEpiry
+      ? BOND_FIXED_EXPIRY_TELLER_ADDRESSES
+      : BOND_FIXED_TERM_TELLER_ADDRESSES
+    : v2SpenderContract;
   //close the confirmation modal after transaction.
   if (purchaseBondMutation.isSuccess) {
     purchaseBondMutation.reset();
@@ -124,7 +136,7 @@ export const BondInputArea: React.VFC<{
             <TokenAllowanceGuard
               isVertical
               tokenAddressMap={props.bond.quoteToken.addresses}
-              spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
+              spenderAddressMap={spenderContract}
               approvalText={`Approve ${props.bond.quoteToken.name} to Bond`}
               message={
                 <>

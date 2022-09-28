@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { BigNumber } from "ethers";
 import { EthereumNetwork, NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
@@ -62,6 +63,8 @@ export interface Bond {
     inBaseToken: DecimalBigNumber;
     inQuoteToken: DecimalBigNumber;
   };
+  isV3Bond?: boolean;
+  bondToken?: string;
 }
 
 export interface UseBondOptions {
@@ -119,27 +122,13 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    */
   const duration = terms.fixedTerm ? terms.vesting : terms.conclusion - Date.now() / 1000;
 
-  /*
-   * each market is initialized with a capacity
-   *
-   * this is either the number of OHM that the market can sell
-   * (if capacity in quote is false),
-   *
-   * or the number of quote tokens that the market can buy
-   * (if capacity in quote is true)
-   */
-  const capacity = new DecimalBigNumber(
-    market.capacity,
-    market.capacityInQuote ? quoteToken.decimals : baseToken.decimals,
-  );
-
-  const capacityInQuoteToken = market.capacityInQuote
-    ? capacity
-    : new DecimalBigNumber(capacity.mul(quoteTokenPerBaseToken).toString(), quoteToken.decimals); // Convert to quoteToken if capacity is denominated in baseToken
-
-  const capacityInBaseToken = market.capacityInQuote
-    ? new DecimalBigNumber(capacity.div(quoteTokenPerBaseToken).toString(), baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
-    : capacity;
+  const capacityData = calculateCapacity({
+    capacity: market.capacity,
+    capacityInQuote: market.capacityInQuote,
+    quoteTokenDecimals: quoteToken.decimals,
+    baseTokenDecimals: baseToken.decimals,
+    quoteTokenPerBaseToken,
+  });
 
   /*
    * maxPayout is the amount of capacity that should be utilized in a deposit
@@ -158,8 +147,8 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    */
 
   const isSoldOut = isInverseBond
-    ? capacityInQuoteToken.lt("1")
-    : capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
+    ? capacityData.capacityInQuoteToken.lt("1")
+    : capacityData.capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
   return {
     id,
@@ -174,12 +163,47 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
       inBaseToken: quoteTokenPerBaseToken,
     },
     capacity: {
-      inBaseToken: capacityInBaseToken,
-      inQuoteToken: capacityInQuoteToken,
+      inBaseToken: capacityData.capacityInBaseToken,
+      inQuoteToken: capacityData.capacityInQuoteToken,
     },
     maxPayout: {
       inBaseToken: maxPayoutInBaseToken,
       inQuoteToken: maxPayoutInQuoteToken,
     },
   };
+};
+
+/*
+ * each market is initialized with a capacity
+ *
+ * this is either the number of OHM that the market can sell
+ * (if capacity in quote is false),
+ *
+ * or the number of quote tokens that the market can buy
+ * (if capacity in quote is true)
+ */
+export const calculateCapacity = ({
+  capacity,
+  capacityInQuote,
+  quoteTokenDecimals,
+  baseTokenDecimals,
+  quoteTokenPerBaseToken,
+}: {
+  capacity: BigNumber;
+  capacityInQuote: boolean;
+  quoteTokenDecimals: number;
+  baseTokenDecimals: number;
+  quoteTokenPerBaseToken: DecimalBigNumber;
+}) => {
+  const marketCapacity = new DecimalBigNumber(capacity, capacityInQuote ? quoteTokenDecimals : baseTokenDecimals);
+
+  const capacityInQuoteToken = capacityInQuote
+    ? marketCapacity
+    : new DecimalBigNumber(marketCapacity.mul(quoteTokenPerBaseToken).toString(), quoteTokenDecimals); // Convert to quoteToken if capacity is denominated in baseToken
+
+  const capacityInBaseToken = capacityInQuote
+    ? new DecimalBigNumber(marketCapacity.div(quoteTokenPerBaseToken).toString(), baseTokenDecimals) // Convert to baseToken if capacity is denominated in quoteToken
+    : marketCapacity;
+
+  return { marketCapacity, capacityInQuoteToken, capacityInBaseToken };
 };

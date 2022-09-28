@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BondList } from "src/views/Bond/components/BondList";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
-import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { ClaimBondsV3 } from "src/views/Bond/components/ClaimBonds/ClaimBondsV3";
+import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 export const Bond = () => {
@@ -15,10 +16,15 @@ export const Bond = () => {
 
   const navigate = useNavigate();
 
-  const liveBonds = useLiveBonds();
-  const bonds = liveBonds.data;
-  const inverse = useLiveBonds({ isInverseBond: true }).data;
-  const showTabs = !!inverse && inverse.length > 0 && !!bonds;
+  const { data: liveBondsV2 = [], isSuccess: liveBondsV2Sucess } = useLiveBonds();
+  const { data: liveBondsV3 = [], isSuccess: liveBondsV3Sucess } = useLiveBondsV3();
+  const { data: inverseV2 = [] } = useLiveBonds({ isInverseBond: true });
+  const { data: inverseV3 = [] } = useLiveBondsV3({ isInverseBond: true });
+
+  const bonds = liveBondsV2.concat(liveBondsV3);
+  const inverse = inverseV2.concat(inverseV3);
+
+  const showTabs = !!inverse && inverse.length > 0 && !!bonds && bonds.length > 0;
 
   /**
    * Updates the currently selected tab and navigation/history.
@@ -42,17 +48,18 @@ export const Bond = () => {
 
   useEffect(() => {
     // On initial load, if there are no bonds, switch to inverse bonds
-    if (liveBonds.isSuccess && liveBonds.data.length === 0) {
+    if (liveBondsV2Sucess && liveBondsV3Sucess && bonds.length === 0) {
       console.info("There are no live bonds. Switching to inverse bonds instead.");
       setCurrentTab("INVERSE");
     }
-  }, [liveBonds.isSuccess, liveBonds.data]);
+  }, [liveBondsV2Sucess, liveBondsV3Sucess]);
 
   return (
     <>
       <PageTitle name={currentAction === "INVERSE" ? "Inverse Bonds" : "Bonds"} />
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
+        <ClaimBondsV3 />
         <Paper>
           <MetricCollection>
             <TreasuryBalance />

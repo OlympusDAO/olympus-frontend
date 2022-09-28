@@ -1,7 +1,12 @@
 import {
   BALANCER_VAULT_ADDRESSSES,
+  BOND_AGGREGATOR_ADDRESSES,
   BOND_AUCTIONEER_ADDRESSES,
   BOND_DEPOSITORY_ADDRESSES,
+  BOND_FIXED_EXPIRY_SDA_ADDRESSES,
+  BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
+  BOND_FIXED_TERM_SDA_ADDRESSES,
+  BOND_FIXED_TERM_TELLER_ADDRESSES,
   DEV_FAUCET,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
@@ -16,6 +21,10 @@ import {
   BalancerVault__factory,
   BondAuctioneer__factory,
   BondDepository__factory,
+  BondFixedExpirySDA__factory,
+  BondFixedExpiryTeller__factory,
+  BondFixedTermSDA__factory,
+  BondFixedTermTeller__factory,
   CrossChainMigrator__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
@@ -24,6 +33,7 @@ import {
   RangePrice__factory,
   Zap__factory,
 } from "src/typechain";
+import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
@@ -80,6 +90,8 @@ export const RANGE_CONTRACT = new Contract({
   addresses: RANGE_ADDRESSES,
 });
 
+//TODO: Once new Range Contracts are deployed pointing to new bond protocol contracts
+// this can be removed.
 export const BOND_AUCTIONEER_CONTRACT = new Contract({
   factory: BondAuctioneer__factory,
   name: "Bond Auctioneer Contract",
@@ -89,4 +101,34 @@ export const FAUCET = new Contract({
   factory: DevFaucet__factory,
   name: "Goerli Faucet Contract",
   addresses: DEV_FAUCET,
+});
+
+export const BOND_AGGREGATOR_CONTRACT = new Contract({
+  factory: BondAggregator__factory,
+  name: "Bond Aggregator Contract",
+  addresses: BOND_AGGREGATOR_ADDRESSES,
+});
+
+export const BOND_FIXED_EXPIRY_TELLER = new Contract({
+  factory: BondFixedExpiryTeller__factory,
+  name: "Bond Teller Contract",
+  addresses: BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
+});
+
+export const BOND_FIXED_EXPIRY_SDA_CONTRACT = new Contract({
+  factory: BondFixedExpirySDA__factory,
+  name: "Bond Fixed Expiration SDA Contract",
+  addresses: BOND_FIXED_EXPIRY_SDA_ADDRESSES,
+});
+
+export const BOND_FIXED_TERM_SDA_CONTRACT = new Contract({
+  factory: BondFixedTermSDA__factory,
+  name: "Bond Fixed Term SDA Contract",
+  addresses: BOND_FIXED_TERM_SDA_ADDRESSES,
+});
+
+export const BOND_FIXED_TERM_TELLER = new Contract({
+  factory: BondFixedTermTeller__factory,
+  name: "Bond Fixed Term Teller Contract",
+  addresses: BOND_FIXED_TERM_TELLER_ADDRESSES,
 });

@@ -506,7 +506,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20ProtocolMetrics(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20ProtocolMetric_filter)%20%7B%0A%20%20protocolMetrics(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentAPY%0A%20%20%20%20currentIndex%0A%20%20%20%20date%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20nextDistributedOhm%0A%20%20%20%20nextEpochRebase%0A%20%20%20%20ohmPrice%0A%20%20%20%20ohmTotalSupply%0A%20%20%20%20sOhmCirculatingSupply%0A%20%20%20%20timestamp%0A%20%20%20%20totalValueLocked%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20ProtocolMetrics(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20ProtocolMetric_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20protocolMetrics(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentAPY%0A%20%20%20%20currentIndex%0A%20%20%20%20date%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20nextDistributedOhm%0A%20%20%20%20nextEpochRebase%0A%20%20%20%20ohmPrice%0A%20%20%20%20ohmTotalSupply%0A%20%20%20%20sOhmCirculatingSupply%0A%20%20%20%20timestamp%0A%20%20%20%20totalValueLocked%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -671,7 +671,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -779,7 +779,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -817,7 +817,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-13 css-12ijgm9-MuiGrid-root"
                     >
                       <div
-                        aria-colcount="3"
+                        aria-colcount="4"
                         aria-multiselectable="false"
                         aria-rowcount="1"
                         class="MuiDataGrid-root MuiDataGrid-autoHeight MuiDataGrid-root--densityStandard css-12g0d9j-MuiDataGrid-root"
@@ -1064,10 +1064,10 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                                 <div
                                   aria-colindex="3"
-                                  aria-label="Value"
-                                  aria-sort="descending"
-                                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable MuiDataGrid-columnHeader--sorted"
-                                  data-field="value"
+                                  aria-label="Blockchain"
+                                  aria-sort="none"
+                                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
+                                  data-field="blockchain"
                                   role="columnheader"
                                   style="height: 56px; width: 0px; min-width: 0; max-width: 0;"
                                   tabindex="-1"
@@ -1083,11 +1083,11 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                         class="MuiDataGrid-columnHeaderTitleContainerContent"
                                       >
                                         <div
-                                          aria-label="The total value of the token asset in USD"
+                                          aria-label="The blockchain of the token asset"
                                           class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
                                           data-mui-internal-clone-element="true"
                                         >
-                                          Value
+                                          Blockchain
                                         </div>
                                       </div>
                                       <div
@@ -1330,7 +1330,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -1388,6 +1388,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         style="width: 100%; height: 400px;"
                       />
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1ngkk3s-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-1fv7m5m-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1alq3xy-MuiGrid-root"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-1a0tq7v-MuiTypography-root"
+                      >
+                        Disclaimers
+                      </h6>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-16w07uq-MuiGrid-root"
+                      style="max-width: 80ch; margin: 0px auto;"
+                    />
                   </div>
                 </div>
               </div>
