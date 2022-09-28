@@ -5,7 +5,7 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();
 const GA4_API_KEY = Environment.getGA4ApiKey();
 
-type Category = "App" | "OlyZaps" | "Staking" | "Olympus Give" | "Bonds" | "Migration" | "Wrapping";
+type Category = "App" | "OlyZaps" | "Staking" | "Olympus Give" | "Bonds" | "Bonds V3" | "Migration" | "Wrapping";
 
 interface TrackGAEventOptions extends ReactGA.EventArgs {
   category: Category;

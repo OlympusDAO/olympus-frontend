@@ -470,7 +470,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20ProtocolMetrics(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20ProtocolMetric_filter)%20%7B%0A%20%20protocolMetrics(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentAPY%0A%20%20%20%20currentIndex%0A%20%20%20%20date%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20nextDistributedOhm%0A%20%20%20%20nextEpochRebase%0A%20%20%20%20ohmPrice%0A%20%20%20%20ohmTotalSupply%0A%20%20%20%20sOhmCirculatingSupply%0A%20%20%20%20timestamp%0A%20%20%20%20totalValueLocked%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20ProtocolMetrics(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20ProtocolMetric_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20protocolMetrics(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20block%0A%20%20%20%20currentAPY%0A%20%20%20%20currentIndex%0A%20%20%20%20date%0A%20%20%20%20gOhmPrice%0A%20%20%20%20gOhmTotalSupply%0A%20%20%20%20nextDistributedOhm%0A%20%20%20%20nextEpochRebase%0A%20%20%20%20ohmPrice%0A%20%20%20%20ohmTotalSupply%0A%20%20%20%20sOhmCirculatingSupply%0A%20%20%20%20timestamp%0A%20%20%20%20totalValueLocked%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -635,7 +635,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -743,7 +743,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -781,10 +781,10 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-13 css-18miy9-MuiGrid-root"
                     >
                       <div
-                        aria-colcount="3"
+                        aria-colcount="4"
                         aria-multiselectable="false"
-                        aria-rowcount="0"
-                        class="MuiDataGrid-root MuiDataGrid-autoHeight MuiDataGrid-root--densityStandard css-dj8woy-MuiDataGrid-root"
+                        aria-rowcount="1"
+                        class="MuiDataGrid-root MuiDataGrid-autoHeight MuiDataGrid-root--densityStandard css-1g3d849-MuiDataGrid-root"
                         role="grid"
                       >
                         <div>
@@ -797,7 +797,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             style="height: auto; width: 0px; position: absolute; top: 56px; bottom: 0px;"
                           >
                             <div
-                              class="MuiDataGrid-overlay css-1lk5ll6-MuiDataGrid-overlay"
+                              class="MuiDataGrid-overlay css-c1gd0l-MuiDataGrid-overlay"
                             >
                               <span
                                 class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
@@ -825,294 +825,302 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             style="min-height: 56px; max-height: 56px; line-height: 56px;"
                           >
                             <div
-                              aria-rowindex="1"
-                              class="MuiDataGrid-columnHeadersInner css-1s0hp0k-MuiDataGrid-columnHeadersInner"
-                              role="row"
+                              class="MuiDataGrid-columnHeadersInner css-gl260s-MuiDataGrid-columnHeadersInner"
+                              role="rowgroup"
                               style="transform: translate3d(0px, 0px, 0px);"
                             >
                               <div
-                                aria-colindex="1"
-                                aria-sort="none"
-                                class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
-                                data-field="token"
-                                role="columnheader"
-                                style="width: 0px; min-width: 0; max-width: 0;"
-                                tabindex="0"
+                                aria-rowindex="1"
+                                class="css-yrdy0g-MuiDataGrid-columnHeaderRow"
+                                role="row"
                               >
                                 <div
-                                  class="MuiDataGrid-columnHeaderDraggableContainer"
-                                  draggable="false"
+                                  aria-colindex="1"
+                                  aria-label="Asset"
+                                  aria-sort="none"
+                                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
+                                  data-field="token"
+                                  role="columnheader"
+                                  style="height: 56px; width: 0px; min-width: 0; max-width: 0;"
+                                  tabindex="0"
                                 >
                                   <div
-                                    class="MuiDataGrid-columnHeaderTitleContainer"
+                                    class="MuiDataGrid-columnHeaderDraggableContainer"
+                                    draggable="false"
                                   >
                                     <div
-                                      class="MuiDataGrid-columnHeaderTitleContainerContent"
+                                      class="MuiDataGrid-columnHeaderTitleContainer"
                                     >
                                       <div
-                                        aria-label="The token asset that is held"
-                                        class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
-                                        data-mui-internal-clone-element="true"
+                                        class="MuiDataGrid-columnHeaderTitleContainerContent"
                                       >
-                                        Asset
+                                        <div
+                                          aria-label="The token asset that is held"
+                                          class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
+                                          data-mui-internal-clone-element="true"
+                                        >
+                                          Asset
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      >
+                                        <button
+                                          aria-label="Sort"
+                                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                          tabindex="-1"
+                                          title="Sort"
+                                          type="button"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                            data-testid="ArrowDownwardIcon"
+                                            focusable="false"
+                                            viewBox="0 0 20 20"
+                                          >
+                                            <path
+                                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            />
+                                          </svg>
+                                        </button>
                                       </div>
                                     </div>
                                     <div
-                                      class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      class="MuiDataGrid-menuIcon"
                                     >
                                       <button
-                                        aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        aria-controls="mui-4"
+                                        aria-haspopup="true"
+                                        aria-label="Menu"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        id="mui-5"
                                         tabindex="-1"
-                                        title="Sort"
+                                        title="Menu"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
-                                          data-testid="ArrowDownwardIcon"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                          data-testid="TripleDotsVerticalIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
                                         >
                                           <path
-                                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
                                           />
                                         </svg>
                                       </button>
                                     </div>
                                   </div>
                                   <div
-                                    class="MuiDataGrid-menuIcon"
+                                    class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
+                                    style="min-height: 56px; opacity: 1;"
                                   >
-                                    <button
-                                      aria-controls="mui-4"
-                                      aria-haspopup="true"
-                                      aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
-                                      id="mui-5"
-                                      tabindex="-1"
-                                      title="Menu"
-                                      type="button"
+                                    <svg
+                                      aria-hidden="true"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                      data-testid="SeparatorIcon"
+                                      focusable="false"
+                                      viewBox="0 0 20 20"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
-                                        data-testid="TripleDotsVerticalIcon"
-                                        focusable="false"
-                                        viewBox="0 0 20 20"
-                                      >
-                                        <path
-                                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                        />
-                                      </svg>
-                                    </button>
+                                      <path
+                                        d="M11 19V5h2v14z"
+                                      />
+                                    </svg>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
-                                  style="min-height: 56px; opacity: 1;"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
-                                    data-testid="SeparatorIcon"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M11 19V5h2v14z"
-                                    />
-                                  </svg>
-                                </div>
-                              </div>
-                              <div
-                                aria-colindex="2"
-                                aria-sort="none"
-                                class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
-                                data-field="category"
-                                role="columnheader"
-                                style="width: 0px; min-width: 0; max-width: 0;"
-                                tabindex="-1"
-                              >
-                                <div
-                                  class="MuiDataGrid-columnHeaderDraggableContainer"
-                                  draggable="false"
+                                  aria-colindex="2"
+                                  aria-label="Category"
+                                  aria-sort="none"
+                                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
+                                  data-field="category"
+                                  role="columnheader"
+                                  style="height: 56px; width: 0px; min-width: 0; max-width: 0;"
+                                  tabindex="-1"
                                 >
                                   <div
-                                    class="MuiDataGrid-columnHeaderTitleContainer"
+                                    class="MuiDataGrid-columnHeaderDraggableContainer"
+                                    draggable="false"
                                   >
                                     <div
-                                      class="MuiDataGrid-columnHeaderTitleContainerContent"
+                                      class="MuiDataGrid-columnHeaderTitleContainer"
                                     >
                                       <div
-                                        aria-label="The category of the token asset"
-                                        class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
-                                        data-mui-internal-clone-element="true"
+                                        class="MuiDataGrid-columnHeaderTitleContainerContent"
                                       >
-                                        Category
+                                        <div
+                                          aria-label="The category of the token asset"
+                                          class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
+                                          data-mui-internal-clone-element="true"
+                                        >
+                                          Category
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      >
+                                        <button
+                                          aria-label="Sort"
+                                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                          tabindex="-1"
+                                          title="Sort"
+                                          type="button"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                            data-testid="ArrowDownwardIcon"
+                                            focusable="false"
+                                            viewBox="0 0 20 20"
+                                          >
+                                            <path
+                                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            />
+                                          </svg>
+                                        </button>
                                       </div>
                                     </div>
                                     <div
-                                      class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      class="MuiDataGrid-menuIcon"
                                     >
                                       <button
-                                        aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        aria-controls="mui-7"
+                                        aria-haspopup="true"
+                                        aria-label="Menu"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        id="mui-8"
                                         tabindex="-1"
-                                        title="Sort"
+                                        title="Menu"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
-                                          data-testid="ArrowDownwardIcon"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                          data-testid="TripleDotsVerticalIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
                                         >
                                           <path
-                                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
                                           />
                                         </svg>
                                       </button>
                                     </div>
                                   </div>
                                   <div
-                                    class="MuiDataGrid-menuIcon"
+                                    class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
+                                    style="min-height: 56px; opacity: 1;"
                                   >
-                                    <button
-                                      aria-controls="mui-7"
-                                      aria-haspopup="true"
-                                      aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
-                                      id="mui-8"
-                                      tabindex="-1"
-                                      title="Menu"
-                                      type="button"
+                                    <svg
+                                      aria-hidden="true"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                      data-testid="SeparatorIcon"
+                                      focusable="false"
+                                      viewBox="0 0 20 20"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
-                                        data-testid="TripleDotsVerticalIcon"
-                                        focusable="false"
-                                        viewBox="0 0 20 20"
-                                      >
-                                        <path
-                                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                        />
-                                      </svg>
-                                    </button>
+                                      <path
+                                        d="M11 19V5h2v14z"
+                                      />
+                                    </svg>
                                   </div>
                                 </div>
                                 <div
-                                  class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
-                                  style="min-height: 56px; opacity: 1;"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
-                                    data-testid="SeparatorIcon"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M11 19V5h2v14z"
-                                    />
-                                  </svg>
-                                </div>
-                              </div>
-                              <div
-                                aria-colindex="3"
-                                aria-sort="descending"
-                                class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable MuiDataGrid-columnHeader--sorted"
-                                data-field="value"
-                                role="columnheader"
-                                style="width: 0px; min-width: 0; max-width: 0;"
-                                tabindex="-1"
-                              >
-                                <div
-                                  class="MuiDataGrid-columnHeaderDraggableContainer"
-                                  draggable="false"
+                                  aria-colindex="3"
+                                  aria-label="Blockchain"
+                                  aria-sort="none"
+                                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable"
+                                  data-field="blockchain"
+                                  role="columnheader"
+                                  style="height: 56px; width: 0px; min-width: 0; max-width: 0;"
+                                  tabindex="-1"
                                 >
                                   <div
-                                    class="MuiDataGrid-columnHeaderTitleContainer"
+                                    class="MuiDataGrid-columnHeaderDraggableContainer"
+                                    draggable="false"
                                   >
                                     <div
-                                      class="MuiDataGrid-columnHeaderTitleContainerContent"
+                                      class="MuiDataGrid-columnHeaderTitleContainer"
                                     >
                                       <div
-                                        aria-label="The total value of the token asset in USD"
-                                        class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
-                                        data-mui-internal-clone-element="true"
+                                        class="MuiDataGrid-columnHeaderTitleContainerContent"
                                       >
-                                        Value
+                                        <div
+                                          aria-label="The blockchain of the token asset"
+                                          class="MuiDataGrid-columnHeaderTitle css-1jbbcbn-MuiDataGrid-columnHeaderTitle"
+                                          data-mui-internal-clone-element="true"
+                                        >
+                                          Blockchain
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      >
+                                        <button
+                                          aria-label="Sort"
+                                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                          tabindex="-1"
+                                          title="Sort"
+                                          type="button"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
+                                            data-testid="ArrowDownwardIcon"
+                                            focusable="false"
+                                            viewBox="0 0 20 20"
+                                          >
+                                            <path
+                                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            />
+                                          </svg>
+                                        </button>
                                       </div>
                                     </div>
                                     <div
-                                      class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
+                                      class="MuiDataGrid-menuIcon"
                                     >
                                       <button
-                                        aria-label="Sort"
-                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        aria-controls="mui-10"
+                                        aria-haspopup="true"
+                                        aria-label="Menu"
+                                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
+                                        id="mui-11"
                                         tabindex="-1"
-                                        title="Sort"
+                                        title="Menu"
                                         type="button"
                                       >
                                         <svg
                                           aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-y3v3gx-MuiSvgIcon-root"
-                                          data-testid="ArrowDownwardIcon"
+                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                                          data-testid="TripleDotsVerticalIcon"
                                           focusable="false"
                                           viewBox="0 0 20 20"
                                         >
                                           <path
-                                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
                                           />
                                         </svg>
                                       </button>
                                     </div>
                                   </div>
                                   <div
-                                    class="MuiDataGrid-menuIcon"
+                                    class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
+                                    style="min-height: 56px; opacity: 1;"
                                   >
-                                    <button
-                                      aria-controls="mui-10"
-                                      aria-haspopup="true"
-                                      aria-label="Menu"
-                                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1q2cqgk-MuiButtonBase-root-MuiIconButton-root"
-                                      id="mui-11"
-                                      tabindex="-1"
-                                      title="Menu"
-                                      type="button"
+                                    <svg
+                                      aria-hidden="true"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
+                                      data-testid="SeparatorIcon"
+                                      focusable="false"
+                                      viewBox="0 0 20 20"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
-                                        data-testid="TripleDotsVerticalIcon"
-                                        focusable="false"
-                                        viewBox="0 0 20 20"
-                                      >
-                                        <path
-                                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                        />
-                                      </svg>
-                                    </button>
+                                      <path
+                                        d="M11 19V5h2v14z"
+                                      />
+                                    </svg>
                                   </div>
-                                </div>
-                                <div
-                                  class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--sideRight"
-                                  style="min-height: 56px; opacity: 1;"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-iconSeparator css-y3v3gx-MuiSvgIcon-root"
-                                    data-testid="SeparatorIcon"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M11 19V5h2v14z"
-                                    />
-                                  </svg>
                                 </div>
                               </div>
                             </div>
@@ -1286,7 +1294,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                                href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenRecords(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenRecord_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenRecords(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20blockchain%0A%20%20%20%20category%0A%20%20%20%20date%0A%20%20%20%20isBluechip%0A%20%20%20%20isLiquid%0A%20%20%20%20multiplier%0A%20%20%20%20rate%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20value%0A%20%20%20%20valueExcludingOhm%0A%20%20%7D%0A%7D%0A%20%20%20%20"
                                 rel="noopener noreferrer"
                                 target="_blank"
                               >
@@ -1344,6 +1352,40 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         style="width: 100%; height: 400px;"
                       />
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-17ydv12-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-wcytrk-MuiPaper-root"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; padding-left: 10px; padding-right: 10px;"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1oficnd-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item css-ieinjk-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-1fu3ze3-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-zpclep-MuiGrid-root"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-1e2mgue-MuiTypography-root"
+                      >
+                        Disclaimers
+                      </h6>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1ztvrz-MuiGrid-root"
+                      style="max-width: 80ch; margin: 0px auto;"
+                    />
                   </div>
                 </div>
               </div>

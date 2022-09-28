@@ -1,34 +1,46 @@
-import { getSubgraphUrl } from "src/constants";
 import { useProtocolMetricsQuery } from "src/generated/graphql";
+import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
-export const useOhmTotalSupply = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useOhmTotalSupply = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].ohmTotalSupply, ...QUERY_OPTIONS },
   );
+};
 
-export const useGOhmTotalSupply = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useGOhmTotalSupply = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
   );
+};
 
-export const useTotalValueDeposited = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useTotalValueDeposited = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].totalValueLocked, ...QUERY_OPTIONS },
   );
+};
 
 /**
  * Returns the latest OHM price (in USD).
@@ -39,14 +51,18 @@ export const useTotalValueDeposited = (subgraphUrl?: string) =>
  *
  * @returns
  */
-export const useOhmPrice = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useOhmPrice = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].ohmPrice, ...QUERY_OPTIONS },
   );
+};
 
 /**
  * Returns the latest gOHM price (in USD).
@@ -57,25 +73,33 @@ export const useOhmPrice = (subgraphUrl?: string) =>
  *
  * @returns
  */
-export const useGOhmPrice = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useGOhmPrice = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].gOhmPrice, ...QUERY_OPTIONS },
   );
+};
 
 /**
  * Determines the current index.
  *
  * @returns
  */
-export const useCurrentIndex = (subgraphUrl?: string) =>
-  useProtocolMetricsQuery(
-    { endpoint: subgraphUrl || getSubgraphUrl() },
+export const useCurrentIndex = (subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    { endpoint: endpoint },
     {
       recordCount: 1,
+      endpoint: endpoint,
     },
     { select: data => data.protocolMetrics[0].currentIndex, ...QUERY_OPTIONS },
   );
+};

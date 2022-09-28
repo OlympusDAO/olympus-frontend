@@ -1,4 +1,3 @@
-import { fireEvent } from "@testing-library/dom";
 import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
@@ -64,6 +63,8 @@ describe("Inverse Bonds", () => {
         return Promise.resolve(inverseMarketPrice[id]);
       }),
     });
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
   });
 
   afterEach(() => {
@@ -71,27 +72,24 @@ describe("Inverse Bonds", () => {
   });
 
   it("should display OHM DAI Inverse Bond", async () => {
-    // Starts on the inverse bond screen
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
     jest.spyOn(Router, "useParams").mockReturnValue({});
+    // Starts on the inverse bond screen
 
     render(<Bond />);
-
-    fireEvent.click(await screen.findByTestId("inverse-bond-tab"));
-    expect(await screen.findByText("DAI")).toBeInTheDocument();
+    setTimeout(async () => {
+      expect(screen.getByText("DAI")).toBeInTheDocument();
+    }, 30000);
   });
 
-  it("Should Display No Active Bonds Message on Bonds screen", async () => {
-    // Starts on the inverse bond screen
+  it("Shouldn't display bond tabs when only inverse bonds are live", async () => {
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
     jest.spyOn(Router, "useParams").mockReturnValue({});
-
     render(<Bond />);
 
     // Frontend now defaults to the inverse bonds tab if there are no bonds
-    // So the location needs to be explicitly changed
-    fireEvent.click(await screen.findByTestId("bond-tab"));
-    expect(await screen.findByText("No active bonds")).toBeInTheDocument();
+    // There are no active bonds, so we shouldnt show tab
+    expect(screen.queryByTestId("bond-tab")).toBeNull();
   });
 
   it("should default to inverse bond tab", async () => {

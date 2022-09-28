@@ -1,0 +1,682 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "protocol_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondAggregator",
+          "name": "aggregator_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "guardian_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract Authority",
+          "name": "authority_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "CreateFail",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Teller_InvalidCallback",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Teller_InvalidParams",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Teller_NotAuthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "underlying",
+          "type": "address"
+        },
+        {
+          "internalType": "uint48",
+          "name": "expiry",
+          "type": "uint48"
+        }
+      ],
+      "name": "Teller_TokenDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint48",
+          "name": "maturesOn",
+          "type": "uint48"
+        }
+      ],
+      "name": "Teller_TokenNotMatured",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Teller_UnsupportedToken",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "payout",
+          "type": "uint256"
+        }
+      ],
+      "name": "Bonded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "contract ERC20BondToken",
+          "name": "bondToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract ERC20",
+          "name": "underlying",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint48",
+          "name": "expiry",
+          "type": "uint48"
+        }
+      ],
+      "name": "ERC20BondTokenCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "FEE_DECIMALS",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "bondTokenImplementation",
+      "outputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "name": "bondTokens",
+      "outputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20[]",
+          "name": "tokens_",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address",
+          "name": "to_",
+          "type": "address"
+        }
+      ],
+      "name": "claimFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "underlying_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint48",
+          "name": "expiry_",
+          "type": "uint48"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "create",
+      "outputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "createFeeDiscount",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "underlying_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint48",
+          "name": "expiry_",
+          "type": "uint48"
+        }
+      ],
+      "name": "deploy",
+      "outputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBondTokenForMarket",
+      "outputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        }
+      ],
+      "name": "getFee",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "protocolFee",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmountOut_",
+          "type": "uint256"
+        }
+      ],
+      "name": "purchase",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20BondToken",
+          "name": "token_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "referrerFees",
+      "outputs": [
+        {
+          "internalType": "uint48",
+          "name": "",
+          "type": "uint48"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "rewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "setAuthority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint48",
+          "name": "fee_",
+          "type": "uint48"
+        }
+      ],
+      "name": "setProtocolFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint48",
+          "name": "fee_",
+          "type": "uint48"
+        }
+      ],
+      "name": "setReferrerFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "author": "Oighty, Zeus, Potted Meat, indigo",
+    "details": "Bond is a permissionless system to create Olympus-style bond markets      for any token pair. The markets do not require maintenance and will manage      bond prices based on activity. Bond issuers create BondMarkets that pay out      a Payout Token in exchange for deposited Quote Tokens. Users can purchase      future-dated Payout Tokens with Quote Tokens at the current market price and      receive Bond Tokens to represent their position while their bond vests.      Once the Bond Tokens vest, they can redeem it for the Quote Tokens.The Bond Fixed Expiration Teller is an implementation of the      Bond Base Teller contract specific to handling user bond transactions      and tokenizing bond markets where all purchases vest at the same timestamp      as ERC20 tokens.",
+    "kind": "dev",
+    "methods": {
+      "claimFees(address[],address)": {
+        "params": {
+          "to_": "Address to send fees to",
+          "tokens_": "Array of tokens to claim fees for"
+        }
+      },
+      "create(address,uint48,uint256)": {
+        "params": {
+          "amount_": "Amount of underlying tokens to deposit",
+          "expiry_": "Timestamp at which the bond token can be redeemed for the underlying token",
+          "underlying_": "ERC20 token redeemable when the bond token vests"
+        },
+        "returns": {
+          "_0": "Address of the ERC20 bond token received",
+          "_1": "Amount of the ERC20 bond token received"
+        }
+      },
+      "deploy(address,uint48)": {
+        "details": "ERC20 used for fixed-expirationIf a bond token exists for the (underlying, expiry) pair, it returns that address",
+        "params": {
+          "expiry_": "Timestamp at which the bond token can be redeemed for the underlying token",
+          "underlying_": "ERC20 token redeemable when the bond token vests"
+        },
+        "returns": {
+          "_0": "Address of the ERC20 bond token being created"
+        }
+      },
+      "getBondTokenForMarket(uint256)": {
+        "params": {
+          "id_": "ID of the market"
+        },
+        "returns": {
+          "_0": "ERC20BondToken contract address"
+        }
+      },
+      "getFee(address)": {
+        "params": {
+          "referrer_": "Address of the referrer"
+        },
+        "returns": {
+          "_0": "Fee in basis points (3 decimal places)"
+        }
+      },
+      "purchase(address,address,uint256,uint256,uint256)": {
+        "params": {
+          "amount_": "Amount to deposit in exchange for bond",
+          "id_": "ID of the Market the bond is being purchased from",
+          "minAmountOut_": "Minimum acceptable amount of bond to receive. Prevents frontrunning",
+          "recipient_": "Address of recipient of bond. Allows deposits for other addresses",
+          "referrer_": "Address of referrer who will receive referral fee. For frontends to fill.                         Direct calls can use the zero address for no referrer fee."
+        },
+        "returns": {
+          "_0": "Amount of payout token to be received from the bond",
+          "_1": "Timestamp at which the bond token can be redeemed for the underlying token"
+        }
+      },
+      "redeem(address,uint256)": {
+        "params": {
+          "amount_": "Amount to redeem",
+          "token_": "Token to redeem"
+        }
+      },
+      "setProtocolFee(uint48)": {
+        "params": {
+          "fee_": "Protocol fee in basis points (3 decimal places)"
+        }
+      },
+      "setReferrerFee(uint48)": {
+        "params": {
+          "fee_": "Referrer fee in basis points (3 decimal places)"
+        }
+      }
+    },
+    "title": "Bond Fixed Expiration Teller",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "bondTokenImplementation()": {
+        "notice": "ERC20BondToken reference implementation (deployed on creation to clone from)"
+      },
+      "bondTokens(address,uint48)": {
+        "notice": "ERC20 bond tokens (unique to a underlying and expiry)"
+      },
+      "claimFees(address[],address)": {
+        "notice": "Claim fees accrued for input tokens and sends to protocolMust be guardian"
+      },
+      "create(address,uint48,uint256)": {
+        "notice": "Deposit an ERC20 token and mint a future-dated ERC20 bond token"
+      },
+      "createFeeDiscount()": {
+        "notice": "'Create' function fee discount. Amount standard fee is reduced by for partners who just want to use the 'create' function to issue bond tokens. Configurable by policy."
+      },
+      "deploy(address,uint48)": {
+        "notice": "Deploy a new ERC20 bond token for an (underlying, expiry) pair and return its address"
+      },
+      "getBondTokenForMarket(uint256)": {
+        "notice": "Get the OlympusERC20BondToken contract corresponding to a market"
+      },
+      "getFee(address)": {
+        "notice": "Get current fee charged by the teller based on the combined protocol and referrer fee"
+      },
+      "protocolFee()": {
+        "notice": "Fee paid to protocol. Configurable by policy, must be greater than 30 bps."
+      },
+      "purchase(address,address,uint256,uint256,uint256)": {
+        "notice": "Exchange quote tokens for a bond in a specified market"
+      },
+      "redeem(address,uint256)": {
+        "notice": "Redeem a fixed-expiration bond token for the underlying token (bond token must have matured)"
+      },
+      "referrerFees(address)": {
+        "notice": "Fee paid to a front end operator. Set by the referrer, must be less than or equal to 5e4."
+      },
+      "rewards(address,address)": {
+        "notice": "Fees earned by an address, by token"
+      },
+      "setProtocolFee(uint48)": {
+        "notice": "Set protocol feeMust be guardian"
+      },
+      "setReferrerFee(uint48)": {
+        "notice": "Set your fee as a referrer to the protocolFee is set for sending address"
+      }
+    },
+    "notice": "Bond Fixed Expiration Teller Contract",
+    "version": 1
+  }
+}

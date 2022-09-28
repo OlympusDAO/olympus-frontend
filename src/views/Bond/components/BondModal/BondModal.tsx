@@ -37,7 +37,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
+export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address = "" } = useAccount();
