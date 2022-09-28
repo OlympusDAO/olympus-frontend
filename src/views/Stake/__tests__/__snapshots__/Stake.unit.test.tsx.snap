@@ -93,6 +93,7 @@ exports[`<Stake/> should render component 1`] = `
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 155px;"
                             />
                           </div>
                         </span>
@@ -3004,6 +3005,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 155px;"
                             />
                           </div>
                         </span>

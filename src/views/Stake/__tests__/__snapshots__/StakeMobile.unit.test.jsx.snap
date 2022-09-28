@@ -93,6 +93,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                              style="width: 155px;"
                             />
                           </div>
                         </span>

@@ -15,7 +15,7 @@ const RebaseTimer: React.FC = () => {
           <strong>{prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}&nbsp;</strong>
         </>
       ) : (
-        <Skeleton />
+        <Skeleton width="155px" />
       )}
     </Box>
   );

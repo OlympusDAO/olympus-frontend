@@ -3,6 +3,7 @@ import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataRow, InfoNotification, Metric, OHMTokenProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
@@ -108,7 +109,8 @@ export const Range = () => {
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
   return (
     <div id="stake-view">
-      <Paper headerText="Range Swap">
+      <PageTitle name="Range Swap" />
+      <Paper>
         {currentPrice ? (
           <>
             <Box display="flex" flexDirection="row" justifyContent="space-around" mb="54px">
