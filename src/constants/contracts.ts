@@ -7,6 +7,7 @@ import {
   BOND_FIXED_TERM_SDA_ADDRESSES,
   BOND_FIXED_TERM_TELLER_ADDRESSES,
   DEV_FAUCET,
+  DISTRIBUTOR_ADDRESSES,
   GIVE_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
@@ -29,6 +30,7 @@ import {
 } from "src/typechain";
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
+import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,
@@ -106,4 +108,10 @@ export const BOND_FIXED_TERM_TELLER = new Contract({
   factory: BondFixedTermTeller__factory,
   name: "Bond Fixed Term Teller Contract",
   addresses: BOND_FIXED_TERM_TELLER_ADDRESSES,
+});
+
+export const DISTRIBUTOR_CONTRACT = new Contract({
+  factory: OlympusDistributor__factory,
+  name: "Distributor Contract",
+  addresses: DISTRIBUTOR_ADDRESSES,
 });

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { addresses, NetworkId } from "src/constants";
-import { STAKING_ADDRESSES } from "src/constants/addresses";
+import { NetworkId } from "src/constants";
+import { STAKING_ADDRESSES, V1_STAKING_ADDRESSES } from "src/constants/addresses";
 import { getMarketPrice, getTokenPrice, setAll } from "src/helpers";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
@@ -44,7 +44,10 @@ export const loadAppDetails = createAsyncThunk(
       STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
       provider,
     );
-    const stakingContractV1 = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, provider);
+    const stakingContractV1 = OlympusStaking__factory.connect(
+      V1_STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+      provider,
+    );
 
     // Current index
     const currentIndex = await stakingContract.index();
