@@ -16,6 +16,11 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+type QueryOptionsType = {
+  enabled: boolean;
+  getNextPageParam?: (lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined;
+};
+
 /**
  * Fetches TokenRecords from {subgraphUrl}, returning the records
  * grouped by date.
@@ -74,7 +79,7 @@ export const useTokenRecordsQuery = (
     });
   }, [baseFilter, dateOffset, earliestDate, endpointNotNull]);
 
-  const [queryOptions, setQueryOptions] = useState<Record<string, unknown>>({
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
     enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
     getNextPageParam: paginator.current,
   });
@@ -99,7 +104,7 @@ export const useTokenRecordsQuery = (
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter || !subgraphUrl) {
+    if (!earliestDate || !baseFilter || !subgraphUrl || !queryOptions.enabled) {
       return;
     }
 
@@ -110,6 +115,7 @@ export const useTokenRecordsQuery = (
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
+    // refetch does not respect the enabled property in react-query, so we check queryOptions.enabled above
     refetch();
 
     // Create a new paginator with the new earliestDate
