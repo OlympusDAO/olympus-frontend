@@ -1,4 +1,4 @@
-import { Box, Divider, Grid } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
@@ -18,15 +18,15 @@ export const StakeArea: React.FC = () => {
   return (
     <>
       <PageTitle name="Stake" />
-      <Box>
-        <Box mb="28px">
-          <Grid>
+      <Box width="100%">
+        <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="521px" mb="28px">
             <MetricCollection>
               <StakingAPY className="stake-apy" />
               <Metric label="Time to Next Rebase" metric={<RebaseTimer />} />
               <CurrentIndex className="stake-index" />
             </MetricCollection>
-          </Grid>
+          </Box>
         </Box>
 
         <StakeInputArea isZoomed={isZoomed} />
@@ -34,13 +34,9 @@ export const StakeArea: React.FC = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <StakeBalances />
-
               <Divider />
-
               <StakeNextRebaseAmount />
-
               <StakeRebaseYield />
-
               <StakeFiveDayYield />
             </Box>
           </Box>

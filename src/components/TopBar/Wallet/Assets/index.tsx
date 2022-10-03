@@ -231,8 +231,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
             default:
               return (
                 <>
-                  {assets.map(asset => (
-                    <Balances token={asset} />
+                  {assets.map((asset, index) => (
+                    <Balances key={index} token={asset} />
                   ))}
                 </>
               );
@@ -245,7 +245,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               <FormControl className={classes.faucet}>
                 <Select
                   label="Contract"
-                  disableUnderline
                   id="contract-select"
                   value={faucetToken}
                   onChange={event => setFaucetToken(event.target.value)}
