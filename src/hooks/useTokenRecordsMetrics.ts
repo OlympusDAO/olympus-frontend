@@ -1,6 +1,8 @@
-import { useTokenRecordsQuery } from "src/generated/graphql";
+import { useEffect, useRef } from "react";
+import { TokenRecord, TokenRecord_Filter, useTokenRecordsQuery } from "src/generated/graphql";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
+import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
@@ -23,6 +25,27 @@ export const useTokenRecordsLatestBlock = (subgraphUrl?: string) => {
       endpoint: finalSubgraphUrl,
     },
     { select: data => data.tokenRecords[0].block, ...QUERY_OPTIONS },
+  );
+};
+
+/**
+ * Returns the latest record of the latest day in the TokenRecord query.
+ *
+ * This relies on the query being sorted by date AND block in descending order.
+ *
+ * @param subgraphUrl
+ * @returns
+ */
+export const useTokenRecordsLatestRecord = (subgraphUrl?: string) => {
+  const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
+
+  return useTokenRecordsQuery(
+    { endpoint: finalSubgraphUrl },
+    {
+      recordCount: 1,
+      endpoint: finalSubgraphUrl,
+    },
+    { select: data => data.tokenRecords[0], ...QUERY_OPTIONS },
   );
 };
 
@@ -62,22 +85,51 @@ export const useTreasuryMarketValue = (subgraphUrl?: string) => {
  * @param subgraphUrl
  * @returns
  */
-export const useTreasuryLiquidValue = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
+export const useTreasuryLiquidValue = (
+  iEarliestDate?: string,
+  iLatestBlock?: number,
+  iSubgraphUrls?: SUBGRAPH_URLS,
+): number => {
+  const earliestDate = useRef<string | null>(null);
+  useEffect(() => {
+    console.log("earliestDate");
+    earliestDate.current = iEarliestDate || null;
+  }, [iEarliestDate]);
 
-  return useTokenRecordsQuery(
-    { endpoint: finalSubgraphUrl },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data, isLiquid: true },
-      endpoint: finalSubgraphUrl,
-    },
-    {
-      // We just need the total of the tokenRecord value
-      select: data => getTreasuryAssetValue(data.tokenRecords, true),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
+  const subgraphUrls = useRef<SUBGRAPH_URLS | null>(null);
+  useEffect(() => {
+    console.log("subgraphUrls");
+    subgraphUrls.current = iSubgraphUrls || null;
+  }, [iSubgraphUrls]);
+
+  const latestBlock = useRef<number | undefined>();
+  useEffect(() => {
+    console.log("block");
+    latestBlock.current = iLatestBlock || undefined;
+  }, [iLatestBlock]);
+
+  const baseFilter = useRef<TokenRecord_Filter>({});
+  useEffect(() => {
+    console.log("base filter");
+    baseFilter.current = {
+      block: latestBlock.current,
+      isLiquid: true,
+    };
+  }, [latestBlock]);
+
+  const tokenRecordResults = useTokenRecordsQueries(
+    "useTreasuryLiquidValue",
+    subgraphUrls.current,
+    baseFilter.current,
+    earliestDate.current,
   );
+
+  // Get the latest result (but be defensive)
+  const latestResult: TokenRecord[] = !tokenRecordResults
+    ? []
+    : tokenRecordResults.size == 0
+    ? []
+    : Array.from(tokenRecordResults)[tokenRecordResults.size - 1][1];
+
+  return getTreasuryAssetValue(latestResult, true);
 };

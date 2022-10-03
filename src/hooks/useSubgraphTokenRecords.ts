@@ -32,7 +32,7 @@ import {
  */
 export const useTokenRecordsQuery = (
   chartName: string,
-  subgraphUrl: string,
+  subgraphUrl: string | null,
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
   dateOffset?: number,
@@ -41,10 +41,15 @@ export const useTokenRecordsQuery = (
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   const functionName = `${chartName}/TokenRecord`;
+  const endpointNotNull = useRef<string>("");
+  useEffect(() => {
+    console.log("subgraphUrl");
+    endpointNotNull.current = subgraphUrl || "";
+  }, [subgraphUrl]);
 
   // Create a paginator
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
+    { endpoint: endpointNotNull.current },
     "filter",
     {
       filter: {
@@ -53,10 +58,10 @@ export const useTokenRecordsQuery = (
         date_lt: initialFinishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: subgraphUrl,
+      endpoint: endpointNotNull.current,
     },
     {
-      enabled: earliestDate !== null && baseFilter != null,
+      enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
       getNextPageParam: paginator.current,
     },
   );
@@ -64,7 +69,7 @@ export const useTokenRecordsQuery = (
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
+    if (!earliestDate || !baseFilter || !subgraphUrl) {
       return;
     }
 
@@ -132,7 +137,7 @@ export const useTokenRecordsQuery = (
  */
 export const useTokenRecordsQueries = (
   chartName: string,
-  subgraphUrls: SUBGRAPH_URLS,
+  subgraphUrls: SUBGRAPH_URLS | null,
   baseFilter: TokenRecord_Filter,
   earliestDate: string | null,
   dateOffset?: number,
@@ -142,28 +147,28 @@ export const useTokenRecordsQueries = (
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
     `${chartName}/Arbitrum`,
-    subgraphUrls.Arbitrum,
+    subgraphUrls?.Arbitrum || null,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const ethereumResults = useTokenRecordsQuery(
     `${chartName}/Ethereum`,
-    subgraphUrls.Ethereum,
+    subgraphUrls?.Ethereum || null,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const fantomResults = useTokenRecordsQuery(
     `${chartName}/Fantom`,
-    subgraphUrls.Fantom,
+    subgraphUrls?.Fantom || null,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const polygonResults = useTokenRecordsQuery(
     `${chartName}/Polygon`,
-    subgraphUrls.Polygon,
+    subgraphUrls?.Polygon || null,
     baseFilter,
     earliestDate,
     dateOffset,
