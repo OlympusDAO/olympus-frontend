@@ -14,6 +14,13 @@ import {
   getTokenSupplyDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
+type NextPageParamType = (lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined;
+
+type QueryOptionsType = {
+  enabled: boolean;
+  getNextPageParam?: NextPageParamType;
+};
+
 /**
  * Fetches TokenSupply records from {subgraphUrl}, returning the records
  * grouped by date.
@@ -35,33 +42,60 @@ export const useTokenSuppliesQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenSupply[]> | null => {
-  // Create a paginator
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
-  const paginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
+  /**
+   * Cached variables
+   */
+  const paginator = useRef<NextPageParamType>();
 
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
+    endpoint: subgraphUrl,
+  });
+  useEffect(() => {
+    setDataSource({ endpoint: subgraphUrl });
+  }, [subgraphUrl]);
+
+  const [queryVariables, setQueryVariables] = useState<TokenSuppliesQueryVariables>({
+    recordCount: DEFAULT_RECORD_COUNT,
+    endpoint: subgraphUrl,
+  });
+  useEffect(() => {
+    const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+    setQueryVariables({
       filter: {
         ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
+        date_gte: !earliestDate ? null : getNextPageStartDate(finishDate, earliestDate, dateOffset),
+        date_lt: finishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: subgraphUrl,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter != null,
+    });
+  }, [baseFilter, dateOffset, earliestDate, subgraphUrl]);
+
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
+    enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
+    getNextPageParam: paginator.current,
+  });
+  useEffect(() => {
+    setQueryOptions({
+      enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
       getNextPageParam: paginator.current,
-    },
+    });
+  }, [baseFilter, earliestDate, subgraphUrl]);
+
+  /**
+   * Data fetching
+   */
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
+    dataSource,
+    "filter",
+    queryVariables,
+    queryOptions,
   );
 
   // Handle date changes
   useEffect(() => {
     // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
+    if (!earliestDate || !baseFilter || !subgraphUrl || !queryOptions.enabled) {
       return;
     }
 
@@ -72,6 +106,7 @@ export const useTokenSuppliesQuery = (
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
+    // refetch does not respect the enabled property in react-query, so we check queryOptions.enabled above
     refetch();
 
     // Create a new paginator with the new earliestDate
@@ -83,7 +118,7 @@ export const useTokenSuppliesQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, chartName, dateOffset, earliestDate, refetch, subgraphUrl]);
+  }, [baseFilter, chartName, dateOffset, earliestDate, queryOptions.enabled, refetch, subgraphUrl]);
 
   // Handle subsequent pages
   useEffect(() => {
@@ -96,7 +131,9 @@ export const useTokenSuppliesQuery = (
 
   const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
 
-  // Group by date
+  /**
+   * Data processing
+   */
   useMemo(() => {
     if (hasNextPage || !data) {
       console.debug(`${chartName}: Removing cached data, as query is in progress.`);
@@ -105,6 +142,7 @@ export const useTokenSuppliesQuery = (
 
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
     const records = data.pages.map(query => query.tokenSupplies).flat();
+    // Group by date
     const dateRecords = getTokenSupplyDateMap(records, true);
     setByDateTokenSupplies(dateRecords);
   }, [hasNextPage, data, chartName]);

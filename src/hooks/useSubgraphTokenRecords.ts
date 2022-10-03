@@ -129,7 +129,7 @@ export const useTokenRecordsQuery = (
       subgraphUrl,
       dateOffset,
     );
-  }, [baseFilter, earliestDate, chartName, refetch, subgraphUrl, dateOffset, functionName]);
+  }, [baseFilter, earliestDate, chartName, refetch, subgraphUrl, dateOffset, functionName, queryOptions.enabled]);
 
   // Handle subsequent pages
   useEffect(() => {
@@ -140,11 +140,10 @@ export const useTokenRecordsQuery = (
     }
   }, [data, hasNextPage, fetchNextPage, chartName, functionName]);
 
-  const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
-
   /**
    * Data processing
    */
+  const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
   useMemo(() => {
     if (hasNextPage || !data) {
       return;
