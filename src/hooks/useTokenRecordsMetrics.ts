@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { TokenRecord, TokenRecord_Filter, useTokenRecordsQuery } from "src/generated/graphql";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
@@ -85,41 +85,31 @@ export const useTreasuryMarketValue = (subgraphUrl?: string) => {
  * @param subgraphUrl
  * @returns react-query result wrapping a number representing the liquid backing of the treasury
  */
-export const useTreasuryLiquidValue = (
-  iEarliestDate?: string,
-  iLatestBlock?: number,
-  iSubgraphUrls?: SUBGRAPH_URLS,
-): number => {
+export const useTreasuryLiquidValue = (iEarliestDate?: string, iSubgraphUrls?: SUBGRAPH_URLS): number => {
   // We use a mutable reference for each of the values, otherwise it will cause re-fetching of data endlessly
-  const earliestDate = useRef<string | null>(null);
+  const [earliestDate, setEarliestDate] = useState<string | null>(null);
   useEffect(() => {
-    earliestDate.current = iEarliestDate || null;
+    setEarliestDate(iEarliestDate || null);
   }, [iEarliestDate]);
 
-  const subgraphUrls = useRef<SUBGRAPH_URLS | null>(null);
+  const [subgraphUrls, setSubgraphUrls] = useState<SUBGRAPH_URLS | null>(null);
   useEffect(() => {
-    subgraphUrls.current = iSubgraphUrls || null;
+    setSubgraphUrls(iSubgraphUrls || null);
   }, [iSubgraphUrls]);
 
-  const latestBlock = useRef<number | undefined>();
-  useEffect(() => {
-    latestBlock.current = iLatestBlock || undefined;
-  }, [iLatestBlock]);
-
-  const baseFilter = useRef<TokenRecord_Filter>({});
-  useEffect(() => {
-    baseFilter.current = {
-      block: latestBlock.current,
-      isLiquid: true,
-    };
-  }, [latestBlock]);
+  // It's tempting to restrict by the latest block here, EXCEPT that different blockchains have different latest block values. It's easier to restrict by date.
+  const [baseFilter] = useState<TokenRecord_Filter>({
+    isLiquid: true,
+  });
 
   // Fetch the TokenRecords from all blockchains defined in subgraphUrls
   const tokenRecordResults = useTokenRecordsQueries(
     "useTreasuryLiquidValue",
-    subgraphUrls.current,
-    baseFilter.current,
-    earliestDate.current,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    undefined,
+    false, // Ensure the query does not hang, particularly when switching the active token
   );
 
   // Get the latest result (but be defensive in case the are no results)

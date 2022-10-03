@@ -52,7 +52,6 @@ export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): Us
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
-    !latestDateQuery.data ? undefined : latestDateQuery.data.block,
     subgraphUrls,
   );
   const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
@@ -82,7 +81,6 @@ export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS): UseQueryR
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
-    !latestDateQuery.data ? undefined : latestDateQuery.data.block,
     subgraphUrls,
   );
   const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);

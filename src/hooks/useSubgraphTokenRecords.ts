@@ -45,6 +45,9 @@ export const useTokenRecordsQuery = (
   // We need to assign a mutable ref here, otherwise it triggers endless queries
   const endpointNotNull = useRef<string>("");
   useEffect(() => {
+    // If we don't check for a change in value, the query never completes
+    if (subgraphUrl == endpointNotNull.current) return;
+
     endpointNotNull.current = subgraphUrl || "";
   }, [subgraphUrl]);
 
@@ -145,31 +148,51 @@ export const useTokenRecordsQueries = (
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   shouldHandleHangingQuery: boolean = false,
 ): Map<string, TokenRecord[]> | null => {
+  // Cache the subgraph urls, otherwise it will re-fetch and re-render continuously
+  const [subgraphUrlArbitrum, setSubgraphUrlArbitrum] = useState<string | null>(null);
+  const [subgraphUrlEthereum, setSubgraphUrlEthereum] = useState<string | null>(null);
+  const [subgraphUrlFantom, setSubgraphUrlFantom] = useState<string | null>(null);
+  const [subgraphUrlPolygon, setSubgraphUrlPolygon] = useState<string | null>(null);
+  useEffect(() => {
+    if (!subgraphUrls) {
+      setSubgraphUrlArbitrum(null);
+      setSubgraphUrlEthereum(null);
+      setSubgraphUrlFantom(null);
+      setSubgraphUrlPolygon(null);
+      return;
+    }
+
+    setSubgraphUrlArbitrum(subgraphUrls.Arbitrum);
+    setSubgraphUrlEthereum(subgraphUrls.Ethereum);
+    setSubgraphUrlFantom(subgraphUrls.Fantom);
+    setSubgraphUrlPolygon(subgraphUrls.Polygon);
+  }, [subgraphUrls]);
+
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
     `${chartName}/Arbitrum`,
-    subgraphUrls?.Arbitrum || null,
+    subgraphUrlArbitrum,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const ethereumResults = useTokenRecordsQuery(
     `${chartName}/Ethereum`,
-    subgraphUrls?.Ethereum || null,
+    subgraphUrlEthereum,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const fantomResults = useTokenRecordsQuery(
     `${chartName}/Fantom`,
-    subgraphUrls?.Fantom || null,
+    subgraphUrlFantom,
     baseFilter,
     earliestDate,
     dateOffset,
   );
   const polygonResults = useTokenRecordsQuery(
     `${chartName}/Polygon`,
-    subgraphUrls?.Polygon || null,
+    subgraphUrlPolygon,
     baseFilter,
     earliestDate,
     dateOffset,
