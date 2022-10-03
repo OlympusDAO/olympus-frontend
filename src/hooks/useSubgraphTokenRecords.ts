@@ -105,8 +105,7 @@ export const useTokenRecordsQuery = (
 
   // Handle date changes
   useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter || !subgraphUrl || !queryOptions.enabled) {
+    if (!earliestDate || !subgraphUrl || !queryOptions.enabled) {
       return;
     }
 
