@@ -47,7 +47,7 @@ export const useMarketCap = (subgraphUrl?: string) => {
  * @param subgraphUrl
  * @returns
  */
-export const useLiquidBackingPerOhmFloating = (earliestDate: string | null, subgraphUrls?: SUBGRAPH_URLS) => {
+export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS) => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
@@ -77,7 +77,7 @@ export const useLiquidBackingPerOhmFloating = (earliestDate: string | null, subg
  * @param subgraphUrl
  * @returns
  */
-export const useLiquidBackingPerGOhm = (earliestDate: string | null, subgraphUrls?: SUBGRAPH_URLS) => {
+export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS) => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,

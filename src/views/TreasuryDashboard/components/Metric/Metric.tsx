@@ -126,10 +126,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(
-    props.earliestDate || null,
-    props.subgraphUrls,
-  );
+  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrls);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
@@ -152,10 +149,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(
-    props.earliestDate || null,
-    props.subgraphUrls,
-  );
+  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrls);
 
   const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
