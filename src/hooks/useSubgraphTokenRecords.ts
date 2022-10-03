@@ -69,12 +69,12 @@ export const useTokenRecordsQuery = (
     endpoint: endpointNotNull,
   });
   useEffect(() => {
-    const startDate = getISO8601String(adjustDateByDays(new Date(), 1));
+    const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
     setQueryVariables({
       filter: {
         ...baseFilter,
-        date_gte: !earliestDate ? null : getNextPageStartDate(startDate, earliestDate, dateOffset),
-        date_lt: startDate,
+        date_gte: !earliestDate ? null : getNextPageStartDate(finishDate, earliestDate, dateOffset),
+        date_lt: finishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: endpointNotNull,
