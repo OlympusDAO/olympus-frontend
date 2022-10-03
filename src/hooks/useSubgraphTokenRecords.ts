@@ -41,9 +41,10 @@ export const useTokenRecordsQuery = (
   const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
   const functionName = `${chartName}/TokenRecord`;
+
+  // We need to assign a mutable ref here, otherwise it triggers endless queries
   const endpointNotNull = useRef<string>("");
   useEffect(() => {
-    console.log("subgraphUrl");
     endpointNotNull.current = subgraphUrl || "";
   }, [subgraphUrl]);
 

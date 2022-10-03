@@ -90,27 +90,24 @@ export const useTreasuryLiquidValue = (
   iLatestBlock?: number,
   iSubgraphUrls?: SUBGRAPH_URLS,
 ): number => {
+  // We use a mutable reference for each of the values, otherwise it will cause re-fetching of data endlessly
   const earliestDate = useRef<string | null>(null);
   useEffect(() => {
-    console.log("earliestDate");
     earliestDate.current = iEarliestDate || null;
   }, [iEarliestDate]);
 
   const subgraphUrls = useRef<SUBGRAPH_URLS | null>(null);
   useEffect(() => {
-    console.log("subgraphUrls");
     subgraphUrls.current = iSubgraphUrls || null;
   }, [iSubgraphUrls]);
 
   const latestBlock = useRef<number | undefined>();
   useEffect(() => {
-    console.log("block");
     latestBlock.current = iLatestBlock || undefined;
   }, [iLatestBlock]);
 
   const baseFilter = useRef<TokenRecord_Filter>({});
   useEffect(() => {
-    console.log("base filter");
     baseFilter.current = {
       block: latestBlock.current,
       isLiquid: true,
@@ -124,7 +121,7 @@ export const useTreasuryLiquidValue = (
     earliestDate.current,
   );
 
-  // Get the latest result (but be defensive)
+  // Get the latest result (but be defensive in case the are no results)
   const latestResult: TokenRecord[] = !tokenRecordResults
     ? []
     : tokenRecordResults.size == 0
