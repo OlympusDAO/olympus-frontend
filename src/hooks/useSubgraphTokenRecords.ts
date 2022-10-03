@@ -28,6 +28,7 @@ import {
  * @param subgraphUrl
  * @param baseFilter
  * @param earliestDate
+ * @param dateOffset
  * @returns Records grouped by date, or null if still fetching
  */
 export const useTokenRecordsQuery = (
@@ -37,37 +38,62 @@ export const useTokenRecordsQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenRecord[]> | null => {
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
+  /**
+   * Cached variables
+   */
   const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  const functionName = `${chartName}/TokenRecord`;
+  const functionName = useMemo(() => `${chartName}/TokenRecord`, [chartName]);
 
-  // We need to assign a mutable ref here, otherwise it triggers endless queries
-  const endpointNotNull = useRef<string>("");
+  // The generated react-query hook requires a non-null endpoint (but will be disabled if it is an empty string), so we cache the value here
+  const [endpointNotNull, setEndpointNotNull] = useState<string>("");
   useEffect(() => {
-    // If we don't check for a change in value, the query never completes
-    if (subgraphUrl == endpointNotNull.current) return;
-
-    endpointNotNull.current = subgraphUrl || "";
+    setEndpointNotNull(subgraphUrl || "");
   }, [subgraphUrl]);
 
-  // Create a paginator
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: endpointNotNull.current },
-    "filter",
-    {
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
+    endpoint: endpointNotNull,
+  });
+  useEffect(() => {
+    setDataSource({ endpoint: endpointNotNull });
+  }, [endpointNotNull]);
+
+  const [queryVariables, setQueryVariables] = useState<TokenRecordsQueryVariables>({
+    recordCount: DEFAULT_RECORD_COUNT,
+    endpoint: endpointNotNull,
+  });
+  useEffect(() => {
+    const startDate = getISO8601String(adjustDateByDays(new Date(), 1));
+    setQueryVariables({
       filter: {
         ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
+        date_gte: !earliestDate ? null : getNextPageStartDate(startDate, earliestDate, dateOffset),
+        date_lt: startDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: endpointNotNull.current,
-    },
-    {
+      endpoint: endpointNotNull,
+    });
+  }, [baseFilter, dateOffset, earliestDate, endpointNotNull]);
+
+  const [queryOptions, setQueryOptions] = useState<Record<string, unknown>>({
+    enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
+    getNextPageParam: paginator.current,
+  });
+  useEffect(() => {
+    setQueryOptions({
       enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
       getNextPageParam: paginator.current,
-    },
+    });
+  }, [baseFilter, earliestDate, subgraphUrl]);
+
+  /**
+   * Data fetching
+   */
+  // Fetch data (with included pagination)
+  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
+    dataSource,
+    "filter",
+    queryVariables,
+    queryOptions,
   );
 
   // Handle date changes
@@ -108,7 +134,9 @@ export const useTokenRecordsQuery = (
 
   const [byDateTokenRecords, setByDateTokenRecords] = useState<Map<string, TokenRecord[]> | null>(null);
 
-  // Group by date
+  /**
+   * Data processing
+   */
   useMemo(() => {
     if (hasNextPage || !data) {
       return;
@@ -116,6 +144,7 @@ export const useTokenRecordsQuery = (
 
     console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
     const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+    // Group by date
     const dateTokenRecords = getTokenRecordDateMap(tokenRecords, true);
     setByDateTokenRecords(dateTokenRecords);
   }, [hasNextPage, data, functionName]);
