@@ -50,14 +50,20 @@ export const useTokenSuppliesQuery = (
   const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
     endpoint: subgraphUrl,
   });
-  useEffect(() => {
-    setDataSource({ endpoint: subgraphUrl });
-  }, [subgraphUrl]);
-
   const [queryVariables, setQueryVariables] = useState<TokenSuppliesQueryVariables>({
+    filter: {
+      ...baseFilter,
+    },
     recordCount: DEFAULT_RECORD_COUNT,
     endpoint: subgraphUrl,
   });
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
+    enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
+    getNextPageParam: paginator.current,
+  });
+
+  // Handle changes to query options, endpoint and variables
+  // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
   useEffect(() => {
     const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
     setQueryVariables({
@@ -69,18 +75,14 @@ export const useTokenSuppliesQuery = (
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: subgraphUrl,
     });
-  }, [baseFilter, dateOffset, earliestDate, subgraphUrl]);
 
-  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
-    enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
-    getNextPageParam: paginator.current,
-  });
-  useEffect(() => {
     setQueryOptions({
-      enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
+      enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
       getNextPageParam: paginator.current,
     });
-  }, [baseFilter, earliestDate, subgraphUrl]);
+
+    setDataSource({ endpoint: subgraphUrl });
+  }, [baseFilter, dateOffset, earliestDate, subgraphUrl]);
 
   /**
    * Data fetching

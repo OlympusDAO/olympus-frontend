@@ -53,22 +53,28 @@ export const useTokenRecordsQuery = (
 
   // The generated react-query hook requires a non-null endpoint (but will be disabled if it is an empty string), so we cache the value here
   const [endpointNotNull, setEndpointNotNull] = useState<string>("");
-  useEffect(() => {
-    setEndpointNotNull(subgraphUrl || "");
-  }, [subgraphUrl]);
-
   const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
     endpoint: endpointNotNull,
   });
-  useEffect(() => {
-    setDataSource({ endpoint: endpointNotNull });
-  }, [endpointNotNull]);
-
   const [queryVariables, setQueryVariables] = useState<TokenRecordsQueryVariables>({
+    filter: {
+      ...baseFilter,
+    },
     recordCount: DEFAULT_RECORD_COUNT,
     endpoint: endpointNotNull,
   });
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
+    enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
+    getNextPageParam: paginator.current,
+  });
+
+  // Handle changes to query options, endpoint and variables
+  // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
   useEffect(() => {
+    // Cache the value as it is used within the code block
+    const _endpointNotNull = subgraphUrl || "";
+    setEndpointNotNull(_endpointNotNull);
+
     const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
     setQueryVariables({
       filter: {
@@ -77,20 +83,16 @@ export const useTokenRecordsQuery = (
         date_lt: finishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: endpointNotNull,
+      endpoint: _endpointNotNull,
     });
-  }, [baseFilter, dateOffset, earliestDate, endpointNotNull]);
 
-  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
-    enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
-    getNextPageParam: paginator.current,
-  });
-  useEffect(() => {
     setQueryOptions({
-      enabled: earliestDate !== null && baseFilter != null && subgraphUrl !== null,
+      enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
       getNextPageParam: paginator.current,
     });
-  }, [baseFilter, earliestDate, subgraphUrl]);
+
+    setDataSource({ endpoint: _endpointNotNull });
+  }, [baseFilter, dateOffset, earliestDate, endpointNotNull, subgraphUrl]);
 
   /**
    * Data fetching
