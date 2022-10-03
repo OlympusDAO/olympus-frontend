@@ -1,3 +1,4 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
 import {
   getLiquidBackingPerGOhmSynthetic,
@@ -45,9 +46,9 @@ export const useMarketCap = (subgraphUrl?: string) => {
  * Liquid backing value / OHM floating supply
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping a number representing the liquid backing per OHM
  */
-export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS) => {
+export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
@@ -72,12 +73,12 @@ export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS) => 
 };
 
 /**
- * Liquid backing value / gOHM floating supply
+ * Liquid backing value / gOHM synthetic supply
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping a number representing the liquid backing per gOHM
  */
-export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS) => {
+export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,

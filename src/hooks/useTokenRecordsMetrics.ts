@@ -13,7 +13,7 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
  * This relies on the query being sorted by date AND block in descending order.
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping a number representing the latest block
  */
 export const useTokenRecordsLatestBlock = (subgraphUrl?: string) => {
   const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
@@ -34,7 +34,7 @@ export const useTokenRecordsLatestBlock = (subgraphUrl?: string) => {
  * This relies on the query being sorted by date AND block in descending order.
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping the latest TokenRecord
  */
 export const useTokenRecordsLatestRecord = (subgraphUrl?: string) => {
   const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
@@ -55,7 +55,7 @@ export const useTokenRecordsLatestRecord = (subgraphUrl?: string) => {
  * The market value is the sum of all TokenRecord objects in the subgraph, and includes vested/illiquid tokens.
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping a number representing the market value of the treasury
  */
 export const useTreasuryMarketValue = (subgraphUrl?: string) => {
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
@@ -83,7 +83,7 @@ export const useTreasuryMarketValue = (subgraphUrl?: string) => {
  * Liquid backing is defined as the value of all liquid assets in the treasury.
  *
  * @param subgraphUrl
- * @returns
+ * @returns react-query result wrapping a number representing the liquid backing of the treasury
  */
 export const useTreasuryLiquidValue = (
   iEarliestDate?: string,
@@ -114,6 +114,7 @@ export const useTreasuryLiquidValue = (
     };
   }, [latestBlock]);
 
+  // Fetch the TokenRecords from all blockchains defined in subgraphUrls
   const tokenRecordResults = useTokenRecordsQueries(
     "useTreasuryLiquidValue",
     subgraphUrls.current,
