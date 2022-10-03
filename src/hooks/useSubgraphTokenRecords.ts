@@ -16,9 +16,11 @@ import {
   getTokenRecordDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
+type NextPageParamType = (lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined;
+
 type QueryOptionsType = {
   enabled: boolean;
-  getNextPageParam?: (lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined;
+  getNextPageParam?: NextPageParamType;
 };
 
 /**
@@ -46,7 +48,7 @@ export const useTokenRecordsQuery = (
   /**
    * Cached variables
    */
-  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
+  const paginator = useRef<NextPageParamType>();
   const functionName = useMemo(() => `${chartName}/TokenRecord`, [chartName]);
 
   // The generated react-query hook requires a non-null endpoint (but will be disabled if it is an empty string), so we cache the value here
