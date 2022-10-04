@@ -17,11 +17,7 @@ beforeEach(async () => {
   useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
-  render(
-    <>
-      <StakeInputArea />
-    </>,
-  );
+  render(<StakeInputArea />);
 });
 
 afterEach(() => {
@@ -43,7 +39,9 @@ describe("Check Stake to gOHM Error Messages", () => {
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: undefined } });
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "1000" } });
     fireEvent.click(screen.getAllByText("Stake")[1]);
-    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    setTimeout(async () => {
+      expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    }, 60000);
   });
 
   it("Error message amount > balance", async () => {
