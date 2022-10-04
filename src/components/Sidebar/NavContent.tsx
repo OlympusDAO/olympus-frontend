@@ -121,14 +121,12 @@ const Bonds: React.VFC = () => {
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
-          <Box mt="8px">
+          <Box mt="8px" key={bond.id}>
             <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
-              <Typography variant="body1">
-                <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  {bond.quoteToken.name}
-                  <BondDiscount discount={bond.discount} />
-                </Box>
-              </Typography>
+              <Box display="flex" flexDirection="row" justifyContent="space-between">
+                <Typography variant="body1">{bond.quoteToken.name}</Typography>
+                <BondDiscount discount={bond.discount} />
+              </Box>
             </Link>
           </Box>
         ))}
@@ -148,12 +146,10 @@ const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
           <Box mt="12px">
             <Box mt="8px">
               <Link component={NavLink} to={`/range`}>
-                <Typography variant="body1">
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    {data.quoteToken}
-                    <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
-                  </Box>
-                </Typography>
+                <Box display="flex" flexDirection="row" justifyContent="space-between">
+                  <Typography variant="body1">{data.quoteToken}</Typography>
+                  <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
+                </Box>
               </Link>
             </Box>
           </Box>
@@ -178,14 +174,12 @@ const InverseBonds: React.VFC = () => {
         {sortByDiscount(bonds)
           .filter(bond => !bond.isSoldOut)
           .map(bond => (
-            <Box mt="8px">
-              <Link key={bond.id} component={NavLink} to={`/bonds/inverse/${bond.id}`}>
-                <Typography variant="body1">
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    {bond.quoteToken.name}
-                    <BondDiscount discount={bond.discount} />
-                  </Box>
-                </Typography>
+            <Box mt="8px" key={bond.id}>
+              <Link component={NavLink} to={`/bonds/inverse/${bond.id}`}>
+                <Box display="flex" flexDirection="row" justifyContent="space-between">
+                  <Typography variant="body1">{bond.quoteToken.name}</Typography>
+                  <BondDiscount discount={bond.discount} />
+                </Box>
               </Link>
             </Box>
           ))}

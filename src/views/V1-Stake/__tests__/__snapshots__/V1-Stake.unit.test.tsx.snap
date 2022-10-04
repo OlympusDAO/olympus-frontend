@@ -86,15 +86,14 @@ exports[`<Stake/> should render component. not connected 1`] = `
                               Annualized Rebases
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -116,15 +115,14 @@ exports[`<Stake/> should render component. not connected 1`] = `
                               Total Value Deposited
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -167,15 +165,14 @@ exports[`<Stake/> should render component. not connected 1`] = `
                               </div>
                             </div>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2811,15 +2808,14 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                               Annualized Rebases
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2841,15 +2837,14 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                               Total Value Deposited
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2892,15 +2887,14 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                               </div>
                             </div>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -3025,7 +3019,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -3057,7 +3051,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                           class="DataRow-root data-row css-19fvmib"
                         >
                           <div
-                            class="MuiBox-root css-1xhj18k"
+                            class="MuiBox-root css-dlyoou"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -3112,7 +3106,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -3132,7 +3126,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -3152,7 +3146,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -3180,7 +3174,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -3188,21 +3182,16 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         Your Next Rebase
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -3210,21 +3199,16 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         Next Rebase Yield
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -3232,15 +3216,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                         Rebases (5-Day Rate)
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                 </div>
               </div>
@@ -5968,15 +5947,14 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                               Annualized Rebases
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -5998,15 +5976,14 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                               Total Value Deposited
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -6049,15 +6026,14 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                               </div>
                             </div>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -6182,7 +6158,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -6214,7 +6190,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                           class="DataRow-root data-row css-19fvmib"
                         >
                           <div
-                            class="MuiBox-root css-1xhj18k"
+                            class="MuiBox-root css-dlyoou"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -6269,7 +6245,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -6289,7 +6265,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -6309,7 +6285,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -6337,7 +6313,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -6345,21 +6321,16 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         Your Next Rebase
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -6367,21 +6338,16 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         Next Rebase Yield
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -6389,15 +6355,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                         Rebases (5-Day Rate)
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                 </div>
               </div>
@@ -9125,15 +9086,14 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                               Annualized Rebases
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -9155,15 +9115,14 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                               Total Value Deposited
                             </p>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -9206,15 +9165,14 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                               </div>
                             </div>
                           </div>
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                            style="width: 100%;"
+                          <div
+                            class="MuiBox-root css-2u9dk6"
                           >
                             <span
                               class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -9339,7 +9297,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -9371,7 +9329,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                           class="DataRow-root data-row css-19fvmib"
                         >
                           <div
-                            class="MuiBox-root css-1xhj18k"
+                            class="MuiBox-root css-dlyoou"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -9426,7 +9384,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -9446,7 +9404,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -9466,7 +9424,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                                 style="padding-left: 10px;"
                               >
                                 <div
-                                  class="MuiBox-root css-1xhj18k"
+                                  class="MuiBox-root css-1xv45iw"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
@@ -9494,7 +9452,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -9502,21 +9460,16 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         Your Next Rebase
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -9524,21 +9477,16 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         Next Rebase Yield
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                   <div
                     class="DataRow-root data-row css-19fvmib"
                   >
                     <div
-                      class="MuiBox-root css-1xhj18k"
+                      class="MuiBox-root css-dlyoou"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
@@ -9546,15 +9494,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         Rebases (5-Day Rate)
                       </p>
                     </div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
-                      style="text-align: right;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                        style="width: 80px;"
-                      />
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 80px;"
+                    />
                   </div>
                 </div>
               </div>

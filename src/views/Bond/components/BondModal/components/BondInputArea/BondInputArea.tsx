@@ -106,7 +106,7 @@ export const BondInputArea: React.VFC<{
                   endStringOnClick={setMax}
                   value={amount}
                   onChange={event => setAmount(event.currentTarget.value)}
-                  inputProps={{ "data-testId": "fromInput" }}
+                  inputProps={{ "data-testid": "fromInput" }}
                 />
               }
               LowerSwapCard={
@@ -115,7 +115,7 @@ export const BondInputArea: React.VFC<{
                   token={<TokenStack tokens={props.bond.baseToken.icons} sx={{ fontSize: "21px" }} />}
                   tokenName={props.bond.baseToken.name}
                   value={amountInBaseToken.toString()}
-                  inputProps={{ "data-testId": "toInput" }}
+                  inputProps={{ "data-testid": "toInput" }}
                 />
               }
             />

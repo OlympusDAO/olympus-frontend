@@ -24,13 +24,13 @@ exports[`<Stake/> should render component 1`] = `
         </h1>
       </div>
       <div
-        class="MuiBox-root css-0"
+        class="MuiBox-root css-8atqhb"
       >
         <div
-          class="MuiBox-root css-15i1vgz"
+          class="MuiBox-root css-2iga26"
         >
           <div
-            class="MuiGrid-root css-vj1n65-MuiGrid-root"
+            class="MuiBox-root css-kfqh0"
           >
             <div
               class="MuiBox-root css-rjww1q"
@@ -56,15 +56,14 @@ exports[`<Stake/> should render component 1`] = `
                           Annualized Rebases
                         </p>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
                         <span
                           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                           style="width: 100%;"
                         />
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -86,21 +85,18 @@ exports[`<Stake/> should render component 1`] = `
                           Time to Next Rebase
                         </p>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
-                        <span>
-                          <div
-                            class="MuiBox-root css-0"
-                          >
-                            <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                              style="width: 155px;"
-                            />
-                          </div>
-                        </span>
-                      </p>
+                        <div
+                          class="MuiBox-root css-0"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                            style="width: 155px;"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,15 +139,14 @@ exports[`<Stake/> should render component 1`] = `
                           </div>
                         </div>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
                         <span
                           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                           style="width: 100%;"
                         />
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -176,8 +171,8 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <button
                   aria-label="stake-button"
-                  aria-selected="false"
-                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-n7tk4x-MuiButtonBase-root-MuiTab-root"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-n7tk4x-MuiButtonBase-root-MuiTab-root"
                   role="tab"
                   tabindex="0"
                   type="button"
@@ -300,7 +295,7 @@ exports[`<Stake/> should render component 1`] = `
                     class="MuiBox-root css-1vp8jwk"
                   >
                     <div
-                      class="MuiBox-root css-1pjyymv"
+                      class="MuiBox-root css-15xcawx"
                     >
                       <div
                         class="arrow-wrapper MuiBox-root css-0"
@@ -2973,13 +2968,13 @@ exports[`<Stake/> should render correct staking headers 1`] = `
         </h1>
       </div>
       <div
-        class="MuiBox-root css-0"
+        class="MuiBox-root css-8atqhb"
       >
         <div
-          class="MuiBox-root css-15i1vgz"
+          class="MuiBox-root css-2iga26"
         >
           <div
-            class="MuiGrid-root css-vj1n65-MuiGrid-root"
+            class="MuiBox-root css-kfqh0"
           >
             <div
               class="MuiBox-root css-rjww1q"
@@ -3005,15 +3000,14 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                           Annualized Rebases
                         </p>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
                         <span
                           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                           style="width: 100%;"
                         />
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3035,21 +3029,18 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                           Time to Next Rebase
                         </p>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
-                        <span>
-                          <div
-                            class="MuiBox-root css-0"
-                          >
-                            <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
-                              style="width: 155px;"
-                            />
-                          </div>
-                        </span>
-                      </p>
+                        <div
+                          class="MuiBox-root css-0"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                            style="width: 155px;"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3092,15 +3083,14 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                           </div>
                         </div>
                       </div>
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                        style="width: 100%;"
+                      <div
+                        class="MuiBox-root css-2u9dk6"
                       >
                         <span
                           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                           style="width: 100%;"
                         />
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3125,8 +3115,8 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <button
                   aria-label="stake-button"
-                  aria-selected="false"
-                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-n7tk4x-MuiButtonBase-root-MuiTab-root"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-n7tk4x-MuiButtonBase-root-MuiTab-root"
                   role="tab"
                   tabindex="0"
                   type="button"
@@ -3249,7 +3239,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiBox-root css-1vp8jwk"
                   >
                     <div
-                      class="MuiBox-root css-1pjyymv"
+                      class="MuiBox-root css-15xcawx"
                     >
                       <div
                         class="arrow-wrapper MuiBox-root css-0"
