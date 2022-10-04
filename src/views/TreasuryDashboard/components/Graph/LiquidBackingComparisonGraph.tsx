@@ -146,7 +146,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   // Handle parameter changes
   useEffect(() => {
     // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
     setByDateLiquidBacking([]);
   }, [earliestDate, subgraphDaysOffset]);
 
