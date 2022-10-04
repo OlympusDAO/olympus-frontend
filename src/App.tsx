@@ -32,6 +32,7 @@ import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
+import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -233,10 +234,12 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/v3/:id" element={<BondModalContainerV3 />} />
+                  <Route path="/bonds/v3/inverse/:id" element={<BondModalContainerV3 />} />
                   <Route path="/bonds/:id" element={<BondModalContainer />} />
-                  <Route path="/bonds/inverse" element={<Bond />} />
                   <Route path="/bonds/inverse/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/inverse" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />

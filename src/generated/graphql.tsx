@@ -33,7 +33,7 @@ export type Scalars = {
   Float: number;
   BigDecimal: number;
   BigInt: number;
-  Bytes: any;
+  Bytes: Uint8Array;
 };
 
 export type BlockChangedFilter = {
@@ -856,6 +856,7 @@ export type TokenRecord = {
   __typename?: "TokenRecord";
   balance: Scalars["BigDecimal"];
   block: Scalars["BigInt"];
+  blockchain: Scalars["String"];
   category: Scalars["String"];
   date: Scalars["String"];
   id: Scalars["ID"];
@@ -891,6 +892,26 @@ export type TokenRecord_Filter = {
   block_lte?: InputMaybe<Scalars["BigInt"]>;
   block_not?: InputMaybe<Scalars["BigInt"]>;
   block_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  blockchain?: InputMaybe<Scalars["String"]>;
+  blockchain_contains?: InputMaybe<Scalars["String"]>;
+  blockchain_contains_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_ends_with?: InputMaybe<Scalars["String"]>;
+  blockchain_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_gt?: InputMaybe<Scalars["String"]>;
+  blockchain_gte?: InputMaybe<Scalars["String"]>;
+  blockchain_in?: InputMaybe<Array<Scalars["String"]>>;
+  blockchain_lt?: InputMaybe<Scalars["String"]>;
+  blockchain_lte?: InputMaybe<Scalars["String"]>;
+  blockchain_not?: InputMaybe<Scalars["String"]>;
+  blockchain_not_contains?: InputMaybe<Scalars["String"]>;
+  blockchain_not_contains_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_not_ends_with?: InputMaybe<Scalars["String"]>;
+  blockchain_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_not_in?: InputMaybe<Array<Scalars["String"]>>;
+  blockchain_not_starts_with?: InputMaybe<Scalars["String"]>;
+  blockchain_not_starts_with_nocase?: InputMaybe<Scalars["String"]>;
+  blockchain_starts_with?: InputMaybe<Scalars["String"]>;
+  blockchain_starts_with_nocase?: InputMaybe<Scalars["String"]>;
   category?: InputMaybe<Scalars["String"]>;
   category_contains?: InputMaybe<Scalars["String"]>;
   category_contains_nocase?: InputMaybe<Scalars["String"]>;
@@ -1072,6 +1093,7 @@ export type TokenRecord_Filter = {
 export enum TokenRecord_OrderBy {
   Balance = "balance",
   Block = "block",
+  Blockchain = "blockchain",
   Category = "category",
   Date = "date",
   Id = "id",
@@ -1349,6 +1371,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars["Bytes"]>;
   /** The block number */
   number: Scalars["Int"];
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars["Int"]>;
 };
 
 /** The type for the top-level _meta field */
@@ -1379,6 +1403,7 @@ export type ProtocolMetricsQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<ProtocolMetric_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type ProtocolMetricsQuery = {
@@ -1406,6 +1431,7 @@ export type TokenRecordsQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<TokenRecord_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type TokenRecordsQuery = {
@@ -1415,6 +1441,7 @@ export type TokenRecordsQuery = {
     id: string;
     balance: number;
     block: number;
+    blockchain: string;
     category: string;
     date: string;
     isBluechip: boolean;
@@ -1435,6 +1462,7 @@ export type TokenSuppliesQueryVariables = Exact<{
   recordCount: Scalars["Int"];
   startingRecord?: InputMaybe<Scalars["Int"]>;
   filter?: InputMaybe<TokenSupply_Filter>;
+  endpoint: Scalars["String"];
 }>;
 
 export type TokenSuppliesQuery = {
@@ -1458,7 +1486,7 @@ export type TokenSuppliesQuery = {
 };
 
 export const ProtocolMetricsDocument = `
-    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter) {
+    query ProtocolMetrics($recordCount: Int!, $startingRecord: Int = 0, $filter: ProtocolMetric_filter, $endpoint: String!) {
   protocolMetrics(
     first: $recordCount
     skip: $startingRecord
@@ -1517,7 +1545,7 @@ export const useInfiniteProtocolMetricsQuery = <TData = ProtocolMetricsQuery, TE
   );
 
 export const TokenRecordsDocument = `
-    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter) {
+    query TokenRecords($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenRecord_filter, $endpoint: String!) {
   tokenRecords(
     first: $recordCount
     skip: $startingRecord
@@ -1528,6 +1556,7 @@ export const TokenRecordsDocument = `
     id
     balance
     block
+    blockchain
     category
     date
     isBluechip
@@ -1578,7 +1607,7 @@ export const useInfiniteTokenRecordsQuery = <TData = TokenRecordsQuery, TError =
   );
 
 export const TokenSuppliesDocument = `
-    query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter) {
+    query TokenSupplies($recordCount: Int!, $startingRecord: Int = 0, $filter: TokenSupply_filter, $endpoint: String!) {
   tokenSupplies(
     first: $recordCount
     skip: $startingRecord

@@ -3,6 +3,97 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "guardian_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract Authority",
+          "name": "authority_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Aggregator_OnlyAuctioneer",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "auctioneers",
+      "outputs": [
+        {
+          "internalType": "contract IBondAuctioneer",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "id_",
           "type": "uint256"
@@ -51,7 +142,7 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -162,6 +253,25 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "owner_",
+          "type": "address"
+        }
+      ],
+      "name": "liveMarketsBy",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "token_",
           "type": "address"
         },
@@ -177,6 +287,19 @@
           "internalType": "uint256[]",
           "name": "",
           "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "marketCounter",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -247,6 +370,73 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "marketsForPayout",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "marketsForQuote",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "marketsToAuctioneers",
+      "outputs": [
+        {
+          "internalType": "contract IBondAuctioneer",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "id_",
           "type": "uint256"
@@ -263,6 +453,19 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -333,9 +536,37 @@
       ],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Authority",
+          "name": "newAuthority",
+          "type": "address"
+        }
+      ],
+      "name": "setAuthority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ],
   "devdoc": {
+    "author": "Oighty, Zeus, Potted Meat, indigo",
+    "details": "Bond is a permissionless system to create Olympus-style bond markets      for any token pair. The markets do not require maintenance and will manage      bond prices based on activity. Bond issuers create BondMarkets that pay out      a Payout Token in exchange for deposited Quote Tokens. Users can purchase      future-dated Payout Tokens with Quote Tokens at the current market price and      receive Bond Tokens to represent their position while their bond vests.      Once the Bond Tokens vest, they can redeem it for the Quote Tokens.The Aggregator contract keeps a unique set of market IDs across multiple      Tellers and Auctioneers. Additionally, it aggregates market data from      multiple Auctioneers in convenient view functions for front-end interfaces.      The Aggregator contract should be deployed first since Tellers, Auctioneers, and      Callbacks all require it in their constructors.",
     "kind": "dev",
     "methods": {
       "findMarketFor(address,address,uint256,uint256,uint256)": {
@@ -425,11 +656,15 @@
         }
       }
     },
+    "title": "Bond Aggregator",
     "version": 1
   },
   "userdoc": {
     "kind": "user",
     "methods": {
+      "auctioneers(uint256)": {
+        "notice": "Approved auctioneers"
+      },
       "currentCapacity(uint256)": {
         "notice": "Returns current capacity of a market"
       },
@@ -454,6 +689,9 @@
       "liveMarketsFor(address,bool)": {
         "notice": "Returns an array of all active market IDs for a given quote token"
       },
+      "marketCounter()": {
+        "notice": "Counter for bond markets on approved auctioneers"
+      },
       "marketPrice(uint256)": {
         "notice": "Calculate current market price of payout token in quote tokens"
       },
@@ -462,6 +700,15 @@
       },
       "marketsFor(address,address)": {
         "notice": "Returns an array of all active market IDs for a given payout and quote token"
+      },
+      "marketsForPayout(address,uint256)": {
+        "notice": "Market IDs for payout token"
+      },
+      "marketsForQuote(address,uint256)": {
+        "notice": "Market IDs for quote token"
+      },
+      "marketsToAuctioneers(uint256)": {
+        "notice": "Auctioneer for Market ID"
       },
       "maxAmountAccepted(uint256,address)": {
         "notice": "Returns maximum amount of quote token accepted by the market"
@@ -476,6 +723,7 @@
         "notice": "Register a new market with the aggregatorOnly registered depositories"
       }
     },
+    "notice": "Bond Aggregator Contract",
     "version": 1
   }
 }

@@ -4,13 +4,18 @@ import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
-import { getSubgraphUrl } from "src/constants";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import {
+  BLOCKCHAINS,
+  getSubgraphIdForBlockchain,
+  getSubgraphUrlForBlockchain,
+  getSubgraphUrls,
+} from "src/helpers/SubgraphUrlHelper";
+import {
   DEFAULT_DAYS,
   PARAM_DAYS,
-  PARAM_SUBGRAPH,
+  PARAM_DAYS_OFFSET,
   PARAM_TOKEN,
   PARAM_TOKEN_GOHM,
   PARAM_TOKEN_OHM,
@@ -18,6 +23,7 @@ import {
 import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
+import KnownIssues from "src/views/TreasuryDashboard/components/KnownIssues/KnownIssues";
 import {
   BackingPerGOHM,
   BackingPerOHM,
@@ -30,18 +36,6 @@ import {
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
-
-/**
- * Obtains the value of the subgraphId parameter using window.location
- *
- * useSearchParams was previously used, but it was asynchronous and led to
- * data being fetched from the standard subgraph URL before the subgraphId
- * parameter was resolved.
- */
-const getSubgraphIdParameter = (): string | undefined => {
-  const source = window.location.hash.split(`${PARAM_SUBGRAPH}=`);
-  return source.length > 1 && source[1] ? source[1].split("&")[0] : undefined;
-};
 
 /**
  * Renders the Treasury Dashboard, which includes metrics, a date filter and charts.
@@ -57,6 +51,15 @@ const MetricsDashboard = () => {
    * and not load data until earliestDate is a valid value.
    */
   const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+  /**
+   * State variable for the number of days to offset each subgraph query with.
+   *
+   * This should be a negative number.
+   *
+   * If the number is too large and the results of any query page are greater than 1000, clipping
+   * will take place.
+   */
+  const [daysOffset, setDaysOffset] = useState<number | undefined>(undefined);
 
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
@@ -64,8 +67,12 @@ const MetricsDashboard = () => {
   // Determine the subgraph URL
   // Originally, this was performed at the component level, but it ended up with a lot of redundant
   // calls to useSearchParams that could have led to wonky behaviour.
-  const subgraphUrl = getSubgraphUrl(getSubgraphIdParameter());
-  console.debug("Subgraph URL set to " + subgraphUrl);
+  const subgraphUrls = getSubgraphUrls();
+  const subgraphUrlEthereum = getSubgraphUrlForBlockchain(
+    BLOCKCHAINS.Ethereum,
+    getSubgraphIdForBlockchain(BLOCKCHAINS.Ethereum),
+  );
+  console.debug("Subgraph URLs are: " + JSON.stringify(subgraphUrls));
 
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -76,9 +83,18 @@ const MetricsDashboard = () => {
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
+
+    // Get the days offset
+    const offset = searchParams.get(PARAM_DAYS_OFFSET);
+    if (offset) {
+      const offsetInt = parseInt(offset);
+      console.info(`Setting days offset to ${offsetInt}`);
+      setDaysOffset(offsetInt);
+    }
   }, [searchParams]);
 
-  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrl };
+  // Used by the Metrics
+  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrlEthereum };
 
   /**
    * After changing the value for the record count, returns the search parameters as a
@@ -202,20 +218,30 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph
-              subgraphUrl={subgraphUrl}
+              subgraphUrls={subgraphUrls}
               activeToken={token}
               earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
             />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
+            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph subgraphUrl={subgraphUrl} earliestDate={earliestDate} />
+            <ProtocolOwnedLiquidityGraph
+              subgraphUrls={subgraphUrls}
+              earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper {...paperProps} style={paperStyles}>
+            <KnownIssues />
           </Paper>
         </Grid>
       </Grid>
