@@ -42,31 +42,38 @@ export const useTokenSuppliesQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenSupply[]> | null => {
+  // NOTE: useRef is used throughout this function, as we don't want changes to calculated variables to cause a re-render. That is instead caused by re-fetching and the updating of the byDateTokenRecords
+
   /**
    * Cached variables
    */
   const paginator = useRef<NextPageParamType>();
+  const functionName = useMemo(() => `${chartName}/TokenSupply`, [chartName]);
 
-  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
+  /**
+   * Handle changes to the props
+   */
+  const dataSource = useRef<{ endpoint: string; fetchParams?: RequestInit }>({
     endpoint: subgraphUrl,
   });
-  const [queryVariables, setQueryVariables] = useState<TokenSuppliesQueryVariables>({
+  const queryVariables = useRef<TokenSuppliesQueryVariables>({
     filter: {
       ...baseFilter,
     },
     recordCount: DEFAULT_RECORD_COUNT,
     endpoint: subgraphUrl,
   });
-  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
-    enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
+  const queryOptions = useRef<QueryOptionsType>({
+    enabled: false,
     getNextPageParam: paginator.current,
   });
-
   // Handle changes to query options, endpoint and variables
   // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
   useEffect(() => {
+    console.info(`${functionName}: Inputs changed. Updating calculated values`);
+
     const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-    setQueryVariables({
+    queryVariables.current = {
       filter: {
         ...baseFilter,
         date_gte: !earliestDate ? null : getNextPageStartDate(finishDate, earliestDate, dateOffset),
@@ -74,79 +81,74 @@ export const useTokenSuppliesQuery = (
       },
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: subgraphUrl,
-    });
+    };
 
-    setQueryOptions({
-      enabled: earliestDate !== null && subgraphUrl !== null && subgraphUrl.length > 0,
+    dataSource.current = {
+      endpoint: subgraphUrl,
+    };
+
+    // Create a new paginator with the new earliestDate
+    const tempPaginator =
+      earliestDate !== null && subgraphUrl !== null
+        ? getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl, dateOffset)
+        : undefined;
+    paginator.current = tempPaginator;
+
+    queryOptions.current = {
+      enabled: earliestDate !== null && subgraphUrl.length > 0 && paginator.current !== undefined,
       getNextPageParam: paginator.current,
-    });
+    };
 
-    setDataSource({ endpoint: subgraphUrl });
-  }, [baseFilter, dateOffset, earliestDate, subgraphUrl]);
+    // We need to wipe the data, otherwise it will be inconsistent
+    setByDateTokenSupplies(null);
+  }, [baseFilter, chartName, dateOffset, earliestDate, functionName, subgraphUrl]);
 
   /**
    * Data fetching
    */
   const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
-    dataSource,
+    dataSource.current,
     "filter",
-    queryVariables,
-    queryOptions,
+    queryVariables.current,
+    queryOptions.current,
   );
 
-  // Handle date changes
+  /**
+   * If the queryOptions change (triggered by the props changing), then we will force a refetch.
+   */
   useEffect(() => {
-    if (!earliestDate || !subgraphUrl || !queryOptions.enabled) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenSupplies(null);
+    if (!queryOptions.current.enabled) return;
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
-    // refetch does not respect the enabled property in react-query, so we check queryOptions.enabled above
+    console.info(`${functionName}: Re-fetching.`);
     refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-      subgraphUrl,
-      dateOffset,
-    );
-  }, [baseFilter, chartName, dateOffset, earliestDate, queryOptions.enabled, refetch, subgraphUrl]);
+  }, [queryOptions, functionName, refetch]);
 
   // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
+      console.debug(`${functionName}: fetching next page`);
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage, chartName]);
-
-  const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
+  }, [data, hasNextPage, fetchNextPage, functionName]);
 
   /**
    * Data processing
    */
+  const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
   useMemo(() => {
     if (hasNextPage || !data) {
-      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
       return;
     }
 
-    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
+    console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
     const records = data.pages.map(query => query.tokenSupplies).flat();
     // Group by date
     const dateRecords = getTokenSupplyDateMap(records, true);
     setByDateTokenSupplies(dateRecords);
-  }, [hasNextPage, data, chartName]);
+  }, [hasNextPage, data, functionName]);
 
   return byDateTokenSupplies;
 };
