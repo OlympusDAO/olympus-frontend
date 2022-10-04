@@ -88,15 +88,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -118,15 +117,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 OHM Price
                               </p>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -169,15 +167,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -220,15 +217,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -271,15 +267,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -322,15 +317,14 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 css-wtj4dz-MuiTypography-root"
-                              style="width: 100%;"
+                            <div
+                              class="MuiBox-root css-2u9dk6"
                             >
                               <span
                                 class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 style="width: 100%;"
                               />
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -350,7 +344,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-sm-6 MuiGrid-grid-md-5 MuiGrid-grid-lg-4 css-ug5vt-MuiGrid-root"
             >
               <div
-                class="TabBar-container MuiBox-root css-1yufy38"
+                class="TabBar-container MuiBox-root css-lykmk9"
               >
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-1nffzm5-MuiTypography-root-MuiLink-root"
@@ -412,7 +406,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-4 MuiGrid-grid-md-3 MuiGrid-grid-lg-2 css-my8xw9-MuiGrid-root"
             >
               <div
-                class="TabBar-container MuiBox-root css-1yufy38"
+                class="TabBar-container MuiBox-root css-lykmk9"
               >
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-1nffzm5-MuiTypography-root-MuiLink-root"
@@ -592,7 +586,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         class="MuiBox-root css-1vp8jwk"
                       >
                         <div
-                          class="TabBar-container MuiBox-root css-1yufy38"
+                          class="TabBar-container MuiBox-root css-lykmk9"
                         >
                           <a
                             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover active css-1nffzm5-MuiTypography-root-MuiLink-root"
