@@ -39,7 +39,7 @@ export const getNextPageParamFactory = (
   endpoint: string,
   dateOffset?: number,
 ) => {
-  const logPrefix = `${queryName}/TokenRecord/${earliestDate}`;
+  const logPrefix = `${queryName}/getNextPageParam/TokenRecord/${earliestDate}`;
   console.debug(`${logPrefix}: create getNextPageParam with earliestDate ${earliestDate}`);
   return (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
     console.debug(`${logPrefix}: Received ${lastPage.tokenRecords.length} records`);

@@ -107,7 +107,7 @@ export const useProtocolMetricsQuery = (
   /**
    * Data fetching
    */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteProtocolMetricsQuery(
+  const { data, hasNextPage, fetchNextPage, refetch, isFetching } = useInfiniteProtocolMetricsQuery(
     dataSource.current,
     "filter",
     queryVariables.current,
@@ -140,16 +140,18 @@ export const useProtocolMetricsQuery = (
    */
   const [byDateProtocolMetrics, setByDateProtocolMetrics] = useState<Map<string, ProtocolMetric[]> | null>(null);
   useMemo(() => {
-    if (hasNextPage || !data) {
+    // When there is more data (hasNextPage) or there is fetching, then the data is not ready for processing.
+    // Checking for data == null here is not appropriate, since data may be null when there are no results.
+    if (isFetching || hasNextPage) {
       return;
     }
 
     console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
-    const records = data.pages.map(query => query.protocolMetrics).flat();
+    const records = data ? data.pages.map(query => query.protocolMetrics).flat() : [];
     // Group by date
     const dateRecords = getProtocolMetricDateMap(records, true);
     setByDateProtocolMetrics(dateRecords);
-  }, [hasNextPage, data, functionName]);
+  }, [data, functionName, isFetching, hasNextPage]);
 
   return byDateProtocolMetrics;
 };

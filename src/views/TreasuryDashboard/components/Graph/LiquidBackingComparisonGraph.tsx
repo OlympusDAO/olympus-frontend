@@ -49,7 +49,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
-    true,
   );
 
   const tokenSupplyResults = useTokenSuppliesQuery(

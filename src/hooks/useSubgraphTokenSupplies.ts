@@ -107,7 +107,7 @@ export const useTokenSuppliesQuery = (
   /**
    * Data fetching
    */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
+  const { data, hasNextPage, fetchNextPage, refetch, isFetching } = useInfiniteTokenSuppliesQuery(
     dataSource.current,
     "filter",
     queryVariables.current,
@@ -140,16 +140,18 @@ export const useTokenSuppliesQuery = (
    */
   const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
   useMemo(() => {
-    if (hasNextPage || !data) {
+    // When there is more data (hasNextPage) or there is fetching, then the data is not ready for processing.
+    // Checking for data == null here is not appropriate, since data may be null when there are no results.
+    if (isFetching || hasNextPage) {
       return;
     }
 
     console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
-    const records = data.pages.map(query => query.tokenSupplies).flat();
+    const records = data ? data.pages.map(query => query.tokenSupplies).flat() : [];
     // Group by date
     const dateRecords = getTokenSupplyDateMap(records, true);
     setByDateTokenSupplies(dateRecords);
-  }, [hasNextPage, data, functionName]);
+  }, [data, functionName, isFetching, hasNextPage]);
 
   return byDateTokenSupplies;
 };
