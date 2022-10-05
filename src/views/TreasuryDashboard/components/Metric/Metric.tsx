@@ -11,7 +11,7 @@ import {
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
+import { useTokenRecordsLatestRecord, useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmFloating, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
@@ -248,13 +248,18 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: treasuryMarketValue } = useTreasuryMarketValue(props.subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestRecord(props.subgraphUrls?.Ethereum);
+  const liquidBackingQuery = useTreasuryMarketValue(
+    !latestDateQuery.data ? undefined : latestDateQuery.data.date,
+    props.subgraphUrls,
+  );
+
   const _props: MetricProps = {
     ...props,
     label: t`Treasury Balance`,
   };
 
-  if (treasuryMarketValue) _props.metric = formatCurrency(treasuryMarketValue);
+  if (liquidBackingQuery) _props.metric = formatCurrency(liquidBackingQuery);
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
