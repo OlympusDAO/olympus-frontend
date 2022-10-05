@@ -1,4 +1,4 @@
-import "src/assets/rainbowkit.css"; //have to do this for now due to test failures with import direct from library;
+import "@rainbow-me/rainbowkit/styles.css";
 
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 import { Chain, chain, configureChains, createClient } from "wagmi";

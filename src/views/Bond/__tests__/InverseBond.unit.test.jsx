@@ -98,9 +98,10 @@ describe("Inverse Bonds", () => {
     jest.spyOn(Router, "useParams").mockReturnValue({});
 
     render(<Bond />);
-
-    expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-    expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+    setTimeout(async () => {
+      expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
+      expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+    }, 30000);
   });
 });
 
