@@ -62,6 +62,7 @@ export const TreasuryAssetsGraph = ({
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
+    true,
   );
 
   /**

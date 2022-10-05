@@ -81,6 +81,10 @@ export const useTokenRecordsQuery = (
   useEffect(() => {
     console.info(`${functionName}: Inputs changed. Updating calculated values`);
 
+    // We need to wipe the data, otherwise it will be inconsistent
+    // This is called here so that calling components can be updated before any changes to query configuration
+    setByDateTokenRecords(null);
+
     const _finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
     queryVariables.current = {
       filter: {
@@ -107,9 +111,6 @@ export const useTokenRecordsQuery = (
       enabled: earliestDate !== null && endpointNotNull.current.length > 0 && paginator.current !== undefined,
       getNextPageParam: paginator.current,
     };
-
-    // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenRecords(null);
   }, [baseFilter, earliestDate, dateOffset, endpointNotNull, functionName, subgraphUrl, chartName]);
 
   /**
@@ -134,7 +135,7 @@ export const useTokenRecordsQuery = (
     // Calling refetch() after setting the new paginator causes the query to never finish
     console.info(`${functionName}: Re-fetching.`);
     refetch();
-  }, [queryOptions, functionName, refetch]);
+  }, [queryOptions.current, functionName, refetch]);
 
   // Handle subsequent pages
   useEffect(() => {
@@ -228,6 +229,12 @@ export const useTokenRecordsQueries = (
     subgraphUrlFantom.current = subgraphUrls.Fantom;
     subgraphUrlPolygon.current = subgraphUrls.Polygon;
   }, [subgraphUrls]);
+
+  useEffect(() => {
+    // This ensures that components relying on this data are updated
+    console.info(`${chartName}: Inputs changed. Resetting combined results.`);
+    setCombinedResults(null);
+  }, [baseFilter, earliestDate, dateOffset, subgraphUrls, chartName]);
 
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
@@ -354,7 +361,7 @@ export const useTokenRecordsQueries = (
 
     const commonLatestDate = getCommonLatestDate();
 
-    console.debug(`${chartName}: received all results. Combining.`);
+    console.info(`${chartName}: Received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();
     combineQueryResults(BLOCKCHAINS.Arbitrum, arbitrumResults, tempResults, commonLatestDate);
     combineQueryResults(BLOCKCHAINS.Ethereum, ethereumResults, tempResults, commonLatestDate);
