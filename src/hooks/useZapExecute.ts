@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
-import { DAO_TREASURY_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
+import { DAO_TREASURY_ADDRESSES, GOHM_ADDRESSES, ZAP_ADDRESSES } from "src/constants/addresses";
 import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -11,7 +11,6 @@ import { isSupportedChain } from "src/helpers/ZapHelper";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
 import { EthersError } from "src/lib/EthersTypes";
-import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
 import { Zap__factory } from "src/typechain/factories/Zap__factory";
 import { useAccount, useNetwork, useSigner } from "wagmi";
@@ -69,7 +68,7 @@ export const useZapExecute = () => {
       }
 
       // We only operate on Ethereum mainnet for the moment, so we can use a static contract
-      const contract = Zap__factory.connect(addresses[chain.id].ZAP, signer);
+      const contract = Zap__factory.connect(ZAP_ADDRESSES[chain.id as keyof typeof ZAP_ADDRESSES], signer);
       if (!contract) throw new Error(t`Unable to access Zap contract on network ${chain.id}`);
 
       const toToken = gOHM
