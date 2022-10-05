@@ -72,6 +72,10 @@ export const useTokenSuppliesQuery = (
   useEffect(() => {
     console.info(`${functionName}: Inputs changed. Updating calculated values`);
 
+    // We need to wipe the data, otherwise it will be inconsistent
+    // This is called here so that calling components can be updated before any changes to query configuration
+    setByDateTokenSupplies(null);
+
     const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
     queryVariables.current = {
       filter: {
@@ -98,9 +102,6 @@ export const useTokenSuppliesQuery = (
       enabled: earliestDate !== null && subgraphUrl.length > 0 && paginator.current !== undefined,
       getNextPageParam: paginator.current,
     };
-
-    // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenSupplies(null);
   }, [baseFilter, chartName, dateOffset, earliestDate, functionName, subgraphUrl]);
 
   /**
@@ -123,7 +124,7 @@ export const useTokenSuppliesQuery = (
     // Calling refetch() after setting the new paginator causes the query to never finish
     console.info(`${functionName}: Re-fetching.`);
     refetch();
-  }, [queryOptions, functionName, refetch]);
+  }, [queryOptions.current, functionName, refetch]);
 
   // Handle subsequent pages
   useEffect(() => {

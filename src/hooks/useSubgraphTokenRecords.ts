@@ -144,7 +144,7 @@ export const useTokenRecordsQuery = (
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage, chartName, functionName]);
+  }, [data, hasNextPage, fetchNextPage, functionName]);
 
   /**
    * Data processing
