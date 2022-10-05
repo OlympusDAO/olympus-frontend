@@ -88,14 +88,7 @@ const useTreasuryAssets = (
   });
 
   // Fetch the TokenRecords from all blockchains defined in subgraphUrls
-  const tokenRecordResults = useTokenRecordsQueries(
-    sourceName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    undefined,
-    true, // Ensure the query does not hang, particularly when switching the active token
-  );
+  const tokenRecordResults = useTokenRecordsQueries(sourceName, subgraphUrls, baseFilter, earliestDate, undefined);
 
   // Get the latest result (but be defensive in case the are no results)
   const latestResult: TokenRecord[] = !tokenRecordResults

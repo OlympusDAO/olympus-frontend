@@ -180,7 +180,6 @@ export const useTokenRecordsQuery = (
  * @param baseFilter
  * @param earliestDate the earliest date to fetch, in YYYY-MM-DD format
  * @param dateOffset the number of days to fetch in each page/request
- * @param shouldHandleHangingQuery if true, will return results even when there is a hanging query
  * @returns Records grouped by date, or null if still fetching
  */
 export const useTokenRecordsQueries = (
@@ -189,8 +188,6 @@ export const useTokenRecordsQueries = (
   _baseFilter: TokenRecord_Filter,
   _earliestDate: string | null,
   _dateOffset?: number,
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  shouldHandleHangingQuery: boolean = false,
 ): Map<string, TokenRecord[]> | null => {
   // Cache these props, as they will be passed to the query for each blockchain, and we don't want to propagate non-changes
   const baseFilter = useRef(_baseFilter);
@@ -306,14 +303,8 @@ export const useTokenRecordsQueries = (
 
   // Handle receiving the finalised data from each blockchain
   useEffect(() => {
-    // During a re-fetch (due to prop changes), some subgraphs without query results never return, so we work around that
-    const hasHangingQuery = isFetchingCount === 0;
-
     // Only combine (and trigger a re-render) when all results have been received
-    if (
-      (!shouldHandleHangingQuery || !hasHangingQuery) &&
-      (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults)
-    ) {
+    if (!arbitrumResults || !ethereumResults || !fantomResults || !polygonResults) {
       return;
     }
 
@@ -374,15 +365,7 @@ export const useTokenRecordsQueries = (
     const sortedResults = new Map([...tempResults].sort().reverse());
 
     setCombinedResults(sortedResults);
-  }, [
-    arbitrumResults,
-    chartName,
-    ethereumResults,
-    fantomResults,
-    isFetchingCount,
-    polygonResults,
-    shouldHandleHangingQuery,
-  ]);
+  }, [arbitrumResults, chartName, ethereumResults, fantomResults, isFetchingCount, polygonResults]);
 
   return combinedResults;
 };
