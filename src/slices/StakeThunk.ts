@@ -1,15 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import toast from "react-hot-toast";
-import ierc20ABI from "src/abi/IERC20.json";
-import StakingHelperABI from "src/abi/StakingHelper.json";
-import { addresses } from "src/constants";
-import { OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import {
+  OHM_ADDRESSES,
+  SOHM_ADDRESSES,
+  STAKING_ADDRESSES,
+  V1_OHM_ADDRESSES,
+  V1_SOHM_ADDRESSES,
+  V1_STAKING_ADDRESSES,
+  V1_STAKING_HELPER_ADDRESSES,
+} from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { fetchAccountSuccess, getBalances } from "src/slices/AccountSlice";
 import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "src/slices/interfaces";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "src/slices/PendingTxnsSlice";
-import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
+import {
+  IERC20__factory,
+  OlympusStaking__factory,
+  OlympusStakingv2__factory,
+  StakingHelper__factory,
+} from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -55,29 +65,19 @@ export const changeApproval = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(
-      addresses[networkID].OHM_ADDRESS as string,
-      ierc20ABI.abi,
-      signer,
-    ) as IERC20;
-    const sohmContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      ierc20ABI.abi,
-      signer,
-    ) as IERC20;
-    const ohmV2Contract = new ethers.Contract(
-      OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES] as string,
-      ierc20ABI.abi,
-      signer,
-    ) as IERC20;
-    const sohmV2Contract = new ethers.Contract(
-      SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
-      ierc20ABI.abi,
-      signer,
-    ) as IERC20;
+    const ohmContract = IERC20__factory.connect(V1_OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES], signer);
+    const sohmContract = IERC20__factory.connect(V1_SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES], signer);
+    const ohmV2Contract = IERC20__factory.connect(OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES], signer);
+    const sohmV2Contract = IERC20__factory.connect(SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES], signer);
     let approveTx;
-    let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    let stakeAllowance = await ohmContract.allowance(
+      address,
+      V1_STAKING_HELPER_ADDRESSES[networkID as keyof typeof V1_STAKING_HELPER_ADDRESSES],
+    );
+    let unstakeAllowance = await sohmContract.allowance(
+      address,
+      V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
+    );
     let stakeAllowanceV2 = await ohmV2Contract.allowance(
       address,
       STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
@@ -115,12 +115,12 @@ export const changeApproval = createAsyncThunk(
       } else {
         if (token === "ohm") {
           approveTx = await ohmContract.approve(
-            addresses[networkID].STAKING_ADDRESS,
+            V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         } else if (token === "sohm") {
           approveTx = await sohmContract.approve(
-            addresses[networkID].STAKING_ADDRESS,
+            V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         }
@@ -143,8 +143,14 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    stakeAllowance = await ohmContract.allowance(
+      address,
+      V1_STAKING_HELPER_ADDRESSES[networkID as keyof typeof V1_STAKING_HELPER_ADDRESSES],
+    );
+    unstakeAllowance = await sohmContract.allowance(
+      address,
+      V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
+    );
     stakeAllowanceV2 = await ohmV2Contract.allowance(
       address,
       STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
@@ -177,13 +183,15 @@ export const changeStake = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const staking = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, signer);
-
-    const stakingHelper = new ethers.Contract(
-      addresses[networkID].STAKING_HELPER_ADDRESS as string,
-      StakingHelperABI.abi,
+    const staking = OlympusStaking__factory.connect(
+      V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
       signer,
-    ) as StakingHelper;
+    );
+
+    const stakingHelper = StakingHelper__factory.connect(
+      V1_STAKING_HELPER_ADDRESSES[networkID as keyof typeof V1_STAKING_HELPER_ADDRESSES],
+      signer,
+    );
 
     const stakingV2 = OlympusStakingv2__factory.connect(
       STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],

@@ -5,7 +5,6 @@ import { useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { useNetwork } from "wagmi";
 
 export const BondModalContainerV3: React.VFC = () => {
-  console.log("is called");
   const navigate = useNavigate();
   const { chain = { id: 1 } } = useNetwork();
   const { id } = useParams<{ id: string }>();
@@ -16,7 +15,7 @@ export const BondModalContainerV3: React.VFC = () => {
 
   const bonds = useLiveBondsV3({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
-  console.log(bonds, "bonds");
+
   if (!bond) return null;
 
   return <BondModal bond={bond} />;
