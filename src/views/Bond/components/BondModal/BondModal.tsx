@@ -147,7 +147,7 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
           <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-            <BondInfoText isInverseBond={isInverseBond} />
+            {!bond.isV3Bond && <BondInfoText isInverseBond={isInverseBond} />}
           </Typography>
         </Box>
       </Box>
