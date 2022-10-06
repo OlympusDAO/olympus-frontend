@@ -4,9 +4,11 @@ import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import App from "src/App";
+import Messages from "src/components/Messages/Messages";
 import { ReactQueryProvider } from "src/lib/react-query";
 import defaultStore from "src/store";
 import { setupClient } from "src/testHelpers";
@@ -23,6 +25,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
             <StyledEngineProvider injectFirst>
               <ThemeProvider theme={lightTheme}>
                 <CssBaseline />
+                <Toaster>{t => <Messages toast={t} />}</Toaster>
                 {children}
               </ThemeProvider>
             </StyledEngineProvider>
@@ -42,16 +45,15 @@ const renderRoute = function (route: string, store = defaultStore) {
     <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
-          <I18nProvider i18n={i18n}>
-            <HashRouter>
-              <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={lightTheme}>
-                  <CssBaseline />
-                  <App />
-                </ThemeProvider>
-              </StyledEngineProvider>
-            </HashRouter>
-          </I18nProvider>
+          <HashRouter>
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={lightTheme}>
+                <CssBaseline />
+                <Toaster>{t => <Messages toast={t} />}</Toaster>
+                <App />
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </HashRouter>
         </Provider>
       </ReactQueryProvider>
     </WagmiConfig>,

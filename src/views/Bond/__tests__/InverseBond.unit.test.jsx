@@ -1,9 +1,8 @@
-import { fireEvent } from "@testing-library/dom";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { connectWallet } from "src/testHelpers";
-import { render, screen } from "src/testUtils";
+import { fireEvent, render, screen } from "src/testUtils";
 import {
   inverseMarketPrice,
   inverseMarkets,

@@ -30,6 +30,7 @@ beforeEach(() => {
       Custom: vi.fn(),
     }),
   }));
+  vi.mock("recharts");
 });
 
 afterEach(() => {

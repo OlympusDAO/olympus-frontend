@@ -128,9 +128,16 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
       )}
 
       <Box mt="16px">
-        <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
+        <Link
+          component={NavLink}
+          to={
+            isInverseBond
+              ? `/bonds/${bond.isV3Bond ? `v3/` : ""}inverse/${bond.id}`
+              : `/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`
+          }
+        >
           <TertiaryButton fullWidth>
-            {isInverseBond ? `Bond ${quoteTokenName} for ${baseTokenName}` : `Bond ${quoteTokenName}`}
+            {isInverseBond ? `Bond ${quoteTokenName} for ${baseTokenName}` : `Bond for ${quoteTokenName}`}
           </TertiaryButton>
         </Link>
       </Box>
@@ -175,53 +182,68 @@ const payoutTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
     : bond.capacity.inBaseToken
   ).toString()}`;
   return `${payoutFormatter.format(parseInt(payoutTokenCapacity))} ${" "}
-  ${isInverseBond ? bond.baseToken.name : `sOHM`}`;
+  ${isInverseBond ? bond.baseToken.name : `OHM`}`;
 };
-const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
-  <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
-    <TableCell style={{ padding: "8px 0" }}>
-      <TokenIcons token={bond.quoteToken} />
-    </TableCell>
-
-    {isInverseBond && (
+const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => {
+  const quoteTokenName = bond.quoteToken.name;
+  const baseTokenName = bond.baseToken.name;
+  return (
+    <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
       <TableCell style={{ padding: "8px 0" }}>
-        <TokenIcons token={bond.baseToken} explorer />
+        <TokenIcons token={bond.quoteToken} />
       </TableCell>
-    )}
 
-    <TableCell style={{ padding: "8px 0" }}>
-      <Typography>
-        {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
-      </Typography>
-    </TableCell>
+      {isInverseBond && (
+        <TableCell style={{ padding: "8px 0" }}>
+          <TokenIcons token={bond.baseToken} explorer />
+        </TableCell>
+      )}
 
-    <TableCell style={{ padding: "8px 0" }}>
-      <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
-    </TableCell>
-
-    <TableCell style={{ padding: "8px 0" }}>
-      <Box display="flex" flexDirection={"column"}>
-        <Typography style={{ lineHeight: "20px" }}>{payoutTokenCapacity(bond, isInverseBond)}</Typography>
-        <Typography color="textSecondary" style={{ fontSize: "12px", fontWeight: 400, lineHeight: "18px" }}>
-          {quoteTokenCapacity(bond, isInverseBond)}
+      <TableCell style={{ padding: "8px 0" }}>
+        <Typography>
+          {bond.isSoldOut ? (
+            "--"
+          ) : (
+            <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} isV3Bond={bond.isV3Bond} />
+          )}
         </Typography>
-      </Box>
-    </TableCell>
-    {!isInverseBond && (
-      <TableCell style={{ padding: "8px 0" }}>
-        <Typography>{bond.isSoldOut ? "--" : <BondDuration duration={bond.duration} />}</Typography>
       </TableCell>
-    )}
 
-    <TableCell style={{ padding: "8px 0" }}>
-      <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
-        <TertiaryButton fullWidth disabled={bond.isSoldOut}>
-          {bond.isSoldOut ? "Sold Out" : isInverseBond ? "Inverse Bond" : "Bond"}
-        </TertiaryButton>
-      </Link>
-    </TableCell>
-  </TableRow>
-);
+      <TableCell style={{ padding: "8px 0" }}>
+        {bond.isSoldOut ? <Typography> "--"</Typography> : <BondDiscount discount={bond.discount} />}
+      </TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
+        <Box display="flex" flexDirection={"column"}>
+          <Typography style={{ lineHeight: "20px" }}>{payoutTokenCapacity(bond, isInverseBond)}</Typography>
+          <Typography color="textSecondary" style={{ fontSize: "12px", fontWeight: 400, lineHeight: "18px" }}>
+            {quoteTokenCapacity(bond, isInverseBond)}
+          </Typography>
+        </Box>
+      </TableCell>
+      {!isInverseBond && (
+        <TableCell style={{ padding: "8px 0" }}>
+          <Typography>{bond.isSoldOut ? "--" : <BondDuration duration={bond.duration} />}</Typography>
+        </TableCell>
+      )}
+
+      <TableCell style={{ padding: "8px 0" }}>
+        <Link
+          component={NavLink}
+          to={
+            isInverseBond
+              ? `/bonds/${bond.isV3Bond ? `v3/` : ""}inverse/${bond.id}`
+              : `/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`
+          }
+        >
+          <TertiaryButton fullWidth disabled={bond.isSoldOut}>
+            {bond.isSoldOut ? "Sold Out" : isInverseBond ? "Inverse Bond" : "Bond"}
+          </TertiaryButton>
+        </Link>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, explorer }) => (
   <Box display="flex" alignItems="center">

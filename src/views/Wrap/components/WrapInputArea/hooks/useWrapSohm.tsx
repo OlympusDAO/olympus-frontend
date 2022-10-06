@@ -1,18 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { OlympusStakingv2__factory } from "src/typechain";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const useWrapSohm = () => {
-  const dispatch = useDispatch();
   const client = useQueryClient();
   const { address = "" } = useAccount();
   const { data: signer } = useSigner();
@@ -45,7 +43,7 @@ export const useWrapSohm = () => {
       return transaction.wait();
     },
     onError: error => {
-      dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+      toast.error("error" in error ? error.error.message : error.message);
     },
     onSuccess: async (_, amount) => {
       trackGAEvent({
@@ -63,7 +61,7 @@ export const useWrapSohm = () => {
 
       await Promise.all(promises);
 
-      dispatch(createInfoToast(`Successfully wrapped sOHM to gOHM`));
+      toast(`Successfully wrapped sOHM to gOHM`);
     },
   });
 };

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -8,11 +8,9 @@ import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount } from "wagmi";
 
 export const useStakeToken = () => {
-  const dispatch = useDispatch();
   const client = useQueryClient();
   const { address = "" } = useAccount();
   const networks = useTestableNetworks();
@@ -43,7 +41,7 @@ export const useStakeToken = () => {
       return transaction.wait();
     },
     onError: error => {
-      dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+      toast.error("error" in error ? error.error.message : error.message);
     },
     onSuccess: async (tx, data) => {
       trackGAEvent({
@@ -72,7 +70,7 @@ export const useStakeToken = () => {
 
       await Promise.all(promises);
 
-      dispatch(createInfoToast(`Successfully staked OHM`));
+      toast(`Successfully staked OHM`);
     },
   });
 };

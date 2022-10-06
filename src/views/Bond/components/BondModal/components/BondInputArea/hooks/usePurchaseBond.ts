@@ -1,21 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
-import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import {
+  BOND_DEPOSITORY_CONTRACT,
+  BOND_FIXED_EXPIRY_TELLER,
+  BOND_FIXED_TERM_TELLER,
+  OP_BOND_DEPOSITORY_CONTRACT,
+} from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { Bond } from "src/views/Bond/hooks/useBond";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const usePurchaseBond = (bond: Bond) => {
-  const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
@@ -31,6 +34,7 @@ export const usePurchaseBond = (bond: Bond) => {
       slippage: string;
       isInverseBond: boolean;
       recipientAddress: string;
+      isV3Bond?: string;
     }
   >(
     async ({ amount, slippage, recipientAddress, isInverseBond }) => {
@@ -61,22 +65,19 @@ export const usePurchaseBond = (bond: Bond) => {
             ` ${bond.capacity.inQuoteToken.toString()} ${bond.quoteToken.name}`,
         );
 
-      if (!isValidAddress(recipientAddress)) throw new Error(`Please enter a valid address as the recipient address`);
+      if (!isValidAddress(recipientAddress)) throw new Error(t`Please enter a valid address as the recipient address`);
 
       if (!signer) throw new Error(`Please connect a wallet to purchase a bond`);
-
       if (chain.id !== networks.MAINNET) throw new Error(`Please switch to the Ethereum network to purchase this bond`);
 
       const slippageAsPercent = parsedSlippage.div("100");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
-
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+      const minAmountOut = parsedAmount
+        .div(bond.price.inBaseToken)
+        .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
 
-      if (isInverseBond) {
-        const minAmountOut = parsedAmount
-          .div(bond.price.inBaseToken)
-          .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
-
+      if (isInverseBond && !bond.isV3Bond) {
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
           .deposit(
@@ -87,7 +88,22 @@ export const usePurchaseBond = (bond: Bond) => {
 
         return transaction.wait();
       }
+      //TODO: V3 Bond only supports Fixed Expiry. Not tested for fixed term/ERC-1155
+      if (bond.isV3Bond) {
+        const bondContract = bond.isFixedTerm ? BOND_FIXED_TERM_TELLER : BOND_FIXED_EXPIRY_TELLER;
+        const transaction = await bondContract
+          .getEthersContract(networks.MAINNET)
+          .connect(signer)
+          .purchase(
+            recipientAddress,
+            referrer,
+            bond.id,
+            parsedAmount.toBigNumber(),
+            minAmountOut.toBigNumber(bond.baseToken.decimals),
+          );
 
+        return transaction.wait();
+      }
       const transaction = await BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
         .connect(signer)
         .deposit(
@@ -97,11 +113,12 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
+
       return transaction.wait();
     },
     {
       onError: error => {
-        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+        toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async (tx, { amount }) => {
         trackGAEvent({
@@ -130,7 +147,7 @@ export const usePurchaseBond = (bond: Bond) => {
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(`Successfully bonded` + ` ${bond.quoteToken.name}`));
+        toast(`Successfully bonded` + ` ${bond.quoteToken.name}`);
       },
     },
   );
