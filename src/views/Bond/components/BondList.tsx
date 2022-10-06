@@ -61,7 +61,7 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
 
       <Box mt="24px" textAlign="center" width="70%" mx="auto">
         <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-          <BondInfoText isInverseBond={isInverseBond} />
+          {isInverseBond && <BondInfoText isInverseBond={isInverseBond} />}
         </Typography>
       </Box>
     </>
