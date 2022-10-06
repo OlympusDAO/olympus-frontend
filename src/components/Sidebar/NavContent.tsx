@@ -115,7 +115,7 @@ const Bonds: React.VFC = () => {
   const { data: bondsV2 = [] } = useLiveBonds();
   const { data: bondsV3 = [] } = useLiveBondsV3();
 
-  const bonds = bondsV2?.concat(bondsV3);
+  const bonds = bondsV2.concat(bondsV3);
 
   if (!bonds || bonds.length === 0) return null;
 
@@ -125,7 +125,7 @@ const Bonds: React.VFC = () => {
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
           <Box mt="8px" key={bond.id}>
-            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`}>
               <Box display="flex" flexDirection="row" justifyContent="space-between">
                 <Typography variant="body1">{bond.quoteToken.name}</Typography>
                 <BondDiscount discount={bond.discount} />
