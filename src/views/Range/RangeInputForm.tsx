@@ -51,7 +51,7 @@ const RangeInputForm = (props: {
     <SwapCard
       key="reserveAmount"
       id="reserve-amount"
-      inputProps={{ "data-testid": "reserve-amount" }}
+      inputProps={{ "data-testId": "reserve-amount" }}
       name="reserveAmount"
       value={reserveAmount}
       onChange={event => onChangeReserveAmount(event.currentTarget.value)}

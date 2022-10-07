@@ -15,18 +15,19 @@ import * as WAGMI from "wagmi";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 vi.mock("src/hooks/useContractAllowance");
-vi.mock("recharts", async () => {
-  const OriginalModule = await vi.importActual("recharts");
+// vi.mock("recharts", async () => {
+//   const OriginalModule = await vi.importActual("recharts");
 
-  return {
-    ...OriginalModule,
-    ResponsiveContainer: ({ height, children }) => (
-      <OriginalModule.ResponsiveContainer width={800} height={height}>
-        {children}
-      </OriginalModule.ResponsiveContainer>
-    ),
-  };
-});
+//   return {
+//     ...OriginalModule,
+//     Symbols: vi.fn(),
+//     ResponsiveContainer: ({ height, children }) => (
+//       <OriginalModule.ResponsiveContainer width={800} height={height}>
+//         {children}
+//       </OriginalModule.ResponsiveContainer>
+//     ),
+//   };
+// });
 
 const defaultStatesWithApproval = () => {
   const rangeOperator = vi.spyOn(Contract.RANGE_OPERATOR_CONTRACT, "getEthersContract");
