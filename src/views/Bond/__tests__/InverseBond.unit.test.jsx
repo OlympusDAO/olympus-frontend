@@ -2,7 +2,7 @@ import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { connectWallet } from "src/testHelpers";
-import { fireEvent, render, screen } from "src/testUtils";
+import { render, screen } from "src/testUtils";
 import {
   inverseMarketPrice,
   inverseMarkets,
@@ -30,6 +30,7 @@ describe("Inverse Bonds", () => {
   beforeEach(() => {
     const bondDepository = vi.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
     const inverseBondDepository = vi.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    const v3BondDepository = vi.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
 
     bondDepository.mockReturnValue({
       liveMarkets: vi.fn().mockResolvedValue(mockNoLiveMarkets),
@@ -43,6 +44,10 @@ describe("Inverse Bonds", () => {
         return Promise.resolve(marketPrice[id]);
       }),
       indexesFor: vi.fn().mockResolvedValue([]),
+    });
+
+    v3BondDepository.mockReturnValue({
+      liveMarketsFor: vi.fn().mockResolvedValue(mockNoLiveMarkets),
     });
 
     inverseBondDepository.mockReturnValue({
@@ -73,20 +78,11 @@ describe("Inverse Bonds", () => {
     expect(await screen.findByText("DAI"));
   });
 
-  it("Should Display No Active Bonds Message on Bonds screen", async () => {
-    render(<Bond />);
-
-    // Frontend now defaults to the inverse bonds tab if there are no bonds
-    // So the location needs to be explicitly changed
-    fireEvent.click(await screen.findByTestId("bond-tab"));
-    expect(await screen.findByText("No active bonds"));
-  });
-
   it("should default to inverse bond tab", async () => {
     render(<Bond />);
 
     expect(await screen.findByTestId("8--bond")); // bond id of 8
-    expect(await screen.findByText("Sold Out")); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+    expect(await screen.findByText("Inverse Bond")); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
   });
 });
 

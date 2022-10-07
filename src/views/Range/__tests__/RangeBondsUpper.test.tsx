@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import * as Contract from "src/constants/contracts";
+import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -11,10 +12,28 @@ import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory
 import { ohmPriceHistory, RangeData, reservePriceHistory } from "src/views/Range/__mocks__/mockRangeCalls";
 import * as RangeHooks from "src/views/Range/hooks";
 import { Range } from "src/views/Range/index";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 vi.mock("src/hooks/useContractAllowance");
+vi.mock("src/views/Range/RangeChart", () => ({
+  default: (props: {
+    rangeData: any;
+    currentPrice: number;
+    bidPrice: number;
+    askPrice: number;
+    sellActive: boolean;
+    reserveSymbol: string;
+  }) => {
+    console.log(formatCurrency(props.bidPrice, 2), "bidprice");
+    return (
+      <>
+        <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
+        <div>Bid: {formatCurrency(props.bidPrice, 2)}</div>
+      </>
+    );
+  },
+}));
 
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {
@@ -85,9 +104,6 @@ describe("Upper Wall Active Bond Market", () => {
     //     );
     //   },
     // }));
-  });
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it("Should Buy at Bond market price of $20.12", async () => {
