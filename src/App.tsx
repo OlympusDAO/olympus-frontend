@@ -228,7 +228,7 @@ function App() {
               <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
               <Suspense fallback={<div></div>}>
                 <Routes>
-                  <Route path="/" element={<Navigate to="/stake" />} />
+                  <Route path="/" element={<Navigate to="/bonds" />} />
                   <Route
                     path="/stake"
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
