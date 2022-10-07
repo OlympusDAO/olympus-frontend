@@ -10,6 +10,7 @@ function ThemeSwitcher({ theme, toggleTheme }: IThemeSwitcherProps) {
   return (
     <ToggleButton
       sx={{ marginTop: "0px", height: "39px" }}
+      sx={{ marginTop: "0px", height: "39px" }}
       className="toggle-button"
       type="button"
       title={`Change Theme`}

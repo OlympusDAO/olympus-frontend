@@ -5,13 +5,6 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
   <div
     class="DataRow-root data-row css-19fvmib"
   >
-<<<<<<< HEAD
-    <div
-      class="MuiBox-root css-1xhj18k"
-    >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
-=======
     <style>
       [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-downloadBottomCardBackground:linear-gradient(126deg, rgba(255, 255, 255, 0) 9.49%, rgba(171, 171, 171, 0.04) 71.04%), #FFFFFF;--rk-colors-downloadTopCardBackground:linear-gradient(126deg, rgba(171, 171, 171, 0.2) 9.49%, rgba(255, 255, 255, 0) 71.04%), #FFFFFF;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
     </style>
@@ -34,45 +27,25 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
         class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
         id="user-balance"
         style="text-align: right;"
->>>>>>> alpha
       >
-        Unstaked Balance
+        15.0000 OHM
       </p>
     </div>
-    <p
-      class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
-      id="user-balance"
-      style="text-align: right;"
-    >
-      15.0000 OHM
-    </p>
-  </div>
-  <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-w5x1nb-MuiPaper-root-MuiAccordion-root"
-  >
     <div
-<<<<<<< HEAD
-      aria-expanded="true"
-      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
-      role="button"
-      tabindex="0"
-=======
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root DataRow-accordion css-1hryd3o-MuiPaper-root-MuiAccordion-root"
->>>>>>> alpha
     >
       <div
-        class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+        aria-expanded="true"
+        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
+        role="button"
+        tabindex="0"
       >
         <div
-          class="DataRow-root data-row css-19fvmib"
+          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
         >
           <div
-            class="MuiBox-root css-1xhj18k"
+            class="DataRow-root data-row css-19fvmib"
           >
-<<<<<<< HEAD
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
-=======
             <div
               class="MuiBox-root css-dlyoou"
             >
@@ -86,20 +59,10 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
               id="user-staked-balance"
               style="text-align: right;"
->>>>>>> alpha
             >
-              Total Staked Balance
+              134,228.0000 OHM
             </p>
           </div>
-<<<<<<< HEAD
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-fjb5bl-MuiTypography-root"
-            id="user-staked-balance"
-            style="text-align: right;"
-          >
-            134,228.0000 OHM
-          </p>
-=======
         </div>
         <div
           class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
@@ -115,53 +78,29 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
               d="M 0.419 4.705 C 0.976 4.146 1.88 4.146 2.439 4.705 L 10 12.265 L 17.561 4.705 C 18.119 4.146 19.023 4.146 19.582 4.705 C 20.139 5.262 20.139 6.166 19.582 6.725 L 11.01 15.296 C 10.452 15.854 9.547 15.854 8.99 15.296 L 0.419 6.725 C -0.14 6.166 -0.14 5.262 0.419 4.705 Z"
             />
           </svg>
->>>>>>> alpha
         </div>
       </div>
       <div
-        class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
-          data-testid="ExpandMoreIcon"
-          focusable="false"
-          viewBox="0 0 20 20"
-        >
-          <path
-            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
-          />
-        </svg>
-      </div>
-    </div>
-    <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
-      style="min-height: 0px;"
-    >
-      <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+        style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
         >
           <div
-            class="MuiAccordion-region"
-            role="region"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
           >
             <div
-              class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+              class="MuiAccordion-region"
+              role="region"
             >
               <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
+                class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
               >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -175,30 +114,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     id="sohm-balance"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    sOHM
+                    12.0000 sOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  id="sohm-balance"
-                  style="text-align: right;"
-                >
-                  12.0000 sOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -211,29 +134,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM
+                    131.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  131.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -246,29 +154,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Arbitrum)
+                    132.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  132.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -281,29 +174,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Avalanche)
+                    133.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  133.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -316,29 +194,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Polygon)
+                    134.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  134.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -351,29 +214,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Fantom)
+                    135.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  135.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -386,29 +234,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Optimism)
+                    136.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  136.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -421,29 +254,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Tokemak)
+                    14.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  14.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -456,29 +274,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    gOHM (Fuse)
+                    11.0000 gOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  11.0000 gOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -491,29 +294,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    sOHM (v1)
+                    16.0000 sOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  16.0000 sOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -526,29 +314,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    wsOHM
+                    171.0000 wsOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  171.0000 wsOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -561,29 +334,14 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    wsOHM (Arbitrum)
+                    172.0000 wsOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  172.0000 wsOHM
-                </p>
-              </div>
-              <div
-                class="DataRow-root data-row css-19fvmib"
-                style="padding-left: 10px;"
-              >
                 <div
-                  class="MuiBox-root css-1xhj18k"
+                  class="DataRow-root data-row css-19fvmib"
+                  style="padding-left: 10px;"
                 >
-<<<<<<< HEAD
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-=======
                   <div
                     class="MuiBox-root css-1xv45iw"
                   >
@@ -596,17 +354,10 @@ exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
                     style="text-align: right;"
->>>>>>> alpha
                   >
-                    wsOHM (Avalanche)
+                    173.0000 wsOHM
                   </p>
                 </div>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-vr64op-MuiTypography-root"
-                  style="text-align: right;"
-                >
-                  173.0000 wsOHM
-                </p>
               </div>
             </div>
           </div>

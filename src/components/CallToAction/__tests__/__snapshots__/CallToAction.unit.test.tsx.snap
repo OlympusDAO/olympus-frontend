@@ -84,6 +84,9 @@ exports[`<CallToAction/> should render component 1`] = `
       style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
     />
     <div
+      style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
+    />
+    <div
       class="call-to-action ohm-card MuiBox-root css-0"
     >
       <div
