@@ -39,7 +39,7 @@ export const getNextPageParamFactory = (
   endpoint: string,
   dateOffset?: number,
 ) => {
-  const logPrefix = `${queryName}/TokenRecord/${earliestDate}`;
+  const logPrefix = `${queryName}/getNextPageParam/TokenRecord/${earliestDate}`;
   console.debug(`${logPrefix}: create getNextPageParam with earliestDate ${earliestDate}`);
   return (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
     console.debug(`${logPrefix}: Received ${lastPage.tokenRecords.length} records`);
@@ -162,12 +162,19 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
       return;
     }
 
+    const recordTimestamp = record.timestamp * 1000; // * 1000 as the number from the subgraph is in seconds
     const dateSummary = dateSummaryMap.get(record.date) || {
       date: record.date,
-      timestamp: new Date(record.date).getTime(), // We inject the timestamp, as it's used by the Chart component
+      timestamp: recordTimestamp,
       block: record.block,
       tokens: {} as TokenMap,
     };
+
+    // Ensure the timestamp is the latest for the date
+    if (recordTimestamp > dateSummary.timestamp) {
+      dateSummary.timestamp = recordTimestamp;
+    }
+
     dateSummaryMap.set(record.date, dateSummary);
 
     const tokenId = `${record.token}/${record.blockchain}`;
@@ -193,4 +200,16 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
   return Array.from(dateSummaryMap.values()).sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
+};
+
+export const getLatestTimestamp = (records: TokenRecord[]): number => {
+  return (
+    records.reduce((previousValue: number, currentValue: TokenRecord) => {
+      if (previousValue == -1) return currentValue.timestamp;
+
+      if (currentValue.timestamp > previousValue) return currentValue.timestamp;
+
+      return previousValue;
+    }, -1) * 1000 // To convert from second to millisecond accuracy
+  );
 };

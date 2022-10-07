@@ -24,12 +24,14 @@ import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/compone
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import KnownIssues from "src/views/TreasuryDashboard/components/KnownIssues/KnownIssues";
 import {
+  AbstractedMetricProps,
   BackingPerGOHM,
   BackingPerOHM,
   CurrentIndex,
   GOhmCirculatingSupply,
   GOHMPriceFromSubgraph,
   MarketCap,
+  MetricSubgraphProps,
   OhmCirculatingSupply,
   OHMPriceFromSubgraph,
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
@@ -93,7 +95,12 @@ const MetricsDashboard = () => {
   }, [searchParams]);
 
   // Used by the Metrics
-  const sharedMetricProps = { ...baseMetricProps, subgraphUrl: subgraphUrlEthereum };
+  const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
+    ...baseMetricProps,
+    subgraphUrl: subgraphUrlEthereum,
+    subgraphUrls: subgraphUrls,
+    earliestDate: earliestDate,
+  };
 
   /**
    * After changing the value for the record count, returns the search parameters as a

@@ -3,17 +3,28 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { getSubgraphUrls } from "src/helpers/SubgraphUrlHelper";
 import { BondList } from "src/views/Bond/components/BondList";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
 import { ClaimBondsV3 } from "src/views/Bond/components/ClaimBonds/ClaimBondsV3";
 import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
-import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import {
+  AbstractedMetricProps,
+  MetricSubgraphProps,
+  OHMPrice,
+  TreasuryBalance,
+} from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 export const Bond = () => {
   const [isZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
+
+  const subgraphUrls = getSubgraphUrls();
+  const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
+    subgraphUrls: subgraphUrls,
+  };
 
   const navigate = useNavigate();
 
@@ -62,8 +73,8 @@ export const Bond = () => {
         <ClaimBondsV3 />
         <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
           <MetricCollection>
-            <TreasuryBalance />
-            <OHMPrice />
+            <TreasuryBalance {...sharedMetricProps} />
+            <OHMPrice {...sharedMetricProps} />
           </MetricCollection>
 
           <Box mt="24px">
