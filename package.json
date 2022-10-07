@@ -46,7 +46,7 @@
     "@rainbow-me/rainbowkit": "^0.7.1",
     "@reduxjs/toolkit": "^1.8.5",
     "@tanstack/react-query": "^4.2.3",
-    "axios": "^0.27.2",
+    "axios": "^1.1.0",
     "class-validator": "^0.13.2",
     "date-fns": "^2.29.3",
     "ethers": "^5.7.1",
