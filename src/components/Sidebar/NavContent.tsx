@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
+import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
@@ -67,15 +67,15 @@ const NavContent: React.VFC = () => {
                       <RangePrice bidOrAsk="bid" />
                     </NavItem>
                   )}
-                  <NavItem to="/stake" icon="stake" label={t`Stake`} />
-                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={t`Governance`} />
+                  <NavItem to="/stake" icon="stake" label={`Stake`} />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
               )}
               <Box className="menu-divider">
                 <Divider sx={{ borderColor: theme.colors.gray[600] }} />
               </Box>
-              <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
-              <NavItem icon="transparency" label={t`Transparency`} href="https://www.olympusdao.finance/transparency" />
+              <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
+              <NavItem icon="transparency" label={`Transparency`} href="https://www.olympusdao.finance/transparency" />
               <Box className="menu-divider">
                 <Divider sx={{ borderColor: theme.colors.gray[600] }} />
               </Box>
@@ -83,10 +83,10 @@ const NavContent: React.VFC = () => {
           </div>
         </div>
         <Box>
-          <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={t`Forum`} />
-          <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={t`Docs`} />
-          <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={t`Bug Bounty`} />
-          <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={t`Grants`} />
+          <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
+          <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
+          <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
+          <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
           <StyledBox display="flex" justifyContent="space-around" paddingY="24px">
             <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="github" className={classes.gray} />
@@ -143,7 +143,7 @@ const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
       {isFetched && (
         <Box ml="26px" mt="12px" mb="12px" mr="18px">
           <Typography variant="body2" color="textSecondary">
-            {props.bidOrAsk === "bid" ? t`Bid` : t`Ask`}
+            {props.bidOrAsk === "bid" ? `Bid` : `Ask`}
           </Typography>
           <Box mt="12px">
             <Box mt="8px">
