@@ -100,7 +100,7 @@ export const inverseMarkets = {
 };
 
 export const marketPrice = {
-  36: BigNumber.from("0x058d"),
+  36: BigNumber.from("14210000000"),
   37: BigNumber.from("0x014ced"),
   38: BigNumber.from("0x015015"),
 };
