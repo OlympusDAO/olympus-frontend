@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
@@ -40,7 +40,7 @@ export const useClaimBonds = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+        toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async (tx, { id }) => {
         trackGAEvent({
@@ -63,10 +63,7 @@ export const useClaimBonds = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
         await Promise.all(promises);
-
-        dispatch(
-          createInfoToast(typeof id === "undefined" ? `Claimed all bonds successfully` : `Claimed bond successfully`),
-        );
+        toast(typeof id === "undefined" ? `Claimed all bonds successfully` : `Claimed bond successfully`);
       },
     },
   );

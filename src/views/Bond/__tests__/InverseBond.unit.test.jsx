@@ -1,9 +1,8 @@
-import { fireEvent } from "@testing-library/dom";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { connectWallet } from "src/testHelpers";
-import { render, screen } from "src/testUtils";
+import { fireEvent, render, screen } from "src/testUtils";
 import {
   inverseMarketPrice,
   inverseMarkets,
@@ -71,8 +70,6 @@ describe("Inverse Bonds", () => {
   it("should display OHM DAI Inverse Bond", async () => {
     // Starts on the inverse bond screen
     render(<Bond />);
-
-    fireEvent.click(await screen.findByTestId("inverse-bond-tab"));
     expect(await screen.findByText("DAI"));
   });
 

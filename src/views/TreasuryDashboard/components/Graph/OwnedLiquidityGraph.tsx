@@ -1,16 +1,9 @@
 import { useTheme } from "@mui/material/styles";
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import {
-  TokenRecord_Filter,
-  TokenRecordsDocument,
-  TokenRecordsQuery,
-  TokenRecordsQueryVariables,
-  useInfiniteTokenRecordsQuery,
-} from "src/generated/graphql";
+import { TokenRecord, TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
   getBulletpointStylesMap,
@@ -18,106 +11,39 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
-  DEFAULT_RECORD_COUNT,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import {
-  getNextPageStartDate,
-  getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
   getDateTokenSummary,
-  getNextPageParamFactory,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 /**
  * Stacked area chart that displays protocol-owned liquidity.
  */
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: GraphProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
-
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
   const [baseFilter] = useState<TokenRecord_Filter>({
     category: CATEGORY_POL,
   });
 
-  /**
-   * Pagination:
-   *
-   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
-   */
-  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [baseFilter, earliestDate]);
-
-  /**
-   * This code block kicks off data fetching with an initial date range.
-   *
-   * The definition of getNextPageParam() handles pagination.
-   */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: paginator.current,
-    },
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+    true,
   );
-
-  const resetCachedData = () => {
-    setByDateTokenSummary([]);
-    setCategoryDataKeyMap(new Map<string, string>());
-    setDataKeys([]);
-    setDataKeyBulletpointStylesMap(new Map<string, CSSProperties>());
-  };
-
-  /**
-   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
-   *
-   * react-query's infinite query functionality apparently does not support automatically
-   * fetching all pages. This code block achieves that.
-   */
-  useEffect(() => {
-    if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
-      fetchNextPage();
-      return;
-    }
-  }, [data, hasNextPage, fetchNextPage]);
 
   /**
    * Chart population:
@@ -133,23 +59,37 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
   const [dataKeyColorsMap, setDataKeyColorsMap] = useState(new Map<string, string>());
   const [total, setTotal] = useState("");
   useMemo(() => {
-    // While data is loading, ensure dependent data is empty
-    if (hasNextPage || !data) {
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
+    if (!tokenRecordResults) {
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
-    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
-
-    const newDateTokenSummary = getDateTokenSummary(tokenRecords);
+    const flatRecords = Array.from(tokenRecordResults.values()).flat();
+    /**
+     * latestOnly is false as the "latest" block is different on each blockchain.
+     * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
+     */
+    const newDateTokenSummary = getDateTokenSummary(flatRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const tokenCategories = Array.from(new Set(tokenRecords.map(tokenRecord => tokenRecord.token))).sort();
+    const getTokenId = (record: TokenRecord): string => {
+      return `${record.token}/${record.blockchain}`;
+    };
 
-    const tempDataKeys = getDataKeysFromTokens(tokenCategories);
+    // Sort the source records array, so that anything generated from this doesn't need to be sorted again, and is consistent.
+    const sortedRecords = flatRecords.sort((a: TokenRecord, b: TokenRecord) => {
+      if (getTokenId(a) < getTokenId(b)) return -1;
+      if (getTokenId(a) > getTokenId(b)) return 1;
+
+      return 0;
+    });
+
+    const tokenCategories = Array.from(new Set(sortedRecords.map(tokenRecord => tokenRecord.token)));
+    // Replicates the format of the keys returned by getDateTokenSummary
+    const tokenIds = Array.from(new Set(sortedRecords.map(tokenRecord => getTokenId(tokenRecord))));
+
+    const tempDataKeys = getDataKeysFromTokens(tokenIds);
     setDataKeys(tempDataKeys);
 
     const tempCategoriesMap = getCategoriesMap(tokenCategories, tempDataKeys);
@@ -160,7 +100,14 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrl, earliestDate }: Graph
 
     const tempColorsMap = getDataKeyColorsMap(DEFAULT_COLORS, tempDataKeys);
     setDataKeyColorsMap(tempColorsMap);
-  }, [data, hasNextPage]);
+  }, [tokenRecordResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateTokenSummary([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Set total

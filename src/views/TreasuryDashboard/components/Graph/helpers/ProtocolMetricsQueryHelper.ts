@@ -26,6 +26,7 @@ export const getNextPageParamFactory = (
   earliestDate: string,
   recordCount: number,
   baseFilter: ProtocolMetric_Filter,
+  endpoint: string,
   dateOffset?: number,
 ) => {
   const logPrefix = `${queryName}/ProtocolMetric/${earliestDate}`;
@@ -63,6 +64,7 @@ export const getNextPageParamFactory = (
         date_lt: newFinishDate,
       },
       recordCount: recordCount,
+      endpoint: endpoint,
     };
   };
 };

@@ -1,7 +1,10 @@
-import { Box, Skeleton, Typography } from "@mui/material";
-import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
+import { ArrowBack } from "@mui/icons-material";
+import { Box, Link, Skeleton, Typography } from "@mui/material";
+import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
@@ -10,8 +13,6 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { BondDuration } from "src/views/Bond/components/BondDuration";
-import { BondInfoText } from "src/views/Bond/components/BondInfoText";
 import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
 import { BondPrice } from "src/views/Bond/components/BondPrice";
@@ -35,7 +36,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
+export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address = "" } = useAccount();
@@ -58,23 +59,34 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     if (address) setRecipientAddress(address);
   }, [address]);
 
+  console.log("in the modal");
   return (
-    <Modal
-      open
-      minHeight="auto"
-      closePosition="right"
-      onClose={() => navigate(`/bonds`)}
-      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
-      headerContent={
-        <Box display="flex" flexDirection="row">
-          <TokenStack tokens={bond.quoteToken.icons} />
+    //TODO: Settings need to go in the confirm modal.
+    //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
 
-          <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-            <Typography variant="h5">{bond.quoteToken.name}</Typography>
+    <Box>
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Link component={RouterLink} to="/bonds">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                  Back
+                </Typography>
+              </Box>
+            </Link>
+
+            <TokenStack tokens={bond.quoteToken.icons} sx={{ fontSize: "27px" }} />
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography variant="h4" fontWeight={500}>
+                {bond.quoteToken.name}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      }
-    >
+        }
+      ></PageTitle>
+
       <Box display="flex" flexDirection="column" alignItems="center">
         <BondSettingsModal
           slippage={slippage}
@@ -91,44 +103,8 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
             metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
           />
-          <Metric label={`Market Price`} metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />} />
-          <Metric label={`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
-        </Box>
-        <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              You Give
-            </Typography>
-            <TokenStack tokens={bond.quoteToken.icons} />
-          </Box>
-
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              Vested
-            </Typography>
-            <Box display="flex" flexGrow={1} alignItems="center">
-              <Typography style={{ lineHeight: "20px" }}>
-                {isInverseBond ? `Instantly` : <BondDuration duration={bond.duration} />}
-              </Typography>
-            </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              You Get
-            </Typography>
-            <Typography style={{ lineHeight: "20px" }}>
-              <TokenStack tokens={bond.baseToken.icons} />
-            </Typography>
-          </Box>
+          <Metric label="Market Price" metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />} />
+          <Metric label="ROI" metric={<BondDiscount discount={bond.discount} textOnly />} />
         </Box>
 
         <Box width="100%" mt="24px">
@@ -137,16 +113,15 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             bond={bond}
             slippage={slippage}
             recipientAddress={recipientAddress}
+            handleSettingsOpen={() => setSettingsOpen(true)}
           />
         </Box>
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
-          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-            <BondInfoText isInverseBond={isInverseBond} />
-          </Typography>
+          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}></Typography>
         </Box>
       </Box>
-    </Modal>
+    </Box>
   );
 };
 

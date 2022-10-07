@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
@@ -36,6 +35,7 @@ describe("Upper Wall Active Bond Market", () => {
       purchase: vi.fn().mockReturnValue({
         wait: vi.fn().mockResolvedValue(true),
       }),
+      getTeller: vi.fn().mockReturnValue(0),
     });
     //@ts-expect-error
     vi.spyOn(RangeHooks, "OHMPriceHistory").mockReturnValue({ data: ohmPriceHistory });
@@ -45,6 +45,13 @@ describe("Upper Wall Active Bond Market", () => {
 
     //@ts-expect-error
     vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+    //@ts-ignore
+    vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
+    vi.spyOn(RangeHooks, "OperatorMovingAverage").mockReturnValue({
+      data: { movingAverage: 12, days: 120 },
+      isFetched: true,
+      isLoading: false,
+    });
 
     //@ts-expect-error
     rangeData.mockReturnValueOnce({
@@ -57,7 +64,27 @@ describe("Upper Wall Active Bond Market", () => {
         getTeller: vi.fn().mockReturnValue("address"),
       }),
       marketPrice: vi.fn().mockReturnValue(BigNumber.from("20120000000000000000000000000000000000")),
+      getTeller: vi.fn().mockReturnValue(0),
+      getMarketInfoForPurchase: vi.fn().mockReturnValue({ maxPayout: 0 }),
     });
+    // vi.mock("src/views/Range/RangeChart", () => ({
+    //   default: (props: {
+    //     rangeData: any;
+    //     currentPrice: number;
+    //     bidPrice: number;
+    //     askPrice: number;
+    //     sellActive: boolean;
+    //     reserveSymbol: string;
+    //   }) => {
+    //     console.log(formatCurrency(props.bidPrice, 2), "bidprice");
+    //     return (
+    //       <>
+    //         <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
+    //         <div>Bid: {formatCurrency(props.bidPrice, 2)}</div>
+    //       </>
+    //     );
+    //   },
+    // }));
   });
   afterEach(() => {
     vi.resetAllMocks();
@@ -103,13 +130,6 @@ describe("Upper Wall Active Bond Market", () => {
   it("Should properly close Additional Settings Modal", async () => {
     //@ts-ignore
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "10.12" } });
-    //@ts-ignore
-    vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    vi.spyOn(RangeHooks, "OperatorMovingAverage").mockReturnValue({
-      data: { movingAverage: 12, days: 120 },
-      isFetched: true,
-      isLoading: false,
-    });
 
     render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
@@ -123,13 +143,7 @@ describe("Upper Wall Active Bond Market", () => {
   it("Should have a disclaimer notifying a buy above current market price ($13.20)", async () => {
     //@ts-ignore
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.12" } });
-    //@ts-ignore
-    vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    vi.spyOn(RangeHooks, "OperatorMovingAverage").mockReturnValue({
-      data: { movingAverage: 12, days: 120 },
-      isFetched: true,
-      isLoading: false,
-    });
+
     render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
@@ -141,16 +155,9 @@ describe("Upper Wall Active Bond Market", () => {
   it("Should successfully complete buy regular bond transaction", async () => {
     //@ts-ignore
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.12" } });
-    //@ts-ignore
-    vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    vi.spyOn(RangeHooks, "OperatorMovingAverage").mockReturnValue({
-      data: { movingAverage: 12, days: 120 },
-      isFetched: true,
-      isLoading: false,
-    });
+
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );

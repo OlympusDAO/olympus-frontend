@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
+import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
@@ -9,7 +9,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { DetermineRangeDiscount } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
 
@@ -26,6 +26,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const NavContent: React.VFC = () => {
+  const theme = useTheme();
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
 
@@ -49,9 +50,12 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {chain.id === networks.MAINNET ? (
+              {chain.id === networks.MAINNET && (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
+                  <Box className="menu-divider">
+                    <Divider sx={{ borderColor: theme.colors.gray[600] }} />
+                  </Box>
                   <NavItem to="/bonds" icon="bond" label={`Bond`}>
                     <Bonds />
                     <InverseBonds />
@@ -63,71 +67,68 @@ const NavContent: React.VFC = () => {
                       <RangePrice bidOrAsk="bid" />
                     </NavItem>
                   )}
-                  <NavItem to="/stake" icon="stake" label="Stake" />
-                  <NavItem icon="bridge" label="Bridge" to="/bridge" />
-                  <Box className="menu-divider">
-                    <Divider />
-                  </Box>
-                  <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={`Olympus Pro`} />
-                  <Box className="menu-divider">
-                    <Divider />
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <NavItem to="/wrap" icon="wrap" label={`Wrap`} />
-                  <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
+                  <NavItem to="/stake" icon="stake" label={`Stake`} />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
               )}
-              <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
-              <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={`Governance`} />
-              <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
-              <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
-              <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
+              <Box className="menu-divider">
+                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
+              </Box>
+              <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
+              <NavItem icon="transparency" label={`Transparency`} href="https://www.olympusdao.finance/transparency" />
+              <Box className="menu-divider">
+                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
+              </Box>
             </div>
           </div>
         </div>
+        <Box>
+          <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
+          <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
+          <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
+          <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
+          <StyledBox display="flex" justifyContent="space-around" paddingY="24px">
+            <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+              <Icon name="github" className={classes.gray} />
+            </Link>
 
-        <StyledBox display="flex" paddingX="17.84px" paddingY="24px">
-          <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
-            <Icon name="github" className={classes.gray} />
-          </Link>
+            <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
+              <Icon name="medium" className={classes.gray} />
+            </Link>
 
-          <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer" pr="25px">
-            <Icon name="medium" className={classes.gray} />
-          </Link>
+            <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
+              <Icon name="twitter" className={classes.gray} />
+            </Link>
 
-          <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer" pr="25px">
-            <Icon name="twitter" className={classes.gray} />
-          </Link>
-
-          <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer" pr="25px">
-            <Icon name="discord" className={classes.gray} />
-          </Link>
-        </StyledBox>
+            <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer">
+              <Icon name="discord" className={classes.gray} />
+            </Link>
+          </StyledBox>
+        </Box>
       </Box>
     </Paper>
   );
 };
 
 const Bonds: React.VFC = () => {
-  const bonds = useLiveBonds().data;
+  const { data: bondsV2 = [] } = useLiveBonds();
+  const { data: bondsV3 = [] } = useLiveBondsV3();
+
+  const bonds = bondsV2.concat(bondsV3);
 
   if (!bonds || bonds.length === 0) return null;
 
   return (
-    <Box ml="26px" mt="16px" mb="12px">
+    <Box ml="26px" mb="12px" mr="18px">
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
-          <Box mt="8px">
-            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
-              <Typography variant="body1">
-                <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  {bond.quoteToken.name}
-                  <BondDiscount discount={bond.discount} />
-                </Box>
-              </Typography>
+          <Box mt="8px" key={bond.id}>
+            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`}>
+              <Box display="flex" flexDirection="row" justifyContent="space-between">
+                <Typography variant="body1">{bond.quoteToken.name}</Typography>
+                <BondDiscount discount={bond.discount} />
+              </Box>
             </Link>
           </Box>
         ))}
@@ -140,19 +141,17 @@ const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
   return (
     <>
       {isFetched && (
-        <Box ml="26px" mt="12px" mb="12px">
+        <Box ml="26px" mt="12px" mb="12px" mr="18px">
           <Typography variant="body2" color="textSecondary">
-            {props.bidOrAsk === "bid" ? t`Bid` : t`Ask`}
+            {props.bidOrAsk === "bid" ? `Bid` : `Ask`}
           </Typography>
           <Box mt="12px">
             <Box mt="8px">
               <Link component={NavLink} to={`/range`}>
-                <Typography variant="body1">
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    {data.quoteToken}
-                    <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
-                  </Box>
-                </Typography>
+                <Box display="flex" flexDirection="row" justifyContent="space-between">
+                  <Typography variant="body1">{data.quoteToken}</Typography>
+                  <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
+                </Box>
               </Link>
             </Box>
           </Box>
@@ -168,7 +167,7 @@ const InverseBonds: React.VFC = () => {
   if (!bonds || bonds.length === 0) return null;
 
   return (
-    <Box ml="26px" mt="12px" mb="12px">
+    <Box ml="26px" mt="12px" mb="12px" mr="18px">
       <Typography variant="body2" color="textSecondary">
         Inverse Bonds
       </Typography>
@@ -177,14 +176,12 @@ const InverseBonds: React.VFC = () => {
         {sortByDiscount(bonds)
           .filter(bond => !bond.isSoldOut)
           .map(bond => (
-            <Box mt="8px">
-              <Link key={bond.id} component={NavLink} to={`/bonds/inverse/${bond.id}`}>
-                <Typography variant="body1">
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    {bond.quoteToken.name}
-                    <BondDiscount discount={bond.discount} />
-                  </Box>
-                </Typography>
+            <Box mt="8px" key={bond.id}>
+              <Link component={NavLink} to={`/bonds/inverse/${bond.id}`}>
+                <Box display="flex" flexDirection="row" justifyContent="space-between">
+                  <Typography variant="body1">{bond.quoteToken.name}</Typography>
+                  <BondDiscount discount={bond.discount} />
+                </Box>
               </Link>
             </Box>
           ))}

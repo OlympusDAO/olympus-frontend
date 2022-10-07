@@ -10,6 +10,7 @@ import {
 import { parseUnits } from "ethers/lib/utils";
 import React, { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import {
   GOHM_ADDRESSES,
   OHM_ADDRESSES,
@@ -233,6 +234,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       />
     );
   };
+
   return (
     <StyledBox mb={3}>
       <Tabs
@@ -317,92 +319,94 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             </Box>
           )}
           <Box>
-            <TokenAllowanceGuard
-              tokenAddressMap={
-                contractRouting === "Stake" || contractRouting === "Wrap"
-                  ? addresses
-                  : { [chain.id]: swapAssetType.address }
-              }
-              spenderAddressMap={contractAddress}
-              approvalText={
-                currentAction === "STAKE"
-                  ? contractRouting === "Stake" || contractRouting === "Wrap"
-                    ? "Approve Staking"
-                    : `Approve Zap from ${swapAssetType.name}`
-                  : "Approve Unstaking"
-              }
-              approvalPendingText={"Confirming Approval in your wallet"}
-              isVertical
-            >
-              {contractRouting === "Stake" && (
-                <PrimaryButton
-                  data-testid="submit-button"
-                  loading={isMutating}
-                  fullWidth
-                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
-                  onClick={() =>
-                    currentAction === "STAKE"
-                      ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
-                      : unstakeMutation.mutate(amount)
-                  }
-                >
-                  {amountExceedsBalance
-                    ? "Amount exceeds balance"
-                    : !amount || parseFloat(amount) === 0
-                    ? "Enter an amount"
-                    : currentAction === "STAKE"
-                    ? isMutating
-                      ? "Confirming Staking in your wallet"
-                      : "Stake"
-                    : isMutating
-                    ? "Confirming Unstaking in your wallet "
-                    : "Unstake"}
-                </PrimaryButton>
-              )}
-
-              {contractRouting === "Wrap" && (
-                <PrimaryButton
-                  data-testid="submit-button"
-                  loading={isMutating}
-                  fullWidth
-                  disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
-                  onClick={() => currentAction === "STAKE" && wrapMutation.mutate(amount)}
-                >
-                  {amountExceedsBalance
-                    ? "Amount exceeds balance"
-                    : !amount || parseFloat(amount) === 0
-                    ? "Enter an amount"
-                    : currentAction === "STAKE"
-                    ? isMutating
-                      ? "Confirming Wrapping in your wallet"
-                      : "Wrap to gOHM"
-                    : isMutating
-                    ? "Confirming Unstaking in your wallet "
-                    : "Unstake"}
-                </PrimaryButton>
-              )}
-              {contractRouting === "Zap" && (
-                <PrimaryButton
-                  fullWidth
-                  disabled={
-                    zapExecute.isLoading ||
-                    zapOutputAmount === "" ||
-                    (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                    import.meta.env.DISABLE_ZAPS ||
-                    parseFloat(amount) === 0
-                  }
-                  onClick={onZap}
-                >
-                  <Box display="flex" flexDirection="row" alignItems="center">
-                    {zapOutputAmount === ""
+            <WalletConnectedGuard fullWidth>
+              <TokenAllowanceGuard
+                tokenAddressMap={
+                  contractRouting === "Stake" || contractRouting === "Wrap"
+                    ? addresses
+                    : { [chain.id]: swapAssetType.address }
+                }
+                spenderAddressMap={contractAddress}
+                approvalText={
+                  currentAction === "STAKE"
+                    ? contractRouting === "Stake" || contractRouting === "Wrap"
+                      ? "Approve Staking"
+                      : `Approve Zap from ${swapAssetType.name}`
+                    : "Approve Unstaking"
+                }
+                approvalPendingText={"Confirming Approval in your wallet"}
+                isVertical
+              >
+                {contractRouting === "Stake" && (
+                  <PrimaryButton
+                    data-testid="submit-button"
+                    loading={isMutating}
+                    fullWidth
+                    disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
+                    onClick={() =>
+                      currentAction === "STAKE"
+                        ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
+                        : unstakeMutation.mutate(amount)
+                    }
+                  >
+                    {amountExceedsBalance
+                      ? "Amount exceeds balance"
+                      : !amount || parseFloat(amount) === 0
                       ? "Enter an amount"
-                      : +zapOutputAmount >= 0.5 || stakedAssetType.name == "gOHM"
-                      ? "Zap-Stake"
-                      : "Minimum Output Amount: 0.5 sOHM"}
-                  </Box>
-                </PrimaryButton>
-              )}
-            </TokenAllowanceGuard>
+                      : currentAction === "STAKE"
+                      ? isMutating
+                        ? "Confirming Staking in your wallet"
+                        : "Stake"
+                      : isMutating
+                      ? "Confirming Unstaking in your wallet "
+                      : "Unstake"}
+                  </PrimaryButton>
+                )}
+
+                {contractRouting === "Wrap" && (
+                  <PrimaryButton
+                    data-testid="submit-button"
+                    loading={isMutating}
+                    fullWidth
+                    disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
+                    onClick={() => currentAction === "STAKE" && wrapMutation.mutate(amount)}
+                  >
+                    {amountExceedsBalance
+                      ? "Amount exceeds balance"
+                      : !amount || parseFloat(amount) === 0
+                      ? "Enter an amount"
+                      : currentAction === "STAKE"
+                      ? isMutating
+                        ? "Confirming Wrapping in your wallet"
+                        : "Wrap to gOHM"
+                      : isMutating
+                      ? "Confirming Unstaking in your wallet "
+                      : "Unstake"}
+                  </PrimaryButton>
+                )}
+                {contractRouting === "Zap" && (
+                  <PrimaryButton
+                    fullWidth
+                    disabled={
+                      zapExecute.isLoading ||
+                      zapOutputAmount === "" ||
+                      (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
+                      import.meta.env.DISABLE_ZAPS ||
+                      parseFloat(amount) === 0
+                    }
+                    onClick={onZap}
+                  >
+                    <Box display="flex" flexDirection="row" alignItems="center">
+                      {zapOutputAmount === ""
+                        ? "Enter an amount"
+                        : +zapOutputAmount >= 0.5 || stakedAssetType.name == "gOHM"
+                        ? "Zap-Stake"
+                        : "Minimum Output Amount: 0.5 sOHM"}
+                    </Box>
+                  </PrimaryButton>
+                )}
+              </TokenAllowanceGuard>
+            </WalletConnectedGuard>
           </Box>
         </Box>
       </Box>

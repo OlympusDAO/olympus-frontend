@@ -30,6 +30,32 @@ beforeEach(() => {
       Custom: vi.fn(),
     }),
   }));
+  vi.mock("recharts", () => ({
+    default: vi.fn(),
+    ComposedChart: vi.fn(),
+    LineChart: vi.fn(),
+    Line: vi.fn(),
+    XAxis: vi.fn(),
+    YAxis: vi.fn(),
+    Tooltip: vi.fn(),
+    ResponsiveContainer: vi.fn(),
+    Area: vi.fn(),
+    AreaChart: vi.fn(),
+  }));
+
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation(query => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(), // Deprecated
+      removeListener: vi.fn(), // Deprecated
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
 });
 
 afterEach(() => {

@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
@@ -16,7 +17,6 @@ import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { BondTeller__factory, IERC20__factory } from "src/typechain";
 import { OlympusRange } from "src/typechain/Range";
 import { useNetwork, useSigner } from "wagmi";
@@ -386,7 +386,7 @@ export const RangeSwap = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast(error.message));
+        toast.error(error.message);
       },
       onSuccess: async (tx, { market }) => {
         // trackGAEvent({
@@ -404,7 +404,7 @@ export const RangeSwap = () => {
         //   txHash: tx.transactionHash.slice(2),
         // });
 
-        dispatch(createInfoToast(`Range Swap Successful`));
+        toast(`Range Swap Successful`);
       },
     },
   );

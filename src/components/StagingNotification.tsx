@@ -11,6 +11,7 @@ const classes = {
 };
 
 const StyledNotification = styled("div")(() => ({
+  zIndex: 100,
   [`& .${classes.contentShift}`]: {
     marginLeft: 0,
   },
