@@ -30,6 +30,7 @@ beforeEach(async () => {
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
   Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
 
 afterEach(() => {
@@ -112,13 +113,13 @@ describe("Bonds", () => {
   it("Should display the correct LP value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("$17.21")).toBeInTheDocument();
+    expect(await screen.findByText("14.21 OHM")).toBeInTheDocument();
   });
 
   it("Should display the correct % Discount value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("13.96%")).toBeInTheDocument();
+    expect(await screen.findByText("28.95%")).toBeInTheDocument();
   });
 });
 

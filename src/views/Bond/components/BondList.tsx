@@ -26,7 +26,6 @@ import { Bond } from "src/views/Bond/hooks/useBond";
 
 export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({ bonds, isInverseBond }) => {
   const isSmallScreen = useScreenSize("md");
-
   if (bonds.length === 0)
     return (
       <Box display="flex" justifyContent="center">
@@ -102,7 +101,11 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
         </Typography>
 
         <Typography>
-          {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+          {bond.isSoldOut ? (
+            "--"
+          ) : (
+            <BondPrice price={bond.price.inBaseToken} isInverseBond={isInverseBond} symbol={baseTokenName} />
+          )}
         </Typography>
       </Box>
 
@@ -235,7 +238,12 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
           {bond.isSoldOut ? (
             "--"
           ) : (
-            <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} isV3Bond={bond.isV3Bond} />
+            <BondPrice
+              price={bond.price.inBaseToken}
+              isInverseBond={isInverseBond}
+              isV3Bond={bond.isV3Bond}
+              symbol={baseTokenName}
+            />
           )}
         </Typography>
       </TableCell>

@@ -28,7 +28,7 @@ export const OHM_TOKEN = new Token({
   decimals: 9,
   addresses: OHM_ADDRESSES,
   factory: IERC20__factory,
-  purchaseUrl: "https://app.balancer.fi/#/trade",
+  purchaseUrl: "https://app.balancer.fi/#/trade/ether/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
 });
 
 export const SOHM_TOKEN = new Token({
@@ -38,7 +38,7 @@ export const SOHM_TOKEN = new Token({
   addresses: SOHM_ADDRESSES,
   factory: IERC20__factory,
   customPricingFunc: OHM_TOKEN.getPrice,
-  purchaseUrl: "https://app.balancer.fi/#/trade",
+  purchaseUrl: "https://app.balancer.fi/#/trade/ether/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
 });
 
 export const GOHM_TOKEN = new Token({
