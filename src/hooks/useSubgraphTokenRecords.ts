@@ -79,7 +79,12 @@ export const useTokenRecordsQuery = (
   // Handle changes to props and re-generate cached variables
   // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
   useEffect(() => {
-    console.info(`${functionName}: Inputs changed. Updating calculated values`);
+    console.info(`${functionName}: Inputs changed. Updating query variables.`);
+    console.debug(
+      `${functionName}: baseFilter = ${JSON.stringify(
+        baseFilter,
+      )}, earliestDate = ${earliestDate}, dateOffset = ${dateOffset}, subgraphUrl = ${subgraphUrl}`,
+    );
 
     // We need to wipe the data, otherwise it will be inconsistent
     // This is called here so that calling components can be updated before any changes to query configuration
@@ -194,18 +199,21 @@ export const useTokenRecordsQueries = (
   useEffect(() => {
     if (_baseFilter == baseFilter.current) return;
 
+    console.debug(`${chartName}: baseFilter changed to ${JSON.stringify(baseFilter)}`);
     baseFilter.current = _baseFilter;
   }, [_baseFilter]);
   const earliestDate = useRef(_earliestDate);
   useEffect(() => {
     if (_earliestDate == earliestDate.current) return;
 
+    console.debug(`${chartName}: earliestDate changed to ${earliestDate}`);
     earliestDate.current = _earliestDate;
   }, [_earliestDate]);
   const dateOffset = useRef(_dateOffset);
   useEffect(() => {
     if (_dateOffset == dateOffset.current) return;
 
+    console.debug(`${chartName}: dateOffset changed to ${dateOffset}`);
     dateOffset.current = _dateOffset;
   }, [_dateOffset]);
 

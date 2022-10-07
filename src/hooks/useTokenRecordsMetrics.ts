@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { TokenRecord, TokenRecord_Filter, useTokenRecordsQuery } from "src/generated/graphql";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
@@ -59,36 +59,52 @@ export const useTokenRecordsLatestRecord = (subgraphUrl?: string) => {
  */
 const useTreasuryAssets = (
   sourceName: string,
-  liquidOnly: boolean,
+  _liquidOnly: boolean,
   _earliestDate?: string,
   _subgraphUrls?: SUBGRAPH_URLS,
 ): number => {
   // We use a mutable reference for each of the values, otherwise it will cause re-fetching of data endlessly
-  const [earliestDate, setEarliestDate] = useState<string | null>(null);
+  const earliestDate = useRef(_earliestDate || null);
   useEffect(() => {
-    if (_earliestDate == earliestDate) return;
+    if (_earliestDate == earliestDate.current) return;
 
-    setEarliestDate(_earliestDate || null);
+    earliestDate.current = _earliestDate || null;
   }, [_earliestDate]);
 
-  const [subgraphUrls, setSubgraphUrls] = useState<SUBGRAPH_URLS | null>(null);
+  const subgraphUrls = useRef(_subgraphUrls || null);
   useEffect(() => {
-    if (_subgraphUrls == subgraphUrls) return;
+    if (_subgraphUrls == subgraphUrls.current) return;
 
-    setSubgraphUrls(_subgraphUrls || null);
+    subgraphUrls.current = _subgraphUrls || null;
   }, [_subgraphUrls]);
 
   // It's tempting to restrict by the latest block here, EXCEPT that different blockchains have different latest block values. It's easier to restrict by date.
-  const [baseFilter] = useState<TokenRecord_Filter>({
-    ...(liquidOnly
-      ? {
-          isLiquid: true,
-        }
-      : {}),
-  });
+  const createFilter = (_isLiquid: boolean): TokenRecord_Filter => {
+    return {
+      ...(_isLiquid
+        ? {
+            isLiquid: true,
+          }
+        : {}),
+    };
+  };
+  const baseFilter = useRef(createFilter(_liquidOnly));
+  const liquidOnly = useRef(_liquidOnly);
+  useEffect(() => {
+    if (_liquidOnly == liquidOnly.current) return;
+
+    liquidOnly.current = _liquidOnly;
+    baseFilter.current = createFilter(_liquidOnly);
+  }, [_liquidOnly]);
 
   // Fetch the TokenRecords from all blockchains defined in subgraphUrls
-  const tokenRecordResults = useTokenRecordsQueries(sourceName, subgraphUrls, baseFilter, earliestDate, undefined);
+  const tokenRecordResults = useTokenRecordsQueries(
+    sourceName,
+    subgraphUrls.current,
+    baseFilter.current,
+    earliestDate.current,
+    undefined,
+  );
 
   // Get the latest result (but be defensive in case the are no results)
   const latestResult: TokenRecord[] = !tokenRecordResults
@@ -97,7 +113,7 @@ const useTreasuryAssets = (
     ? []
     : Array.from(tokenRecordResults)[tokenRecordResults.size - 1][1];
 
-  return getTreasuryAssetValue(latestResult, liquidOnly);
+  return getTreasuryAssetValue(latestResult, liquidOnly.current);
 };
 
 /**
