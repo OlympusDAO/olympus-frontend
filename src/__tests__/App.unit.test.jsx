@@ -26,7 +26,9 @@ describe("<App/>", () => {
   it("should render component", () => {
     disconnectedWallet();
     renderRoute("/");
-    expect(screen.getAllByText("Connect Wallet")[1]).toBeInTheDocument();
+    // testing for the connect wallet text in the wallet button
+    expect(screen.getAllByText("Connect Wallet")[0]).toBeInTheDocument();
+    expect(screen.findByText("Bonds")).toBeInTheDocument();
   });
   it("should not render an error message when user wallet is connected and cached but not locked", async () => {
     // Workaround for long-running tasks
