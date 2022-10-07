@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
@@ -65,7 +64,27 @@ describe("Upper Wall Active Bond Market", () => {
         getTeller: vi.fn().mockReturnValue("address"),
       }),
       marketPrice: vi.fn().mockReturnValue(BigNumber.from("20120000000000000000000000000000000000")),
+      getTeller: vi.fn().mockReturnValue(0),
+      getMarketInfoForPurchase: vi.fn().mockReturnValue({ maxPayout: 0 }),
     });
+    // vi.mock("src/views/Range/RangeChart", () => ({
+    //   default: (props: {
+    //     rangeData: any;
+    //     currentPrice: number;
+    //     bidPrice: number;
+    //     askPrice: number;
+    //     sellActive: boolean;
+    //     reserveSymbol: string;
+    //   }) => {
+    //     console.log(formatCurrency(props.bidPrice, 2), "bidprice");
+    //     return (
+    //       <>
+    //         <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
+    //         <div>Bid: {formatCurrency(props.bidPrice, 2)}</div>
+    //       </>
+    //     );
+    //   },
+    // }));
   });
   afterEach(() => {
     vi.resetAllMocks();
@@ -139,7 +158,6 @@ describe("Upper Wall Active Bond Market", () => {
 
     render(
       <>
-        <Messages />
         <Range />
       </>,
     );

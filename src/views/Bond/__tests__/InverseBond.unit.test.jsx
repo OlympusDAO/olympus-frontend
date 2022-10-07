@@ -70,8 +70,6 @@ describe("Inverse Bonds", () => {
   it("should display OHM DAI Inverse Bond", async () => {
     // Starts on the inverse bond screen
     render(<Bond />);
-
-    fireEvent.click(await screen.findByTestId("inverse-bond-tab"));
     expect(await screen.findByText("DAI"));
   });
 

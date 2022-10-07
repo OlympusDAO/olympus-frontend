@@ -83,7 +83,7 @@ describe("Lower Wall Active Bond Market", () => {
     //@ts-expect-error
     vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
     render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
+    fireEvent.click(await screen.findByTestId("sell-tab"));
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(await screen.findByText("I understand that I am selling at a discount to current market price"));

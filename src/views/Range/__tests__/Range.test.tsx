@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import * as Contract from "src/constants/contracts";
+import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -15,19 +16,24 @@ import * as WAGMI from "wagmi";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 vi.mock("src/hooks/useContractAllowance");
-// vi.mock("recharts", async () => {
-//   const OriginalModule = await vi.importActual("recharts");
-
-//   return {
-//     ...OriginalModule,
-//     Symbols: vi.fn(),
-//     ResponsiveContainer: ({ height, children }) => (
-//       <OriginalModule.ResponsiveContainer width={800} height={height}>
-//         {children}
-//       </OriginalModule.ResponsiveContainer>
-//     ),
-//   };
-// });
+vi.mock("src/views/Range/RangeChart", () => ({
+  default: (props: {
+    rangeData: any;
+    currentPrice: number;
+    bidPrice: number;
+    askPrice: number;
+    sellActive: boolean;
+    reserveSymbol: string;
+  }) => {
+    console.log(formatCurrency(props.bidPrice, 2), "bidprice");
+    return (
+      <>
+        <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
+        <div>Bid: {formatCurrency(props.bidPrice, 2)}</div>
+      </>
+    );
+  },
+}));
 
 const defaultStatesWithApproval = () => {
   const rangeOperator = vi.spyOn(Contract.RANGE_OPERATOR_CONTRACT, "getEthersContract");
@@ -93,11 +99,7 @@ describe("Default Main Range View", () => {
   });
 
   it("Should Successfully execute a buy swap", async () => {
-    render(
-      <>
-        <Range />
-      </>,
-    );
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
@@ -154,7 +156,7 @@ describe("Default Main Range View", () => {
 
   it("Should render with Ask price of $24.18 on chart", async () => {
     render(<Range />);
-    expect(await screen.findByText("Ask: $24.18"));
+    expect(await screen.getByText("Ask: $24.18"));
   });
 });
 
@@ -218,8 +220,7 @@ describe("Sell Tab Main Range View", () => {
   });
 
   it("Should render with Bid price of $16.12 on chart", async () => {
-    render(<Range />);
-    expect(await screen.findByText("Bid: $16.12"));
+    expect(screen.getByText("Bid: $16.12"));
   });
 });
 
