@@ -6,7 +6,10 @@ import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { useNetwork } from "wagmi";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -60,6 +63,14 @@ export const TokenAllowanceGuard: React.FC<{
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
+  const { chain = { id: 1 } } = useNetwork();
+  const balance = useBalance(tokenAddressMap)[chain.id as keyof typeof tokenAddressMap].data;
+
+  const getBalance = (): DecimalBigNumber => {
+    if (balance) return balance;
+    return new DecimalBigNumber("0");
+  };
+
   if (!allowance)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height={isVertical ? "84px" : "40px"}>
@@ -67,7 +78,7 @@ export const TokenAllowanceGuard: React.FC<{
       </Box>
     );
 
-  if (allowance.eq(0))
+  if (allowance.eq(0) || allowance.lt(getBalance().toBigNumber()))
     return (
       <Grid container>
         <Grid item xs={12} sm={isVertical ? 12 : 8}>
@@ -99,6 +110,14 @@ export const GiveTokenAllowanceGuard: React.FC<{
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
+  const { chain = { id: 1 } } = useNetwork();
+  const balance = useBalance(props.tokenAddressMap)[chain.id as keyof typeof props.tokenAddressMap].data;
+
+  const getBalance = (): DecimalBigNumber => {
+    if (balance) return balance;
+    return new DecimalBigNumber("0");
+  };
+
   if (_useContractAllowance.isLoading)
     return (
       <Grid container className={classes.inputRow}>
@@ -106,7 +125,11 @@ export const GiveTokenAllowanceGuard: React.FC<{
       </Grid>
     );
 
-  if (!_useContractAllowance.data || _useContractAllowance.data.eq(0))
+  if (
+    !_useContractAllowance.data ||
+    _useContractAllowance.data.eq(0) ||
+    _useContractAllowance.data.lt(getBalance().toBigNumber())
+  )
     return (
       <Grid container className={classes.inputRow} direction="column" spacing={5}>
         <Grid item xs={12} sm={8} className={classes.gridItem}>

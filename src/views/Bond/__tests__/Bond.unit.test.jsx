@@ -145,7 +145,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should display bond modal with Fixed Term Bond", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(<BondModalContainer />);
     expect(await screen.findByText("Duration")).toBeInTheDocument();
   });
@@ -157,7 +159,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when no amount is entered ", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
         <Messages />
@@ -169,7 +173,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when negative amount is entered", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
         <Messages />
@@ -184,7 +190,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when amount is greater than balance", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
         <Messages />
@@ -199,7 +207,9 @@ describe("Bond Modal", () => {
   });
 
   it("Return Error when Amount is > Max Payout", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
         <Messages />
@@ -216,7 +226,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Execute Successfully", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    ContractAllowance.useContractAllowance = jest
+      .fn()
+      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
         <Messages />
