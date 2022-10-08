@@ -109,6 +109,7 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     ? capacityData.capacityInQuoteToken.lt("1")
     : capacityData.capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
+  const { lastDecay } = await auctioneerContract.metadata(id);
   return {
     id,
     baseToken,
@@ -131,5 +132,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     },
     isV3Bond: true,
     bondToken,
+    lastDecay,
   };
 };
