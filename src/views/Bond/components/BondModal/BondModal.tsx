@@ -184,7 +184,9 @@ const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean; baseSymbol:
     ? formatNumber(1, 2)
     : isInverseBond
     ? formatNumber(ohmPrice, 2)
-    : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
+    : priceToken.gt(new DecimalBigNumber("0"))
+    ? new DecimalBigNumber("1").div(priceToken).toString({ decimals: 2, format: true, trim: false })
+    : "0.00";
   return price ? (
     <>
       {price} {baseSymbol}
