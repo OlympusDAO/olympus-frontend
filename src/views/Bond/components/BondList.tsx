@@ -11,8 +11,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { InfoTooltip, TertiaryButton, TokenStack } from "@olympusdao/component-library";
-import Countdown from "react-countdown";
+import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
@@ -256,15 +255,6 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
 
       <TableCell style={{ padding: "8px 0" }}>
         <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
-        {decayInFuture && (
-          <Typography
-            color="textSecondary"
-            style={{ fontSize: "12px", fontWeight: 400, lineHeight: "18px", marginTop: "2px" }}
-          >
-            {bond.lastDecay && <Countdown date={new Date(bond.lastDecay * 1000)} daysInHours={true} />}
-            <InfoTooltip message="Time until decay resumes" />
-          </Typography>
-        )}
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
