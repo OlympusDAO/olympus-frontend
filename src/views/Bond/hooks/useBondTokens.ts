@@ -67,6 +67,7 @@ export const useGetBondTokenBalances = () => {
       }),
     );
     const withBalances = tokenMap.filter((token: { balance: DecimalBigNumber }) => token.balance.gt("0"));
+
     return withBalances;
   });
 };
