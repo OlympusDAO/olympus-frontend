@@ -2,17 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
 import { BOND_FIXED_TERM_SDA_ADDRESSES } from "src/constants/addresses";
-import {
-  BOND_AGGREGATOR_CONTRACT,
-  BOND_FIXED_EXPIRY_SDA_CONTRACT,
-  BOND_FIXED_EXPIRY_TELLER,
-  BOND_FIXED_TERM_SDA_CONTRACT,
-} from "src/constants/contracts";
+import { BOND_AGGREGATOR_CONTRACT, BOND_FIXED_EXPIRY_TELLER } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { BondFixedExpirySDA__factory, BondFixedTermSDA__factory } from "src/typechain/factories";
 import { calculateCapacity, UseBondOptions } from "src/views/Bond/hooks/useBond";
 
 export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options] as const;
@@ -27,10 +23,16 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
   const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
 
+  /*
+  Important: This is currently the only known method for determining if a bond is fixed term or not.
+  If the BOND_FIXED_TERM_SDA_ADDRESSES is updated, and fixed term markets are live, 
+  it may cause issues with existing open fixed term markets.
+  */
   const fixedTerm = auctioneerAddress === BOND_FIXED_TERM_SDA_ADDRESSES[networkId];
+
   const auctioneerContract = fixedTerm
-    ? BOND_FIXED_TERM_SDA_CONTRACT.getEthersContract(networkId)
-    : BOND_FIXED_EXPIRY_SDA_CONTRACT.getEthersContract(networkId);
+    ? BondFixedTermSDA__factory.connect(auctioneerAddress, aggregatorContract.provider)
+    : BondFixedExpirySDA__factory.connect(auctioneerAddress, aggregatorContract.provider);
 
   const market = await auctioneerContract.markets(id);
   const baseToken = isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
@@ -82,6 +84,7 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
    * is 9 days. when bob deposits on day 2, his term is 8 days.
    */
   const duration = fixedTerm ? terms.vesting : terms.vesting - Date.now() / 1000;
+  console.log(duration, fixedTerm, "duration", id, terms.vesting, terms);
 
   const capacityData = calculateCapacity({
     capacity: market.capacity,
