@@ -123,12 +123,12 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
       inBaseToken: quoteTokenPerBaseToken,
     },
     capacity: {
-      inBaseToken: capacityData.capacityInBaseToken,
-      inQuoteToken: capacityData.capacityInQuoteToken,
+      inBaseToken: capacityData.capacityInBaseToken.mul(new DecimalBigNumber("0.99")), //reduce capacity by 1%
+      inQuoteToken: capacityData.capacityInQuoteToken.mul(new DecimalBigNumber("0.99")), //reduce capacity by 1%
     },
     maxPayout: {
-      inBaseToken: maxPayoutInBaseToken,
-      inQuoteToken: maxPayoutInQuoteToken,
+      inBaseToken: maxPayoutInBaseToken.mul(new DecimalBigNumber("0.99")), //reduce payout by 1%
+      inQuoteToken: maxPayoutInQuoteToken.mul(new DecimalBigNumber("0.99")), //reduce payout by 1%
     },
     isV3Bond: true,
     bondToken,
