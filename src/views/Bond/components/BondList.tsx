@@ -105,7 +105,11 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
           {bond.isSoldOut ? (
             "--"
           ) : (
-            <BondPrice price={bond.price.inBaseToken} isInverseBond={isInverseBond} symbol={baseTokenName} />
+            <BondPrice
+              price={bond.price.inBaseToken}
+              isInverseBond={isInverseBond}
+              symbol={isInverseBond ? baseTokenName : quoteTokenName}
+            />
           )}
         </Typography>
       </Box>
@@ -248,7 +252,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
               price={bond.price.inBaseToken}
               isInverseBond={isInverseBond}
               isV3Bond={bond.isV3Bond}
-              symbol={baseTokenName}
+              symbol={isInverseBond ? baseTokenName : quoteTokenName}
             />
           )}
         </Typography>
