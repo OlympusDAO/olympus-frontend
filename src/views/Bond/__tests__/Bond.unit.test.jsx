@@ -113,7 +113,7 @@ describe("Bonds", () => {
   it("Should display the correct LP value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("14.21 OHM")).toBeInTheDocument();
+    expect(await screen.findByText("14.21 FRAX")).toBeInTheDocument();
   });
 
   it("Should display the correct % Discount value", async () => {
