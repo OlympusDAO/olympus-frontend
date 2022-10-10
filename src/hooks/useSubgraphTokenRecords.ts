@@ -1,4 +1,3 @@
-import { useIsFetching } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   TokenRecord,
@@ -79,13 +78,6 @@ export const useTokenRecordsQuery = (
   // Handle changes to props and re-generate cached variables
   // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
   useEffect(() => {
-    console.info(`${functionName}: Inputs changed. Updating query variables.`);
-    console.debug(
-      `${functionName}: baseFilter = ${JSON.stringify(
-        baseFilter,
-      )}, earliestDate = ${earliestDate}, dateOffset = ${dateOffset}, subgraphUrl = ${subgraphUrl}`,
-    );
-
     // We need to wipe the data, otherwise it will be inconsistent
     // This is called here so that calling components can be updated before any changes to query configuration
     setByDateTokenRecords(null);
@@ -116,6 +108,9 @@ export const useTokenRecordsQuery = (
       enabled: earliestDate !== null && endpointNotNull.current.length > 0 && paginator.current !== undefined,
       getNextPageParam: paginator.current,
     };
+    console.debug(
+      `${functionName}: Inputs changed. Updated query variables. Query enabled: ${queryOptions.current.enabled}`,
+    );
   }, [baseFilter, earliestDate, dateOffset, endpointNotNull, functionName, subgraphUrl, chartName]);
 
   /**
@@ -140,7 +135,7 @@ export const useTokenRecordsQuery = (
     // Calling refetch() after setting the new paginator causes the query to never finish
     console.info(`${functionName}: Re-fetching.`);
     refetch();
-  }, [queryOptions.current, functionName, refetch]);
+  }, [queryOptions.current, functionName, refetch]); // eslint complains about the dependency array, but it works...
 
   // Handle subsequent pages
   useEffect(() => {
@@ -199,23 +194,23 @@ export const useTokenRecordsQueries = (
   useEffect(() => {
     if (_baseFilter == baseFilter.current) return;
 
-    console.debug(`${chartName}: baseFilter changed to ${JSON.stringify(baseFilter)}`);
+    console.debug(`${chartName}: baseFilter changed to ${JSON.stringify(_baseFilter)}`);
     baseFilter.current = _baseFilter;
-  }, [_baseFilter]);
+  }, [_baseFilter, chartName]);
   const earliestDate = useRef(_earliestDate);
   useEffect(() => {
     if (_earliestDate == earliestDate.current) return;
 
-    console.debug(`${chartName}: earliestDate changed to ${earliestDate}`);
+    console.debug(`${chartName}: earliestDate changed to ${_earliestDate}`);
     earliestDate.current = _earliestDate;
-  }, [_earliestDate]);
+  }, [_earliestDate, chartName]);
   const dateOffset = useRef(_dateOffset);
   useEffect(() => {
     if (_dateOffset == dateOffset.current) return;
 
-    console.debug(`${chartName}: dateOffset changed to ${dateOffset}`);
+    console.debug(`${chartName}: dateOffset changed to ${_dateOffset}`);
     dateOffset.current = _dateOffset;
-  }, [_dateOffset]);
+  }, [_dateOffset, chartName]);
 
   // Cache the subgraph urls, otherwise it will re-fetch and re-render continuously
   const subgraphUrlArbitrum = useRef<string | null>(null);
@@ -224,6 +219,7 @@ export const useTokenRecordsQueries = (
   const subgraphUrlPolygon = useRef<string | null>(null);
   useEffect(() => {
     if (!subgraphUrls) {
+      console.debug(`${chartName}: subgraphUrls changed to null`);
       subgraphUrlArbitrum.current = null;
       subgraphUrlEthereum.current = null;
       subgraphUrlFantom.current = null;
@@ -231,17 +227,38 @@ export const useTokenRecordsQueries = (
       return;
     }
 
+    // Skip if the values are the same
+    if (
+      subgraphUrlArbitrum.current == subgraphUrls.Arbitrum &&
+      subgraphUrlEthereum.current == subgraphUrls.Ethereum &&
+      subgraphUrlFantom.current == subgraphUrls.Fantom &&
+      subgraphUrlPolygon.current == subgraphUrls.Polygon
+    ) {
+      return;
+    }
+
+    console.debug(`${chartName}: subgraphUrls changed to ${JSON.stringify(subgraphUrls)}`);
     subgraphUrlArbitrum.current = subgraphUrls.Arbitrum;
     subgraphUrlEthereum.current = subgraphUrls.Ethereum;
     subgraphUrlFantom.current = subgraphUrls.Fantom;
     subgraphUrlPolygon.current = subgraphUrls.Polygon;
-  }, [subgraphUrls]);
+  }, [chartName, subgraphUrls]);
 
   useEffect(() => {
     // This ensures that components relying on this data are updated
     console.info(`${chartName}: Inputs changed. Resetting combined results.`);
     setCombinedResults(null);
-  }, [baseFilter, earliestDate, dateOffset, subgraphUrls, chartName]);
+  }, [
+    // eslint complains about the dependency array, but it works...
+    baseFilter.current,
+    earliestDate.current,
+    dateOffset.current,
+    subgraphUrlArbitrum.current,
+    subgraphUrlEthereum.current,
+    subgraphUrlFantom.current,
+    subgraphUrlPolygon.current,
+    chartName,
+  ]);
 
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
@@ -273,7 +290,6 @@ export const useTokenRecordsQueries = (
     dateOffset.current,
   );
   const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
-  const isFetchingCount = useIsFetching(["TokenRecords.infinite"]);
 
   /**
    * Combines the contents of {results} with the existing map of {currentResults}.
@@ -373,7 +389,7 @@ export const useTokenRecordsQueries = (
     const sortedResults = new Map([...tempResults].sort().reverse());
 
     setCombinedResults(sortedResults);
-  }, [arbitrumResults, chartName, ethereumResults, fantomResults, isFetchingCount, polygonResults]);
+  }, [arbitrumResults, chartName, ethereumResults, fantomResults, polygonResults]);
 
   return combinedResults;
 };
