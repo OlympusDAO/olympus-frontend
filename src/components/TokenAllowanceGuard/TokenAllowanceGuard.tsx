@@ -64,12 +64,9 @@ export const TokenAllowanceGuard: React.FC<{
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
   const { chain = { id: 1 } } = useNetwork();
-  const balance = useBalance(tokenAddressMap)[chain.id as keyof typeof tokenAddressMap].data;
-
-  const getBalance = (): DecimalBigNumber => {
-    if (balance) return balance;
-    return new DecimalBigNumber("0");
-  };
+  const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[
+    chain.id as keyof typeof tokenAddressMap
+  ] || { data: new DecimalBigNumber("0") };
 
   if (!allowance)
     return (
@@ -78,7 +75,7 @@ export const TokenAllowanceGuard: React.FC<{
       </Box>
     );
 
-  if (allowance.eq(0) || allowance.lt(getBalance().toBigNumber()))
+  if (allowance.eq(0) || allowance.lt(balance.toBigNumber()))
     return (
       <Grid container>
         <Grid item xs={12} sm={isVertical ? 12 : 8}>
@@ -111,12 +108,9 @@ export const GiveTokenAllowanceGuard: React.FC<{
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
   const { chain = { id: 1 } } = useNetwork();
-  const balance = useBalance(props.tokenAddressMap)[chain.id as keyof typeof props.tokenAddressMap].data;
-
-  const getBalance = (): DecimalBigNumber => {
-    if (balance) return balance;
-    return new DecimalBigNumber("0");
-  };
+  const { data: balance = new DecimalBigNumber("0") } = useBalance(props.tokenAddressMap)[
+    chain.id as keyof typeof props.tokenAddressMap
+  ] || { data: new DecimalBigNumber("0") };
 
   if (_useContractAllowance.isLoading)
     return (
@@ -128,7 +122,7 @@ export const GiveTokenAllowanceGuard: React.FC<{
   if (
     !_useContractAllowance.data ||
     _useContractAllowance.data.eq(0) ||
-    _useContractAllowance.data.lt(getBalance().toBigNumber())
+    _useContractAllowance.data.lt(balance.toBigNumber())
   )
     return (
       <Grid container className={classes.inputRow} direction="column" spacing={5}>
