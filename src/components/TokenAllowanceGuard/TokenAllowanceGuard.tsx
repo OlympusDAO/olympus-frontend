@@ -9,7 +9,7 @@ import { AddressMap } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useNetwork } from "wagmi";
 
 const PREFIX = "TokenAllowanceGuard";
 
@@ -62,8 +62,11 @@ export const TokenAllowanceGuard: React.FC<{
 }> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
-  const networks = useTestableNetworks();
-  const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[networks.MAINNET];
+
+  const { chain = { id: 1 } } = useNetwork();
+  const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[
+    chain.id as keyof typeof tokenAddressMap
+  ] || { data: { balance: new DecimalBigNumber("0") } };
 
   const getBalance = (): DecimalBigNumber => {
     if (balance) return balance;
@@ -108,8 +111,11 @@ export const GiveTokenAllowanceGuard: React.FC<{
 }> = props => {
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
-  const networks = useTestableNetworks();
-  const { data: balance = new DecimalBigNumber("0") } = useBalance(props.tokenAddressMap)[networks.MAINNET];
+
+  const { chain = { id: 1 } } = useNetwork();
+  const { data: balance = new DecimalBigNumber("0") } = useBalance(props.tokenAddressMap)[
+    chain.id as keyof typeof props.tokenAddressMap
+  ] || { data: { balance: new DecimalBigNumber("0") } };
 
   const getBalance = (): DecimalBigNumber => {
     if (balance) return balance;
