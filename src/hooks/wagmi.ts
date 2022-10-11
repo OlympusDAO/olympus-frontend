@@ -1,6 +1,14 @@
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  braveWallet,
+  coinbaseWallet,
+  injectedWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -81,12 +89,12 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      wallet.metaMask({ chains, shimDisconnect: true }),
-      wallet.brave({ chains, shimDisconnect: true }),
-      wallet.rainbow({ chains }),
-      wallet.walletConnect({ chains }),
-      wallet.coinbase({ appName: "Olympus DAO", chains }),
-      ...(needsInjectedWalletFallback ? [wallet.injected({ chains, shimDisconnect: true })] : []),
+      metaMaskWallet({ chains, shimDisconnect: true }),
+      braveWallet({ chains, shimDisconnect: true }),
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+      coinbaseWallet({ appName: "Olympus DAO", chains }),
+      ...(needsInjectedWalletFallback ? [injectedWallet({ chains, shimDisconnect: true })] : []),
     ],
   },
 ]);

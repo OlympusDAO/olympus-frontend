@@ -10,6 +10,7 @@ interface TooltipPayloadItem {
   value: number;
   payload: {
     date: string;
+    timestamp: number;
     block: number;
   };
 }
@@ -25,15 +26,21 @@ interface TooltipPayloadItem {
  * @returns
  */
 const renderDate = (item: TooltipPayloadItem) => {
-  const date = new Date(item.payload.date);
+  const date = new Date(item.payload.timestamp);
 
   return (
     <>
       <Grid item xs={12} marginBottom="20px">
-        {date.toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
-        {date.toLocaleString("default", { month: "long" }).slice(1)}
-        &nbsp;
-        {date.getDate()}, {date.getFullYear()}
+        {
+          // Format: October 10, 2022 - 01:22 UTC
+          // The `slice` approach is documented here: https://stackoverflow.com/a/3605248
+          `${date.toLocaleString("default", {
+            month: "long",
+            timeZone: "UTC",
+          })} ${date.getUTCDate()}, ${date.getUTCFullYear()} - ${`0${date.getUTCHours()}`.slice(
+            -2,
+          )}:${`0${date.getUTCMinutes()}`.slice(-2)} UTC`
+        }
       </Grid>
     </>
   );

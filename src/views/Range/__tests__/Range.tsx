@@ -48,7 +48,7 @@ const defaultStatesWithApproval = () => {
     }),
   });
   //@ts-expect-error
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
   //@ts-expect-error
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
 };

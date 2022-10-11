@@ -26,7 +26,6 @@ import { Bond } from "src/views/Bond/hooks/useBond";
 
 export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({ bonds, isInverseBond }) => {
   const isSmallScreen = useScreenSize("md");
-
   if (bonds.length === 0)
     return (
       <Box display="flex" justifyContent="center">
@@ -61,7 +60,7 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
 
       <Box mt="24px" textAlign="center" width="70%" mx="auto">
         <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-          <BondInfoText isInverseBond={isInverseBond} />
+          {isInverseBond && <BondInfoText isInverseBond={isInverseBond} />}
         </Typography>
       </Box>
     </>
@@ -102,7 +101,15 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
         </Typography>
 
         <Typography>
-          {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+          {bond.isSoldOut ? (
+            "--"
+          ) : (
+            <BondPrice
+              price={bond.price.inBaseToken}
+              isInverseBond={isInverseBond}
+              symbol={isInverseBond ? baseTokenName : quoteTokenName}
+            />
+          )}
         </Typography>
       </Box>
 
@@ -152,7 +159,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
           }
         >
           <TertiaryButton fullWidth>
-            {isInverseBond ? t`Bond ${quoteTokenName} for ${baseTokenName}` : t`Bond for ${quoteTokenName}`}
+            Bond {quoteTokenName} for {baseTokenName}
           </TertiaryButton>
         </Link>
       </Box>
@@ -218,6 +225,11 @@ const payoutTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
 const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => {
   const quoteTokenName = bond.quoteToken.name;
   const baseTokenName = bond.baseToken.name;
+
+  const decayInFuture =
+    bond.lastDecay && new Date(bond.lastDecay * 1000).getTime() - new Date().getTime() > 0 ? true : false;
+
+  console.log(bond.lastDecay && new Date(bond.lastDecay * 1000), new Date());
   return (
     <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
       <TableCell style={{ padding: "8px 0" }}>
@@ -235,7 +247,12 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
           {bond.isSoldOut ? (
             "--"
           ) : (
-            <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} isV3Bond={bond.isV3Bond} />
+            <BondPrice
+              price={bond.price.inBaseToken}
+              isInverseBond={isInverseBond}
+              isV3Bond={bond.isV3Bond}
+              symbol={isInverseBond ? baseTokenName : quoteTokenName}
+            />
           )}
         </Typography>
       </TableCell>
@@ -271,7 +288,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
             {bond.isSoldOut
               ? t({ message: "Sold Out", comment: "Bond is sold out" })
               : t({
-                  message: isInverseBond ? `Bond for ${baseTokenName}` : `Bond for ${quoteTokenName}`,
+                  message: `Bond for ${baseTokenName}`,
                   comment: "The act of bonding",
                 })}
           </TertiaryButton>

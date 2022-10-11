@@ -19,7 +19,7 @@ const setupTest = () => {
   const rangeData = jest.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
   const bondData = jest.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
   //@ts-ignore
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
 
   IERC20Factory.IERC20__factory.connect = jest.fn().mockReturnValue({
     symbol: jest.fn().mockReturnValue("DAI"),

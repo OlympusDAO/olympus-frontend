@@ -15,7 +15,7 @@ jest.mock("src/hooks/useContractAllowance");
 
 beforeEach(() => {
   connectWallet();
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
   ZapFactory.Zap__factory.connect = jest.fn().mockReturnValue({
     ZapStake: jest.fn().mockReturnValue({
       wait: jest.fn().mockReturnValue(true),

@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import React, { ReactNode } from "react";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { NetworkId } from "src/networkDetails";
 import { useNetwork } from "wagmi";
@@ -71,6 +73,9 @@ export const TokenAllowanceGuard: React.FC<{
   children,
 }) => {
   const { chain = { id: 1 } } = useNetwork();
+  const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[
+    chain.id as keyof typeof tokenAddressMap
+  ] || { data: new DecimalBigNumber("0") };
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
@@ -81,7 +86,10 @@ export const TokenAllowanceGuard: React.FC<{
       </Box>
     );
 
-  if (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero)
+  if (
+    (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero) ||
+    (allowance && allowance.lt(balance.toBigNumber()))
+  )
     return (
       <Grid container alignItems="center">
         {message && (
