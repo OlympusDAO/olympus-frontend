@@ -121,7 +121,7 @@ export const dark = createTheme(
         MuiModal: {
           styleOverrides: {
             root: {
-              ".MuiPaper-root": {
+              ".Paper-root": {
                 background: colors.gray[600],
               },
             },
