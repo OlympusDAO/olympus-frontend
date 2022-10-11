@@ -95,7 +95,11 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
               bond.isSoldOut ? (
                 "--"
               ) : (
-                <BondPrice price={bond.price.inBaseToken} isInverseBond={isInverseBond} symbol={bond.baseToken.name} />
+                <BondPrice
+                  price={bond.price.inBaseToken}
+                  isInverseBond={isInverseBond}
+                  symbol={isInverseBond ? bond.baseToken.name : bond.quoteToken.name}
+                />
               )
             }
           />
@@ -184,10 +188,10 @@ const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean; baseSymbol:
     ? formatNumber(1, 2)
     : isInverseBond
     ? formatNumber(ohmPrice, 2)
-    : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
+    : `${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
   return price ? (
     <>
-      {price} {baseSymbol}
+      {price} {isInverseBond ? baseSymbol : quoteSymbol}
     </>
   ) : (
     <Skeleton width={60} />

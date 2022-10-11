@@ -45,7 +45,6 @@ export const getNextPageParamFactory = (
     console.debug(`${logPrefix}: Received ${lastPage.tokenRecords.length} records`);
 
     if (lastPage.tokenRecords.length === 0) {
-      console.debug(`${logPrefix}: No records. Exiting.`);
       return;
     }
 
@@ -55,9 +54,7 @@ export const getNextPageParamFactory = (
      * Returning undefined tells react-query not to fetch the next page.
      */
     const existingStartDate = lastPage.tokenRecords[lastPage.tokenRecords.length - 1].date;
-    console.debug(`${logPrefix}: existing start date is ${existingStartDate}`);
     if (new Date(existingStartDate).getTime() <= new Date(earliestDate).getTime()) {
-      console.debug(`${logPrefix}: Hit earliestDate. Exiting`);
       return;
     }
 

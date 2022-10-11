@@ -53,21 +53,19 @@ export const BondInputArea: React.VFC<{
    */
   const setMax = () => {
     if (!balance) return;
-    const reduceMax = props.bond.isV3Bond ? new DecimalBigNumber("0.99") : new DecimalBigNumber("1");
 
     if (props.bond.capacity.inQuoteToken.lt(props.bond.maxPayout.inQuoteToken)) {
-      //temporarily reduce max on v3bonds by 1%
       return setAmount(
         props.bond.capacity.inQuoteToken.lt(balance)
-          ? props.bond.capacity.inQuoteToken.mul(reduceMax).toString() // Capacity is the smallest
-          : balance.mul(reduceMax).toString(),
+          ? props.bond.capacity.inQuoteToken.toString() // Capacity is the smallest
+          : balance.toString(),
       );
     }
 
     setAmount(
       props.bond.maxPayout.inQuoteToken.lt(balance)
-        ? props.bond.maxPayout.inQuoteToken.mul(reduceMax).toString() // Payout is the smallest
-        : balance.mul(reduceMax).toString(),
+        ? props.bond.maxPayout.inQuoteToken.toString() // Payout is the smallest
+        : balance.toString(),
     );
   };
 

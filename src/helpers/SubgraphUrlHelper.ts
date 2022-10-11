@@ -48,10 +48,10 @@ export const getSubgraphIdForBlockchain = (blockchain: BLOCKCHAINS): string | un
  */
 export const getSubgraphUrlForBlockchain = (blockchain: BLOCKCHAINS, subgraphId?: string) => {
   if (subgraphId) {
-    console.info("Using subgraph with id " + subgraphId);
+    console.debug("Using subgraph with id " + subgraphId);
     return SUBGRAPH_URL_STAGING_STUB + subgraphId;
   } else {
-    console.info(`Using production subgraph for blockchain ${blockchain}`);
+    console.debug(`Using production subgraph for blockchain ${blockchain}`);
     return BLOCKCHAIN_SUBGRAPH_URLS[blockchain];
   }
 };
