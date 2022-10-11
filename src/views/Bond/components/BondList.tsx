@@ -226,10 +226,6 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
   const quoteTokenName = bond.quoteToken.name;
   const baseTokenName = bond.baseToken.name;
 
-  const decayInFuture =
-    bond.lastDecay && new Date(bond.lastDecay * 1000).getTime() - new Date().getTime() > 0 ? true : false;
-
-  console.log(bond.lastDecay && new Date(bond.lastDecay * 1000), new Date());
   return (
     <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
       <TableCell style={{ padding: "8px 0" }}>

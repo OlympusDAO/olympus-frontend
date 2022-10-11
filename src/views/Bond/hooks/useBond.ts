@@ -65,7 +65,6 @@ export interface Bond {
   };
   isV3Bond?: boolean;
   bondToken?: string;
-  lastDecay?: number;
 }
 
 export interface UseBondOptions {

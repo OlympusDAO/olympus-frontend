@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
-import { BOND_FIXED_TERM_SDA_ADDRESSES } from "src/constants/addresses";
-import {
-  BOND_AGGREGATOR_CONTRACT,
-  BOND_FIXED_EXPIRY_SDA_CONTRACT,
-  BOND_FIXED_EXPIRY_TELLER,
-  BOND_FIXED_TERM_SDA_CONTRACT,
-} from "src/constants/contracts";
+import { BOND_AGGREGATOR_CONTRACT, BOND_FIXED_EXPIRY_TELLER } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import {
+  BondFixedExpirySDA__factory,
+  BondFixedExpiryTeller__factory,
+  BondFixedTermSDA__factory,
+} from "src/typechain/factories";
 import { calculateCapacity, UseBondOptions } from "src/views/Bond/hooks/useBond";
 
 export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options] as const;
@@ -26,11 +25,22 @@ export const useBondV3 = ({ id, isInverseBond = false }: Omit<UseBondOptions, "n
 export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptions) => {
   const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
   const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
+  const tellerAddress = await aggregatorContract.getTeller(id);
+  const tellerContract = BondFixedExpiryTeller__factory.connect(tellerAddress, aggregatorContract.provider);
 
-  const fixedTerm = auctioneerAddress === BOND_FIXED_TERM_SDA_ADDRESSES[networkId];
+  /*
+  bondTokenImplementation method only exists on the fixed expiry teller. 
+  If call fails, then we know it's a fixed term bond.
+  */
+  let fixedTerm = false;
+  try {
+    fixedTerm = (await tellerContract.bondTokenImplementation()) ? false : true;
+  } catch {
+    fixedTerm = true;
+  }
   const auctioneerContract = fixedTerm
-    ? BOND_FIXED_TERM_SDA_CONTRACT.getEthersContract(networkId)
-    : BOND_FIXED_EXPIRY_SDA_CONTRACT.getEthersContract(networkId);
+    ? BondFixedTermSDA__factory.connect(auctioneerAddress, aggregatorContract.provider)
+    : BondFixedExpirySDA__factory.connect(auctioneerAddress, aggregatorContract.provider);
 
   const market = await auctioneerContract.markets(id);
   const baseToken = isInverseBond ? await getTokenByAddress({ address: market.payoutToken, networkId }) : OHM_TOKEN;
@@ -109,7 +119,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     ? capacityData.capacityInQuoteToken.lt("1")
     : capacityData.capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
-  const { lastDecay } = await auctioneerContract.metadata(id);
   return {
     id,
     baseToken,
@@ -132,6 +141,5 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     },
     isV3Bond: true,
     bondToken,
-    lastDecay,
   };
 };
