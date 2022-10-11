@@ -110,7 +110,7 @@ export const Range = () => {
   return (
     <div id="stake-view">
       <PageTitle name="Range Swap" />
-      <Paper>
+      <Paper zoom={false}>
         {currentPrice ? (
           <>
             <Box display="flex" flexDirection="row" justifyContent="space-around" mb="54px">
