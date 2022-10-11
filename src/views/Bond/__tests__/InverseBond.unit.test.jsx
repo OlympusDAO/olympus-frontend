@@ -82,7 +82,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
 
     expect(await screen.findByTestId("8--bond")); // bond id of 8
-    expect(await screen.findByText("Inverse Bond")); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+    expect(await screen.findByText("Bond for DAI"));
   });
 });
 

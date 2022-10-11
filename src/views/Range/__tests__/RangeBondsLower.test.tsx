@@ -20,7 +20,7 @@ const setupTest = () => {
   const rangeData = vi.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
   const bondData = vi.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
   //@ts-ignore
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
 
   IERC20Factory.IERC20__factory.connect = vi.fn().mockReturnValue({
     symbol: vi.fn().mockReturnValue("DAI"),

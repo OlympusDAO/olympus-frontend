@@ -20,6 +20,7 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 type DateTreasuryMetrics = {
   date: string;
@@ -95,9 +96,12 @@ export const TreasuryAssetsGraph = ({
       const liquidPol = getTreasuryAssetValue(value, true, [CATEGORY_POL]);
       const liquidTotal = getTreasuryAssetValue(value, true);
 
+      // Determine the earliest timestamp for the current date, as we can then guarantee that data is up-to-date as of {earliestTimestamp}
+      const earliestTimestamp = getLatestTimestamp(value);
+
       const dateMetric: DateTreasuryMetrics = {
         date: key,
-        timestamp: new Date(key).getTime(), // We inject the timestamp, as it's used by the Chart component
+        timestamp: earliestTimestamp,
         block: value[0].block,
         marketStable: marketStable,
         marketVolatile: marketVolatile,
@@ -118,7 +122,7 @@ export const TreasuryAssetsGraph = ({
   // Handle parameter changes
   useEffect(() => {
     // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
     setByDateMetrics([]);
   }, [earliestDate, subgraphDaysOffset]);
 

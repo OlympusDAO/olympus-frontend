@@ -56,7 +56,7 @@ const defaultStatesWithApproval = () => {
     }),
   });
   //@ts-expect-error
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
   //@ts-expect-error
   vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
 };

@@ -38,7 +38,9 @@ describe("<StakeArea/> Connected no Approval", () => {
   it("should successfully complete the contract approval", async () => {
     expect(screen.getByText("Approve Staking"));
     fireEvent.click(screen.getByText("Approve Staking"));
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(100) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("100000000000000000000"),
+    });
     expect(screen.getAllByText("Stake"));
   });
 });
@@ -54,7 +56,9 @@ describe("<StakeArea/> Connected with Approval", () => {
       }),
     });
 
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(1000) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("100000000000000000000"),
+    });
     vi.spyOn(Index, "useCurrentIndex").mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: vi.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error

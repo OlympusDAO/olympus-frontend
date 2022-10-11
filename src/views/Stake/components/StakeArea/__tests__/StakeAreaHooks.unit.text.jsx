@@ -14,7 +14,7 @@ vi.mock("src/hooks/useCurrentIndex");
 
 beforeEach(async () => {
   connectWallet();
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("10000000000000000000000") });
   useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });

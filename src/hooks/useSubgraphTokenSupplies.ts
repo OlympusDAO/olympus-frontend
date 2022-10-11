@@ -14,6 +14,13 @@ import {
   getTokenSupplyDateMap,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
+type NextPageParamType = (lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined;
+
+type QueryOptionsType = {
+  enabled: boolean;
+  getNextPageParam?: NextPageParamType;
+};
+
 /**
  * Fetches TokenSupply records from {subgraphUrl}, returning the records
  * grouped by date.
@@ -35,79 +42,116 @@ export const useTokenSuppliesQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenSupply[]> | null => {
-  // Create a paginator
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate, dateOffset);
-  const paginator = useRef<(lastPage: TokenSuppliesQuery) => TokenSuppliesQueryVariables | undefined>();
+  // NOTE: useRef is used throughout this function, as we don't want changes to calculated variables to cause a re-render. That is instead caused by re-fetching and the updating of the byDateTokenRecords
 
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenSuppliesQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
+  /**
+   * Cached variables
+   */
+  const paginator = useRef<NextPageParamType>();
+  const functionName = useMemo(() => `${chartName}/TokenSupply`, [chartName]);
+
+  /**
+   * Handle changes to the props
+   */
+  const dataSource = useRef<{ endpoint: string; fetchParams?: RequestInit }>({
+    endpoint: subgraphUrl,
+  });
+  const queryVariables = useRef<TokenSuppliesQueryVariables>({
+    filter: {
+      ...baseFilter,
+    },
+    recordCount: DEFAULT_RECORD_COUNT,
+    endpoint: subgraphUrl,
+  });
+  const queryOptions = useRef<QueryOptionsType>({
+    enabled: false,
+    getNextPageParam: paginator.current,
+  });
+  // Handle changes to query options, endpoint and variables
+  // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
+  useEffect(() => {
+    console.info(`${functionName}: Inputs changed. Updating calculated values`);
+
+    // We need to wipe the data, otherwise it will be inconsistent
+    // This is called here so that calling components can be updated before any changes to query configuration
+    setByDateTokenSupplies(null);
+
+    const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
+    queryVariables.current = {
       filter: {
         ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
+        date_gte: !earliestDate ? null : getNextPageStartDate(finishDate, earliestDate, dateOffset),
+        date_lt: finishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: subgraphUrl,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter != null,
+    };
+
+    dataSource.current = {
+      endpoint: subgraphUrl,
+    };
+
+    // Create a new paginator with the new earliestDate
+    const tempPaginator =
+      earliestDate !== null && subgraphUrl !== null
+        ? getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl, dateOffset)
+        : undefined;
+    paginator.current = tempPaginator;
+
+    queryOptions.current = {
+      enabled: earliestDate !== null && subgraphUrl.length > 0 && paginator.current !== undefined,
       getNextPageParam: paginator.current,
-    },
+    };
+  }, [baseFilter, chartName, dateOffset, earliestDate, functionName, subgraphUrl]);
+
+  /**
+   * Data fetching
+   */
+  const { data, hasNextPage, fetchNextPage, refetch, isFetching } = useInfiniteTokenSuppliesQuery(
+    dataSource.current,
+    "filter",
+    queryVariables.current,
+    queryOptions.current,
   );
 
-  // Handle date changes
+  /**
+   * If the queryOptions change (triggered by the props changing), then we will force a refetch.
+   */
   useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // We need to wipe the data, otherwise it will be inconsistent
-    setByDateTokenSupplies(null);
+    if (!queryOptions.current.enabled) return;
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
+    console.info(`${functionName}: Re-fetching.`);
     refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(
-      chartName,
-      earliestDate,
-      DEFAULT_RECORD_COUNT,
-      baseFilter,
-      subgraphUrl,
-      dateOffset,
-    );
-  }, [baseFilter, chartName, dateOffset, earliestDate, refetch, subgraphUrl]);
+  }, [queryOptions.current, functionName, refetch]);
 
   // Handle subsequent pages
   useEffect(() => {
     if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
+      console.debug(`${functionName}: fetching next page`);
       fetchNextPage();
       return;
     }
-  }, [data, hasNextPage, fetchNextPage, chartName]);
+  }, [data, hasNextPage, fetchNextPage, functionName]);
 
+  /**
+   * Data processing
+   */
   const [byDateTokenSupplies, setByDateTokenSupplies] = useState<Map<string, TokenSupply[]> | null>(null);
-
-  // Group by date
   useMemo(() => {
-    if (hasNextPage || !data) {
-      console.debug(`${chartName}: Removing cached data, as query is in progress.`);
+    // When there is more data (hasNextPage) or there is fetching, then the data is not ready for processing.
+    // Checking for data == null here is not appropriate, since data may be null when there are no results.
+    if (isFetching || hasNextPage) {
       return;
     }
 
-    console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
-    const records = data.pages.map(query => query.tokenSupplies).flat();
+    console.info(`${functionName}: Data loading is done. Rebuilding by date metrics`);
+    const records = data ? data.pages.map(query => query.tokenSupplies).flat() : [];
+    // Group by date
     const dateRecords = getTokenSupplyDateMap(records, true);
     setByDateTokenSupplies(dateRecords);
-  }, [hasNextPage, data, chartName]);
+  }, [data, functionName, isFetching, hasNextPage]);
 
   return byDateTokenSupplies;
 };

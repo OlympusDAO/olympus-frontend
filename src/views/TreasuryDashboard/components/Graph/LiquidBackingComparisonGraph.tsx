@@ -25,6 +25,7 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -117,6 +118,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({
         return;
       }
 
+      // Determine the earliest timestamp for the current date, as we can then guarantee that data is up-to-date as of {earliestTimestamp}
+      const earliestTimestamp = getLatestTimestamp(currentTokenRecords);
       const latestTokenRecord = currentTokenRecords[0];
       const latestProtocolMetric = currentProtocolMetrics[0];
 
@@ -124,7 +127,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
       const liquidBackingRecord: LiquidBackingComparison = {
         date: key,
-        timestamp: new Date(key).getTime(), // We inject the timestamp, as it's used by the Chart component
+        timestamp: earliestTimestamp,
         block: latestTokenRecord.block,
         gOhmPrice: latestProtocolMetric.gOhmPrice,
         ohmPrice: latestProtocolMetric.ohmPrice,
@@ -145,7 +148,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   // Handle parameter changes
   useEffect(() => {
     // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
     setByDateLiquidBacking([]);
   }, [earliestDate, subgraphDaysOffset]);
 

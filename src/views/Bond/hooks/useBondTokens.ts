@@ -26,7 +26,8 @@ export const useBondTokens = () => {
       const tokens: string[] = logs
         .map((result: { topics: string[]; data: string }) => {
           const parsed = iface.parseLog({ topics: result.topics, data: result.data });
-          if (parsed.args.underlying === OHM_ADDRESSES[networks.MAINNET]) return parsed.args.bondToken;
+          if (parsed.args.underlying.toLowerCase() === OHM_ADDRESSES[networks.MAINNET].toLowerCase())
+            return parsed.args.bondToken;
         })
         .filter((result_1: string) => result_1 != undefined);
       return tokens;

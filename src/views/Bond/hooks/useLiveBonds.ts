@@ -31,6 +31,7 @@ export const useLiveBondsV3 = ({ isInverseBond = false }: { isInverseBond?: bool
 };
 
 export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsOptions) => {
+  console.debug("Fetching v2 bonds");
   const contract = isInverseBond
     ? OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId)
     : BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);

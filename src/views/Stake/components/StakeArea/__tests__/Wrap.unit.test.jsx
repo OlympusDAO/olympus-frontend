@@ -15,7 +15,7 @@ vi.mock("src/hooks/useContractAllowance");
 
 beforeEach(() => {
   connectWallet();
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
   ZapFactory.Zap__factory.connect = vi.fn().mockReturnValue({
     ZapStake: vi.fn().mockReturnValue({
       wait: vi.fn().mockReturnValue(true),

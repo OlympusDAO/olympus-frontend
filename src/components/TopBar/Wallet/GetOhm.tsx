@@ -80,6 +80,13 @@ const GetOhm: FC = () => {
         <Typography variant="h6" className={classes.title}>
           Exchanges
         </Typography>
+        <Box mt="9px">
+          <GetOnButton
+            href={`https://app.balancer.fi/#/trade/`}
+            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
+            exchangeName="Balancer"
+          />
+        </Box>
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <GetOnButton
@@ -96,13 +103,6 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-        <Box mt="9px">
-          <GetOnButton
-            href={`https://app.balancer.fi/#/trade/`}
-            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
-            exchangeName="Balancer"
-          />
-        </Box>
 
         {NetworkId.MAINNET === chain.id && (
           <>

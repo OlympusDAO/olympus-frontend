@@ -106,13 +106,13 @@ describe("Bonds", () => {
   it("Should display the correct LP value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("$17.21"));
+    expect(await screen.findByText("14.21 FRAX"));
   });
 
   it("Should display the correct % Discount value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("13.96%"));
+    expect(await screen.findByText("28.95%"));
   });
 });
 
@@ -136,7 +136,9 @@ describe("Bond Modal", () => {
   // });
 
   it("Should display bond modal with Fixed Term Bond", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(<BondModalContainer />);
     expect(await screen.findByText("Vesting Term"));
   });
@@ -148,7 +150,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when no amount is entered ", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -160,7 +164,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when negative amount is entered", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -175,7 +181,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Return Error when amount is greater than balance", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -190,7 +198,9 @@ describe("Bond Modal", () => {
   });
 
   it("Return Error when Amount is > Max Payout", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -205,7 +215,9 @@ describe("Bond Modal", () => {
   });
 
   it("Should Execute Successfully", async () => {
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
