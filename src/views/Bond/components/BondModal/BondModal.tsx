@@ -129,7 +129,6 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             label={isInverseBond ? t`Premium` : t`Discount`}
             metric={<BondDiscount discount={bond.discount} textOnly />}
           />
-          <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
         </Box>
 
         <Box width="100%" mt="24px">
