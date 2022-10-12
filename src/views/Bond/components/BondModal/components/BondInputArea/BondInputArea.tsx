@@ -238,6 +238,7 @@ export const BondInputArea: React.VFC<{
         handleSettingsOpen={props.handleSettingsOpen}
         isOpen={confirmOpen}
         handleConfirmClose={() => setConfirmOpen(false)}
+        disabled={purchaseBondMutation.isLoading}
       />
     </Box>
   );
