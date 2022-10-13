@@ -1,7 +1,6 @@
 import {
   BALANCER_VAULT_ADDRESSSES,
   BOND_AGGREGATOR_ADDRESSES,
-  BOND_AUCTIONEER_ADDRESSES,
   BOND_DEPOSITORY_ADDRESSES,
   BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
   BOND_FIXED_TERM_TELLER_ADDRESSES,
@@ -18,7 +17,6 @@ import {
 import { Contract } from "src/helpers/contracts/Contract";
 import {
   BalancerVault__factory,
-  BondAuctioneer__factory,
   BondDepository__factory,
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
@@ -88,13 +86,6 @@ export const RANGE_CONTRACT = new Contract({
   addresses: RANGE_ADDRESSES,
 });
 
-//TODO: Once new Range Contracts are deployed pointing to new bond protocol contracts
-// this can be removed.
-export const BOND_AUCTIONEER_CONTRACT = new Contract({
-  factory: BondAuctioneer__factory,
-  name: "Bond Auctioneer Contract",
-  addresses: BOND_AUCTIONEER_ADDRESSES,
-});
 export const FAUCET = new Contract({
   factory: DevFaucet__factory,
   name: "Goerli Faucet Contract",
