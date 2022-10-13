@@ -18,7 +18,7 @@ jest.mock("src/hooks/useContractAllowance");
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {
     const rangeData = jest.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
-    const bondData = jest.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
+    const bondData = jest.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
     connectWallet();
     //@ts-ignore
     useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
