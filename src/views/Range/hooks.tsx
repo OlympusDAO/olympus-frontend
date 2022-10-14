@@ -11,12 +11,15 @@ import {
   RANGE_OPERATOR_CONTRACT,
   RANGE_PRICE_CONTRACT,
 } from "src/constants/contracts";
+import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
+import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 // import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
 import { OlympusRange } from "src/typechain/Range";
@@ -203,11 +206,28 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
     ["getRangeBondPrice", id, chain, side],
     async () => {
       const bondPrice = await contract.marketPrice(id);
+      const auctioneerAddress = await contract.getAuctioneer(id);
+      const auctioneerContract = BondFixedTermSDA__factory.connect(auctioneerAddress, contract.provider);
+      const market = await auctioneerContract.markets(id);
+      const inverse =
+        market.payoutToken.toLowerCase() !== OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES].toLowerCase();
+      const baseToken = inverse
+        ? await getTokenByAddress({ address: market.payoutToken, networkId: chain.id })
+        : OHM_TOKEN;
+      assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
+      const quoteToken = inverse
+        ? OHM_TOKEN
+        : await getTokenByAddress({ address: market.quoteToken, networkId: chain.id });
+      assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
+
+      const scale = await contract.marketScale(id);
+      const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
+      const shift = Number(baseScale) / Number(scale);
 
       if (side === "low") {
-        return 1 / parseBigNumber(bondPrice, 35);
+        return 1 / parseBigNumber(bondPrice.mul(shift), 36);
       }
-      return parseBigNumber(bondPrice, 36);
+      return parseBigNumber(bondPrice.mul(shift), 36);
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
