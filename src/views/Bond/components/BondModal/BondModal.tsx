@@ -60,7 +60,6 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     if (address) setRecipientAddress(address);
   }, [address]);
 
-  console.log("in the modal");
   return (
     //TODO: Settings need to go in the confirm modal.
     //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
