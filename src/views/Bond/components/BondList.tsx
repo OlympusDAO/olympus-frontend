@@ -246,7 +246,6 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
             <BondPrice
               price={bond.price.inBaseToken}
               isInverseBond={isInverseBond}
-              isV3Bond={bond.isV3Bond}
               symbol={isInverseBond ? baseTokenName : quoteTokenName}
             />
           )}
