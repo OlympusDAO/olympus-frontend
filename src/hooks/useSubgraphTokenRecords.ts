@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   TokenRecord,
   TokenRecord_Filter,
@@ -44,36 +44,34 @@ export const useTokenRecordsQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, TokenRecord[]> | null => {
-  // NOTE: useRef is used throughout this function, as we don't want changes to calculated variables to cause a re-render. That is instead caused by re-fetching and the updating of the byDateTokenRecords
-
   /**
    * Cached variables
    */
-  const paginator = useRef<NextPageParamType>();
+  const [paginator, setPaginator] = useState<NextPageParamType | undefined>();
   const functionName = useMemo(() => `${chartName}/TokenRecord`, [chartName]);
 
   // The generated react-query hook requires a non-null endpoint (but will be disabled if it is an empty string), so we cache the value here
-  const endpointNotNull = useRef("");
+  const [endpointNotNull, setEndpointNotNull] = useState("");
   useEffect(() => {
-    endpointNotNull.current = subgraphUrl || "";
+    setEndpointNotNull(subgraphUrl || "");
   }, [subgraphUrl]);
 
   /**
    * Handle changes to the props
    */
-  const dataSource = useRef<{ endpoint: string; fetchParams?: RequestInit }>({
-    endpoint: endpointNotNull.current,
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
+    endpoint: endpointNotNull,
   });
-  const queryVariables = useRef<TokenRecordsQueryVariables>({
+  const [queryVariables, setQueryVariables] = useState<TokenRecordsQueryVariables>({
     filter: {
       ...baseFilter,
     },
     recordCount: DEFAULT_RECORD_COUNT,
-    endpoint: endpointNotNull.current,
+    endpoint: endpointNotNull,
   });
-  const queryOptions = useRef<QueryOptionsType>({
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
     enabled: false,
-    getNextPageParam: paginator.current,
+    getNextPageParam: paginator,
   });
   // Handle changes to props and re-generate cached variables
   // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
@@ -83,33 +81,37 @@ export const useTokenRecordsQuery = (
     setByDateTokenRecords(null);
 
     const _finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-    queryVariables.current = {
+    setQueryVariables({
       filter: {
         ...baseFilter,
         date_gte: !earliestDate ? null : getNextPageStartDate(_finishDate, earliestDate, dateOffset),
         date_lt: _finishDate,
       },
       recordCount: DEFAULT_RECORD_COUNT,
-      endpoint: endpointNotNull.current,
-    };
+      endpoint: endpointNotNull,
+    });
 
-    dataSource.current = {
-      endpoint: endpointNotNull.current,
-    };
+    setDataSource({
+      endpoint: endpointNotNull,
+    });
 
     // Create a new paginator with the new earliestDate
     const tempPaginator =
       earliestDate !== null && subgraphUrl !== null
         ? getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl, dateOffset)
         : undefined;
-    paginator.current = tempPaginator;
+    setPaginator(tempPaginator);
 
-    queryOptions.current = {
-      enabled: earliestDate !== null && endpointNotNull.current.length > 0 && paginator.current !== undefined,
-      getNextPageParam: paginator.current,
+    const tempQueryOptions = {
+      enabled: earliestDate !== null && endpointNotNull.length > 0 && tempPaginator !== undefined,
+      getNextPageParam: tempPaginator,
     };
+    setQueryOptions(tempQueryOptions);
     console.debug(
-      `${functionName}: Inputs changed. Updated query variables. Query enabled: ${queryOptions.current.enabled}`,
+      `${functionName}: Inputs changed. Updated query variables. Query enabled: ${tempQueryOptions.enabled}
+      earliestDate: ${earliestDate}
+      endpoint: ${endpointNotNull}
+      paginator set: ${tempPaginator !== undefined}`,
     );
   }, [baseFilter, earliestDate, dateOffset, endpointNotNull, functionName, subgraphUrl, chartName]);
 
@@ -118,10 +120,10 @@ export const useTokenRecordsQuery = (
    */
   // Fetch data (with included pagination)
   const { data, hasNextPage, fetchNextPage, refetch, isFetching } = useInfiniteTokenRecordsQuery(
-    dataSource.current,
+    dataSource,
     "filter",
-    queryVariables.current,
-    queryOptions.current,
+    queryVariables,
+    queryOptions,
   );
 
   /**
@@ -129,13 +131,13 @@ export const useTokenRecordsQuery = (
    */
   useEffect(() => {
     // refetch does not respect the enabled property in react-query, so we check the enabled property
-    if (!queryOptions.current.enabled) return;
+    if (!queryOptions.enabled) return;
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
     console.info(`${functionName}: Re-fetching.`);
     refetch();
-  }, [queryOptions.current, functionName, refetch]); // eslint complains about the dependency array, but it works...
+  }, [queryOptions, functionName, refetch]); // eslint complains about the dependency array, but it works...
 
   // Handle subsequent pages
   useEffect(() => {
@@ -184,64 +186,66 @@ export const useTokenRecordsQuery = (
  */
 export const useTokenRecordsQueries = (
   chartName: string,
-  subgraphUrls: SUBGRAPH_URLS | null,
+  subgraphUrls: SUBGRAPH_URLS | null | undefined,
   _baseFilter: TokenRecord_Filter,
-  _earliestDate: string | null,
+  _earliestDate: string | null | undefined,
   _dateOffset?: number,
 ): Map<string, TokenRecord[]> | null => {
   // Cache these props, as they will be passed to the query for each blockchain, and we don't want to propagate non-changes
-  const baseFilter = useRef(_baseFilter);
+  const [baseFilter, setBaseFilter] = useState(_baseFilter);
   useEffect(() => {
-    if (_baseFilter == baseFilter.current) return;
+    if (_baseFilter == baseFilter) return;
 
     console.debug(`${chartName}: baseFilter changed to ${JSON.stringify(_baseFilter)}`);
-    baseFilter.current = _baseFilter;
+    setBaseFilter(_baseFilter);
   }, [_baseFilter, chartName]);
-  const earliestDate = useRef(_earliestDate);
+
+  const [earliestDate, setEarliestDate] = useState<string | null>(_earliestDate || null);
   useEffect(() => {
-    if (_earliestDate == earliestDate.current) return;
+    if (_earliestDate == earliestDate) return;
 
     console.debug(`${chartName}: earliestDate changed to ${_earliestDate}`);
-    earliestDate.current = _earliestDate;
+    setEarliestDate(_earliestDate || null);
   }, [_earliestDate, chartName]);
-  const dateOffset = useRef(_dateOffset);
+
+  const [dateOffset, setDateOffset] = useState(_dateOffset);
   useEffect(() => {
-    if (_dateOffset == dateOffset.current) return;
+    if (_dateOffset == dateOffset) return;
 
     console.debug(`${chartName}: dateOffset changed to ${_dateOffset}`);
-    dateOffset.current = _dateOffset;
+    setDateOffset(_dateOffset);
   }, [_dateOffset, chartName]);
 
   // Cache the subgraph urls, otherwise it will re-fetch and re-render continuously
-  const subgraphUrlArbitrum = useRef<string | null>(null);
-  const subgraphUrlEthereum = useRef<string | null>(null);
-  const subgraphUrlFantom = useRef<string | null>(null);
-  const subgraphUrlPolygon = useRef<string | null>(null);
+  const [subgraphUrlArbitrum, setSubgraphUrlArbitrum] = useState<string | null>(null);
+  const [subgraphUrlEthereum, setSubgraphUrlEthereum] = useState<string | null>(null);
+  const [subgraphUrlFantom, setSubgraphUrlFantom] = useState<string | null>(null);
+  const [subgraphUrlPolygon, setSubgraphUrlPolygon] = useState<string | null>(null);
   useEffect(() => {
     if (!subgraphUrls) {
       console.debug(`${chartName}: subgraphUrls changed to null`);
-      subgraphUrlArbitrum.current = null;
-      subgraphUrlEthereum.current = null;
-      subgraphUrlFantom.current = null;
-      subgraphUrlPolygon.current = null;
+      setSubgraphUrlArbitrum(null);
+      setSubgraphUrlEthereum(null);
+      setSubgraphUrlFantom(null);
+      setSubgraphUrlPolygon(null);
       return;
     }
 
     // Skip if the values are the same
     if (
-      subgraphUrlArbitrum.current == subgraphUrls.Arbitrum &&
-      subgraphUrlEthereum.current == subgraphUrls.Ethereum &&
-      subgraphUrlFantom.current == subgraphUrls.Fantom &&
-      subgraphUrlPolygon.current == subgraphUrls.Polygon
+      subgraphUrlArbitrum == subgraphUrls.Arbitrum &&
+      subgraphUrlEthereum == subgraphUrls.Ethereum &&
+      subgraphUrlFantom == subgraphUrls.Fantom &&
+      subgraphUrlPolygon == subgraphUrls.Polygon
     ) {
       return;
     }
 
     console.debug(`${chartName}: subgraphUrls changed to ${JSON.stringify(subgraphUrls)}`);
-    subgraphUrlArbitrum.current = subgraphUrls.Arbitrum;
-    subgraphUrlEthereum.current = subgraphUrls.Ethereum;
-    subgraphUrlFantom.current = subgraphUrls.Fantom;
-    subgraphUrlPolygon.current = subgraphUrls.Polygon;
+    setSubgraphUrlArbitrum(subgraphUrls.Arbitrum);
+    setSubgraphUrlEthereum(subgraphUrls.Ethereum);
+    setSubgraphUrlFantom(subgraphUrls.Fantom);
+    setSubgraphUrlPolygon(subgraphUrls.Polygon);
   }, [chartName, subgraphUrls]);
 
   useEffect(() => {
@@ -249,45 +253,44 @@ export const useTokenRecordsQueries = (
     console.info(`${chartName}: Inputs changed. Resetting combined results.`);
     setCombinedResults(null);
   }, [
-    // eslint complains about the dependency array, but it works...
-    baseFilter.current,
-    earliestDate.current,
-    dateOffset.current,
-    subgraphUrlArbitrum.current,
-    subgraphUrlEthereum.current,
-    subgraphUrlFantom.current,
-    subgraphUrlPolygon.current,
+    baseFilter,
+    earliestDate,
+    dateOffset,
+    subgraphUrlArbitrum,
+    subgraphUrlEthereum,
+    subgraphUrlFantom,
+    subgraphUrlPolygon,
     chartName,
   ]);
 
   // Start queries
   const arbitrumResults = useTokenRecordsQuery(
     `${chartName}/Arbitrum`,
-    subgraphUrlArbitrum.current,
-    baseFilter.current,
-    earliestDate.current,
-    dateOffset.current,
+    subgraphUrlArbitrum,
+    baseFilter,
+    earliestDate,
+    dateOffset,
   );
   const ethereumResults = useTokenRecordsQuery(
     `${chartName}/Ethereum`,
-    subgraphUrlEthereum.current,
-    baseFilter.current,
-    earliestDate.current,
-    dateOffset.current,
+    subgraphUrlEthereum,
+    baseFilter,
+    earliestDate,
+    dateOffset,
   );
   const fantomResults = useTokenRecordsQuery(
     `${chartName}/Fantom`,
-    subgraphUrlFantom.current,
-    baseFilter.current,
-    earliestDate.current,
-    dateOffset.current,
+    subgraphUrlFantom,
+    baseFilter,
+    earliestDate,
+    dateOffset,
   );
   const polygonResults = useTokenRecordsQuery(
     `${chartName}/Polygon`,
-    subgraphUrlPolygon.current,
-    baseFilter.current,
-    earliestDate.current,
-    dateOffset.current,
+    subgraphUrlPolygon,
+    baseFilter,
+    earliestDate,
+    dateOffset,
   );
   const [combinedResults, setCombinedResults] = useState<Map<string, TokenRecord[]> | null>(null);
 

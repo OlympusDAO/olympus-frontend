@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ProtocolMetric,
   ProtocolMetric_Filter,
@@ -42,30 +42,28 @@ export const useProtocolMetricsQuery = (
   earliestDate: string | null,
   dateOffset?: number,
 ): Map<string, ProtocolMetric[]> | null => {
-  // NOTE: useRef is used throughout this function, as we don't want changes to calculated variables to cause a re-render. That is instead caused by re-fetching and the updating of the byDateTokenRecords
-
   /**
    * Cached variables
    */
-  const paginator = useRef<NextPageParamType>();
+  const [paginator, setPaginator] = useState<NextPageParamType | undefined>();
   const functionName = useMemo(() => `${chartName}/ProtocolMetric`, [chartName]);
 
   /**
    * Handle changes to the props
    */
-  const dataSource = useRef<{ endpoint: string; fetchParams?: RequestInit }>({
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
     endpoint: subgraphUrl,
   });
-  const queryVariables = useRef<ProtocolMetricsQueryVariables>({
+  const [queryVariables, setQueryVariables] = useState<ProtocolMetricsQueryVariables>({
     filter: {
       ...baseFilter,
     },
     recordCount: DEFAULT_RECORD_COUNT,
     endpoint: subgraphUrl,
   });
-  const queryOptions = useRef<QueryOptionsType>({
+  const [queryOptions, setQueryOptions] = useState<QueryOptionsType>({
     enabled: false,
-    getNextPageParam: paginator.current,
+    getNextPageParam: paginator,
   });
   // Handle changes to query options, endpoint and variables
   // These setter calls are co-located to avoid race conditions that can result in strange behaviour (OlympusDAO/olympus-frontend#2325)
@@ -77,7 +75,7 @@ export const useProtocolMetricsQuery = (
     setByDateProtocolMetrics(null);
 
     const finishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-    queryVariables.current = {
+    setQueryVariables({
       filter: {
         ...baseFilter,
         date_gte: !earliestDate ? null : getNextPageStartDate(finishDate, earliestDate, dateOffset),
@@ -85,46 +83,53 @@ export const useProtocolMetricsQuery = (
       },
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: subgraphUrl,
-    };
+    });
 
-    dataSource.current = {
+    setDataSource({
       endpoint: subgraphUrl,
-    };
+    });
 
     // Create a new paginator with the new earliestDate
     const tempPaginator =
       earliestDate !== null && subgraphUrl !== null
         ? getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter, subgraphUrl, dateOffset)
         : undefined;
-    paginator.current = tempPaginator;
+    setPaginator(tempPaginator);
 
-    queryOptions.current = {
-      enabled: earliestDate !== null && subgraphUrl.length > 0 && paginator.current !== undefined,
-      getNextPageParam: paginator.current,
+    const tempQueryOptions = {
+      enabled: earliestDate !== null && subgraphUrl.length > 0 && tempPaginator !== undefined,
+      getNextPageParam: tempPaginator,
     };
+    setQueryOptions(tempQueryOptions);
+    console.debug(
+      `${functionName}: Inputs changed. Updated query variables. Query enabled: ${tempQueryOptions.enabled}
+      earliestDate: ${earliestDate}
+      endpoint: ${subgraphUrl}
+      paginator set: ${tempPaginator !== undefined}`,
+    );
   }, [baseFilter, earliestDate, dateOffset, functionName, subgraphUrl, chartName]);
 
   /**
    * Data fetching
    */
   const { data, hasNextPage, fetchNextPage, refetch, isFetching } = useInfiniteProtocolMetricsQuery(
-    dataSource.current,
+    dataSource,
     "filter",
-    queryVariables.current,
-    queryOptions.current,
+    queryVariables,
+    queryOptions,
   );
 
   /**
    * If the queryOptions change (triggered by the props changing), then we will force a refetch.
    */
   useEffect(() => {
-    if (!queryOptions.current.enabled) return;
+    if (!queryOptions.enabled) return;
 
     // Force fetching of data with the new paginator
     // Calling refetch() after setting the new paginator causes the query to never finish
     console.info(`${functionName}: Re-fetching.`);
     refetch();
-  }, [queryOptions.current, functionName, refetch]);
+  }, [queryOptions, functionName, refetch]);
 
   // Handle subsequent pages
   useEffect(() => {
