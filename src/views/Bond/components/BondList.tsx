@@ -134,7 +134,9 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
         <Typography>
           <Trans>Max Payout</Trans>
         </Typography>
-        {payoutTokenCapacity(bond, isInverseBond)}({quoteTokenCapacity(bond, isInverseBond)})
+        {`${payoutTokenCapacity(bond, isInverseBond)}${
+          bond.baseToken.name !== bond.quoteToken.name ? ` (${quoteTokenCapacity(bond)})` : ``
+        }`}
       </Box>
 
       {!isInverseBond && (
@@ -204,9 +206,8 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
     </Table>
   </TableContainer>
 );
-const quoteTokenCapacity = (bond: Bond, isInverseBond: boolean) => {
-  const quoteTokenCapacity = `
-  ${(bond.maxPayout.inQuoteToken.lt(bond.capacity.inQuoteToken)
+const quoteTokenCapacity = (bond: Bond) => {
+  const quoteTokenCapacity = `${(bond.maxPayout.inQuoteToken.lt(bond.capacity.inQuoteToken)
     ? bond.maxPayout.inQuoteToken
     : bond.capacity.inQuoteToken
   ).toString({ decimals: 3, format: true })}${" "}
@@ -260,9 +261,11 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
       <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection={"column"}>
           <Typography style={{ lineHeight: "20px" }}>{payoutTokenCapacity(bond, isInverseBond)}</Typography>
-          <Typography color="textSecondary" style={{ fontSize: "12px", fontWeight: 400, lineHeight: "18px" }}>
-            {quoteTokenCapacity(bond, isInverseBond)}
-          </Typography>
+          {bond.baseToken.name !== bond.quoteToken.name && (
+            <Typography color="textSecondary" style={{ fontSize: "12px", fontWeight: 400, lineHeight: "18px" }}>
+              {quoteTokenCapacity(bond)}
+            </Typography>
+          )}
         </Box>
       </TableCell>
       {!isInverseBond && (
