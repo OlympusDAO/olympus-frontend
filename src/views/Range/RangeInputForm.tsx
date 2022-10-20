@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { SwapCollection } from "@olympusdao/component-library";
-import { OHMTokenProps, PrimaryButton, SwapCard } from "@olympusdao/component-library";
+import { OHMTokenProps, SwapCard } from "@olympusdao/component-library";
 import React from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
@@ -32,21 +32,10 @@ const RangeInputForm = (props: {
     onChangeReserveAmount,
     onChangeOhmAmount,
     onSetSellActive,
-    capacity,
     hasPrice,
   } = props;
   const trimmedOhmBalance = ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance.toString({ decimals: 2 });
-
-  const ohmAmountAsNumber = new DecimalBigNumber(ohmAmount, 9);
-  const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
-  const capacityBN = new DecimalBigNumber(capacity.toString(), sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
-  const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
-  const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
-  let swapButtonText = `Swap ${reserveSymbol} for OHM`;
-  if (sellActive === true) {
-    swapButtonText = ` Swap OHM for ${reserveSymbol}`;
-  }
 
   const ReserveInput = () => (
     <SwapCard
@@ -83,31 +72,15 @@ const RangeInputForm = (props: {
   );
 
   return (
-    <form onSubmit={props.onFormSubmit}>
-      <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
-        <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-          <SwapCollection
-            UpperSwapCard={sellActive ? OhmInput() : ReserveInput()}
-            LowerSwapCard={sellActive ? ReserveInput() : OhmInput()}
-            arrowOnClick={onSetSellActive}
-          />
-          <Box mt="8px">
-            <PrimaryButton
-              data-testid="range-submit"
-              fullWidth
-              type="submit"
-              disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
-            >
-              {amountAboveCapacity
-                ? `Amount exceeds capacity`
-                : amountAboveBalance
-                ? `Amount exceeds balance`
-                : swapButtonText}
-            </PrimaryButton>
-          </Box>
-        </Box>
+    <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+      <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+        <SwapCollection
+          UpperSwapCard={sellActive ? OhmInput() : ReserveInput()}
+          LowerSwapCard={sellActive ? ReserveInput() : OhmInput()}
+          arrowOnClick={onSetSellActive}
+        />
       </Box>
-    </form>
+    </Box>
   );
 };
 
