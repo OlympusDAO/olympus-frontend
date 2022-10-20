@@ -101,6 +101,15 @@ export const light = createTheme(
             },
           },
         },
+        MuiDialog: {
+          styleOverrides: {
+            root: {
+              "& .MuiPaper-root": {
+                background: colors.gray[700],
+              },
+            },
+          },
+        },
         MuiDrawer: {
           styleOverrides: {
             paper: {
