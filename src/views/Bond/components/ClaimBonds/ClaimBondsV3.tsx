@@ -55,7 +55,7 @@ export const ClaimBondsV3 = () => {
                 <Box display="flex" justifyContent="space-between" mt="8px">
                   <Typography>Remaining Duration</Typography>
                   <Typography>
-                    {Date.now() > note.matured ? (
+                    {note.matured > Date.now() / 1000 ? (
                       <BondDuration duration={note.matured - Date.now() / 1000} />
                     ) : (
                       "Fully Vested"
@@ -66,7 +66,7 @@ export const ClaimBondsV3 = () => {
                 <Box mt="16px">
                   <TertiaryButton
                     fullWidth
-                    disabled={Date.now() > note.matured || claimBondsMutation.isLoading}
+                    disabled={note.matured > Date.now() / 1000 || claimBondsMutation.isLoading}
                     onClick={() => claimBondsMutation.mutate({ token: note.token, amount: note.balance })}
                   >
                     {claimBondsMutation.isLoading && claimBondsMutation.variables?.token === note.token
@@ -110,7 +110,7 @@ export const ClaimBondsV3 = () => {
 
                     <TableCell style={{ padding: "8px 0" }}>
                       <Typography>
-                        {Date.now() > note.matured ? (
+                        {note.matured > Date.now() / 1000 ? (
                           <BondDuration duration={note.matured - Date.now() / 1000} />
                         ) : (
                           "Fully Vested"
@@ -125,7 +125,7 @@ export const ClaimBondsV3 = () => {
                     <TableCell style={{ padding: "8px 0" }}>
                       <TertiaryButton
                         fullWidth
-                        disabled={Date.now() > note.matured || claimBondsMutation.isLoading}
+                        disabled={note.matured > Date.now() / 1000 || claimBondsMutation.isLoading}
                         onClick={() => claimBondsMutation.mutate({ token: note.token, amount: note.balance })}
                       >
                         {claimBondsMutation.isLoading && claimBondsMutation.variables?.token === note.token
