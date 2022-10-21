@@ -58,14 +58,6 @@ describe("Default Main Range View", () => {
     defaultStatesWithApproval();
   });
 
-  it("Should Load Correct Upper Wall Price", async () => {
-    render(<Range />);
-    expect(await screen.findByTestId("upper-wall")).toHaveTextContent("$24.18");
-  });
-  it("Should Load Correct Lower Wall Price", async () => {
-    render(<Range />);
-    expect(await screen.findByTestId("lower-wall")).toHaveTextContent("$16.12");
-  });
   it("Should Display Max You Can Buy", async () => {
     render(<Range />);
     expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Buy");
