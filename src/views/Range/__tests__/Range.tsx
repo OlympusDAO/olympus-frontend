@@ -56,30 +56,38 @@ describe("Default Main Range View", () => {
   beforeEach(() => {
     connectWallet();
     defaultStatesWithApproval();
-    render(<Range />);
   });
 
   it("Should Display Max You Can Buy", async () => {
+    render(<Range />);
     expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Buy");
   });
 
   it("Should populate OHM Value automatically with 4.136381351142522 when 100 DAI amount is entered", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "100" } });
     expect(await screen.findByTestId("ohm-amount")).toHaveValue("4.136381351142522");
   });
 
   it("Should populate DAI Value automatically with 145.05432383169222 when 6 OHM amount is entered", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "6" } });
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("145.05432383169222");
   });
 
   it("Should open the confirmation modal when Reserve amount is lower than balance", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(await screen.getAllByText("Confirm Swap")[0]).toBeInTheDocument();
   });
 
   it("Should Successfully execute a buy swap", async () => {
+    render(
+      <>
+        <Range />
+      </>,
+    );
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
@@ -87,6 +95,11 @@ describe("Default Main Range View", () => {
     expect(await screen.findByText("Range Swap Successful")).toBeInTheDocument();
   });
   it("Should Show a message when mutating", async () => {
+    render(
+      <>
+        <Range />
+      </>,
+    );
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
@@ -100,6 +113,7 @@ describe("Default Main Range View", () => {
   });
 
   it("Should close the confirmation modal when clicking the close button", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(await screen.getAllByText("Confirm Swap")[0]).toBeInTheDocument();
@@ -108,15 +122,18 @@ describe("Default Main Range View", () => {
   });
 
   it("Should display Amount exceeds balance when DAI amount entered exceeds balance", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "11" } });
     expect(await screen.getByText("Amount exceeds balance")).toBeInTheDocument();
   });
   it("Should display Amount exceeds capacity message when DAI amount entered exceeds available OHM capacity", async () => {
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "20000000" } });
     expect(screen.getByText("Amount exceeds capacity")).toBeInTheDocument();
   });
 
   it("Should populate input with max balance (10 DAI) when clicking Max button", async () => {
+    render(<Range />);
     fireEvent.click(screen.getAllByText("Max")[0]);
     expect(await screen.findByTestId("reserve-amount")).toHaveValue("10");
   });
@@ -128,6 +145,7 @@ describe("Default Main Range View", () => {
   // });
 
   it("Should render with Ask price of $24.18 on chart", async () => {
+    render(<Range />);
     expect(await screen.findByText("Ask: $24.18"));
   });
 });
