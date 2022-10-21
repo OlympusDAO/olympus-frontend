@@ -69,8 +69,8 @@ describe("Upper Wall Active Bond Market", () => {
   it("Should Sell at Lower wall price of $16.12", async () => {
     //@ts-ignore
     RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "16.12" } });
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     expect(await screen.findByTestId("swap-price")).toHaveTextContent("16.12");
   });
 
