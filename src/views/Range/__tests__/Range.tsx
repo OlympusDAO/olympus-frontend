@@ -60,7 +60,9 @@ describe("Default Main Range View", () => {
 
   it("Should Display Max You Can Buy", async () => {
     render(<Range />);
-    expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Buy");
+    setTimeout(async () => {
+      expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Buy");
+    }, 30000);
   });
 
   it("Should populate OHM Value automatically with 4.136381351142522 when 100 DAI amount is entered", async () => {
