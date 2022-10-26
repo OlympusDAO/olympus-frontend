@@ -42,6 +42,11 @@ export const getNextPageParamFactory = (
   const logPrefix = `${queryName}/getNextPageParam/TokenRecord/${earliestDate}`;
   console.debug(`${logPrefix}: create getNextPageParam with earliestDate ${earliestDate}`);
   return (lastPage: TokenRecordsQuery): TokenRecordsQueryVariables | undefined => {
+    // lastPage is sometimes undefined
+    if (typeof lastPage === "undefined") {
+      return;
+    }
+
     console.debug(`${logPrefix}: Received ${lastPage.tokenRecords.length} records`);
 
     if (lastPage.tokenRecords.length === 0) {

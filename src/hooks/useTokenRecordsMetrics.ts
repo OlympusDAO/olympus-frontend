@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { TokenRecord, TokenRecord_Filter, useTokenRecordsQuery } from "src/generated/graphql";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
@@ -63,21 +63,6 @@ const useTreasuryAssets = (
   _earliestDate?: string,
   _subgraphUrls?: SUBGRAPH_URLS,
 ): number => {
-  // We use a mutable reference for each of the values, otherwise it will cause re-fetching of data endlessly
-  const earliestDate = useRef(_earliestDate || null);
-  useEffect(() => {
-    if (_earliestDate == earliestDate.current) return;
-
-    earliestDate.current = _earliestDate || null;
-  }, [_earliestDate]);
-
-  const subgraphUrls = useRef(_subgraphUrls || null);
-  useEffect(() => {
-    if (_subgraphUrls == subgraphUrls.current) return;
-
-    subgraphUrls.current = _subgraphUrls || null;
-  }, [_subgraphUrls]);
-
   // It's tempting to restrict by the latest block here, EXCEPT that different blockchains have different latest block values. It's easier to restrict by date.
   const createFilter = (_isLiquid: boolean): TokenRecord_Filter => {
     return {
@@ -88,23 +73,17 @@ const useTreasuryAssets = (
         : {}),
     };
   };
-  const baseFilter = useRef(createFilter(_liquidOnly));
-  const liquidOnly = useRef(_liquidOnly);
+  const [baseFilter, setBaseFilter] = useState(createFilter(_liquidOnly));
+  const [liquidOnly, setLiquidOnly] = useState(_liquidOnly);
   useEffect(() => {
-    if (_liquidOnly == liquidOnly.current) return;
+    if (_liquidOnly == liquidOnly) return;
 
-    liquidOnly.current = _liquidOnly;
-    baseFilter.current = createFilter(_liquidOnly);
+    setLiquidOnly(_liquidOnly);
+    setBaseFilter(createFilter(_liquidOnly));
   }, [_liquidOnly]);
 
   // Fetch the TokenRecords from all blockchains defined in subgraphUrls
-  const tokenRecordResults = useTokenRecordsQueries(
-    sourceName,
-    subgraphUrls.current,
-    baseFilter.current,
-    earliestDate.current,
-    undefined,
-  );
+  const tokenRecordResults = useTokenRecordsQueries(sourceName, _subgraphUrls, baseFilter, _earliestDate, undefined);
 
   // Get the latest result (but be defensive in case the are no results)
   const latestResult: TokenRecord[] = !tokenRecordResults
@@ -113,7 +92,7 @@ const useTreasuryAssets = (
     ? []
     : Array.from(tokenRecordResults)[tokenRecordResults.size - 1][1];
 
-  return getTreasuryAssetValue(latestResult, liquidOnly.current);
+  return getTreasuryAssetValue(latestResult, liquidOnly);
 };
 
 /**
