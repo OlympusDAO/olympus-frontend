@@ -66,8 +66,10 @@ describe("Default Main Range View", () => {
   });
 
   it("Should populate OHM Value automatically with 4.136381351142522 when 100 DAI amount is entered", async () => {
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "100" } });
-    expect(await screen.findByTestId("ohm-amount")).toHaveValue("4.136381351142522");
+    setTimeout(async () => {
+      fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "100" } });
+      expect(await screen.findByTestId("ohm-amount")).toHaveValue("4.136381351142522");
+    }, 30000);
   });
 
   it("Should populate DAI Value automatically with 145.05432383169222 when 6 OHM amount is entered", async () => {
