@@ -124,7 +124,7 @@ export const Range = () => {
         {currentPrice ? (
           <>
             <Grid container spacing={2}>
-              <Grid item xs={12} lg={6} container direction="column" justifyContent="center">
+              <Grid item xs={12} lg={6}>
                 {!rangeDataLoading && (
                   <Box mt={"20px"} data-testid="range-chart">
                     <RangeChart
@@ -200,7 +200,14 @@ export const Range = () => {
                             data-testid="range-submit"
                             fullWidth
                             type="submit"
-                            disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
+                            disabled={
+                              !ohmAmount ||
+                              !reserveAmount ||
+                              amountAboveCapacity ||
+                              amountAboveBalance ||
+                              (sellActive && !rangeData.low.active) ||
+                              (!sellActive && !rangeData.high.active)
+                            }
                           >
                             {amountAboveCapacity
                               ? `Amount exceeds capacity`
