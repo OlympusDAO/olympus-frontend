@@ -157,7 +157,7 @@ const RangeChart = (props: {
         <YAxis
           scale="auto"
           tickFormatter={number => formatCurrency(number, 2)}
-          orientation="right"
+          orientation="left"
           type="number"
           domain={[
             (dataMin: number) =>
@@ -225,15 +225,7 @@ const RangeChart = (props: {
         >
           <Label
             className={classes.currentPrice}
-            position={
-              !sellActive
-                ? isSquishyAsk && askPriceDelta < 0
-                  ? "bottom"
-                  : "top"
-                : isSquishyBid && bidPriceDelta < 0
-                ? "bottom"
-                : "top"
-            }
+            position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
           >
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
