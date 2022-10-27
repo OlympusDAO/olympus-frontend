@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
-import { DataRow, InfoNotification, OHMTokenProps, Paper, PrimaryButton } from "@olympusdao/component-library";
+import { Box, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -120,93 +120,101 @@ export const Range = () => {
   return (
     <div id="stake-view">
       <PageTitle name="Range Swap" />
-      <Paper zoom={false}>
+      <Paper sx={{ maxWidth: "1100px", width: "100%" }}>
         {currentPrice ? (
           <>
-            {!rangeDataLoading && (
-              <Box mt={"20px"} data-testid="range-chart">
-                <RangeChart
-                  rangeData={rangeData}
-                  reserveSymbol={reserveSymbol}
-                  currentPrice={currentPrice}
-                  bidPrice={bidPrice.price}
-                  askPrice={askPrice.price}
-                  sellActive={sellActive}
-                />
-              </Box>
-            )}
-            <Box justifyContent="center">
-              {!hasPrice && (
-                <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
-                  <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-                    <InfoNotification>Side is Currently Inactive</InfoNotification>
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={6} container direction="column" justifyContent="center">
+                {!rangeDataLoading && (
+                  <Box mt={"20px"} data-testid="range-chart">
+                    <RangeChart
+                      rangeData={rangeData}
+                      reserveSymbol={reserveSymbol}
+                      currentPrice={currentPrice}
+                      bidPrice={bidPrice.price}
+                      askPrice={askPrice.price}
+                      sellActive={sellActive}
+                    />
                   </Box>
-                </Box>
-              )}
-            </Box>
-            <form onSubmit={handleSubmit}>
-              <WalletConnectedGuard message="Connect your wallet to use Range Swap">
-                <RangeInputForm
-                  reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
-                  onSetSellActive={() => setSellActive(!sellActive)}
-                  sellActive={sellActive}
-                  reserveBalance={reserveBalance}
-                  ohmBalance={ohmBalance}
-                  onFormSubmit={handleSubmit}
-                  onChangeReserveAmount={handleChangeReserveAmount}
-                  onChangeOhmAmount={handleChangeOhmAmount}
-                  ohmAmount={ohmAmount}
-                  reserveAmount={reserveAmount}
-                  capacity={maxCapacity}
-                  hasPrice={hasPrice}
-                />
-              </WalletConnectedGuard>
-              {hasPrice && (
-                <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
-                  <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-                    <Box mt="12px">
-                      <InfoNotification>
-                        You are about to swap {sellAsset} for {buyAsset} at a price of {swapPrice} {reserveSymbol}. This
-                        is a {sellActive ? "premium" : "discount"} of {formatNumber(discount * 100, 2)}% relative to
-                        market price of {formatNumber(currentPrice, 2)} {reserveSymbol}
-                      </InfoNotification>
+                )}
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <Box justifyContent="center">
+                  {!hasPrice && (
+                    <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+                      <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                        <InfoNotification>Side is Currently Inactive</InfoNotification>
+                      </Box>
                     </Box>
-                    <div data-testid="max-row">
-                      <DataRow title={maxString} balance={maxBalanceString} />
-                    </div>
-                    <div data-testid="premium-discount">
-                      <DataRow
-                        title={sellActive ? t`Premium` : t`Discount`}
-                        balance={
-                          <Typography
-                            sx={{ color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
+                  )}
+                </Box>
+                <form onSubmit={handleSubmit}>
+                  <WalletConnectedGuard message="Connect your wallet to use Range Swap">
+                    <RangeInputForm
+                      reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
+                      onSetSellActive={() => setSellActive(!sellActive)}
+                      sellActive={sellActive}
+                      reserveBalance={reserveBalance}
+                      ohmBalance={ohmBalance}
+                      onFormSubmit={handleSubmit}
+                      onChangeReserveAmount={handleChangeReserveAmount}
+                      onChangeOhmAmount={handleChangeOhmAmount}
+                      ohmAmount={ohmAmount}
+                      reserveAmount={reserveAmount}
+                      capacity={maxCapacity}
+                      hasPrice={hasPrice}
+                    />
+                  </WalletConnectedGuard>
+                  {hasPrice && (
+                    <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
+                      <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                        <Box mt="12px">
+                          <InfoNotification>
+                            You are about to swap {sellAsset} for {buyAsset} at a price of {swapPrice} {reserveSymbol}.
+                            This is a {sellActive ? "premium" : "discount"} of {formatNumber(discount * 100, 2)}%
+                            relative to market price of {formatNumber(currentPrice, 2)} {reserveSymbol}
+                          </InfoNotification>
+                        </Box>
+                        <div data-testid="max-row">
+                          <DataRow title={maxString} balance={maxBalanceString} />
+                        </div>
+                        <div data-testid="premium-discount">
+                          <DataRow
+                            title={sellActive ? t`Premium` : t`Discount`}
+                            balance={
+                              <Typography
+                                sx={{
+                                  color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error,
+                                }}
+                              >
+                                {formatNumber(discount * 100, 2)}%
+                              </Typography>
+                            }
+                          />
+                        </div>
+                        <div data-testid="swap-price">
+                          <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+                        </div>
+                        <Box mt="8px">
+                          <PrimaryButton
+                            data-testid="range-submit"
+                            fullWidth
+                            type="submit"
+                            disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
                           >
-                            {formatNumber(discount * 100, 2)}%
-                          </Typography>
-                        }
-                      />
-                    </div>
-                    <div data-testid="swap-price">
-                      <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
-                    </div>
-                    <Box mt="8px">
-                      <PrimaryButton
-                        data-testid="range-submit"
-                        fullWidth
-                        type="submit"
-                        disabled={!ohmAmount || !reserveAmount || amountAboveCapacity || amountAboveBalance}
-                      >
-                        {amountAboveCapacity
-                          ? `Amount exceeds capacity`
-                          : amountAboveBalance
-                          ? `Amount exceeds balance`
-                          : swapButtonText}
-                      </PrimaryButton>
+                            {amountAboveCapacity
+                              ? `Amount exceeds capacity`
+                              : amountAboveBalance
+                              ? `Amount exceeds balance`
+                              : swapButtonText}
+                          </PrimaryButton>
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
-                </Box>
-              )}
-            </form>
+                  )}
+                </form>
+              </Grid>
+            </Grid>
           </>
         ) : (
           <Box display="flex" flexDirection="row" justifyContent="center">
