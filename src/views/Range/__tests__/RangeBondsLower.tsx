@@ -70,16 +70,16 @@ describe("Lower Wall Active Bond Market", () => {
   it("Should Sell at Bond market price of $10.12", async () => {
     //@ts-expect-error
     RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "10.12" } });
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     expect(await screen.findByTestId("swap-price")).toHaveTextContent("10.12");
   });
 
   it("Should have a disclaimer notifying a sell below current market price ($13.20)", async () => {
     //@ts-expect-error
     RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "10.12" } });
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(
