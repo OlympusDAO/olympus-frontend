@@ -49,7 +49,7 @@
     "axios": "^1.1.0",
     "class-validator": "^0.13.2",
     "date-fns": "^2.29.3",
-    "ethers": "^5.7.1",
+    "ethers": "^5.7.2",
     "get-value": "^3.0.1",
     "graphql": "^15.8.0",
     "graphql-request": "^5.0.0",
