@@ -25,7 +25,7 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useEndorse, useUserEndorsement, useVote, useVotingSupply } from "src/hooks/useVoting";
+import { useUserEndorsement, useVote, useVotingSupply } from "src/hooks/useVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
@@ -40,7 +40,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const votesBalance = useVoteBalance()[networks.MAINNET].data;
   const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
-  const submitEndorsement = useEndorse();
+  // const submitEndorsement = useEndorse();
   const { data: endorsementsValue, isLoading: isLoadingEndorsementsValue } = useUserEndorsement(proposal.id);
   const { data: totalVoteSupply, isLoading: isLoadingTotalSupply } = useVotingSupply();
 
@@ -55,9 +55,9 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
     submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
   };
 
-  const handleEndorseSubmission = () => {
-    submitEndorsement.mutate({ proposalId: BigNumber.from(proposal.id) });
-  };
+  // const handleEndorseSubmission = () => {
+  //   submitEndorsement.mutate({ proposalId: BigNumber.from(proposal.id) });
+  // };
 
   return (
     <Paper fullWidth>
@@ -98,31 +98,26 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
                 </PrimaryButton>
               </Box>
             </WalletConnectedGuard>
-          </>
-        ) : (
-          <>
-            <WalletConnectedGuard>
-              <Box display="flex" flexDirection="row" justifyContent="center">
-                <PrimaryButton
-                  sx={{ minWidth: "120px" }}
-                  disabled={!!proposal.isActive}
-                  onClick={handleEndorseSubmission}
-                >
-                  Endorse
-                </PrimaryButton>
-              </Box>
-            </WalletConnectedGuard>
             {isLoadingEndorsementsValue && (
               <Skeleton>
                 <Metric label={`Your have previously endorsed this proposal with `} metric={`1 gOHM`} />
               </Skeleton>
             )}
             {endorsementsValue && (
-              <Metric
-                label={`You have previously endorsed this proposal with `}
-                metric={`${formatBalance(2, endorsementsValue)} gOHM`}
-              />
+              <>
+                <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
+                  You have previously endorsed this proposal
+                </Typography>
+                {/* <Metric
+                  label={`You have previously endorsed this proposal with `}
+                  metric={`${formatBalance(2, endorsementsValue)} gOHM`}
+                /> */}
+              </>
             )}
+          </>
+        ) : (
+          <>
+            <p>not active</p>
           </>
         )}
       </Box>

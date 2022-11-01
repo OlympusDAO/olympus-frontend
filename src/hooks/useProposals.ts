@@ -1,9 +1,8 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import { ethers } from "ethers";
-import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber } from "src/helpers";
-import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useNetwork } from "wagmi";
@@ -234,7 +233,9 @@ export const useActiveProposal = () => {
     /**
      * @NOTE `getActiveProposal` returns [0, 0] when nothing is active
      */
-    const activeProposal = await contract.getActiveProposal();
+    // const activeProposal = await contract.getActiveProposal();
+    const activeProposal = await contract.getProposalMetadata(0);
+    const activeProposalId = ethers.BigNumber.from("0");
     /**
      * number of seconds remaining in proposal
      */
@@ -242,7 +243,7 @@ export const useActiveProposal = () => {
     const unixTimeRemaining = timeRemaining({ state: "active", submissionTimestamp: activationTimestamp });
     const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : 0;
     return {
-      instructionsId: parseBigNumber(activeProposal.proposalId, 0),
+      instructionsId: parseBigNumber(activeProposalId, 0),
       activationTimestamp,
       timeRemaining: jsTimeRemaining,
     };
@@ -253,14 +254,24 @@ export const mockGetTotalInstructions = (): number => {
   return mockTotalInstructions;
 };
 
-export const useGetTotalInstructions = (): UseQueryResult<number, Error> => {
+/**
+ * Get the most recent Proposal Id
+ */
+export const useGetLastProposalId = (): UseQueryResult<number, Error> => {
   const { chain = { id: 1 } } = useNetwork();
-  const contract = GOV_INSTRUCTIONS_CONTRACT.getEthersContract(chain.id);
-  return useQuery<number, Error>(["GetTotalInstructions"], async () => {
-    const total = await contract.totalInstructions();
-    // NOTE(appleseed): not using DecimalBigNumber.toAproxNumber() because this seems simplere
-    return parseBigNumber(total, 0);
-  });
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  return useQuery<number, Error>(
+    ["GetLastProposalId"],
+    async () => {
+      // using EVENTS
+      const result = await contract.queryFilter(contract.filters.ProposalSubmitted());
+
+      const mostRecentEventArgs = result[result.length - 1].args;
+      const proposalNumber = mostRecentEventArgs[0];
+      return parseBigNumber(proposalNumber, 0);
+    },
+    { enabled: !!chain && !!chain.id },
+  );
 };
 
 /// Function to return mock proposal metadata in lieu of a contract
@@ -275,25 +286,25 @@ export const MockGetProposalMetadata = (instructionsIndex: number) => {
   //return { data, isFetched, isLoading };
 };
 
-/// Function to return mock proposal endoresments in lieu of a contract
-export const MockGetProposalTotalEndorsements = (instructionsIndex: number) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["GetProposalTotalEndorsements", instructionsIndex], async () => {
-    return await contract.totalEndorsementsForProposal(instructionsIndex);
-  });
+// /// Function to return mock proposal endoresments in lieu of a contract
+// export const MockGetProposalTotalEndorsements = (instructionsIndex: number) => {
+//   const { chain = { id: 1 } } = useNetwork();
+//   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+//   const { data, isFetched, isLoading } = useQuery(["GetProposalTotalEndorsements", instructionsIndex], async () => {
+//     return await contract.totalEndorsementsForProposal(instructionsIndex);
+//   });
 
-  //TODO: Swap Return statement to return contract results
-  return mockProposalTotalEndorsements[instructionsIndex];
-  //return { data, isFetched, isLoading };
-};
+//   //TODO: Swap Return statement to return contract results
+//   return mockProposalTotalEndorsements[instructionsIndex];
+//   //return { data, isFetched, isLoading };
+// };
 
 /// Function to return mock proposal activation data in lieu of a contract
 export const MockGetProposalHasBeenActivated = (instructionsIndex: number) => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(["ProposalHasBeenActivated", instructionsIndex], async () => {
-    return await contract.proposalHasBeenActivated(instructionsIndex);
+    // return await contract.proposalHasBeenActivated(instructionsIndex);
   });
 
   //TODO: Swap Return statement to return contract results
@@ -306,7 +317,7 @@ export const MockGetYesVotesForProposal = (instructionsIndex: number) => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(["YesVotesForProposal", instructionsIndex], async () => {
-    return await contract.yesVotesForProposal(instructionsIndex);
+    // return await contract.yesVotesForProposal(instructionsIndex);
   });
 
   //TODO: Swap Return statement to return contract results
@@ -319,7 +330,7 @@ export const MockGetNoVotesForProposal = (instructionsIndex: number) => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
   const { data, isFetched, isLoading } = useQuery(["NoVotesForProposal", instructionsIndex], async () => {
-    return await contract.noVotesForProposal(instructionsIndex);
+    // return await contract.noVotesForProposal(instructionsIndex);
   });
   //TODO: Swap Return statement to return contract results
   return mockNoVotesForProposal[instructionsIndex];
@@ -389,9 +400,9 @@ export const useProposals = (filters: IProposalState) => {
   /// const governanceContract = "";
   // TODO(appleseed): this needs to be rewritten
   const queryKey = proposalsQueryKey(filters);
-  const useDependentQuery = createDependentQuery(queryKey);
+  // const useDependentQuery = createDependentQuery(queryKey);
   /// Get total number of proposal through INSTR module contract's totalInstructions variable
-  const { data: numberOfProposals } = useGetTotalInstructions();
+  const { data: numberOfProposals } = useGetLastProposalId();
   const query = useQuery<Proposal[], Error>(
     queryKey,
     async () => {
@@ -405,7 +416,6 @@ export const useProposals = (filters: IProposalState) => {
       for (let i = numberOfProposals; i > 0; i--) {
         const proposal = MockGetProposalMetadata(i);
         const isActive = MockGetProposalHasBeenActivated(i);
-        const endorsements = MockGetProposalTotalEndorsements(i);
         const yesVotes = MockGetYesVotesForProposal(i);
         const noVotes = MockGetNoVotesForProposal(i);
         const proposalURI = mockGetProposalURI(proposal.title);
@@ -424,7 +434,7 @@ export const useProposals = (filters: IProposalState) => {
           submissionTimestamp: proposal.submissionTimestamp,
           isActive: isActive,
           state: proposalState,
-          endorsements: endorsements,
+          endorsements: 0,
           yesVotes: yesVotes,
           noVotes: noVotes,
           uri: proposalURI,

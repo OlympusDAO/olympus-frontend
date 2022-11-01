@@ -6,7 +6,7 @@ import { Paper, Proposal, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
-import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
+import { useActiveProposal, useGetLastProposalId } from "src/hooks/useProposals";
 import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { FilterModal } from "src/views/Governance/components/FilterModal";
 import { SearchBar } from "src/views/Governance/components/SearchBar/SearchBar";
@@ -14,7 +14,7 @@ import { toCapitalCase } from "src/views/Governance/helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const { data: numberOfProposals, isLoading } = useGetTotalInstructions();
+  const { data: numberOfProposals, isLoading } = useGetLastProposalId();
   const { data: activeProposal } = useActiveProposal();
 
   const handleFilterClick = () => {

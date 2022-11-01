@@ -142,14 +142,18 @@ export interface ISubmitProposal {
 }
 /**
  * submit proposal at:
- * https://goerli.etherscan.io/address/0xaAd5e6e1362b458E38140B7E8c6d5D71b933a56f#writeContract
+ * https://goerli.etherscan.io/tx/0x7150ffcc290038deab9c89b1630df273273d2b428e6ee6fb6bec0ddeefe25b18
  *
  * params:
  * [[2,"0x5a46373152Fe723f052117fdc8E5282677808A70"]]
  * 0x6d792070726f706f73616c000000000000000000000000000000000000000000
+ * [{"action": "2", "target": "0x5a46373152Fe723f052117fdc8E5282677808A70"}]
  *
  * title (2nd param above):
  * ethers.utils.formatBytes32String("my proposal name")
+ * 0x6d792070726f706f73616c206e616d6500000000000000000000000000000000
+ *
+ * proposalURI: ipfs://bafybeicyta5tlfodbxkgofjoy46iexwhl2d773rjl4cryklqyx7dzikx2u/proposal.json
  *
  * gotcha:
  * there are rules in Instructions.store() around contract addresses & naming for modules, etc
@@ -157,6 +161,8 @@ export interface ISubmitProposal {
  * deploy a new proposal for the 2nd element of the 1st param:
  * # from bophades repo
  * forge create src/policies/Governance.sol:Governance --constructor-args 0x3B294580Fcf1F60B94eca4f4CE78A2f52D23cC83 --rpc-url https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC --private-key yours
+ *
+ * TODO(appleseed) must APPROVE vOHM to be spent on Gov Contract: https://goerli.etherscan.io/tx/0x687575662aaf247992c47599dfef947bbe64f2022ee59df6e065e72e194b07cf
  */
 export const useSubmitProposal = () => {
   const { chain = { id: 1 } } = useNetwork();
