@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.10.4",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.7.1",
