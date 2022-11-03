@@ -4,7 +4,6 @@ import { BigNumber, ContractReceipt } from "ethers";
 import { useDispatch } from "react-redux";
 import { GOVERNANCE_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 interface Vote {
@@ -77,10 +76,9 @@ export const useEndorse = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
       },
       onSuccess: () => {
-        dispatch(createInfoToast(t`Successfully endorsed proposal`));
+        console.log(`Successfully endorsed proposal`);
       },
     },
   );
@@ -109,10 +107,9 @@ export const useVote = () => {
     {
       onError: error => {
         console.error(error.message);
-        dispatch(createErrorToast(error.message));
       },
       onSuccess: () => {
-        dispatch(createInfoToast(t`Successfully voted for proposal`));
+        console.log(`Successfully voted for proposal`);
       },
     },
   );
