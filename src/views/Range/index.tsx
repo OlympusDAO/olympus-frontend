@@ -171,8 +171,16 @@ export const Range = () => {
                         <Box mt="12px">
                           <InfoNotification>
                             You are about to swap {sellAsset} for {buyAsset} at a price of {swapPrice} {reserveSymbol}.
-                            This is a {sellActive ? "premium" : "discount"} of {formatNumber(discount * 100, 2)}%
-                            relative to market price of {formatNumber(currentPrice, 2)} {reserveSymbol}
+                            This is a{" "}
+                            {sellActive
+                              ? discount < 0
+                                ? "discount"
+                                : "premium"
+                              : discount < 0
+                              ? "premium"
+                              : "discount"}{" "}
+                            of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
+                            {formatNumber(currentPrice, 2)} {reserveSymbol}
                           </InfoNotification>
                         </Box>
                         <div data-testid="max-row">
