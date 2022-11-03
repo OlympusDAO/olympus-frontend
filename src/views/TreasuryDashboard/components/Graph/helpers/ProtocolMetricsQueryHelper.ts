@@ -26,11 +26,17 @@ export const getNextPageParamFactory = (
   earliestDate: string,
   recordCount: number,
   baseFilter: ProtocolMetric_Filter,
+  endpoint: string,
   dateOffset?: number,
 ) => {
   const logPrefix = `${queryName}/ProtocolMetric/${earliestDate}`;
   console.debug(`${logPrefix}: create getNextPageParam with earliestDate ${earliestDate}`);
   return (lastPage: ProtocolMetricsQuery): ProtocolMetricsQueryVariables | undefined => {
+    // lastPage is sometimes undefined
+    if (typeof lastPage === "undefined") {
+      return;
+    }
+
     console.debug(`${logPrefix}: Received ${lastPage.protocolMetrics.length} records`);
 
     if (lastPage.protocolMetrics.length === 0) {
@@ -63,6 +69,7 @@ export const getNextPageParamFactory = (
         date_lt: newFinishDate,
       },
       recordCount: recordCount,
+      endpoint: endpoint,
     };
   };
 };

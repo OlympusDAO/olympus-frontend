@@ -182,7 +182,6 @@ export const JonesPoolAPY = (pool: ExternalPool) => {
   } = useQuery(["JonesPoolAPY", pool.address], async () => {
     const results = await axios.get(jonesAPI).then(res => {
       const poolData = res.data.farms.find((lp: { lpToken: string }) => lp.lpToken == pool.address);
-      console.log(poolData, "poolData");
       return poolData;
     });
     return results;

@@ -23,37 +23,40 @@ export const handleBackdropFilter = rgbaString => {
 const commonSettings = {
   direction: "ltr",
   typography: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "NHassGrotesk",
     h1: {
-      fontSize: "3.3rem",
+      fontSize: "32px",
+      fontWeight: 500,
+      lineHeight: "36px",
     },
     h2: {
-      fontSize: "2.3rem",
-      fontWeight: 600,
-      letterSpacing: "1.3px",
+      fontSize: "27px",
+      lineHeight: "32px",
     },
     h3: {
-      fontSize: "1.75rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h4: {
-      fontSize: "1.5rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h5: {
-      fontSize: "1.25rem",
-      letterSpacing: "0.4px",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h6: {
-      fontSize: "1rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     body1: {
-      fontSize: "0.875rem",
-      lineHeight: "20px",
+      fontSize: "15px",
+      lineHeight: "24px",
     },
     body2: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1,
+      fontSize: "12px",
+      lineHeight: "15px",
     },
     button: {
       textTransform: "none",
@@ -80,13 +83,6 @@ const commonSettings = {
         disableElevation: true,
         disableFocusRipple: true,
         disableRipple: true,
-      },
-    },
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          justifyContent: "flex-end",
-        },
       },
     },
     MuiPaper: {
@@ -168,7 +164,7 @@ const commonSettings = {
         paper: {
           width: "inherit",
           padding: 0,
-          zIndex: 7,
+          zIndex: 100,
         },
       },
     },

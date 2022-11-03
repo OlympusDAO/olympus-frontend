@@ -69,17 +69,17 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `REACT_APP_ETHEREUM_NODE_URL`,
-          fallback: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+          fallback: "https://rpc.ankr.com/eth",
         });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
           key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
-          fallback: "https://eth-goerli.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+          fallback: "https://rpc.ankr.com/eth_goerli",
         });
       case NetworkId.ARBITRUM:
         return this._get({
           key: `REACT_APP_ARBITRUM_NODE_URL`,
-          fallback: "https://arb-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+          fallback: "https://rpc.ankr.com/arbitrum",
         });
       case NetworkId.ARBITRUM_TESTNET:
         return this._get({
@@ -89,42 +89,42 @@ export class Environment {
       case NetworkId.AVALANCHE:
         return this._get({
           key: `REACT_APP_AVALANCHE_NODE_URL`,
-          fallback: "https://api.avax.network/ext/bc/C/rpc",
+          fallback: "https://rpc.ankr.com/avalanche",
         });
       case NetworkId.AVALANCHE_TESTNET:
         return this._get({
           key: `REACT_APP_AVALANCHE_TESTNET_NODE_URL`,
-          fallback: "https://api.avax-test.network/ext/bc/C/rpc",
+          fallback: "https://rpc.ankr.com/avalanche_fuji",
         });
       case NetworkId.POLYGON:
         return this._get({
           key: `REACT_APP_POLYGON_NODE_URL`,
-          fallback: "https://polygon-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+          fallback: "https://rpc.ankr.com/polygon",
         });
       case NetworkId.POLYGON_TESTNET:
         return this._get({
           key: `REACT_APP_POLYGON_TESTNET_NODE_URL`,
-          fallback: "https://polygon-mumbai.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+          fallback: "https://rpc.ankr.com/polygon_mumbai",
         });
       case NetworkId.FANTOM:
         return this._get({
           key: `REACT_APP_FANTOM_NODE_URL`,
-          fallback: "https://rpc.ftm.tools/",
+          fallback: "https://rpc.ankr.com/fantom/",
         });
       case NetworkId.FANTOM_TESTNET:
         return this._get({
           key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
-          fallback: "https://rpc.testnet.fantom.network/",
+          fallback: "https://rpc.ankr.com/fantom_testnet",
         });
       case NetworkId.OPTIMISM:
         return this._get({
           key: `REACT_APP_OPTIMISM_NODE_URL`,
-          fallback: "https://mainnet.optimism.io/",
+          fallback: "https://rpc.ankr.com/optimism",
         });
       case NetworkId.OPTIMISM_TESTNET:
         return this._get({
           key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
-          fallback: "https://kovan.optimism.io/",
+          fallback: "https://rpc.ankr.com/optimism_testnet",
         });
       case NetworkId.BOBA:
         return this._get({

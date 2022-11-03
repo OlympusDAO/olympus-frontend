@@ -86,7 +86,7 @@ export const markets = {
 export const inverseMarkets = {
   8: {
     creator: "0xBA42BE149e5260EbA4B82418A6306f55D532eA47",
-    capacity: BigNumber.from("0x021d9f8a5f48f59d8e3b"),
+    capacity: BigNumber.from("10000000000000000000000000000000000"),
     baseToken: "0x6b175474e89094c44da98b954eedeac495271d0f",
     quoteToken: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
     call: false,
@@ -100,7 +100,7 @@ export const inverseMarkets = {
 };
 
 export const marketPrice = {
-  36: BigNumber.from("0x058d"),
+  36: BigNumber.from("14210000000"),
   37: BigNumber.from("0x014ced"),
   38: BigNumber.from("0x015015"),
 };

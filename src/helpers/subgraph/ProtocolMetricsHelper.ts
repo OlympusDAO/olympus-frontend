@@ -2,6 +2,7 @@ import get from "get-value";
 import { CSSProperties } from "react";
 import { ChartType } from "src/components/Chart/Constants";
 import { getFloat } from "src/helpers/NumberHelper";
+import tinycolor from "tinycolor2";
 
 export const objectHasProperty = (object: unknown, property: string): object is Record<string, unknown> => {
   return typeof object === "object" && object !== null && property in object;
@@ -16,12 +17,15 @@ export const objectHasProperty = (object: unknown, property: string): object is 
  */
 export const renameToken = (value: string): string => {
   const tokenMap = new Map<string, string>([
-    ["Uniswap V2 OHM V2-DAI Liquidity Pool", "SushiSwap OHM-DAI Liquidity Pool"],
-    ["Uniswap V2 OHM V2-ETH Liquidity Pool", "SushiSwap OHM-ETH Liquidity Pool"],
-    ["cvxOHMETH", "Curve OHM-ETH Pool (Staked in Convex)"],
-    ["Balancer OHM-DAI-WETH Pool", "Balancer V2 OHM-DAI-WETH Liquidity Pool"],
-    ["Balancer WETH-FDT Pool", "Balancer V2 WETH-FDT Liquidity Pool"],
-    ["vlCVX V2", "vlCVX"],
+    ["Balancer V2 OHM-DAI-WETH Liquidity Pool", "Balancer V2 OHM-DAI-wETH Liquidity Pool"],
+    [
+      "Balancer V2 OHM-DAI-WETH Liquidity Pool (Staked in AURA)",
+      "Balancer V2 OHM-DAI-wETH Liquidity Pool (Staked in Aura)",
+    ],
+    ["Balancer V2 WETH-FDT Liquidity Pool", "Balancer V2 wETH-FDT Liquidity Pool"],
+    ["Balancer V2 WETH-FDT Liquidity Pool - Gauge Deposit", "Balancer V2 wETH-FDT Liquidity Pool - Gauge Deposit"],
+    ["Uniswap V2 OHM-BTRFLY V1 Liquidity Pool", "SushiSwap OHM-BTRFLY V1 Liquidity Pool"],
+    ["UniswapV2 gOHM-wETH Liquidity Pool", "SushiSwap gOHM-wETH Liquidity Pool"],
   ]);
 
   const mapValue = tokenMap.get(value);
@@ -61,6 +65,40 @@ export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<stri
   return categoriesMap;
 };
 
+const COLOR_INCREMENT = 20;
+
+const adjustColor = (color: tinycolor.Instance, multiple: number): string => {
+  return color.spin(multiple * COLOR_INCREMENT).toHex8String();
+};
+
+/**
+ * Returns a color for the given index.
+ *
+ * If the index is beyond the bounds of the {colors} array,
+ * it will darken the color at the corresponding index in
+ * order to generate a unique color.
+ *
+ * @param colors
+ * @param index
+ * @returns
+ */
+const getCorrectedColor = (colors: string[], index: number): string => {
+  // We want 0, 1, 2, etc
+  const multiple = Math.floor(index / (colors.length - 1));
+  const correctedIndex = index % (colors.length - 1);
+
+  return adjustColor(tinycolor(colors[correctedIndex]), multiple);
+};
+
+const getCorrectedStyle = (styles: CSSProperties[], index: number): CSSProperties => {
+  const multiple = index / (styles.length - 1);
+  const correctedIndex = index % (styles.length - 1);
+
+  return {
+    background: adjustColor(tinycolor(styles[correctedIndex].background as string), multiple),
+  };
+};
+
 /**
  * Creates a map that can be used to determine the color corresponding with data keys, with the values
  * of {dataKeys} as the keys and the values of {colors} as the values.
@@ -72,7 +110,7 @@ export const getCategoriesMap = (tokens: string[], dataKeys: string[]): Map<stri
 export const getDataKeyColorsMap = (colors: string[], dataKeys: string[]): Map<string, string> => {
   const categoriesMap = new Map<string, string>();
   dataKeys.map((value, index) => {
-    categoriesMap.set(value, colors[index]);
+    categoriesMap.set(value, getCorrectedColor(colors, index));
   });
 
   return categoriesMap;
@@ -89,7 +127,7 @@ export const getDataKeyColorsMap = (colors: string[], dataKeys: string[]): Map<s
 export const getBulletpointStylesMap = (styles: CSSProperties[], dataKeys: string[]): Map<string, CSSProperties> => {
   const categoriesMap = new Map<string, CSSProperties>();
   dataKeys.map((value, index) => {
-    categoriesMap.set(value, styles[index]);
+    categoriesMap.set(value, getCorrectedStyle(styles, index));
   });
 
   return categoriesMap;

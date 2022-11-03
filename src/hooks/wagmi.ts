@@ -1,6 +1,14 @@
-import "src/assets/rainbowkit.css"; //have to do this for now due to test failures with import direct from library;
+import "@rainbow-me/rainbowkit/styles.css";
 
-import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  braveWallet,
+  coinbaseWallet,
+  injectedWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -46,10 +54,10 @@ const fantom: Chain = {
 };
 export const { chains, provider, webSocketProvider } = configureChains(
   [
-    chain.mainnet,
-    chain.polygon,
-    chain.optimism,
-    chain.arbitrum,
+    { ...chain.mainnet, rpcUrls: { default: "https://rpc.ankr.com/eth" } },
+    { ...chain.polygon, rpcUrls: { default: "https://rpc.ankr.com/polygon" } },
+    { ...chain.optimism, rpcUrls: { default: "https://rpc.ankr.com/optimism" } },
+    { ...chain.arbitrum, rpcUrls: { default: "https://rpc.ankr.com/arbitrum" } },
     {
       ...boba,
       iconUrl:
@@ -59,17 +67,19 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...avalanche,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=32&q=100",
+      rpcUrls: { default: "https://rpc.ankr.com/avalanche" },
     },
     {
       ...fantom,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
+      rpcUrls: { default: "https://rpc.ankr.com/fantom" },
     },
-    chain.goerli,
+    { ...chain.goerli, rpcUrls: { default: "https://rpc.ankr.com/eth_goerli" } },
   ],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_ETHEREUM_ALCHEMY_IDS }),
     publicProvider(),
   ],
 );
@@ -81,12 +91,12 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      wallet.metaMask({ chains, shimDisconnect: true }),
-      wallet.brave({ chains, shimDisconnect: true }),
-      wallet.rainbow({ chains }),
-      wallet.walletConnect({ chains }),
-      wallet.coinbase({ appName: "Olympus DAO", chains }),
-      ...(needsInjectedWalletFallback ? [wallet.injected({ chains, shimDisconnect: true })] : []),
+      metaMaskWallet({ chains, shimDisconnect: true }),
+      braveWallet({ chains, shimDisconnect: true }),
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+      coinbaseWallet({ appName: "Olympus DAO", chains }),
+      ...(needsInjectedWalletFallback ? [injectedWallet({ chains, shimDisconnect: true })] : []),
     ],
   },
 ]);

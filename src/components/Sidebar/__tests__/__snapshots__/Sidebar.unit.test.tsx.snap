@@ -6,8 +6,11 @@ exports[`<Sidebar/> should render component 1`] = `
     data-rk=""
   >
     <style>
-      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-downloadBottomCardBackground:linear-gradient(126deg, rgba(255, 255, 255, 0) 9.49%, rgba(171, 171, 171, 0.04) 71.04%), #FFFFFF;--rk-colors-downloadTopCardBackground:linear-gradient(126deg, rgba(171, 171, 171, 0.2) 9.49%, rgba(255, 255, 255, 0) 71.04%), #FFFFFF;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
     </style>
+    <div
+      style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
+    />
     <div
       class="sidebar"
       id="sidebarContent"
@@ -16,7 +19,7 @@ exports[`<Sidebar/> should render component 1`] = `
         class="MuiDrawer-root MuiDrawer-docked css-6jemim-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1l360wv-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1lt5il1-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-14vh17f-MuiPaper-root"
@@ -38,7 +41,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
                       focusable="false"
                       style="min-width: 51px; min-height: 51px; width: 51px;"
                       viewBox="0 0 50 50"
@@ -46,7 +49,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       olympus-nav-header.svg
                     </svg>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-1v1in9t-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 css-1kfxwbv-MuiTypography-root"
                     >
                       Olympus
                     </p>
@@ -60,7 +63,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     id="navbarNav"
                   >
                     <div
-                      class="NavItem-root nav-item-container css-20fmbk"
+                      class="NavItem-root nav-item-container css-i4j8eu"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
@@ -70,14 +73,11 @@ exports[`<Sidebar/> should render component 1`] = `
                           class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
                             class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -94,7 +94,14 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-20fmbk"
+                      class="menu-divider MuiBox-root css-0"
+                    >
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth css-1qxgd41-MuiDivider-root"
+                      />
+                    </div>
+                    <div
+                      class="NavItem-root nav-item-container css-i4j8eu"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-u06kr9-MuiPaper-root-MuiAccordion-root"
@@ -116,14 +123,11 @@ exports[`<Sidebar/> should render component 1`] = `
                                 class="link-container MuiBox-root css-b2udjo"
                               >
                                 <div
-                                  class="activePill MuiBox-root css-hfhjvs"
-                                />
-                                <div
                                   class="NavItem-title title MuiBox-root css-13buc9q"
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                                     focusable="false"
                                     style="font-size: 21px;"
                                     viewBox="0 0 20 20"
@@ -142,7 +146,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 12px;"
                               viewBox="0 0 20 20"
@@ -177,7 +181,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-20fmbk"
+                      class="NavItem-root nav-item-container css-i4j8eu"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
@@ -187,14 +191,11 @@ exports[`<Sidebar/> should render component 1`] = `
                           class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
                             class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -209,7 +210,14 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-20fmbk"
+                      class="menu-divider MuiBox-root css-0"
+                    >
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth css-1qxgd41-MuiDivider-root"
+                      />
+                    </div>
+                    <div
+                      class="NavItem-root nav-item-container css-i4j8eu"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
@@ -219,14 +227,11 @@ exports[`<Sidebar/> should render component 1`] = `
                           class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
                             class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
@@ -264,78 +269,36 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="#/governance"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M 7.5 3.334 C 6.119 3.334 5 4.453 5 5.834 C 5 7.214 6.119 8.334 7.5 8.334 C 8.881 8.334 10 7.214 10 5.834 C 10 4.453 8.881 3.334 7.5 3.334 Z M 3.333 5.834 C 3.333 3.532 5.199 1.667 7.5 1.667 C 9.801 1.667 11.667 3.532 11.667 5.834 C 11.667 8.135 9.801 10 7.5 10 C 5.199 10 3.333 8.135 3.333 5.834 Z M 12.526 2.402 C 12.64 1.956 13.093 1.687 13.54 1.801 C 14.436 2.031 15.231 2.552 15.798 3.283 C 16.365 4.014 16.673 4.913 16.673 5.838 C 16.673 6.763 16.365 7.662 15.798 8.393 C 15.231 9.124 14.436 9.645 13.54 9.874 C 13.093 9.988 12.64 9.72 12.526 9.274 C 12.412 8.828 12.681 8.374 13.127 8.26 C 13.663 8.122 14.141 7.809 14.481 7.371 C 14.822 6.932 15.007 6.393 15.007 5.838 C 15.007 5.283 14.822 4.743 14.481 4.305 C 14.141 3.866 13.663 3.554 13.127 3.416 C 12.681 3.302 12.412 2.848 12.526 2.402 Z M 1.22 12.887 C 2.002 12.106 3.062 11.667 4.167 11.667 L 10.833 11.667 C 11.938 11.667 12.998 12.106 13.78 12.887 C 14.561 13.669 15 14.729 15 15.834 L 15 17.5 C 15 17.96 14.627 18.334 14.167 18.334 C 13.706 18.334 13.333 17.96 13.333 17.5 L 13.333 15.834 C 13.333 15.17 13.07 14.535 12.601 14.066 C 12.132 13.597 11.496 13.334 10.833 13.334 L 4.167 13.334 C 3.504 13.334 2.868 13.597 2.399 14.066 C 1.93 14.535 1.667 15.17 1.667 15.834 L 1.667 17.5 C 1.667 17.96 1.294 18.334 0.833 18.334 C 0.373 18.334 0 17.96 0 17.5 L 0 15.834 C 0 14.729 0.439 13.669 1.22 12.887 Z M 15.86 12.4 C 15.975 11.955 16.428 11.687 16.875 11.802 C 17.768 12.033 18.561 12.554 19.126 13.283 C 19.692 14.013 19.998 14.91 20 15.833 L 20 17.5 C 20 17.96 19.627 18.334 19.167 18.334 C 18.706 18.334 18.333 17.96 18.333 17.5 L 18.333 15.834 C 18.333 15.28 18.148 14.742 17.808 14.305 C 17.47 13.867 16.995 13.554 16.458 13.416 C 16.013 13.301 15.745 12.846 15.86 12.4 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Governance
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="menu-divider MuiBox-root css-0"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-                      />
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
+                      class="NavItem-root nav-item-container css-i4j8eu"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://pro.olympusdao.finance/"
+                        href="https://www.olympusdao.finance/transparency"
                         target="_blank"
                       >
                         <div
                           class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
                             class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               style="font-size: 21px;"
                               viewBox="0 0 20 20"
                             >
                               <path
-                                d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                clip-rule="evenodd"
+                                d="M 0 0.961 C 0 0.43 0.43 0 0.961 0 L 9.609 0 C 10.139 0 10.569 0.43 10.569 0.961 L 10.569 15.022 C 10.569 17.836 8.135 20 5.285 20 C 2.434 20 0 17.836 0 15.022 L 0 0.961 Z M 1.921 1.921 L 1.921 15.022 C 1.921 16.645 3.36 18.079 5.285 18.079 C 7.211 18.079 8.648 16.645 8.648 15.022 L 8.648 1.921 L 1.921 1.921 Z M 12.27 1.517 C 12.639 1.174 13.209 1.174 13.578 1.517 L 19.693 7.198 C 19.889 7.38 20 7.634 20 7.902 C 20 8.169 19.889 8.423 19.693 8.605 L 13.046 14.782 C 12.658 15.142 12.049 15.12 11.689 14.731 C 11.327 14.343 11.349 13.735 11.738 13.374 L 17.628 7.902 L 12.924 3.532 L 12.86 3.59 C 12.472 3.951 11.865 3.929 11.503 3.541 C 11.143 3.152 11.165 2.544 11.553 2.182 L 12.27 1.517 Z M 4.447 15.549 C 4.711 15.089 5.298 14.929 5.758 15.192 L 5.761 15.195 C 6.22 15.458 6.38 16.045 6.117 16.506 C 5.852 16.965 5.266 17.124 4.806 16.861 L 4.804 16.86 C 4.343 16.596 4.184 16.01 4.447 15.549 Z"
+                                fill-rule="evenodd"
                               />
                             </svg>
-                            Olympus Pro
+                            Transparency
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
                               focusable="false"
                               viewBox="0 0 20 20"
                             >
@@ -351,306 +314,253 @@ exports[`<Sidebar/> should render component 1`] = `
                       class="menu-divider MuiBox-root css-0"
                     >
                       <hr
-                        class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+                        class="MuiDivider-root MuiDivider-fullWidth css-1qxgd41-MuiDivider-root"
                       />
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://forum.olympusdao.finance/"
-                        target="_blank"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M 4.488 3.7 C 4.279 3.7 4.078 3.783 3.931 3.931 C 3.783 4.078 3.7 4.279 3.7 4.488 L 3.7 15.186 L 5.506 13.381 C 5.653 13.233 5.854 13.15 6.063 13.15 L 15.513 13.15 C 15.721 13.15 15.922 13.067 16.069 12.919 C 16.217 12.772 16.3 12.571 16.3 12.363 L 16.3 4.488 C 16.3 4.279 16.217 4.078 16.069 3.931 C 15.922 3.783 15.721 3.7 15.513 3.7 L 4.488 3.7 Z M 2.817 2.817 C 3.26 2.374 3.861 2.125 4.488 2.125 L 15.513 2.125 C 16.139 2.125 16.74 2.374 17.183 2.817 C 17.626 3.26 17.875 3.861 17.875 4.488 L 17.875 12.363 C 17.875 12.989 17.626 13.59 17.183 14.033 C 16.74 14.476 16.139 14.725 15.513 14.725 L 6.389 14.725 L 3.469 17.644 C 3.244 17.87 2.905 17.937 2.611 17.815 C 2.317 17.693 2.125 17.406 2.125 17.088 L 2.125 4.488 C 2.125 3.861 2.374 3.26 2.817 2.817 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Forum
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://vote.olympusdao.finance/"
-                        target="_blank"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M 7.5 3.334 C 6.119 3.334 5 4.453 5 5.834 C 5 7.214 6.119 8.334 7.5 8.334 C 8.881 8.334 10 7.214 10 5.834 C 10 4.453 8.881 3.334 7.5 3.334 Z M 3.333 5.834 C 3.333 3.532 5.199 1.667 7.5 1.667 C 9.801 1.667 11.667 3.532 11.667 5.834 C 11.667 8.135 9.801 10 7.5 10 C 5.199 10 3.333 8.135 3.333 5.834 Z M 12.526 2.402 C 12.64 1.956 13.093 1.687 13.54 1.801 C 14.436 2.031 15.231 2.552 15.798 3.283 C 16.365 4.014 16.673 4.913 16.673 5.838 C 16.673 6.763 16.365 7.662 15.798 8.393 C 15.231 9.124 14.436 9.645 13.54 9.874 C 13.093 9.988 12.64 9.72 12.526 9.274 C 12.412 8.828 12.681 8.374 13.127 8.26 C 13.663 8.122 14.141 7.809 14.481 7.371 C 14.822 6.932 15.007 6.393 15.007 5.838 C 15.007 5.283 14.822 4.743 14.481 4.305 C 14.141 3.866 13.663 3.554 13.127 3.416 C 12.681 3.302 12.412 2.848 12.526 2.402 Z M 1.22 12.887 C 2.002 12.106 3.062 11.667 4.167 11.667 L 10.833 11.667 C 11.938 11.667 12.998 12.106 13.78 12.887 C 14.561 13.669 15 14.729 15 15.834 L 15 17.5 C 15 17.96 14.627 18.334 14.167 18.334 C 13.706 18.334 13.333 17.96 13.333 17.5 L 13.333 15.834 C 13.333 15.17 13.07 14.535 12.601 14.066 C 12.132 13.597 11.496 13.334 10.833 13.334 L 4.167 13.334 C 3.504 13.334 2.868 13.597 2.399 14.066 C 1.93 14.535 1.667 15.17 1.667 15.834 L 1.667 17.5 C 1.667 17.96 1.294 18.334 0.833 18.334 C 0.373 18.334 0 17.96 0 17.5 L 0 15.834 C 0 14.729 0.439 13.669 1.22 12.887 Z M 15.86 12.4 C 15.975 11.955 16.428 11.687 16.875 11.802 C 17.768 12.033 18.561 12.554 19.126 13.283 C 19.692 14.013 19.998 14.91 20 15.833 L 20 17.5 C 20 17.96 19.627 18.334 19.167 18.334 C 18.706 18.334 18.333 17.96 18.333 17.5 L 18.333 15.834 C 18.333 15.28 18.148 14.742 17.808 14.305 C 17.47 13.867 16.995 13.554 16.458 13.416 C 16.013 13.301 15.745 12.846 15.86 12.4 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Governance
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://docs.olympusdao.finance/"
-                        target="_blank"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M 5.111 1.818 C 4.758 1.818 4.418 1.962 4.168 2.218 C 3.918 2.474 3.778 2.82 3.778 3.182 L 3.778 13.943 C 4.19 13.743 4.646 13.636 5.111 13.636 L 16.222 13.636 L 16.222 1.818 L 5.111 1.818 Z M 18 0.909 C 18 0.407 17.602 0 17.111 0 L 5.111 0 C 4.286 0 3.494 0.335 2.911 0.932 C 2.328 1.529 2 2.338 2 3.182 L 2 16.818 C 2 17.662 2.328 18.471 2.911 19.068 C 3.494 19.665 4.286 20 5.111 20 L 17.111 20 C 17.602 20 18 19.593 18 19.091 L 18 0.909 Z M 16.222 15.454 L 5.111 15.454 C 4.758 15.454 4.418 15.598 4.168 15.854 C 3.918 16.11 3.778 16.457 3.778 16.818 C 3.778 17.18 3.918 17.526 4.168 17.782 C 4.418 18.038 4.758 18.182 5.111 18.182 L 16.222 18.182 L 16.222 15.454 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Docs
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://immunefi.com/bounty/olympus/"
-                        target="_blank"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 9 13 L 11 13 L 11 15 L 9 15 Z M 9 5 L 11 5 L 11 11 L 9 11 Z M 9.99 0 C 4.47 0 0 4.48 0 10 C 0 15.52 4.47 20 9.99 20 C 15.52 20 20 15.52 20 10 C 20 4.48 15.52 0 9.99 0 Z M 10 18 C 5.58 18 2 14.42 2 10 C 2 5.58 5.58 2 10 2 C 14.42 2 18 5.58 18 10 C 18 14.42 14.42 18 10 18 Z"
-                              />
-                            </svg>
-                            Bug Bounty
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div
-                      class="NavItem-root nav-item-container css-20fmbk"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
-                        href="https://grants.olympusdao.finance/"
-                        target="_blank"
-                      >
-                        <div
-                          class="link-container MuiBox-root css-b2udjo"
-                        >
-                          <div
-                            class="activePill MuiBox-root css-hfhjvs"
-                          />
-                          <div
-                            class="NavItem-title title MuiBox-root css-13buc9q"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              style="font-size: 21px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M 9.846 5.29 L 10.383 5.534 C 10.352 5.56 10.322 5.587 10.293 5.616 L 7.173 8.728 L 7.166 8.735 C 7.035 8.87 6.934 9.03 6.87 9.206 C 6.806 9.382 6.78 9.57 6.794 9.756 C 6.808 9.944 6.862 10.126 6.951 10.29 C 7.04 10.455 7.163 10.598 7.313 10.712 L 7.742 11.039 L 7.747 11.042 C 8.306 11.459 8.984 11.684 9.682 11.684 C 10.378 11.684 11.057 11.459 11.615 11.042 L 12.234 10.578 L 14.687 12.362 L 12.338 14.712 L 7.77 13.57 L 7.768 13.568 L 3.86 10.518 L 6.003 6.413 L 9.846 5.29 Z M 5.627 5.109 L 9.487 3.98 C 9.786 3.894 10.106 3.917 10.391 4.046 L 10.392 4.046 L 13.012 5.235 L 14.295 5.235 L 16.137 4.314 C 16.138 4.314 16.139 4.313 16.14 4.313 C 16.447 4.158 16.803 4.129 17.13 4.235 C 17.459 4.339 17.732 4.57 17.892 4.876 C 17.892 4.877 17.892 4.877 17.892 4.878 L 19.847 8.62 C 19.847 8.621 19.847 8.622 19.848 8.622 C 19.93 8.778 19.979 8.946 19.995 9.12 C 20.01 9.295 19.99 9.471 19.937 9.638 C 19.883 9.805 19.797 9.96 19.682 10.093 C 19.568 10.226 19.428 10.335 19.271 10.413 L 17.43 11.331 L 16.246 12.721 C 16.235 12.735 16.222 12.748 16.209 12.761 L 13.281 15.69 C 13.276 15.694 13.27 15.7 13.264 15.705 C 13.105 15.854 12.911 15.963 12.7 16.021 C 12.489 16.08 12.267 16.086 12.053 16.04 C 12.046 16.039 12.038 16.037 12.031 16.035 L 7.415 14.881 L 7.398 14.877 C 7.226 14.829 7.066 14.747 6.927 14.635 L 2.632 11.281 L 0.729 10.326 C 0.572 10.249 0.434 10.142 0.319 10.011 C 0.205 9.878 0.117 9.723 0.064 9.557 C 0.01 9.39 -0.011 9.214 0.005 9.039 C 0.02 8.866 0.07 8.697 0.151 8.543 L 2.108 4.797 C 2.108 4.797 2.108 4.797 2.108 4.797 C 2.266 4.494 2.537 4.263 2.863 4.155 C 3.188 4.047 3.543 4.072 3.851 4.221 L 3.857 4.225 L 5.627 5.109 Z M 2.704 9.798 L 4.622 6.125 L 3.293 5.461 L 1.376 9.132 L 2.704 9.798 Z M 17.296 9.88 L 18.626 9.217 L 16.709 5.547 L 15.378 6.213 L 17.296 9.88 Z M 14.045 6.593 L 12.879 6.593 C 12.869 6.594 12.86 6.594 12.849 6.593 L 11.236 6.593 L 8.166 9.656 L 8.562 9.955 C 8.885 10.196 9.278 10.326 9.682 10.326 C 10.085 10.326 10.479 10.196 10.803 9.954 C 10.803 9.954 10.803 9.954 10.803 9.954 L 11.821 9.191 C 12.059 9.012 12.386 9.009 12.628 9.185 L 15.62 11.361 L 16.188 10.694 L 14.045 6.593 Z"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                            Grants
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                class="MuiBox-root css-1xvyr95"
+                class="MuiBox-root css-0"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
-                  href="https://github.com/OlympusDAO"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                <div
+                  class="NavItem-root nav-item-container css-i4j8eu"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 20 20"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
+                    href="https://forum.olympusdao.finance/"
+                    target="_blank"
                   >
-                    <path
-                      d="M10 0C4.478 0 0 4.548 0 10.157 0 14.916 3.227 18.898 7.577 20a1.503 1.503 0 0 1-.077-.493V17.77H6.243c-.684 0-1.292-.3-1.587-.854-.328-.617-.384-1.561-1.196-2.138-.24-.193-.058-.412.22-.382.512.147.937.504 1.337 1.034.399.53.586.651 1.33.651.361 0 .901-.021 1.41-.102.273-.705.745-1.354 1.323-1.66-3.33-.349-4.92-2.031-4.92-4.316 0-.983.413-1.935 1.114-2.736-.23-.796-.519-2.418.088-3.036 1.499 0 2.405.987 2.622 1.253a7.39 7.39 0 0 1 2.428-.407c.864 0 1.687.148 2.435.41.216-.266 1.122-1.256 2.624-1.256.61.619.317 2.248.085 3.042.697.8 1.107 1.748 1.107 2.73 0 2.283-1.587 3.965-4.912 4.314.915.485 1.582 1.848 1.582 2.875v2.314c0 .088-.019.151-.029.226C17.201 18.346 20 14.588 20 10.157 20 4.547 15.523 0 10 0Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
-                  href="https://olympusdao.medium.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                    <div
+                      class="link-container MuiBox-root css-b2udjo"
+                    >
+                      <div
+                        class="NavItem-title title MuiBox-root css-13buc9q"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          style="font-size: 21px;"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M 4.488 3.7 C 4.279 3.7 4.078 3.783 3.931 3.931 C 3.783 4.078 3.7 4.279 3.7 4.488 L 3.7 15.186 L 5.506 13.381 C 5.653 13.233 5.854 13.15 6.063 13.15 L 15.513 13.15 C 15.721 13.15 15.922 13.067 16.069 12.919 C 16.217 12.772 16.3 12.571 16.3 12.363 L 16.3 4.488 C 16.3 4.279 16.217 4.078 16.069 3.931 C 15.922 3.783 15.721 3.7 15.513 3.7 L 4.488 3.7 Z M 2.817 2.817 C 3.26 2.374 3.861 2.125 4.488 2.125 L 15.513 2.125 C 16.139 2.125 16.74 2.374 17.183 2.817 C 17.626 3.26 17.875 3.861 17.875 4.488 L 17.875 12.363 C 17.875 12.989 17.626 13.59 17.183 14.033 C 16.74 14.476 16.139 14.725 15.513 14.725 L 6.389 14.725 L 3.469 17.644 C 3.244 17.87 2.905 17.937 2.611 17.815 C 2.317 17.693 2.125 17.406 2.125 17.088 L 2.125 4.488 C 2.125 3.861 2.374 3.26 2.817 2.817 Z"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                        Forum
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="NavItem-root nav-item-container css-i4j8eu"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 20 20"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
+                    href="https://docs.olympusdao.finance/"
+                    target="_blank"
                   >
-                    <path
-                      d="M18.182 0H1.818A1.818 1.818 0 0 0 0 1.818v16.364C0 19.186.814 20 1.818 20h16.364A1.818 1.818 0 0 0 20 18.182V1.818A1.818 1.818 0 0 0 18.182 0Zm-1.326 15.454h-5.392v-.302l1.263-1.111V7.7l-3.1 7.754h-.485L5.682 7.64v5.534l1.582 1.979v.303h-4.12v-.303l1.635-1.98V6.59L3.325 4.772V4.55h3.979l3.09 6.685 2.665-6.685h3.777v.222l-1.381 1.16v8.109l1.401 1.11v.303Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
-                  href="https://twitter.com/OlympusDAO"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                    <div
+                      class="link-container MuiBox-root css-b2udjo"
+                    >
+                      <div
+                        class="NavItem-title title MuiBox-root css-13buc9q"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          style="font-size: 21px;"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M 5.111 1.818 C 4.758 1.818 4.418 1.962 4.168 2.218 C 3.918 2.474 3.778 2.82 3.778 3.182 L 3.778 13.943 C 4.19 13.743 4.646 13.636 5.111 13.636 L 16.222 13.636 L 16.222 1.818 L 5.111 1.818 Z M 18 0.909 C 18 0.407 17.602 0 17.111 0 L 5.111 0 C 4.286 0 3.494 0.335 2.911 0.932 C 2.328 1.529 2 2.338 2 3.182 L 2 16.818 C 2 17.662 2.328 18.471 2.911 19.068 C 3.494 19.665 4.286 20 5.111 20 L 17.111 20 C 17.602 20 18 19.593 18 19.091 L 18 0.909 Z M 16.222 15.454 L 5.111 15.454 C 4.758 15.454 4.418 15.598 4.168 15.854 C 3.918 16.11 3.778 16.457 3.778 16.818 C 3.778 17.18 3.918 17.526 4.168 17.782 C 4.418 18.038 4.758 18.182 5.111 18.182 L 16.222 18.182 L 16.222 15.454 Z"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                        Docs
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="NavItem-root nav-item-container css-i4j8eu"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 20 20"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
+                    href="https://immunefi.com/bounty/olympus/"
+                    target="_blank"
                   >
-                    <path
-                      d="M20 3.924a8.191 8.191 0 0 1-2.357.646 4.11 4.11 0 0 0 1.804-2.27c-.792.47-1.67.812-2.606.996A4.103 4.103 0 0 0 9.85 7.037 11.648 11.648 0 0 1 1.392 2.75a4.093 4.093 0 0 0-.554 2.064 4.1 4.1 0 0 0 1.824 3.414 4.095 4.095 0 0 1-1.858-.513v.052a4.104 4.104 0 0 0 3.291 4.023 4.102 4.102 0 0 1-1.853.07 4.108 4.108 0 0 0 3.833 2.85A8.23 8.23 0 0 1 0 16.41a11.615 11.615 0 0 0 6.29 1.843c7.547 0 11.673-6.253 11.673-11.675 0-.177-.004-.354-.011-.53A8.35 8.35 0 0 0 20 3.924Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-qskxep-MuiTypography-root-MuiLink-root"
-                  href="https://discord-invite.olympusdao.finance"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                    <div
+                      class="link-container MuiBox-root css-b2udjo"
+                    >
+                      <div
+                        class="NavItem-title title MuiBox-root css-13buc9q"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          style="font-size: 21px;"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M 9 13 L 11 13 L 11 15 L 9 15 Z M 9 5 L 11 5 L 11 11 L 9 11 Z M 9.99 0 C 4.47 0 0 4.48 0 10 C 0 15.52 4.47 20 9.99 20 C 15.52 20 20 15.52 20 10 C 20 4.48 15.52 0 9.99 0 Z M 10 18 C 5.58 18 2 14.42 2 10 C 2 5.58 5.58 2 10 2 C 14.42 2 18 5.58 18 10 C 18 14.42 14.42 18 10 18 Z"
+                          />
+                        </svg>
+                        Bug Bounty
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="NavItem-root nav-item-container css-i4j8eu"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 20 20"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1nffzm5-MuiTypography-root-MuiLink-root"
+                    href="https://grants.olympusdao.finance/"
+                    target="_blank"
                   >
-                    <path
-                      d="M17.2286 4.63925C15.4971 3.24782 12.7593 3.01211 12.6436 3.00211C12.4607 2.98639 12.2871 3.08997 12.2121 3.25711C12.2093 3.26282 12.0564 3.70639 11.9086 4.13425C13.9207 4.48639 15.2879 5.26782 15.3607 5.31068C15.7021 5.50925 15.8164 5.94711 15.6171 6.28782C15.485 6.51496 15.2457 6.64211 15 6.64211C14.8779 6.64211 14.755 6.61139 14.6421 6.54568C14.6221 6.53354 12.6164 5.39211 10.0014 5.39211C7.38571 5.39211 5.37929 6.53425 5.35929 6.54568C5.01857 6.74354 4.58143 6.62711 4.38357 6.28568C4.18571 5.94568 4.30071 5.50925 4.64071 5.31068C4.71357 5.26782 6.08571 4.48354 8.10357 4.13211C7.94786 3.69925 7.79071 3.26282 7.78786 3.25711C7.71286 3.08925 7.53929 2.98354 7.35643 3.00211C7.24071 3.01139 4.50286 3.24711 2.74857 4.65782C1.83143 5.50497 0 10.4578 0 14.74C0 14.8157 0.0192857 14.8893 0.0571429 14.955C1.32214 17.1764 4.77071 17.7578 5.55643 17.7828C5.56143 17.7835 5.56571 17.7835 5.57 17.7835C5.70857 17.7835 5.83929 17.7171 5.92143 17.605L6.77143 16.4535C4.90714 16.0043 3.92143 15.2978 3.86214 15.2542C3.545 15.0207 3.47643 14.5735 3.71 14.2557C3.94286 13.9393 4.38857 13.8693 4.70571 14.1014C4.73214 14.1185 6.55143 15.3921 10 15.3921C13.4621 15.3921 15.2764 14.1135 15.2943 14.1007C15.6114 13.8707 16.0586 13.94 16.2907 14.2585C16.5221 14.5757 16.455 15.02 16.1393 15.2528C16.08 15.2964 15.0993 16.0014 13.2393 16.4507L14.0786 17.6042C14.1607 17.7171 14.2914 17.7828 14.43 17.7828C14.435 17.7828 14.4393 17.7828 14.4436 17.7821C15.23 17.7571 18.6786 17.1757 19.9429 14.9542C19.9807 14.8885 20 14.815 20 14.7393C20 10.4578 18.1686 5.50497 17.2286 4.63925ZM7.14286 13.2493C6.35357 13.2493 5.71429 12.45 5.71429 11.4635C5.71429 10.4771 6.35357 9.67782 7.14286 9.67782C7.93214 9.67782 8.57143 10.4771 8.57143 11.4635C8.57143 12.45 7.93214 13.2493 7.14286 13.2493ZM12.8571 13.2493C12.0679 13.2493 11.4286 12.45 11.4286 11.4635C11.4286 10.4771 12.0679 9.67782 12.8571 9.67782C13.6464 9.67782 14.2857 10.4771 14.2857 11.4635C14.2857 12.45 13.6464 13.2493 12.8571 13.2493Z"
-                    />
-                  </svg>
-                </a>
+                    <div
+                      class="link-container MuiBox-root css-b2udjo"
+                    >
+                      <div
+                        class="NavItem-title title MuiBox-root css-13buc9q"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          style="font-size: 21px;"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M 9.846 5.29 L 10.383 5.534 C 10.352 5.56 10.322 5.587 10.293 5.616 L 7.173 8.728 L 7.166 8.735 C 7.035 8.87 6.934 9.03 6.87 9.206 C 6.806 9.382 6.78 9.57 6.794 9.756 C 6.808 9.944 6.862 10.126 6.951 10.29 C 7.04 10.455 7.163 10.598 7.313 10.712 L 7.742 11.039 L 7.747 11.042 C 8.306 11.459 8.984 11.684 9.682 11.684 C 10.378 11.684 11.057 11.459 11.615 11.042 L 12.234 10.578 L 14.687 12.362 L 12.338 14.712 L 7.77 13.57 L 7.768 13.568 L 3.86 10.518 L 6.003 6.413 L 9.846 5.29 Z M 5.627 5.109 L 9.487 3.98 C 9.786 3.894 10.106 3.917 10.391 4.046 L 10.392 4.046 L 13.012 5.235 L 14.295 5.235 L 16.137 4.314 C 16.138 4.314 16.139 4.313 16.14 4.313 C 16.447 4.158 16.803 4.129 17.13 4.235 C 17.459 4.339 17.732 4.57 17.892 4.876 C 17.892 4.877 17.892 4.877 17.892 4.878 L 19.847 8.62 C 19.847 8.621 19.847 8.622 19.848 8.622 C 19.93 8.778 19.979 8.946 19.995 9.12 C 20.01 9.295 19.99 9.471 19.937 9.638 C 19.883 9.805 19.797 9.96 19.682 10.093 C 19.568 10.226 19.428 10.335 19.271 10.413 L 17.43 11.331 L 16.246 12.721 C 16.235 12.735 16.222 12.748 16.209 12.761 L 13.281 15.69 C 13.276 15.694 13.27 15.7 13.264 15.705 C 13.105 15.854 12.911 15.963 12.7 16.021 C 12.489 16.08 12.267 16.086 12.053 16.04 C 12.046 16.039 12.038 16.037 12.031 16.035 L 7.415 14.881 L 7.398 14.877 C 7.226 14.829 7.066 14.747 6.927 14.635 L 2.632 11.281 L 0.729 10.326 C 0.572 10.249 0.434 10.142 0.319 10.011 C 0.205 9.878 0.117 9.723 0.064 9.557 C 0.01 9.39 -0.011 9.214 0.005 9.039 C 0.02 8.866 0.07 8.697 0.151 8.543 L 2.108 4.797 C 2.108 4.797 2.108 4.797 2.108 4.797 C 2.266 4.494 2.537 4.263 2.863 4.155 C 3.188 4.047 3.543 4.072 3.851 4.221 L 3.857 4.225 L 5.627 5.109 Z M 2.704 9.798 L 4.622 6.125 L 3.293 5.461 L 1.376 9.132 L 2.704 9.798 Z M 17.296 9.88 L 18.626 9.217 L 16.709 5.547 L 15.378 6.213 L 17.296 9.88 Z M 14.045 6.593 L 12.879 6.593 C 12.869 6.594 12.86 6.594 12.849 6.593 L 11.236 6.593 L 8.166 9.656 L 8.562 9.955 C 8.885 10.196 9.278 10.326 9.682 10.326 C 10.085 10.326 10.479 10.196 10.803 9.954 C 10.803 9.954 10.803 9.954 10.803 9.954 L 11.821 9.191 C 12.059 9.012 12.386 9.009 12.628 9.185 L 15.62 11.361 L 16.188 10.694 L 14.045 6.593 Z"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                        Grants
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1b8e8sl-MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root css-1703wsi"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                    href="https://github.com/OlympusDAO"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M10 0C4.478 0 0 4.548 0 10.157 0 14.916 3.227 18.898 7.577 20a1.503 1.503 0 0 1-.077-.493V17.77H6.243c-.684 0-1.292-.3-1.587-.854-.328-.617-.384-1.561-1.196-2.138-.24-.193-.058-.412.22-.382.512.147.937.504 1.337 1.034.399.53.586.651 1.33.651.361 0 .901-.021 1.41-.102.273-.705.745-1.354 1.323-1.66-3.33-.349-4.92-2.031-4.92-4.316 0-.983.413-1.935 1.114-2.736-.23-.796-.519-2.418.088-3.036 1.499 0 2.405.987 2.622 1.253a7.39 7.39 0 0 1 2.428-.407c.864 0 1.687.148 2.435.41.216-.266 1.122-1.256 2.624-1.256.61.619.317 2.248.085 3.042.697.8 1.107 1.748 1.107 2.73 0 2.283-1.587 3.965-4.912 4.314.915.485 1.582 1.848 1.582 2.875v2.314c0 .088-.019.151-.029.226C17.201 18.346 20 14.588 20 10.157 20 4.547 15.523 0 10 0Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                    href="https://olympusdao.medium.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M18.182 0H1.818A1.818 1.818 0 0 0 0 1.818v16.364C0 19.186.814 20 1.818 20h16.364A1.818 1.818 0 0 0 20 18.182V1.818A1.818 1.818 0 0 0 18.182 0Zm-1.326 15.454h-5.392v-.302l1.263-1.111V7.7l-3.1 7.754h-.485L5.682 7.64v5.534l1.582 1.979v.303h-4.12v-.303l1.635-1.98V6.59L3.325 4.772V4.55h3.979l3.09 6.685 2.665-6.685h3.777v.222l-1.381 1.16v8.109l1.401 1.11v.303Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                    href="https://twitter.com/OlympusDAO"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M20 3.924a8.191 8.191 0 0 1-2.357.646 4.11 4.11 0 0 0 1.804-2.27c-.792.47-1.67.812-2.606.996A4.103 4.103 0 0 0 9.85 7.037 11.648 11.648 0 0 1 1.392 2.75a4.093 4.093 0 0 0-.554 2.064 4.1 4.1 0 0 0 1.824 3.414 4.095 4.095 0 0 1-1.858-.513v.052a4.104 4.104 0 0 0 3.291 4.023 4.102 4.102 0 0 1-1.853.07 4.108 4.108 0 0 0 3.833 2.85A8.23 8.23 0 0 1 0 16.41a11.615 11.615 0 0 0 6.29 1.843c7.547 0 11.673-6.253 11.673-11.675 0-.177-.004-.354-.011-.53A8.35 8.35 0 0 0 20 3.924Z"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                    href="https://discord-invite.olympusdao.finance"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1b8e8sl-MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M17.2286 4.63925C15.4971 3.24782 12.7593 3.01211 12.6436 3.00211C12.4607 2.98639 12.2871 3.08997 12.2121 3.25711C12.2093 3.26282 12.0564 3.70639 11.9086 4.13425C13.9207 4.48639 15.2879 5.26782 15.3607 5.31068C15.7021 5.50925 15.8164 5.94711 15.6171 6.28782C15.485 6.51496 15.2457 6.64211 15 6.64211C14.8779 6.64211 14.755 6.61139 14.6421 6.54568C14.6221 6.53354 12.6164 5.39211 10.0014 5.39211C7.38571 5.39211 5.37929 6.53425 5.35929 6.54568C5.01857 6.74354 4.58143 6.62711 4.38357 6.28568C4.18571 5.94568 4.30071 5.50925 4.64071 5.31068C4.71357 5.26782 6.08571 4.48354 8.10357 4.13211C7.94786 3.69925 7.79071 3.26282 7.78786 3.25711C7.71286 3.08925 7.53929 2.98354 7.35643 3.00211C7.24071 3.01139 4.50286 3.24711 2.74857 4.65782C1.83143 5.50497 0 10.4578 0 14.74C0 14.8157 0.0192857 14.8893 0.0571429 14.955C1.32214 17.1764 4.77071 17.7578 5.55643 17.7828C5.56143 17.7835 5.56571 17.7835 5.57 17.7835C5.70857 17.7835 5.83929 17.7171 5.92143 17.605L6.77143 16.4535C4.90714 16.0043 3.92143 15.2978 3.86214 15.2542C3.545 15.0207 3.47643 14.5735 3.71 14.2557C3.94286 13.9393 4.38857 13.8693 4.70571 14.1014C4.73214 14.1185 6.55143 15.3921 10 15.3921C13.4621 15.3921 15.2764 14.1135 15.2943 14.1007C15.6114 13.8707 16.0586 13.94 16.2907 14.2585C16.5221 14.5757 16.455 15.02 16.1393 15.2528C16.08 15.2964 15.0993 16.0014 13.2393 16.4507L14.0786 17.6042C14.1607 17.7171 14.2914 17.7828 14.43 17.7828C14.435 17.7828 14.4393 17.7828 14.4436 17.7821C15.23 17.7571 18.6786 17.1757 19.9429 14.9542C19.9807 14.8885 20 14.815 20 14.7393C20 10.4578 18.1686 5.50497 17.2286 4.63925ZM7.14286 13.2493C6.35357 13.2493 5.71429 12.45 5.71429 11.4635C5.71429 10.4771 6.35357 9.67782 7.14286 9.67782C7.93214 9.67782 8.57143 10.4771 8.57143 11.4635C8.57143 12.45 7.93214 13.2493 7.14286 13.2493ZM12.8571 13.2493C12.0679 13.2493 11.4286 12.45 11.4286 11.4635C11.4286 10.4771 12.0679 9.67782 12.8571 9.67782C13.6464 9.67782 14.2857 10.4771 14.2857 11.4635C14.2857 12.45 13.6464 13.2493 12.8571 13.2493Z"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
