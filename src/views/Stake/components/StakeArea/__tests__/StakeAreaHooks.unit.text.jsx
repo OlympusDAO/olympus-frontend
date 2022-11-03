@@ -1,6 +1,5 @@
 import { fireEvent } from "@testing-library/react";
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -14,16 +13,11 @@ jest.mock("src/hooks/useCurrentIndex");
 
 beforeEach(async () => {
   connectWallet();
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("10000000000000000000000") });
   useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
-  render(
-    <>
-      <Messages />
-      <StakeInputArea />
-    </>,
-  );
+  render(<StakeInputArea />);
 });
 
 afterEach(() => {
@@ -45,7 +39,9 @@ describe("Check Stake to gOHM Error Messages", () => {
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: undefined } });
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "1000" } });
     fireEvent.click(screen.getAllByText("Stake")[1]);
-    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    setTimeout(async () => {
+      expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+    }, 60000);
   });
 
   it("Error message amount > balance", async () => {

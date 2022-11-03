@@ -14,8 +14,8 @@ export const BondSettingsModal: React.VFC<{
   return (
     <Modal
       id="hades"
-      maxWidth="300"
-      minHeight="350"
+      maxWidth="468px"
+      minHeight="350px"
       open={props.open}
       headerText="Settings"
       onClose={props.handleClose}
@@ -28,6 +28,7 @@ export const BondSettingsModal: React.VFC<{
           <Box mt="8px">
             <FormControl variant="outlined" color="primary" fullWidth>
               <OutlinedInput
+                inputProps={{ "data-testid": "slippage" }}
                 type="text"
                 id="slippage"
                 value={props.slippage}
@@ -50,6 +51,7 @@ export const BondSettingsModal: React.VFC<{
           <Box mt="8px">
             <FormControl variant="outlined" color="primary" fullWidth>
               <OutlinedInput
+                inputProps={{ "data-testid": "recipient" }}
                 type="text"
                 id="recipient"
                 value={props.recipientAddress}

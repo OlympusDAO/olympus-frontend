@@ -1,5 +1,6 @@
 import "src/views/Stake/Stake.scss";
 
+import { Box } from "@mui/material";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
@@ -13,11 +14,10 @@ const Stake: React.FC = () => {
   usePathForNetwork({ pathName: "stake", networkID: chain.id, navigate });
 
   return (
-    <div id="stake-view">
+    <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
       <StakeArea />
-
       <ExternalStakePools />
-    </div>
+    </Box>
   );
 };
 

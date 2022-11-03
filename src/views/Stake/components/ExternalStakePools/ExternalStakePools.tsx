@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Link, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -111,32 +111,32 @@ export const ExternalStakePools = () => {
 };
 
 const AllPools = (props: { isSmallScreen: boolean }) => (
-  <>
+  <TableBody>
     {sushiPools.map(pool => (
-      <SushiPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <SushiPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {joePools.map(pool => (
-      <JoePools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <JoePools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {beetsPools.map(pool => (
-      <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <BeetsPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {jonesPools.map(pool => (
-      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <JonesPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {balancerPools.map(pool => (
-      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <BalancerPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {curvePools.map(pool => (
-      <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <CurvePools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {convexPools.map(pool => (
-      <ConvexPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <ConvexPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {fraxPools.map(pool => (
-      <FraxPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <FraxPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
-  </>
+  </TableBody>
 );
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
@@ -157,17 +157,18 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "14px", marginRight: "10px" }}>
-            {props.pool.poolName}
+          <Box marginLeft="14px" marginRight="10px">
+            <Typography>{props.pool.poolName}</Typography>
             {props.pool.mintAndSync && (
-              <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
-                Mint and Sync{" "}
+              <Box>
                 <Tooltip message={<ToolTipContent />}>
-                  <Icon style={{ fontSize: "10px" }} name="info" />
+                  <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
+                    Mint and Sync <Icon style={{ fontSize: "10px" }} name="info" />
+                  </Typography>
                 </Tooltip>
-              </Typography>
+              </Box>
             )}
-          </Typography>
+          </Box>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>

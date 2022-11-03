@@ -1,32 +1,20 @@
 import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  TokenRecord_Filter,
-  TokenRecordsDocument,
-  TokenRecordsQuery,
-  TokenRecordsQueryVariables,
-  useInfiniteTokenRecordsQuery,
-} from "src/generated/graphql";
-import { formatCurrency } from "src/helpers";
-import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
+import { useEffect, useMemo, useState } from "react";
+import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
+import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
-  DEFAULT_RECORD_COUNT,
   GraphProps,
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import {
-  getNextPageStartDate,
-  getSubgraphQueryExplorerUrl,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
+import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
   getDateTokenSummary,
-  getNextPageParamFactory,
-  getTokenRecordDateMap,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
@@ -34,84 +22,23 @@ import {
  * Data grid that displays the details of treasury assets.
  */
 export const TreasuryAssetsTable = ({
-  subgraphUrl,
+  subgraphUrls,
   earliestDate,
   isLiquidBackingActive,
   selectedIndex,
+  subgraphDaysOffset,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrl);
+  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const chartName = "TreasuryAssetsTable";
-
-  const initialFinishDate = getISO8601String(adjustDateByDays(new Date(), 1)); // Tomorrow
-  const initialStartDate = !earliestDate ? null : getNextPageStartDate(initialFinishDate, earliestDate);
-
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  /**
-   * Pagination:
-   *
-   * We create {paginator} within a useEffect block, so that it isn't re-created every re-render.
-   */
-  const paginator = useRef<(lastPage: TokenRecordsQuery) => TokenRecordsQueryVariables | undefined>();
-  useEffect(() => {
-    // We can't create the paginator until we have an earliestDate
-    if (!earliestDate || !baseFilter) {
-      return;
-    }
-
-    console.info(`${chartName}: earliestDate changed to ${earliestDate}. Re-fetching.`);
-
-    // Reset cache
-    resetCachedData();
-
-    // Force fetching of data with the new paginator
-    // Calling refetch() after setting the new paginator causes the query to never finish
-    refetch();
-
-    // Create a new paginator with the new earliestDate
-    paginator.current = getNextPageParamFactory(chartName, earliestDate, DEFAULT_RECORD_COUNT, baseFilter);
-  }, [baseFilter, earliestDate]);
-
-  /**
-   * This code block kicks off data fetching with an initial date range.
-   *
-   * The definition of getNextPageParam() handles pagination.
-   */
-  const { data, hasNextPage, fetchNextPage, refetch } = useInfiniteTokenRecordsQuery(
-    { endpoint: subgraphUrl },
-    "filter",
-    {
-      filter: {
-        ...baseFilter,
-        date_gte: initialStartDate,
-        date_lt: initialFinishDate,
-      },
-      recordCount: DEFAULT_RECORD_COUNT,
-    },
-    {
-      enabled: earliestDate !== null && baseFilter !== null,
-      getNextPageParam: paginator.current,
-    },
+  const tokenRecordResults = useTokenRecordsQueries(
+    chartName,
+    subgraphUrls,
+    baseFilter,
+    earliestDate,
+    subgraphDaysOffset,
   );
-
-  const resetCachedData = () => {
-    setByDateTokenSummary([]);
-    setCurrentTokens([]);
-  };
-
-  /**
-   * Any time the data changes, we want to check if there are more pages (and data) to fetch.
-   *
-   * react-query's infinite query functionality apparently does not support automatically
-   * fetching all pages. This code block achieves that.
-   */
-  useEffect(() => {
-    if (hasNextPage) {
-      console.debug(chartName + ": fetching next page");
-      fetchNextPage();
-      return;
-    }
-  }, [data, hasNextPage, fetchNextPage]);
 
   /**
    * Chart population:
@@ -121,21 +48,30 @@ export const TreasuryAssetsTable = ({
   const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
   const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
   useMemo(() => {
-    if (hasNextPage || !data) {
-      console.debug(`${chartName}: removing cached data, as query is in progress.`);
-      resetCachedData();
+    if (!tokenRecordResults) {
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
-    const tokenRecords = data.pages.map(query => query.tokenRecords).flat();
+
+    const flatRecords = Array.from(tokenRecordResults.values()).flat();
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
-    const filteredRecords = isLiquidBackingActive ? tokenRecords.filter(value => value.isLiquid == true) : tokenRecords;
-    const latestOnlyTokenRecords = Array.from(getTokenRecordDateMap(filteredRecords).values()).flat();
-    const newDateTokenSummary = getDateTokenSummary(latestOnlyTokenRecords);
+    const filteredRecords = isLiquidBackingActive ? flatRecords.filter(value => value.isLiquid == true) : flatRecords;
+    /**
+     * latestOnly is false as the "latest" block is different on each blockchain.
+     * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
+     */
+    const newDateTokenSummary = getDateTokenSummary(filteredRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
-  }, [data, hasNextPage, isLiquidBackingActive]);
+  }, [isLiquidBackingActive, tokenRecordResults]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    // useSubgraphTokenRecords will handle the re-fetching
+    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    setByDateTokenSummary([]);
+  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Cache the tokens for the current value of selectedIndex.
@@ -162,7 +98,34 @@ export const TreasuryAssetsTable = ({
       field: "category",
       headerName: t`Category`,
       description: t`The category of the token asset`,
-      flex: 1,
+      flex: 0.5,
+    },
+    {
+      field: "blockchain",
+      headerName: t`Blockchain`,
+      description: t`The blockchain of the token asset`,
+      flex: 0.5,
+    },
+    {
+      field: "isLiquid",
+      headerName: t`Liquid`,
+      description: t`Whether the token asset is liquid`,
+      flex: 0.5,
+      valueGetter: (params: GridValueGetterParams) => (params.row.isLiquid ? "Yes" : "No"),
+    },
+    {
+      field: "balance",
+      headerName: t`Balance`,
+      description: t`The total balance of the token asset`,
+      flex: 0.5,
+      type: "string",
+      sortComparator: (v1, v2) => {
+        // Get rid of all non-number characters
+        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+      },
+      valueGetter: (params: GridValueGetterParams) => formatNumber(parseFloat(params.row.balance)),
     },
     {
       field: "value",
@@ -205,11 +168,18 @@ export const TreasuryAssetsTable = ({
         columns={columns}
         rowsPerPageOptions={[10]}
         pageSize={10}
-        getRowId={row => row.token}
+        getRowId={row => row.id}
         // Sort by value descending
         initialState={{
           sorting: {
             sortModel: [{ field: "value", sort: "desc" }],
+          },
+          columns: {
+            // Hide these columns by default
+            columnVisibilityModel: {
+              isLiquid: false,
+              balance: false,
+            },
           },
         }}
         // Only ascending or descending sort

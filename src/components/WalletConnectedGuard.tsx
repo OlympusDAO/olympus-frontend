@@ -2,17 +2,19 @@ import { Box, Typography } from "@mui/material";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useAccount } from "wagmi";
 
-export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
+export const WalletConnectedGuard: React.FC<{ message?: string; fullWidth?: boolean }> = props => {
   const { isConnected } = useAccount();
   if (!isConnected)
     return (
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box mb="12px">
-          <InPageConnectButton />
-        </Box>
+      <>
+        <InPageConnectButton fullWidth={props.fullWidth} />
 
-        <Typography variant="h6">{props.message}</Typography>
-      </Box>
+        {props.message && (
+          <Box mt="12px">
+            <Typography variant="h6">{props.message}</Typography>
+          </Box>
+        )}
+      </>
     );
 
   return <>{props.children}</>;

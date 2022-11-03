@@ -1,13 +1,20 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import ierc20Abi from "src/abi/IERC20.json";
-import wsOHM from "src/abi/wsOHM.json";
-import { addresses } from "src/constants";
-import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import {
+  GOHM_ADDRESSES,
+  MIGRATOR_ADDRESSES,
+  OHM_ADDRESSES,
+  STAKING_ADDRESSES,
+  V1_OHM_ADDRESSES,
+  V1_SOHM_ADDRESSES,
+  V1_STAKING_ADDRESSES,
+  V1_STAKING_HELPER_ADDRESSES,
+  WSOHM_ADDRESSES,
+} from "src/constants/addresses";
 import { handleContractError, setAll } from "src/helpers";
 import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
-import { IERC20, IERC20__factory, WsOHM } from "src/typechain";
+import { IERC20__factory, WsOHM__factory } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 interface IUserBalances {
@@ -25,31 +32,28 @@ export const getBalances = createAsyncThunk(
     let sohmBalance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
     try {
-      const wsohmContract = new ethers.Contract(
-        addresses[networkID].WSOHM_ADDRESS as string,
-        wsOHM.abi,
+      const wsohmContract = WsOHM__factory.connect(
+        WSOHM_ADDRESSES[networkID as keyof typeof WSOHM_ADDRESSES],
         provider,
-      ) as WsOHM;
+      );
       wsohmBalance = await wsohmContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
     }
     try {
-      const ohmContract = new ethers.Contract(
-        addresses[networkID].OHM_ADDRESS as string,
-        ierc20Abi.abi,
+      const ohmContract = IERC20__factory.connect(
+        V1_OHM_ADDRESSES[networkID as keyof typeof V1_OHM_ADDRESSES],
         provider,
-      ) as IERC20;
+      );
       ohmBalance = await ohmContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
     }
     try {
-      const sohmContract = new ethers.Contract(
-        addresses[networkID].SOHM_ADDRESS as string,
-        ierc20Abi.abi,
+      const sohmContract = IERC20__factory.connect(
+        V1_SOHM_ADDRESSES[networkID as keyof typeof V1_SOHM_ADDRESSES],
         provider,
-      ) as IERC20;
+      );
       sohmBalance = await sohmContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
@@ -86,9 +90,12 @@ export const getMigrationAllowances = createAsyncThunk(
     let wsOhmAllowance = BigNumber.from(0);
     let gOhmAllowance = BigNumber.from(0);
 
-    if (addresses[networkID].OHM_ADDRESS) {
+    if (V1_OHM_ADDRESSES[networkID as keyof typeof V1_OHM_ADDRESSES]) {
       try {
-        const ohmContract = IERC20__factory.connect(addresses[networkID].OHM_ADDRESS, provider);
+        const ohmContract = IERC20__factory.connect(
+          V1_OHM_ADDRESSES[networkID as keyof typeof V1_OHM_ADDRESSES],
+          provider,
+        );
         ohmAllowance = await ohmContract.allowance(
           address,
           MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
@@ -98,9 +105,12 @@ export const getMigrationAllowances = createAsyncThunk(
       }
     }
 
-    if (addresses[networkID].SOHM_ADDRESS) {
+    if (V1_SOHM_ADDRESSES[networkID as keyof typeof V1_SOHM_ADDRESSES]) {
       try {
-        const sOhmContract = IERC20__factory.connect(addresses[networkID].SOHM_ADDRESS, provider);
+        const sOhmContract = IERC20__factory.connect(
+          V1_SOHM_ADDRESSES[networkID as keyof typeof V1_SOHM_ADDRESSES],
+          provider,
+        );
         sOhmAllowance = await sOhmContract.allowance(
           address,
           MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
@@ -110,9 +120,12 @@ export const getMigrationAllowances = createAsyncThunk(
       }
     }
 
-    if (addresses[networkID].WSOHM_ADDRESS) {
+    if (WSOHM_ADDRESSES[networkID as keyof typeof WSOHM_ADDRESSES]) {
       try {
-        const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, provider);
+        const wsOhmContract = IERC20__factory.connect(
+          WSOHM_ADDRESSES[networkID as keyof typeof WSOHM_ADDRESSES],
+          provider,
+        );
         wsOhmAllowance = await wsOhmContract.allowance(
           address,
           MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
@@ -165,22 +178,28 @@ export const loadAccountDetails = createAsyncThunk(
         STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
       );
 
-      const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, provider);
+      const wsOhmContract = IERC20__factory.connect(
+        WSOHM_ADDRESSES[networkID as keyof typeof WSOHM_ADDRESSES],
+        provider,
+      );
       wsOhmMigrateAllowance = await wsOhmContract.balanceOf(address);
 
-      const ohmContract = new ethers.Contract(
-        addresses[networkID].OHM_ADDRESS as string,
-        ierc20Abi.abi,
-        provider,
-      ) as IERC20;
-      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+      const ohmContract = IERC20__factory.connect(OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES], provider);
 
-      const sohmContract = new ethers.Contract(
-        addresses[networkID].SOHM_ADDRESS as string,
-        ierc20Abi.abi,
+      stakeAllowance = await ohmContract.allowance(
+        address,
+        V1_STAKING_HELPER_ADDRESSES[networkID as keyof typeof V1_STAKING_HELPER_ADDRESSES],
+      );
+
+      const sohmContract = IERC20__factory.connect(
+        V1_SOHM_ADDRESSES[networkID as keyof typeof V1_SOHM_ADDRESSES],
         provider,
-      ) as IERC20;
-      unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      );
+
+      unstakeAllowance = await sohmContract.allowance(
+        address,
+        V1_STAKING_ADDRESSES[networkID as keyof typeof V1_STAKING_ADDRESSES],
+      );
       wrapAllowance = await sohmContract.allowance(
         address,
         STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],

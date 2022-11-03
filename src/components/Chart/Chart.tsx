@@ -32,7 +32,8 @@ import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/component
 const TICK_COUNT = 5;
 const TICK_COUNT_EXPANDED = 5;
 const XAXIS_PADDING_RIGHT = 30;
-const TICK_INTERVAL_XAXIS = 10;
+const XAXIS_TICK_INTERVAL = "preserveStart"; // Ensures that the last x-axis tick (current day) is displayed
+const XAXIS_TICK_GAP = 20; // Ensures that x-axis ticks on mobile are dropped
 const LINE_STROKE_WIDTH = 3;
 
 export const formatCurrencyTick = (value: unknown): string => {
@@ -104,13 +105,15 @@ const renderAreaChart = (
       </defs>
       <XAxis
         dataKey="timestamp"
-        interval={30}
         axisLine={false}
-        tickLine={false}
-        tick={tickStyle}
-        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
         reversed={true}
         padding={{ right: XAXIS_PADDING_RIGHT }}
+        // Ticks
+        tick={tickStyle}
+        interval={XAXIS_TICK_INTERVAL}
+        minTickGap={XAXIS_TICK_GAP}
+        tickLine={false}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       />
       <YAxis
         tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
@@ -175,7 +178,7 @@ const renderStackedAreaChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -184,13 +187,15 @@ const renderStackedAreaChart = (
     </defs>
     <XAxis
       dataKey="timestamp"
-      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
-      tick={tickStyle}
-      tickLine={false}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
       padding={{ right: XAXIS_PADDING_RIGHT }}
+      // Ticks
+      tick={tickStyle}
+      interval={XAXIS_TICK_INTERVAL}
+      minTickGap={XAXIS_TICK_GAP}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
     />
     <YAxis
       axisLine={false}
@@ -217,6 +222,7 @@ const renderStackedAreaChart = (
     {dataKeys.map((value: string) => {
       return (
         <Area
+          key={value}
           dataKey={value}
           stroke={dataKeyColors.get(value)}
           fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -250,7 +256,7 @@ const renderComposedChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -259,13 +265,15 @@ const renderComposedChart = (
     </defs>
     <XAxis
       dataKey="timestamp"
-      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
-      tick={tickStyle}
-      tickLine={false}
-      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       reversed={true}
       padding={{ right: XAXIS_PADDING_RIGHT }}
+      // Ticks
+      tick={tickStyle}
+      interval={XAXIS_TICK_INTERVAL}
+      minTickGap={XAXIS_TICK_GAP}
+      tickLine={false}
+      tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
     />
     <YAxis
       axisLine={false}
@@ -298,6 +306,7 @@ const renderComposedChart = (
       if (composedLineDataKeys && composedLineDataKeys.includes(value)) {
         return (
           <Line
+            key={value}
             dataKey={value}
             stroke={dataKeyColors.get(value)}
             fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -310,6 +319,7 @@ const renderComposedChart = (
 
       return (
         <Area
+          key={value}
           dataKey={value}
           stroke={dataKeyColors.get(value)}
           fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -354,14 +364,17 @@ const renderLineChart = (
       />
       <YAxis
         tickCount={scale == "log" ? 1 : isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
-        axisLine={false}
-        tick={tickStyle}
-        tickLine={false}
         width={32}
         scale={() => scale}
-        tickFormatter={number => getTickFormatter(dataFormat, number)}
+        axisLine={false}
         domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
         allowDataOverflow={false}
+        // Ticks
+        tick={tickStyle}
+        interval={XAXIS_TICK_INTERVAL}
+        minTickGap={XAXIS_TICK_GAP}
+        tickLine={false}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
       />
       <Tooltip
         content={
@@ -485,14 +498,15 @@ const renderAreaDifferenceChart = (
       </defs>
       <XAxis
         dataKey="timestamp"
-        interval={TICK_INTERVAL_XAXIS}
         axisLine={false}
+        padding={{ right: XAXIS_PADDING_RIGHT }}
         reversed={true}
+        // Ticks
         tick={tickStyle}
-        tickCount={TICK_COUNT}
+        interval={XAXIS_TICK_INTERVAL}
+        minTickGap={XAXIS_TICK_GAP}
         tickLine={false}
         tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-        padding={{ right: XAXIS_PADDING_RIGHT }}
       />
       <YAxis
         tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
@@ -518,7 +532,15 @@ const renderAreaDifferenceChart = (
       />
       <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#${getRangeCssSelector()})`} />
       {dataKeys.map((value: string) => {
-        return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+        return (
+          <Line
+            key={value}
+            dataKey={value}
+            stroke={dataKeyColors.get(value)}
+            dot={false}
+            strokeWidth={LINE_STROKE_WIDTH}
+          />
+        );
       })}
     </ComposedChart>
   );
@@ -542,14 +564,15 @@ const renderMultiLineChart = (
   <LineChart data={data} margin={margin} onMouseMove={onMouseMove}>
     <XAxis
       dataKey="timestamp"
-      interval={TICK_INTERVAL_XAXIS}
       axisLine={false}
       reversed={true}
+      padding={{ right: XAXIS_PADDING_RIGHT }}
+      // Ticks
       tick={tickStyle}
-      tickCount={TICK_COUNT}
+      interval={XAXIS_TICK_INTERVAL}
+      minTickGap={XAXIS_TICK_GAP}
       tickLine={false}
       tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
-      padding={{ right: XAXIS_PADDING_RIGHT }}
     />
     <YAxis
       tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
@@ -601,14 +624,15 @@ const renderBarChart = (
     <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
       <XAxis
         dataKey="timestamp"
-        interval={30}
         axisLine={false}
-        tickCount={TICK_COUNT}
-        tick={tickStyle}
-        tickLine={false}
         reversed={true}
-        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
         padding={{ right: XAXIS_PADDING_RIGHT }}
+        // Ticks
+        tick={tickStyle}
+        interval={XAXIS_TICK_INTERVAL}
+        minTickGap={XAXIS_TICK_GAP}
+        tickLine={false}
+        tickFormatter={str => getTickFormatter(DataFormat.DateMonth, str)}
       />
       <YAxis
         axisLine={false}

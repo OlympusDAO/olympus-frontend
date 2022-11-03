@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import Messages from "src/components/Messages/Messages";
 import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -47,7 +46,7 @@ describe("<StakeArea/> Connected no Approval", () => {
   it("should successfully complete the contract approval", async () => {
     expect(screen.getByText("Approve Staking")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Approve Staking"));
-    useContractAllowance.mockReturnValue({ data: BigNumber.from(100) });
+    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
     await act(async () => render(<StakeArea />));
     expect(screen.getAllByText("Stake")[1]).toBeInTheDocument();
   });
@@ -61,7 +60,7 @@ describe("<StakeArea/> Connected with Approval", () => {
         wait: jest.fn().mockReturnValue(true),
       }),
     });
-    useContractAllowance.mockReturnValue({ data: BigNumber.from(1000) });
+    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
     Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
@@ -72,7 +71,6 @@ describe("<StakeArea/> Connected with Approval", () => {
 
     render(
       <>
-        <Messages />
         <StakeInputArea />
       </>,
     );

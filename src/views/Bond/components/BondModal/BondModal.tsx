@@ -1,18 +1,19 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Skeleton, Typography } from "@mui/material";
-import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
+import { t } from "@lingui/macro";
+import { ArrowBack } from "@mui/icons-material";
+import { Box, Link, Skeleton, Typography } from "@mui/material";
+import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { NetworkId } from "src/constants";
-import { formatCurrency } from "src/helpers";
+import { formatNumber } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { BondDuration } from "src/views/Bond/components/BondDuration";
-import { BondInfoText } from "src/views/Bond/components/BondInfoText";
 import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
 import { BondPrice } from "src/views/Bond/components/BondPrice";
@@ -28,7 +29,6 @@ export const BondModalContainer: React.VFC = () => {
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
-
   const bonds = useLiveBonds({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
 
@@ -37,7 +37,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
+export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address = "" } = useAccount();
@@ -61,22 +61,32 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   }, [address]);
 
   return (
-    <Modal
-      open
-      minHeight="auto"
-      closePosition="right"
-      onClose={() => navigate(`/bonds`)}
-      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
-      headerContent={
-        <Box display="flex" flexDirection="row">
-          <TokenStack tokens={bond.quoteToken.icons} />
+    //TODO: Settings need to go in the confirm modal.
+    //   topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
 
-          <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-            <Typography variant="h5">{bond.quoteToken.name}</Typography>
+    <Box>
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Link component={RouterLink} to="/bonds">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                  Back
+                </Typography>
+              </Box>
+            </Link>
+
+            <TokenStack tokens={bond.quoteToken.icons} sx={{ fontSize: "27px" }} />
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography variant="h4" fontWeight={500}>
+                {bond.quoteToken.name}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      }
-    >
+        }
+      ></PageTitle>
+
       <Box display="flex" flexDirection="column" alignItems="center">
         <BondSettingsModal
           slippage={slippage}
@@ -91,49 +101,33 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           <Metric
             label={t`Bond Price`}
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
-            metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+            metric={
+              bond.isSoldOut ? (
+                "--"
+              ) : (
+                <BondPrice
+                  price={bond.price.inBaseToken}
+                  isInverseBond={isInverseBond}
+                  symbol={isInverseBond ? bond.baseToken.name : bond.quoteToken.name}
+                />
+              )
+            }
           />
           <Metric
             label={t`Market Price`}
-            metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
+            metric={
+              <TokenPrice
+                token={bond.baseToken}
+                isInverseBond={isInverseBond}
+                baseSymbol={bond.baseToken.name}
+                quoteSymbol={bond.quoteToken.name}
+              />
+            }
           />
-          <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
-        </Box>
-        <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              <Trans>You Give</Trans>
-            </Typography>
-            <TokenStack tokens={bond.quoteToken.icons} />
-          </Box>
-
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              Vested
-            </Typography>
-            <Box display="flex" flexGrow={1} alignItems="center">
-              <Typography style={{ lineHeight: "20px" }}>
-                {isInverseBond ? t`Instantly` : <BondDuration duration={bond.duration} />}
-              </Typography>
-            </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography
-              color="textSecondary"
-              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
-            >
-              <Trans>You Get</Trans>
-            </Typography>
-            <Typography style={{ lineHeight: "20px" }}>
-              <TokenStack tokens={bond.baseToken.icons} />
-            </Typography>
-          </Box>
+          <Metric
+            label={isInverseBond ? t`Premium` : t`Discount`}
+            metric={<BondDiscount discount={bond.discount} textOnly />}
+          />
         </Box>
 
         <Box width="100%" mt="24px">
@@ -142,24 +136,37 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             bond={bond}
             slippage={slippage}
             recipientAddress={recipientAddress}
+            handleSettingsOpen={() => setSettingsOpen(true)}
           />
         </Box>
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
-          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-            <BondInfoText isInverseBond={isInverseBond} />
-          </Typography>
+          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}></Typography>
         </Box>
       </Box>
-    </Modal>
+    </Box>
   );
 };
 
-const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ token, isInverseBond }) => {
+const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean; baseSymbol: string; quoteSymbol: string }> = ({
+  token,
+  isInverseBond,
+  quoteSymbol,
+  baseSymbol,
+}) => {
   const { data: priceToken = new DecimalBigNumber("0") } = useTokenPrice({ token, networkId: NetworkId.MAINNET });
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const price = isInverseBond
-    ? formatCurrency(ohmPrice, 2)
-    : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
-  return price ? <>{price}</> : <Skeleton width={60} />;
+  const sameToken = quoteSymbol === baseSymbol;
+  const price = sameToken
+    ? formatNumber(1, 2)
+    : isInverseBond
+    ? formatNumber(ohmPrice, 2)
+    : `${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
+  return price ? (
+    <>
+      {price} {isInverseBond ? baseSymbol : quoteSymbol}
+    </>
+  ) : (
+    <Skeleton width={60} />
+  );
 };

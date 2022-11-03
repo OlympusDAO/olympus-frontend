@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
+import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
@@ -10,15 +11,17 @@ import {
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTreasuryMarketValue } from "src/hooks/useTokenRecords";
-import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupply";
+import { useTokenRecordsLatestRecord, useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
+import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmFloating, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
+  subgraphUrls?: SUBGRAPH_URLS;
   subgraphUrl?: string;
+  earliestDate?: string | null;
 };
 type MetricProps = PropsOf<typeof Metric>;
-type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
+export type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
 export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const { data: marketCap } = useMarketCap(props.subgraphUrl);
@@ -123,7 +126,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
    * so it makes sense to do the same for the denominator, and floating supply
    * is circulating supply - OHM in liquidity.
    */
-  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrl);
+  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrls);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
@@ -146,7 +149,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrl);
+  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrls);
 
   const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
@@ -245,13 +248,18 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: treasuryMarketValue } = useTreasuryMarketValue(props.subgraphUrl);
+  const latestDateQuery = useTokenRecordsLatestRecord(props.subgraphUrls?.Ethereum);
+  const liquidBackingQuery = useTreasuryMarketValue(
+    !latestDateQuery.data ? undefined : latestDateQuery.data.date,
+    props.subgraphUrls,
+  );
+
   const _props: MetricProps = {
     ...props,
     label: t`Treasury Balance`,
   };
 
-  if (treasuryMarketValue) _props.metric = formatCurrency(treasuryMarketValue);
+  if (liquidBackingQuery) _props.metric = formatCurrency(liquidBackingQuery);
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

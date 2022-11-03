@@ -8,3 +8,7 @@ export const adjustDateByDays = (date: Date, days: number): Date => {
 export const getISO8601String = (date: Date): string => {
   return date.toISOString().split("T")[0];
 };
+
+export const dateGreaterThan = (one: string, two: string): boolean => {
+  return new Date(one).getTime() > new Date(two).getTime();
+};
