@@ -1,10 +1,14 @@
-import { Box, Grid, InputLabel, Select, styled, Typography } from "@mui/material";
+import { Box, Grid, InputLabel, Select, Skeleton, styled, Typography } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
+import { ethers } from "ethers";
 import { FC, useState } from "react";
 import rehypeSanitize from "rehype-sanitize";
-import { useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
+import { isValidUrl } from "src/helpers";
+import { useVoteBalance } from "src/hooks/useBalance";
+import { useCreateProposalVotingPowerReqd, useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BackButton } from "src/views/Governance/components/BackButton";
 import { TextEntry } from "src/views/Governance/components/CreateProposal/components/TextEntry";
 import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
@@ -12,13 +16,15 @@ import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview
 export const CreateProposal = () => {
   const ipfsUpload = useIPFSUpload();
   const submitProposal = useSubmitProposal();
-
-  const [proposalTitle, setProposalTitle] = useState("");
-  const [proposalDescription, setProposalDescription] = useState("");
-  const [proposalDiscussion, setProposalDiscussion] = useState("");
+  const [proposalTitle, setProposalTitle] = useState<string>();
+  const [proposalDescription, setProposalDescription] = useState<string>();
+  const [proposalDiscussion, setProposalDiscussion] = useState<string>();
+  const { data: collateralRequired, isLoading: collateralRequiredLoading } = useCreateProposalVotingPowerReqd();
+  const networks = useTestableNetworks();
+  const { data: votesBalance } = useVoteBalance()[networks.MAINNET];
   // TODO(appleseed): need to allow multiple instructions
   const [proposalAction, setProposalAction] = useState<ProposalAction>(ProposalAction.InstallModule);
-  const [proposalContract, setProposalContract] = useState("");
+  const [proposalContract, setProposalContract] = useState<string>();
 
   const StyledInputLabel = styled(InputLabel)(() => ({
     lineHeight: "24px",
@@ -51,27 +57,41 @@ export const CreateProposal = () => {
     );
   };
 
+  const discussionIsValidURL = isValidUrl(proposalDiscussion as string);
+  const isValidAddress = ethers.utils.isAddress(proposalContract as string);
+  const proposalFieldsComplete = !!proposalTitle && !!proposalDescription && !!discussionIsValidURL && !!isValidAddress;
   const canSubmit = () => {
-    if (submitProposal.isLoading) return false;
+    if (
+      !proposalFieldsComplete ||
+      submitProposal.isLoading ||
+      collateralRequiredLoading ||
+      !votesBalance ||
+      collateralRequired.gt(votesBalance)
+    )
+      return false;
     return true;
   };
 
   // https://goerli.etherscan.io/tx/0x7150ffcc290038deab9c89b1630df273273d2b428e6ee6fb6bec0ddeefe25b18
   const handleFormSubmission = async () => {
-    const proposal = {
-      name: proposalTitle,
-      description: proposalDescription,
-      content: proposalDescription,
-      external_url: proposalDiscussion,
-    };
-    const fileData = await ipfsUpload.mutateAsync({ proposal });
-    if (fileData) {
-      const proposalURI = `ipfs://${fileData.path}`;
-      // TODO(appleseed): need to allow multiple instructions
-      const instructions = [{ action: proposalAction, target: proposalContract }];
-      submitProposal.mutate({ proposal: { name: proposal.name, instructions, proposalURI } });
+    if (!proposalFieldsComplete) {
+      return;
     } else {
-      // TODO(appleseed): there was a problem uploading your proposal to IPFS
+      const proposal = {
+        name: proposalTitle as string,
+        description: proposalDescription as string,
+        content: proposalDescription as string,
+        external_url: proposalDiscussion as string,
+      };
+      const fileData = await ipfsUpload.mutateAsync({ proposal });
+      if (fileData) {
+        const proposalURI = `ipfs://${fileData.path}`;
+        // TODO(appleseed): need to allow multiple instructions
+        const instructions = [{ action: proposalAction as ProposalAction, target: proposalContract as string }];
+        submitProposal.mutate({ proposal: { name: proposal.name, instructions, proposalURI } });
+      } else {
+        // TODO(appleseed): there was a problem uploading your proposal to IPFS
+      }
     }
   };
 
@@ -80,6 +100,7 @@ export const CreateProposal = () => {
       <Paper>
         <Grid container direction="column" paddingLeft="4.5px" paddingRight="4.5px">
           <BackButton />
+          <CollateralRequiredText />
           <TextEntry label="Title" handleChange={setProposalTitle} />
           <StyledInputLabel>Description</StyledInputLabel>
           <MDEditor
@@ -93,9 +114,9 @@ export const CreateProposal = () => {
             }}
           />
           <Box display="flex" flexDirection="row" justifyContent="flex-end">
-            <Typography>{proposalDescription.length}/14,400</Typography>
+            <Typography>{proposalDescription?.length || 0}/14,400</Typography>
           </Box>
-          <MarkdownPreview content={proposalDescription} />
+          <MarkdownPreview content={proposalDescription || ""} />
           <TextEntry
             label="Discussion"
             placeholder="e.g. https://forum.olympusday.finance/..."
@@ -114,7 +135,55 @@ export const CreateProposal = () => {
             {submitProposal.isLoading ? "Submitting..." : "Continue"}
           </PrimaryButton>
         </Box>
+        <Box display={`flex`} justifyContent={`flex-end`}>
+          <CollateralRequiredText />
+        </Box>
       </Paper>
+    </Box>
+  );
+};
+
+const CollateralRequiredText = () => {
+  const { data: collateralRequired, isLoading: collateralRequiredLoading } = useCreateProposalVotingPowerReqd();
+  const networks = useTestableNetworks();
+  const { data: votesBalance, isLoading: votesLoading } = useVoteBalance()[networks.MAINNET];
+
+  return (
+    <Box display={`flex`} flexDirection={`column`}>
+      <Box display={`flex`}>
+        {collateralRequiredLoading ? (
+          <>
+            <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+              &#x2022;{` Creating a Proposal requires `}
+            </Typography>
+            <Skeleton width={60} sx={{ display: "inline-block" }} />
+            <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+              {` vOHM`}
+            </Typography>
+          </>
+        ) : (
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+            &#x2022;{` Creating a Proposal requires ${collateralRequired.toApproxNumber()} vOHM`}
+          </Typography>
+        )}
+      </Box>
+      <Box display={`flex`}>
+        {votesLoading || !votesBalance ? (
+          <>
+            <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+              &#x2022;{` You have `}
+            </Typography>
+            <Skeleton width={60} sx={{ display: "inline-block" }} />
+            <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+              {` vOHM`}
+            </Typography>
+          </>
+        ) : (
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
+            &#x2022;{` You have ${votesBalance.toApproxNumber()} vOHM`}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };

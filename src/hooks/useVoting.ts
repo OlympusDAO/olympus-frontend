@@ -132,7 +132,42 @@ export const useVotingSupply = () => {
     ["getVoteTokenTotalSupply", chain?.id],
     async () => {
       const votingSupply = await contract.totalSupply();
-      return new DecimalBigNumber(votingSupply, 3);
+      return new DecimalBigNumber(votingSupply, 18);
+    },
+    { enabled: !!chain?.id },
+  );
+};
+
+/**
+ * returns the collateral Minimum
+ */
+export const useVotingCollateralMinimum = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+
+  return useQuery<DecimalBigNumber, Error>(
+    ["getVotingCollateralMinimum", chain?.id],
+    async () => {
+      const collateral = await contract.COLLATERAL_MINIMUM();
+      return new DecimalBigNumber(collateral, 18);
+    },
+    { enabled: !!chain?.id },
+  );
+};
+
+/**
+ * returns the collateral Minimum as a decimal
+ * - i.e. 0.05 = 5%
+ */
+export const useVotingCollateralRequirement = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+
+  return useQuery<DecimalBigNumber, Error>(
+    ["getVotingCollateralRequirement", chain?.id],
+    async () => {
+      const collateral = await contract.COLLATERAL_REQUIREMENT();
+      return new DecimalBigNumber(collateral, 4);
     },
     { enabled: !!chain?.id },
   );

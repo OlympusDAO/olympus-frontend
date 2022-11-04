@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber, stringToBytes32String } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { IPFSFileData, IProposalJson, makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
@@ -15,6 +16,7 @@ import {
   timeRemaining,
   useGetProposalURIFromEvent,
 } from "src/hooks/useProposals";
+import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
 import { useNetwork, useSigner } from "wagmi";
 
 /**
@@ -162,4 +164,37 @@ export const useIPFSUpload = () => {
       return fileInfo;
     },
   );
+};
+
+/**
+ * how much voting power does it require to create a proposal
+ */
+export const useCreateProposalVotingPowerReqd = () => {
+  const { data: totalSupply, isFetched: supplyFetched, isLoading: supplyLoading } = useVotingSupply();
+  const {
+    data: collateralMinimum,
+    isFetched: minimumFetched,
+    isLoading: minimumLoading,
+  } = useVotingCollateralMinimum();
+  const {
+    data: collateralRequirement,
+    isFetched: requirementFetched,
+    isLoading: requirementLoading,
+  } = useVotingCollateralRequirement();
+  // const collateral = _max(
+  //     (VOTES.totalSupply() * COLLATERAL_REQUIREMENT) / 10_000,
+  //     COLLATERAL_MINIMUM
+  // );
+  const everythingFetched = supplyFetched && minimumFetched && requirementFetched;
+  let collateral = new DecimalBigNumber("0", 18);
+  if (everythingFetched && !!totalSupply && !!collateralRequirement && !!collateralMinimum) {
+    const numerator = totalSupply.mul(collateralRequirement);
+    collateral = new DecimalBigNumber((collateralMinimum.gt(numerator) ? collateralMinimum : numerator).toString(), 18);
+  }
+
+  return {
+    data: collateral,
+    isLoading: supplyLoading && minimumLoading && requirementLoading,
+    isFetched: everythingFetched,
+  };
 };
