@@ -8,6 +8,7 @@ import {
   DISTRIBUTOR_ADDRESSES,
   GOV_INSTRUCTIONS_ADDRESSES,
   GOVERNANCE_ADDRESSES,
+  GOVERNANCE_MOCK_GOHM,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
@@ -39,6 +40,7 @@ import {
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
+import { OlympusGovMockGOhm__factory } from "src/typechain/factories/OlympusGovMockGOhm__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,
@@ -123,6 +125,12 @@ export const VOTE_TOKEN_CONTRACT = new Contract({
   factory: IERC20__factory,
   name: "Olympus Vote Token",
   addresses: VOTE_TOKEN_ADDRESSES,
+});
+
+export const GOVERNANCE_MOCK_GOHM_CONTRACT = new Contract({
+  factory: OlympusGovMockGOhm__factory,
+  name: "Olympus Governance Mock gOHM",
+  addresses: GOVERNANCE_MOCK_GOHM,
 });
 
 export const BOND_AGGREGATOR_CONTRACT = new Contract({
