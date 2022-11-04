@@ -56,6 +56,7 @@ export const CreateProposal = () => {
     return true;
   };
 
+  // https://goerli.etherscan.io/tx/0x7150ffcc290038deab9c89b1630df273273d2b428e6ee6fb6bec0ddeefe25b18
   const handleFormSubmission = async () => {
     const proposal = {
       name: proposalTitle,

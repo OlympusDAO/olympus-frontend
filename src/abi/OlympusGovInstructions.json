@@ -22,24 +22,14 @@
             "type": "error"
         },
         {
-            "inputs": [],
-            "name": "INSTR_InvalidModuleKeycode",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "INSTR_InvalidTargetNotAContract",
-            "type": "error"
-        },
-        {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "policy_",
-                    "type": "address"
+                    "internalType": "Keycode",
+                    "name": "keycode_",
+                    "type": "bytes5"
                 }
             ],
-            "name": "Module_PolicyNotAuthorized",
+            "name": "InvalidKeycode",
             "type": "error"
         },
         {
@@ -50,7 +40,29 @@
                     "type": "address"
                 }
             ],
-            "name": "Policy_OnlyKernel",
+            "name": "KernelAdapter_OnlyKernel",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "policy_",
+                    "type": "address"
+                }
+            ],
+            "name": "Module_PolicyNotPermitted",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "target_",
+                    "type": "address"
+                }
+            ],
+            "name": "TargetNotAContract",
             "type": "error"
         },
         {
@@ -64,31 +76,6 @@
                 }
             ],
             "name": "InstructionsStored",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "bytes4",
-                    "name": "funcSelector_",
-                    "type": "bytes4"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "policy_",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "bool",
-                    "name": "permission_",
-                    "type": "bool"
-                }
-            ],
-            "name": "PermissionSet",
             "type": "event"
         },
         {
@@ -127,6 +114,19 @@
                 }
             ],
             "stateMutability": "pure",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "contract Kernel",
+                    "name": "newKernel_",
+                    "type": "address"
+                }
+            ],
+            "name": "changeKernel",
+            "outputs": [],
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {

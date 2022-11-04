@@ -13,32 +13,27 @@
         },
         {
             "inputs": [],
-            "name": "ActiveProposalNotExpired",
+            "name": "CollateralAlreadyReturned",
             "type": "error"
         },
         {
             "inputs": [],
-            "name": "CannotEndorseInvalidProposal",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "CannotEndorseNullProposal",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "CannotReclaimTokensForActiveVote",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "CannotReclaimZeroVotes",
+            "name": "DepositedAfterActivation",
             "type": "error"
         },
         {
             "inputs": [],
             "name": "ExecutionTimelockStillActive",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ExecutionWindowExpired",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ExecutorNotSubmitter",
             "type": "error"
         },
         {
@@ -54,17 +49,7 @@
         },
         {
             "inputs": [],
-            "name": "NoActiveProposalDetected",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "NotAuthorizedToActivateProposal",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "NotEnoughEndorsementsToActivateProposal",
+            "name": "NotAuthorized",
             "type": "error"
         },
         {
@@ -74,7 +59,7 @@
         },
         {
             "inputs": [],
-            "name": "NotEnoughVotesToPropose",
+            "name": "PastVotingPeriod",
             "type": "error"
         },
         {
@@ -95,7 +80,22 @@
         },
         {
             "inputs": [],
-            "name": "SubmittedProposalHasExpired",
+            "name": "ProposalAlreadyExecuted",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "ProposalIsNotActive",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "UnableToActivate",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "UnmetCollateralDuration",
             "type": "error"
         },
         {
@@ -105,8 +105,27 @@
         },
         {
             "inputs": [],
-            "name": "VotingTokensAlreadyReclaimed",
+            "name": "WarmupNotCompleted",
             "type": "error"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "tokensReclaimed_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "CollateralReclaimed",
+            "type": "event"
         },
         {
             "anonymous": false,
@@ -135,6 +154,19 @@
                     "internalType": "uint256",
                     "name": "proposalId",
                     "type": "uint256"
+                }
+            ],
+            "name": "ProposalExecuted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "proposalId",
+                    "type": "uint256"
                 },
                 {
                     "indexed": false,
@@ -149,7 +181,7 @@
                     "type": "uint256"
                 }
             ],
-            "name": "ProposalEndorsed",
+            "name": "ProposalRegistered",
             "type": "event"
         },
         {
@@ -160,19 +192,18 @@
                     "internalType": "uint256",
                     "name": "proposalId",
                     "type": "uint256"
-                }
-            ],
-            "name": "ProposalExecuted",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
+                },
                 {
                     "indexed": false,
-                    "internalType": "uint256",
-                    "name": "proposalId",
-                    "type": "uint256"
+                    "internalType": "string",
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "proposalURI",
+                    "type": "string"
                 }
             ],
             "name": "ProposalSubmitted",
@@ -196,7 +227,7 @@
                 {
                     "indexed": false,
                     "internalType": "bool",
-                    "name": "for_",
+                    "name": "approve",
                     "type": "bool"
                 },
                 {
@@ -206,7 +237,7 @@
                     "type": "uint256"
                 }
             ],
-            "name": "WalletVoted",
+            "name": "VotesCast",
             "type": "event"
         },
         {
@@ -224,7 +255,59 @@
         },
         {
             "inputs": [],
-            "name": "ENDORSEMENT_THRESHOLD",
+            "name": "ACTIVATION_TIMELOCK",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "COLLATERAL_DURATION",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "COLLATERAL_MINIMUM",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "COLLATERAL_REQUIREMENT",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "EXECUTION_DEADLINE",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -250,7 +333,7 @@
         },
         {
             "inputs": [],
-            "name": "GRACE_PERIOD",
+            "name": "EXECUTION_TIMELOCK",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -266,7 +349,7 @@
             "name": "INSTR",
             "outputs": [
                 {
-                    "internalType": "contract DefaultInstructions",
+                    "internalType": "contract INSTRv1",
                     "name": "",
                     "type": "address"
                 }
@@ -276,7 +359,20 @@
         },
         {
             "inputs": [],
-            "name": "VOTER_REWARD_RATE",
+            "name": "VOTES",
+            "outputs": [
+                {
+                    "internalType": "contract VOTESv1",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "VOTING_PERIOD",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -289,15 +385,39 @@
         },
         {
             "inputs": [],
-            "name": "VOTES",
+            "name": "WARMUP_PERIOD",
             "outputs": [
                 {
-                    "internalType": "contract DefaultVotes",
+                    "internalType": "uint256",
                     "name": "",
-                    "type": "address"
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "a",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "b",
+                    "type": "uint256"
+                }
+            ],
+            "name": "_max",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "pure",
             "type": "function"
         },
         {
@@ -311,24 +431,6 @@
             "name": "activateProposal",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "activeProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "proposalId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "activationTimestamp",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -365,82 +467,9 @@
                     "type": "uint256"
                 }
             ],
-            "name": "endorseProposal",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
             "name": "executeProposal",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getActiveProposal",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "uint256",
-                            "name": "proposalId",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "activationTimestamp",
-                            "type": "uint256"
-                        }
-                    ],
-                    "internalType": "struct IGovernance.ActivatedProposal",
-                    "name": "",
-                    "type": "tuple"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "proposalId_",
-                    "type": "uint256"
-                }
-            ],
-            "name": "getMetadata",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "bytes32",
-                            "name": "title",
-                            "type": "bytes32"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "submitter",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "submissionTimestamp",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "proposalURI",
-                            "type": "string"
-                        }
-                    ],
-                    "internalType": "struct IGovernance.ProposalMetadata",
-                    "name": "",
-                    "type": "tuple"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -454,11 +483,6 @@
             "name": "getProposalMetadata",
             "outputs": [
                 {
-                    "internalType": "bytes32",
-                    "name": "title",
-                    "type": "bytes32"
-                },
-                {
                     "internalType": "address",
                     "name": "submitter",
                     "type": "address"
@@ -469,9 +493,39 @@
                     "type": "uint256"
                 },
                 {
-                    "internalType": "string",
-                    "name": "proposalURI",
-                    "type": "string"
+                    "internalType": "uint256",
+                    "name": "collateralAmt",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "activationTimestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalRegisteredVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "yesVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "noVotes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isExecuted",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isCollateralReturned",
+                    "type": "bool"
                 }
             ],
             "stateMutability": "view",
@@ -507,49 +561,11 @@
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "noVotesForProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "proposalHasBeenActivated",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
                     "name": "proposalId_",
                     "type": "uint256"
                 }
             ],
-            "name": "reclaimVotes",
+            "name": "reclaimCollateral",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -612,9 +628,9 @@
                     "type": "tuple[]"
                 },
                 {
-                    "internalType": "bytes32",
+                    "internalType": "string",
                     "name": "title_",
-                    "type": "bytes32"
+                    "type": "string"
                 },
                 {
                     "internalType": "string",
@@ -631,123 +647,18 @@
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "",
+                    "name": "proposalId_",
                     "type": "uint256"
                 },
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "tokenClaimsForProposal",
-            "outputs": [
                 {
                     "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "totalEndorsementsForProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "userEndorsementsForProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "userVotesForProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bool",
-                    "name": "for_",
+                    "name": "approve_",
                     "type": "bool"
                 }
             ],
             "name": "vote",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "yesVotesForProposal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         }
     ]

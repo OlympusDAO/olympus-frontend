@@ -159,16 +159,23 @@ export const DEV_FAUCET = {
   [NetworkId.TESTNET_GOERLI]: "0x405940141AeE885347ef4C47d933eF4cA6A674D8",
 };
 
+/**
+ * now called Parthenon
+ */
 export const GOVERNANCE_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "0xf1c6848e7b7bc93401262cdeab40dcbaf92e16ac",
+  // [NetworkId.TESTNET_GOERLI]: "0xf1c6848e7b7bc93401262cdeab40dcbaf92e16ac",
+  // [NetworkId.TESTNET_GOERLI]: "0x0fa391b3ae3a7fc5fa24a4bc7236db854390b7b4",
+  [NetworkId.TESTNET_GOERLI]: "0x904fe39c25f53a00A19Cf155B1B73b1CB67F23F8",
 };
 
 export const GOV_INSTRUCTIONS_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "0xa8810f94ABe49Ffe0AA49a1c30930a40C450f288",
+  // [NetworkId.TESTNET_GOERLI]: "0xa8810f94ABe49Ffe0AA49a1c30930a40C450f288",
+  [NetworkId.TESTNET_GOERLI]: "0x42bb80bad7e1e8bfd59417c5ae49f09e6988a795",
 };
 
+/** NOT USED */
 export const VOTE_ISSUER_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   [NetworkId.TESTNET_GOERLI]: "0x65e44BEaf20bc8BED9643Bf996A59d478db1090b",
@@ -176,7 +183,32 @@ export const VOTE_ISSUER_ADDRESSES = {
 
 export const VOTE_TOKEN_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "0xad50790dbaf78572019575bc5dce2abff1544fd0",
+  // [NetworkId.TESTNET_GOERLI]: "0xad50790dbaf78572019575bc5dce2abff1544fd0",
+  // [NetworkId.TESTNET_GOERLI]: "0x7Aef3bDa16bBD12033d93C05df877d0f165F2214",
+  [NetworkId.TESTNET_GOERLI]: "0x02741c86c45455c87baa381622f93ebb1141fa63",
+};
+
+/**
+ * GOVERNANCE -
+ * the testing flow should go as follows:
+ * 1) Mint OHM from the Mock OHM contract
+ * 2) Deposit OHM into the vOHM Vault contract to receive voting tokens ("vOHM")
+ * 3) Use vOHM to vote in Parthenon.sol
+ */
+
+// export const GOVERNANCE_MOCK_OHM = {
+//   [NetworkId.MAINNET]: "",
+//   [NetworkId.TESTNET_GOERLI]: "0xcd69d22753dafbf93843c600110e32df046dd165",
+// };
+export const GOVERNANCE_MOCK_GOHM = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xBF3BaBd7411628788B0f6cd56BC9D6aE1Bfb1F0F",
+};
+
+export const GOVERNANCE_VOHM_VAULT = {
+  [NetworkId.MAINNET]: "",
+  // [NetworkId.TESTNET_GOERLI]: "0x4fd8cc1a43377454ac50f9a312fd4fd7974811cb",
+  [NetworkId.TESTNET_GOERLI]: "0x0BF5064643998f3211b4555Ce6855D511D33191a",
 };
 
 export const BOND_AGGREGATOR_ADDRESSES = {

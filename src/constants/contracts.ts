@@ -112,6 +112,7 @@ export const GOV_INSTRUCTIONS_CONTRACT = new Contract({
   addresses: GOV_INSTRUCTIONS_ADDRESSES,
 });
 
+/** NOT USED */
 export const VOTE_ISSUER_CONTRACT = new Contract({
   factory: OlympusVoteIssuer__factory,
   name: "Olympus Vote Issuer",

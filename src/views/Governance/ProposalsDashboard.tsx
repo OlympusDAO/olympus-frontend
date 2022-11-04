@@ -6,7 +6,7 @@ import { Paper, Proposal, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
-import { useActiveProposal, useGetTotalInstructions } from "src/hooks/useProposals";
+import { useGetLastProposalId } from "src/hooks/useProposals";
 import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { FilterModal } from "src/views/Governance/components/FilterModal";
 import { SearchBar } from "src/views/Governance/components/SearchBar/SearchBar";
@@ -14,8 +14,7 @@ import { toCapitalCase } from "src/views/Governance/helpers";
 
 export const ProposalsDashboard = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const { data: numberOfProposals, isLoading } = useGetTotalInstructions();
-  const { data: activeProposal } = useActiveProposal();
+  const { data: numberOfProposals, isLoading } = useGetLastProposalId();
 
   const handleFilterClick = () => {
     setIsFilterModalOpen(true);
@@ -67,12 +66,7 @@ export const ProposalsDashboard = () => {
           </SecondaryButton>
         </Grid> */}
         <Grid container direction="column" spacing={2} xs={12} ml={0}>
-          <>
-            {Number(activeProposal?.activationTimestamp) > 0 && (
-              <ProposalContainer instructionsId={Number(activeProposal?.instructionsId)} />
-            )}
-            {isLoading ? <ProposalSkeleton /> : renderProposals()}
-          </>
+          <>{isLoading ? <ProposalSkeleton /> : renderProposals()}</>
         </Grid>
       </Paper>
 
@@ -87,7 +81,7 @@ const ProposalContainer = ({ instructionsId }: { instructionsId: number }) => {
   return (
     <>
       {isLoading || !proposal ? (
-        <ProposalSkeleton id={instructionsId} />
+        <ProposalSkeleton />
       ) : (
         <Grid key={instructionsId} item xs={12} style={{ paddingLeft: "0px" }}>
           <Link to={`/governance/proposals/${proposal?.id}`} component={RouterLink}>
@@ -108,7 +102,7 @@ const ProposalContainer = ({ instructionsId }: { instructionsId: number }) => {
   );
 };
 
-export const ProposalSkeleton = ({ id = 0 }: { id?: number }) => {
+export const ProposalSkeleton = () => {
   return (
     <Skeleton width="100%">
       <Proposal
