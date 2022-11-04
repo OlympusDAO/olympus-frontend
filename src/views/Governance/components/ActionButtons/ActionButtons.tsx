@@ -1,5 +1,5 @@
 import { Box, Link } from "@mui/material";
-import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { FC, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import DelegateModal from "src/views/Governance/components/DelegateModal";
@@ -14,11 +14,12 @@ const ActionButtons: FC = () => {
   };
 
   return (
-    <Box display="flex" minWidth="310px">
+    // <Box display="flex" minWidth="310px">
+    <Box display="flex">
       <Link to="/governance/create-proposal" component={RouterLink}>
         <SecondaryButton>Create new Proposal</SecondaryButton>
       </Link>
-      <PrimaryButton onClick={() => setOpen(true)}>Delegate Vote</PrimaryButton>
+      {/* <PrimaryButton onClick={() => setOpen(true)}>Delegate Vote</PrimaryButton> */}
 
       <DelegateModal open={open} handleClose={handleClose} />
     </Box>

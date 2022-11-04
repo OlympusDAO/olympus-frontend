@@ -4,9 +4,9 @@ import { shorten } from "src/helpers";
 import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
 
 export default function WalletAddressEns() {
-  const { address = "" } = useAccount();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ addressOrName: address });
+  const { address } = useAccount();
+  const { data: ensName } = useEnsName({ address, enabled: !!address });
+  const { data: ensAvatar } = useEnsAvatar({ addressOrName: address, enabled: !!address });
 
   if (!address) return null;
 

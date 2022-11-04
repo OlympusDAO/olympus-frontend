@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
-import { useDispatch } from "react-redux";
 import { GOVERNANCE_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useAccount, useNetwork, useSigner } from "wagmi";
+import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
+import { VotesCastEvent } from "src/typechain/OlympusGovernance";
+import { useNetwork, useSigner } from "wagmi";
 
 interface Vote {
   proposalId: BigNumber;
@@ -16,39 +17,108 @@ interface ActivatedProposal {
 }
 
 /**
- * returns the total endorsement value (# of tokens) for the connected wallet for the current proposal
+ * event is not indexed so can't filter by proposalId in the `VotesCast()` event
+ * - as a result this returns ALL VOTES CAST EVENTS ON PARTHENON
  */
-export const useUserEndorsement = (proposalId: number) => {
+export const useGetVotesCastEvents = () => {
   const { chain = { id: 1 } } = useNetwork();
-  const { isConnected, address: voterAddress } = useAccount();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  // const _useProposal = useProposal(proposalId);
-  // const proposal: IAnyProposal = _useProposal.isLoading || !_useProposal.data ? NULL_PROPOSAL : _useProposal.data;
-
-  return useQuery<boolean, Error>(
-    ["getUserEndorsement", proposalId, voterAddress],
+  const archiveProvider = useArchiveNodeProvider(chain?.id);
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id, archiveProvider);
+  return useQuery<VotesCastEvent[], Error>(
+    ["GetVotesCastEvents", chain.id],
     async () => {
-      // TODO(appleseed): this function isn't accessible rn
-      // const endorsementValue = await _useProposal.data.votesRegisteredByUser(proposalId, address as string);
-      const result = await contract.queryFilter(contract.filters.VotesCast());
-      if (result.length > 0) {
-        const thisProposal = result.filter(
-          (event: ethers.Event) => event.args?.proposalId === proposalId && event.args?.voter === voterAddress,
-        );
-        if (thisProposal.length > 0) {
-          // const endorsementValue = thisProposal[thisProposal.length - 1].proposalId;
-          // return new DecimalBigNumber(endorsementValue, 3);
-          return true;
-        }
-        // return new DecimalBigNumber("0", 3);
-        return false;
-      } else {
-        // return new DecimalBigNumber("0", 3);
-        return false;
-      }
+      // using EVENTS
+      return await contract.queryFilter(contract.filters.VotesCast());
     },
-    { enabled: !!isConnected && !!voterAddress },
+    { enabled: !!chain && !!chain.id && !!archiveProvider && !!contract },
   );
+};
+
+const voteCastEventProposalIdComparison = (event: VotesCastEvent, proposalId: number) => {
+  return event.args?.proposalId.eq(ethers.utils.parseUnits(String(proposalId), 0));
+};
+
+const voteCastEventVoterAddressComparison = (event: VotesCastEvent, voterAddress: string) => {
+  return event.args?.voter === voterAddress;
+};
+
+/**
+ * returns all VotesCast events by ALL voters for THIS proposal
+ */
+export const useGetVotesCastForProposal = (
+  proposalId: number,
+): { data: VotesCastEvent[]; isFetched: boolean; isLoading: boolean } => {
+  const { data: votesCastEvents, isFetched, isLoading } = useGetVotesCastEvents();
+  let thisProposal: VotesCastEvent[] = [];
+  if (isFetched && !!votesCastEvents && votesCastEvents?.length > 0) {
+    thisProposal = votesCastEvents.filter((event: VotesCastEvent) =>
+      voteCastEventProposalIdComparison(event, proposalId),
+    );
+  }
+  return {
+    data: thisProposal,
+    isFetched,
+    isLoading,
+  };
+};
+
+/**
+ * returns all VotesCast events by THIS voter for THIS proposal
+ */
+export const useGetVotesCastForProposalAndVoter = (
+  proposalId: number,
+  voterAddress: string,
+): { data: VotesCastEvent[]; isFetched: boolean; isLoading: boolean } => {
+  const { data: votesCastEvents, isFetched, isLoading } = useGetVotesCastEvents();
+  let thisProposal: VotesCastEvent[] = [];
+  if (isFetched && !!votesCastEvents && votesCastEvents?.length > 0) {
+    thisProposal = votesCastEvents.filter(
+      (event: VotesCastEvent) =>
+        voteCastEventProposalIdComparison(event, proposalId) &&
+        voteCastEventVoterAddressComparison(event, voterAddress),
+    );
+  }
+  return {
+    data: thisProposal,
+    isFetched,
+    isLoading,
+  };
+};
+
+/**
+ * returns all VotesCast events by THIS voter for ALL PROPOSALS
+ */
+export const useGetVotesCastByVoter = (
+  voterAddress: string,
+): { data: VotesCastEvent[]; isFetched: boolean; isLoading: boolean } => {
+  const { data: votesCastEvents, isFetched, isLoading } = useGetVotesCastEvents();
+  let thisVoter: VotesCastEvent[] = [];
+  if (isFetched && !!votesCastEvents && votesCastEvents?.length > 0) {
+    thisVoter = votesCastEvents.filter((event: VotesCastEvent) =>
+      voteCastEventVoterAddressComparison(event, voterAddress),
+    );
+  }
+  return {
+    data: thisVoter,
+    isFetched,
+    isLoading,
+  };
+};
+
+/**
+ * returns the total vote value (# of tokens) for the connected wallet for the current proposal
+ */
+export const useUserVote = (proposalId: number, voterAddress: string) => {
+  const { data: votesCastEvents, isLoading, isFetched } = useGetVotesCastForProposalAndVoter(proposalId, voterAddress);
+  let thisVote: DecimalBigNumber = new DecimalBigNumber("0", 3);
+  if (isFetched && !!votesCastEvents && votesCastEvents?.length > 0) {
+    thisVote = new DecimalBigNumber(votesCastEvents[0].args.userVotes, 3);
+  }
+  return {
+    data: thisVote,
+    isFetched,
+    isLoading,
+  };
 };
 
 /**
@@ -101,8 +171,6 @@ export const useVotingSupply = () => {
 // };
 
 export const useVote = () => {
-  const dispatch = useDispatch();
-
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
 

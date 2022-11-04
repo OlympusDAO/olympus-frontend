@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { EthereumNetwork, NetworkId } from "src/networkDetails";
 
 export class Environment {
   public static env = process.env;
@@ -63,6 +63,21 @@ export class Environment {
       key: "REACT_APP_STAGING_ENV",
       fallback: "false",
     });
+
+  public static getArchiveNodeUrl = (networkId: EthereumNetwork) => {
+    switch (networkId) {
+      case NetworkId.MAINNET:
+        return this._get({
+          key: `REACT_APP_ETHEREUM_ARCHIVE_NODE_URL`,
+          err: "Please provide a REACT_APP_ETHEREUM_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.TESTNET_GOERLI:
+        return this._get({
+          key: `REACT_APP_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
+          err: "Please provide a REACT_APP_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
+        });
+    }
+  };
 
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {

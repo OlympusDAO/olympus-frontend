@@ -1,10 +1,10 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ethers } from "ethers";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
-import { parseBigNumber } from "src/helpers";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
+import { ProposalSubmittedEvent } from "src/typechain/OlympusGovernance";
 import { useNetwork } from "wagmi";
 
 export enum ProposalAction {
@@ -64,91 +64,6 @@ export type PStatus = "active" | "endorsement" | "discussion" | "draft" | "close
 export interface IProposalState {
   state: PStatus;
 }
-/// Mock totalInstructions value from INSTR.sol
-export const mockTotalInstructions = 3;
-
-/// Mock instructions ID for current active proposal
-export const activeProposal = 0;
-
-/// Mock mapping data for proposalMetadata in Governance.sol
-export const mockProposalMetadata: { [key: number]: proposalMetadata } = {
-  0: {
-    title: "0x4f49502d31000000000000000000000000000000000000000000000000000000",
-    submitter: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
-    submissionTimestamp: 1653948322,
-  },
-  1: {
-    title: "0x4f49502d32000000000000000000000000000000000000000000000000000000",
-    submitter: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
-    submissionTimestamp: 1655157922,
-  },
-  2: {
-    title: "0x4f49502d33000000000000000000000000000000000000000000000000000000",
-    submitter: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
-    submissionTimestamp: 1655503522,
-  },
-  3: {
-    title: "0x4f49502d34000000000000000000000000000000000000000000000000000000",
-    submitter: "0x0adfA199aB9485CE53859CD237836bFE6019F5Fa",
-    submissionTimestamp: 1656626722,
-  },
-};
-
-/// Mock mapping data on total endorsements in Governance.sol
-export const mockProposalTotalEndorsements: { [key: number]: number } = {
-  0: 1000,
-  1: 50,
-  2: 275,
-  3: 432,
-};
-
-/// Mock mapping data on proposal activation in Governance.sol
-export const mockProposalHasBeenActivated: { [key: number]: boolean } = {
-  0: true,
-  1: true,
-  2: false,
-  3: false,
-};
-
-/// Mock mapping data on proposal yes votes in Governance.sol
-export const mockYesVotesForProposal: { [key: number]: number } = {
-  0: 1234,
-  1: 0,
-  2: 1546,
-  3: 2583,
-};
-
-/// Mock mapping data on proposal no votes in Governance.sol
-export const mockNoVotesForProposal: { [key: number]: number } = {
-  0: 152,
-  1: 0,
-  2: 2436,
-  3: 1875,
-};
-
-/// Mock IPFS URI values by proposal bytes32 name
-export const mockProposalURIs: { [key: string]: string } = {
-  "0x4f49502d31000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberone",
-  "0x4f49502d32000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumbertwo",
-  "0x4f49502d33000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberthree",
-  "0x4f49502d34000000000000000000000000000000000000000000000000000000": "ipfs://proposalnumberfour",
-};
-
-/// Mock content stored at IPFS URI
-export const mockProposalContent: { [key: string]: string } = {
-  "ipfs://proposalnumberone": "This is OIP-1. The first mock proposal",
-  "ipfs://proposalnumbertwo": "This is OIP-2. The second mock proposal",
-  "ipfs://proposalnumberthree": "This is OIP-3. The third mock proposal",
-  "ipfs://proposalnumberfour": "This is OIP-4. The fourth mock proposal",
-};
-
-/// Mock proposal state (don't know if this will be stored at IPFS URI or in-contract)
-export const mockProposalState: { [key: string]: PStatus } = {
-  "0x4f49502d31000000000000000000000000000000000000000000000000000000": "active",
-  "0x4f49502d32000000000000000000000000000000000000000000000000000000": "discussion",
-  "0x4f49502d33000000000000000000000000000000000000000000000000000000": "closed",
-  "0x4f49502d34000000000000000000000000000000000000000000000000000000": "draft",
-};
 
 /**
  * returns a unix time differential (in seconds)
@@ -222,136 +137,59 @@ export const parseProposalContent = async ({ uri }: { uri: string | undefined })
   }
 };
 
-/**
- * @NOTE (appleseed) - this may be unnecessary (it might repeat the same proposal as `renderProposals` in `<ProposalsDashboard>`)
- * @returns the activeProposal (without metadata)
- */
-export const useActiveProposal = () => {
+export const useGetProposalSubmittedEvents = () => {
   const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  return useQuery<IActiveProposal, Error>(["getActiveProposal"], async () => {
-    /**
-     * @NOTE `getActiveProposal` returns [0, 0] when nothing is active
-     */
-    // const activeProposal = await contract.getActiveProposal();
-    const activeProposal = await contract.getProposalMetadata(0);
-    const activeProposalId = ethers.BigNumber.from("0");
-    /**
-     * number of seconds remaining in proposal
-     */
-    const activationTimestamp = parseBigNumber(activeProposal.activationTimestamp, 0);
-    const unixTimeRemaining = timeRemaining({ state: "active", submissionTimestamp: activationTimestamp });
-    const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : 0;
-    return {
-      instructionsId: parseBigNumber(activeProposalId, 0),
-      activationTimestamp,
-      timeRemaining: jsTimeRemaining,
-    };
-  });
+  const archiveProvider = useArchiveNodeProvider(chain?.id);
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id, archiveProvider);
+  return useQuery<ProposalSubmittedEvent[], Error>(
+    ["GetProposalSubmittedEvents", chain.id],
+    async () => {
+      // using EVENTS
+      return await contract.queryFilter(contract.filters.ProposalSubmitted());
+    },
+    { enabled: !!chain && !!chain.id && !!archiveProvider && !!contract },
+  );
 };
 
-export const mockGetTotalInstructions = (): number => {
-  return mockTotalInstructions;
+/**
+ * @param proposalId
+ * @returns `{ data: proposalURI, isLoading, isFetched }`
+ */
+export const useGetProposalURIFromEvent = ({ proposalId }: { proposalId: number }) => {
+  const { data: events, isFetched, isLoading } = useGetProposalSubmittedEvents();
+  let proposalURI = "";
+  if (isFetched && !!events) {
+    const selectedProposalEvents = events.filter((event: ProposalSubmittedEvent) =>
+      event.args.proposalId.eq(ethers.utils.parseUnits(String(proposalId), 0)),
+    );
+    const selectedProposalArgs = selectedProposalEvents[0]?.args;
+    proposalURI = selectedProposalArgs.proposalURI;
+  }
+  return {
+    data: proposalURI,
+    isLoading,
+    isFetched,
+  };
 };
 
 /**
  * Get the most recent Proposal Id
+ * - returns useQuery isLoading & isFetched results
  */
-export const useGetLastProposalId = (): UseQueryResult<number, Error> => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  return useQuery<number, Error>(
-    ["GetLastProposalId"],
-    async () => {
-      // using EVENTS
-      const result = await contract.queryFilter(contract.filters.ProposalSubmitted());
+export const useGetLastProposalId = (): { data: number; isLoading: boolean; isFetched: boolean } => {
+  const { data: events, isFetched, isLoading } = useGetProposalSubmittedEvents();
 
-      const mostRecentEventArgs = result[result.length - 1].args;
-      const proposalNumber = mostRecentEventArgs[0];
-      return parseBigNumber(proposalNumber, 0);
-    },
-    { enabled: !!chain && !!chain.id },
-  );
-};
-
-/// Function to return mock proposal metadata in lieu of a contract
-export const MockGetProposalMetadata = (instructionsIndex: number) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["GetProposalMetadata", instructionsIndex], async () => {
-    return await contract.getProposalMetadata(instructionsIndex);
-  });
-  //TODO: Swap Return statement to return contract results
-  return mockProposalMetadata[instructionsIndex];
-  //return { data, isFetched, isLoading };
-};
-
-// /// Function to return mock proposal endoresments in lieu of a contract
-// export const MockGetProposalTotalEndorsements = (instructionsIndex: number) => {
-//   const { chain = { id: 1 } } = useNetwork();
-//   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-//   const { data, isFetched, isLoading } = useQuery(["GetProposalTotalEndorsements", instructionsIndex], async () => {
-//     return await contract.totalEndorsementsForProposal(instructionsIndex);
-//   });
-
-//   //TODO: Swap Return statement to return contract results
-//   return mockProposalTotalEndorsements[instructionsIndex];
-//   //return { data, isFetched, isLoading };
-// };
-
-/// Function to return mock proposal activation data in lieu of a contract
-export const MockGetProposalHasBeenActivated = (instructionsIndex: number) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["ProposalHasBeenActivated", instructionsIndex], async () => {
-    // return await contract.proposalHasBeenActivated(instructionsIndex);
-  });
-
-  //TODO: Swap Return statement to return contract results
-  return mockProposalHasBeenActivated[instructionsIndex];
-  //return { data, isFetched, isLoading };
-};
-
-/// Function to return mock proposal yes votes in lieu of a contract
-export const MockGetYesVotesForProposal = (instructionsIndex: number) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["YesVotesForProposal", instructionsIndex], async () => {
-    // return await contract.yesVotesForProposal(instructionsIndex);
-  });
-
-  //TODO: Swap Return statement to return contract results
-  return mockYesVotesForProposal[instructionsIndex];
-  //return { data, isFetched, isLoading };
-};
-
-/// Function to return mock proposal no votes in lieu of a contract
-export const MockGetNoVotesForProposal = (instructionsIndex: number) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["NoVotesForProposal", instructionsIndex], async () => {
-    // return await contract.noVotesForProposal(instructionsIndex);
-  });
-  //TODO: Swap Return statement to return contract results
-  return mockNoVotesForProposal[instructionsIndex];
-  //return { data, isFetched, isLoading };
-};
-
-//TODO: Not implemented in Contract. Follow up with SC Team
-/// Function to return mock proposal URI in lieu of a contract
-export const mockGetProposalURI = (title: string): string => {
-  return mockProposalURIs[title];
-};
-
-//TODO: Not implemented in Contract. Follow up with SC Team
-/// Function to return mock proposal content in lieu of content deployed to IPFS
-export const mockGetProposalContent = (uri: string): string => {
-  return mockProposalContent[uri];
-};
-
-/// Function to return mock proposal state in lieu of contract/content deployed to IPFS
-export const mockGetProposalState = (title: string): PStatus => {
-  return mockProposalState[title];
+  let data = 0;
+  if (isFetched && !!events && events.length > 0) {
+    const mostRecentEventArgs = events[events.length - 1].args;
+    const proposalNumber = mostRecentEventArgs.proposalId;
+    data = Number(ethers.utils.formatUnits(proposalNumber, 0));
+  }
+  return {
+    data,
+    isLoading,
+    isFetched,
+  };
 };
 
 /**
@@ -385,73 +223,4 @@ export const filterStatement = ({ proposal, filters }: { proposal: Proposal; fil
     }
   }
   return result;
-};
-
-/**
- * @notice  Fetches proposals from Governance policy, the related endorsements, yes votes,
- *          and no votes. Uses the proposal metadata to fetch the IPFS URIs containing the
- *          proposal content. Puts it into a big Proposal object.
- * @returns Query object in which the data attribute holds an array of Proposal objects for
- *          all proposals in the Governance policy contract
- */
-export const useProposals = (filters: IProposalState) => {
-  /// const INSTRContract = "";
-  /// const IPFSDContract = "";
-  /// const governanceContract = "";
-  // TODO(appleseed): this needs to be rewritten
-  const queryKey = proposalsQueryKey(filters);
-  // const useDependentQuery = createDependentQuery(queryKey);
-  /// Get total number of proposal through INSTR module contract's totalInstructions variable
-  const { data: numberOfProposals } = useGetLastProposalId();
-  const query = useQuery<Proposal[], Error>(
-    queryKey,
-    async () => {
-      queryAssertion(numberOfProposals, queryKey);
-      const allProposals: Proposal[] = [];
-
-      /// For each proposal, fetch the relevant data points used in the frontend
-      // NOTE(appleseed): 1. iterate in reverse order, 2. don't query any proposals that are older than 2 weeks
-      // NOTE(cont'd): otherwise we'll have too many api calls
-      // TODO(cont'd): 3. build separate functionality (via the graph) that queries for older proposals
-      for (let i = numberOfProposals; i > 0; i--) {
-        const proposal = MockGetProposalMetadata(i);
-        const isActive = MockGetProposalHasBeenActivated(i);
-        const yesVotes = MockGetYesVotesForProposal(i);
-        const noVotes = MockGetNoVotesForProposal(i);
-        const proposalURI = mockGetProposalURI(proposal.title);
-        const proposalContent = mockGetProposalContent(proposalURI);
-        /**
-         * should become parsing logic to determine a proposal's state
-         * - TODO(appleseed): still need to determine methodolgy for "discussion", "draft" and "closed" states
-         * @returns {PStatus} IProposalState
-         */
-        const proposalState = mockGetProposalState(proposal.title);
-
-        const currentProposal: Proposal = {
-          id: i,
-          title: ethers.utils.parseBytes32String(proposal.title),
-          submitter: proposal.submitter,
-          submissionTimestamp: proposal.submissionTimestamp,
-          isActive: isActive,
-          state: proposalState,
-          endorsements: 0,
-          yesVotes: yesVotes,
-          noVotes: noVotes,
-          uri: proposalURI,
-          content: proposalContent,
-        };
-
-        allProposals.push(currentProposal);
-        console.log(allProposals);
-      }
-      if (filters) {
-        return allProposals.filter(proposal => filterStatement({ proposal, filters }));
-      } else {
-        return allProposals;
-      }
-    },
-    { enabled: true },
-  );
-
-  return query as typeof query;
 };
