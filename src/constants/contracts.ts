@@ -15,7 +15,6 @@ import {
   RANGE_OPERATOR_ADDRESSES,
   RANGE_PRICE_ADDRESSES,
   STAKING_ADDRESSES,
-  VOTE_ISSUER_ADDRESSES,
   VOTE_TOKEN_ADDRESSES,
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
@@ -31,7 +30,6 @@ import {
   OlympusGovInstructions__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
-  OlympusVoteIssuer__factory,
   Range__factory,
   RangeOperator__factory,
   RangePrice__factory,
@@ -112,13 +110,6 @@ export const GOV_INSTRUCTIONS_CONTRACT = new Contract({
   factory: OlympusGovInstructions__factory,
   name: "Olympus Governance Instructions",
   addresses: GOV_INSTRUCTIONS_ADDRESSES,
-});
-
-/** NOT USED */
-export const VOTE_ISSUER_CONTRACT = new Contract({
-  factory: OlympusVoteIssuer__factory,
-  name: "Olympus Vote Issuer",
-  addresses: VOTE_ISSUER_ADDRESSES,
 });
 
 export const VOTE_TOKEN_CONTRACT = new Contract({
