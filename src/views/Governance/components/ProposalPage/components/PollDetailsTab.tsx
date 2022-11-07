@@ -37,7 +37,7 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   );
 };
 
-const InstructionsDetails = ({ action, target }: { action: number; target: string }) => {
+export const InstructionsDetails = ({ action, target }: { action: number; target: string }) => {
   const { chain } = useNetwork();
   const etherscanURI =
     chain?.id === 5 ? `https://goerli.etherscan.io/address/${target}` : `https://etherscan.io/address/${target}`;

@@ -14,6 +14,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BackButton } from "src/views/Governance/components/BackButton";
 import { TextEntry } from "src/views/Governance/components/CreateProposal/components/TextEntry";
 import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
+import { InstructionsDetails } from "src/views/Governance/components/ProposalPage/components/PollDetailsTab";
 
 export const CreateProposal = () => {
   const ipfsUpload = useIPFSUpload();
@@ -131,6 +132,7 @@ export const CreateProposal = () => {
               <TextEntry label="Target" placeholder="Contract address" handleChange={setProposalContract} />
             </Grid>
           </Grid>
+          {!!proposalContract && <InstructionsDetails action={proposalAction} target={proposalContract} />}
         </Grid>
         <Box id="create-proposal-btn-box" display="flex" justifyContent="flex-end">
           <TokenAllowanceGuard
