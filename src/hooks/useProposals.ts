@@ -179,6 +179,20 @@ export const useGetProposalURIFromEvent = ({ proposalId }: { proposalId: number 
 export const useGetLastProposalId = (): { data: number; isLoading: boolean; isFetched: boolean } => {
   const { data: events, isFetched, isLoading } = useGetProposalSubmittedEvents();
 
+  ////////
+  // NOTE(appleseed) could also be: (if we didn't already need all the events)
+  ///////
+  // const { chain = { id: 1 } } = useNetwork();
+  // const contract = GOV_INSTRUCTIONS_CONTRACT.getEthersContract(chain.id);
+  // return useQuery<ProposalSubmittedEvent[], Error>(
+  //   ["useGetLastProposalId", chain.id],
+  //   async () => {
+  //     // using EVENTS
+  //     return await contract.totalInstructions();
+  //   },
+  //   { enabled: !!chain && !!chain.id && !!archiveProvider && !!contract },
+  // );
+
   let data = 0;
   if (isFetched && !!events && events.length > 0) {
     const mostRecentEventArgs = events[events.length - 1].args;

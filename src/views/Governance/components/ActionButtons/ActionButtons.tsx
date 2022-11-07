@@ -19,7 +19,7 @@ const ActionButtons: FC = () => {
       <Link to="/governance/create-proposal" component={RouterLink}>
         <SecondaryButton>Create new Proposal</SecondaryButton>
       </Link>
-      {/* <PrimaryButton onClick={() => setOpen(true)}>Delegate Vote</PrimaryButton> */}
+      {/* <PrimaryButton onClick={() => setOpen(true)}>Get Voting Power</PrimaryButton> */}
 
       <DelegateModal open={open} handleClose={handleClose} />
     </Box>

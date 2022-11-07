@@ -1,8 +1,8 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber, stringToBytes32String } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { IPFSFileData, IProposalJson, makeJsonFile, uploadToIPFS } from "src/helpers/Web3Storage";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
@@ -15,6 +15,8 @@ import {
   timeRemaining,
   useGetProposalURIFromEvent,
 } from "src/hooks/useProposals";
+import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
+import { InstructionStructOutput } from "src/typechain/OlympusGovInstructions";
 import { useNetwork, useSigner } from "wagmi";
 
 /**
@@ -141,7 +143,7 @@ export const useSubmitProposal = () => {
 
   // TODO(appleseed): update ANY types below
   return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
-    if (!signer) throw new Error(t`Signer is not set`);
+    if (!signer) throw new Error(`Signer is not set`);
 
     // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
     await contract.connect(signer).submitProposal(
@@ -161,5 +163,52 @@ export const useIPFSUpload = () => {
       console.log("after", fileInfo);
       return fileInfo;
     },
+  );
+};
+
+/**
+ * how much voting power does it require to create a proposal
+ */
+export const useCreateProposalVotingPowerReqd = () => {
+  const { data: totalSupply, isFetched: supplyFetched, isLoading: supplyLoading } = useVotingSupply();
+  const {
+    data: collateralMinimum,
+    isFetched: minimumFetched,
+    isLoading: minimumLoading,
+  } = useVotingCollateralMinimum();
+  const {
+    data: collateralRequirement,
+    isFetched: requirementFetched,
+    isLoading: requirementLoading,
+  } = useVotingCollateralRequirement();
+  // const collateral = _max(
+  //     (VOTES.totalSupply() * COLLATERAL_REQUIREMENT) / 10_000,
+  //     COLLATERAL_MINIMUM
+  // );
+  const everythingFetched = supplyFetched && minimumFetched && requirementFetched;
+  let collateral = new DecimalBigNumber("0", 18);
+  if (everythingFetched && !!totalSupply && !!collateralRequirement && !!collateralMinimum) {
+    const numerator = totalSupply.mul(collateralRequirement);
+    collateral = new DecimalBigNumber((collateralMinimum.gt(numerator) ? collateralMinimum : numerator).toString(), 18);
+  }
+
+  return {
+    data: collateral,
+    isLoading: supplyLoading && minimumLoading && requirementLoading,
+    isFetched: everythingFetched,
+  };
+};
+
+/** get the instructions from the proposal */
+export const useGetInstructions = (proposalId: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOV_INSTRUCTIONS_CONTRACT.getEthersContract(chain.id);
+  return useQuery<InstructionStructOutput[], Error>(
+    ["getInstructions", chain.id, proposalId],
+    async () => {
+      // using EVENTS
+      return await contract.getInstructions(String(proposalId));
+    },
+    { enabled: !!chain && !!chain.id && !!contract && !!proposalId },
   );
 };

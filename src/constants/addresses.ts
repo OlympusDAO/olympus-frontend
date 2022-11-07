@@ -172,13 +172,7 @@ export const GOVERNANCE_ADDRESSES = {
 export const GOV_INSTRUCTIONS_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   // [NetworkId.TESTNET_GOERLI]: "0xa8810f94ABe49Ffe0AA49a1c30930a40C450f288",
-  [NetworkId.TESTNET_GOERLI]: "0x42bb80bad7e1e8bfd59417c5ae49f09e6988a795",
-};
-
-/** NOT USED */
-export const VOTE_ISSUER_ADDRESSES = {
-  [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "0x65e44BEaf20bc8BED9643Bf996A59d478db1090b",
+  [NetworkId.TESTNET_GOERLI]: "0x1f0c9b03f9d9c2c6214c4557c369ae34c19122e4",
 };
 
 export const VOTE_TOKEN_ADDRESSES = {
@@ -205,7 +199,13 @@ export const GOVERNANCE_MOCK_GOHM = {
   [NetworkId.TESTNET_GOERLI]: "0xBF3BaBd7411628788B0f6cd56BC9D6aE1Bfb1F0F",
 };
 
-export const GOVERNANCE_VOHM_VAULT = {
+/** governance gohm combines mock gohm on goerli with mainnet gohm */
+export const GOVERNANCE_GOHM_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f", // this is the same as GOHM on mainnet
+  [NetworkId.TESTNET_GOERLI]: "0xBF3BaBd7411628788B0f6cd56BC9D6aE1Bfb1F0F",
+};
+
+export const GOVERNANCE_VOHM_VAULT_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   // [NetworkId.TESTNET_GOERLI]: "0x4fd8cc1a43377454ac50f9a312fd4fd7974811cb",
   [NetworkId.TESTNET_GOERLI]: "0x0BF5064643998f3211b4555Ce6855D511D33191a",

@@ -8,13 +8,14 @@ import {
   DISTRIBUTOR_ADDRESSES,
   GOV_INSTRUCTIONS_ADDRESSES,
   GOVERNANCE_ADDRESSES,
+  GOVERNANCE_MOCK_GOHM,
+  GOVERNANCE_VOHM_VAULT_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
   RANGE_OPERATOR_ADDRESSES,
   RANGE_PRICE_ADDRESSES,
   STAKING_ADDRESSES,
-  VOTE_ISSUER_ADDRESSES,
   VOTE_TOKEN_ADDRESSES,
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
@@ -30,7 +31,6 @@ import {
   OlympusGovInstructions__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
-  OlympusVoteIssuer__factory,
   Range__factory,
   RangeOperator__factory,
   RangePrice__factory,
@@ -39,6 +39,8 @@ import {
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
+import { OlympusGovMockGOhm__factory } from "src/typechain/factories/OlympusGovMockGOhm__factory";
+import { OlympusGovVohmVault__factory } from "src/typechain/factories/OlympusGovVohmVault__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,
@@ -112,17 +114,22 @@ export const GOV_INSTRUCTIONS_CONTRACT = new Contract({
   addresses: GOV_INSTRUCTIONS_ADDRESSES,
 });
 
-/** NOT USED */
-export const VOTE_ISSUER_CONTRACT = new Contract({
-  factory: OlympusVoteIssuer__factory,
-  name: "Olympus Vote Issuer",
-  addresses: VOTE_ISSUER_ADDRESSES,
-});
-
 export const VOTE_TOKEN_CONTRACT = new Contract({
   factory: IERC20__factory,
   name: "Olympus Vote Token",
   addresses: VOTE_TOKEN_ADDRESSES,
+});
+
+export const GOVERNANCE_MOCK_GOHM_CONTRACT = new Contract({
+  factory: OlympusGovMockGOhm__factory,
+  name: "Olympus Governance Mock gOHM",
+  addresses: GOVERNANCE_MOCK_GOHM,
+});
+
+export const GOVERNANCE_VOHM_VAULT_CONTRACT = new Contract({
+  factory: OlympusGovVohmVault__factory,
+  name: "Olympus Governance vOHM Vault",
+  addresses: GOVERNANCE_VOHM_VAULT_ADDRESSES,
 });
 
 export const BOND_AGGREGATOR_CONTRACT = new Contract({

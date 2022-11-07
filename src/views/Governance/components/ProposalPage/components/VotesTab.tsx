@@ -23,7 +23,6 @@ import { BigNumber } from "ethers";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
-import { useVoteBalance } from "src/hooks/useBalance";
 import { IAnyProposal } from "src/hooks/useProposals";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useUserVote, useVote, useVotingSupply } from "src/hooks/useVoting";
@@ -37,7 +36,6 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const theme = useTheme();
   const networks = useTestableNetworks();
   const { isConnected } = useAccount();
-  const votesBalance = useVoteBalance()[networks.MAINNET].data;
   const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
   const { address: voterAddress } = useAccount();
@@ -48,13 +46,13 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
 
   return (
     <Paper fullWidth>
+      <Box sx={{ marginTop: "24px" }}></Box>
       <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
         <Box display="flex" flexDirection="column">
           <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
             Cast Your Vote
           </Typography>
         </Box>
-        {isConnected && <Metric label={`Your voting power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />}
         <>
           <Box display="flex" flexDirection="row" justifyContent="center">
             <SecondaryButton
@@ -130,7 +128,7 @@ const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
         voteAgainstLabel="No"
         voteAgainstCount={proposal.noVotes}
         voteParticipationLabel="Total Participants"
-        totalHoldersCount={totalVoteSupply?.toApproxNumber() || 0}
+        totalHoldersCount={Number(formatBalance(2, totalVoteSupply)) || 0}
         // TODO(appleseed): setup a config to make these quorum requirements (from the contract) easily modifiable
         quorum={totalVoteSupply?.mul("0.33")?.toApproxNumber() || 0}
       />
