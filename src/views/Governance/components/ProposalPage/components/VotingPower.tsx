@@ -1,6 +1,7 @@
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
 import { Metric, PrimaryButton } from "@olympusdao/component-library";
 import { Paper } from "@olympusdao/component-library";
+import { Link as RouterLink } from "react-router-dom";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useVoteBalance } from "src/hooks/useBalance";
@@ -48,9 +49,9 @@ export const VotingPowerMetrics = () => {
       </Box>
       <WalletConnectedGuard>
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <PrimaryButton sx={{ minWidth: "120px" }} onClick={() => console.log("hellooo")}>
-            Get More Voting Power
-          </PrimaryButton>
+          <Link to="/governance/get-vohm" component={RouterLink}>
+            <PrimaryButton sx={{ minWidth: "120px" }}>Get More Voting Power</PrimaryButton>
+          </Link>
         </Box>
       </WalletConnectedGuard>
     </Box>
