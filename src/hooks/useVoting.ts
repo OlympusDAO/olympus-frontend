@@ -1,8 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
-import { GOVERNANCE_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
+import { GOVERNANCE_CONTRACT, GOVERNANCE_VOHM_VAULT_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
+import { useGovernanceGohmBalance, useVoteBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { VotesCastEvent } from "src/typechain/OlympusGovernance";
 import { useNetwork, useSigner } from "wagmi";
 
@@ -208,17 +210,14 @@ export const useVotingCollateralRequirement = () => {
 export const useVote = () => {
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
-
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const { data: balance } = useVoteBalance()[networks.MAINNET];
 
   return useMutation<ContractReceipt, Error, { voteData: Vote }>(
     async ({ voteData }: { voteData: Vote }) => {
       if (!signer) throw new Error("No signer connected, cannot endorse");
-
-      // const activeProposal: ActivatedProposal = await contract.activeProposal();
-      // const activeProposalId = activeProposal.proposalId;
-
-      // if (!voteData.proposalId.eq(activeProposalId)) throw new Error(t`You can only vote for the activated proposal`);
+      if (!balance) throw new Error("You cannot Vote without vOHM");
 
       const transaction = await contract.connect(signer).vote(voteData.proposalId, voteData.vote);
       return transaction.wait();
@@ -229,6 +228,80 @@ export const useVote = () => {
       },
       onSuccess: () => {
         console.log(`Successfully voted for proposal`);
+      },
+    },
+  );
+};
+
+/** for a user to get voting power */
+export const useWrapToVohm = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const { data: signer } = useSigner();
+  const contract = GOVERNANCE_VOHM_VAULT_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const { data: balance } = useGovernanceGohmBalance()[networks.MAINNET];
+
+  return useMutation<ContractReceipt, Error, string>(
+    async (amount: string) => {
+      if (!signer) throw new Error("No signer connected, cannot endorse");
+      if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
+
+      const _amount = new DecimalBigNumber(amount, 18);
+
+      if (!_amount.gt("0")) throw new Error(`Please enter a number greater than 0`);
+
+      if (!balance) throw new Error(`Please refresh your page and try again`);
+
+      if (_amount.gt(balance)) throw new Error(`You cannot wrap more than your gOHM balance`);
+
+      if (!contract) throw new Error(`Please switch to the Ethereum network to wrap your gOHM`);
+
+      const transaction = await contract.connect(signer).deposit(_amount.toBigNumber());
+      return transaction.wait();
+    },
+    {
+      onError: error => {
+        console.error(error.message);
+      },
+      onSuccess: () => {
+        console.log(`Successfully wrapped to vOHM`);
+      },
+    },
+  );
+};
+
+/** for a user to unwrap voting power to gOHM */
+export const useUnwrapFromVohm = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const { data: signer } = useSigner();
+  const contract = GOVERNANCE_VOHM_VAULT_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const { data: balance } = useVoteBalance()[networks.MAINNET];
+
+  return useMutation<ContractReceipt, Error, string>(
+    async (amount: string) => {
+      if (!signer) throw new Error("No signer connected, cannot endorse");
+      if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
+
+      const _amount = new DecimalBigNumber(amount, 18);
+
+      if (!_amount.gt("0")) throw new Error(`Please enter a number greater than 0`);
+
+      if (!balance) throw new Error(`Please refresh your page and try again`);
+
+      if (_amount.gt(balance)) throw new Error(`You cannot unwrap more than your vOHM balance`);
+
+      if (!contract) throw new Error(`Please switch to the Ethereum network to unwrap your vOHM`);
+
+      const transaction = await contract.connect(signer).withdraw(_amount.toBigNumber());
+      return transaction.wait();
+    },
+    {
+      onError: error => {
+        console.error(error.message);
+      },
+      onSuccess: () => {
+        console.log(`Successfully unwrapped to gOHM`);
       },
     },
   );

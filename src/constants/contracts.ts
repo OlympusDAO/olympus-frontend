@@ -9,6 +9,7 @@ import {
   GOV_INSTRUCTIONS_ADDRESSES,
   GOVERNANCE_ADDRESSES,
   GOVERNANCE_MOCK_GOHM,
+  GOVERNANCE_VOHM_VAULT_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
@@ -39,6 +40,7 @@ import { BondAggregator__factory } from "src/typechain/factories/BondAggregator_
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
 import { OlympusGovMockGOhm__factory } from "src/typechain/factories/OlympusGovMockGOhm__factory";
+import { OlympusGovVohmVault__factory } from "src/typechain/factories/OlympusGovVohmVault__factory";
 
 export const BOND_DEPOSITORY_CONTRACT = new Contract({
   factory: BondDepository__factory,
@@ -122,6 +124,12 @@ export const GOVERNANCE_MOCK_GOHM_CONTRACT = new Contract({
   factory: OlympusGovMockGOhm__factory,
   name: "Olympus Governance Mock gOHM",
   addresses: GOVERNANCE_MOCK_GOHM,
+});
+
+export const GOVERNANCE_VOHM_VAULT_CONTRACT = new Contract({
+  factory: OlympusGovVohmVault__factory,
+  name: "Olympus Governance vOHM Vault",
+  addresses: GOVERNANCE_VOHM_VAULT_ADDRESSES,
 });
 
 export const BOND_AGGREGATOR_CONTRACT = new Contract({

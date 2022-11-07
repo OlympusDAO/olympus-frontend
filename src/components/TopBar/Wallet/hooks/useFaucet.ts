@@ -7,7 +7,7 @@ import { GOVERNANCE_MOCK_GOHM_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useDynamicFaucetContract } from "src/hooks/useContract";
 import { EthersError } from "src/lib/EthersTypes";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const useFaucet = () => {
   const contract = useDynamicFaucetContract(DEV_FAUCET, true);
@@ -56,8 +56,10 @@ export const useGovernanceFaucet = () => {
   const mintQuantity = new DecimalBigNumber("1000", 18);
   const { data: signer } = useSigner();
   const { address } = useAccount();
+  const { chain } = useNetwork();
   return useMutation<ContractReceipt, EthersError>(
     async () => {
+      if (!chain || chain.id !== 5) throw new Error("Faucet is only supported on Goerli");
       if (!contract)
         throw new Error(t`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
       if (!signer) throw new Error("Signer is not set");

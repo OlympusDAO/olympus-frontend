@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
@@ -143,7 +142,7 @@ export const useSubmitProposal = () => {
 
   // TODO(appleseed): update ANY types below
   return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
-    if (!signer) throw new Error(t`Signer is not set`);
+    if (!signer) throw new Error(`Signer is not set`);
 
     // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
     await contract.connect(signer).submitProposal(

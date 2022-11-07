@@ -1,39 +1,25 @@
-import { t } from "@lingui/macro";
-import { Avatar, Box, Link, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import {
-  InfoNotification,
-  OHMSwapCardProps,
-  PrimaryButton,
-  SwapCard,
-  SwapCollection,
-} from "@olympusdao/component-library";
-import { parseUnits } from "ethers/lib/utils";
+import { OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import {
-  GOHM_ADDRESSES,
-  OHM_ADDRESSES,
-  SOHM_ADDRESSES,
-  STAKING_ADDRESSES,
-  ZAP_ADDRESSES,
+  GOVERNANCE_GOHM_ADDRESSES,
+  GOVERNANCE_VOHM_VAULT_ADDRESSES,
+  VOTE_TOKEN_ADDRESSES,
 } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useBalance } from "src/hooks/useBalance";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useBalance, useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useZapExecute } from "src/hooks/useZapExecute";
-import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
-import TokenModal, {
-  ModalHandleSelectProps,
-} from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
-import { useStakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useStakeToken";
-import { useUnstakeToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useUnstakeToken";
-import { useWrapSohm } from "src/views/Wrap/components/WrapInputArea/hooks/useWrapSohm";
-import ZapTransactionDetails from "src/views/Zap/ZapTransactionDetails";
+import { useUnwrapFromVohm, useWrapToVohm } from "src/hooks/useVoting";
+import { ModalHandleSelectProps } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 import { useNetwork } from "wagmi";
 
+enum EvOHM {
+  Wrap = "WRAP",
+  Unwrap = "UNWRAP",
+}
 const PREFIX = "StakeInputArea";
 
 const classes = {
@@ -76,162 +62,88 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const VohmInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const networks = useTestableNetworks();
-  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({ name: "gOHM" });
-  const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({ name: "OHM" });
+  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({ name: "vOHM" });
+  const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({ name: "gOHM" });
   const { chain = { id: 1 } } = useNetwork();
 
-  const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
-  const [tokenModalOpen, setTokenModalOpen] = useState(false);
-  const [zapTokenModalOpen, setZapTokenModalOpen] = useState(false);
-  const [zapSlippageAmount, setZapSlippageAmount] = useState("");
-  const [zapMinAmount, setZapMinAmount] = useState("");
-  const zapExecute = useZapExecute();
-  const wrapMutation = useWrapSohm();
+  const [currentAction, setCurrentAction] = useState<EvOHM>(EvOHM.Wrap);
 
-  const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType.name;
+  const fromToken = currentAction === EvOHM.Wrap ? swapAssetType.name : stakedAssetType.name;
 
   // Max balance stuff
   const [amount, setAmount] = useState("");
-  const [receiveAmount, setReceiveAmount] = useState("");
-  const [zapExchangeRate, setZapExchangeRate] = useState(0);
-  const [zapOutputAmount, setZapOutputAmount] = useState("");
-  const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
+  const addresses = fromToken === "gOHM" ? GOVERNANCE_GOHM_ADDRESSES : VOTE_TOKEN_ADDRESSES;
 
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
-  const sOhmBalance = useBalance(SOHM_ADDRESSES)[networks.MAINNET].data;
-  const gOhmBalance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
-  const { data: currentIndex } = useCurrentIndex();
+  const gOhmBalance = useBalance(GOVERNANCE_GOHM_ADDRESSES)[networks.MAINNET].data;
+  const vOhmBalance = useVoteBalance()[networks.MAINNET].data;
 
-  const contractRouting = ["OHM", "gOHM"].includes(swapAssetType.name)
-    ? "Stake"
-    : swapAssetType.name === "sOHM"
-    ? "Wrap"
-    : "Zap";
-  const contractAddress = contractRouting === "Stake" || contractRouting === "Wrap" ? STAKING_ADDRESSES : ZAP_ADDRESSES;
+  const contractRouting = swapAssetType.name === "gOHM" ? "Wrap" : "Unwrap";
 
   // Staking/unstaking mutation stuff
-  const stakeMutation = useStakeToken();
-  const unstakeMutation = useUnstakeToken(stakedAssetType.name === "gOHM" ? "gOHM" : "sOHM");
-  const isMutating = (currentAction === "STAKE" ? stakeMutation : unstakeMutation).isLoading;
+  // TODO
+  const wrapMutation = useWrapToVohm();
+  const unwrapMutation = useUnwrapFromVohm();
+  const isMutating = (currentAction === EvOHM.Wrap ? wrapMutation : unwrapMutation).isLoading;
 
-  const bonds = useLiveBonds({ isInverseBond: true }).data;
-  const amountExceedsBalance = balance && new DecimalBigNumber(amount).gt(balance) ? true : false;
-
-  const liveInverseBonds = bonds && bonds.length > 0;
-
-  const ohmOnChange = (value: string, spendAsset: boolean) => {
-    if (!currentIndex) return null;
-    spendAsset ? setAmount(value) : setReceiveAmount(value);
-    let oppositeAmount: string;
-    if (currentAction === "STAKE" && contractRouting === "Zap") {
-      if (zapExchangeRate === 0) return null;
-      if (spendAsset) {
-        oppositeAmount = new DecimalBigNumber(value).div(new DecimalBigNumber(zapExchangeRate.toString())).toString();
-      } else {
-        oppositeAmount = new DecimalBigNumber(value).mul(new DecimalBigNumber(zapExchangeRate.toString())).toString();
-      }
-    } else {
-      if ((currentAction === "STAKE" && spendAsset) || (currentAction === "UNSTAKE" && !spendAsset)) {
-        oppositeAmount =
-          stakedAssetType.name === "gOHM" ? new DecimalBigNumber(value, 9).div(currentIndex, 18).toString() : value;
-      } else {
-        oppositeAmount =
-          stakedAssetType.name === "gOHM" ? new DecimalBigNumber(value, 18).mul(currentIndex).toString() : value;
-      }
-    }
-    spendAsset ? setReceiveAmount(oppositeAmount) : setAmount(oppositeAmount);
-  };
+  const amountExceedsBalance = balance && new DecimalBigNumber(amount, 18).gt(balance) ? true : false;
 
   useEffect(() => {
-    ohmOnChange(amount, true);
-  }, [stakedAssetType, swapAssetType, zapExchangeRate]);
-
-  useEffect(() => {
-    ohmOnChange(amount, currentAction === "UNSTAKE");
+    setAmount("0");
     //If we're unstaking we reset swap asset back to OHM. this is all you can receive when unstaking.
-    if (currentAction === "UNSTAKE") {
-      setSwapAssetType({ name: "OHM" });
+    if (currentAction === EvOHM.Unwrap) {
+      setSwapAssetType({ name: "gOHM" });
     }
-    if (currentAction === "STAKE" && stakedAssetType.name === "sOHM") {
-      setStakedAssetType({ name: "gOHM" });
+    if (currentAction === EvOHM.Wrap) {
+      setStakedAssetType({ name: "vOHM" });
     }
   }, [currentAction]);
 
-  const onZap = async () => {
-    if (swapAssetType.balance && swapAssetType.address && swapAssetType.decimals) {
-      zapExecute.mutate({
-        slippage: zapSlippageAmount,
-        sellAmount: parseUnits(amount, swapAssetType.decimals),
-        tokenAddress: swapAssetType.address,
-        minimumAmount: zapMinAmount,
-        gOHM: stakedAssetType.name === "gOHM",
-      });
-    }
-  };
-
-  const OhmSwapCard = () => {
+  const GohmSwapCard = () => {
     const balance =
-      swapAssetType.name === "sOHM"
-        ? sOhmBalance
-          ? sOhmBalance.toString({ decimals: 2 })
+      swapAssetType.name === "gOHM"
+        ? gOhmBalance
+          ? gOhmBalance.toString({ decimals: 2 })
           : "0.00"
-        : swapAssetType.name === "OHM"
-        ? ohmBalance
-          ? ohmBalance.toString({ decimals: 2 })
+        : swapAssetType.name === "vOHM"
+        ? vOhmBalance
+          ? vOhmBalance.toString({ decimals: 2 })
           : "0.00"
         : swapAssetType.balance;
 
     return (
       <SwapCard
-        id="vohm-input"
-        token={
-          swapAssetType.icon ? (
-            <Avatar src={swapAssetType.icon} sx={{ width: "21px", height: "21px" }} />
-          ) : (
-            (swapAssetType.name as OHMSwapCardProps["token"])
-          )
-        }
+        id="gohm-input"
+        token={swapAssetType.name as OHMSwapCardProps["token"]}
         tokenName={swapAssetType.name}
-        tokenOnClick={currentAction === "STAKE" ? () => setZapTokenModalOpen(true) : undefined}
-        inputProps={{ "data-testid": "ohm-input", min: "0" }}
-        value={currentAction === "STAKE" ? amount : receiveAmount}
-        onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "STAKE")}
+        inputProps={{ "data-testid": "gohm-input", min: "0" }}
+        value={amount}
+        onChange={event => +event.target.value >= 0 && setAmount(event.target.value)}
         info={`Balance: ${balance} ${swapAssetType.name}`}
-        endString={currentAction === "STAKE" ? "Max" : ""}
-        endStringOnClick={() => balance && ohmOnChange(balance, currentAction === "STAKE")}
+        endString={currentAction === EvOHM.Wrap ? "Max" : ""}
+        endStringOnClick={() => balance && setAmount(balance)}
         disabled={isMutating}
-        inputWidth={`${
-          (currentAction === "STAKE" ? amount : receiveAmount).length > 0
-            ? (currentAction === "STAKE" ? amount : receiveAmount).length
-            : 1
-        }ch`}
+        inputWidth={`${amount.length > 0 ? amount.length : 1}ch`}
       />
     );
   };
 
-  const GohmSwapCard = () => {
-    const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
-    const tokenOnClick =
-      sOhmBalance && currentAction === "UNSTAKE" ? { tokenOnClick: () => setTokenModalOpen(true) } : {};
+  const VohmSwapCard = () => {
+    const balance = stakedAssetType.name === "gOHM" ? gOhmBalance : vOhmBalance;
 
     return (
       <SwapCard
-        id="staked-input"
+        id="vohm-input"
         inputProps={{ "data-testid": "staked-input", min: "0" }}
-        token={stakedAssetType.name as OHMSwapCardProps["token"]}
-        value={currentAction === "STAKE" ? receiveAmount : amount}
-        onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, currentAction === "UNSTAKE")}
+        token={"gOHM" as OHMSwapCardProps["token"]} // forcing gOHM icon since vOHM doesn't have an icon
+        tokenName={stakedAssetType.name}
+        value={amount}
+        onChange={event => +event.target.value >= 0 && setAmount(event.target.value)}
         info={`Balance: ${balance ? balance.toString({ decimals: 2 }) : "0.00"} ${stakedAssetType.name}`}
-        endString={currentAction === "UNSTAKE" ? "Max" : ""}
-        endStringOnClick={() => balance && ohmOnChange(balance.toString(), currentAction === "UNSTAKE")}
-        inputWidth={`${
-          (currentAction === "STAKE" ? receiveAmount : amount).length > 0
-            ? (currentAction === "STAKE" ? receiveAmount : amount).length
-            : 1
-        }ch`}
+        endString={currentAction === EvOHM.Unwrap ? "Max" : ""}
+        endStringOnClick={() => balance && setAmount(balance.toString())}
+        inputWidth={`${amount.length > 0 ? amount.length : 1}ch`}
         disabled={isMutating}
-        {...tokenOnClick}
       />
     );
   };
@@ -245,10 +157,10 @@ export const VohmInputArea: React.FC<{ isZoomed: boolean }> = props => {
         indicatorColor="primary"
         key={String(props.isZoomed)}
         className="stake-tab-buttons"
-        value={currentAction === "STAKE" ? 0 : 1}
+        value={currentAction === EvOHM.Wrap ? 0 : 1}
         //hides the tab underline sliding animation in while <Zoom> is loading
         TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
-        onChange={(_, view: number) => setCurrentAction(view === 0 ? "STAKE" : "UNSTAKE")}
+        onChange={(_, view: number) => setCurrentAction(view === 0 ? EvOHM.Wrap : EvOHM.Unwrap)}
       >
         <Tab aria-label="stake-button" label={`get vOHM`} />
 
@@ -259,151 +171,41 @@ export const VohmInputArea: React.FC<{ isZoomed: boolean }> = props => {
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
           <Box mb="21px">
             <SwapCollection
-              UpperSwapCard={currentAction === "STAKE" ? OhmSwapCard() : GohmSwapCard()}
-              LowerSwapCard={currentAction === "STAKE" ? GohmSwapCard() : OhmSwapCard()}
-              arrowOnClick={() => setCurrentAction(currentAction === "STAKE" ? "UNSTAKE" : "STAKE")}
+              UpperSwapCard={currentAction === EvOHM.Wrap ? GohmSwapCard() : VohmSwapCard()}
+              LowerSwapCard={currentAction === EvOHM.Wrap ? VohmSwapCard() : GohmSwapCard()}
+              arrowOnClick={() => setCurrentAction(currentAction === EvOHM.Wrap ? EvOHM.Unwrap : EvOHM.Wrap)}
             />
           </Box>
-          {tokenModalOpen && (
-            <TokenModal
-              open={tokenModalOpen}
-              handleSelect={name => setStakedAssetType(name)}
-              handleClose={() => setTokenModalOpen(false)}
-              sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
-              gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
-            />
-          )}
-          {zapTokenModalOpen && (
-            <TokenModal
-              open={zapTokenModalOpen}
-              handleSelect={name => {
-                setSwapAssetType(name);
-              }}
-              handleClose={() => setZapTokenModalOpen(false)}
-              ohmBalance={ohmBalance && ohmBalance.toString({ decimals: 2 })}
-              sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
-              gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
-              showZapAssets
-            />
-          )}
-          {contractRouting === "Zap" && (
-            <ZapTransactionDetails
-              inputQuantity={amount}
-              outputGOHM={stakedAssetType.name === "gOHM" ? true : false}
-              swapTokenBalance={swapAssetType}
-              handleOutputAmount={amount => setZapOutputAmount(amount)}
-              handleExchangeRate={rate => setZapExchangeRate(rate)}
-              handleSlippageAmount={slippage => setZapSlippageAmount(slippage)}
-              handleMinAmount={minAmount => setZapMinAmount(minAmount)}
-            />
-          )}
-          {currentAction === "UNSTAKE" && liveInverseBonds && (
-            <Box mb="6.5px">
-              <InfoNotification dismissible>
-                {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
-                &nbsp;
-                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
-              </InfoNotification>
-            </Box>
-          )}
-          {contractRouting === "Zap" && (
-            <Box mt="21px" mb="6.5px">
-              <InfoNotification dismissible>
-                <strong>You are about to Zap.</strong> Zaps allow you to stake OHM from any other currency, all in one
-                tx, saving you gas and headache.
-                <br />
-                <Link
-                  href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
-                  target="_blank"
-                >{t`Learn more`}</Link>
-              </InfoNotification>
-            </Box>
-          )}
           <Box>
-            <WalletConnectedGuard fullWidth>
+            <WalletConnectedGuard>
               <TokenAllowanceGuard
-                tokenAddressMap={
-                  contractRouting === "Stake" || contractRouting === "Wrap"
-                    ? addresses
-                    : { [chain.id]: swapAssetType.address }
-                }
-                spenderAddressMap={contractAddress}
-                approvalText={
-                  currentAction === "STAKE"
-                    ? contractRouting === "Stake" || contractRouting === "Wrap"
-                      ? "Approve Staking"
-                      : `Approve Zap from ${swapAssetType.name}`
-                    : "Approve Unstaking"
-                }
+                tokenAddressMap={contractRouting === "Wrap" ? addresses : { [chain.id]: swapAssetType.address }}
+                spenderAddressMap={GOVERNANCE_VOHM_VAULT_ADDRESSES}
+                approvalText={currentAction === EvOHM.Wrap ? "Approve Wrapping" : "Approve Unwrapping"}
                 approvalPendingText={"Confirming Approval in your wallet"}
                 isVertical
               >
-                {contractRouting === "Stake" && (
+                {contractRouting === "Wrap" && (
                   <PrimaryButton
-                    data-testid="submit-button"
+                    data-testid="submit-button-vohm"
                     loading={isMutating}
                     fullWidth
                     disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
                     onClick={() =>
-                      currentAction === "STAKE"
-                        ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
-                        : unstakeMutation.mutate(amount)
+                      currentAction === EvOHM.Wrap ? wrapMutation.mutate(amount) : unwrapMutation.mutate(amount)
                     }
                   >
                     {amountExceedsBalance
                       ? "Amount exceeds balance"
                       : !amount || parseFloat(amount) === 0
                       ? "Enter an amount"
-                      : currentAction === "STAKE"
-                      ? isMutating
-                        ? "Confirming Staking in your wallet"
-                        : "Stake"
-                      : isMutating
-                      ? "Confirming Unstaking in your wallet "
-                      : "Unstake"}
-                  </PrimaryButton>
-                )}
-
-                {contractRouting === "Wrap" && (
-                  <PrimaryButton
-                    data-testid="submit-button"
-                    loading={isMutating}
-                    fullWidth
-                    disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
-                    onClick={() => currentAction === "STAKE" && wrapMutation.mutate(amount)}
-                  >
-                    {amountExceedsBalance
-                      ? "Amount exceeds balance"
-                      : !amount || parseFloat(amount) === 0
-                      ? "Enter an amount"
-                      : currentAction === "STAKE"
+                      : currentAction === EvOHM.Wrap
                       ? isMutating
                         ? "Confirming Wrapping in your wallet"
-                        : "Wrap to gOHM"
+                        : "Wrap to vOHM"
                       : isMutating
-                      ? "Confirming Unstaking in your wallet "
-                      : "Unstake"}
-                  </PrimaryButton>
-                )}
-                {contractRouting === "Zap" && (
-                  <PrimaryButton
-                    fullWidth
-                    disabled={
-                      zapExecute.isLoading ||
-                      zapOutputAmount === "" ||
-                      (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                      process.env.DISABLE_ZAPS ||
-                      parseFloat(amount) === 0
-                    }
-                    onClick={onZap}
-                  >
-                    <Box display="flex" flexDirection="row" alignItems="center">
-                      {zapOutputAmount === ""
-                        ? "Enter an amount"
-                        : +zapOutputAmount >= 0.5 || stakedAssetType.name == "gOHM"
-                        ? "Zap-Stake"
-                        : "Minimum Output Amount: 0.5 sOHM"}
-                    </Box>
+                      ? "Confirming Unwrapping in your wallet "
+                      : "Unwrap to gOHM"}
                   </PrimaryButton>
                 )}
               </TokenAllowanceGuard>

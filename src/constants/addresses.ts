@@ -199,7 +199,13 @@ export const GOVERNANCE_MOCK_GOHM = {
   [NetworkId.TESTNET_GOERLI]: "0xBF3BaBd7411628788B0f6cd56BC9D6aE1Bfb1F0F",
 };
 
-export const GOVERNANCE_VOHM_VAULT = {
+/** governance gohm combines mock gohm on goerli with mainnet gohm */
+export const GOVERNANCE_GOHM_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f", // this is the same as GOHM on mainnet
+  [NetworkId.TESTNET_GOERLI]: "0xBF3BaBd7411628788B0f6cd56BC9D6aE1Bfb1F0F",
+};
+
+export const GOVERNANCE_VOHM_VAULT_ADDRESSES = {
   [NetworkId.MAINNET]: "",
   // [NetworkId.TESTNET_GOERLI]: "0x4fd8cc1a43377454ac50f9a312fd4fd7974811cb",
   [NetworkId.TESTNET_GOERLI]: "0x0BF5064643998f3211b4555Ce6855D511D33191a",
