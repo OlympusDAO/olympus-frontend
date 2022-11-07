@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber, stringToBytes32String } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -16,6 +16,7 @@ import {
   useGetProposalURIFromEvent,
 } from "src/hooks/useProposals";
 import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
+import { InstructionStructOutput } from "src/typechain/OlympusGovInstructions";
 import { useNetwork, useSigner } from "wagmi";
 
 /**
@@ -196,4 +197,18 @@ export const useCreateProposalVotingPowerReqd = () => {
     isLoading: supplyLoading && minimumLoading && requirementLoading,
     isFetched: everythingFetched,
   };
+};
+
+/** get the instructions from the proposal */
+export const useGetInstructions = (proposalId: number) => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOV_INSTRUCTIONS_CONTRACT.getEthersContract(chain.id);
+  return useQuery<InstructionStructOutput[], Error>(
+    ["getInstructions", chain.id, proposalId],
+    async () => {
+      // using EVENTS
+      return await contract.getInstructions(String(proposalId));
+    },
+    { enabled: !!chain && !!chain.id && !!contract && !!proposalId },
+  );
 };

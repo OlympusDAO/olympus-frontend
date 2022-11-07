@@ -1,6 +1,5 @@
 import "src/views/Governance/components/ProposalPage/ProposalPage.scss";
 
-import { t } from "@lingui/macro";
 import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
 import { Chip, Icon, OHMChipProps, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { FC, useMemo } from "react";
@@ -56,10 +55,10 @@ export const PageWrapper = (props: { proposal: IAnyProposal }) => (
         <Box display="flex" justifyContent="center">
           <Tabs value={false} centered textColor="primary" indicatorColor="primary">
             <Link component={NavLink} to={`/governance/proposals/${props.proposal.id}`} end>
-              <Tab label={t`Poll Detail`}></Tab>
+              <Tab label={`Poll Detail`}></Tab>
             </Link>
             <Link component={NavLink} to={`/governance/proposals/${props.proposal.id}/votes`}>
-              <Tab label={t`Votes`}></Tab>
+              <Tab label={`Votes`}></Tab>
             </Link>
           </Tabs>
         </Box>

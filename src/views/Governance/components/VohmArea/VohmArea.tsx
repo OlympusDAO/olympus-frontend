@@ -1,11 +1,7 @@
-import { Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 import { MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import { VohmInputArea } from "src/views/Governance/components/VohmArea/VohmInputArea/VohmInputArea";
-import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
-import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
-import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
-import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
 import { useAccount } from "wagmi";
 
 export const VohmArea: React.FC = () => {
@@ -26,11 +22,11 @@ export const VohmArea: React.FC = () => {
         {isConnected && (
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-              <StakeBalances />
+              {/* <StakeBalances />
               <Divider />
               <StakeNextRebaseAmount />
               <StakeRebaseYield />
-              <StakeFiveDayYield />
+              <StakeFiveDayYield /> */}
             </Box>
           </Box>
         )}

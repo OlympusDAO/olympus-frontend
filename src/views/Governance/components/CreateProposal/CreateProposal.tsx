@@ -4,6 +4,8 @@ import MDEditor from "@uiw/react-md-editor";
 import { ethers } from "ethers";
 import { FC, useState } from "react";
 import rehypeSanitize from "rehype-sanitize";
+import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
+import { GOVERNANCE_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
 import { isValidUrl } from "src/helpers";
 import { useVoteBalance } from "src/hooks/useBalance";
 import { useCreateProposalVotingPowerReqd, useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
@@ -130,10 +132,19 @@ export const CreateProposal = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Box display="flex" justifyContent="flex-end">
-          <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission}>
-            {submitProposal.isLoading ? "Submitting..." : "Continue"}
-          </PrimaryButton>
+        <Box id="create-proposal-btn-box" display="flex" justifyContent="flex-end">
+          <TokenAllowanceGuard
+            message={`Creating a Proposal requires a vOHM Collateral deposit. Your vOHM can be redeemed after the proposal passes/fails.`}
+            tokenAddressMap={VOTE_TOKEN_ADDRESSES}
+            spenderAddressMap={GOVERNANCE_ADDRESSES}
+            approvalText={"Approve Collateral"}
+            approvalPendingText={"Confirming Approval in your wallet"}
+            isVertical
+          >
+            <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission}>
+              {submitProposal.isLoading ? "Submitting..." : "Continue"}
+            </PrimaryButton>
+          </TokenAllowanceGuard>
         </Box>
         <Box display={`flex`} justifyContent={`flex-end`}>
           <CollateralRequiredText />
