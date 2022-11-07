@@ -12808,10 +12808,10 @@ react-app-rewired@^2.2.1:
   dependencies:
     semver "^5.6.0"
 
-react-countdown@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
-  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+react-countdown@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.3.tgz#e80ca7a7e3f4dc21b8f754d52c656a45d32550da"
+  integrity sha512-z/AS1ccdb45Fd8/1AGt9m2UIJvPUZHViL+EfWyJsI7H+99aUFnDIhN9NTGtM4n5OhhYH+Ne1UvX/u1Ejw6RGzg==
   dependencies:
     prop-types "^15.7.2"
 
