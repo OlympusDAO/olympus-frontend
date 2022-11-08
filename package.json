@@ -131,7 +131,7 @@
     "fast-check": "^3.3.0",
     "https-browserify": "^1.0.0",
     "husky": "^8.0.1",
-    "jest": "^29.0.3",
+    "jest": "^29.3.0",
     "jest-extended": "^3.1.0",
     "jest-when": "^3.5.1",
     "less-plugin-npm-import": "^2.1.0",
