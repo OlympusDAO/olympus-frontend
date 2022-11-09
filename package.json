@@ -91,7 +91,7 @@
     "@graphql-codegen/typescript-react-apollo": "3.3.6",
     "@graphql-codegen/typescript-react-query": "^4.0.4",
     "@lingui/cli": "^3.14.0",
-    "@lingui/core": "^3.13.0",
+    "@lingui/core": "^3.15.0",
     "@lingui/macro": "^3.14.0",
     "@tanstack/react-query-devtools": "^4.2.3",
     "@testing-library/dom": "^8.18.1",
