@@ -24,7 +24,7 @@ import {
   getIntersectionColor,
   RANGE_KEY,
 } from "src/components/Chart/IntersectionHelper";
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
@@ -52,6 +52,22 @@ export const formatCurrencyTick = (value: unknown): string => {
   return formatCurrency(valueNum, 2);
 };
 
+export const formatNumberTick = (value: unknown): string => {
+  const valueNum: number = getFloat(value);
+
+  if (!valueNum) return "";
+
+  if (valueNum > 1000000) {
+    return `${formatNumber(valueNum / 1000000)}M`;
+  }
+
+  if (valueNum > 1000) {
+    return `${formatNumber(valueNum / 1000)}k`;
+  }
+
+  return formatNumber(valueNum, 2);
+};
+
 export const formatPercentTick = (value: unknown): string => {
   const valueNum: number = getFloat(value);
 
@@ -74,6 +90,8 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
   if (dataFormat == DataFormat.Percentage) return formatPercentTick(value);
 
   if (dataFormat == DataFormat.DateMonth) return formatDateMonthTick(value);
+
+  if (dataFormat == DataFormat.Number) return formatNumberTick(value);
 
   return "";
 };
