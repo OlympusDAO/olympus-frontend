@@ -6,18 +6,22 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { BOND_DEPOSITORY_ADDRESSES, OP_BOND_DEPOSITORY_ADDRESSES } from "src/constants/addresses";
+import {
+  BOND_DEPOSITORY_ADDRESSES,
+  BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
+  BOND_FIXED_TERM_TELLER_ADDRESSES,
+  OP_BOND_DEPOSITORY_ADDRESSES,
+} from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { usePurchaseBond } from "src/views/Bond/components/BondModal/components/BondInputArea/hooks/usePurchaseBond";
 import { Bond } from "src/views/Bond/hooks/useBond";
 import { useAccount } from "wagmi";
-
-import { BondDiscount } from "../../../BondDiscount";
-import { BondDuration } from "../../../BondDuration";
-import { usePurchaseBond } from "./hooks/usePurchaseBond";
 
 export const BondInputArea: React.VFC<{
   bond: Bond;
@@ -80,7 +84,7 @@ export const BondInputArea: React.VFC<{
     ? props.bond.maxPayout.inBaseToken
     : props.bond.capacity.inBaseToken
   ).toString({ decimals: 4, format: true })}${" "}
-  ${isInverseBond ? props.bond.baseToken.name : `sOHM`}`;
+  ${isInverseBond ? props.bond.baseToken.name : `OHM`}`;
 
   const quoteTokenString = `
     ${(props.bond.maxPayout.inQuoteToken.lt(props.bond.capacity.inQuoteToken)
@@ -88,7 +92,14 @@ export const BondInputArea: React.VFC<{
       : props.bond.capacity.inQuoteToken
     ).toString({ decimals: 4, format: true })}${" "}
     ${props.bond.quoteToken.name}`;
-
+  const v3FixedEpiry = props.bond.isV3Bond && !props.bond.isFixedTerm;
+  const v2SpenderContract =
+    !props.bond.isV3Bond && isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES;
+  const spenderContract = props.bond.isV3Bond
+    ? v3FixedEpiry
+      ? BOND_FIXED_EXPIRY_TELLER_ADDRESSES
+      : BOND_FIXED_TERM_TELLER_ADDRESSES
+    : v2SpenderContract;
   return (
     <Box display="flex" flexDirection="column">
       <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
@@ -97,7 +108,7 @@ export const BondInputArea: React.VFC<{
             <TokenAllowanceGuard
               isVertical
               tokenAddressMap={props.bond.quoteToken.addresses}
-              spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
+              spenderAddressMap={spenderContract}
               message={
                 <>
                   <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
@@ -158,7 +169,7 @@ export const BondInputArea: React.VFC<{
           balance={
             <span>
               {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
-              {isInverseBond ? props.bond.baseToken.name : `sOHM`}{" "}
+              {isInverseBond ? props.bond.baseToken.name : `OHM`}{" "}
               {!isInverseBond && !!currentIndex && (
                 <span>
                   (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
@@ -166,7 +177,7 @@ export const BondInputArea: React.VFC<{
               )}
             </span>
           }
-          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
+          tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (OHM quantity will be higher due to rebasing)`}
         />
 
         <DataRow
@@ -176,6 +187,8 @@ export const BondInputArea: React.VFC<{
             <span>
               {isInverseBond
                 ? `${quoteTokenString} (≈${baseTokenString})`
+                : props.bond.baseToken === props.bond.quoteToken
+                ? `${baseTokenString}`
                 : `${baseTokenString} (≈${quoteTokenString})`}
             </span>
           }

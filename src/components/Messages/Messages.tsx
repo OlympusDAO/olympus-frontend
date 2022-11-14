@@ -1,4 +1,4 @@
-import "./ConsoleInterceptor";
+import "src/components/Messages/ConsoleInterceptor";
 
 import { AlertProps, LinearProgress, Snackbar } from "@mui/material";
 import Alert from "@mui/material/Alert";
@@ -7,10 +7,9 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch } from "react-redux";
-
-import { useAppSelector } from "../../hooks";
-import { close, handle_obsolete, Message } from "../../slices/MessagesSlice";
-import store from "../../store";
+import { useAppSelector } from "src/hooks";
+import { close, handle_obsolete, Message } from "src/slices/MessagesSlice";
+import store from "src/store";
 
 const PREFIX = "Messages";
 

@@ -1,0 +1,137 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract ITreasury", "name": "_treasury", "type": "address" },
+        { "internalType": "contract IERC20", "name": "_ohm", "type": "address" },
+        { "internalType": "address", "name": "_staking", "type": "address" },
+        { "internalType": "contract IOlympusAuthority", "name": "_authority", "type": "address" },
+        { "internalType": "uint256", "name": "_initialRate", "type": "uint256" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "name": "Adjustment_Limit", "type": "error" },
+    { "inputs": [], "name": "Adjustment_Underflow", "type": "error" },
+    { "inputs": [], "name": "No_Rebase_Occurred", "type": "error" },
+    { "inputs": [], "name": "Not_Permissioned", "type": "error" },
+    { "inputs": [], "name": "Not_Unlocked", "type": "error" },
+    { "inputs": [], "name": "Only_Staking", "type": "error" },
+    { "inputs": [], "name": "Sanity_Check", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "contract IOlympusAuthority", "name": "authority", "type": "address" }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "index", "type": "uint256" },
+        { "internalType": "address", "name": "pool", "type": "address" }
+      ],
+      "name": "addPool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "adjustment",
+      "outputs": [
+        { "internalType": "bool", "name": "add", "type": "bool" },
+        { "internalType": "uint256", "name": "rate", "type": "uint256" },
+        { "internalType": "uint256", "name": "target", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [{ "internalType": "contract IOlympusAuthority", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "bounty",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "distribute", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "address", "name": "who", "type": "address" }],
+      "name": "nextRewardFor",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "pools",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "index", "type": "uint256" },
+        { "internalType": "address", "name": "pool", "type": "address" }
+      ],
+      "name": "removePool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "retrieveBounty",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rewardRate",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bool", "name": "_add", "type": "bool" },
+        { "internalType": "uint256", "name": "_rate", "type": "uint256" },
+        { "internalType": "uint256", "name": "_target", "type": "uint256" }
+      ],
+      "name": "setAdjustment",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract IOlympusAuthority", "name": "_newAuthority", "type": "address" }],
+      "name": "setAuthority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "_bounty", "type": "uint256" }],
+      "name": "setBounty",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address[]", "name": "_pools", "type": "address[]" }],
+      "name": "setPools",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "triggerRebase", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+  ]
+}

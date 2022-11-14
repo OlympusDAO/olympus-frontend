@@ -6,14 +6,13 @@ import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
-
-import { StakeArea } from "../StakeArea";
+import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
 
 jest.mock("src/hooks/useContractAllowance");
 
 beforeEach(async () => {
   connectWallet();
-  useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  useContractAllowance.mockReturnValue({ data: BigNumber.from("10000000000000000000000") });
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
 
   render(

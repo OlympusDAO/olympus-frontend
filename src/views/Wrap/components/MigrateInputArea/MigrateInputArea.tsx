@@ -7,9 +7,8 @@ import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers/types/assert";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useMigrateWsohm } from "src/views/Wrap/components/MigrateInputArea/hooks/useMigrateWsohm";
 import { useNetwork } from "wagmi";
-
-import { useMigrateWsohm } from "./hooks/useMigrateWsohm";
 
 export const MigrateInputArea = () => {
   const networks = useTestableNetworks();

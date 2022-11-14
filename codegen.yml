@@ -1,19 +1,20 @@
 overwrite: true
-schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics"
+schema: "https://api.studio.thegraph.com/query/28103/protocol-metrics-test/3.0.21"
 documents: "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
-      # - "typescript-react-apollo"
       - "typescript-react-query"
     config:
       withHooks: true
       preResolveTypes: true
+      addInfiniteQuery: true
       scalars:
         BigDecimal: number
         BigInt: number
+        Bytes: Uint8Array # https://thegraph.com/docs/en/developing/assemblyscript-api/#bytes
     hooks:
       afterOneFileWrite:
         - yarn eslint --config ./.eslintrc.js --fix

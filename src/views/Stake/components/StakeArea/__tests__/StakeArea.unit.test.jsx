@@ -5,8 +5,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import { connectWallet } from "src/testHelpers";
 import { act, fireEvent, render, screen } from "src/testUtils";
-
-import { StakeArea } from "../StakeArea";
+import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
 
 jest.mock("src/hooks/useContractAllowance");
 let data;
@@ -46,7 +45,7 @@ describe("<StakeArea/> Connected no Approval", () => {
     approval.mockReturnValue({ data: { confirmations: 100 } });
     expect(screen.getByText("Approve")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Approve"));
-    useContractAllowance.mockReturnValue({ data: BigNumber.from(100) });
+    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
     act(async () => render(<StakeArea />));
     expect(screen.getByText("Stake to sOHM")).toBeInTheDocument();
   });
@@ -55,7 +54,7 @@ describe("<StakeArea/> Connected no Approval", () => {
 describe("<StakeArea/> Connected with Approval", () => {
   beforeEach(async () => {
     connectWallet();
-    useContractAllowance.mockReturnValue({ data: BigNumber.from(1000) });
+    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
     Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     render(<StakeArea />);
   });

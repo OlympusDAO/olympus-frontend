@@ -4,22 +4,21 @@ import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
-import { formatCurrency } from "src/helpers";
+import { formatNumber } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { BondDuration } from "src/views/Bond/components/BondDuration";
+import { BondInfoText } from "src/views/Bond/components/BondInfoText";
+import { BondInputArea } from "src/views/Bond/components/BondModal/components/BondInputArea/BondInputArea";
+import { BondSettingsModal } from "src/views/Bond/components/BondModal/components/BondSettingsModal";
+import { BondPrice } from "src/views/Bond/components/BondPrice";
+import { Bond } from "src/views/Bond/hooks/useBond";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { useAccount, useNetwork } from "wagmi";
-
-import { Bond } from "../../hooks/useBond";
-import { BondDiscount } from "../BondDiscount";
-import { BondDuration } from "../BondDuration";
-import { BondInfoText } from "../BondInfoText";
-import { BondPrice } from "../BondPrice";
-import { BondInputArea } from "./components/BondInputArea/BondInputArea";
-import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
+export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address = "" } = useAccount();
@@ -92,13 +91,33 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           <Metric
             label={t`Bond Price`}
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
-            metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+            metric={
+              bond.isSoldOut ? (
+                "--"
+              ) : (
+                <BondPrice
+                  price={bond.price.inBaseToken}
+                  isInverseBond={isInverseBond}
+                  symbol={isInverseBond ? bond.baseToken.name : bond.quoteToken.name}
+                />
+              )
+            }
           />
           <Metric
             label={t`Market Price`}
-            metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
+            metric={
+              <TokenPrice
+                token={bond.baseToken}
+                isInverseBond={isInverseBond}
+                baseSymbol={bond.baseToken.name}
+                quoteSymbol={bond.quoteToken.name}
+              />
+            }
           />
-          <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
+          <Metric
+            label={isInverseBond ? t`Premium` : t`Discount`}
+            metric={<BondDiscount discount={bond.discount} textOnly />}
+          />
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
           <Box display="flex" flexDirection="column" alignItems="center">
@@ -148,7 +167,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
           <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
-            <BondInfoText isInverseBond={isInverseBond} />
+            {!bond.isV3Bond && <BondInfoText isInverseBond={isInverseBond} />}
           </Typography>
         </Box>
       </Box>
@@ -156,11 +175,25 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   );
 };
 
-const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ token, isInverseBond }) => {
+const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean; baseSymbol: string; quoteSymbol: string }> = ({
+  token,
+  isInverseBond,
+  quoteSymbol,
+  baseSymbol,
+}) => {
   const { data: priceToken = new DecimalBigNumber("0") } = useTokenPrice({ token, networkId: NetworkId.MAINNET });
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const price = isInverseBond
-    ? formatCurrency(ohmPrice, 2)
-    : `$${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
-  return price ? <>{price}</> : <Skeleton width={60} />;
+  const sameToken = quoteSymbol === baseSymbol;
+  const price = sameToken
+    ? formatNumber(1, 2)
+    : isInverseBond
+    ? formatNumber(ohmPrice, 2)
+    : `${priceToken.toString({ decimals: 2, format: true, trim: false })}`;
+  return price ? (
+    <>
+      {price} {isInverseBond ? baseSymbol : quoteSymbol}
+    </>
+  ) : (
+    <Skeleton width={60} />
+  );
 };

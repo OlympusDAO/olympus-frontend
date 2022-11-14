@@ -2,9 +2,8 @@ import { Contract as EthersContract } from "@ethersproject/contracts";
 import { Provider } from "@ethersproject/providers";
 import { Signer } from "ethers";
 import { AddressMap } from "src/constants/addresses";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
-
-import { Providers } from "../providers/Providers/Providers";
 
 export declare class Factory {
   connect(address: string, signerOrProvider: Signer | Provider): EthersContract;

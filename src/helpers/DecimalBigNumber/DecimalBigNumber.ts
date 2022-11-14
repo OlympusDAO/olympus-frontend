@@ -1,7 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { commify, formatUnits, parseUnits } from "@ethersproject/units";
-
-import { assert } from "../types/assert";
+import { assert } from "src/helpers/types/assert";
 
 export class DecimalBigNumber {
   private _decimals: number;

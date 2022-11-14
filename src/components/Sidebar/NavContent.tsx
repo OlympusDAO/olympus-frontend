@@ -4,15 +4,14 @@ import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
+import WalletAddressEns from "src/components/TopBar/Wallet/WalletAddressEns";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { useNetwork } from "wagmi";
-
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 
 const PREFIX = "NavContent";
 
@@ -122,7 +121,10 @@ const NavContent: React.VFC = () => {
 };
 
 const Bonds: React.VFC = () => {
-  const bonds = useLiveBonds().data;
+  const { data: bondsV2 = [] } = useLiveBonds();
+  const { data: bondsV3 = [] } = useLiveBondsV3();
+
+  const bonds = bondsV2.concat(bondsV3);
 
   if (!bonds || bonds.length === 0) return null;
 
@@ -132,7 +134,7 @@ const Bonds: React.VFC = () => {
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
           <Box mt="8px">
-            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`}>
               <Typography variant="body1">
                 <Box display="flex" flexDirection="row" justifyContent="space-between">
                   {bond.quoteToken.name}

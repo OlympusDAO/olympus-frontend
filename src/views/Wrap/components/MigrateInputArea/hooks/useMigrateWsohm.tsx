@@ -8,6 +8,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicMigratorContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { EthersError } from "src/lib/EthersTypes";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { useAccount, useNetwork } from "wagmi";
 export const useMigrateWsohm = () => {
@@ -21,7 +22,7 @@ export const useMigrateWsohm = () => {
 
   const contract = useDynamicMigratorContract(MIGRATOR_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, string>(
+  return useMutation<ContractReceipt, EthersError, string>(
     async amount => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
@@ -43,7 +44,7 @@ export const useMigrateWsohm = () => {
     },
     {
       onError: error => {
-        dispatch(createErrorToast(error.message));
+        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
       },
       onSuccess: async (_, amount) => {
         trackGAEvent({

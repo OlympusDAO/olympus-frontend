@@ -1,7 +1,6 @@
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { enumToArray } from "src/helpers/types/enumToArray";
 import { NetworkId } from "src/networkDetails";
-
-import { enumToArray } from "../../types/enumToArray";
-import { Providers } from "./Providers";
 
 describe("Providers", () => {
   it("has a provider url for every network", () => {

@@ -1,20 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers, Signer } from "ethers";
-import { addresses, NetworkId } from "src/constants";
-import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
-import { IERC20, IERC20__factory } from "src/typechain";
-import { OlympusTokenMigrator__factory } from "src/typechain";
-
-import { error, info } from "../slices/MessagesSlice";
-import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "./AccountSlice";
+import { NetworkId } from "src/constants";
+import {
+  GOHM_ADDRESSES,
+  MIGRATOR_ADDRESSES,
+  V1_OHM_ADDRESSES,
+  V1_SOHM_ADDRESSES,
+  WSOHM_ADDRESSES,
+} from "src/constants/addresses";
+import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "src/slices/AccountSlice";
 import {
   IChangeApprovalWithDisplayNameAsyncThunk,
   IJsonRPCError,
   IMigrateAsyncThunk,
   IMigrateSingleAsyncThunk,
   IValueAsyncThunk,
-} from "./interfaces";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+} from "src/slices/interfaces";
+import { error, info } from "src/slices/MessagesSlice";
+import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
+import { IERC20, IERC20__factory } from "src/typechain";
+import { OlympusTokenMigrator__factory } from "src/typechain";
 
 export enum TokenType {
   UNSTAKED,
@@ -25,11 +30,11 @@ export enum TokenType {
 const chooseContract = (token: string, networkID: NetworkId, signer: Signer): IERC20 => {
   let address: string;
   if (token === "ohm") {
-    address = addresses[networkID].OHM_ADDRESS;
+    address = V1_OHM_ADDRESSES[networkID as keyof typeof V1_OHM_ADDRESSES];
   } else if (token === "sohm") {
-    address = addresses[networkID].SOHM_ADDRESS;
+    address = V1_SOHM_ADDRESSES[networkID as keyof typeof V1_SOHM_ADDRESSES];
   } else if (token === "wsohm") {
-    address = addresses[networkID].WSOHM_ADDRESS;
+    address = WSOHM_ADDRESSES[networkID as keyof typeof WSOHM_ADDRESSES];
   } else if (token === "gohm") {
     address = GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES];
   } else {
