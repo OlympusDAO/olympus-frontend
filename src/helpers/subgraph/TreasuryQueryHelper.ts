@@ -84,7 +84,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
  */
 export const getOhmTotalSupply = (records: TokenSupply[]): number => {
   return records
-    .filter(record => record.type !== TOKEN_SUPPLY_TYPE_TOTAL)
+    .filter(record => record.type === TOKEN_SUPPLY_TYPE_TOTAL)
     .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
 };
 
