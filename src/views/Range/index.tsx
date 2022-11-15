@@ -120,10 +120,10 @@ export const Range = () => {
   return (
     <div id="stake-view">
       <PageTitle name="Range Swap" />
-      <Paper sx={{ maxWidth: "1100px", width: "100%" }}>
+      <Paper sx={{ width: "98%" }}>
         {currentPrice ? (
           <>
-            <Grid container spacing={2}>
+            <Grid container>
               <Grid item xs={12} lg={6}>
                 {!rangeDataLoading && (
                   <Box mt={"20px"} data-testid="range-chart">
