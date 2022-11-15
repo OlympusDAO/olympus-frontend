@@ -26,6 +26,7 @@ import { formatBalance } from "src/helpers";
 import { IAnyProposal } from "src/hooks/useProposals";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useUserVote, useVote, useVotingSupply } from "src/hooks/useVoting";
+import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
 
@@ -49,6 +50,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
       <Box sx={{ marginTop: "24px" }}></Box>
       <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
         <Box display="flex" flexDirection="column">
+          <ActivateVoting proposal={proposal} />
           <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
             Cast Your Vote
           </Typography>

@@ -12,8 +12,16 @@ import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { BackButton } from "src/views/Governance/components/BackButton";
 import { PollDetailsTab } from "src/views/Governance/components/ProposalPage/components/PollDetailsTab";
 import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
-import { NULL_PROPOSAL } from "src/views/Governance/constants";
 import { toCapitalCase } from "src/views/Governance/helpers";
+
+const dateFormat = new Intl.DateTimeFormat([], {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZoneName: "short",
+  hour: "numeric",
+  minute: "numeric",
+});
 
 export const ProposalPage: FC = () => {
   const { passedId } = useParams();
@@ -22,19 +30,23 @@ export const ProposalPage: FC = () => {
     return parseInt(passedId);
   }, [passedId]);
 
-  const _useProposal = useProposal(proposalId);
-  const proposal: IAnyProposal = useMemo(() => {
-    if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
-    return _useProposal.data;
-  }, [_useProposal]);
+  // const _useProposal = useProposal(proposalId);
+  // const proposal: IAnyProposal = useMemo(() => {
+  //   if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
+  //   return _useProposal.data;
+  // }, [_useProposal]);
+
+  const { data: proposal, isLoading } = useProposal(proposalId);
   return (
     <>
-      <Routes>
-        <Route path="/" element={<PageWrapper proposal={proposal} />}>
-          <Route index element={<PollDetailsTab proposal={proposal} />} />
-          <Route path="votes" element={<VotesTab proposal={proposal} />} />
-        </Route>
-      </Routes>
+      {!isLoading && !!proposal && (
+        <Routes>
+          <Route path="/" element={<PageWrapper proposal={proposal} />}>
+            <Route index element={<PollDetailsTab proposal={proposal} />} />
+            <Route path="votes" element={<VotesTab proposal={proposal} />} />
+          </Route>
+        </Routes>
+      )}
     </>
   );
 };
@@ -70,37 +82,73 @@ export const PageWrapper = (props: { proposal: IAnyProposal }) => (
   </Box>
 );
 
+const TimeRemaining = ({ proposal }: { proposal: IAnyProposal }) => {
+  console.log("timeRemaining const");
+  const theme = useTheme();
+  console.log("after useTheme");
+  let boundedTimeRemaining = 0;
+  // const earliest = 1668456876000
+  // const deadline = 1668456996000
+  // const now = 1668456906000; // must be activated within 1 minute
+  // const now = 1668456816000; // can be activated in 3 minutes
+  const now = Date.now();
+  if (proposal.timeRemaining && proposal.timeRemaining > 0) {
+    boundedTimeRemaining = proposal.timeRemaining / 1000;
+  }
+
+  console.log(
+    "timeremaining",
+    proposal.id,
+    "now",
+    now,
+    proposal.state,
+    proposal.nextDeadline,
+    proposal.timeRemaining,
+    boundedTimeRemaining,
+  );
+  return (
+    <>
+      <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
+      <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
+        {proposal.state === "expired activation"
+          ? `Activation Period Expired at ${dateFormat.format(proposal.nextDeadline)}`
+          : proposal.state === "discussion"
+          ? `Can be activated in ${prettifySeconds(boundedTimeRemaining)}`
+          : proposal.state === "ready to activate"
+          ? `Must be activated within ${prettifySeconds(boundedTimeRemaining)}`
+          : proposal.state === "active" && boundedTimeRemaining == 0
+          ? `Vote Finished at ${dateFormat.format(proposal.nextDeadline)}`
+          : proposal.state === "active"
+          ? `Ends in ${prettifySeconds(boundedTimeRemaining)}`
+          : proposal.state === "closed"
+          ? `Expired at ${dateFormat.format(proposal.nextDeadline)}`
+          : `Expired at ${dateFormat.format(proposal.nextDeadline)}`}
+      </Typography>
+    </>
+  );
+};
+
 const ProposalHeader = (props: { proposal: IAnyProposal }) => {
   const { proposal } = props;
   const theme = useTheme();
-  const dateFormat = new Intl.DateTimeFormat([], {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZoneName: "short",
-    hour: "numeric",
-    minute: "numeric",
-  });
+
   const mapStatus = (status: PStatus) => {
     switch (status) {
       case "active":
         return "success" as OHMChipProps["template"];
-      case "endorsement":
+      case "executed":
         return "purple" as OHMChipProps["template"];
       case "discussion":
+      case "ready to activate":
         return "userFeedback" as OHMChipProps["template"];
       case "closed":
+      case "expired activation":
         return "gray" as OHMChipProps["template"];
       case "draft":
         return "darkGray" as OHMChipProps["template"];
     }
   };
   const formattedPublishedDate = dateFormat.format(proposal.submissionTimestamp);
-
-  let boundedTimeRemaining = 0;
-  if (proposal.timeRemaining && proposal.timeRemaining - Date.now() > 0) {
-    boundedTimeRemaining = (proposal.timeRemaining - Date.now()) / 1000;
-  }
 
   return (
     <Grid container direction="column" pt="9px" mb="9px">
@@ -118,14 +166,7 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
       <Box display="flex" flexDirection="row" mt="4px">
         <Chip label={toCapitalCase(proposal.state)} template={mapStatus(proposal.state)} strong />
         <Box pl="9px" display="flex" alignItems="center">
-          {proposal.timeRemaining && (
-            <>
-              <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
-              <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
-                {boundedTimeRemaining == 0 ? `Vote Finished` : `Ends in ${prettifySeconds(boundedTimeRemaining)}`}
-              </Typography>
-            </>
-          )}
+          {proposal && <TimeRemaining proposal={proposal} />}
         </Box>
       </Box>
     </Grid>

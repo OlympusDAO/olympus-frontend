@@ -42,7 +42,7 @@
     "@mui/material": "^5.10.5",
     "@mui/system": "^5.10.8",
     "@mui/x-data-grid": "^5.17.7",
-    "@olympusdao/component-library": "^2.2.2-alpha.20",
+    "@olympusdao/component-library": "^2.2.2-alpha.21",
     "@rainbow-me/rainbowkit": "^0.7.4",
     "@reduxjs/toolkit": "^1.8.5",
     "@tanstack/react-query": "^4.2.3",

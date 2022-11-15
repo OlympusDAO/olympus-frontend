@@ -112,9 +112,9 @@ export const useGetVotesCastByVoter = (
  */
 export const useUserVote = (proposalId: number, voterAddress: string) => {
   const { data: votesCastEvents, isLoading, isFetched } = useGetVotesCastForProposalAndVoter(proposalId, voterAddress);
-  let thisVote: DecimalBigNumber = new DecimalBigNumber("0", 3);
+  let thisVote: DecimalBigNumber = new DecimalBigNumber("0", 18);
   if (isFetched && !!votesCastEvents && votesCastEvents?.length > 0) {
-    thisVote = new DecimalBigNumber(votesCastEvents[0].args.userVotes, 3);
+    thisVote = new DecimalBigNumber(votesCastEvents[0].args.userVotes, 18);
   }
   return {
     data: thisVote,
