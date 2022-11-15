@@ -157,7 +157,7 @@ const RangeChart = (props: {
         <YAxis
           scale="auto"
           tickFormatter={number => formatCurrency(number, 2)}
-          orientation="right"
+          orientation="left"
           type="number"
           domain={[
             (dataMin: number) =>
@@ -225,43 +225,33 @@ const RangeChart = (props: {
         >
           <Label
             className={classes.currentPrice}
-            position={
-              !sellActive
-                ? isSquishyAsk && askPriceDelta < 0
-                  ? "bottom"
-                  : "top"
-                : isSquishyBid && bidPriceDelta < 0
-                ? "bottom"
-                : "top"
-            }
+            position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
           >
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
-        {!sellActive && (
-          <ReferenceDot
-            x={chartData.length > 1 && chartData[1].timestamp}
-            y={askPrice}
-            shape={CustomReferenceDot}
-            fill="#F8CC82"
-          >
-            <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
-              {`Ask: ${formatCurrency(askPrice, 2)}`}
-            </Label>
-          </ReferenceDot>
-        )}
-        {sellActive && (
-          <ReferenceDot
-            x={chartData.length > 1 && chartData[1].timestamp}
-            y={bidPrice}
-            shape={CustomReferenceDot}
-            fill={theme.colors.primary[300]}
-          >
-            <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
-              {`Bid: ${formatCurrency(bidPrice, 2)}`}
-            </Label>
-          </ReferenceDot>
-        )}
+
+        <ReferenceDot
+          x={chartData.length > 1 && chartData[1].timestamp}
+          y={askPrice}
+          shape={CustomReferenceDot}
+          fill="#F8CC82"
+        >
+          <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
+            {`Ask: ${formatCurrency(askPrice, 2)}`}
+          </Label>
+        </ReferenceDot>
+
+        <ReferenceDot
+          x={chartData.length > 1 && chartData[1].timestamp}
+          y={bidPrice}
+          shape={CustomReferenceDot}
+          fill={theme.colors.primary[300]}
+        >
+          <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
+            {`Bid: ${formatCurrency(bidPrice, 2)}`}
+          </Label>
+        </ReferenceDot>
       </ComposedChart>
     </StyledResponsiveContainer>
   ) : (

@@ -162,7 +162,10 @@ const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
 };
 
 const InverseBonds: React.VFC = () => {
-  const bonds = useLiveBonds({ isInverseBond: true }).data;
+  const { data: bondsV2 = [] } = useLiveBonds({ isInverseBond: true });
+  const { data: bondsV3 = [] } = useLiveBondsV3({ isInverseBond: true });
+
+  const bonds = bondsV2.concat(bondsV3);
 
   if (!bonds || bonds.length === 0) return null;
 
@@ -177,7 +180,7 @@ const InverseBonds: React.VFC = () => {
           .filter(bond => !bond.isSoldOut)
           .map(bond => (
             <Box mt="8px" key={bond.id}>
-              <Link component={NavLink} to={`/bonds/inverse/${bond.id}`}>
+              <Link component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}inverse/${bond.id}`}>
                 <Box display="flex" flexDirection="row" justifyContent="space-between">
                   <Typography variant="body1">{bond.quoteToken.name}</Typography>
                   <BondDiscount discount={bond.discount} />

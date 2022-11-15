@@ -121,7 +121,16 @@ export const dark = createTheme(
         MuiModal: {
           styleOverrides: {
             root: {
-              ".MuiPaper-root": {
+              ".Paper-root": {
+                background: colors.gray[600],
+              },
+            },
+          },
+        },
+        MuiDialog: {
+          styleOverrides: {
+            root: {
+              "& .MuiPaper-root": {
                 background: colors.gray[600],
               },
             },

@@ -194,6 +194,8 @@ export const BondInputArea: React.VFC<{
                 <span>
                   {isInverseBond
                     ? `${quoteTokenString} (≈${baseTokenString})`
+                    : props.bond.baseToken === props.bond.quoteToken
+                    ? `${baseTokenString}`
                     : `${baseTokenString} (≈${quoteTokenString})`}
                 </span>
               }
@@ -236,6 +238,7 @@ export const BondInputArea: React.VFC<{
         handleSettingsOpen={props.handleSettingsOpen}
         isOpen={confirmOpen}
         handleConfirmClose={() => setConfirmOpen(false)}
+        disabled={purchaseBondMutation.isLoading}
       />
     </Box>
   );

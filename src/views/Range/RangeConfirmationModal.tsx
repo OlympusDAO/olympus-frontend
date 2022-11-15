@@ -177,6 +177,7 @@ const RangeConfirmationModal = (props: {
                 recipientAddress: recipientAddress,
               })
             }
+            loading={rangeSwap.isLoading}
             disabled={(props.discount < 0 && !checked) || rangeSwap.isLoading}
           >
             {rangeSwap.isLoading ? "Pending..." : "Confirm Swap"}

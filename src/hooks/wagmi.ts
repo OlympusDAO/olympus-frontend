@@ -54,10 +54,10 @@ const fantom: Chain = {
 };
 export const { chains, provider, webSocketProvider } = configureChains(
   [
-    chain.mainnet,
-    chain.polygon,
-    chain.optimism,
-    chain.arbitrum,
+    { ...chain.mainnet, rpcUrls: { default: "https://rpc.ankr.com/eth" } },
+    { ...chain.polygon, rpcUrls: { default: "https://rpc.ankr.com/polygon" } },
+    { ...chain.optimism, rpcUrls: { default: "https://rpc.ankr.com/optimism" } },
+    { ...chain.arbitrum, rpcUrls: { default: "https://rpc.ankr.com/arbitrum" } },
     {
       ...boba,
       iconUrl:
@@ -67,17 +67,19 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...avalanche,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=32&q=100",
+      rpcUrls: { default: "https://rpc.ankr.com/avalanche" },
     },
     {
       ...fantom,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
+      rpcUrls: { default: "https://rpc.ankr.com/fantom" },
     },
-    chain.goerli,
+    { ...chain.goerli, rpcUrls: { default: "https://rpc.ankr.com/eth_goerli" } },
   ],
   [
-    alchemyProvider({ apiKey: import.meta.env.ALCHEMY_ID }),
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
+    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider(),
   ],
 );

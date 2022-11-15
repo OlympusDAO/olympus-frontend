@@ -57,10 +57,12 @@ export const fetchLiveBondsV3 = async ({ networkId, isInverseBond }: UseLiveBond
     .liveMarketsFor(OHM_ADDRESSES[networkId], isInverseBond ? false : true)
     .then(ids => ids.map(id => id.toString()));
   const promises = await Promise.allSettled(
-    markets.map(id => {
-      const args = { id, isInverseBond, networkId };
-      return getQueryData(bondV3QueryKey(args), () => fetchBondV3(args));
-    }),
+    markets
+      .filter(id => id !== "3") //Market 3 has a contract issue and should not be displayed
+      .map(id => {
+        const args = { id, isInverseBond, networkId };
+        return getQueryData(bondV3QueryKey(args), () => fetchBondV3(args));
+      }),
   );
 
   return promises

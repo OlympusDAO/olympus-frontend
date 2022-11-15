@@ -18,7 +18,7 @@ vi.mock("src/hooks/useContractAllowance");
 
 const setupTest = () => {
   const rangeData = vi.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
-  const bondData = vi.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
+  const bondData = vi.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
   //@ts-ignore
   useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
 
@@ -72,8 +72,8 @@ describe("Lower Wall Active Bond Market", () => {
   it("Should Sell at Bond market price of $10.12", async () => {
     //@ts-expect-error
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "10.12" } });
-    render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     expect(await screen.findByTestId("swap-price")).toContain(/10.12/);
   });
 
@@ -82,8 +82,8 @@ describe("Lower Wall Active Bond Market", () => {
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "10.12" } });
     //@ts-expect-error
     vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    render(<Range />);
-    fireEvent.click(await screen.findByTestId("sell-tab"));
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(await screen.findByText("I understand that I am selling at a discount to current market price"));

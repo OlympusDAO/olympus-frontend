@@ -18,6 +18,7 @@ export interface OHMBondConfirmModalProps {
   handleSettingsOpen: () => void;
   isOpen: boolean;
   handleConfirmClose: () => void;
+  disabled: boolean;
 }
 
 const StyledBox = styled(Box, {
@@ -39,6 +40,7 @@ const BondConfirmModal: FC<OHMBondConfirmModalProps> = ({
   handleSettingsOpen,
   isOpen,
   handleConfirmClose,
+  disabled,
 }) => {
   const theme = useTheme();
 
@@ -80,8 +82,8 @@ const BondConfirmModal: FC<OHMBondConfirmModalProps> = ({
         <Box mt="21px" mb="21px" borderTop={`1px solid ${theme.colors.gray[500]}`}></Box>
         <DataRow title="ROI" balance={<BondDiscount discount={bond.discount} textOnly />} />
         <DataRow title="Vesting Term" balance={<BondDuration duration={bond.duration} />} />
-        <PrimaryButton fullWidth onClick={onSubmit}>
-          Confirm Bond
+        <PrimaryButton fullWidth onClick={onSubmit} disabled={disabled} loading={disabled}>
+          {disabled ? "Bonding..." : "Confirm Bond"}
         </PrimaryButton>
       </>
     </Modal>

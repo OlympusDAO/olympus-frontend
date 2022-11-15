@@ -38,7 +38,7 @@ vi.mock("src/views/Range/RangeChart", () => ({
 describe("Upper Wall Active Bond Market", () => {
   beforeEach(() => {
     const rangeData = vi.spyOn(Contract.RANGE_CONTRACT, "getEthersContract");
-    const bondData = vi.spyOn(Contract.BOND_AUCTIONEER_CONTRACT, "getEthersContract");
+    const bondData = vi.spyOn(Contract.BOND_AGGREGATOR_CONTRACT, "getEthersContract");
     connectWallet();
     //@ts-ignore
     useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
@@ -118,7 +118,6 @@ describe("Upper Wall Active Bond Market", () => {
     //@ts-ignore
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "16.12" } });
     render(<Range />);
-    fireEvent.click(screen.getByTestId("sell-tab"));
     expect(await screen.findByTestId("swap-price")).toContain(/16.12/);
   });
 
