@@ -12,7 +12,7 @@ import {
   parseProposalContent,
   parseProposalState,
   ProposalAction,
-  timeRemaining,
+  useActivationTimelines,
   useGetProposalURIFromEvent,
 } from "src/hooks/useProposals";
 import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
@@ -51,10 +51,12 @@ export const useProposal = (instructionsIndex: number) => {
     },
   );
 
+  const { data: activationTimelines } = useActivationTimelines();
+
   const query = useQuery<IAnyProposal, Error>(
     queryKey,
     async () => {
-      if (metadata === undefined) {
+      if (metadata === undefined || activationTimelines === undefined) {
         // this should be impossible if the enabled block checks !!metadata, too
         // but it's necessary to fix the metadata | undefined typing in the rest of this query
         throw new Error("something went wrong with proposalMetadata.");
@@ -64,26 +66,37 @@ export const useProposal = (instructionsIndex: number) => {
         const content: string = proposalContent.description;
         const discussionURL: string = proposalContent.external_url;
         /**
-         * submissionTimestamp as a Unix Time from the contract
+         * submissionTimestamp as a JS Time (milliseconds) from the contract (was a unix time (seconds) on the contract)
+         * NOTE(appleseed): multiply unixTimestamps by 1000 to convert to JS Time from Unix Time
          */
-        const submissionTimestamp = parseBigNumber(metadata.submissionTimestamp, 0);
-        const activationTimestamp = parseBigNumber(metadata.activationTimestamp, 0);
+        const submissionTimestamp = parseBigNumber(metadata.submissionTimestamp, 0) * 1000;
+        const activationTimestamp = parseBigNumber(metadata.activationTimestamp, 0) * 1000;
+        const activationTimelock = parseBigNumber(activationTimelines.activationTimelock, 0) * 1000;
+        const activationDeadline = parseBigNumber(activationTimelines.activationDeadline, 0) * 1000;
+        const votingPeriod = parseBigNumber(activationTimelines.votingPeriod, 0) * 1000;
         const isActive = activationTimestamp !== 0;
-        const proposalState = parseProposalState({ isActive });
-        const endorsements = parseBigNumber(metadata.totalRegisteredVotes, 3);
-        const yesVotes = parseBigNumber(metadata.yesVotes, 3);
-        const noVotes = parseBigNumber(metadata.noVotes, 3);
-        const unixTimeRemaining = timeRemaining({ state: proposalState, submissionTimestamp });
-        const jsTimeRemaining = unixTimeRemaining ? unixTimeRemaining * 1000 : undefined;
+        const earliestActivation = submissionTimestamp + activationTimelock;
+        const activationExpiry = submissionTimestamp + activationDeadline;
+        const votingExpiry = activationTimestamp + votingPeriod;
+        const proposalState = parseProposalState({
+          activationTimestamp,
+          earliestActivation,
+          activationExpiry,
+          votingExpiry,
+        });
+        const endorsements = parseBigNumber(metadata.totalRegisteredVotes, 18);
+        const yesVotes = parseBigNumber(metadata.yesVotes, 18);
+        const noVotes = parseBigNumber(metadata.noVotes, 18);
+
         const currentProposal = {
           id: instructionsIndex,
           title: proposalContent.name,
           submitter: metadata.submitter,
-          // NOTE(appleseed): multiply submissionTimestamp by 1000 to convert to JS Time from Unix Time
-          submissionTimestamp: submissionTimestamp * 1000,
-          timeRemaining: jsTimeRemaining,
+          submissionTimestamp: submissionTimestamp,
+          timeRemaining: proposalState.jsTimeRemaining,
+          nextDeadline: proposalState.nextDeadline,
           isActive: isActive,
-          state: proposalState,
+          state: proposalState.status,
           endorsements,
           yesVotes,
           noVotes,
@@ -95,7 +108,14 @@ export const useProposal = (instructionsIndex: number) => {
       }
     },
     {
-      enabled: !!chain && !!archiveProvider && !!contract && proposalURI.length > 0 && !!metadata && metadataIsFetched,
+      enabled:
+        !!chain &&
+        !!archiveProvider &&
+        !!contract &&
+        proposalURI.length > 0 &&
+        !!metadata &&
+        metadataIsFetched &&
+        !!activationTimelines,
     },
   );
 
@@ -134,7 +154,6 @@ export interface ISubmitProposal {
  * # from bophades repo
  * forge create src/policies/Governance.sol:Governance --constructor-args 0x3B294580Fcf1F60B94eca4f4CE78A2f52D23cC83 --rpc-url https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC --private-key yours
  *
- * TODO(appleseed) must APPROVE vOHM to be spent on Gov Contract: https://goerli.etherscan.io/tx/0x687575662aaf247992c47599dfef947bbe64f2022ee59df6e065e72e194b07cf
  */
 export const useSubmitProposal = () => {
   const { chain = { id: 1 } } = useNetwork();
@@ -211,4 +230,18 @@ export const useGetInstructions = (proposalId: number) => {
     },
     { enabled: !!chain && !!chain.id && !!contract && !!proposalId },
   );
+};
+
+export const useActivateProposal = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data: signer } = useSigner();
+
+  // TODO(appleseed): update ANY types below
+  return useMutation<any, Error, number>(async (proposalId: number) => {
+    if (!signer) throw new Error(`Signer is not set`);
+
+    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
+    await contract.connect(signer).activateProposal(proposalId);
+  });
 };

@@ -3,6 +3,7 @@ import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { useGetInstructions } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
 import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
+import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useNetwork } from "wagmi";
 
@@ -21,6 +22,7 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   return (
     <Paper enableBackground fullWidth>
       <Box display="flex" flexDirection="column">
+        <ActivateVoting proposal={proposal} />
         <MarkdownPreview content={proposal.content} />
 
         <Box display="flex" flexDirection="row" justifyContent="flex-end">

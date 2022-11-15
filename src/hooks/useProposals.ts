@@ -38,7 +38,8 @@ export interface Proposal {
 }
 
 export interface IAnyProposal extends Omit<Proposal, "isActive"> {
-  timeRemaining?: number | undefined;
+  timeRemaining: number;
+  nextDeadline: number;
   isActive: boolean | undefined;
 }
 
@@ -60,7 +61,14 @@ export interface IProposalContent {
  * - all other states would be stored off-chain, either from the forum
  * - TODO(appleseed): how does a proposal get to "closed" state?
  */
-export type PStatus = "active" | "endorsement" | "discussion" | "draft" | "closed";
+export type PStatus =
+  | "discussion" // created but not ready to activate
+  | "ready to activate" // ready to activate for voting
+  | "expired activation" // missed activation window
+  | "active" // active for voting
+  | "executed" // passed & executed / implemented
+  | "draft"
+  | "closed";
 export interface IProposalState {
   state: PStatus;
 }
@@ -73,37 +81,87 @@ export const unixDays = (numDays: number) => {
   return numDays * 24 * 60 * 60;
 };
 
-/**
- * timeRemaining as a Unix Time from the contract
- * @param submissionTimestamp should be a Unix Time (1/1000 of JS Time)
- * @returns a Unix Time unless the proposal is not active or endorsements status, then returns undefined (no expiration)
- */
-export const timeRemaining = ({
-  state,
-  submissionTimestamp,
-}: {
-  state: PStatus;
-  submissionTimestamp: number;
-}): number | undefined => {
-  if (state === "active") {
-    // TODO(appleseed): setup a config to make these duration requirements (from the contract) easily modifiable
-    return submissionTimestamp + unixDays(7);
-  } else if (state === "endorsement") {
-    return submissionTimestamp + unixDays(14);
-  } else {
-    return undefined;
-  }
+interface IActivationTimelines {
+  activationDeadline: ethers.BigNumber;
+  activationTimelock: ethers.BigNumber;
+  votingPeriod: ethers.BigNumber;
+}
+
+/** time in seconds */
+export const useActivationTimelines = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  return useQuery<IActivationTimelines, Error>(
+    ["GetActivationTimelines", chain.id],
+    async () => {
+      const activationDeadline = await contract.ACTIVATION_DEADLINE();
+      const activationTimelock = await contract.ACTIVATION_TIMELOCK();
+      const votingPeriod = await contract.VOTING_PERIOD();
+
+      return {
+        activationDeadline,
+        activationTimelock,
+        votingPeriod,
+      };
+    },
+    { enabled: !!chain && !!chain.id && !!contract },
+  );
 };
 
-export const parseProposalState = ({ isActive }: { isActive: boolean | undefined }): PStatus => {
-  switch (isActive) {
-    case true:
-      return "active";
-    case false:
-      return "endorsement";
-    default:
-      return "discussion";
+/**
+ * All parameters & return values are js timestamps (milliseconds).
+ */
+export const parseProposalState = ({
+  activationTimestamp,
+  earliestActivation,
+  activationExpiry,
+  votingExpiry,
+}: {
+  activationTimestamp: number;
+  earliestActivation: number;
+  activationExpiry: number;
+  votingExpiry: number;
+}): { status: PStatus; jsTimeRemaining: number; nextDeadline: number } => {
+  const now = Date.now();
+  let status: PStatus;
+  let jsTimeRemaining: number;
+  let nextDeadline: number;
+
+  if (now < earliestActivation) {
+    // "discussion" // created but not ready to activate
+    // block.timestamp < proposal.submissionTimestamp + ACTIVATION_TIMELOCK
+    status = "discussion";
+    jsTimeRemaining = earliestActivation - now;
+    nextDeadline = earliestActivation;
+  } else if (now < activationExpiry && activationTimestamp === 0) {
+    // | "ready to activate" // ready to activate for voting
+    // block.timestamp < proposal.submissionTimestamp + ACTIVATION_DEADLINE
+    status = "ready to activate";
+    jsTimeRemaining = activationExpiry - now;
+    nextDeadline = activationExpiry;
+  } else if (now >= activationExpiry && activationTimestamp === 0) {
+    // | "expired activation" // missed activation window
+    // block.timestamp > proposal.submissionTimestamp + ACTIVATION_DEADLINE && activationTimestamp === 0
+    status = "expired activation";
+    jsTimeRemaining = 0;
+    nextDeadline = activationExpiry;
+  } else if (activationTimestamp > 0 && now < votingExpiry) {
+    status = "active";
+    jsTimeRemaining = votingExpiry - now;
+    nextDeadline = votingExpiry;
+  } else {
+    status = "closed";
+    jsTimeRemaining = 0;
+    nextDeadline = votingExpiry;
   }
+
+  // | "executed" // passed & executed / implemented
+
+  return {
+    status,
+    jsTimeRemaining,
+    nextDeadline,
+  };
 };
 
 /**
@@ -225,12 +283,10 @@ export const filterStatement = ({ proposal, filters }: { proposal: Proposal; fil
       case "active":
         result = proposal.isActive;
         break;
-      case "endorsement":
-        result = proposal.isActive === false;
-        break;
       case "discussion":
       case "draft":
       case "closed":
+        result = proposal.isActive === false;
         break;
       default:
         console.log(`Sorry, we are out of somethings wrong.`);
