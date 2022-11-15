@@ -49,7 +49,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: true,
     network: true,
     bondsV2: true,
-    range: false,
+    range: true,
   },
   [NetworkId.TESTNET_GOERLI]: {
     dashboard: true,
