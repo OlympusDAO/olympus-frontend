@@ -188,14 +188,22 @@ export const Range = () => {
                         </div>
                         <div data-testid="premium-discount">
                           <DataRow
-                            title={sellActive ? t`Premium` : t`Discount`}
+                            title={
+                              sellActive
+                                ? discount < 0
+                                  ? "Discount"
+                                  : "Premium"
+                                : discount < 0
+                                ? "Premium"
+                                : "Discount"
+                            }
                             balance={
                               <Typography
                                 sx={{
                                   color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error,
                                 }}
                               >
-                                {formatNumber(discount * 100, 2)}%
+                                {formatNumber(Math.abs(discount) * 100, 2)}%
                               </Typography>
                             }
                           />
