@@ -3,7 +3,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_AGGREGATOR_CONTRACT,
@@ -350,11 +349,11 @@ type RangeContracts = "swap" | "bond";
  * Either Swap on the operator, or purchase on the bond teller.
  */
 export const RangeSwap = () => {
-  const dispatch = useDispatch();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
   const { chain = { id: 1 } } = useNetwork();
   const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+
   return useMutation<
     ContractReceipt,
     Error,
@@ -425,8 +424,8 @@ export const RangeSwap = () => {
         trackGtagEvent("Range", {
           event_category: "Swap",
           event_label: market.toString() ?? "unknown",
-          address: tx.from.slice(2), // the signer, not necessarily the receipient
-          txHash: tx.transactionHash.slice(2),
+          address: tx.from, // the signer, not necessarily the receipient
+          txHash: tx.transactionHash,
         });
 
         toast(t`Range Swap Successful`);
