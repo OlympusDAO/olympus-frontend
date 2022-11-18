@@ -413,20 +413,22 @@ export const RangeSwap = () => {
         toast.error(error.message);
       },
       onSuccess: async (tx, { market }) => {
-        trackGAEvent({
-          category: "Range",
-          action: "Swap",
-          label: market.toString() ?? "unknown",
-          dimension1: tx.transactionHash,
-          dimension2: tx.from, // the signer, not necessarily the receipient
-        });
+        if (tx.transactionHash) {
+          trackGAEvent({
+            category: "Range",
+            action: "Swap",
+            label: market.toString() ?? "unknown",
+            dimension1: tx.transactionHash,
+            dimension2: tx.from, // the signer, not necessarily the receipient
+          });
 
-        trackGtagEvent("Range", {
-          event_category: "Swap",
-          event_label: market.toString() ?? "unknown",
-          address: tx.from, // the signer, not necessarily the receipient
-          txHash: tx.transactionHash,
-        });
+          trackGtagEvent("Range", {
+            event_category: "Swap",
+            event_label: market.toString() ?? "unknown",
+            address: tx.from.slice(2), // the signer, not necessarily the receipient
+            txHash: tx.transactionHash.slice(2),
+          });
+        }
 
         toast(t`Range Swap Successful`);
       },
