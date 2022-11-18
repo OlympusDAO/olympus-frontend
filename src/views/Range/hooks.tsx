@@ -3,7 +3,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_AGGREGATOR_CONTRACT,
@@ -13,6 +12,7 @@ import {
 } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 // import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -22,7 +22,7 @@ import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
-import { OlympusRange } from "src/typechain/Range";
+import { RANGEv1 as OlympusRange } from "src/typechain/Range";
 import { useNetwork, useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
@@ -349,11 +349,11 @@ type RangeContracts = "swap" | "bond";
  * Either Swap on the operator, or purchase on the bond teller.
  */
 export const RangeSwap = () => {
-  const dispatch = useDispatch();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
   const { chain = { id: 1 } } = useNetwork();
   const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+
   return useMutation<
     ContractReceipt,
     Error,
@@ -413,20 +413,22 @@ export const RangeSwap = () => {
         toast.error(error.message);
       },
       onSuccess: async (tx, { market }) => {
-        // trackGAEvent({
-        //   category: "Range",
-        //   action: "Swap",
-        //   label: market.toString() ?? "unknown",
-        //   dimension1: tx.transactionHash,
-        //   dimension2: address,
-        // });
+        if (tx.transactionHash) {
+          trackGAEvent({
+            category: "Range",
+            action: "Swap",
+            label: market.toString() ?? "unknown",
+            dimension1: tx.transactionHash,
+            dimension2: tx.from, // the signer, not necessarily the receipient
+          });
 
-        // trackGtagEvent("Range", {
-        //   event_category: "Swap",
-        //   event_label: market.toString() ?? "unknown",
-        //   address: address.slice(2),
-        //   txHash: tx.transactionHash.slice(2),
-        // });
+          trackGtagEvent("Range", {
+            event_category: "Swap",
+            event_label: market.toString() ?? "unknown",
+            address: tx.from.slice(2), // the signer, not necessarily the receipient
+            txHash: tx.transactionHash.slice(2),
+          });
+        }
 
         toast(t`Range Swap Successful`);
       },

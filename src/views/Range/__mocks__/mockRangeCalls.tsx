@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import { OlympusRange } from "src/typechain/Range";
+import { RANGEv1 as OlympusRange } from "src/typechain/Range";
 
 export const RangeData: OlympusRange.RangeStruct = {
   cushion: {
