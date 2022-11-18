@@ -2,11 +2,10 @@ import { t } from "@lingui/macro";
 import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { getSubgraphUrls } from "src/helpers/SubgraphUrlHelper";
 import { BondList } from "src/views/Bond/components/BondList";
-import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
-import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
 import { ClaimBondsV3 } from "src/views/Bond/components/ClaimBonds/ClaimBondsV3";
 import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
@@ -68,10 +67,11 @@ export const Bond = () => {
 
   return (
     <>
+      <PageTitle name={currentAction === "INVERSE" ? "Inverse Bonds" : "Bonds"} />
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
         <ClaimBondsV3 />
-        <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+        <Paper>
           <MetricCollection>
             <TreasuryBalance {...sharedMetricProps} />
             <OHMPrice {...sharedMetricProps} />
@@ -93,14 +93,8 @@ export const Bond = () => {
                   data-testid="bond-tab"
                   aria-label="bond-button"
                   label={t({ message: "Bond", comment: "Bonding tab" })}
-                  style={{ fontSize: "1rem" }}
                 />
-                <Tab
-                  data-testid="inverse-bond-tab"
-                  aria-label="inverse-bond-button"
-                  label={t`Inverse Bond`}
-                  style={{ fontSize: "1rem" }}
-                />
+                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
               </Tabs>
             )}
 
@@ -115,12 +109,6 @@ export const Bond = () => {
           </Box>
         </Paper>
       </Box>
-      <Routes>
-        <Route path="v3/:id" element={<BondModalContainerV3 />} />
-        <Route path="v3/inverse/:id" element={<BondModalContainerV3 />} />
-        <Route path=":id" element={<BondModalContainer />} />
-        <Route path="inverse/:id" element={<BondModalContainer />} />
-      </Routes>
     </>
   );
 };

@@ -156,7 +156,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                   <Box style={{ margin: "20px 0px 20px 0px" }}>
                     <Typography
                       id="m-asset-row"
-                      style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
+                      style={{ margin: "10px 0px 10px 0px", fontWeight: 500 }}
                     >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                       <Typography>

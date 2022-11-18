@@ -1,8 +1,8 @@
 import { Trans } from "@lingui/macro";
-import { Box, Dialog, DialogTitle, FormControl, Typography } from "@mui/material";
+import { Box, Dialog, DialogTitle, FormControl, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
-import { SetStateAction, useEffect, useState } from "react";
+import { Icon, Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
+import { FC, SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 
 const PREFIX = "SlippageModal";
@@ -22,12 +22,14 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function SlippageModal(
-  handleClose: () => void,
-  modalOpen: boolean,
-  currentSlippage: string,
-  setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void },
-) {
+export interface SlippageModal {
+  handleClose: () => void;
+  modalOpen: boolean;
+  currentSlippage: string;
+  setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void };
+}
+
+const SlippageModal: FC<SlippageModal> = ({ handleClose, modalOpen, currentSlippage, setCustomSlippage }) => {
   const [proposedSlippage, setProposedSlippage] = useState(currentSlippage);
   const [errorState, setErrorState] = useState<string | null>(null);
   const handleChangeProposedSlippage = (slippage: string) => {
@@ -56,28 +58,28 @@ function SlippageModal(
       open={modalOpen}
       fullWidth
       maxWidth="xs"
-      id="zap-select-token-modal"
-      className="zap-card"
+      PaperProps={{ sx: { borderRadius: "9px" } }}
     >
       <DialogTitle>
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box />
-          <Box paddingLeft={6}>
+          <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
               <Trans>Adjust Slippage</Trans>
             </Typography>
           </Box>
-          <PrimaryButton icon="x" template="text" onClick={handleClose} />
+          <Link onClick={handleClose} alignItems="center">
+            <Icon name="x" />
+          </Link>
         </Box>
       </DialogTitle>
-      <Box paddingBottom="36px" className={classes.root}>
+      <Box paddingBottom="15px" className={classes.root}>
         <Typography color="textSecondary">
           <Trans>Important: Recommended slippage is 1-3% to avoid a failed transaction.</Trans>
         </Typography>
       </Box>
-      <Box paddingBottom="16px" className={classes.root}>
-        {/* <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}> */}
-        <FormControl className="slippage-input" variant="outlined" color="primary" size="small">
+      <Box paddingBottom="15px" className={classes.root}>
+        <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
           <Input
             id="slippage"
             type="number"
@@ -90,7 +92,7 @@ function SlippageModal(
 
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           {presetSlippageOptions.map(slippage => (
-            <SecondaryButton size="small" onClick={() => handleChangeProposedSlippage(slippage)}>
+            <SecondaryButton onClick={() => handleChangeProposedSlippage(slippage)}>
               <Typography>{`${slippage}%`}</Typography>
             </SecondaryButton>
           ))}
@@ -98,8 +100,6 @@ function SlippageModal(
         <Box paddingY="16px">{errorState ? <Typography color="error">{errorState}</Typography> : null}</Box>
         <Box display="flex" justifyContent={"center"}>
           <PrimaryButton
-            size="small"
-            color="primary"
             disabled={errorState != null}
             onClick={() => {
               if (errorState != null) {
@@ -109,12 +109,12 @@ function SlippageModal(
               handleClose();
             }}
           >
-            <Typography>Adjust Slippage</Typography>
+            Adjust Slippage
           </PrimaryButton>
         </Box>
       </Box>
     </StyledDialog>
   );
-}
+};
 
 export default SlippageModal;

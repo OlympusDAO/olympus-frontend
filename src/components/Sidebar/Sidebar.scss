@@ -1,5 +1,5 @@
 .sidebar {
-  min-width: 312px;
+  min-width: 264px;
   z-index: 2;
   border-radius: 0 !important;
 }
@@ -12,13 +12,11 @@
   height: 100%;
   overflow: hidden;
   border-radius: 0 !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .menu-divider {
-  margin-left: 30px;
-  margin-block: 10px;
+  margin-top: -4.5px;
+  margin-bottom: 7.5px;
 }
 
 .dapp-sidebar-inner {
@@ -34,7 +32,7 @@
   width: 100%;
   align-items: center;
   text-decoration: none;
-  margin: 30px 0 10px 0;
+  margin: 54px 0 52px 0;
   .branding-header-icon {
     width: 50px;
     display: block;

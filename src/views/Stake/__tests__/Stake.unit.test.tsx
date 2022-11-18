@@ -9,9 +9,6 @@ describe("<Stake/>", () => {
 
   it("should render correct staking headers", () => {
     const { container } = render(<Stake />);
-    // there should be a header inviting user to Stake
-    expect(screen.getByText("Single Stake (3, 3)")).toBeInTheDocument();
-    //  there should be a Farm Pool table
 
     expect(screen.getByText("Farm Pool")).toBeInTheDocument();
     expect(container).toMatchSnapshot();

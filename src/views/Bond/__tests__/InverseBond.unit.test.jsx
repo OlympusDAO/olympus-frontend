@@ -1,7 +1,9 @@
+import { BigNumber } from "ethers";
 import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import * as ContractAllowance from "src/hooks/useContractAllowance";
 import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import {
@@ -100,7 +102,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
     setTimeout(async () => {
       expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-      expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
+      expect(screen.getAllByText("Inverse Bond")[1]).toBeInTheDocument(); // Price of the DAI inverse bond.
     }, 30000);
   });
 });
@@ -124,6 +126,8 @@ describe("Bond Modal", () => {
   it("Should display bond modal with Instant Payout Bond (Inverse)", async () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
+    jest.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(10) });
+
     render(<BondModalContainer />);
     expect(await screen.findByText("Instantly")).toBeInTheDocument();
     // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)

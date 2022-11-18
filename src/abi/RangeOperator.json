@@ -1,0 +1,551 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract Kernel", "name": "kernel_", "type": "address" },
+        { "internalType": "contract IBondSDA", "name": "auctioneer_", "type": "address" },
+        { "internalType": "contract IBondCallback", "name": "callback_", "type": "address" },
+        { "internalType": "contract ERC20[2]", "name": "tokens_", "type": "address[2]" },
+        { "internalType": "uint32[8]", "name": "configParams", "type": "uint32[8]" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    { "inputs": [], "name": "Operator_AlreadyInitialized", "type": "error" },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "amountOut", "type": "uint256" },
+        { "internalType": "uint256", "name": "minAmountOut", "type": "uint256" }
+      ],
+      "name": "Operator_AmountLessThanMinimum",
+      "type": "error"
+    },
+    { "inputs": [], "name": "Operator_Inactive", "type": "error" },
+    { "inputs": [], "name": "Operator_InsufficientCapacity", "type": "error" },
+    { "inputs": [], "name": "Operator_InvalidParams", "type": "error" },
+    { "inputs": [], "name": "Operator_NotInitialized", "type": "error" },
+    { "inputs": [], "name": "Operator_WallDown", "type": "error" },
+    {
+      "inputs": [{ "internalType": "Keycode", "name": "keycode_", "type": "bytes5" }],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint32", "name": "cushionFactor_", "type": "uint32" }],
+      "name": "CushionFactorChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint32", "name": "duration_", "type": "uint32" },
+        { "indexed": false, "internalType": "uint32", "name": "debtBuffer_", "type": "uint32" },
+        { "indexed": false, "internalType": "uint32", "name": "depositInterval_", "type": "uint32" }
+      ],
+      "name": "CushionParamsChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint32", "name": "wait_", "type": "uint32" },
+        { "indexed": false, "internalType": "uint32", "name": "threshold_", "type": "uint32" },
+        { "indexed": false, "internalType": "uint32", "name": "observe_", "type": "uint32" }
+      ],
+      "name": "RegenParamsChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint32", "name": "reserveFactor_", "type": "uint32" }],
+      "name": "ReserveFactorChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "contract ERC20", "name": "tokenIn_", "type": "address" },
+        { "indexed": true, "internalType": "contract ERC20", "name": "tokenOut_", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amountIn_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "amountOut_", "type": "uint256" }
+      ],
+      "name": "Swap",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "ONE_HUNDRED_PERCENT",
+      "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ONE_PERCENT",
+      "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLES",
+      "outputs": [{ "internalType": "contract ROLESv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "activate", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "active",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auctioneer",
+      "outputs": [{ "internalType": "contract IBondSDA", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "id_", "type": "uint256" },
+        { "internalType": "uint256", "name": "amountOut_", "type": "uint256" }
+      ],
+      "name": "bondPurchase",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "callback",
+      "outputs": [{ "internalType": "contract IBondCallback", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "config",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "uint32", "name": "cushionFactor", "type": "uint32" },
+            { "internalType": "uint32", "name": "cushionDuration", "type": "uint32" },
+            { "internalType": "uint32", "name": "cushionDebtBuffer", "type": "uint32" },
+            { "internalType": "uint32", "name": "cushionDepositInterval", "type": "uint32" },
+            { "internalType": "uint32", "name": "reserveFactor", "type": "uint32" },
+            { "internalType": "uint32", "name": "regenWait", "type": "uint32" },
+            { "internalType": "uint32", "name": "regenThreshold", "type": "uint32" },
+            { "internalType": "uint32", "name": "regenObserve", "type": "uint32" }
+          ],
+          "internalType": "struct IOperator.Config",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [{ "internalType": "Keycode[]", "name": "dependencies", "type": "bytes5[]" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "deactivate", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "deactivateCushion",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "fullCapacity",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "contract ERC20", "name": "tokenIn_", "type": "address" },
+        { "internalType": "uint256", "name": "amountIn_", "type": "uint256" }
+      ],
+      "name": "getAmountOut",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "initialize", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "initialized",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isActive",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmDecimals",
+      "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "operate", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "regenerate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "Keycode", "name": "keycode", "type": "bytes5" },
+            { "internalType": "bytes4", "name": "funcSelector", "type": "bytes4" }
+          ],
+          "internalType": "struct Permissions[]",
+          "name": "requests",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserve",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserveDecimals",
+      "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "contract IBondSDA", "name": "auctioneer_", "type": "address" },
+        { "internalType": "contract IBondCallback", "name": "callback_", "type": "address" }
+      ],
+      "name": "setBondContracts",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint32", "name": "cushionFactor_", "type": "uint32" }],
+      "name": "setCushionFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint32", "name": "duration_", "type": "uint32" },
+        { "internalType": "uint32", "name": "debtBuffer_", "type": "uint32" },
+        { "internalType": "uint32", "name": "depositInterval_", "type": "uint32" }
+      ],
+      "name": "setCushionParams",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint32", "name": "wait_", "type": "uint32" },
+        { "internalType": "uint32", "name": "threshold_", "type": "uint32" },
+        { "internalType": "uint32", "name": "observe_", "type": "uint32" }
+      ],
+      "name": "setRegenParams",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint32", "name": "reserveFactor_", "type": "uint32" }],
+      "name": "setReserveFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
+        { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      ],
+      "name": "setSpreads",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "thresholdFactor_", "type": "uint256" }],
+      "name": "setThresholdFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "status",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                { "internalType": "uint32", "name": "count", "type": "uint32" },
+                { "internalType": "uint48", "name": "lastRegen", "type": "uint48" },
+                { "internalType": "uint32", "name": "nextObservation", "type": "uint32" },
+                { "internalType": "bool[]", "name": "observations", "type": "bool[]" }
+              ],
+              "internalType": "struct IOperator.Regen",
+              "name": "low",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                { "internalType": "uint32", "name": "count", "type": "uint32" },
+                { "internalType": "uint48", "name": "lastRegen", "type": "uint48" },
+                { "internalType": "uint32", "name": "nextObservation", "type": "uint32" },
+                { "internalType": "bool[]", "name": "observations", "type": "bool[]" }
+              ],
+              "internalType": "struct IOperator.Regen",
+              "name": "high",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct IOperator.Status",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "contract ERC20", "name": "tokenIn_", "type": "address" },
+        { "internalType": "uint256", "name": "amountIn_", "type": "uint256" },
+        { "internalType": "uint256", "name": "minAmountOut_", "type": "uint256" }
+      ],
+      "name": "swap",
+      "outputs": [{ "internalType": "uint256", "name": "amountOut", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "details": "The Olympus Range Operator performs market operations to enforce OlympusDAO's OHM price range         guidance policies against a specific reserve asset. The Operator is maintained by a keeper-triggered         function on the Olympus Heart contract, which orchestrates state updates in the correct order to ensure         market operations use up to date information. When the price of OHM against the reserve asset exceeds         the cushion spread, the Operator deploys bond markets to support the price. The Operator also offers         zero slippage swaps at prices dictated by the wall spread from the moving average. These market operations         are performed up to a specific capacity before the market must stabilize to regenerate the capacity.",
+    "kind": "dev",
+    "methods": {
+      "bondPurchase(uint256,uint256)": {
+        "params": {
+          "amountOut_": "Amount of capacity expended",
+          "id_": "ID of the bond market"
+        }
+      },
+      "fullCapacity(bool)": {
+        "details": "Calculates the capacity to deploy for a wall based on the amount of reserves owned by the treasury and the reserve factor.",
+        "params": {
+          "high_": "Whether to return the full capacity for the high or low wall"
+        }
+      },
+      "getAmountOut(address,uint256)": {
+        "params": {
+          "amountIn_": "Amount of tokenIn to swap",
+          "tokenIn_": "Token to swap into the wall                     If OHM: swap at the low wall price for Reserve                     If Reserve: swap at the high wall price for OHM"
+        },
+        "returns": {
+          "_0": "Amount of opposite token received"
+        }
+      },
+      "initialize()": {
+        "details": "This function executes actions required to start operations that cannot be done prior to the Operator policy being approved by the Kernel."
+      },
+      "operate()": {
+        "details": "This function is triggered by a keeper on the Heart contract."
+      },
+      "regenerate(bool)": {
+        "details": "This function is an escape hatch to trigger out of cycle regenerations and may be useful when doing migrations of Treasury funds",
+        "params": {
+          "high_": "Whether to regenerate the high side or low side (true = high, false = low)"
+        }
+      },
+      "setBondContracts(address,address)": {
+        "params": {
+          "auctioneer_": "Address of the bond auctioneer to use.",
+          "callback_": "Address of the callback to use."
+        }
+      },
+      "setCushionFactor(uint32)": {
+        "params": {
+          "cushionFactor_": "Percent of wall capacity that the operator will deploy in the cushion, assumes 2 decimals (i.e. 1000 = 10%)"
+        }
+      },
+      "setCushionParams(uint32,uint32,uint32)": {
+        "params": {
+          "debtBuffer_": "Percentage over the initial debt to allow the market to accumulate at any one time. Percent with 3 decimals, e.g. 1_000 = 1 %. See IBondAuctioneer for more info.",
+          "depositInterval_": "Target frequency of deposits in seconds. Determines max payout of the bond market. See IBondAuctioneer for more info.",
+          "duration_": "Duration of cushion bond markets in seconds"
+        }
+      },
+      "setRegenParams(uint32,uint32,uint32)": {
+        "details": "We must see Threshold number of price points that meet our criteria within the last Observe number of price points to regenerate a wall.",
+        "params": {
+          "observe_": "Number of price points to observe to determine regeneration",
+          "threshold_": "Number of price points on other side of moving average to reinstate a wall",
+          "wait_": "Minimum duration to wait to reinstate a wall in seconds"
+        }
+      },
+      "setReserveFactor(uint32)": {
+        "params": {
+          "reserveFactor_": "Percent of treasury reserves to deploy as capacity for market operations, assumes 2 decimals (i.e. 1000 = 10%)"
+        }
+      },
+      "setSpreads(uint256,uint256)": {
+        "details": "Interface for externally setting these values on the RANGE module",
+        "params": {
+          "cushionSpread_": "Percent spread to set the cushions at above/below the moving average, assumes 2 decimals (i.e. 1000 = 10%)",
+          "wallSpread_": "Percent spread to set the walls at above/below the moving average, assumes 2 decimals (i.e. 1000 = 10%)"
+        }
+      },
+      "setThresholdFactor(uint256)": {
+        "details": "Interface for externally setting this value on the RANGE module",
+        "params": {
+          "thresholdFactor_": "Percent of capacity that the wall should close below, assumes 2 decimals (i.e. 1000 = 10%)"
+        }
+      },
+      "swap(address,uint256,uint256)": {
+        "params": {
+          "amountIn_": "Amount of tokenIn to swap",
+          "minAmountOut_": "Minimum amount of opposite token to receive",
+          "tokenIn_": "Token to swap into the wall                      If OHM: swap at the low wall price for Reserve                      If Reserve: swap at the high wall price for OHM"
+        },
+        "returns": {
+          "amountOut": "   Amount of opposite token received"
+        }
+      }
+    },
+    "title": "Olympus Range Operator",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "FACTOR_SCALE()": {
+        "notice": "Constants"
+      },
+      "auctioneer()": {
+        "notice": "External contractsAuctioneer contract used for cushion bond market deployments"
+      },
+      "bondPurchase(uint256,uint256)": {
+        "notice": "Records a bond purchase and updates capacity correctlyAccess restricted (BondCallback)"
+      },
+      "callback()": {
+        "notice": "Callback contract used for cushion bond market payouts"
+      },
+      "config()": {
+        "notice": "Returns the config variable of the Operator as a Config struct"
+      },
+      "fullCapacity(bool)": {
+        "notice": "Returns the full capacity of the specified wall (if it was regenerated now)"
+      },
+      "getAmountOut(address,uint256)": {
+        "notice": "Returns the amount to be received from a swap"
+      },
+      "initialize()": {
+        "notice": "Initialize the Operator to begin market operationsAccess restrictedCan only be called once"
+      },
+      "initialized()": {
+        "notice": "Whether the Operator has been initialized"
+      },
+      "ohm()": {
+        "notice": "TokensOHM token contract"
+      },
+      "operate()": {
+        "notice": "Executes market operations logic.Access restricted"
+      },
+      "regenerate(bool)": {
+        "notice": "Regenerate the wall for a sideAccess restricted"
+      },
+      "reserve()": {
+        "notice": "Reserve token contract"
+      },
+      "setBondContracts(address,address)": {
+        "notice": "Set the contracts that the Operator deploys bond markets with.Access restricted"
+      },
+      "setCushionFactor(uint32)": {
+        "notice": "Set the cushion factorAccess restricted"
+      },
+      "setCushionParams(uint32,uint32,uint32)": {
+        "notice": "Set the parameters used to deploy cushion bond marketsAccess restricted"
+      },
+      "setRegenParams(uint32,uint32,uint32)": {
+        "notice": "Set the wall regeneration parametersAccess restricted"
+      },
+      "setReserveFactor(uint32)": {
+        "notice": "Set the reserve factorAccess restricted"
+      },
+      "setSpreads(uint256,uint256)": {
+        "notice": "Set the wall and cushion spreadsAccess restricted"
+      },
+      "setThresholdFactor(uint256)": {
+        "notice": "Set the threshold factor for when a wall is considered \"down\"Access restricted"
+      },
+      "status()": {
+        "notice": "Returns the status variable of the Operator as a Status struct"
+      },
+      "swap(address,uint256,uint256)": {
+        "notice": "Swap at the current wall prices"
+      }
+    },
+    "notice": "Olympus Range Operator (Policy) Contract",
+    "version": 1
+  }
+}
