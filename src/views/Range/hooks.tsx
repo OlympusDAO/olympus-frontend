@@ -22,7 +22,7 @@ import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
-import { OlympusRange } from "src/typechain/Range";
+import { RANGEv1 as OlympusRange } from "src/typechain/Range";
 import { useNetwork, useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
