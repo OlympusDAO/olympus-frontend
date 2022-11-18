@@ -17,6 +17,22 @@
       "type": "constructor"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "auctioneer_",
+          "type": "address"
+        }
+      ],
+      "name": "Aggregator_AlreadyRegistered",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Aggregator_InvalidParams",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "Aggregator_OnlyAuctioneer",
       "type": "error"
@@ -255,6 +271,16 @@
           "internalType": "address",
           "name": "owner_",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "firstIndex_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastIndex_",
+          "type": "uint256"
         }
       ],
       "name": "liveMarketsBy",

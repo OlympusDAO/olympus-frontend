@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_DEPOSITORY_CONTRACT,
@@ -15,13 +15,11 @@ import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { Bond } from "src/views/Bond/hooks/useBond";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const usePurchaseBond = (bond: Bond) => {
-  const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
@@ -122,8 +120,7 @@ export const usePurchaseBond = (bond: Bond) => {
     },
     {
       onError: error => {
-        console.log(error);
-        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+        toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async (tx, { amount }) => {
         trackGAEvent({
@@ -152,7 +149,7 @@ export const usePurchaseBond = (bond: Bond) => {
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully bonded` + ` ${bond.quoteToken.name}`));
+        toast(t`Successfully bonded` + ` ${bond.quoteToken.name}`);
       },
     },
   );

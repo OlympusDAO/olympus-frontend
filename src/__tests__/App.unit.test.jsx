@@ -26,7 +26,7 @@ describe("<App/>", () => {
   it("should render component", () => {
     disconnectedWallet();
     renderRoute("/");
-    expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
+    expect(screen.getAllByText("Connect Wallet")[1]).toBeInTheDocument();
   });
   it("should not render an error message when user wallet is connected and cached but not locked", async () => {
     // Workaround for long-running tasks
@@ -110,7 +110,7 @@ describe("Staging Notification Checks", () => {
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     connectWallet();
     render(<App />);
-    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "312px" });
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "264px" });
     expect(
       screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
     ).toBeInTheDocument();
@@ -120,6 +120,7 @@ describe("Staging Notification Checks", () => {
     window.matchMedia = createMatchMedia("300px");
     render(<App />);
     expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "0px" });
+
     expect(
       screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
     ).toBeInTheDocument();

@@ -1,7 +1,6 @@
 import { fireEvent } from "@testing-library/dom";
 import { BigNumber } from "ethers";
 import Router from "react-router";
-import Messages from "src/components/Messages/Messages";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -150,13 +149,13 @@ describe("Bond Modal", () => {
       .fn()
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Duration")).toBeInTheDocument();
+    expect(await screen.findByText("Vesting Term")).toBeInTheDocument();
   });
 
   it("Should display bond modal with Approve Button", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Approve")).toBeInTheDocument();
+    expect(await screen.findByText("Approve OHM-DAI LP to Bond")).toBeInTheDocument();
   });
 
   it("Should Return Error when no amount is entered ", async () => {
@@ -165,11 +164,11 @@ describe("Bond Modal", () => {
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
     fireEvent.click(await screen.findByText("Bond"));
+    fireEvent.click(await screen.findByText("Confirm Bond"));
     expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
   });
 
@@ -179,14 +178,14 @@ describe("Bond Modal", () => {
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
+    fireEvent.change(await screen.findByTestId("fromInput"), {
       target: { value: "-1" },
     });
     fireEvent.click(await screen.findByText("Bond"));
+    fireEvent.click(await screen.findByText("Confirm Bond"));
     expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
   });
 
@@ -196,14 +195,14 @@ describe("Bond Modal", () => {
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
+    fireEvent.change(await screen.findByTestId("fromInput"), {
       target: { value: "20" },
     });
     fireEvent.click(await screen.findByText("Bond"));
+    fireEvent.click(await screen.findByText("Confirm Bond"));
     expect(await screen.findByText("You cannot bond more than your OHM-DAI LP balance")).toBeInTheDocument();
   });
 
@@ -213,14 +212,14 @@ describe("Bond Modal", () => {
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
+    fireEvent.change(await screen.findByTestId("fromInput"), {
       target: { value: "5" },
     });
     fireEvent.click(await screen.findByText("Bond"));
+    fireEvent.click(await screen.findByText("Confirm Bond"));
     expect(
       await screen.findByText("The maximum you can bond at this time is 0.348287073676420851 OHM-DAI LP"),
     ).toBeInTheDocument();
@@ -232,14 +231,14 @@ describe("Bond Modal", () => {
       .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
     render(
       <>
-        <Messages />
         <BondModalContainer />
       </>,
     );
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
+    fireEvent.change(await screen.findByTestId("fromInput"), {
       target: { value: "0.31" },
     });
     fireEvent.click(await screen.findByText("Bond"));
+    fireEvent.click(await screen.findByText("Confirm Bond"));
     expect(await screen.findByText("Successfully bonded OHM-DAI LP")).toBeInTheDocument();
   });
 });

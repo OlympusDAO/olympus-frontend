@@ -5,11 +5,11 @@ import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typograp
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { isChainEthereum, trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
 import { useAppSelector } from "src/hooks";
-import { info } from "src/slices/MessagesSlice";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
@@ -74,7 +74,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
-      dispatch(info("All approvals complete. You may now migrate."));
+      toast("All approvals complete. You may now migrate.");
     }
   }, [isAllApproved]);
 
@@ -175,7 +175,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   <Box style={{ margin: "20px 0px 20px 0px" }}>
                     <Typography
                       id="m-asset-row"
-                      style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
+                      style={{ margin: "10px 0px 10px 0px", fontWeight: 500 }}
                     >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                       <Typography>

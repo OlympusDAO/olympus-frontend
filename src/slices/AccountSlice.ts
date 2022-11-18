@@ -22,7 +22,6 @@ interface IUserBalances {
     ohmV1: string;
     sohmV1: string;
     wsohm: string;
-    mockSohm: string;
   };
 }
 
@@ -31,7 +30,6 @@ export const getBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
-    const mockSohmBalance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
     try {
       const wsohmContract = WsOHM__factory.connect(
@@ -66,7 +64,6 @@ export const getBalances = createAsyncThunk(
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
-        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
       },
     };
   },
@@ -232,7 +229,6 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     sohmV1: string;
     dai: string;
     wsohm: string;
-    mockSohm: string;
   };
   loading: boolean;
   staking: {
@@ -255,7 +251,6 @@ const initialState: IAccountSlice = {
     sohmV1: "",
     dai: "",
     wsohm: "",
-    mockSohm: "",
   },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },

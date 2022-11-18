@@ -1,0 +1,483 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract Kernel", "name": "kernel_", "type": "address" },
+        { "internalType": "contract ERC20", "name": "ohm_", "type": "address" },
+        { "internalType": "contract ERC20", "name": "reserve_", "type": "address" },
+        { "internalType": "uint256", "name": "thresholdFactor_", "type": "uint256" },
+        { "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
+        { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "policy_", "type": "address" }],
+      "name": "Module_PolicyNotPermitted",
+      "type": "error"
+    },
+    { "inputs": [], "name": "RANGE_InvalidParams", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "bool", "name": "high_", "type": "bool" },
+        { "indexed": false, "internalType": "uint256", "name": "timestamp_", "type": "uint256" }
+      ],
+      "name": "CushionDown",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "bool", "name": "high_", "type": "bool" },
+        { "indexed": false, "internalType": "uint256", "name": "timestamp_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      ],
+      "name": "CushionUp",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "wallLowPrice_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "cushionLowPrice_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "cushionHighPrice_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wallHighPrice_", "type": "uint256" }
+      ],
+      "name": "PricesChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      ],
+      "name": "SpreadsChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "thresholdFactor_", "type": "uint256" }],
+      "name": "ThresholdFactorChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "bool", "name": "high_", "type": "bool" },
+        { "indexed": false, "internalType": "uint256", "name": "timestamp_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      ],
+      "name": "WallDown",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "bool", "name": "high_", "type": "bool" },
+        { "indexed": false, "internalType": "uint256", "name": "timestamp_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      ],
+      "name": "WallUp",
+      "type": "event"
+    },
+    { "inputs": [], "name": "INIT", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "KEYCODE",
+      "outputs": [{ "internalType": "Keycode", "name": "", "type": "bytes5" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ONE_HUNDRED_PERCENT",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ONE_PERCENT",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "VERSION",
+      "outputs": [
+        { "internalType": "uint8", "name": "major", "type": "uint8" },
+        { "internalType": "uint8", "name": "minor", "type": "uint8" }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "active",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "capacity",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "lastActive",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "high_", "type": "bool" }],
+      "name": "market",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bool", "name": "wall_", "type": "bool" },
+        { "internalType": "bool", "name": "high_", "type": "bool" }
+      ],
+      "name": "price",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "range",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                { "internalType": "bool", "name": "active", "type": "bool" },
+                { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
+                { "internalType": "uint256", "name": "capacity", "type": "uint256" },
+                { "internalType": "uint256", "name": "threshold", "type": "uint256" },
+                { "internalType": "uint256", "name": "market", "type": "uint256" }
+              ],
+              "internalType": "struct RANGEv1.Side",
+              "name": "low",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                { "internalType": "bool", "name": "active", "type": "bool" },
+                { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
+                { "internalType": "uint256", "name": "capacity", "type": "uint256" },
+                { "internalType": "uint256", "name": "threshold", "type": "uint256" },
+                { "internalType": "uint256", "name": "market", "type": "uint256" }
+              ],
+              "internalType": "struct RANGEv1.Side",
+              "name": "high",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
+                  "internalType": "struct RANGEv1.Line",
+                  "name": "high",
+                  "type": "tuple"
+                },
+                {
+                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
+                  "internalType": "struct RANGEv1.Line",
+                  "name": "low",
+                  "type": "tuple"
+                },
+                { "internalType": "uint256", "name": "spread", "type": "uint256" }
+              ],
+              "internalType": "struct RANGEv1.Band",
+              "name": "cushion",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
+                  "internalType": "struct RANGEv1.Line",
+                  "name": "high",
+                  "type": "tuple"
+                },
+                {
+                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
+                  "internalType": "struct RANGEv1.Line",
+                  "name": "low",
+                  "type": "tuple"
+                },
+                { "internalType": "uint256", "name": "spread", "type": "uint256" }
+              ],
+              "internalType": "struct RANGEv1.Band",
+              "name": "wall",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct RANGEv1.Range",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bool", "name": "high_", "type": "bool" },
+        { "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      ],
+      "name": "regenerate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserve",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
+        { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+      ],
+      "name": "setSpreads",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "thresholdFactor_", "type": "uint256" }],
+      "name": "setThresholdFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bool", "name": "wall_", "type": "bool" }],
+      "name": "spread",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "thresholdFactor",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bool", "name": "high_", "type": "bool" },
+        { "internalType": "uint256", "name": "capacity_", "type": "uint256" }
+      ],
+      "name": "updateCapacity",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bool", "name": "high_", "type": "bool" },
+        { "internalType": "uint256", "name": "market_", "type": "uint256" },
+        { "internalType": "uint256", "name": "marketCapacity_", "type": "uint256" }
+      ],
+      "name": "updateMarket",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "movingAverage_", "type": "uint256" }],
+      "name": "updatePrices",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "details": "The Olympus Range Data contract stores information about the Olympus Range market operations status.         It provides a standard interface for Range data, including range prices and capacities of each range side.         The data provided by this contract is used by the Olympus Range Operator to perform market operations.         The Olympus Range Data is updated each epoch by the Olympus Range Operator contract.",
+    "kind": "dev",
+    "methods": {
+      "VERSION()": {
+        "details": "Minor version change retains interface. Major version upgrade indicates      breaking change to the interface."
+      },
+      "active(bool)": {
+        "params": {
+          "high_": "Specifies the side of the range to get status for (true = high side, false = low side)."
+        }
+      },
+      "capacity(bool)": {
+        "params": {
+          "high_": "Specifies the side of the range to get capacity for (true = high side, false = low side)."
+        }
+      },
+      "lastActive(bool)": {
+        "params": {
+          "high_": "Specifies the side of the range to get timestamp for (true = high side, false = low side)."
+        }
+      },
+      "market(bool)": {
+        "params": {
+          "high_": "Specifies the side of the range to get market for (true = high side, false = low side)."
+        }
+      },
+      "price(bool,bool)": {
+        "params": {
+          "high_": "Specifies the side of the range to get the price for (true = high side, false = low side).",
+          "wall_": "Specifies the band to get the price for (true = wall, false = cushion)."
+        }
+      },
+      "regenerate(bool,uint256)": {
+        "params": {
+          "capacity_": "Amount to set the capacity to (OHM tokens for high side, Reserve tokens for low side).",
+          "high_": "Specifies the side of the range to regenerate (true = high side, false = low side)."
+        }
+      },
+      "setSpreads(uint256,uint256)": {
+        "details": "The new spreads will not go into effect until the next time updatePrices() is called.",
+        "params": {
+          "cushionSpread_": "Percent spread to set the cushions at above/below the moving average, assumes 2 decimals (i.e. 1000 = 10%).",
+          "wallSpread_": "Percent spread to set the walls at above/below the moving average, assumes 2 decimals (i.e. 1000 = 10%)."
+        }
+      },
+      "setThresholdFactor(uint256)": {
+        "details": "The new threshold factor will not go into effect until the next time regenerate() is called for each side of the wall.",
+        "params": {
+          "thresholdFactor_": "Percent of capacity that the wall should close below, assumes 2 decimals (i.e. 1000 = 10%)."
+        }
+      },
+      "spread(bool)": {
+        "params": {
+          "wall_": "Specifies the band to get the spread for (true = wall, false = cushion)."
+        }
+      },
+      "updateCapacity(bool,uint256)": {
+        "params": {
+          "capacity_": "Amount to set the capacity to (OHM tokens for high side, Reserve tokens for low side).",
+          "high_": "Specifies the side of the range to update capacity for (true = high side, false = low side)."
+        }
+      },
+      "updateMarket(bool,uint256,uint256)": {
+        "params": {
+          "high_": "Specifies the side of the range to update market for (true = high side, false = low side).",
+          "marketCapacity_": "Amount to set the last market capacity to (OHM tokens for high side, Reserve tokens for low side).",
+          "market_": "Market ID to set for the side."
+        }
+      },
+      "updatePrices(uint256)": {
+        "params": {
+          "movingAverage_": "Current moving average price to set range prices from."
+        }
+      }
+    },
+    "stateVariables": {
+      "thresholdFactor": {
+        "details": "A threshold is required so that a wall is not \"active\" with a capacity near zero, but unable to be depleted practically (dust)."
+      }
+    },
+    "title": "Olympus Range Data",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "FACTOR_SCALE()": {
+        "notice": "Constants"
+      },
+      "VERSION()": {
+        "notice": "Specify which version of a module is being implemented."
+      },
+      "active(bool)": {
+        "notice": "Get the status of a side of the range (whether it is active or not)."
+      },
+      "capacity(bool)": {
+        "notice": "Get the capacity for a side of the range."
+      },
+      "lastActive(bool)": {
+        "notice": "Get the timestamp when the range was last active."
+      },
+      "market(bool)": {
+        "notice": "Get the market ID for a side of the range."
+      },
+      "ohm()": {
+        "notice": "TokensOHM token contract address"
+      },
+      "price(bool,bool)": {
+        "notice": "Get the price for the wall or cushion for a side of the range."
+      },
+      "range()": {
+        "notice": "Get the full Range data in a struct."
+      },
+      "regenerate(bool,uint256)": {
+        "notice": "Regenerate a side of the range to a specific capacity.Access restricted to approved policies."
+      },
+      "reserve()": {
+        "notice": "Reserve token contract address"
+      },
+      "setSpreads(uint256,uint256)": {
+        "notice": "Set the wall and cushion spreads.Access restricted to approved policies."
+      },
+      "setThresholdFactor(uint256)": {
+        "notice": "Set the threshold factor for when a wall is considered \"down\".Access restricted to approved policies."
+      },
+      "spread(bool)": {
+        "notice": "Get the spread for the wall or cushion band."
+      },
+      "thresholdFactor()": {
+        "notice": "Threshold factor for the change, a percent in 2 decimals (i.e. 1000 = 10%). Determines how much of the capacity must be spent before the side is taken down."
+      },
+      "updateCapacity(bool,uint256)": {
+        "notice": "Update the capacity for a side of the range.Access restricted to approved policies."
+      },
+      "updateMarket(bool,uint256,uint256)": {
+        "notice": "Update the market ID (cushion) for a side of the range.Access restricted to approved policies."
+      },
+      "updatePrices(uint256)": {
+        "notice": "Update the prices for the low and high sides.Access restricted to approved policies."
+      }
+    },
+    "notice": "Olympus Range Data (Module) Contract",
+    "version": 1
+  }
+}
