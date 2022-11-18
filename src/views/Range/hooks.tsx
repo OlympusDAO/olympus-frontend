@@ -13,6 +13,7 @@ import {
 } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 // import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -413,20 +414,20 @@ export const RangeSwap = () => {
         toast.error(error.message);
       },
       onSuccess: async (tx, { market }) => {
-        // trackGAEvent({
-        //   category: "Range",
-        //   action: "Swap",
-        //   label: market.toString() ?? "unknown",
-        //   dimension1: tx.transactionHash,
-        //   dimension2: address,
-        // });
+        trackGAEvent({
+          category: "Range",
+          action: "Swap",
+          label: market.toString() ?? "unknown",
+          dimension1: tx.transactionHash,
+          dimension2: tx.from, // the signer, not necessarily the receipient
+        });
 
-        // trackGtagEvent("Range", {
-        //   event_category: "Swap",
-        //   event_label: market.toString() ?? "unknown",
-        //   address: address.slice(2),
-        //   txHash: tx.transactionHash.slice(2),
-        // });
+        trackGtagEvent("Range", {
+          event_category: "Swap",
+          event_label: market.toString() ?? "unknown",
+          address: tx.from.slice(2), // the signer, not necessarily the receipient
+          txHash: tx.transactionHash.slice(2),
+        });
 
         toast(t`Range Swap Successful`);
       },
