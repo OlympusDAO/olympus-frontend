@@ -157,22 +157,20 @@ export const Range = () => {
                   )}
                 </Box>
                 <form onSubmit={handleSubmit}>
-                  <WalletConnectedGuard message="Connect your wallet to use Range Swap">
-                    <RangeInputForm
-                      reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
-                      onSetSellActive={() => setSellActive(!sellActive)}
-                      sellActive={sellActive}
-                      reserveBalance={reserveBalance}
-                      ohmBalance={ohmBalance}
-                      onFormSubmit={handleSubmit}
-                      onChangeReserveAmount={handleChangeReserveAmount}
-                      onChangeOhmAmount={handleChangeOhmAmount}
-                      ohmAmount={ohmAmount}
-                      reserveAmount={reserveAmount}
-                      capacity={maxCapacity}
-                      hasPrice={hasPrice}
-                    />
-                  </WalletConnectedGuard>
+                  <RangeInputForm
+                    reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
+                    onSetSellActive={() => setSellActive(!sellActive)}
+                    sellActive={sellActive}
+                    reserveBalance={reserveBalance}
+                    ohmBalance={ohmBalance}
+                    onFormSubmit={handleSubmit}
+                    onChangeReserveAmount={handleChangeReserveAmount}
+                    onChangeOhmAmount={handleChangeOhmAmount}
+                    ohmAmount={ohmAmount}
+                    reserveAmount={reserveAmount}
+                    capacity={maxCapacity}
+                    hasPrice={hasPrice}
+                  />
                   {hasPrice && (
                     <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
                       <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
@@ -220,25 +218,27 @@ export const Range = () => {
                           <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
                         </div>
                         <Box mt="8px">
-                          <PrimaryButton
-                            data-testid="range-submit"
-                            fullWidth
-                            type="submit"
-                            disabled={
-                              !ohmAmount ||
-                              !reserveAmount ||
-                              amountAboveCapacity ||
-                              amountAboveBalance ||
-                              (sellActive && !rangeData.low.active) ||
-                              (!sellActive && !rangeData.high.active)
-                            }
-                          >
-                            {amountAboveCapacity
-                              ? `Amount exceeds capacity`
-                              : amountAboveBalance
-                              ? `Amount exceeds balance`
-                              : swapButtonText}
-                          </PrimaryButton>
+                          <WalletConnectedGuard fullWidth>
+                            <PrimaryButton
+                              data-testid="range-submit"
+                              fullWidth
+                              type="submit"
+                              disabled={
+                                !ohmAmount ||
+                                !reserveAmount ||
+                                amountAboveCapacity ||
+                                amountAboveBalance ||
+                                (sellActive && !rangeData.low.active) ||
+                                (!sellActive && !rangeData.high.active)
+                              }
+                            >
+                              {amountAboveCapacity
+                                ? `Amount exceeds capacity`
+                                : amountAboveBalance
+                                ? `Amount exceeds balance`
+                                : swapButtonText}
+                            </PrimaryButton>
+                          </WalletConnectedGuard>
                         </Box>
                       </Box>
                     </Box>
