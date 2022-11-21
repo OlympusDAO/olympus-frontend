@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
-import { BOND_AGGREGATOR_CONTRACT, BOND_FIXED_EXPIRY_TELLER } from "src/constants/contracts";
+import { RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
+import { BOND_AGGREGATOR_CONTRACT, BOND_FIXED_EXPIRY_TELLER, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -71,9 +72,15 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   const shift = Number(baseScale) / Number(scale);
 
   const quoteTokenPerBaseToken = new DecimalBigNumber(bondMarketPrice.mul(shift), 36);
+  console.log(quoteTokenPerBaseToken, "quoteTokenPerBaseToken");
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
-  const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
+  const rbsBond = market.owner === RANGE_OPERATOR_ADDRESSES[networkId];
+  const rangePriceContract = RANGE_PRICE_CONTRACT.getEthersContract(networkId);
+  const priceInUsd = rbsBond
+    ? new DecimalBigNumber(await rangePriceContract.getCurrentPrice(), 18).mul(quoteTokenPerBaseToken)
+    : quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
+
   const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
 
   /**

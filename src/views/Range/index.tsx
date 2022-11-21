@@ -69,14 +69,22 @@ export const Range = () => {
   const buyAsset = sellActive ? reserveSymbol : "OHM";
   const sellAsset = sellActive ? "OHM" : reserveSymbol;
 
+  const { data: bidPrice } = DetermineRangePrice("bid");
+  const { data: askPrice } = DetermineRangePrice("ask");
+
   useEffect(() => {
     if (reserveAmount && ohmAmount) {
       handleChangeReserveAmount(reserveAmount);
     }
   }, [sellActive]);
 
-  const { data: bidPrice } = DetermineRangePrice("bid");
-  const { data: askPrice } = DetermineRangePrice("ask");
+  useEffect(() => {
+    const sellDiscount = (currentPrice - bidPrice.price) / -currentPrice;
+    console.log("sellDiscount", sellDiscount);
+    if (sellDiscount > 0) {
+      setSellActive(true);
+    }
+  }, [bidPrice, currentPrice]);
 
   const maxBalanceString = `${maxCapacity.toFixed(2)} ${buyAsset}  (${(sellActive
     ? maxCapacity / bidPrice.price
