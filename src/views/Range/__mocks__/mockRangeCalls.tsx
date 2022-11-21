@@ -26,7 +26,7 @@ export const RangeData: OlympusRange.RangeStruct = {
     threshold: BigNumber.from("100000000000000000000000"),
   },
   wall: {
-    low: { price: BigNumber.from("16117147092410245645") },
+    low: { price: BigNumber.from("13117147092410245645") },
     high: { price: BigNumber.from("24175720638615368468") },
     spread: BigNumber.from(2000),
   },

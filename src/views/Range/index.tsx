@@ -80,7 +80,6 @@ export const Range = () => {
 
   useEffect(() => {
     const sellDiscount = (currentPrice - bidPrice.price) / -currentPrice;
-    console.log("sellDiscount", sellDiscount);
     if (sellDiscount > 0) {
       setSellActive(true);
     }
