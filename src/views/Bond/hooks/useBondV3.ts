@@ -72,7 +72,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   const shift = Number(baseScale) / Number(scale);
 
   const quoteTokenPerBaseToken = new DecimalBigNumber(bondMarketPrice.mul(shift), 36);
-  console.log(quoteTokenPerBaseToken, "quoteTokenPerBaseToken");
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
   const bondToken = await bondTeller.getBondTokenForMarket(id);
   const rbsBond = market.owner === RANGE_OPERATOR_ADDRESSES[networkId];
