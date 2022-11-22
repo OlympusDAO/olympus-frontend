@@ -162,32 +162,32 @@ describe("Sell Tab Main Range View", () => {
     expect(await screen.findByTestId("max-row")).toHaveTextContent("Max You Can Sell");
   });
 
-  it("Should Display Premium instead of Discount", async () => {
+  it("Should Display Discount instead of Premium", async () => {
     const { container } = render(<Range />);
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
-    expect(await screen.findByTestId("premium-discount")).toHaveTextContent("Premium");
+    expect(await screen.findByTestId("premium-discount")).toHaveTextContent("Discount");
   });
 
-  it("Should populate DAI Value automatically with 100 when 6.204572026713784 DAI amount is entered", async () => {
+  it("Should populate DAI Value automatically with 81.38628391985866 when 6.204572026713784 DAI amount is entered", async () => {
     const { container } = render(<Range />);
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "6.204572026713784" } });
-    expect(await screen.findByTestId("reserve-amount")).toHaveValue("100");
+    expect(await screen.findByTestId("reserve-amount")).toHaveValue("81.38628391985866");
   });
-  it("Should populate OHM Value automatically with 6.204572026713784 OHM when 100 DAI is entered", async () => {
+  it("Should populate OHM Value automatically with 7.623608952122014 OHM when 100 DAI is entered", async () => {
     const { container } = render(<Range />);
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "100" } });
-    expect(await screen.findByTestId("ohm-amount")).toHaveValue("6.204572026713784");
+    expect(await screen.findByTestId("ohm-amount")).toHaveValue("7.623608952122014");
   });
 
   it("Should change the OHM Value when switching back to the Buy Tab", async () => {
     const { container } = render(<Range />);
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("ohm-amount"), { target: { value: "6.204572026713784" } });
-    expect(await screen.findByTestId("reserve-amount")).toHaveValue("100");
+    expect(await screen.findByTestId("reserve-amount")).toHaveValue("81.38628391985866");
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
-    expect(await screen.findByTestId("ohm-amount")).toHaveValue("4.136381351142522");
+    expect(await screen.findByTestId("ohm-amount")).toHaveValue("3.366447070448939");
   });
 
   it("Should display Amount exceeds balance when OHM amount entered exceeds balance", async () => {
@@ -209,10 +209,10 @@ describe("Sell Tab Main Range View", () => {
     expect(await screen.findByTestId("ohm-amount")).toHaveValue("10");
   });
 
-  it("Should render with Bid price of $16.12 on chart", async () => {
+  it("Should render with Bid price of $13.12 on chart", async () => {
     const { container } = render(<Range />);
     fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
-    expect(await screen.findByText("Bid: $16.12"));
+    expect(await screen.findByText("Bid: $13.12"));
   });
 });
 
