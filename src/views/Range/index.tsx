@@ -69,14 +69,21 @@ export const Range = () => {
   const buyAsset = sellActive ? reserveSymbol : "OHM";
   const sellAsset = sellActive ? "OHM" : reserveSymbol;
 
+  const { data: bidPrice } = DetermineRangePrice("bid");
+  const { data: askPrice } = DetermineRangePrice("ask");
+
   useEffect(() => {
     if (reserveAmount && ohmAmount) {
       handleChangeReserveAmount(reserveAmount);
     }
   }, [sellActive]);
 
-  const { data: bidPrice } = DetermineRangePrice("bid");
-  const { data: askPrice } = DetermineRangePrice("ask");
+  useEffect(() => {
+    const sellDiscount = (currentPrice - bidPrice.price) / -currentPrice;
+    if (sellDiscount > 0) {
+      setSellActive(true);
+    }
+  }, [bidPrice, currentPrice]);
 
   const maxBalanceString = `${maxCapacity.toFixed(2)} ${buyAsset}  (${(sellActive
     ? maxCapacity / bidPrice.price
@@ -149,22 +156,20 @@ export const Range = () => {
                   )}
                 </Box>
                 <form onSubmit={handleSubmit}>
-                  <WalletConnectedGuard message="Connect your wallet to use Range Swap">
-                    <RangeInputForm
-                      reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
-                      onSetSellActive={() => setSellActive(!sellActive)}
-                      sellActive={sellActive}
-                      reserveBalance={reserveBalance}
-                      ohmBalance={ohmBalance}
-                      onFormSubmit={handleSubmit}
-                      onChangeReserveAmount={handleChangeReserveAmount}
-                      onChangeOhmAmount={handleChangeOhmAmount}
-                      ohmAmount={ohmAmount}
-                      reserveAmount={reserveAmount}
-                      capacity={maxCapacity}
-                      hasPrice={hasPrice}
-                    />
-                  </WalletConnectedGuard>
+                  <RangeInputForm
+                    reserveSymbol={reserveSymbol as OHMTokenProps["name"]}
+                    onSetSellActive={() => setSellActive(!sellActive)}
+                    sellActive={sellActive}
+                    reserveBalance={reserveBalance}
+                    ohmBalance={ohmBalance}
+                    onFormSubmit={handleSubmit}
+                    onChangeReserveAmount={handleChangeReserveAmount}
+                    onChangeOhmAmount={handleChangeOhmAmount}
+                    ohmAmount={ohmAmount}
+                    reserveAmount={reserveAmount}
+                    capacity={maxCapacity}
+                    hasPrice={hasPrice}
+                  />
                   {hasPrice && (
                     <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
                       <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
@@ -212,25 +217,27 @@ export const Range = () => {
                           <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
                         </div>
                         <Box mt="8px">
-                          <PrimaryButton
-                            data-testid="range-submit"
-                            fullWidth
-                            type="submit"
-                            disabled={
-                              !ohmAmount ||
-                              !reserveAmount ||
-                              amountAboveCapacity ||
-                              amountAboveBalance ||
-                              (sellActive && !rangeData.low.active) ||
-                              (!sellActive && !rangeData.high.active)
-                            }
-                          >
-                            {amountAboveCapacity
-                              ? `Amount exceeds capacity`
-                              : amountAboveBalance
-                              ? `Amount exceeds balance`
-                              : swapButtonText}
-                          </PrimaryButton>
+                          <WalletConnectedGuard fullWidth>
+                            <PrimaryButton
+                              data-testid="range-submit"
+                              fullWidth
+                              type="submit"
+                              disabled={
+                                !ohmAmount ||
+                                !reserveAmount ||
+                                amountAboveCapacity ||
+                                amountAboveBalance ||
+                                (sellActive && !rangeData.low.active) ||
+                                (!sellActive && !rangeData.high.active)
+                              }
+                            >
+                              {amountAboveCapacity
+                                ? `Amount exceeds capacity`
+                                : amountAboveBalance
+                                ? `Amount exceeds balance`
+                                : swapButtonText}
+                            </PrimaryButton>
+                          </WalletConnectedGuard>
                         </Box>
                       </Box>
                     </Box>

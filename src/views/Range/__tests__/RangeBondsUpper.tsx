@@ -44,7 +44,7 @@ describe("Upper Wall Active Bond Market", () => {
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
     //@ts-expect-error
     rangeData.mockReturnValueOnce({
-      range: jest.fn().mockReturnValueOnce({ ...RangeData, high: { ...RangeData.high, market: BigNumber.from("1") } }),
+      range: jest.fn().mockReturnValueOnce({ ...RangeData, high: { ...RangeData.high } }),
       reserve: jest.fn().mockReturnValue("address"),
     });
     //@ts-expect-error
@@ -108,8 +108,9 @@ describe("Upper Wall Active Bond Market", () => {
 
   it("Should have a disclaimer notifying a buy above current market price ($13.20)", async () => {
     //@ts-ignore
-    RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "14.12" } });
-    render(<Range />);
+    RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "14.20" } });
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(screen.getByTestId("disclaimer")).toHaveTextContent(
@@ -119,12 +120,9 @@ describe("Upper Wall Active Bond Market", () => {
 
   it("Should successfully complete buy regular bond transaction", async () => {
     //@ts-ignore
-    RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "14.12" } });
-    render(
-      <>
-        <Range />
-      </>,
-    );
+    RangeHooks.DetermineRangePrice = jest.fn().mockReturnValue({ data: { price: "14.20" } });
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
