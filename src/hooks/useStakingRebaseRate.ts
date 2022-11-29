@@ -8,6 +8,6 @@ export const useStakingRebaseRate = () => {
     const distributorContract = DISTRIBUTOR_CONTRACT.getEthersContract(NetworkId.MAINNET);
     const rewardRate = await distributorContract.rewardRate();
 
-    return parseBigNumber(rewardRate, 6);
+    return parseBigNumber(rewardRate, 9);
   });
 };

@@ -2,7 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_AGGREGATOR_CONTRACT,
@@ -12,6 +11,7 @@ import {
 } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 // import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -21,8 +21,8 @@ import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
-import { OlympusRange } from "src/typechain/Range";
-import { useNetwork, useSigner } from "wagmi";
+import { RANGEv1 as OlympusRange } from "src/typechain/Range";
+import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
 export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
@@ -104,10 +104,10 @@ export const PriceHistory = (reserveToken: string) => {
  * Returns the current price of the Operator at the given address
  */
 export const OperatorPrice = () => {
-  const { chain = { id: 1 } } = useNetwork();
+  const networks = useTestableNetworks();
 
-  const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
-  const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", chain], async () => {
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
+  const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", networks.MAINNET], async () => {
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
@@ -117,14 +117,14 @@ export const OperatorPrice = () => {
  * Returns the current price of the Operator at the given address
  */
 export const OperatorMovingAverage = () => {
-  const { chain = { id: 1 } } = useNetwork();
+  const networks = useTestableNetworks();
 
-  const contract = RANGE_PRICE_CONTRACT.getEthersContract(chain.id);
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { movingAverage: 0, days: 30 },
     isFetched,
     isLoading,
-  } = useQuery(["getOperatorMovingAverage", chain], async () => {
+  } = useQuery(["getOperatorMovingAverage", networks.MAINNET], async () => {
     const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
     const movingAverageSeconds = await contract.movingAverageDuration();
     const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
@@ -137,14 +137,14 @@ export const OperatorMovingAverage = () => {
  * Returns the reserve contract address on the Operator
  */
 export const OperatorReserveSymbol = () => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = RANGE_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const contract = RANGE_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
     isLoading,
-  } = useQuery(["getOperatorReserveSymbol", chain], async () => {
-    const provider = Providers.getStaticProvider(chain.id);
+  } = useQuery(["getOperatorReserveSymbol", networks.MAINNET], async () => {
+    const provider = Providers.getStaticProvider(networks.MAINNET);
     const reserveAddress = await contract.reserve();
     const TokenContract = IERC20__factory.connect(reserveAddress, provider);
     const symbol = await TokenContract.symbol();
@@ -158,8 +158,8 @@ export const OperatorReserveSymbol = () => {
  */
 
 export const RangeData = () => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = RANGE_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const contract = RANGE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const {
     data = {
@@ -170,7 +170,7 @@ export const RangeData = () => {
     } as OlympusRange.RangeStructOutput,
     isFetched,
     isLoading,
-  } = useQuery(["getRangeData", chain.id], async () => {
+  } = useQuery(["getRangeData", networks.MAINNET], async () => {
     const range = await contract.range();
     return range;
   });
@@ -199,24 +199,25 @@ const band: OlympusRange.BandStruct = {
  * @param id Bond Market ID
  */
 export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const { data, isFetched, isLoading } = useQuery(
-    ["getRangeBondPrice", id, chain, side],
+    ["getRangeBondPrice", id, networks.MAINNET, side],
     async () => {
       const bondPrice = await contract.marketPrice(id);
       const auctioneerAddress = await contract.getAuctioneer(id);
       const auctioneerContract = BondFixedTermSDA__factory.connect(auctioneerAddress, contract.provider);
       const market = await auctioneerContract.markets(id);
       const inverse =
-        market.payoutToken.toLowerCase() !== OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES].toLowerCase();
+        market.payoutToken.toLowerCase() !==
+        OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES].toLowerCase();
       const baseToken = inverse
-        ? await getTokenByAddress({ address: market.payoutToken, networkId: chain.id })
+        ? await getTokenByAddress({ address: market.payoutToken, networkId: networks.MAINNET })
         : OHM_TOKEN;
       assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
       const quoteToken = inverse
         ? OHM_TOKEN
-        : await getTokenByAddress({ address: market.quoteToken, networkId: chain.id });
+        : await getTokenByAddress({ address: market.quoteToken, networkId: networks.MAINNET });
       assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
 
       const scale = await contract.marketScale(id);
@@ -236,11 +237,11 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
 };
 
 export const RangeBondMaxPayout = (id: BigNumber) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET);
 
   const { data, isFetched, isLoading } = useQuery(
-    ["getRangeBondMaxPayout", id, chain],
+    ["getRangeBondMaxPayout", id, networks.MAINNET],
     async () => {
       const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
       const contract = BondFixedTermSDA__factory.connect(auctioneerAddress, aggregatorContract.provider);
@@ -255,10 +256,10 @@ export const RangeBondMaxPayout = (id: BigNumber) => {
 };
 
 export const BondTellerAddress = (id: BigNumber) => {
-  const { chain = { id: 1 } } = useNetwork();
-  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(chain.id);
+  const networks = useTestableNetworks();
+  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const { data, isFetched, isLoading } = useQuery(
-    ["getRangeBondTeller", id, chain],
+    ["getRangeBondTeller", id, networks.MAINNET],
     async () => {
       const tellerAddress = await contract.getTeller(id);
       return tellerAddress;
@@ -348,11 +349,10 @@ type RangeContracts = "swap" | "bond";
  * Either Swap on the operator, or purchase on the bond teller.
  */
 export const RangeSwap = () => {
-  const dispatch = useDispatch();
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
-  const { chain = { id: 1 } } = useNetwork();
   const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
+
   return useMutation<
     ContractReceipt,
     Error,
@@ -368,8 +368,8 @@ export const RangeSwap = () => {
     }
   >(
     async ({ market, tokenAddress, swapType, amount, receiveAmount, sellActive, slippage, recipientAddress }) => {
-      const decimals = tokenAddress === OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES] ? 9 : 18;
-      const receiveDecimals = tokenAddress === OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES] ? 18 : 9; //opposite of send
+      const decimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 9 : 18;
+      const receiveDecimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 18 : 9; //opposite of send
       if (!signer) throw new Error(`Please connect a wallet to Range Swap`);
 
       if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(`Invalid address`);
@@ -412,20 +412,22 @@ export const RangeSwap = () => {
         toast.error(error.message);
       },
       onSuccess: async (tx, { market }) => {
-        // trackGAEvent({
-        //   category: "Range",
-        //   action: "Swap",
-        //   label: market.toString() ?? "unknown",
-        //   dimension1: tx.transactionHash,
-        //   dimension2: address,
-        // });
+        if (tx.transactionHash) {
+          trackGAEvent({
+            category: "Range",
+            action: "Swap",
+            label: market.toString() ?? "unknown",
+            dimension1: tx.transactionHash,
+            dimension2: tx.from, // the signer, not necessarily the receipient
+          });
 
-        // trackGtagEvent("Range", {
-        //   event_category: "Swap",
-        //   event_label: market.toString() ?? "unknown",
-        //   address: address.slice(2),
-        //   txHash: tx.transactionHash.slice(2),
-        // });
+          trackGtagEvent("Range", {
+            event_category: "Swap",
+            event_label: market.toString() ?? "unknown",
+            address: tx.from.slice(2), // the signer, not necessarily the receipient
+            txHash: tx.transactionHash.slice(2),
+          });
+        }
 
         toast(`Range Swap Successful`);
       },

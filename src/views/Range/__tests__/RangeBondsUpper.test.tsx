@@ -155,11 +155,12 @@ describe("Upper Wall Active Bond Market", () => {
     expect(await screen.getAllByText("Confirm Swap")[0]);
   });
 
-  it("Should have a disclaimer notifying a buy above current market price ($13.20)", async () => {
+  it("Should have a disclaimer notifying a buy above current market price ($14.20)", async () => {
     //@ts-ignore
-    vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.12" } });
+    vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.20" } });
 
-    render(<Range />);
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(screen.getByTestId("disclaimer")).toContain(
@@ -169,13 +170,10 @@ describe("Upper Wall Active Bond Market", () => {
 
   it("Should successfully complete buy regular bond transaction", async () => {
     //@ts-ignore
-    vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.12" } });
+    vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "14.20" } });
 
-    render(
-      <>
-        <Range />
-      </>,
-    );
+    const { container } = render(<Range />);
+    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
