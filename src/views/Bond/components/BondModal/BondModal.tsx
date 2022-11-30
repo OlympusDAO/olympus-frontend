@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Skeleton, Typography } from "@mui/material";
 import { Metric, TokenStack } from "@olympusdao/component-library";
@@ -99,7 +98,7 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
           <Metric
-            label={t`Bond Price`}
+            label={`Bond Price`}
             tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
             metric={
               bond.isSoldOut ? (
@@ -114,7 +113,7 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             }
           />
           <Metric
-            label={t`Market Price`}
+            label="Market Price"
             metric={
               <TokenPrice
                 token={bond.baseToken}
@@ -125,7 +124,7 @@ export const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             }
           />
           <Metric
-            label={isInverseBond ? t`Premium` : t`Discount`}
+            label={isInverseBond ? "Premium" : "Discount"}
             metric={<BondDiscount discount={bond.discount} textOnly />}
           />
         </Box>

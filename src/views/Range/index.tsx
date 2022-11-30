@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
 import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
@@ -51,7 +50,7 @@ export const Range = () => {
 
   const { data: currentPrice = 0 } = OperatorPrice();
 
-  const maxString = sellActive ? t`Max You Can Sell` : t`Max You Can Buy`;
+  const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
   const { data: upperMaxPayout } = RangeBondMaxPayout(rangeData.high.market);
   const { data: lowerMaxPayout } = RangeBondMaxPayout(rangeData.low.market);
@@ -196,7 +195,7 @@ export const Range = () => {
                             title={
                               sellActive
                                 ? discount < 0
-                                  ? "Discount"
+                                  ? "Discoun"
                                   : "Premium"
                                 : discount < 0
                                 ? "Premium"
@@ -214,7 +213,7 @@ export const Range = () => {
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
+                          <DataRow title={`Swap Price per OHM`} balance={swapPrice} />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>

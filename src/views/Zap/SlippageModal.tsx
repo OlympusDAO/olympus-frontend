@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Box, Dialog, DialogTitle, FormControl, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
@@ -65,7 +64,7 @@ const SlippageModal: FC<SlippageModal> = ({ handleClose, modalOpen, currentSlipp
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              <Trans>Adjust Slippage</Trans>
+              Adjust Slippage
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -75,7 +74,7 @@ const SlippageModal: FC<SlippageModal> = ({ handleClose, modalOpen, currentSlipp
       </DialogTitle>
       <Box paddingBottom="15px" className={classes.root}>
         <Typography color="textSecondary">
-          <Trans>Important: Recommended slippage is 1-3% to avoid a failed transaction.</Trans>
+          Important: Recommended slippage is 1-3% to avoid a failed transaction.
         </Typography>
       </Box>
       <Box paddingBottom="15px" className={classes.root}>

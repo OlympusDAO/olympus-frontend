@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
@@ -89,12 +88,8 @@ export const Bond = () => {
                 // Hides the tab underline while <Zoom> is zooming
                 TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
               >
-                <Tab
-                  data-testid="bond-tab"
-                  aria-label="bond-button"
-                  label={t({ message: "Bond", comment: "Bonding tab" })}
-                />
-                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+                <Tab data-testid="bond-tab" aria-label="bond-button" label={"Bond"} />
+                <Tab data-testid="inverse-bond-tab" aria-label="inverse-bond-button" label={`Inverse Bond`} />
               </Tabs>
             )}
 

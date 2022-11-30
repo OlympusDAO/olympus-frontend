@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
@@ -371,9 +370,9 @@ export const RangeSwap = () => {
     async ({ market, tokenAddress, swapType, amount, receiveAmount, sellActive, slippage, recipientAddress }) => {
       const decimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 9 : 18;
       const receiveDecimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 18 : 9; //opposite of send
-      if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
+      if (!signer) throw new Error(`Please connect a wallet to Range Swap`);
 
-      if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(t`Invalid address`);
+      if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(`Invalid address`);
 
       const swapAmount = new DecimalBigNumber(amount, decimals);
       const receiveAmountBN = new DecimalBigNumber(receiveAmount, receiveDecimals);
@@ -430,7 +429,7 @@ export const RangeSwap = () => {
           });
         }
 
-        toast(t`Range Swap Successful`);
+        toast(`Range Swap Successful`);
       },
     },
   );

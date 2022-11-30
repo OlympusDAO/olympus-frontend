@@ -1,5 +1,6 @@
 import * as fc from "fast-check";
 import { formatCurrency } from "src/helpers/Migration";
+import { expect, test } from "vitest";
 
 test("formatCurrency always returns value starting with $", async () => {
   // force 0.1 to a 32-bit float
@@ -7,7 +8,7 @@ test("formatCurrency always returns value starting with $", async () => {
   fc.assert(
     fc.property(fc.float({ min: min32 }), value => {
       const formatted = formatCurrency(value);
-      expect(formatted).toStartWith("$");
+      expect(formatted).toContain("$");
     }),
   );
 });

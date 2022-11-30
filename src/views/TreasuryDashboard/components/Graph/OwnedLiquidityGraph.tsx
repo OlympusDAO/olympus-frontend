@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
@@ -136,11 +135,11 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
       dataKeys={dataKeys}
       dataKeyColors={dataKeyColorsMap}
       dataFormat={DataFormat.Currency}
-      headerText={t`Protocol-Owned Liquidity`}
+      headerText={`Protocol-Owned Liquidity`}
       headerSubText={total}
       dataKeyBulletpointStyles={dataKeyBulletpointStylesMap}
       dataKeyLabels={categoryDataKeyMap}
-      infoTooltipMessage={t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
+      infoTooltipMessage={`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`}
       isLoading={byDateTokenSummary.length == 0}
       itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}

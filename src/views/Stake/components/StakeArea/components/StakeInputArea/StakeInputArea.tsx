@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Avatar, Box, Link, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
@@ -250,9 +249,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
         onChange={(_, view: number) => setCurrentAction(view === 0 ? "STAKE" : "UNSTAKE")}
       >
-        <Tab aria-label="stake-button" label={t({ message: "Stake", comment: "The action of staking (verb)" })} />
+        <Tab aria-label="stake-button" label="Stake" />
 
-        <Tab aria-label="unstake-button" label={t`Unstake`} />
+        <Tab aria-label="unstake-button" label={`Unstake`} />
       </Tabs>
 
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -300,9 +299,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           {currentAction === "UNSTAKE" && liveInverseBonds && (
             <Box mb="6.5px">
               <InfoNotification dismissible>
-                {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+                {`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
                 &nbsp;
-                <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+                <Link href={`#/bonds`}>{`Inverse Bonds`}</Link>
               </InfoNotification>
             </Box>
           )}
@@ -315,7 +314,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 <Link
                   href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
                   target="_blank"
-                >{t`Learn more`}</Link>
+                >{`Learn more`}</Link>
               </InfoNotification>
             </Box>
           )}
@@ -392,7 +391,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                       zapExecute.isLoading ||
                       zapOutputAmount === "" ||
                       (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                      process.env.DISABLE_ZAPS ||
+                      import.meta.env.DISABLE_ZAPS ||
                       parseFloat(amount) === 0
                     }
                     onClick={onZap}

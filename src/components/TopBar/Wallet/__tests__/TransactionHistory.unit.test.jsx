@@ -8,37 +8,35 @@ import {
 import Wallet from "src/components/TopBar/Wallet/index";
 import * as queries from "src/components/TopBar/Wallet/queries";
 import { fireEvent, render, screen } from "src/testUtils";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("<TransactionHistory />", () => {
   describe("Show no transactions", () => {
     beforeEach(() => {
-      const useTransactionHistory = jest.spyOn(queries, "useTransactionHistory");
+      const useTransactionHistory = vi.spyOn(queries, "useTransactionHistory");
       useTransactionHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
 
-      const useTransferHistory = jest.spyOn(queries, "useTransferHistory");
+      const useTransferHistory = vi.spyOn(queries, "useTransferHistory");
       useTransferHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
-
       render(<Wallet component="wallet/history" open />);
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
-      jest.resetAllMocks();
+      vi.clearAllMocks();
     });
-
     it("Should show no transaction history", () => {
-      expect(screen.getByText("No transactions")).toBeInTheDocument();
+      expect(screen.getByText("No transactions"));
     });
 
     it("Should filter the list when clicking on Staking", () => {
       fireEvent.click(screen.getByText("Staking"));
-      expect(screen.getByText("No transactions")).toBeInTheDocument();
+      expect(screen.getByText("No transactions"));
     });
   });
 
   describe("Show important transactions", () => {
     beforeEach(() => {
-      const useTransactionHistory = jest.spyOn(queries, "useTransactionHistory");
+      const useTransactionHistory = vi.spyOn(queries, "useTransactionHistory");
       useTransactionHistory.mockReturnValue({
         data: {
           pages: [
@@ -54,30 +52,30 @@ describe("<TransactionHistory />", () => {
         isFetched: true,
       });
 
-      const useTransferHistory = jest.spyOn(queries, "useTransferHistory");
+      const useTransferHistory = vi.spyOn(queries, "useTransferHistory");
       useTransferHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
 
       render(<Wallet component="wallet/history" open />);
     });
 
     it("Should display an unstake transaction", () => {
-      expect(screen.getByText("Unstake")).toBeInTheDocument();
+      expect(screen.getByText("Unstake"));
     });
 
     it("Should display a stake transaction", () => {
-      expect(screen.getByText("Stake")).toBeInTheDocument();
+      expect(screen.getByText("Stake"));
     });
 
     it("Should display a bond purchased transaction", () => {
-      expect(screen.getByText("Bond Purchased")).toBeInTheDocument();
+      expect(screen.getByText("Bond Purchased"));
     });
 
     it("Should display a bond claimed transaction", () => {
-      expect(screen.getByText("Bond Claimed")).toBeInTheDocument();
+      expect(screen.getByText("Bond Claimed"));
     });
 
     it("Should display a fuse supply transaction", () => {
-      expect(screen.getByText("Supply to Fuse")).toBeInTheDocument();
+      expect(screen.getByText("Supply to Fuse"));
     });
   });
 });

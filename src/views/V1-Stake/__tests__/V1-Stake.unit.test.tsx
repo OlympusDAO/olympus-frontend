@@ -3,8 +3,8 @@ import { render } from "src/testUtils";
 import V1Stake from "src/views/V1-Stake/V1-Stake";
 
 afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
+  vi.clearAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("<Stake/>", () => {
