@@ -48,10 +48,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: base-report
+          path: base-report.json
       - name: Download Branch Report
         uses: actions/download-artifact@v3
         with:
           name: branch-report
+          path: branch-report.json
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
