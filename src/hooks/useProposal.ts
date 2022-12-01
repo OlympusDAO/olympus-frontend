@@ -73,11 +73,13 @@ export const useProposal = (instructionsIndex: number) => {
         const activationTimestamp = parseBigNumber(metadata.activationTimestamp, 0) * 1000;
         const activationTimelock = parseBigNumber(activationTimelines.activationTimelock, 0) * 1000;
         const activationDeadline = parseBigNumber(activationTimelines.activationDeadline, 0) * 1000;
+        const collateralDuration = parseBigNumber(activationTimelines.collateralDuration, 0) * 1000;
         const votingPeriod = parseBigNumber(activationTimelines.votingPeriod, 0) * 1000;
         const isActive = activationTimestamp !== 0;
         const earliestActivation = submissionTimestamp + activationTimelock;
         const activationExpiry = submissionTimestamp + activationDeadline;
         const votingExpiry = activationTimestamp + votingPeriod;
+        const collateralClaimableAt = submissionTimestamp + collateralDuration;
         const proposalState = parseProposalState({
           activationTimestamp,
           earliestActivation,
@@ -92,6 +94,7 @@ export const useProposal = (instructionsIndex: number) => {
           id: instructionsIndex,
           title: proposalContent.name,
           submitter: metadata.submitter,
+          collateralClaimableAt: collateralClaimableAt,
           submissionTimestamp: submissionTimestamp,
           timeRemaining: proposalState.jsTimeRemaining,
           nextDeadline: proposalState.nextDeadline,
@@ -243,5 +246,23 @@ export const useActivateProposal = () => {
 
     // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
     await contract.connect(signer).activateProposal(proposalId);
+  });
+};
+
+/**
+ * used to reclaim your vOHM collateral after the voting period
+ * - only the proposer should have access to this button.
+ */
+export const useReClaimVohm = () => {
+  const { chain = { id: 1 } } = useNetwork();
+  const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
+  const { data: signer } = useSigner();
+
+  // TODO(appleseed): update ANY types below
+  return useMutation<any, Error, number>(async (proposalId: number) => {
+    if (!signer) throw new Error(`Signer is not set`);
+
+    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
+    await contract.connect(signer).reclaimCollateral(proposalId);
   });
 };

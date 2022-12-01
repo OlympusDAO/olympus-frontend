@@ -40,6 +40,7 @@ export interface Proposal {
 export interface IAnyProposal extends Omit<Proposal, "isActive"> {
   timeRemaining: number;
   nextDeadline: number;
+  collateralClaimableAt: number;
   isActive: boolean | undefined;
 }
 
@@ -85,6 +86,7 @@ interface IActivationTimelines {
   activationDeadline: ethers.BigNumber;
   activationTimelock: ethers.BigNumber;
   votingPeriod: ethers.BigNumber;
+  collateralDuration: ethers.BigNumber;
 }
 
 /** time in seconds */
@@ -97,11 +99,14 @@ export const useActivationTimelines = () => {
       const activationDeadline = await contract.ACTIVATION_DEADLINE();
       const activationTimelock = await contract.ACTIVATION_TIMELOCK();
       const votingPeriod = await contract.VOTING_PERIOD();
+      // collateralDuration is time your collateral will be locked after proposing
+      const collateralDuration = await contract.COLLATERAL_DURATION();
 
       return {
         activationDeadline,
         activationTimelock,
         votingPeriod,
+        collateralDuration,
       };
     },
     { enabled: !!chain && !!chain.id && !!contract },

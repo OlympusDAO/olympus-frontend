@@ -14,7 +14,7 @@ import { PollDetailsTab } from "src/views/Governance/components/ProposalPage/com
 import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
 import { toCapitalCase } from "src/views/Governance/helpers";
 
-const dateFormat = new Intl.DateTimeFormat([], {
+export const proposalDateFormat = new Intl.DateTimeFormat([], {
   month: "short",
   day: "numeric",
   year: "numeric",
@@ -22,34 +22,6 @@ const dateFormat = new Intl.DateTimeFormat([], {
   hour: "numeric",
   minute: "numeric",
 });
-
-export const ProposalPage: FC = () => {
-  const { passedId } = useParams();
-  const proposalId = useMemo(() => {
-    if (!passedId) return -1;
-    return parseInt(passedId);
-  }, [passedId]);
-
-  // const _useProposal = useProposal(proposalId);
-  // const proposal: IAnyProposal = useMemo(() => {
-  //   if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
-  //   return _useProposal.data;
-  // }, [_useProposal]);
-
-  const { data: proposal, isLoading } = useProposal(proposalId);
-  return (
-    <>
-      {!isLoading && !!proposal && (
-        <Routes>
-          <Route path="/" element={<PageWrapper proposal={proposal} />}>
-            <Route index element={<PollDetailsTab proposal={proposal} />} />
-            <Route path="votes" element={<VotesTab proposal={proposal} />} />
-          </Route>
-        </Routes>
-      )}
-    </>
-  );
-};
 
 export const PageWrapper = (props: { proposal: IAnyProposal }) => (
   <Box display="flex" justifyContent="center" width="100%">
@@ -111,18 +83,18 @@ const TimeRemaining = ({ proposal }: { proposal: IAnyProposal }) => {
       <Icon name="timeLeft" style={{ fontSize: "10px", fill: theme.colors.gray[90] }} />
       <Typography ml="9px" variant="body2" color={theme.colors.gray[90]} lineHeight="18px">
         {proposal.state === "expired activation"
-          ? `Activation Period Expired at ${dateFormat.format(proposal.nextDeadline)}`
+          ? `Activation Period Expired at ${proposalDateFormat.format(proposal.nextDeadline)}`
           : proposal.state === "discussion"
           ? `Can be activated in ${prettifySeconds(boundedTimeRemaining)}`
           : proposal.state === "ready to activate"
           ? `Must be activated within ${prettifySeconds(boundedTimeRemaining)}`
           : proposal.state === "active" && boundedTimeRemaining == 0
-          ? `Vote Finished at ${dateFormat.format(proposal.nextDeadline)}`
+          ? `Vote Finished at ${proposalDateFormat.format(proposal.nextDeadline)}`
           : proposal.state === "active"
           ? `Ends in ${prettifySeconds(boundedTimeRemaining)}`
           : proposal.state === "closed"
-          ? `Expired at ${dateFormat.format(proposal.nextDeadline)}`
-          : `Expired at ${dateFormat.format(proposal.nextDeadline)}`}
+          ? `Expired at ${proposalDateFormat.format(proposal.nextDeadline)}`
+          : `Expired at ${proposalDateFormat.format(proposal.nextDeadline)}`}
       </Typography>
     </>
   );
@@ -148,7 +120,7 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
         return "darkGray" as OHMChipProps["template"];
     }
   };
-  const formattedPublishedDate = dateFormat.format(proposal.submissionTimestamp);
+  const formattedPublishedDate = proposalDateFormat.format(proposal.submissionTimestamp);
 
   return (
     <Grid container direction="column" pt="9px" mb="9px">
@@ -170,5 +142,33 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
         </Box>
       </Box>
     </Grid>
+  );
+};
+
+export const ProposalPage: FC = () => {
+  const { passedId } = useParams();
+  const proposalId = useMemo(() => {
+    if (!passedId) return -1;
+    return parseInt(passedId);
+  }, [passedId]);
+
+  // const _useProposal = useProposal(proposalId);
+  // const proposal: IAnyProposal = useMemo(() => {
+  //   if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
+  //   return _useProposal.data;
+  // }, [_useProposal]);
+
+  const { data: proposal, isLoading } = useProposal(proposalId);
+  return (
+    <>
+      {!isLoading && !!proposal && (
+        <Routes>
+          <Route path="/" element={<PageWrapper proposal={proposal} />}>
+            <Route index element={<PollDetailsTab proposal={proposal} />} />
+            <Route path="votes" element={<VotesTab proposal={proposal} />} />
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 };

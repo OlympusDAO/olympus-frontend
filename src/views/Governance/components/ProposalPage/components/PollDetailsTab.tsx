@@ -4,6 +4,7 @@ import { useGetInstructions } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
 import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
 import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
+import ReclaimVohmButton from "src/views/Governance/components/ReclaimVohmButton";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useNetwork } from "wagmi";
 
@@ -26,6 +27,7 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
         <MarkdownPreview content={proposal.content} />
 
         <Box display="flex" flexDirection="row" justifyContent="flex-end">
+          <ReclaimVohmButton proposal={proposal} />
           <TertiaryButton target="_blank" href={proposal.uri}>
             Discussion
           </TertiaryButton>

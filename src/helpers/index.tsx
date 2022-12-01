@@ -97,7 +97,7 @@ export function shouldTriggerSafetyCheck() {
 }
 
 export const handleContractError = (e: any) => {
-  if (Environment.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+  if (Environment.env.MODE !== "production") console.warn("caught error in slices; usually network related", e);
 };
 
 /**
