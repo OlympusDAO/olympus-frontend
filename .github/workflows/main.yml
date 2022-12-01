@@ -31,7 +31,7 @@ jobs:
       - name: Build UI
         run: yarn install --frozen-lockfile
       - name: Run unit tests
-        run: yarn test:unit --reporter=json --outputFile=branch-report.json
+        run: yarn test:unit --reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
@@ -47,13 +47,11 @@ jobs:
       - name: Download Base Report
         uses: actions/download-artifact@v3
         with:
-          name: base-report
-          path: base-report.json
+          name: branch-report
       - name: Download Branch Report
         uses: actions/download-artifact@v3
         with:
           name: branch-report
-          path: branch-report.json
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
