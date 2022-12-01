@@ -8,50 +8,52 @@ jobs:
   test-base:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout front end code.
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.base_ref}}
-    - name: Build UI
-      run: yarn install --frozen-lockfile
-    - name: Run unit tests
-      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=base-report.json
-    - name: Upload Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: base-report
-        path: base-report.json  
+      - name: Checkout front end code.
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref}}
+      - name: Build UI
+        run: yarn install --frozen-lockfile
+      - name: Run unit tests
+        run: yarn test:unit --reporter=json --outputFile=base-report.json
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: base-report
+          path: base-report.json
   test-branch:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout front end code.
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref}}
-    - name: Build UI
-      run: yarn install --frozen-lockfile
-    - name: Run unit tests
-      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=branch-report.json
-    - name: Upload Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: branch-report
-        path: branch-report.json
+      - name: Checkout front end code.
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref}}
+      - name: Build UI
+        run: yarn install --frozen-lockfile
+      - name: Run unit tests
+        run: yarn test:unit --reporter=json --outputFile=branch-report.json
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: branch-report
+          path: branch-report.json
   coverageReport:
     runs-on: ubuntu-latest
     needs: [test-base, test-branch]
     permissions:
       pull-requests: write
       contents: write
-    steps: 
+    steps:
       - name: Download Base Report
         uses: actions/download-artifact@v3
         with:
           name: base-report
+          path: base-report.json
       - name: Download Branch Report
         uses: actions/download-artifact@v3
         with:
           name: branch-report
+          path: branch-report.json
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
@@ -61,6 +63,3 @@ jobs:
           coverage-file: branch-report.json
           base-coverage-file: base-report.json
           annotations: none
-
-
-

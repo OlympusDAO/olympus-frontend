@@ -1,9 +1,8 @@
 import { Box, Grid, InputLabel, Select, Skeleton, styled, Typography } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
-import MDEditor from "@uiw/react-md-editor";
+// import MDEditor from "@uiw/react-md-editor";
 import { ethers } from "ethers";
 import { FC, useState } from "react";
-import rehypeSanitize from "rehype-sanitize";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOVERNANCE_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
 import { isValidUrl } from "src/helpers";
@@ -106,7 +105,7 @@ export const CreateProposal = () => {
           <CollateralRequiredText />
           <TextEntry label="Title" handleChange={setProposalTitle} />
           <StyledInputLabel>Description</StyledInputLabel>
-          <MDEditor
+          {/* <MDEditor
             preview="edit"
             value={proposalDescription}
             onChange={value => (value ? setProposalDescription(value) : setProposalDescription(""))}
@@ -115,7 +114,7 @@ export const CreateProposal = () => {
             previewOptions={{
               rehypePlugins: [[rehypeSanitize]],
             }}
-          />
+          /> */}
           <Box display="flex" flexDirection="row" justifyContent="flex-end">
             <Typography>{proposalDescription?.length || 0}/14,400</Typography>
           </Box>

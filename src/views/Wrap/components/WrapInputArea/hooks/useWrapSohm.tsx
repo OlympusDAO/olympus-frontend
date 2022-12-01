@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
 import toast from "react-hot-toast";
@@ -22,22 +21,23 @@ export const useWrapSohm = () => {
 
   return useMutation<ContractReceipt, EthersError, string>({
     mutationFn: async amount => {
-      if (!signer) throw new Error(t`Please connect a wallet`);
+      if (!signer) throw new Error(`Please connect a wallet`);
       const contract = OlympusStakingv2__factory.connect(
         STAKING_ADDRESSES[chain.id as keyof typeof STAKING_ADDRESSES],
         signer,
       );
       const _amount = new DecimalBigNumber(amount, 9);
 
-      if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt("0")) throw new Error(`Please enter a number greater than 0`);
 
-      if (!balance) throw new Error(t`Please refresh your page and try again`);
+      if (!balance) throw new Error(`Please refresh your page and try again`);
 
-      if (_amount.gt(balance)) throw new Error(t`You cannot wrap more than your sOHM balance`);
+      if (_amount.gt(balance)) throw new Error(`You cannot wrap more than your sOHM balance`);
 
-      if (!contract) throw new Error(t`Please switch to the Ethereum network to wrap your sOHM`);
+      if (!contract) throw new Error(`Please switch to the Ethereum network to wrap your sOHM`);
 
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(`Please refresh your page and try again`);
+
       const transaction = await contract.wrap(address, _amount.toBigNumber());
 
       return transaction.wait();
@@ -61,7 +61,7 @@ export const useWrapSohm = () => {
 
       await Promise.all(promises);
 
-      toast(t`Successfully wrapped sOHM to gOHM`);
+      toast(`Successfully wrapped sOHM to gOHM`);
     },
   });
 };

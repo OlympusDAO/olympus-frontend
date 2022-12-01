@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Button, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Icon, OHMButtonProps, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
@@ -101,7 +100,7 @@ export const ConnectButton = () => {
                       }}
                     >
                       <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                      <Typography>{t`Connect`}</Typography>
+                      <Typography>{`Connect`}</Typography>
                     </Box>
                   );
                 } else {
@@ -116,7 +115,7 @@ export const ConnectButton = () => {
                       {!mobile ? (
                         <PrimaryButton>
                           <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                          {t`Connect Wallet`}
+                          {`Connect Wallet`}
                         </PrimaryButton>
                       ) : (
                         <Button

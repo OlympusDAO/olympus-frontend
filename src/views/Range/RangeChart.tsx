@@ -7,6 +7,7 @@ import {
   Label,
   Line,
   ReferenceDot,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   TooltipProps,
@@ -27,6 +28,10 @@ const StyledResponsiveContainer = styled(ResponsiveContainer)(({ theme }) => ({
   [`& .${classes.currentPrice}`]: {
     fill: theme.palette.primary.main,
     fontWeight: 600,
+  },
+  [`& .moving-average`]: {
+    fill: theme.colors.gray[500],
+    fontSize: "18px",
   },
 }));
 
@@ -112,7 +117,7 @@ const RangeChart = (props: {
   const TooltipContent = ({ payload, label }: TooltipProps<number, NameType>) => {
     const price = payload && payload.length > 4 ? payload[4].value : currentPrice;
     return (
-      <Paper className={`ohm-card tooltip-container`}>
+      <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
         <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2)} />
         {label === "now" && (
           <>
@@ -153,6 +158,15 @@ const RangeChart = (props: {
             <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#596D66" strokeWidth="1" />
           </pattern>
         </defs>
+        <ReferenceLine
+          y={movingAverage.movingAverage}
+          stroke={theme.colors.gray[500]}
+          strokeDasharray={"6 3"}
+          strokeWidth={1}
+          className="moving-average"
+          label={movingAverage.movingAverage ? `30 Day MA: ${formatCurrency(movingAverage.movingAverage, 2)}` : ""}
+          position="start"
+        />
         <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd"></XAxis>
         <YAxis
           scale="auto"
@@ -208,14 +222,6 @@ const RangeChart = (props: {
           fillOpacity={0.4}
         />
         <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
-        <Line
-          type="monotone"
-          dataKey="ma"
-          stroke={theme.colors.gray[500]}
-          strokeDasharray={"6 3"}
-          dot={false}
-          strokeWidth={1}
-        />
 
         <ReferenceDot
           x={chartData.length > 1 && chartData[1].timestamp}
@@ -230,7 +236,6 @@ const RangeChart = (props: {
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
-
         <ReferenceDot
           x={chartData.length > 1 && chartData[1].timestamp}
           y={askPrice}

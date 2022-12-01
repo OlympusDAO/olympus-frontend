@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
@@ -110,7 +109,7 @@ const RangeConfirmationModal = (props: {
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-            {props.sellActive ? t`Premium` : t`Discount`}
+            {props.sellActive ? `Premium` : `Discount`}
           </Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
             <Typography
@@ -124,21 +123,20 @@ const RangeConfirmationModal = (props: {
           isVertical
           message={
             <>
-              <Trans>First time swapping</Trans>{" "}
+              First time swapping{" "}
               <strong>
                 {props.sellActive ? "OHM" : props.reserveSymbol} with
                 {props.contract === "bond" ? " the Bond Teller" : " the Range Operator"}
               </strong>
               ?
               <br />
-              <Trans>Please approve Olympus DAO to use your</Trans>{" "}
-              <strong>{props.sellActive ? "OHM" : props.reserveSymbol} </strong>
-              <Trans>for swapping</Trans>.
+              Please approve Olympus DAO to use your <strong>{props.sellActive ? "OHM" : props.reserveSymbol} </strong>
+              for swapping.
             </>
           }
           tokenAddressMap={props.sellActive ? OHM_ADDRESSES : { [chain.id]: props.reserveAddress }}
           spenderAddressMap={props.contract === "bond" ? { [chain.id]: tellerAddress } : RANGE_OPERATOR_ADDRESSES}
-          approvalText={t`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
+          approvalText={`Approve ${props.sellActive ? "OHM" : props.reserveSymbol} for Swap`}
         >
           {props.discount < 0 && (
             <div>
@@ -154,8 +152,8 @@ const RangeConfirmationModal = (props: {
                 }
                 label={
                   props.sellActive
-                    ? t`I understand that I am selling at a discount to current market price`
-                    : t`I understand that I am buying at a premium to current market price`
+                    ? `I understand that I am selling at a discount to current market price`
+                    : `I understand that I am buying at a premium to current market price`
                 }
                 data-testid="disclaimer"
               />

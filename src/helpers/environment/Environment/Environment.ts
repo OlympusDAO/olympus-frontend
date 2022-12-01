@@ -1,7 +1,7 @@
 import { EthereumNetwork, NetworkId } from "src/networkDetails";
 
 export class Environment {
-  public static env = process.env;
+  public static env = import.meta.env;
 
   private static _get(args: { key: string; err?: string; first: true; fallback: string }): string;
   private static _get(args: { key: string; err?: string; first?: never; fallback: string }): string[];

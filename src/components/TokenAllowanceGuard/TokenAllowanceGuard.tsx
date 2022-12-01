@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -111,7 +110,7 @@ export const TokenAllowanceGuard: React.FC<{
               onClick={approveMutation.mutate}
               disabled={approveMutation.isLoading}
             >
-              {approveMutation.isLoading ? t`${approvalPendingText}` : t`${approvalText}`}
+              {approveMutation.isLoading ? `${approvalPendingText}` : `${approvalText}`}
             </PrimaryButton>
           </Box>
         </Grid>

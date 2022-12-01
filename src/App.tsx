@@ -104,7 +104,6 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 
 const drawerWidth = 264;
 const transitionDuration = 969;
-
 function App() {
   useGoogleAnalytics();
   const location = useLocation();

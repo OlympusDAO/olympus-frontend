@@ -79,7 +79,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
   ],
   [
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
-    alchemyProvider({ apiKey: process.env.REACT_APP_ETHEREUM_ALCHEMY_IDS }),
+    alchemyProvider({ apiKey: import.meta.env.ALCHEMY_ID }),
     publicProvider(),
   ],
 );

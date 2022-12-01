@@ -7,19 +7,19 @@ jobs:
   test-branch:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout front end code.
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref}}
-    - name: Build UI
-      run: yarn install --frozen-lockfile
-    - name: Run unit tests
-      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=branch-report.json
-    - name: Upload Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: branch-report
-        path: branch-report.json
+      - name: Checkout front end code.
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref}}
+      - name: Build UI
+        run: yarn install --frozen-lockfile
+      - name: Run unit tests
+        run: yarn test:unit --reporter=json --outputFile=branch-report.json
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: branch-report
+          path: branch-report.json
   prepareBadges:
     runs-on: ubuntu-latest
     needs: [test-branch]
@@ -85,6 +85,3 @@ jobs:
           color: blue
           namedLogo: jest
           logoColor: lightblue
-
-
-

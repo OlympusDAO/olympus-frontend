@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
@@ -27,8 +26,8 @@ export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = 
   const { data: marketCap } = useMarketCap(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`OHM Market Cap`,
-    tooltip: t`Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
+    label: `OHM Market Cap`,
+    tooltip: `Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
     
     As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
 
@@ -48,8 +47,8 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   const { data: ohmPrice } = useOhmPrice();
   const _props: MetricProps = {
     ...props,
-    label: "OHM " + t`Price`,
-    tooltip: t`This price is sourced from the subgraph, so will lag the real-time market rate.`,
+    label: "OHM " + `Price`,
+    tooltip: `This price is sourced from the subgraph, so will lag the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -65,7 +64,7 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgra
   const { data: ohmPrice } = useOhmPriceFromSubgraph(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: "OHM " + t`Price`,
+    label: "OHM " + `Price`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -82,7 +81,7 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: "sOHM " + t`Price`,
+    label: "sOHM " + `Price`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -96,8 +95,8 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
   const { data: circSupply } = useOhmCirculatingSupply(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`OHM Circulating Supply / Total`,
-    tooltip: t`Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
+    label: `OHM Circulating Supply / Total`,
+    tooltip: `Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -109,8 +108,8 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
 export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
-    label: t`gOHM Circulating Supply / Total`,
-    tooltip: t`gOHM supply is synthetically derived from OHM supply divided by the index.`,
+    label: `gOHM Circulating Supply / Total`,
+    tooltip: `gOHM supply is synthetically derived from OHM supply divided by the index.`,
   };
 
   _props.metric = `- / -`;
@@ -129,7 +128,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
   const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrls);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = t`Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
+  const tooltip = `Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
   
   Floating supply of OHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
     floatingSupply ? formatNumber(floatingSupply) : "Loading..."
@@ -138,7 +137,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 
   const _props: MetricProps = {
     ...props,
-    label: t`Liquid Backing per OHM`,
+    label: `Liquid Backing per OHM`,
     tooltip: tooltip,
   };
 
@@ -151,11 +150,11 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrls);
 
-  const tooltip = t`Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
+  const tooltip = `Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 
   const _props: MetricProps = {
     ...props,
-    label: t`Liquid Backing per gOHM`,
+    label: `Liquid Backing per gOHM`,
     tooltip: tooltip,
   };
 
@@ -169,8 +168,8 @@ export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps>
   const { data: currentIndex } = useCurrentIndex(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`Current Index`,
-    tooltip: t`The current index tracks the amount of OHM accumulated since the beginning of staking. Basically, how much OHM one would have if they staked and held 1 OHM from launch.`,
+    label: `Current Index`,
+    tooltip: `The current index tracks the amount of OHM accumulated since the beginning of staking. Basically, how much OHM one would have if they staked and held 1 OHM from launch.`,
   };
 
   if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} OHM`;
@@ -187,11 +186,9 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: "gOHM " + t`Price`,
+    label: "gOHM " + `Price`,
     tooltip:
-      "gOHM = sOHM * index" +
-      "\n\n" +
-      t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
+      "gOHM = sOHM * index" + "\n\n" + `The price of gOHM is equal to the price of OHM multiplied by the current index`,
   };
 
   if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
@@ -204,11 +201,9 @@ export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgr
   const { data: gOhmPrice } = useGOhmPriceFromSubgraph(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: "gOHM " + t`Price`,
+    label: "gOHM " + `Price`,
     tooltip:
-      "gOHM = sOHM * index" +
-      "\n\n" +
-      t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
+      "gOHM = sOHM * index" + "\n\n" + `The price of gOHM is equal to the price of OHM multiplied by the current index`,
   };
 
   if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
@@ -221,7 +216,7 @@ export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgrap
   const { data: totalValueDeposited } = useTotalValueDeposited(props.subgraphUrl);
   const _props: MetricProps = {
     ...props,
-    label: t`Total Value Deposited`,
+    label: `Total Value Deposited`,
   };
 
   if (totalValueDeposited) _props.metric = formatCurrency(totalValueDeposited, 0);
@@ -234,7 +229,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
   const { data: rebaseRate } = useStakingRebaseRate();
   const _props: MetricProps = {
     ...props,
-    label: t`Annualized Rebases`,
+    label: `Annualized Rebases`,
   };
 
   if (rebaseRate) {
@@ -256,7 +251,7 @@ export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphPro
 
   const _props: MetricProps = {
     ...props,
-    label: t`Treasury Balance`,
+    label: `Treasury Balance`,
   };
 
   if (liquidBackingQuery) _props.metric = formatCurrency(liquidBackingQuery);

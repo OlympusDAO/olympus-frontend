@@ -51,7 +51,6 @@ export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsO
 };
 
 export const fetchLiveBondsV3 = async ({ networkId, isInverseBond }: UseLiveBondsOptions) => {
-  console.debug("Fetching v3 bonds");
   const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
 
   const markets = await contract

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
@@ -30,7 +29,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={t`Active`}
+            label={`Active`}
           />
         </Box>
         <Box mt="28px">
@@ -43,7 +42,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={t`Endorsements`}
+            label={`Endorsements`}
           />
         </Box>
         <Box mt="28px">
@@ -56,7 +55,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={t`Discussions`}
+            label={`Discussions`}
           />
         </Box>
         <Box mt="28px">
@@ -69,7 +68,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={t`Draft`}
+            label={`Draft`}
           />
         </Box>
         <Box mt="28px">
@@ -82,7 +81,7 @@ export const FilterModal = ({ isModalOpen, cancelFunc }: FilterModalProps) => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={t`Closed`}
+            label={`Closed`}
           />
         </Box>
         <Box display="flex" justifyContent="center" mt="28px">

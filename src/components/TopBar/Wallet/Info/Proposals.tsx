@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Fade } from "@mui/material";
 import { InfoCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
@@ -38,7 +37,7 @@ export const Proposals: FC = () => {
                   content={truncate(proposal.body)}
                   status={proposal.state === "active" ? "active" : "passed"}
                   href={proposal.link}
-                  statusLabel={proposal.state === "active" ? t`Active` : t`Closed`}
+                  statusLabel={proposal.state === "active" ? `Active` : `Closed`}
                   timeRemaining={
                     proposal.state === "active" ? new Date(proposal.end * 1000).toString() : proposal.choices[indexOf]
                   }
