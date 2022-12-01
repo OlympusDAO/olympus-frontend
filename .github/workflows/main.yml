@@ -31,7 +31,7 @@ jobs:
       - name: Build UI
         run: yarn install --frozen-lockfile
       - name: Run unit tests
-        run: yarn test:unit --reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
+        run: yarn test:unit --reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
