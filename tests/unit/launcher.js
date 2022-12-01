@@ -24,7 +24,7 @@ app_node.stdout.on("data", data => {
   // Launch tests
   if (data.includes("Account #19")) {
     console.log("Starting Tests");
-    process.env["REACT_APP_SELF_HOSTED_NODE"] = `http://${NODE_HOST}:${NODE_PORT}`;
+    process.env["VITE_SELF_HOSTED_NODE"] = `http://${NODE_HOST}:${NODE_PORT}`;
     const app_test = spawn("npx", ["react-scripts", "test"].concat(process.argv.slice(2)));
     app_test.stdout.on("data", data => {
       console.error(`${data}`);
