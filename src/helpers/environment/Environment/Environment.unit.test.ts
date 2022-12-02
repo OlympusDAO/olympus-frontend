@@ -5,16 +5,16 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  delete import.meta.env.REACT_APP_GOOGLE_ANALYTICS_API_KEY;
-  delete import.meta.env.REACT_APP_GA_4_API_KEY;
-  delete import.meta.env.REACT_APP_COVALENT_API_KEY;
+  delete import.meta.env.VITE_GOOGLE_ANALYTICS_API_KEY;
+  delete import.meta.env.VITE_GA_4_API_KEY;
+  delete import.meta.env.VITE_COVALENT_API_KEY;
   vi.spyOn(console, "warn").mockReset();
 });
 
 describe("Environment", () => {
   describe("Google Analytics - Original", () => {
     it("should return a Google Analytics key", () => {
-      import.meta.env.REACT_APP_GOOGLE_ANALYTICS_API_KEY = "UA-123456789-1";
+      import.meta.env.VITE_GOOGLE_ANALYTICS_API_KEY = "UA-123456789-1";
       expect(Environment.getGoogleAnalyticsApiKey()).toEqual("UA-123456789-1");
     });
 
@@ -28,7 +28,7 @@ describe("Environment", () => {
 
   describe("Google Analytics - GA4", () => {
     it("should return a GA4 key", () => {
-      import.meta.env.REACT_APP_GA_4_API_KEY = "G-ABCDEFGHIJ";
+      import.meta.env.VITE_GA_4_API_KEY = "G-ABCDEFGHIJ";
       expect(Environment.getGA4ApiKey()).toEqual("G-ABCDEFGHIJ");
     });
 
@@ -43,7 +43,7 @@ describe("Environment", () => {
 
   describe("Covalent", () => {
     it("should return a Covalent API key", () => {
-      import.meta.env.REACT_APP_COVALENT_API_KEY = "ckey_442d47723592868l8764adf15bf";
+      import.meta.env.VITE_COVALENT_API_KEY = "ckey_442d47723592868l8764adf15bf";
       expect(Environment.getCovalentApiKey()).toEqual("ckey_442d47723592868l8764adf15bf");
     });
 
