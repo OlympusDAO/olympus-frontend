@@ -1,12 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
+import { GOVERNANCE_GOHM_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
 import { GOVERNANCE_CONTRACT, GOVERNANCE_VOHM_VAULT_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { useGovernanceGohmBalance, useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { VotesCastEvent } from "src/typechain/OlympusGovernance";
-import { useNetwork, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 interface Vote {
   proposalId: BigNumber;
@@ -235,6 +236,8 @@ export const useVote = () => {
 
 /** for a user to get voting power */
 export const useWrapToVohm = () => {
+  const queryClient = useQueryClient();
+  const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
   const contract = GOVERNANCE_VOHM_VAULT_CONTRACT.getEthersContract(chain.id);
@@ -265,6 +268,9 @@ export const useWrapToVohm = () => {
       },
       onSuccess: () => {
         console.log(`Successfully wrapped to vOHM`);
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
+        queryClient.invalidateQueries({ queryKey: ["getVoteTokenTotalSupply", chain.id] });
       },
     },
   );
@@ -272,6 +278,8 @@ export const useWrapToVohm = () => {
 
 /** for a user to unwrap voting power to gOHM */
 export const useUnwrapFromVohm = () => {
+  const queryClient = useQueryClient();
+  const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
   const contract = GOVERNANCE_VOHM_VAULT_CONTRACT.getEthersContract(chain.id);
@@ -301,7 +309,10 @@ export const useUnwrapFromVohm = () => {
         console.error(error.message);
       },
       onSuccess: () => {
-        console.log(`Successfully unwrapped to gOHM`);
+        console.log(`Successfully unwrapped to gOHM`, address, VOTE_TOKEN_ADDRESSES, chain.id);
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
+        queryClient.invalidateQueries({ queryKey: ["getVoteTokenTotalSupply", chain.id] });
       },
     },
   );
