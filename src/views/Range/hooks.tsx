@@ -222,8 +222,7 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
 
       const scale = await contract.marketScale(id);
       const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
-      const shift = Number(baseScale) / Number(scale);
-
+      const shift = baseScale.div(scale);
       if (side === "low") {
         return 1 / parseBigNumber(bondPrice.mul(shift), 36);
       }
