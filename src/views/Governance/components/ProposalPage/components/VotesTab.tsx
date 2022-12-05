@@ -11,14 +11,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {
-  Metric,
-  Paper,
-  PrimaryButton,
-  SecondaryButton,
-  TertiaryButton,
-  VoteBreakdown,
-} from "@olympusdao/component-library";
+import { Metric, Paper, PrimaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -57,14 +50,16 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
         </Box>
         <>
           <Box display="flex" flexDirection="row" justifyContent="center">
-            <SecondaryButton
+            <TertiaryButton
+              template={vote === "yes" ? "secondary" : "tertiary"}
               sx={{ minWidth: "120px" }}
               disabled={!isConnected || !proposal.isActive}
               onClick={() => setVote("yes")}
             >
               Yes
-            </SecondaryButton>
+            </TertiaryButton>
             <TertiaryButton
+              template={vote === "no" ? "secondary" : "tertiary"}
               sx={{ minWidth: "120px" }}
               disabled={!isConnected || !proposal.isActive}
               onClick={() => setVote("no")}
@@ -75,7 +70,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
           <WalletConnectedGuard>
             <Box display="flex" flexDirection="row" justifyContent="center">
               <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
-                Vote
+                Vote <span style={{ textTransform: "capitalize" }}>&nbsp;{vote}</span>
               </PrimaryButton>
             </Box>
           </WalletConnectedGuard>
