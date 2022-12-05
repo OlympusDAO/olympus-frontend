@@ -309,7 +309,7 @@ export const useUnwrapFromVohm = () => {
         console.error(error.message);
       },
       onSuccess: () => {
-        console.log(`Successfully unwrapped to gOHM`, address, VOTE_TOKEN_ADDRESSES, chain.id);
+        console.log(`Successfully unwrapped to gOHM`);
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: ["getVoteTokenTotalSupply", chain.id] });
