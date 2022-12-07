@@ -91,7 +91,7 @@ const ProposalContainer = ({ instructionsId }: { instructionsId: number }) => {
               publishedDate={new Date(proposal?.submissionTimestamp)}
               status={proposal?.state}
               voteEndDate={new Date(proposal?.nextDeadline)}
-              quorum={0}
+              quorum={1}
               votesAgainst={proposal?.noVotes}
               votesFor={proposal?.yesVotes}
             />
