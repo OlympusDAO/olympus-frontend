@@ -135,7 +135,7 @@
     "fast-check": "^3.3.0",
     "happy-dom": "^8.1.0",
     "https-browserify": "^1.0.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "jest": "^29.3.1",
     "jest-extended": "^3.1.0",
     "jest-when": "^3.5.1",
