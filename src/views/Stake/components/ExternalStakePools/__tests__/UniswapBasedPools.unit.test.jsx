@@ -28,6 +28,8 @@ describe("Uniswap Based Farm Pool", () => {
   });
   it("should display the correct TVL", async () => {
     render(<Stake />);
-    expect(await screen.findAllByText("$26,248,739")[0]);
+    setTimeout(async () => {
+      expect(await screen.findAllByText("$26,248,739")[0]);
+    }, 10000);
   });
 });
