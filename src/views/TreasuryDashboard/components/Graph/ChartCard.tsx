@@ -26,11 +26,7 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
             <Typography variant="h6" color="textSecondary" display="inline">
               {props.headerText}
             </Typography>
-            {props.headerTooltip && (
-              <Typography variant={"h6"} color="textSecondary" display="inline">
-                <InfoTooltip message={props.headerTooltip} />
-              </Typography>
-            )}
+            {props.headerTooltip && <InfoTooltip message={props.headerTooltip} />}
           </Grid>
           <Grid item xs={1}>
             <Grid container spacing={1} justifyContent="flex-end">

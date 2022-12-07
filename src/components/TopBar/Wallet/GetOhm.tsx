@@ -80,14 +80,14 @@ const GetOhm: FC = () => {
         <Typography variant="h6" className={classes.title}>
           Exchanges
         </Typography>
-        <Box mt="9px">
-          <GetOnButton
-            href={`https://app.balancer.fi/#/trade/`}
-            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
-            exchangeName="Balancer"
-          />
-        </Box>
         <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <GetOnButton
+              href={`https://app.balancer.fi/#/trade/`}
+              logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
+              exchangeName="Balancer"
+            />
+          </Grid>
           <Grid item xs={6}>
             <GetOnButton
               href={`https://app.sushi.com/swap/?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
@@ -103,7 +103,6 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-
         {NetworkId.MAINNET === chain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
@@ -170,7 +169,6 @@ const GetOhm: FC = () => {
         {fraxPools.map((pool, index) => (
           <FraxPools key={index} pool={pool} />
         ))}
-
         <Typography variant="h6" className={classes.title}>
           Vaults
         </Typography>
@@ -197,7 +195,6 @@ const GetOhm: FC = () => {
           external
           disableFlip
         />
-
         <Typography variant="h6" className={classes.title}>
           Borrow
         </Typography>
