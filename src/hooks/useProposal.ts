@@ -75,10 +75,11 @@ export const useProposal = (instructionsIndex: number) => {
         const activationDeadline = parseBigNumber(activationTimelines.activationDeadline, 0) * 1000;
         const collateralDuration = parseBigNumber(activationTimelines.collateralDuration, 0) * 1000;
         const votingPeriod = parseBigNumber(activationTimelines.votingPeriod, 0) * 1000;
-        const isActive = activationTimestamp !== 0;
         const earliestActivation = submissionTimestamp + activationTimelock;
         const activationExpiry = submissionTimestamp + activationDeadline;
         const votingExpiry = activationTimestamp + votingPeriod;
+        const isActive = votingExpiry > Date.now();
+
         const collateralClaimableAt = submissionTimestamp + collateralDuration;
         const proposalState = parseProposalState({
           activationTimestamp,
