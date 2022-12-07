@@ -113,7 +113,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.39.0",
     "@vitejs/plugin-react": "^2.0.1",
-    "@vitest/coverage-c8": "^0.23.2",
+    "@vitest/coverage-c8": "^0.25.5",
     "@vitest/ui": "^0.23.1",
     "assert": "^2.0.0",
     "autoprefixer": "^10.4.13",
