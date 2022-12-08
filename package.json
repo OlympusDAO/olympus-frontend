@@ -94,7 +94,7 @@
     "@graphql-codegen/typescript-react-apollo": "3.3.7",
     "@graphql-codegen/typescript-react-query": "^4.0.4",
     "@tanstack/react-query-devtools": "^4.19.1",
-    "@testing-library/dom": "^8.18.1",
+    "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.4.3",
