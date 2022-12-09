@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Paper, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -22,7 +21,7 @@ export const ClaimBondsV3 = () => {
       <Box display="flex" justifyContent="center">
         <Box display="flex" flexDirection="column" alignItems="center" mt="24px" width={isSmallScreen ? "100%" : "50%"}>
           <Typography variant="h5" align="center" color="textSecondary" style={{ fontSize: "1.2rem" }}>
-            <Trans>Claimable Balance</Trans>
+            Claimable Balance
           </Typography>
 
           <Box mt="4px" mb="8px">
@@ -70,8 +69,8 @@ export const ClaimBondsV3 = () => {
                     onClick={() => claimBondsMutation.mutate({ token: note.token, amount: note.balance })}
                   >
                     {claimBondsMutation.isLoading && claimBondsMutation.variables?.token === note.token
-                      ? t`Claiming...`
-                      : t`Claim`}
+                      ? `Claiming...`
+                      : `Claim`}
                   </TertiaryButton>
                 </Box>
               </Box>
@@ -82,17 +81,11 @@ export const ClaimBondsV3 = () => {
             <Table aria-label="Available bonds" style={{ tableLayout: "fixed" }}>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "230px", padding: "8px 0" }}>
-                    <Trans>Token</Trans>
-                  </TableCell>
+                  <TableCell style={{ width: "230px", padding: "8px 0" }}>Token</TableCell>
 
-                  <TableCell style={{ padding: "8px 0" }}>
-                    <Trans>Remaining</Trans>
-                  </TableCell>
+                  <TableCell style={{ padding: "8px 0" }}>Remaining</TableCell>
 
-                  <TableCell style={{ padding: "8px 0" }}>
-                    <Trans>Payout</Trans>
-                  </TableCell>
+                  <TableCell style={{ padding: "8px 0" }}>Payout</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -129,8 +122,8 @@ export const ClaimBondsV3 = () => {
                         onClick={() => claimBondsMutation.mutate({ token: note.token, amount: note.balance })}
                       >
                         {claimBondsMutation.isLoading && claimBondsMutation.variables?.token === note.token
-                          ? t`Claiming...`
-                          : t`Claim`}
+                          ? `Claiming...`
+                          : `Claim`}
                       </TertiaryButton>
                     </TableCell>
                   </TableRow>

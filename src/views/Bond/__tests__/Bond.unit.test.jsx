@@ -1,6 +1,5 @@
 import { fireEvent } from "@testing-library/dom";
 import { BigNumber } from "ethers";
-import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -22,19 +21,23 @@ import {
 } from "src/views/Bond/__mocks__/mockLiveMarkets";
 import { Bond } from "src/views/Bond/Bond";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
-
+import { vi } from "vitest";
 beforeEach(async () => {
-  Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
-  Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
-  Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.OHM_TOKEN.getPrice = vi.fn().mockResolvedValue(new DecimalBigNumber("20"));
+  Token.DAI_TOKEN.getPrice = vi.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.OHM_DAI_LP_TOKEN.getPrice = vi.fn().mockResolvedValue(new DecimalBigNumber("200000"));
+  Token.LUSD_TOKEN.getPrice = vi.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = vi.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  vi.mock("react-router", async () => {
+    const router = await vi.importActual("react-router");
+    return {
+      ...router,
+      useParams: () => ({ id: "38" }),
+    };
+  });
 });
 
 afterEach(() => {
-  jest.resetAllMocks();
-
   Token.OHM_TOKEN.getPrice.mockReset();
   Token.DAI_TOKEN.getPrice.mockReset();
   Token.OHM_DAI_LP_TOKEN.getPrice.mockReset();
@@ -42,126 +45,114 @@ afterEach(() => {
   Token.FRAX_TOKEN.getPrice.mockReset();
 });
 
-jest.mock("react-router", () => ({
-  ...jest.requireActual("react-router"),
-  useParams: jest.fn(),
-}));
-
 describe("Bonds", () => {
   beforeEach(() => {
-    const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
-    const inverseBondDepository = jest.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    const bondDepository = vi.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    const inverseBondDepository = vi.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
     bondDepository.mockReturnValue({
-      connect: jest.fn().mockReturnValue({
-        deposit: jest.fn().mockResolvedValue(true),
+      connect: vi.fn().mockReturnValue({
+        deposit: vi.fn().mockResolvedValue(true),
       }),
-      liveMarkets: jest.fn().mockResolvedValue(mockLiveMarkets),
-      terms: jest.fn().mockImplementation(id => {
+      liveMarkets: vi.fn().mockResolvedValue(mockLiveMarkets),
+      terms: vi.fn().mockImplementation(id => {
         return Promise.resolve(terms[id]);
       }),
-      markets: jest.fn().mockImplementation(id => {
+      markets: vi.fn().mockImplementation(id => {
         return Promise.resolve(markets[id]);
       }),
-      marketPrice: jest.fn().mockImplementation(id => {
+      marketPrice: vi.fn().mockImplementation(id => {
         return Promise.resolve(marketPrice[id]);
       }),
-      indexesFor: jest.fn().mockResolvedValue(indexesFor),
-      notes: jest.fn().mockResolvedValue(notes),
-      wait: jest.fn().mockResolvedValue(true),
+      indexesFor: vi.fn().mockResolvedValue(indexesFor),
+      notes: vi.fn().mockResolvedValue(notes),
+      wait: vi.fn().mockResolvedValue(true),
     });
     inverseBondDepository.mockReturnValue({
-      connect: jest.fn().mockReturnValue({
-        deposit: jest.fn().mockResolvedValue(true),
+      connect: vi.fn().mockReturnValue({
+        deposit: vi.fn().mockResolvedValue(true),
       }),
-      liveMarkets: jest.fn().mockResolvedValue(mockNoInverseLiveMarkets),
-      terms: jest.fn().mockImplementation(id => {
+      liveMarkets: vi.fn().mockResolvedValue(mockNoInverseLiveMarkets),
+      terms: vi.fn().mockImplementation(id => {
         return Promise.resolve(inverseTerms[id]);
       }),
-      markets: jest.fn().mockImplementation(id => {
+      markets: vi.fn().mockImplementation(id => {
         return Promise.resolve(inverseMarkets[id]);
       }),
-      marketPrice: jest.fn().mockImplementation(id => {
+      marketPrice: vi.fn().mockImplementation(id => {
         return Promise.resolve(inverseMarketPrice[id]);
       }),
-      wait: jest.fn().mockResolvedValue(true),
+      wait: vi.fn().mockResolvedValue(true),
     });
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
   });
 
   it("should render component with LUSD", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("LUSD")).toBeInTheDocument();
+    expect(await screen.findByText("LUSD"));
   });
 
   it("should render component with OHM-DAI LP", async () => {
     render(<Bond />);
 
-    expect(await screen.queryAllByText("OHM-DAI LP")[0]).toBeInTheDocument();
+    expect(await screen.queryAllByText("OHM-DAI LP")[0]);
   });
 
   it("should render component with FRAX", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("FRAX")).toBeInTheDocument();
+    expect(await screen.findByText("FRAX"));
   });
 
   it("Should display the correct LP value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("14.21 FRAX")).toBeInTheDocument();
+    expect(await screen.findByText("14.21 FRAX"));
   });
 
   it("Should display the correct % Discount value", async () => {
     render(<Bond />);
 
-    expect(await screen.findByText("28.95%")).toBeInTheDocument();
+    expect(await screen.findByText("28.95%"));
   });
 });
 
 describe("Bond Modal", () => {
   beforeEach(() => {
     connectWallet();
-    jest.spyOn(Router, "useParams").mockReturnValue({ id: "38" });
-    const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    const bondDepository = vi.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
     bondDepository.mockReturnValue({
-      connect: jest.fn().mockReturnValue({
-        deposit: jest.fn().mockResolvedValue({
-          wait: jest.fn().mockReturnValue({ transactionHash: "" }),
+      connect: vi.fn().mockReturnValue({
+        deposit: vi.fn().mockResolvedValue({
+          wait: vi.fn().mockReturnValue({ transactionHash: "" }),
         }),
       }),
     });
-    Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+    vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-
-    Balance.useBalance.mockReset();
-    ContractAllowance.useContractAllowance.mockReset();
-  });
+  // afterEach(() => {
+  //   Balance.useBalance.mockReset();
+  //   ContractAllowance.useContractAllowance.mockReset();
+  // });
 
   it("Should display bond modal with Fixed Term Bond", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Vesting Term")).toBeInTheDocument();
+    expect(await screen.findByText("Vesting Term"));
   });
 
   it("Should display bond modal with Approve Button", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({ data: BigNumber.from(0) });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Approve OHM-DAI LP to Bond")).toBeInTheDocument();
+    expect(await screen.findByText("Approve OHM-DAI LP to Bond"));
   });
 
   it("Should Return Error when no amount is entered ", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -169,13 +160,13 @@ describe("Bond Modal", () => {
     );
     fireEvent.click(await screen.findByText("Bond"));
     fireEvent.click(await screen.findByText("Confirm Bond"));
-    expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number"));
   });
 
   it("Should Return Error when negative amount is entered", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -186,13 +177,13 @@ describe("Bond Modal", () => {
     });
     fireEvent.click(await screen.findByText("Bond"));
     fireEvent.click(await screen.findByText("Confirm Bond"));
-    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a number greater than 0"));
   });
 
   it("Should Return Error when amount is greater than balance", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -203,13 +194,13 @@ describe("Bond Modal", () => {
     });
     fireEvent.click(await screen.findByText("Bond"));
     fireEvent.click(await screen.findByText("Confirm Bond"));
-    expect(await screen.findByText("You cannot bond more than your OHM-DAI LP balance")).toBeInTheDocument();
+    expect(await screen.findByText("You cannot bond more than your OHM-DAI LP balance"));
   });
 
   it("Return Error when Amount is > Max Payout", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -220,15 +211,13 @@ describe("Bond Modal", () => {
     });
     fireEvent.click(await screen.findByText("Bond"));
     fireEvent.click(await screen.findByText("Confirm Bond"));
-    expect(
-      await screen.findByText("The maximum you can bond at this time is 0.348287073676420851 OHM-DAI LP"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("The maximum you can bond at this time is 0.348287073676420851 OHM-DAI LP"));
   });
 
   it("Should Execute Successfully", async () => {
-    ContractAllowance.useContractAllowance = jest
-      .fn()
-      .mockReturnValue({ data: BigNumber.from("10000000000000000000") });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("10000000000000000000"),
+    });
     render(
       <>
         <BondModalContainer />
@@ -239,6 +228,6 @@ describe("Bond Modal", () => {
     });
     fireEvent.click(await screen.findByText("Bond"));
     fireEvent.click(await screen.findByText("Confirm Bond"));
-    expect(await screen.findByText("Successfully bonded OHM-DAI LP")).toBeInTheDocument();
+    expect(await screen.findByText("Successfully bonded OHM-DAI LP"));
   });
 });

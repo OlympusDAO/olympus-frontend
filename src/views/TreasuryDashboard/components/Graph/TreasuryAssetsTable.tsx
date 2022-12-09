@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
@@ -89,34 +88,34 @@ export const TreasuryAssetsTable = ({
   const columns: GridColDef[] = [
     {
       field: "token",
-      headerName: t`Asset`,
-      description: t`The token asset that is held`,
+      headerName: `Asset`,
+      description: `The token asset that is held`,
       flex: 1,
       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),
     },
     {
       field: "category",
-      headerName: t`Category`,
-      description: t`The category of the token asset`,
+      headerName: `Category`,
+      description: `The category of the token asset`,
       flex: 0.5,
     },
     {
       field: "blockchain",
-      headerName: t`Blockchain`,
-      description: t`The blockchain of the token asset`,
+      headerName: `Blockchain`,
+      description: `The blockchain of the token asset`,
       flex: 0.5,
     },
     {
       field: "isLiquid",
-      headerName: t`Liquid`,
-      description: t`Whether the token asset is liquid`,
+      headerName: `Liquid`,
+      description: `Whether the token asset is liquid`,
       flex: 0.5,
       valueGetter: (params: GridValueGetterParams) => (params.row.isLiquid ? "Yes" : "No"),
     },
     {
       field: "balance",
-      headerName: t`Balance`,
-      description: t`The total balance of the token asset`,
+      headerName: `Balance`,
+      description: `The total balance of the token asset`,
       flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
@@ -129,8 +128,8 @@ export const TreasuryAssetsTable = ({
     },
     {
       field: "value",
-      headerName: t`Value`,
-      description: t`The total value of the token asset in USD`,
+      headerName: `Value`,
+      description: `The total value of the token asset in USD`,
       flex: 0.5,
       type: "string",
       sortComparator: (v1, v2) => {
@@ -145,7 +144,7 @@ export const TreasuryAssetsTable = ({
     },
   ];
 
-  const headerText = t`Holdings`;
+  const headerText = `Holdings`;
 
   return (
     <ChartCard
@@ -153,8 +152,8 @@ export const TreasuryAssetsTable = ({
       headerSubtext={headerSubtext}
       headerTooltip={
         isLiquidBackingActive
-          ? t`This table lists the details of the treasury assets that make up the liquid backing`
-          : t`This table lists the details of the treasury assets that make up the market value`
+          ? `This table lists the details of the treasury assets that make up the liquid backing`
+          : `This table lists the details of the treasury assets that make up the market value`
       }
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}

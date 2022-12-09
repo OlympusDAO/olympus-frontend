@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box, Fade, Grid, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
@@ -81,14 +80,14 @@ const GetOhm: FC = () => {
         <Typography variant="h6" className={classes.title}>
           Exchanges
         </Typography>
-        <Box mt="9px">
-          <GetOnButton
-            href={`https://app.balancer.fi/#/trade/`}
-            logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
-            exchangeName="Balancer"
-          />
-        </Box>
         <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <GetOnButton
+              href={`https://app.balancer.fi/#/trade/`}
+              logo={<SvgIcon component={balancerIcon} style={{ fontSize: "45px" }} />}
+              exchangeName="Balancer"
+            />
+          </Grid>
           <Grid item xs={6}>
             <GetOnButton
               href={`https://app.sushi.com/swap/?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
@@ -104,7 +103,6 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-
         {NetworkId.MAINNET === chain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
@@ -112,7 +110,7 @@ const GetOhm: FC = () => {
             </Typography>
             <ItemCard
               tokens={["wETH", "wBTC", "USDC", "DAI"]}
-              title={t`Zap with more assets`}
+              title={`Zap with more assets`}
               href={`/zap`}
               disableFlip
             />
@@ -128,7 +126,7 @@ const GetOhm: FC = () => {
                   roi={`${bond.discount.mul(new DecimalBigNumber("100")).toString({ decimals: 2, trim: false })}%`}
                   days={prettifySecondsInDays(bond.duration)}
                   href={`/bonds/${bond.id}`}
-                  hrefText={t`Bond ${bond.quoteToken.name}`}
+                  hrefText={`Bond ${bond.quoteToken.name}`}
                 />
               ))}
             <Typography variant="h6" className={classes.title}>
@@ -136,9 +134,9 @@ const GetOhm: FC = () => {
             </Typography>
             <ItemCard
               tokens={["sOHM", "wsOHM"]}
-              title={t`Stake Now`}
+              title={`Stake Now`}
               roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
-              days={t`5 Days`}
+              days={`5 Days`}
               href={`/stake`}
               disableFlip
             />
@@ -171,13 +169,12 @@ const GetOhm: FC = () => {
         {fraxPools.map((pool, index) => (
           <FraxPools key={index} pool={pool} />
         ))}
-
         <Typography variant="h6" className={classes.title}>
           Vaults
         </Typography>
         <ItemCard
           tokens={["DOPEX"]}
-          title={t`Deposit on Dopex`}
+          title={`Deposit on Dopex`}
           href={`https://app.dopex.io/ssov`}
           networkName="ARBITRUM"
           external
@@ -185,7 +182,7 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["JONES"]}
-          title={t`Deposit on Jones DAO`}
+          title={`Deposit on Jones DAO`}
           href={`https://jonesdao.io/vaults/gOHM`}
           networkName="ARBITRUM"
           external
@@ -193,18 +190,17 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["TOKEMAK"]}
-          title={t`Deposit on Tokemak`}
+          title={`Deposit on Tokemak`}
           href={`https://www.tokemak.xyz/`}
           external
           disableFlip
         />
-
         <Typography variant="h6" className={classes.title}>
           Borrow
         </Typography>
         <ItemCard
           tokens={["RARI"]}
-          title={t`Borrow on Rari`}
+          title={`Borrow on Rari`}
           href={`https://app.rari.capital/fuse/pool/18`}
           external
           roi={`${fuseSupplyApy}%`}
@@ -213,7 +209,7 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["MARKET"]}
-          title={t`Borrow on Market.xyz`}
+          title={`Borrow on Market.xyz`}
           networkName={"POLYGON"}
           href={`https://polygon.market.xyz/pool/8`}
           external
@@ -221,7 +217,7 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["MARKET"]}
-          title={t`Borrow on Market.xyz`}
+          title={`Borrow on Market.xyz`}
           networkName={"AVAX"}
           href={`https://avax.market.xyz/pool/3`}
           external
@@ -229,7 +225,7 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["VST"]}
-          title={t`Borrow on Vesta Finance`}
+          title={`Borrow on Vesta Finance`}
           networkName="ARBITRUM"
           href={`https://vestafinance.xyz/products/gohm`}
           external
@@ -237,7 +233,7 @@ const GetOhm: FC = () => {
         />
         <ItemCard
           tokens={["IMPERMAX"]}
-          title={t`Borrow on Impermax`}
+          title={`Borrow on Impermax`}
           networkName="ARBITRUM"
           href={`https://arbitrum.impermax.finance/lending-pool/0x6d94f7e67c6ae0b0257c35754e059fdfb249d998`}
           external

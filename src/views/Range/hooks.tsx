@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { gql, request } from "graphql-request";
@@ -115,11 +114,30 @@ export const OperatorPrice = () => {
 };
 
 /**
- * Returns the current price of the Operator at the given address
+ * Returns the Target price of the Operator at the given address
+ */
+export const OperatorTargetPrice = () => {
+  const networks = useTestableNetworks();
+
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
+  const {
+    data = 0,
+    isFetched,
+    isLoading,
+  } = useQuery(["getOperatorTargetPrice", networks.MAINNET], async () => {
+    const targetPrice = parseBigNumber(await contract.getTargetPrice(), 18);
+    console.log("targetPrice hook", targetPrice);
+
+    return targetPrice;
+  });
+  return { data, isFetched, isLoading };
+};
+
+/**
+ * Returns the Target price of the Operator at the given address
  */
 export const OperatorMovingAverage = () => {
   const networks = useTestableNetworks();
-
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { movingAverage: 0, days: 30 },
@@ -129,6 +147,7 @@ export const OperatorMovingAverage = () => {
     const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
     const movingAverageSeconds = await contract.movingAverageDuration();
     const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
+
     return { movingAverage, days };
   });
   return { data, isFetched, isLoading };
@@ -223,8 +242,7 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
 
       const scale = await contract.marketScale(id);
       const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
-      const shift = Number(baseScale) / Number(scale);
-
+      const shift = baseScale.div(scale);
       if (side === "low") {
         return 1 / parseBigNumber(bondPrice.mul(shift), 36);
       }
@@ -371,9 +389,9 @@ export const RangeSwap = () => {
     async ({ market, tokenAddress, swapType, amount, receiveAmount, sellActive, slippage, recipientAddress }) => {
       const decimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 9 : 18;
       const receiveDecimals = tokenAddress === OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES] ? 18 : 9; //opposite of send
-      if (!signer) throw new Error(t`Please connect a wallet to Range Swap`);
+      if (!signer) throw new Error(`Please connect a wallet to Range Swap`);
 
-      if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(t`Invalid address`);
+      if (!isValidAddress(recipientAddress) || recipientAddress === "") throw new Error(`Invalid address`);
 
       const swapAmount = new DecimalBigNumber(amount, decimals);
       const receiveAmountBN = new DecimalBigNumber(receiveAmount, receiveDecimals);
@@ -430,7 +448,7 @@ export const RangeSwap = () => {
           });
         }
 
-        toast(t`Range Swap Successful`);
+        toast(`Range Swap Successful`);
       },
     },
   );

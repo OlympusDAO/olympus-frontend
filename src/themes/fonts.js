@@ -1,6 +1,6 @@
-import NHaasGroteskRegular from "../assets/fonts/NHaasGroteskDSPro-55Rg.woff2";
-import NHassGroteskMedium from "../assets/fonts/NHaasGroteskDSPro-65Md.woff2";
-import NHaasGroteskSemibold from "../assets/fonts/NHaasGroteskDSPro-75Bd.woff2";
+import NHaasGroteskRegular from "src/assets/fonts/NHaasGroteskDSPro-55Rg.woff2";
+import NHassGroteskMedium from "src/assets/fonts/NHaasGroteskDSPro-65Md.woff2";
+import NHaasGroteskSemibold from "src/assets/fonts/NHaasGroteskDSPro-75Bd.woff2";
 
 const NHassGrotesk = `
 @font-face {

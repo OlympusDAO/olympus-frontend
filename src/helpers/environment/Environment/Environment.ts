@@ -1,7 +1,7 @@
 import { NetworkId } from "src/networkDetails";
 
 export class Environment {
-  public static env = process.env;
+  public static env = import.meta.env;
 
   private static _get(args: { key: string; err?: string; first: true; fallback: string }): string;
   private static _get(args: { key: string; err?: string; first?: never; fallback: string }): string[];
@@ -20,28 +20,28 @@ export class Environment {
   public static getGoogleAnalyticsApiKey = () =>
     this._get({
       first: true,
-      key: "REACT_APP_GOOGLE_ANALYTICS_API_KEY",
+      key: "VITE_GOOGLE_ANALYTICS_API_KEY",
       err: "Please provide an Google Analytics API key in your .env file",
     });
 
   public static getGA4ApiKey = () =>
     this._get({
       first: true,
-      key: "REACT_APP_GA_4_API_KEY",
+      key: "VITE_GA_4_API_KEY",
       err: "Please provide an Google Analytics 4 API key in your .env file",
     });
 
   public static getCovalentApiKey = () =>
     this._get({
       first: true,
-      key: "REACT_APP_COVALENT_API_KEY",
+      key: "VITE_COVALENT_API_KEY",
       err: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
     });
 
   public static getZapperApiKey = () =>
     this._get({
       first: true,
-      key: "REACT_APP_ZAPPER_API",
+      key: "VITE_ZAPPER_API",
       // NOTE: default Zapper API key. Won't work in production with any real volume of usage.
       fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
@@ -53,7 +53,7 @@ export class Environment {
   public static getStagingFlag = (): string =>
     this._get({
       first: true,
-      key: "REACT_APP_STAGING_ENV",
+      key: "VITE_STAGING_ENV",
       fallback: "false",
     });
 
@@ -61,78 +61,78 @@ export class Environment {
     switch (networkId) {
       case NetworkId.MAINNET:
         return this._get({
-          key: `REACT_APP_ETHEREUM_NODE_URL`,
+          key: `VITE_ETHEREUM_NODE_URL`,
           fallback: "https://rpc.ankr.com/eth",
         });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
-          key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
+          key: `VITE_ETHEREUM_TESTNET_NODE_URL`,
           fallback: "https://rpc.ankr.com/eth_goerli",
         });
       case NetworkId.ARBITRUM:
         return this._get({
-          key: `REACT_APP_ARBITRUM_NODE_URL`,
+          key: `VITE_ARBITRUM_NODE_URL`,
           fallback: "https://rpc.ankr.com/arbitrum",
         });
       case NetworkId.ARBITRUM_TESTNET:
         return this._get({
-          key: `REACT_APP_ARBITRUM_TESTNET_NODE_URL`,
+          key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
           fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
         });
       case NetworkId.AVALANCHE:
         return this._get({
-          key: `REACT_APP_AVALANCHE_NODE_URL`,
+          key: `VITE_AVALANCHE_NODE_URL`,
           fallback: "https://rpc.ankr.com/avalanche",
         });
       case NetworkId.AVALANCHE_TESTNET:
         return this._get({
-          key: `REACT_APP_AVALANCHE_TESTNET_NODE_URL`,
+          key: `VITE_AVALANCHE_TESTNET_NODE_URL`,
           fallback: "https://rpc.ankr.com/avalanche_fuji",
         });
       case NetworkId.POLYGON:
         return this._get({
-          key: `REACT_APP_POLYGON_NODE_URL`,
+          key: `VITE_POLYGON_NODE_URL`,
           fallback: "https://rpc.ankr.com/polygon",
         });
       case NetworkId.POLYGON_TESTNET:
         return this._get({
-          key: `REACT_APP_POLYGON_TESTNET_NODE_URL`,
+          key: `VITE_POLYGON_TESTNET_NODE_URL`,
           fallback: "https://rpc.ankr.com/polygon_mumbai",
         });
       case NetworkId.FANTOM:
         return this._get({
-          key: `REACT_APP_FANTOM_NODE_URL`,
+          key: `VITE_FANTOM_NODE_URL`,
           fallback: "https://rpc.ankr.com/fantom/",
         });
       case NetworkId.FANTOM_TESTNET:
         return this._get({
-          key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
+          key: `VITE_FANTOM_TESTNET_NODE_URL`,
           fallback: "https://rpc.ankr.com/fantom_testnet",
         });
       case NetworkId.OPTIMISM:
         return this._get({
-          key: `REACT_APP_OPTIMISM_NODE_URL`,
+          key: `VITE_OPTIMISM_NODE_URL`,
           fallback: "https://rpc.ankr.com/optimism",
         });
       case NetworkId.OPTIMISM_TESTNET:
         return this._get({
-          key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
+          key: `VITE_OPTIMISM_TESTNET_NODE_URL`,
           fallback: "https://rpc.ankr.com/optimism_testnet",
         });
       case NetworkId.BOBA:
         return this._get({
-          key: `REACT_APP_BOBA_NODE_URL`,
+          key: `VITE_BOBA_NODE_URL`,
           fallback: "https://mainnet.boba.network	",
         });
       case NetworkId.BOBA_TESTNET:
         return this._get({
-          key: `REACT_APP_BOBA_TESTNET_NODE_URL`,
+          key: `VITE_BOBA_TESTNET_NODE_URL`,
           fallback: "https://rinkeby.boba.network/",
         });
     }
   };
 
   public static isWalletNewsEnabled() {
-    return this.env.REACT_APP_DISABLE_NEWS !== "true";
+    return this.env.VITE_DISABLE_NEWS !== "true";
   }
 }

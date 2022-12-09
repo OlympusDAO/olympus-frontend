@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Avatar, Box, CircularProgress, Dialog, Link, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Icon, OHMTokenProps, Token } from "@olympusdao/component-library";
@@ -89,7 +88,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
       <Box paddingX="15px" paddingTop="22.5px" paddingBottom="15px">
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <Typography id="migration-modal-title" variant="h6" component="h2">
-            {t`Select a token`}
+            {`Select a token`}
           </Typography>
           <Link>
             <Icon name="x" onClick={handleClose} sx={{ fontSize: "19px" }} />

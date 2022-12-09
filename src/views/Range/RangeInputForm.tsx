@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { SwapCollection } from "@olympusdao/component-library";
 import { OHMTokenProps, SwapCard } from "@olympusdao/component-library";
@@ -45,7 +44,7 @@ const RangeInputForm = (props: {
       name="reserveAmount"
       value={reserveAmount}
       onChange={event => onChangeReserveAmount(event.currentTarget.value)}
-      endString={t`Max`}
+      endString={`Max`}
       endStringOnClick={() => hasPrice && onChangeReserveAmount(reserveBalance.toString())}
       token={reserveSymbol}
       type="string"
@@ -62,7 +61,7 @@ const RangeInputForm = (props: {
       name={"ohmAmount"}
       value={ohmAmount}
       onChange={event => onChangeOhmAmount(event.currentTarget.value)}
-      endString={t`Max`}
+      endString={`Max`}
       endStringOnClick={() => hasPrice && onChangeOhmAmount(ohmBalance.toString())}
       token="OHM"
       type="string"

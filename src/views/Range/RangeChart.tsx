@@ -16,7 +16,7 @@ import {
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { formatCurrency, parseBigNumber, trim } from "src/helpers";
-import { OperatorMovingAverage, PriceHistory } from "src/views/Range/hooks";
+import { OperatorMovingAverage, OperatorTargetPrice, PriceHistory } from "src/views/Range/hooks";
 
 const PREFIX = "RangeChart";
 
@@ -49,7 +49,10 @@ const RangeChart = (props: {
   const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory(reserveSymbol);
+  const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
+
+  console.log(targetPrice, "targetPrice");
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -60,7 +63,7 @@ const RangeChart = (props: {
       ...item,
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
-      ma: movingAverage.movingAverage,
+      ma: targetPrice,
     };
   });
 
@@ -71,14 +74,14 @@ const RangeChart = (props: {
     {
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
-      ma: movingAverage.movingAverage,
+      ma: targetPrice,
     },
     {
       price: currentPrice,
       timestamp: "now",
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
-      ma: movingAverage.movingAverage,
+      ma: targetPrice,
     },
   );
 
@@ -139,6 +142,7 @@ const RangeChart = (props: {
               title="Lower Capacity"
               balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
             />
+            <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2)}`} />
             <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2)}`} />
           </>
         )}
@@ -159,12 +163,12 @@ const RangeChart = (props: {
           </pattern>
         </defs>
         <ReferenceLine
-          y={movingAverage.movingAverage}
+          y={targetPrice}
           stroke={theme.colors.gray[500]}
           strokeDasharray={"6 3"}
           strokeWidth={1}
           className="moving-average"
-          label={movingAverage.movingAverage ? `30 Day MA: ${formatCurrency(movingAverage.movingAverage, 2)}` : ""}
+          label={targetPrice ? `Target Price: ${formatCurrency(targetPrice, 2)}` : ""}
           position="start"
         />
         <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd"></XAxis>

@@ -1,9 +1,6 @@
-import { i18n } from "@lingui/core";
-import { Trans } from "@lingui/macro";
-import { t } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, LocaleSwitcher, SecondaryButton, TabBar } from "@olympusdao/component-library";
+import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
@@ -11,7 +8,6 @@ import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
 import Assets from "src/components/TopBar/Wallet/Assets";
 import GetOhm from "src/components/TopBar/Wallet/GetOhm";
 import { Info } from "src/components/TopBar/Wallet/Info";
-import { locales, selectLocale } from "src/locales";
 import { useAccount, useDisconnect } from "wagmi";
 
 const PREFIX = "Wallet";
@@ -81,11 +77,7 @@ export function Wallet(props: {
 
   const DisconnectButton = () => {
     const { disconnect } = useDisconnect();
-    return (
-      <SecondaryButton onClick={disconnect}>
-        <Trans>Disconnect</Trans>
-      </SecondaryButton>
-    );
+    return <SecondaryButton onClick={disconnect}>Disconnect</SecondaryButton>;
   };
 
   const ConnectMessage = () => (
@@ -118,12 +110,6 @@ export function Wallet(props: {
             <Box display="flex" flexDirection="row">
               <ConnectButton />
               <ThemeSwitcher theme={props.theme} toggleTheme={props.toggleTheme} />
-              <LocaleSwitcher
-                initialLocale={i18n.locale}
-                locales={locales}
-                onLocaleChange={selectLocale}
-                label={t`Change locale`}
-              />
             </Box>
             <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
               <Icon

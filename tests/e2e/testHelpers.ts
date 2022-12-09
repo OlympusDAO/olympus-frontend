@@ -6,7 +6,7 @@ import { getDocument, queries } from "pptr-testing-library";
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import { exec } from "shelljs";
 
-const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
+const VITE_SEED_PHRASE = "VITE_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
   page
@@ -24,10 +24,10 @@ export const clickElement = async (page: Page, selector: string) => {
 };
 
 const getMetamaskSeedPhrase = (): string => {
-  if (!process.env.REACT_APP_SEED_PHRASE)
-    throw new Error("Unable to find seed phrase for Metamask. Please set the " + REACT_APP_SEED_PHRASE + " variable");
+  if (!process.env.VITE_SEED_PHRASE)
+    throw new Error("Unable to find seed phrase for Metamask. Please set the " + VITE_SEED_PHRASE + " variable");
 
-  return process.env.REACT_APP_SEED_PHRASE;
+  return process.env.VITE_SEED_PHRASE;
 };
 
 export const setupMetamask = async (

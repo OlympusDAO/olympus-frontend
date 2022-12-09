@@ -1,4 +1,3 @@
-import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Link,
@@ -29,9 +28,7 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
   if (bonds.length === 0)
     return (
       <Box display="flex" justifyContent="center">
-        <Typography variant="h4">
-          <Trans>No active bonds</Trans>
-        </Typography>
+        <Typography variant="h4">No active bonds</Typography>
       </Box>
     );
 
@@ -83,9 +80,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
 
           <Link href={bond.quoteToken.purchaseUrl} target="_blank" rel="noopener noreferrer">
             <Box display="flex" alignItems="center">
-              <Typography>
-                <Trans>Get Asset</Trans>
-              </Typography>
+              <Typography>Get Asset</Typography>
 
               <Box ml="4px">
                 <SvgIcon component={ArrowUp} />
@@ -96,9 +91,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
       </Box>
 
       <Box display="flex" justifyContent="space-between" mt="16px">
-        <Typography>
-          <Trans>Price</Trans>
-        </Typography>
+        <Typography>Price</Typography>
 
         <Typography>
           {bond.isSoldOut ? (
@@ -114,26 +107,20 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
       </Box>
 
       <Box display="flex" justifyContent="space-between" mt="8px">
-        <Typography>
-          <Trans>Discount</Trans>
-        </Typography>
+        <Typography>Discount</Typography>
 
         <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
       </Box>
 
       {isInverseBond && (
         <Box display="flex" justifyContent="space-between" mt="8px">
-          <Typography>
-            <Trans>Payout</Trans>
-          </Typography>
+          <Typography>Payout</Typography>
 
           <Typography>{bond.baseToken.name}</Typography>
         </Box>
       )}
       <Box display="flex" justifyContent="space-between" mt="8px">
-        <Typography>
-          <Trans>Max Payout</Trans>
-        </Typography>
+        <Typography>Max Payout</Typography>
         {`${payoutTokenCapacity(bond, isInverseBond)}${
           bond.baseToken.name !== bond.quoteToken.name ? ` (${quoteTokenCapacity(bond)})` : ``
         }`}
@@ -141,9 +128,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
 
       {!isInverseBond && (
         <Box display="flex" justifyContent="space-between" mt="8px">
-          <Typography>
-            <Trans>Duration</Trans>
-          </Typography>
+          <Typography>Duration</Typography>
 
           <Typography>
             <BondDuration duration={bond.duration} />
@@ -174,31 +159,15 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
     <Table aria-label="Available bonds" style={{ tableLayout: "fixed" }}>
       <TableHead>
         <TableRow>
-          <TableCell style={{ width: isInverseBond ? "146px" : "162px", padding: "8px 0" }}>
-            <Trans>Token</Trans>
-          </TableCell>
+          <TableCell style={{ width: isInverseBond ? "146px" : "162px", padding: "8px 0" }}>Token</TableCell>
 
-          {isInverseBond && (
-            <TableCell style={{ width: "146px", padding: "8px 0" }}>
-              <Trans>Payout Asset</Trans>
-            </TableCell>
-          )}
+          {isInverseBond && <TableCell style={{ width: "146px", padding: "8px 0" }}>Payout Asset</TableCell>}
 
-          <TableCell style={{ padding: "8px 0", width: "82px" }}>
-            <Trans>Price</Trans>
-          </TableCell>
+          <TableCell style={{ padding: "8px 0", width: "82px" }}>Price</TableCell>
 
-          <TableCell style={{ padding: "8px 0", width: "91px" }}>
-            <Trans>Discount</Trans>
-          </TableCell>
-          <TableCell style={{ padding: "8px 0" }}>
-            <Trans>Max Payout</Trans>
-          </TableCell>
-          {!isInverseBond && (
-            <TableCell style={{ padding: "8px 0" }}>
-              <Trans>Duration</Trans>
-            </TableCell>
-          )}
+          <TableCell style={{ padding: "8px 0", width: "91px" }}>Discount</TableCell>
+          <TableCell style={{ padding: "8px 0" }}>Max Payout</TableCell>
+          {!isInverseBond && <TableCell style={{ padding: "8px 0" }}>Duration</TableCell>}
         </TableRow>
       </TableHead>
 
@@ -283,12 +252,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
           }
         >
           <TertiaryButton fullWidth disabled={bond.isSoldOut}>
-            {bond.isSoldOut
-              ? t({ message: "Sold Out", comment: "Bond is sold out" })
-              : t({
-                  message: `Bond for ${baseTokenName}`,
-                  comment: "The act of bonding",
-                })}
+            {bond.isSoldOut ? "Sold Out" : `Bond for ${baseTokenName}`}
           </TertiaryButton>
         </Link>
       </TableCell>
@@ -310,7 +274,7 @@ const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, ex
       >
         <Box display="flex" alignItems="center">
           <Typography style={{ fontSize: "12px", lineHeight: "18px" }}>
-            {explorer ? t`Explorer` : t`Get Asset`}
+            {explorer ? `Explorer` : `Get Asset`}
           </Typography>
 
           <Box ml="4px">

@@ -236,55 +236,6 @@ If you wish to use a theme's color scheme manually, follow these steps:
 
 For the available theme properties, take a look at the themes in `src/themes`.
 
-## Application translation
-
-Olympus uses [linguijs](https://github.com/lingui/js-lingui) to manage translation.
-
-The language files are located in a submodule deployed in `src/locales/translations`. This submodule points to the [olympus translation repository](https://github.com/OlympusDAO/olympus-translations)
-
-In order to mark text for translation you can use:
-
-- The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
-- The t function in javascript code and jsx templates. `` t`Translate me` ``
-  You can also add comments for the translators. eg.
-
-```JSX
-t({
- message: "Bond",
- comment: "The action of bonding (verb)",
-})
-```
-
-- Where a variable/javascript function is required within a block of translatable text, string interpolation can be used:
-
-```JSX
-{t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`}
-```
-
-When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
-
-### Resolving merge conflicts with translations
-
-```bash
-$ git diff
-# shows two commits in conflict below (fbdd867,e6e0919)
-diff --cc src/locales/translations
-index fbdd867,e6e0919..0000000
---- a/src/locales/translations
-+++ b/src/locales/translations
-
-cd src/locales/translations
-# first commit
-git checkout fbdd867
-# merge in second commit
-git merge e6e0919
-git commit
-
-cd ../../..
-git add src/locales/translations
-git commit
-```
-
 ## ESLint
 
 We use ESLint to find/automatically fix problems.
@@ -324,7 +275,7 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 ### Feature Flags
 
-- Give: by default it is enabled. It can be disabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "false".
+- Give: by default it is enabled. It can be disabled by setting the `VITE_GIVE_ENABLED` environment variable to "false".
 
 ## Dashboard
 
