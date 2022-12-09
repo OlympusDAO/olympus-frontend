@@ -88,7 +88,7 @@ export const TreasuryAssetsTable = ({
   const columns: GridColDef[] = [
     {
       field: "token",
-      headerName: `Asse`,
+      headerName: `Asset`,
       description: `The token asset that is held`,
       flex: 1,
       valueGetter: (params: GridValueGetterParams) => renameToken(params.row.token),

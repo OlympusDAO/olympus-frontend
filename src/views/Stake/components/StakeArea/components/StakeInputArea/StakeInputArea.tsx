@@ -391,7 +391,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                       zapExecute.isLoading ||
                       zapOutputAmount === "" ||
                       (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                      import.meta.env.DISABLE_ZAPS ||
+                      import.meta.env.VITE_DISABLE_ZAPS ||
                       parseFloat(amount) === 0
                     }
                     onClick={onZap}
