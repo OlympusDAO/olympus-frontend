@@ -195,7 +195,7 @@ export const Range = () => {
                             title={
                               sellActive
                                 ? discount < 0
-                                  ? "Discoun"
+                                  ? "Discount"
                                   : "Premium"
                                 : discount < 0
                                 ? "Premium"

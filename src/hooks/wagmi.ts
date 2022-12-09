@@ -79,7 +79,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
   ],
   [
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
-    alchemyProvider({ apiKey: import.meta.env.ALCHEMY_ID }),
+    alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_ID }),
     publicProvider(),
   ],
 );
