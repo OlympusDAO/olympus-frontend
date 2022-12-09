@@ -114,21 +114,21 @@ export const OperatorPrice = () => {
 };
 
 /**
- * Returns the current price of the Operator at the given address
+ * Returns the Target price of the Operator at the given address
  */
-export const OperatorMovingAverage = () => {
+export const OperatorTargetPrice = () => {
   const networks = useTestableNetworks();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
   const {
-    data = { movingAverage: 0, days: 30 },
+    data = 0,
     isFetched,
     isLoading,
-  } = useQuery(["getOperatorMovingAverage", networks.MAINNET], async () => {
-    const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
-    const movingAverageSeconds = await contract.movingAverageDuration();
-    const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
-    return { movingAverage, days };
+  } = useQuery(["getOperatorTargetPrice", networks.MAINNET], async () => {
+    const targetPrice = parseBigNumber(await contract.getTargetPrice(), 18);
+    console.log("targetPrice hook", targetPrice);
+
+    return targetPrice;
   });
   return { data, isFetched, isLoading };
 };
@@ -222,8 +222,7 @@ export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
 
       const scale = await contract.marketScale(id);
       const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
-      const shift = Number(baseScale) / Number(scale);
-
+      const shift = baseScale.div(scale);
       if (side === "low") {
         return 1 / parseBigNumber(bondPrice.mul(shift), 36);
       }
