@@ -134,6 +134,26 @@ export const OperatorTargetPrice = () => {
 };
 
 /**
+ * Returns the Target price of the Operator at the given address
+ */
+export const OperatorMovingAverage = () => {
+  const networks = useTestableNetworks();
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
+  const {
+    data = { movingAverage: 0, days: 30 },
+    isFetched,
+    isLoading,
+  } = useQuery(["getOperatorMovingAverage", networks.MAINNET], async () => {
+    const movingAverage = parseBigNumber(await contract.getMovingAverage(), 18);
+    const movingAverageSeconds = await contract.movingAverageDuration();
+    const days = movingAverageSeconds / 60 / 60 / 24; //seconds to days;
+
+    return { movingAverage, days };
+  });
+  return { data, isFetched, isLoading };
+};
+
+/**
  * Returns the reserve contract address on the Operator
  */
 export const OperatorReserveSymbol = () => {
