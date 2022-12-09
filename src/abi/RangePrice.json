@@ -8,7 +8,8 @@
         { "internalType": "contract AggregatorV2V3Interface", "name": "reserveEthPriceFeed_", "type": "address" },
         { "internalType": "uint48", "name": "reserveEthUpdateThreshold_", "type": "uint48" },
         { "internalType": "uint48", "name": "observationFrequency_", "type": "uint48" },
-        { "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" }
+        { "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" },
+        { "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
@@ -31,6 +32,12 @@
     },
     { "inputs": [], "name": "Price_InvalidParams", "type": "error" },
     { "inputs": [], "name": "Price_NotInitialized", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }],
+      "name": "MinimumTargetPriceChanged",
+      "type": "event"
+    },
     {
       "anonymous": false,
       "inputs": [{ "indexed": false, "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" }],
@@ -83,6 +90,13 @@
     {
       "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
       "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }],
+      "name": "changeMinimumTargetPrice",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -147,6 +161,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getTargetPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         { "internalType": "uint256[]", "name": "startObservations_", "type": "uint256[]" },
         { "internalType": "uint48", "name": "lastObservationTime_", "type": "uint48" }
@@ -174,6 +195,13 @@
       "inputs": [],
       "name": "lastObservationTime",
       "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minimumTargetPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },

@@ -66,8 +66,8 @@ describe("Upper Wall Active Bond Market", () => {
     vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
     //@ts-ignore
     vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    vi.spyOn(RangeHooks, "OperatorMovingAverage").mockReturnValue({
-      data: { movingAverage: 12, days: 120 },
+    vi.spyOn(RangeHooks, "OperatorTargetPrice").mockReturnValue({
+      data: 12,
       isFetched: true,
       isLoading: false,
     });
