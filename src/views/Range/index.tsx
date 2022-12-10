@@ -84,29 +84,51 @@ export const Range = () => {
     2,
   )} ${sellAsset})`;
 
-  const discount =
-    (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setModalOpen(true);
   };
 
+  const swapWithOperator = sellActive
+    ? bidPrice.price < parseBigNumber(rangeData.wall.low.price, 18)
+    : askPrice.price > parseBigNumber(rangeData.wall.high.price, 18);
+
+  const swapPrice = swapWithOperator
+    ? sellActive
+      ? parseBigNumber(rangeData.wall.low.price, 18)
+      : parseBigNumber(rangeData.wall.high.price, 18)
+    : sellActive
+    ? bidPrice.price
+    : askPrice.price;
+
   const handleChangeOhmAmount = (value: any) => {
-    const reserveValue = value * (sellActive ? bidPrice.price : askPrice.price);
+    const reserveValue = value * swapPrice;
     setOhmAmount(value);
     setReserveAmount(reserveValue.toString());
   };
 
   const handleChangeReserveAmount = (value: any) => {
-    const ohmValue = value / (sellActive ? bidPrice.price : askPrice.price);
+    const ohmValue = value / swapPrice;
     setOhmAmount(ohmValue.toString());
     setReserveAmount(value);
   };
 
-  const swapPrice = sellActive ? formatNumber(bidPrice.price, 2) : formatNumber(askPrice.price, 2);
+  const swapPriceFormatted = formatNumber(swapPrice, 2);
 
-  const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+  //if there is a bond discount returned we display that, otherwise we calculate the discount based on the current price
+  const bondDiscount = sellActive
+    ? bidPrice.discount
+      ? bidPrice.discount
+      : undefined
+    : askPrice.discount
+    ? askPrice.discount
+    : undefined;
+  const discount =
+    bondDiscount && !swapWithOperator
+      ? bondDiscount
+      : (currentPrice - swapPrice) / (sellActive ? -currentPrice : currentPrice);
+
+  const contractType = swapWithOperator ? "swap" : sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 
@@ -169,8 +191,8 @@ export const Range = () => {
                       <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
                         <Box mt="12px">
                           <InfoNotification>
-                            You are about to swap {sellAsset} for {buyAsset} at a price of {swapPrice} {reserveSymbol}.
-                            This is a{" "}
+                            You are about to swap {sellAsset} for {buyAsset} at a price of {swapPriceFormatted}{" "}
+                            {reserveSymbol}. This is a{" "}
                             {sellActive
                               ? discount < 0
                                 ? "discount"
@@ -208,7 +230,7 @@ export const Range = () => {
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow title={`Swap Price per OHM`} balance={swapPrice} />
+                          <DataRow title={`Swap Price per OHM`} balance={swapPriceFormatted} />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>
@@ -254,7 +276,7 @@ export const Range = () => {
         reserveAddress={reserveAddress}
         reserveSymbol={reserveSymbol}
         ohmAmount={ohmAmount}
-        swapPrice={swapPrice}
+        swapPrice={swapPriceFormatted}
         contract={contractType}
         discount={discount}
         market={sellActive ? rangeData.low.market : rangeData.high.market}

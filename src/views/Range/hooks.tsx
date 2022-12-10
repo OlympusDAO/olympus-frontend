@@ -15,7 +15,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { assert } from "src/helpers/types/assert";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
@@ -262,7 +261,6 @@ export const BondTellerAddress = (id: BigNumber) => {
 
 export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: rangeData } = RangeData();
-  const { data: currentOhmPrice } = useOhmPrice();
   const { data: upperBondMarket } = useBondV3({ id: rangeData.high.market.toString() });
   const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
 
@@ -271,23 +269,26 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
     isFetched,
     isLoading,
   } = useQuery(
-    ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket, currentOhmPrice],
+    ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
     async () => {
       const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
       const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
       const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
       if (sideActive && activeBondMarket) {
-        assert(currentOhmPrice, "Current OHM price not available");
         return {
           price:
             bidOrAsk === "ask"
               ? upperBondMarket
-                ? Number(upperBondMarket?.price.inUsd.toString()) * currentOhmPrice
+                ? Number(upperBondMarket?.price.inBaseToken.toString())
                 : 0
               : lowerBondMarket
-              ? Number(lowerBondMarket?.price.inUsd.toString()) * currentOhmPrice
+              ? 1 / Number(lowerBondMarket?.price.inBaseToken.toString())
               : 0,
           contract: "bond" as RangeContracts,
+          discount:
+            bidOrAsk === "ask"
+              ? Number(upperBondMarket?.discount.toString())
+              : Number(lowerBondMarket?.discount.toString()),
         };
       } else {
         return {
@@ -299,7 +300,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
         };
       }
     },
-    { enabled: !!rangeData && !!currentOhmPrice },
+    { enabled: !!rangeData },
   );
 
   return { data, isFetched, isLoading };
@@ -308,7 +309,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
 export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
   const { data: currentOhmPrice } = useOhmPrice();
   const { data: reserveSymbol } = OperatorReserveSymbol();
-
+  const { data: rangeData } = RangeData();
   const { data: bidOrAskPrice } = DetermineRangePrice(bidOrAsk);
   const {
     data = { discount: 0, quoteToken: "" },
@@ -318,9 +319,24 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
     ["getDetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
     () => {
       queryAssertion(currentOhmPrice);
+      const bondDiscount = bidOrAskPrice.discount ? bidOrAskPrice.discount : undefined;
+      const sellActive = bidOrAsk === "bid";
+      const swapWithOperator = sellActive
+        ? bidOrAskPrice.price < parseBigNumber(rangeData.wall.low.price, 18)
+        : bidOrAskPrice.price > parseBigNumber(rangeData.wall.high.price, 18);
 
+      const swapPrice = swapWithOperator
+        ? sellActive
+          ? parseBigNumber(rangeData.wall.low.price, 18)
+          : parseBigNumber(rangeData.wall.high.price, 18)
+        : sellActive
+        ? bidOrAskPrice.price
+        : bidOrAskPrice.price;
       const discount =
-        (currentOhmPrice - bidOrAskPrice.price) / (bidOrAsk == "bid" ? -currentOhmPrice : currentOhmPrice);
+        bondDiscount && !swapWithOperator
+          ? bondDiscount
+          : (currentOhmPrice - swapPrice) / (sellActive ? -currentOhmPrice : currentOhmPrice);
+
       return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
     },
     { enabled: !!currentOhmPrice && !!bidOrAskPrice.price && !!reserveSymbol.symbol },
