@@ -9,14 +9,9 @@ import { formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import {
-  DetermineRangePrice,
-  OperatorPrice,
-  OperatorReserveSymbol,
-  RangeBondMaxPayout,
-  RangeData,
-} from "src/views/Range/hooks";
+import { DetermineRangePrice, OperatorReserveSymbol, RangeBondMaxPayout, RangeData } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
 import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
 import RangeInputForm from "src/views/Range/RangeInputForm";
@@ -48,7 +43,7 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice = 0 } = OperatorPrice();
+  const { data: currentPrice = 0 } = useOhmPrice();
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
@@ -84,10 +79,10 @@ export const Range = () => {
     }
   }, [bidPrice, currentPrice]);
 
-  const maxBalanceString = `${maxCapacity.toFixed(2)} ${buyAsset}  (${(sellActive
-    ? maxCapacity / bidPrice.price
-    : maxCapacity * askPrice.price
-  ).toFixed(2)} ${sellAsset})`;
+  const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
+    sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
+    2,
+  )} ${sellAsset})`;
 
   const discount =
     (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);

@@ -9,19 +9,18 @@ import {
   RANGE_OPERATOR_CONTRACT,
   RANGE_PRICE_CONTRACT,
 } from "src/constants/contracts";
-import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
-import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
-// import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
+import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
 import { RANGEv1 as OlympusRange } from "src/typechain/Range";
+import { useBondV3 } from "src/views/Bond/hooks/useBondV3";
 import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
@@ -126,7 +125,6 @@ export const OperatorTargetPrice = () => {
     isLoading,
   } = useQuery(["getOperatorTargetPrice", networks.MAINNET], async () => {
     const targetPrice = parseBigNumber(await contract.getTargetPrice(), 18);
-    console.log("targetPrice hook", targetPrice);
 
     return targetPrice;
   });
@@ -214,47 +212,6 @@ const band: OlympusRange.BandStruct = {
   spread: BigNumber.from(0),
 };
 
-/**
- * Returns the market price for the given bond market
- * @param id Bond Market ID
- */
-export const RangeBondPrice = (id: BigNumber, side: "low" | "high") => {
-  const networks = useTestableNetworks();
-  const contract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET);
-  const { data, isFetched, isLoading } = useQuery(
-    ["getRangeBondPrice", id, networks.MAINNET, side],
-    async () => {
-      const bondPrice = await contract.marketPrice(id);
-      const auctioneerAddress = await contract.getAuctioneer(id);
-      const auctioneerContract = BondFixedTermSDA__factory.connect(auctioneerAddress, contract.provider);
-      const market = await auctioneerContract.markets(id);
-      const inverse =
-        market.payoutToken.toLowerCase() !==
-        OHM_ADDRESSES[networks.MAINNET as keyof typeof OHM_ADDRESSES].toLowerCase();
-      const baseToken = inverse
-        ? await getTokenByAddress({ address: market.payoutToken, networkId: networks.MAINNET })
-        : OHM_TOKEN;
-      assert(baseToken, `Unknown base token address: ${market.payoutToken}`);
-      const quoteToken = inverse
-        ? OHM_TOKEN
-        : await getTokenByAddress({ address: market.quoteToken, networkId: networks.MAINNET });
-      assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
-
-      const scale = await contract.marketScale(id);
-      const baseScale = BigNumber.from("10").pow(BigNumber.from("36").add(baseToken.decimals).sub(quoteToken.decimals));
-      const shift = baseScale.div(scale);
-      if (side === "low") {
-        return 1 / parseBigNumber(bondPrice.mul(shift), 36);
-      }
-      return parseBigNumber(bondPrice.mul(shift), 36);
-    },
-    {
-      enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
-    }, //Disable this query for negative markets (default value) or Max Integer (market not active from range call)
-  );
-  return { data, isFetched, isLoading };
-};
-
 export const RangeBondMaxPayout = (id: BigNumber) => {
   const networks = useTestableNetworks();
   const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networks.MAINNET);
@@ -305,21 +262,31 @@ export const BondTellerAddress = (id: BigNumber) => {
 
 export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: rangeData } = RangeData();
-  const { data: upperBondMarket = 0 } = RangeBondPrice(rangeData.high.market, "high");
-  const { data: lowerBondMarket = 0 } = RangeBondPrice(rangeData.low.market, "low");
+  const { data: currentOhmPrice } = useOhmPrice();
+  const { data: upperBondMarket } = useBondV3({ id: rangeData.high.market.toString() });
+  const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
+
   const {
     data = { price: 0, contract: "swap" },
     isFetched,
     isLoading,
   } = useQuery(
-    ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
+    ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket, currentOhmPrice],
     async () => {
       const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
       const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
       const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
       if (sideActive && activeBondMarket) {
+        assert(currentOhmPrice, "Current OHM price not available");
         return {
-          price: bidOrAsk === "ask" ? upperBondMarket : lowerBondMarket,
+          price:
+            bidOrAsk === "ask"
+              ? upperBondMarket
+                ? Number(upperBondMarket?.price.inUsd.toString()) * currentOhmPrice
+                : 0
+              : lowerBondMarket
+              ? Number(lowerBondMarket?.price.inUsd.toString()) * currentOhmPrice
+              : 0,
           contract: "bond" as RangeContracts,
         };
       } else {
@@ -332,14 +299,14 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
         };
       }
     },
-    { enabled: !!rangeData },
+    { enabled: !!rangeData && !!currentOhmPrice },
   );
 
   return { data, isFetched, isLoading };
 };
 
 export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
-  const { data: currentOhmPrice } = OperatorPrice();
+  const { data: currentOhmPrice } = useOhmPrice();
   const { data: reserveSymbol } = OperatorReserveSymbol();
 
   const { data: bidOrAskPrice } = DetermineRangePrice(bidOrAsk);
