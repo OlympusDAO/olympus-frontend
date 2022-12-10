@@ -32,6 +32,7 @@ const setupTest = () => {
     purchase: vi.fn().mockReturnValue({
       wait: vi.fn().mockResolvedValue(true),
     }),
+    getTeller: vi.fn().mockReturnValue(0),
   });
 
   //@ts-expect-error
@@ -82,8 +83,7 @@ describe("Lower Wall Active Bond Market", () => {
     vi.spyOn(RangeHooks, "DetermineRangePrice").mockReturnValue({ data: { price: "10.12" } });
     //@ts-expect-error
     vi.spyOn(RangeHooks, "OperatorReserveSymbol").mockReturnValue({ data: { reserveAddress: "0x", symbol: "OHM" } });
-    const { container } = render(<Range />);
-    fireEvent.click(container.getElementsByClassName("arrow-wrapper")[0]);
+    render(<Range />);
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
     fireEvent.click(screen.getByTestId("range-submit"));
     expect(await screen.findByText("I understand that I am selling at a discount to current market price"));

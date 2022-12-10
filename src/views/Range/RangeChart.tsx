@@ -156,7 +156,6 @@ const RangeChart = (props: {
 
   const theme = useTheme();
 
-  console.log(chartData);
   return isFetched ? (
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>

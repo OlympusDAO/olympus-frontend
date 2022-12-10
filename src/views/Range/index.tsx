@@ -73,11 +73,10 @@ export const Range = () => {
   }, [sellActive]);
 
   useEffect(() => {
-    const sellDiscount = (currentPrice - bidPrice.price) / -currentPrice;
-    if (sellDiscount > 0) {
+    if (currentPrice < parseBigNumber(rangeData.cushion.low.price, 18)) {
       setSellActive(true);
     }
-  }, [bidPrice, currentPrice]);
+  }, [rangeData.cushion.low.price, currentPrice]);
 
   const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
     sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
@@ -136,7 +135,7 @@ export const Range = () => {
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
   const capacityBN = new DecimalBigNumber(maxCapacity.toString(), sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
-  const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
+  const amountAboveBalance = sellActive ? reserveAmountAsNumber.gt(reserveBalance) : ohmAmountAsNumber.gt(ohmBalance);
 
   const swapButtonText = `Swap ${sellAsset} for ${buyAsset}`;
 

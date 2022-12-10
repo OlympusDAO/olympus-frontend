@@ -25,7 +25,6 @@ vi.mock("src/views/Range/RangeChart", () => ({
     sellActive: boolean;
     reserveSymbol: string;
   }) => {
-    console.log(formatCurrency(props.bidPrice, 2), "bidprice");
     return (
       <>
         <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
