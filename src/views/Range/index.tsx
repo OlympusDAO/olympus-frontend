@@ -50,21 +50,25 @@ export const Range = () => {
   const { data: upperMaxPayout } = RangeBondMaxPayout(rangeData.high.market);
   const { data: lowerMaxPayout } = RangeBondMaxPayout(rangeData.low.market);
 
-  const lowerMaxCapacity =
-    lowerMaxPayout && lowerMaxPayout.lte(rangeData.low.capacity)
-      ? parseBigNumber(lowerMaxPayout, 18)
-      : parseBigNumber(rangeData.low.capacity, 18);
-  const upperMaxCapacity =
-    upperMaxPayout && upperMaxPayout.lte(rangeData.high.capacity)
-      ? parseBigNumber(upperMaxPayout, 9)
-      : parseBigNumber(rangeData.high.capacity, 9);
-  const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
-
   const buyAsset = sellActive ? reserveSymbol : "OHM";
   const sellAsset = sellActive ? "OHM" : reserveSymbol;
 
   const { data: bidPrice } = DetermineRangePrice("bid");
   const { data: askPrice } = DetermineRangePrice("ask");
+
+  const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+
+  const lowerMaxCapacity =
+    lowerMaxPayout && contractType === "bond"
+      ? parseBigNumber(lowerMaxPayout, 18)
+      : parseBigNumber(rangeData.low.capacity, 18);
+
+  const upperMaxCapacity =
+    upperMaxPayout && contractType === "bond"
+      ? parseBigNumber(upperMaxPayout, 18)
+      : parseBigNumber(rangeData.high.capacity, 9);
+
+  const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
 
   useEffect(() => {
     if (reserveAmount && ohmAmount) {
@@ -88,17 +92,7 @@ export const Range = () => {
     setModalOpen(true);
   };
 
-  const swapWithOperator = sellActive
-    ? bidPrice.price < parseBigNumber(rangeData.wall.low.price, 18)
-    : askPrice.price > parseBigNumber(rangeData.wall.high.price, 18);
-
-  const swapPrice = swapWithOperator
-    ? sellActive
-      ? parseBigNumber(rangeData.wall.low.price, 18)
-      : parseBigNumber(rangeData.wall.high.price, 18)
-    : sellActive
-    ? bidPrice.price
-    : askPrice.price;
+  const swapPrice = sellActive ? bidPrice.price : askPrice.price;
 
   const handleChangeOhmAmount = (value: any) => {
     const reserveValue = value * swapPrice;
@@ -114,20 +108,7 @@ export const Range = () => {
 
   const swapPriceFormatted = formatNumber(swapPrice, 2);
 
-  //if there is a bond discount returned we display that, otherwise we calculate the discount based on the current price
-  const bondDiscount = sellActive
-    ? bidPrice.discount
-      ? bidPrice.discount
-      : undefined
-    : askPrice.discount
-    ? askPrice.discount
-    : undefined;
-  const discount =
-    bondDiscount && !swapWithOperator
-      ? bondDiscount
-      : (currentPrice - swapPrice) / (sellActive ? -currentPrice : currentPrice);
-
-  const contractType = swapWithOperator ? "swap" : sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+  const discount = (currentPrice - swapPrice) / (sellActive ? -currentPrice : currentPrice);
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 

@@ -6,7 +6,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 export const BondDiscount: React.VFC<{ discount: DecimalBigNumber; textOnly?: boolean }> = ({ discount, textOnly }) => {
   const theme = useTheme();
   const discountString = `${formatNumber(Number(discount.mul(new DecimalBigNumber("100").toString())), 2)}%`;
-  console.log(discount.toString(), "bondDiscount");
   return textOnly ? (
     <Box
       style={{

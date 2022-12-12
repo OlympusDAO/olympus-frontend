@@ -221,7 +221,9 @@ export const RangeBondMaxPayout = (id: BigNumber) => {
       const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
       const contract = BondFixedTermSDA__factory.connect(auctioneerAddress, aggregatorContract.provider);
       const { maxPayout } = await contract.getMarketInfoForPurchase(id);
-      return maxPayout;
+      const capacity = await contract.currentCapacity(id);
+      const maxAmount = maxPayout.lt(capacity) ? maxPayout : capacity;
+      return maxAmount;
     },
     {
       enabled: id.gt(-1) && id.lt(ethers.constants.MaxUint256),
@@ -274,7 +276,15 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
       const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
       const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
       const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
-      if (sideActive && activeBondMarket) {
+      const bondOutsideWall =
+        bidOrAsk === "ask"
+          ? upperBondMarket?.price.inBaseToken.gt(new DecimalBigNumber(rangeData.wall.high.price, 18))
+          : lowerBondMarket
+          ? new DecimalBigNumber("1")
+              .div(lowerBondMarket?.price.inBaseToken)
+              .lt(new DecimalBigNumber(rangeData.wall.low.price, 18))
+          : false;
+      if (sideActive && activeBondMarket && !bondOutsideWall) {
         return {
           price:
             bidOrAsk === "ask"
