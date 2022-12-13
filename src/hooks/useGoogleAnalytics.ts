@@ -21,7 +21,7 @@ const useGoogleAnalytics = () => {
       },
       address ? { userId: address } : {},
     );
-    if (import.meta.env.NODE_ENV !== "test") {
+    if (import.meta.env.MODE !== "test") {
       if (GA4_API_KEY && GA4_API_KEY.length > 1) {
         GA4.initialize([
           {
