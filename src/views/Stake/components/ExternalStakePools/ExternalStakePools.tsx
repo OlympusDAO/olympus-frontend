@@ -14,35 +14,18 @@ import {
   Tooltip,
 } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import {
-  balancerPools,
-  beetsPools,
-  convexPools,
-  curvePools,
-  fraxPools,
-  joePools,
-  jonesPools,
-  sushiPools,
-} from "src/helpers/AllExternalPools";
+import { balancerPools, convexPools, curvePools, fraxPools } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 import {
   BalancerPoolAPY,
   BalancerSwapFees,
-  BeetsPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
   FraxPoolAPY,
-  JoePoolAPY,
-  JonesPoolAPY,
-  SushiPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolBalance";
-import {
-  BalancerPoolTVL,
-  CurvePoolTVL,
-  useStakePoolTVL,
-} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { CurvePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useAccount } from "wagmi";
 
 const PREFIX = "ExternalStakePools";
@@ -105,18 +88,6 @@ export const ExternalStakePools = () => {
 
 const AllPools = (props: { isSmallScreen: boolean }) => (
   <TableBody>
-    {sushiPools.map(pool => (
-      <SushiPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {joePools.map(pool => (
-      <JoePools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {beetsPools.map(pool => (
-      <BeetsPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {jonesPools.map(pool => (
-      <JonesPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
     {balancerPools.map(pool => (
       <BalancerPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
@@ -242,44 +213,6 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
   );
 };
 
-const SushiPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = SushiPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const JoePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JoePoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
-  const { apy } = BeetsPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { apy, tvl } = JonesPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
-  );
-};
 const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);
   const { apy } = BalancerPoolAPY(props.pool);

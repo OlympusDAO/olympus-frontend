@@ -17,13 +17,4 @@ describe("<Stake/>", () => {
     expect(screen.getByText("Farm Pool"));
     expect(container).toMatchSnapshot();
   });
-
-  it("should render all supported multi chain staking contracts", async () => {
-    render(<Stake />);
-    expect(await screen.getByText("gOHM-AVAX"));
-    expect(await screen.getByText("Stake on Trader Joe"));
-    // there should be two sushi contracts, one on Arbitrum and the other on Polygon
-    const sushiContracts = await screen.findAllByText("gOHM-wETH");
-    expect(sushiContracts).toHaveLength(2);
-  });
 });
