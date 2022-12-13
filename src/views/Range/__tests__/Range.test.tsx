@@ -4,11 +4,11 @@ import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import * as Prices from "src/hooks/usePrices";
 import { connectWallet, invalidAddress } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
-import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
 import { RangeData } from "src/views/Range/__mocks__/mockRangeCalls";
 import { Range } from "src/views/Range/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -25,7 +25,6 @@ vi.mock("src/views/Range/RangeChart", () => ({
     sellActive: boolean;
     reserveSymbol: string;
   }) => {
-    console.log(formatCurrency(props.bidPrice, 2), "bidprice");
     return (
       <>
         <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
@@ -44,9 +43,9 @@ const defaultStatesWithApproval = () => {
   IERC20Factory.IERC20__factory.connect = vi.fn().mockReturnValue({
     symbol: vi.fn().mockReturnValue("DAI"),
   });
-  RANGEPriceContract.RangePrice__factory.connect = vi.fn().mockReturnValue({
-    getCurrentPrice: vi.fn().mockReturnValue(BigNumber.from("13209363085060059262")),
-  });
+  //@ts-expect-error
+  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "13.209363085" });
+
   //@ts-ignore
   rangeOperator.mockReturnValue({
     connect: vi.fn().mockReturnValue({
