@@ -9,14 +9,9 @@ import { formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import {
-  DetermineRangePrice,
-  OperatorPrice,
-  OperatorReserveSymbol,
-  RangeBondMaxPayout,
-  RangeData,
-} from "src/views/Range/hooks";
+import { DetermineRangePrice, OperatorReserveSymbol, RangeBondMaxPayout, RangeData } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
 import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
 import RangeInputForm from "src/views/Range/RangeInputForm";
@@ -48,28 +43,32 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice = 0 } = OperatorPrice();
+  const { data: currentPrice = 0 } = useOhmPrice();
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
   const { data: upperMaxPayout } = RangeBondMaxPayout(rangeData.high.market);
   const { data: lowerMaxPayout } = RangeBondMaxPayout(rangeData.low.market);
 
-  const lowerMaxCapacity =
-    lowerMaxPayout && lowerMaxPayout.lte(rangeData.low.capacity)
-      ? parseBigNumber(lowerMaxPayout, 18)
-      : parseBigNumber(rangeData.low.capacity, 18);
-  const upperMaxCapacity =
-    upperMaxPayout && upperMaxPayout.lte(rangeData.high.capacity)
-      ? parseBigNumber(upperMaxPayout, 9)
-      : parseBigNumber(rangeData.high.capacity, 9);
-  const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
-
   const buyAsset = sellActive ? reserveSymbol : "OHM";
   const sellAsset = sellActive ? "OHM" : reserveSymbol;
 
   const { data: bidPrice } = DetermineRangePrice("bid");
   const { data: askPrice } = DetermineRangePrice("ask");
+
+  const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+
+  const lowerMaxCapacity =
+    lowerMaxPayout && contractType === "bond"
+      ? parseBigNumber(lowerMaxPayout, 18)
+      : parseBigNumber(rangeData.low.capacity, 18);
+
+  const upperMaxCapacity =
+    upperMaxPayout && contractType === "bond"
+      ? parseBigNumber(upperMaxPayout, 18)
+      : parseBigNumber(rangeData.high.capacity, 9);
+
+  const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
 
   useEffect(() => {
     if (reserveAmount && ohmAmount) {
@@ -78,40 +77,38 @@ export const Range = () => {
   }, [sellActive]);
 
   useEffect(() => {
-    const sellDiscount = (currentPrice - bidPrice.price) / -currentPrice;
-    if (sellDiscount > 0) {
+    if (currentPrice < parseBigNumber(rangeData.cushion.low.price, 18)) {
       setSellActive(true);
     }
-  }, [bidPrice, currentPrice]);
+  }, [rangeData.cushion.low.price, currentPrice]);
 
-  const maxBalanceString = `${maxCapacity.toFixed(2)} ${buyAsset}  (${(sellActive
-    ? maxCapacity / bidPrice.price
-    : maxCapacity * askPrice.price
-  ).toFixed(2)} ${sellAsset})`;
-
-  const discount =
-    (currentPrice - (sellActive ? bidPrice.price : askPrice.price)) / (sellActive ? -currentPrice : currentPrice);
+  const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
+    sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
+    2,
+  )} ${sellAsset})`;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setModalOpen(true);
   };
 
+  const swapPrice = sellActive ? bidPrice.price : askPrice.price;
+
   const handleChangeOhmAmount = (value: any) => {
-    const reserveValue = value * (sellActive ? bidPrice.price : askPrice.price);
+    const reserveValue = value * swapPrice;
     setOhmAmount(value);
     setReserveAmount(reserveValue.toString());
   };
 
   const handleChangeReserveAmount = (value: any) => {
-    const ohmValue = value / (sellActive ? bidPrice.price : askPrice.price);
+    const ohmValue = value / swapPrice;
     setOhmAmount(ohmValue.toString());
     setReserveAmount(value);
   };
 
-  const swapPrice = sellActive ? formatNumber(bidPrice.price, 2) : formatNumber(askPrice.price, 2);
+  const swapPriceFormatted = formatNumber(swapPrice, 2);
 
-  const contractType = sellActive ? bidPrice.contract : askPrice.contract; //determine appropriate contract to route to.
+  const discount = (currentPrice - swapPrice) / (sellActive ? -currentPrice : currentPrice);
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 
@@ -119,7 +116,7 @@ export const Range = () => {
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
   const capacityBN = new DecimalBigNumber(maxCapacity.toString(), sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
-  const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
+  const amountAboveBalance = sellActive ? reserveAmountAsNumber.gt(reserveBalance) : ohmAmountAsNumber.gt(ohmBalance);
 
   const swapButtonText = `Swap ${sellAsset} for ${buyAsset}`;
 
@@ -174,8 +171,8 @@ export const Range = () => {
                       <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
                         <Box mt="12px">
                           <InfoNotification>
-                            You are about to swap {sellAsset} for {buyAsset} at a price of {swapPrice} {reserveSymbol}.
-                            This is a{" "}
+                            You are about to swap {sellAsset} for {buyAsset} at a price of {swapPriceFormatted}{" "}
+                            {reserveSymbol}. This is a{" "}
                             {sellActive
                               ? discount < 0
                                 ? "discount"
@@ -213,7 +210,7 @@ export const Range = () => {
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow title={`Swap Price per OHM`} balance={swapPrice} />
+                          <DataRow title={`Swap Price per OHM`} balance={swapPriceFormatted} />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>
@@ -259,7 +256,7 @@ export const Range = () => {
         reserveAddress={reserveAddress}
         reserveSymbol={reserveSymbol}
         ohmAmount={ohmAmount}
-        swapPrice={swapPrice}
+        swapPrice={swapPriceFormatted}
         contract={contractType}
         discount={discount}
         market={sellActive ? rangeData.low.market : rangeData.high.market}

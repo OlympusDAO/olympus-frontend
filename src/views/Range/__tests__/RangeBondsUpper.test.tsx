@@ -4,11 +4,11 @@ import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import * as Prices from "src/hooks/usePrices";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
-import * as RANGEPriceContract from "src/typechain/factories/RangePrice__factory";
 import { ohmPriceHistory, RangeData, reservePriceHistory } from "src/views/Range/__mocks__/mockRangeCalls";
 import * as RangeHooks from "src/views/Range/hooks";
 import { Range } from "src/views/Range/index";
@@ -25,7 +25,6 @@ vi.mock("src/views/Range/RangeChart", () => ({
     sellActive: boolean;
     reserveSymbol: string;
   }) => {
-    console.log(formatCurrency(props.bidPrice, 2), "bidprice");
     return (
       <>
         <div>Ask: {formatCurrency(props.askPrice, 2)}</div>
@@ -46,9 +45,8 @@ describe("Upper Wall Active Bond Market", () => {
     IERC20Factory.IERC20__factory.connect = vi.fn().mockReturnValue({
       symbol: vi.fn().mockReturnValue("DAI"),
     });
-    RANGEPriceContract.RangePrice__factory.connect = vi.fn().mockReturnValue({
-      getCurrentPrice: vi.fn().mockReturnValue(BigNumber.from("13209363085060059262")),
-    });
+    //@ts-expect-error
+    vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "13.209363085" });
     //@ts-ignore
     BondTellerContract.BondTeller__factory.connect = vi.fn().mockReturnValue({
       purchase: vi.fn().mockReturnValue({
