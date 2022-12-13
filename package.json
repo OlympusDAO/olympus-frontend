@@ -37,7 +37,7 @@
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.7.1",
     "@ledgerhq/iframe-provider": "^0.4.2",
-    "@mui/icons-material": "^5.10.16",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.10.17",
     "@mui/system": "^5.10.8",
     "@mui/x-data-grid": "^5.17.7",
