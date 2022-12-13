@@ -139,7 +139,7 @@
     "jest-when": "^3.5.2",
     "jsdom": "^20.0.3",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^13.1.0",
     "node-watch": "^0.7.1",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.20",
