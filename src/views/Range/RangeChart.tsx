@@ -46,13 +46,11 @@ const RangeChart = (props: {
   sellActive: boolean;
   reserveSymbol: string;
 }) => {
-  const { rangeData, currentPrice, bidPrice, askPrice, sellActive, reserveSymbol } = props;
+  const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory(reserveSymbol);
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
-
-  console.log(targetPrice, "targetPrice");
 
   const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
   const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
@@ -61,6 +59,12 @@ const RangeChart = (props: {
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
+      timestamp: new Date(item.timestamp).toLocaleString("en-US", {
+        day: "numeric",
+        month: "short",
+        hour: "numeric",
+        minute: "numeric",
+      }),
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
       ma: targetPrice,
@@ -151,6 +155,7 @@ const RangeChart = (props: {
   };
 
   const theme = useTheme();
+
   return isFetched ? (
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
@@ -184,7 +189,6 @@ const RangeChart = (props: {
               Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 1.05,
           ]}
           padding={{ top: 20, bottom: 20 }}
-          width={42}
         />
         <Tooltip content={<TooltipContent />} />
         <Area
