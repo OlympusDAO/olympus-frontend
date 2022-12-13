@@ -72,7 +72,12 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
 
   const quoteTokenPerBaseToken = new DecimalBigNumber(bondMarketPrice.mul(shift), 36);
   const bondTeller = BOND_FIXED_EXPIRY_TELLER.getEthersContract(networkId);
-  const bondToken = await bondTeller.getBondTokenForMarket(id);
+  let bondToken = "";
+  try {
+    bondToken = await bondTeller.getBondTokenForMarket(id);
+  } catch (e) {
+    console.log("not an ohm bond");
+  }
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
 
   const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
