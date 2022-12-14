@@ -725,7 +725,7 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.20.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.20.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.20.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.6.tgz#facf4879bfed9b5326326273a64220f099b0fce3"
   integrity sha512-Q+8MqP7TiHMWzSfwiJwXCjyf4GYA4Dgw3emg/7xmwsdLJOZUp+nMqcOwOzzYheuM1rhDu8FSj2l0aoMygEuXuA==
@@ -3372,10 +3372,10 @@
     c8 "^7.12.0"
     vitest "0.25.8"
 
-"@vitest/ui@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.23.1.tgz#de3e95b7cc01137767d64c4a8464f2d586009925"
-  integrity sha512-W1ygPK4aTyLTPsf6NX3gZFbH0X1ipNzlHhxTRnZ4/HpQXs/qKw5NDY45/U2yC66Fevj5kXHI1tdrNfN00NouFQ==
+"@vitest/ui@^0.25.8":
+  version "0.25.8"
+  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.25.8.tgz#c97f25cd5ca8e9c0294326657420c9a047540297"
+  integrity sha512-wfuhghldD5QHLYpS46GK8Ru8P3XcMrWvFjRQD21KNzc9Y/qtJsqoC8KmT6xWVkMNw4oHYixpo3a4ZySRJdserw==
   dependencies:
     sirv "^2.0.2"
 
