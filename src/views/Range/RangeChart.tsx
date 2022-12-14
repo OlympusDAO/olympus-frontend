@@ -232,7 +232,7 @@ const RangeChart = (props: {
         <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
 
         <ReferenceDot
-          x={chartData.length > 1 ? 1 : undefined}
+          x={1}
           y={chartData.length > 1 && chartData[1].price}
           shape={CustomReferenceDot}
           fill={theme.colors.gray[10]}
@@ -244,18 +244,13 @@ const RangeChart = (props: {
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
-        <ReferenceDot x={chartData.length > 1 ? 1 : undefined} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
+        <ReferenceDot x={1} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
           <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
             {`Ask: ${formatCurrency(askPrice, 2)}`}
           </Label>
         </ReferenceDot>
 
-        <ReferenceDot
-          x={chartData.length > 1 ? 1 : undefined}
-          y={bidPrice}
-          shape={CustomReferenceDot}
-          fill={theme.colors.primary[300]}
-        >
+        <ReferenceDot x={1} y={bidPrice} shape={CustomReferenceDot} fill={theme.colors.primary[300]}>
           <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
             {`Bid: ${formatCurrency(bidPrice, 2)}`}
           </Label>
