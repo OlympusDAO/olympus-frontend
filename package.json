@@ -101,7 +101,7 @@
     "@types/get-value": "^3.0.3",
     "@types/graphql": "^14.5.0",
     "@types/markdown-it": "^12.2.3",
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.11.15",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^18.0.3",
     "@types/react-router-dom": "^5.3.3",
