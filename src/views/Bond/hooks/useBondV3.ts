@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { NetworkId } from "src/constants";
 import { BOND_AGGREGATOR_CONTRACT, BOND_FIXED_EXPIRY_TELLER } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
@@ -19,7 +19,9 @@ export const bondV3QueryKey = (options: UseBondOptions) => ["useBondV3", options
 export const useBondV3 = ({ id, isInverseBond = false }: Omit<UseBondOptions, "networkId">) => {
   const networks = useTestableNetworks();
   const args = { id, networkId: networks.MAINNET, isInverseBond };
-  return useQuery([bondV3QueryKey(args)], () => fetchBondV3(args));
+  return useQuery([bondV3QueryKey(args)], () => fetchBondV3(args), {
+    enabled: BigNumber.from(args.id).gt("-1") && BigNumber.from(args.id).lt(ethers.constants.MaxUint256),
+  });
 };
 
 export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptions) => {
