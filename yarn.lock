@@ -725,7 +725,7 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.20.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.0", "@babel/runtime@^7.20.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.20.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.6.tgz#facf4879bfed9b5326326273a64220f099b0fce3"
   integrity sha512-Q+8MqP7TiHMWzSfwiJwXCjyf4GYA4Dgw3emg/7xmwsdLJOZUp+nMqcOwOzzYheuM1rhDu8FSj2l0aoMygEuXuA==
@@ -6213,10 +6213,10 @@ eyes@^0.1.8:
   resolved "https://registry.yarnpkg.com/eyes/-/eyes-0.1.8.tgz#62cf120234c683785d902348a800ef3e0cc20bc0"
   integrity sha512-GipyPsXO1anza0AOZdy69Im7hGFCNB7Y/NGjDlZGJ3GJJLtwNSb2vrzYrTYJRrRloVx7pl+bhUaTB8yiccPvFQ==
 
-fast-check@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.3.0.tgz#002b7cc53166129545983ab4fe97a80fef6ac8b4"
-  integrity sha512-Zu6tZ4g0T4H9Tiz3tdNPEHrSbuICj7yhdOM9RCZKNMkpjZ9avDV3ORklXaEmh4zvkX24/bGZ9DxKKqWfXttUqw==
+fast-check@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.4.0.tgz#3f0af799e396a75f514900e6db8ab72f94a41e38"
+  integrity sha512-EWeu5YRzLuf5/PjLu3g6p823B4fOsGc/C8abGfEW4ZJfz1mf670TsP8CxeOuICESO88qu7YoPwKRZ2mTMRxwzg==
   dependencies:
     pure-rand "^5.0.2"
 
