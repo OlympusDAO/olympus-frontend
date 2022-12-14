@@ -143,7 +143,7 @@
     "node-watch": "^0.7.1",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.20",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.1",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
