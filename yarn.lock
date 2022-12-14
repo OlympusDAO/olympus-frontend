@@ -3346,10 +3346,10 @@
     c8 "^7.12.0"
     vitest "0.25.8"
 
-"@vitest/ui@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.23.1.tgz#de3e95b7cc01137767d64c4a8464f2d586009925"
-  integrity sha512-W1ygPK4aTyLTPsf6NX3gZFbH0X1ipNzlHhxTRnZ4/HpQXs/qKw5NDY45/U2yC66Fevj5kXHI1tdrNfN00NouFQ==
+"@vitest/ui@^0.25.8":
+  version "0.25.8"
+  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.25.8.tgz#c97f25cd5ca8e9c0294326657420c9a047540297"
+  integrity sha512-wfuhghldD5QHLYpS46GK8Ru8P3XcMrWvFjRQD21KNzc9Y/qtJsqoC8KmT6xWVkMNw4oHYixpo3a4ZySRJdserw==
   dependencies:
     sirv "^2.0.2"
 
