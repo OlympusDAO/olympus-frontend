@@ -50,7 +50,6 @@ const RangeChart = (props: {
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory({ reserveSymbol });
 
-  console.log(priceData, "priceData");
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
 
@@ -67,7 +66,6 @@ const RangeChart = (props: {
       ma: targetPrice,
     };
   });
-  console.log(chartData, "chartData");
 
   /* We load an object at the front of the chartData array
    * with no price data to shift the chart line left and add an extra element with current market price
@@ -155,7 +153,6 @@ const RangeChart = (props: {
   };
 
   const theme = useTheme();
-  console.log(theme.palette.mode);
   return isFetched ? (
     <Box bgcolor={theme.colors.gray[700]} borderRadius="12px" px={2}>
       <StyledResponsiveContainer width="100%" height={400}>
