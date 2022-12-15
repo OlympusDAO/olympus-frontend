@@ -24,7 +24,6 @@ export const queryClient = new QueryClient({
 
 export const ReactQueryProvider: React.FC = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    {console.log("env", Environment.env)}
     {Environment.env.MODE === "development" && <ReactQueryDevtools />}
 
     {children}
