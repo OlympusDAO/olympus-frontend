@@ -9,7 +9,7 @@ import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
-import { ohmPriceHistory, RangeData, reservePriceHistory } from "src/views/Range/__mocks__/mockRangeCalls";
+import { RangeData } from "src/views/Range/__mocks__/mockRangeCalls";
 import * as RangeHooks from "src/views/Range/hooks";
 import { Range } from "src/views/Range/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -54,11 +54,6 @@ describe("Upper Wall Active Bond Market", () => {
       }),
       getTeller: vi.fn().mockReturnValue(0),
     });
-    //@ts-expect-error
-    vi.spyOn(RangeHooks, "OHMPriceHistory").mockReturnValue({ data: ohmPriceHistory });
-
-    //@ts-expect-error
-    vi.spyOn(RangeHooks, "ReservePriceHistory").mockReturnValue({ data: reservePriceHistory });
 
     //@ts-expect-error
     vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
