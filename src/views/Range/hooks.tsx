@@ -23,13 +23,13 @@ import { useBondV3 } from "src/views/Bond/hooks/useBondV3";
 import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
-export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
+export const PriceHistory = ({ assetPair = "OHMv2/ETH", reserveSymbol = "" }) => {
   const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
   const {
     data = [],
     isFetched,
     isLoading,
-  } = useQuery(["getOHMPriceHistory", assetPair], async () => {
+  } = useQuery(["getPriceHistory", assetPair, reserveSymbol], async () => {
     const data = await request(
       graphURL,
       gql`
@@ -41,60 +41,30 @@ export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
         }
       `,
     );
-    return data.prices;
-  });
 
-  return { data, isFetched, isLoading };
-};
-
-export const ReservePriceHistory = (reserveToken: string) => {
-  const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
-  const {
-    data = [],
-    isFetched,
-    isLoading,
-  } = useQuery(["getReservePriceHistory", reserveToken], async () => {
-    const data = await request(
-      graphURL,
-      gql`
-          {
-            prices(where: { assetPair: "${reserveToken}/ETH" }, orderBy: timestamp, first: 8, orderDirection: desc) {
-              price
-              timestamp
+    const prices = await Promise.all(
+      data.prices.flatMap(async (ohmData: { price: number; timestamp: number }) => {
+        const reservePrice = await request(
+          graphURL,
+          gql`
+            {
+              prices(where: { assetPair: "${reserveSymbol}/ETH" timestamp_lte: ${ohmData.timestamp}}, orderBy: timestamp, first: 1, orderDirection: desc) {
+                price
+                timestamp
+              }
             }
-          }
-        `,
+          `,
+        );
+
+        return {
+          price: ohmData.price / 1e18 / (reservePrice.prices[0].price / 1e18),
+          timestamp: new Date(ohmData.timestamp * 1000).toLocaleString(),
+        };
+      }),
     );
-    return data.prices;
+    return prices;
   });
 
-  return { data, isFetched, isLoading };
-};
-
-/**
- * Returns the price of OHM per Reserve Asset
- * @param reserveToken Reserve Asset
- * */
-export const PriceHistory = (reserveToken: string) => {
-  const { data: ohmPriceData } = OHMPriceHistory();
-  const { data: reservePriceData } = ReservePriceHistory(reserveToken);
-  const {
-    data = [],
-    isFetched,
-    isLoading,
-  } = useQuery(
-    ["getPriceHistory", ohmPriceData, reservePriceData],
-    () => {
-      const prices = ohmPriceData.map((ohmPrice: { price: number; timestamp: number }, index: any) => {
-        return {
-          price: ohmPrice.price / 1e18 / (reservePriceData[index].price / 1e18),
-          timestamp: new Date(ohmPrice.timestamp * 1000).toLocaleString(),
-        };
-      });
-      return prices;
-    },
-    { enabled: ohmPriceData.length > 0 && reservePriceData.length > 0 },
-  );
   return { data, isFetched, isLoading };
 };
 
