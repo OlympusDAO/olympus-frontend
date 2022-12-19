@@ -48,7 +48,8 @@ const RangeChart = (props: {
 }) => {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
-  const { data: priceData, isFetched } = PriceHistory(reserveSymbol);
+  const { data: priceData, isFetched } = PriceHistory({ reserveSymbol });
+
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
 
@@ -59,12 +60,7 @@ const RangeChart = (props: {
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
-      timestamp: new Date(item.timestamp).toLocaleString("en-US", {
-        day: "numeric",
-        month: "short",
-        hour: "numeric",
-        minute: "numeric",
-      }),
+      timestamp: item.timestamp,
       uv: [formattedWallHigh, formattedCushionHigh],
       lv: [formattedWallLow, formattedCushionLow],
       ma: targetPrice,
@@ -123,9 +119,11 @@ const RangeChart = (props: {
 
   const TooltipContent = ({ payload, label }: TooltipProps<number, NameType>) => {
     const price = payload && payload.length > 4 ? payload[4].value : currentPrice;
+    const timestamp = payload && payload.length > 4 ? payload[4].payload.timestamp : "";
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
         <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2)} />
+        <DataRow title="Time" balance={timestamp}></DataRow>
         {label === "now" && (
           <>
             <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
@@ -155,108 +153,111 @@ const RangeChart = (props: {
   };
 
   const theme = useTheme();
-
   return isFetched ? (
-    <StyledResponsiveContainer width="100%" height={400}>
-      <ComposedChart data={chartData}>
-        <defs>
-          <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#8B5559" strokeWidth="1" />
-          </pattern>
-          <pattern id="diagonalHatchLow" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#596D66" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <ReferenceLine
-          y={targetPrice}
-          stroke={theme.colors.gray[500]}
-          strokeDasharray={"6 3"}
-          strokeWidth={1}
-          className="moving-average"
-          label={targetPrice ? `Target Price: ${formatCurrency(targetPrice, 2)}` : ""}
-          position="start"
-        />
-        <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd"></XAxis>
-        <YAxis
-          scale="auto"
-          tickFormatter={number => formatCurrency(number, 2)}
-          orientation="left"
-          type="number"
-          domain={[
-            (dataMin: number) =>
-              Math.min(dataMin, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 0.95,
-            (dataMax: number) =>
-              Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 1.05,
-          ]}
-          padding={{ top: 20, bottom: 20 }}
-        />
-        <Tooltip content={<TooltipContent />} />
-        <Area
-          type="monotone"
-          dataKey="uv"
-          fill={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
-          stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
-          strokeDasharray={"6 3"}
-          strokeWidth={2}
-          fillOpacity={0.4}
-        />
-        <Area
-          type="monotone"
-          dataKey="uv"
-          fill="url(#diagonalHatch)"
-          stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
-          strokeDasharray={"6 3"}
-          strokeWidth={2}
-          fillOpacity={0.4}
-        />
-        <Area
-          type="linear"
-          fill={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
-          dataKey="lv"
-          stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
-          dot={false}
-          fillOpacity={0.4}
-          strokeDasharray="6 3"
-          strokeWidth={2}
-        />
-        <Area
-          type="linear"
-          fill="url(#diagonalHatchLow)"
-          dataKey="lv"
-          stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
-          dot={false}
-          strokeDasharray="6 3"
-          strokeWidth={2}
-          fillOpacity={0.4}
-        />
-        <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
+    <Box bgcolor={theme.colors.gray[700]} borderRadius="12px" px={2}>
+      <StyledResponsiveContainer width="100%" height={400}>
+        <ComposedChart data={chartData}>
+          <defs>
+            <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+              <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#8B5559" strokeWidth="1" />
+            </pattern>
+            <pattern id="diagonalHatchLow" patternUnits="userSpaceOnUse" width="4" height="4">
+              <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#596D66" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <ReferenceLine
+            y={targetPrice}
+            stroke={theme.colors.gray[500]}
+            strokeDasharray={"6 3"}
+            strokeWidth={0.5}
+            className="moving-average"
+            label={targetPrice ? `Target Price: ${formatCurrency(targetPrice, 2)}` : ""}
+            position="start"
+          />
+          <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd" tick={false} hide></XAxis>
+          <YAxis
+            scale="auto"
+            tickFormatter={number => formatCurrency(number, 2)}
+            orientation="left"
+            type="number"
+            domain={[
+              (dataMin: number) =>
+                Math.min(dataMin, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 0.95,
+              (dataMax: number) =>
+                Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 1.05,
+            ]}
+            padding={{ top: 20, bottom: 20 }}
+            tick={false}
+            hide
+          />
+          <Tooltip content={<TooltipContent />} />
+          <Area
+            type="monotone"
+            dataKey="uv"
+            fill={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
+            stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
+            strokeDasharray={"6 3"}
+            strokeWidth={1}
+            fillOpacity={0.4}
+          />
+          <Area
+            type="monotone"
+            dataKey="uv"
+            fill="url(#diagonalHatch)"
+            stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
+            strokeDasharray={"6 3"}
+            strokeWidth={1}
+            fillOpacity={0.4}
+          />
+          <Area
+            type="linear"
+            fill={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
+            dataKey="lv"
+            stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
+            dot={false}
+            fillOpacity={0.4}
+            strokeDasharray="6 3"
+            strokeWidth={1}
+          />
+          <Area
+            type="linear"
+            fill="url(#diagonalHatchLow)"
+            dataKey="lv"
+            stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
+            dot={false}
+            strokeDasharray="6 3"
+            strokeWidth={1}
+            fillOpacity={0.4}
+          />
+          <Line type="monotone" dataKey="price" stroke={theme.colors.gray[10]} dot={false} strokeWidth={4} />
 
-        <ReferenceDot
-          x={1}
-          y={chartData.length > 1 && chartData[1].price}
-          shape={CustomReferenceDot}
-          fill={theme.colors.gray[10]}
-        >
-          <Label
-            className={classes.currentPrice}
-            position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
+          <ReferenceDot
+            x={"now"}
+            y={chartData.length > 1 && chartData[1].price}
+            shape={CustomReferenceDot}
+            fill={theme.colors.gray[10]}
           >
-            {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
-          </Label>
-        </ReferenceDot>
-        <ReferenceDot x={1} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
-          <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
-            {`Ask: ${formatCurrency(askPrice, 2)}`}
-          </Label>
-        </ReferenceDot>
+            <Label
+              className={classes.currentPrice}
+              position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
+            >
+              {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
+            </Label>
+          </ReferenceDot>
+          <ReferenceDot x={"now"} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
+            <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
+              {`Ask: ${formatCurrency(askPrice, 2)}`}
+            </Label>
+          </ReferenceDot>
 
-        <ReferenceDot x={1} y={bidPrice} shape={CustomReferenceDot} fill={theme.colors.primary[300]}>
-          <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
-            {`Bid: ${formatCurrency(bidPrice, 2)}`}
-          </Label>
-        </ReferenceDot>
-      </ComposedChart>
-    </StyledResponsiveContainer>
+          <ReferenceDot x={"now"} y={bidPrice} shape={CustomReferenceDot} fill={theme.colors.primary[300]}>
+            <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
+              {`Bid: ${formatCurrency(bidPrice, 2)}`}
+            </Label>
+          </ReferenceDot>
+        </ComposedChart>
+      </StyledResponsiveContainer>
+    </Box>
   ) : (
     <Box display="flex" justifyContent="center" mt={20} mb={20}>
       <CircularProgress />
