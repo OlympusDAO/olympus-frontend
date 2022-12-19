@@ -47,6 +47,7 @@ export const useProposal = (instructionsIndex: number) => {
   const { data: metadata, isFetched: metadataIsFetched } = useQuery(
     ["GetProposalMetadata", instructionsIndex],
     async () => {
+      console.log("GetProposalMetadata", instructionsIndex);
       return await contract.getProposalMetadata(instructionsIndex);
     },
   );
@@ -106,6 +107,7 @@ export const useProposal = (instructionsIndex: number) => {
           noVotes,
           uri: discussionURL,
           content,
+          now: new Date(),
         };
 
         return currentProposal;

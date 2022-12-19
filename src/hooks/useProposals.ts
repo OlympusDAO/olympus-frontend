@@ -42,6 +42,7 @@ export interface IAnyProposal extends Omit<Proposal, "isActive"> {
   nextDeadline: number;
   collateralClaimableAt: number;
   isActive: boolean | undefined;
+  now: Date;
 }
 
 export interface IActiveProposal {
