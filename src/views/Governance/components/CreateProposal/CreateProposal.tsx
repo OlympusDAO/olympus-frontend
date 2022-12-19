@@ -3,6 +3,7 @@ import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import MDEditor from "@uiw/react-md-editor";
 import { ethers } from "ethers";
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOVERNANCE_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
@@ -28,6 +29,7 @@ export const CreateProposal = () => {
   // TODO(appleseed): need to allow multiple instructions
   const [proposalAction, setProposalAction] = useState<ProposalAction>(ProposalAction.InstallModule);
   const [proposalContract, setProposalContract] = useState<string>();
+  const navigate = useNavigate();
 
   const StyledInputLabel = styled(InputLabel)(() => ({
     lineHeight: "24px",
@@ -91,7 +93,14 @@ export const CreateProposal = () => {
         const proposalURI = `ipfs://${fileData.path}`;
         // TODO(appleseed): need to allow multiple instructions
         const instructions = [{ action: proposalAction as ProposalAction, target: proposalContract as string }];
-        submitProposal.mutate({ proposal: { name: proposal.name, instructions, proposalURI } });
+        submitProposal.mutate(
+          { proposal: { name: proposal.name, instructions, proposalURI } },
+          {
+            onSuccess: () => {
+              navigate("/governance");
+            },
+          },
+        );
       } else {
         // TODO(appleseed): there was a problem uploading your proposal to IPFS
       }
@@ -143,7 +152,7 @@ export const CreateProposal = () => {
             approvalPendingText={"Confirming Approval in your wallet"}
             isVertical
           >
-            <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission}>
+            <PrimaryButton disabled={!canSubmit()} onClick={handleFormSubmission} loading={submitProposal.isLoading}>
               {submitProposal.isLoading ? "Submitting..." : "Continue"}
             </PrimaryButton>
           </TokenAllowanceGuard>

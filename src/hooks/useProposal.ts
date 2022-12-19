@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
+import toast from "react-hot-toast";
 import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber, stringToBytes32String } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -16,6 +17,7 @@ import {
   useGetProposalURIFromEvent,
 } from "src/hooks/useProposals";
 import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
+import { queryClient } from "src/lib/react-query";
 import { InstructionStructOutput } from "src/typechain/OlympusGovInstructions";
 import { useNetwork, useSigner } from "wagmi";
 
@@ -167,17 +169,27 @@ export const useSubmitProposal = () => {
   const { data: signer } = useSigner();
 
   // TODO(appleseed): update ANY types below
-  return useMutation<any, Error, { proposal: ISubmitProposal }>(async ({ proposal }: { proposal: ISubmitProposal }) => {
-    if (!signer) throw new Error(`Signer is not set`);
+  return useMutation<any, Error, { proposal: ISubmitProposal }>(
+    async ({ proposal }: { proposal: ISubmitProposal }) => {
+      if (!signer) throw new Error(`Signer is not set`);
 
-    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
-    await contract.connect(signer).submitProposal(
-      proposal.instructions,
-      ethers.utils.formatBytes32String(stringToBytes32String(proposal.name)),
-      // TODO(appleseed): add back in name after contract update
-      proposal.proposalURI,
-    );
-  });
+      // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
+      const transaction = await contract.connect(signer).submitProposal(
+        proposal.instructions,
+        ethers.utils.formatBytes32String(stringToBytes32String(proposal.name)),
+        // TODO(appleseed): add back in name after contract update
+        proposal.proposalURI,
+      );
+      const response = await transaction.wait();
+      return response;
+    },
+    {
+      onSuccess: () => {
+        toast("Successfully Submitted Proposal");
+        queryClient.invalidateQueries({ queryKey: ["GetProposalSubmittedEvents", chain.id] });
+      },
+    },
+  );
 };
 
 export const useIPFSUpload = () => {
