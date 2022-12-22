@@ -61,7 +61,7 @@
     "react-hot-toast": "^2.4.0",
     "react-markdown": "^8.0.4",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.4.5",
+    "react-router-dom": "^6.6.0",
     "react-step-progress-bar": "^1.0.3",
     "react-uid": "^2.3.2",
     "recharts": "^2.2.0",
