@@ -6,7 +6,6 @@ RUN apt-get update && \
 WORKDIR /usr/src/app
 
 COPY tsconfig.json .
-COPY babel.config.js .
 COPY .eslintignore .
 COPY .eslintrc.js .
 COPY .prettierrc .

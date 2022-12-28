@@ -1,6 +1,6 @@
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import polyfillNode from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
