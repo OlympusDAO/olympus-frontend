@@ -64,8 +64,10 @@ const TimeRemaining = ({ proposal }: { proposal: IAnyProposal }) => {
   // const now = 1668456906000; // must be activated within 1 minute
   // const now = 1668456816000; // can be activated in 3 minutes
   const now = Date.now();
-  if (proposal.timeRemaining && proposal.timeRemaining > 0) {
-    boundedTimeRemaining = proposal.timeRemaining / 1000;
+  const timeRemainingDate = proposal.now.getTime() + proposal.timeRemaining;
+  if (proposal.timeRemaining && timeRemainingDate - now > 0) {
+    const timeRemainingDate = proposal.now.getTime() + proposal.timeRemaining;
+    boundedTimeRemaining = (timeRemainingDate - now) / 1000;
   }
 
   console.log(
