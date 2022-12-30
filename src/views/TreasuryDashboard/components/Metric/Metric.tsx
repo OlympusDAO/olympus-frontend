@@ -96,7 +96,7 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
   const _props: MetricProps = {
     ...props,
     label: `OHM Circulating Supply / Total`,
-    tooltip: `Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
+    tooltip: `Circulating supply is the quantity of outstanding OHM not held by the protocol in the treasury. OHM deployed in Protocol-Owned Liquidity is therefore included in circulating supply.`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -130,7 +130,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = `Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
   
-  Floating supply of OHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
+  Floating supply is the quantity of outstanding OHM not held by the protocol in the treasury and not deployed in Protocol-Owned Liquidity: ${
     floatingSupply ? formatNumber(floatingSupply) : "Loading..."
   }
   `;
