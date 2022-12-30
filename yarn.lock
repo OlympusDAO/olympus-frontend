@@ -5728,10 +5728,10 @@ eslint-plugin-jsx-a11y@^6.6.1:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
-eslint-plugin-no-relative-import-paths@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-no-relative-import-paths/-/eslint-plugin-no-relative-import-paths-1.5.0.tgz#d277fd4d9644e2405cea32541af3bfbde00f02e9"
-  integrity sha512-4if/PGGzpSP+DfOscGZ2nYd8XObc5rN9Ux5lhDzAVqLEaz8XD3ikzApSogXBdf+lnpTsTE5LJSqXFmFpNkZ3LQ==
+eslint-plugin-no-relative-import-paths@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-no-relative-import-paths/-/eslint-plugin-no-relative-import-paths-1.5.2.tgz#c35f2fd0bf2a6a57b268193ed7df63ff7000134e"
+  integrity sha512-wMlL+TVuDhKk1plP+w3L4Hc7+u89vUkrOYq6/0ARjcYqwc9/YaS9uEXNzaqAk+WLoEgakzNL5JgJJw6m4qd5zw==
 
 eslint-plugin-prettier@^4.2.1:
   version "4.2.1"
