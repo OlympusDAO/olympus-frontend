@@ -128,9 +128,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
   const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrls);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = `Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
-  
-  Floating supply is the quantity of outstanding OHM not held by the protocol in the treasury and not deployed in Protocol-Owned Liquidity: ${
+  const tooltip = `Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.\n\nFloating supply is the quantity of outstanding OHM not held by the protocol in the treasury and not deployed in Protocol-Owned Liquidity: ${
     floatingSupply ? formatNumber(floatingSupply) : "Loading..."
   }
   `;
