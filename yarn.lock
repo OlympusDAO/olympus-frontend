@@ -3362,10 +3362,10 @@
     c8 "^7.12.0"
     vitest "0.26.3"
 
-"@vitest/ui@^0.26.2":
-  version "0.26.2"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.26.2.tgz#9ae81bb760b2614ecf38047a3c536a3452bd9f7d"
-  integrity sha512-DMQhooGJVWjkiKIWJqbprDynDbw/anG2An5PxyDqLuzpGX0MWnDLNxON8wneDtDIX3kCptzRWTVMAxaV/S8EoQ==
+"@vitest/ui@^0.26.3":
+  version "0.26.3"
+  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.26.3.tgz#f375e97d7afbbdf90e864334eb4898cc7b7bc41b"
+  integrity sha512-GekIZekLQVL765LmQObHai7Q3U+BWD0nxJVK1yV8VPcs6H/6EAnNuEZ8tFq87jCxyHEZ3zmOrX6uPmG65gBVrA==
   dependencies:
     fast-glob "^3.2.12"
     flatted "^3.2.7"
