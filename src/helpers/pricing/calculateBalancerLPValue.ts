@@ -23,7 +23,6 @@ export const calculateBalancerLPValue = async ({
     // Get the prices of an arbitrary amount of tokens
     ...poolTokens.map(token => token.getPrice(networkId)),
   ]);
-  console.log(poolId, lpSupply, tokenPrices, "poolId, lpSupply, tokenPrices");
 
   const tokenBalances = await vault
     .getPoolTokens(poolId)
