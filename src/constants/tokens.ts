@@ -4,7 +4,6 @@ import {
   GOHM_ADDRESSES,
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
-  OHM_DAI_ETH_LP_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
   SOHM_ADDRESSES,
   UST_ADDRESSES,
@@ -18,9 +17,8 @@ import { BALANCER_VAULT } from "src/constants/contracts";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { calculateBalancerLPValue } from "src/helpers/pricing/calculateBalancerLPValue";
-import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
 import { NetworkId } from "src/networkDetails";
-import { BalancerV2Pool__factory, IERC20__factory, PairContract__factory } from "src/typechain";
+import { BalancerV2Pool__factory, IERC20__factory } from "src/typechain";
 
 export const OHM_TOKEN = new Token({
   icons: ["OHM"],
@@ -148,31 +146,18 @@ export const OHM_DAI_LP_TOKEN = new Token({
   decimals: 18,
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
-  factory: PairContract__factory,
+  factory: BalancerV2Pool__factory,
   addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
 OHM_DAI_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_DAI_LP_TOKEN, poolTokens: [OHM_TOKEN, DAI_TOKEN] });
-
-export const OHM_DAI_ETH_LP_TOKEN = new Token({
-  decimals: 18,
-  name: "50OHM-25DAI-25WETH",
-  icons: ["OHM", "DAI", "ETH"],
-  factory: BalancerV2Pool__factory,
-  addresses: OHM_DAI_ETH_LP_ADDRESSES,
-  purchaseUrl: "https://app.balancer.fi/#/trade",
-});
-
-OHM_DAI_ETH_LP_TOKEN.customPricingFunc = networkId => {
-  return calculateBalancerLPValue({
+  calculateBalancerLPValue({
     networkId,
-    lpToken: OHM_DAI_ETH_LP_TOKEN,
-    poolTokens: [OHM_TOKEN, DAI_TOKEN, WETH_TOKEN],
+    lpToken: OHM_DAI_LP_TOKEN,
+    poolTokens: [OHM_TOKEN, DAI_TOKEN],
   });
-};
 
 export const UST_TOKEN = new Token({
   icons: ["UST"],
@@ -207,15 +192,12 @@ export const WBTC_TOKEN = new Token({
  * circular references during initialisation.
  */
 OHM_TOKEN.customPricingFunc = async () => {
-  const contract = OHM_DAI_ETH_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
   const vault = BALANCER_VAULT.getEthersContract(NetworkId.MAINNET);
   const poolId = await contract.getPoolId();
   const poolTokens = await vault.getPoolTokens(poolId);
-  const ethPrice = await WETH_TOKEN.getPrice(NetworkId.MAINNET);
   const daiPrice = await DAI_TOKEN.getPrice(NetworkId.MAINNET);
-  const ethUSDValue = ethPrice.mul(new DecimalBigNumber(poolTokens.balances[2], 18));
   const daiUSDValue = daiPrice.mul(new DecimalBigNumber(poolTokens.balances[1], 18));
-  const usdValue = ethUSDValue.add(daiUSDValue);
 
-  return usdValue.div(new DecimalBigNumber(poolTokens.balances[0], 9));
+  return daiUSDValue.div(new DecimalBigNumber(poolTokens.balances[0], 9));
 };
