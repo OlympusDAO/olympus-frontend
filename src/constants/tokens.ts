@@ -148,8 +148,7 @@ export const OHM_DAI_LP_TOKEN = new Token({
   icons: ["OHM", "DAI"],
   factory: BalancerV2Pool__factory,
   addresses: OHM_DAI_LP_ADDRESSES,
-  purchaseUrl:
-    "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
+  purchaseUrl: "https://app.balancer.fi/#/trade",
 });
 
 OHM_DAI_LP_TOKEN.customPricingFunc = networkId =>
