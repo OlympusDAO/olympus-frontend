@@ -1,18 +1,18 @@
 import { NetworkId } from "src/constants";
 import { ExternalPool } from "src/lib/ExternalPool";
 
-export const balancer_ohm_dai_weth = new ExternalPool({
-  poolName: "OHM-DAI-wETH",
-  icons: ["OHM", "DAI", "wETH"],
+export const balancer_ohm_dai = new ExternalPool({
+  poolName: "OHM-DAI",
+  icons: ["OHM", "DAI"],
   stakeOn: "Balancer",
   pairGecko: "ethereum",
   rewardGecko: "gOHM",
-  href: "https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
-  address: "0xc45D42f801105e861e86658648e3678aD7aa70f9",
+  href: "https://app.balancer.fi/#/ethereum/pool/0xd1ec5e215e8148d76f4460e4097fd3d5ae0a35580002000000000000000003d3",
+  address: "0xd1ec5e215e8148d76f4460e4097fd3d5ae0a3558",
   masterchef: "0xc45D42f801105e861e86658648e3678aD7aa70f9", //not currenly incentivized
   rewarder: "", //not currenly incentivized
   vault: "0xba12222222228d8ba445958a75a0704d566bf2c8",
-  poolId: "0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
+  poolId: "0xd1ec5e215e8148d76f4460e4097fd3d5ae0a35580002000000000000000003d3",
   networkID: NetworkId.MAINNET,
 });
 
@@ -59,7 +59,7 @@ export const frax_ohm_frax = new ExternalPool({
   mintAndSync: true,
 });
 
-export const balancerPools = [balancer_ohm_dai_weth];
+export const balancerPools = [balancer_ohm_dai];
 export const curvePools = [curve_ohm_eth];
 export const convexPools = [convex_ohm_eth];
 export const fraxPools = [frax_ohm_frax];
