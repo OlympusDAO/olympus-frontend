@@ -2,5 +2,4 @@
 - Due to technical limitations, the balance and value of native ETH is not included
 - There may be a visible delay when capital is deployed to a new contract or blockchain
 - The timestamp shown in each tooltip represents the time of the most recently-indexed block across all chains
-- There are upcoming migrations of liquidity into new Balancer pools. Protocol-owned liquidity values may be inconsistent.
-- There are upcoming migrations of reserves into the new treasury as part of the launch of Range-Bound Stability. Reported reserves may be inconsistent.
+- $24m of liquidity was migrated from a Curve FRAX3Curve pool into a new Frax staking/locking contract on 5th January 2023. The DAO is working on updating the subgraph that powers this dashboard so that the staked liquidity is recognised.
