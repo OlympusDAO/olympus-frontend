@@ -23,7 +23,12 @@ export const DAO_TREASURY_ADDRESSES = {
 };
 
 export const OHM_DAI_LP_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x055475920a8c93CfFb64d039A8205F7AcC7722d3",
+};
+
+export const OHM_DAI_BALANCER_LP_ADDRESSES = {
   [NetworkId.MAINNET]: "0x76fcf0e8c7ff37a47a799fa2cd4c13cde0d981c9",
+  [NetworkId.TESTNET_GOERLI]: "",
 };
 
 export const WBTC_ADDRESSES = {
