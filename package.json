@@ -118,7 +118,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "css-mediaquery": "^0.1.2",
-    "eslint": "^8.30.0",
+    "eslint": "^8.31.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-babel": "^5.3.1",
