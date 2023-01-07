@@ -215,7 +215,7 @@ exports[`<Stake/> > should render component. not connected 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -1725,7 +1725,7 @@ exports[`<Stake/> > should render the stake input Area when connected 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -3312,7 +3312,7 @@ exports[`<Stake/> > should render the v1 migration modal 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -4899,7 +4899,7 @@ exports[`<Stake/> > should render the v1 migration modal and banner 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div

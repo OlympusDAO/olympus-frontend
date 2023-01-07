@@ -437,7 +437,7 @@ exports[`<Stake/> > should render component 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -1866,7 +1866,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
