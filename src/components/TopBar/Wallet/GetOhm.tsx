@@ -94,7 +94,7 @@ const GetOhm: FC = () => {
             <ItemCard
               tokens={["wETH", "wBTC", "USDC", "DAI"]}
               title={`Zap with more assets`}
-              href={`/zap`}
+              href={`/stake`}
               disableFlip
             />
             <Typography variant="h6" className={classes.title}>
@@ -169,31 +169,6 @@ const GetOhm: FC = () => {
         <Typography variant="h6" className={classes.title}>
           Borrow
         </Typography>
-        <ItemCard
-          tokens={["RARI"]}
-          title={`Borrow on Rari`}
-          href={`https://app.rari.capital/fuse/pool/18`}
-          external
-          roi={`${fuseSupplyApy}%`}
-          days="APY"
-          disableFlip
-        />
-        <ItemCard
-          tokens={["MARKET"]}
-          title={`Borrow on Market.xyz`}
-          networkName={"POLYGON"}
-          href={`https://polygon.market.xyz/pool/8`}
-          external
-          disableFlip
-        />
-        <ItemCard
-          tokens={["MARKET"]}
-          title={`Borrow on Market.xyz`}
-          networkName={"AVAX"}
-          href={`https://avax.market.xyz/pool/3`}
-          external
-          disableFlip
-        />
         <ItemCard
           tokens={["VST"]}
           title={`Borrow on Vesta Finance`}

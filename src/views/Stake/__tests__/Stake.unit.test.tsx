@@ -14,7 +14,7 @@ describe("<Stake/>", () => {
     expect(screen.getAllByText("Stake")[0]);
     //  there should be a Farm Pool table
 
-    expect(screen.getByText("Farm Pool"));
+    expect(screen.getByText("Farm Pools"));
     expect(container).toMatchSnapshot();
   });
 });
