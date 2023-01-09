@@ -35,11 +35,6 @@ const KnownIssues = (): JSX.Element => {
         <li>
           The timestamp shown in each tooltip represents the time of the most recently-indexed block across all chains
         </li>
-        <li>
-          $24m of liquidity was migrated from a Curve FRAX3Curve pool into a new Frax staking/locking contract on 5th
-          January 2023. The DAO is working on updating the subgraph that powers this dashboard so that the staked
-          liquidity is recognised.
-        </li>
       </Grid>
     </Grid>
   );
