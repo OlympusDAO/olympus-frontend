@@ -64,7 +64,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
   [`& .${classes.content}`]: {
     flexGrow: 1,
-    padding: "9px",
+    padding: "15px",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,

@@ -63,9 +63,16 @@ export const ExternalStakePools = () => {
   return (
     <>
       {isSmallScreen ? (
-        <AllPools isSmallScreen={isSmallScreen} />
+        <Table>
+          <Box display="flex" justifyContent="start" mt="42px">
+            <Typography fontSize="24px" textAlign="left" fontWeight={600}>
+              Farm Pools
+            </Typography>
+          </Box>
+          <AllPools isSmallScreen={isSmallScreen} />
+        </Table>
       ) : (
-        <Paper headerText={`Farm Pool`}>
+        <Paper headerText={`Farm Pools`}>
           <Table>
             <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
@@ -179,7 +186,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
   const userBalance = userBalances[props.pool.networkID].data;
 
   return (
-    <Paper>
+    <Box mt="42px">
       <StyledPoolInfo className={classes.poolPair}>
         <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
 
@@ -209,7 +216,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
       <SecondaryButton href={props.pool.href} fullWidth>
         {`Stake on`} {props.pool.stakeOn}
       </SecondaryButton>
-    </Paper>
+    </Box>
   );
 };
 
