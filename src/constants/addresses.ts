@@ -188,3 +188,8 @@ export const V1_STAKING_ADDRESSES = {
   [NetworkId.MAINNET]: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a",
   [NetworkId.TESTNET_GOERLI]: "0x2868546dB0850fE969de651395887F18e66A2d26",
 };
+
+export const STETH_AMO_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "",
+};

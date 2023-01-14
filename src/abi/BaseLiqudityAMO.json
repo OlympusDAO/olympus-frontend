@@ -1,0 +1,878 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
+        }
+      ],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityAMO_BadPriceFeed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityAMO_InvalidRemoval",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityAMO_LimitViolation",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityAMO_PoolImbalanced",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Keycode",
+          "name": "keycode_",
+          "type": "bytes5"
+        }
+      ],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FEE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "LIMIT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "LQREG",
+      "outputs": [
+        {
+          "internalType": "contract LQREGv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MINTR",
+      "outputs": [
+        {
+          "internalType": "contract MINTRv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRECISION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLES",
+      "outputs": [
+        {
+          "internalType": "contract ROLESv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "THRESHOLD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "accumulatedFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "activate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
+      ],
+      "name": "addExternalRewardToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardsPerSecond_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp_",
+          "type": "uint256"
+        }
+      ],
+      "name": "addRewardToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "newKernel_",
+          "type": "address"
+        }
+      ],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claimFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claimRewards",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [
+        {
+          "internalType": "Keycode[]",
+          "name": "dependencies",
+          "type": "bytes5[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        }
+      ],
+      "name": "deactivate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minLpAmount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lpAmountOut",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "externalRewardTokens",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accumulatedRewardsPerShare",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        }
+      ],
+      "name": "externalRewardsForToken",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getOhmEmissions",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "emitted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "removed",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "liquidityPool",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "lpPositions",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmBurned",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmMinted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pairToken",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "pairTokenDeposits",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
+      ],
+      "name": "removeExternalRewardToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
+      ],
+      "name": "removeRewardToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "Keycode",
+              "name": "keycode",
+              "type": "bytes5"
+            },
+            {
+              "internalType": "bytes4",
+              "name": "funcSelector",
+              "type": "bytes4"
+            }
+          ],
+          "internalType": "struct Permissions[]",
+          "name": "permissions",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "rewardTokens",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardsPerSecond",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastRewardTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accumulatedRewardsPerShare",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        }
+      ],
+      "name": "rewardsForToken",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "fee_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "limit_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLimit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "threshold_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setThreshold",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalLP",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userRewardDebts",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "lpAmount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "minTokenAmounts_",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "bool",
+          "name": "claim_",
+          "type": "bool"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "activate()": {
+        "details": "This function can only be accessed by the liquidityamo_admin role"
+      },
+      "addExternalRewardToken(address)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "token_": "The address of the reward token"
+        }
+      },
+      "addRewardToken(address,uint256,uint256)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "rewardsPerSecond_": "The amount of reward tokens to distribute per second",
+          "startTimestamp_": "The timestamp at which to start distributing rewards",
+          "token_": "The address of the reward token"
+        }
+      },
+      "claimFees()": {
+        "details": "This function can only be accessed by the liquidityamo_admin role"
+      },
+      "configureDependencies()": {
+        "returns": {
+          "dependencies": "- Keycode array of module dependencies."
+        }
+      },
+      "deactivate(uint256)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role"
+      },
+      "deposit(uint256,uint256)": {
+        "details": "This needs to be non-reentrant since the contract only knows the amount of LP tokens it                         receives after an external interaction with the liquidity pool",
+        "params": {
+          "amount_": "The amount of pair tokens to deposit",
+          "minLpAmount_": "The minimum amount of LP tokens to receive"
+        }
+      },
+      "externalRewardsForToken(uint256,address)": {
+        "params": {
+          "id_": "The ID of the external reward token",
+          "user_": "The user's address to check rewards for"
+        },
+        "returns": {
+          "_0": "int256              The amount of rewards the user has earned"
+        }
+      },
+      "getOhmEmissions()": {
+        "details": "This is based on a point-in-time snapshot of the liquidity pool's current OHM balance",
+        "returns": {
+          "emitted": "            The amount of OHM that this contract has emitted to the broader market",
+          "removed": "            The amount of OHM that this contract has removed from the broader market"
+        }
+      },
+      "removeExternalRewardToken(uint256,address)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "id_": "The index of the reward token to remove",
+          "token_": "The address of the reward token to remove"
+        }
+      },
+      "removeRewardToken(uint256,address)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "id_": "The index of the reward token to remove",
+          "token_": "The address of the reward token to remove"
+        }
+      },
+      "requestPermissions()": {
+        "returns": {
+          "permissions": "- Array of keycodes and function selectors for requested permissions."
+        }
+      },
+      "rewardsForToken(uint256,address)": {
+        "params": {
+          "id_": "The ID of the reward token",
+          "user_": "The user's address to check rewards for"
+        },
+        "returns": {
+          "_0": "int256              The amount of rewards the user has earned"
+        }
+      },
+      "setFee(uint256)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "fee_": "The new fee (out of 1000)"
+        }
+      },
+      "setLimit(uint256)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "limit_": "The new limit"
+        }
+      },
+      "setThreshold(uint256)": {
+        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "params": {
+          "threshold_": "The new threshold (out of 1000)"
+        }
+      },
+      "withdraw(uint256,uint256[],bool)": {
+        "details": "This needs to be non-reentrant since the contract only knows the amount of OHM and                             pair tokens it receives after an external call to withdraw liquidity",
+        "params": {
+          "lpAmount_": "The amount of LP tokens to withdraw",
+          "minTokenAmounts_": "The minimum amounts of pair tokens and OHM to receive"
+        }
+      }
+    },
+    "title": "Olympus Base Liquidity AMO",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "activate()": {
+        "notice": "Registers the AMO in the LQREG contract"
+      },
+      "addExternalRewardToken(address)": {
+        "notice": "Adds a new external reward token to the contract"
+      },
+      "addRewardToken(address,uint256,uint256)": {
+        "notice": "Adds a new reward token to the contract"
+      },
+      "changeKernel(address)": {
+        "notice": "Function used by kernel when migrating to a new kernel."
+      },
+      "claimFees()": {
+        "notice": "Transfers accumulated fees on reward tokens to the admin"
+      },
+      "claimRewards()": {
+        "notice": "Claims user's rewards for all reward tokens"
+      },
+      "configureDependencies()": {
+        "notice": "Define module dependencies for this policy."
+      },
+      "deactivate(uint256)": {
+        "notice": "Unregisters the AMO in the LQREG contract and sets the borrowable limit to 0"
+      },
+      "deposit(uint256,uint256)": {
+        "notice": "Deposits pair tokens, mints OHM against the deposited pair tokens, and deposits the                         pair token and OHM into a liquidity pool and receives LP tokens in return"
+      },
+      "externalRewardsForToken(uint256,address)": {
+        "notice": "Returns the amount of rewards a user has earned for a given external reward token"
+      },
+      "getOhmEmissions()": {
+        "notice": "Calculates the net amount of OHM that this contract has emitted to or removed from the broader market"
+      },
+      "isActive()": {
+        "notice": "Easily accessible indicator for if a policy is activated or not."
+      },
+      "removeExternalRewardToken(uint256,address)": {
+        "notice": "Removes an external reward token from the contract"
+      },
+      "removeRewardToken(uint256,address)": {
+        "notice": "Removes a reward token from the contract"
+      },
+      "requestPermissions()": {
+        "notice": "Function called by kernel to set module function permissions."
+      },
+      "rewardsForToken(uint256,address)": {
+        "notice": "Returns the amount of rewards a user has earned for a given reward token"
+      },
+      "setFee(uint256)": {
+        "notice": "Updates the fee charged on rewards"
+      },
+      "setLimit(uint256)": {
+        "notice": "Updates the maximum amount of OHM that can be minted by this contract"
+      },
+      "setThreshold(uint256)": {
+        "notice": "Updates the threshold for the price deviation from the oracle price that is acceptable"
+      },
+      "withdraw(uint256,uint256[],bool)": {
+        "notice": "Withdraws pair tokens and OHM from a liquidity pool, returns any received pair tokens to the                             user, and burns any received OHM"
+      }
+    },
+    "version": 1
+  }
+}
