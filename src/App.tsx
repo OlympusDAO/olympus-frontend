@@ -34,6 +34,7 @@ import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { Liquidity } from "src/views/Liquidity";
+import { Vault } from "src/views/Liquidity/Vault";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -244,6 +245,7 @@ function App() {
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />
                   <Route path="/liquidity" element={<Liquidity />} />
+                  <Route path="/liquidity/:id" element={<Vault />} />
 
                   <Route
                     path={"/info/*"}
