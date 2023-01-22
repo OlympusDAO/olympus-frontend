@@ -22,8 +22,8 @@ import {
   ConvexPoolAPY,
   CurvePoolAPY,
   FraxPoolAPY,
-} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
-import { CurvePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+} from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolAPY";
+import { CurvePoolTVL } from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolTVL";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "GetOhm";

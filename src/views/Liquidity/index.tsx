@@ -1,16 +1,22 @@
-import { Box } from "@mui/material";
-import { Paper, PrimaryButton } from "@olympusdao/component-library";
+import { TableCell } from "@mui/material";
+import { Box, styled } from "@mui/system";
 import PageTitle from "src/components/PageTitle";
+import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
+import { SingleSidedFarms } from "src/views/Liquidity/SingleSidedFarms";
+import { YourAmoDeposits } from "src/views/Liquidity/YourAMODeposits";
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  padding: "6px",
+}));
 export const Liquidity = () => (
   <div id="stake-view">
     <PageTitle name="Liquidity" />
-    <Paper>
-      <PrimaryButton>Deposit</PrimaryButton>
-      <PrimaryButton>Withdraw</PrimaryButton>
-      <PrimaryButton>Claim</PrimaryButton>
-
-      <Box>LP Token Amount</Box>
-    </Paper>
+    <Box width="97%" maxWidth="974px">
+      <YourAmoDeposits />
+      <Box mb="33px" />
+      <SingleSidedFarms />
+      <Box mb="33px" />
+      <ExternalStakePools />
+    </Box>
   </div>
 );

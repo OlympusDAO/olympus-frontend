@@ -13,22 +13,22 @@
     },
     {
       "inputs": [],
-      "name": "LiquidityAMO_BadPriceFeed",
+      "name": "LiquidityVault_BadPriceFeed",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "LiquidityAMO_InvalidRemoval",
+      "name": "LiquidityVault_InvalidRemoval",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "LiquidityAMO_LimitViolation",
+      "name": "LiquidityVault_LimitViolation",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "LiquidityAMO_PoolImbalanced",
+      "name": "LiquidityVault_PoolImbalanced",
       "type": "error"
     },
     {
@@ -41,6 +41,81 @@
       ],
       "name": "Policy_ModuleDoesNotExist",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ohmMinted",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "RewardsClaimed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ohmBurned",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
+      "type": "event"
     },
     {
       "inputs": [],
@@ -190,7 +265,7 @@
           "type": "uint256"
         }
       ],
-      "name": "addRewardToken",
+      "name": "addInternalRewardToken",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -218,13 +293,7 @@
     {
       "inputs": [],
       "name": "claimRewards",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -318,9 +387,9 @@
       "name": "externalRewardsForToken",
       "outputs": [
         {
-          "internalType": "int256",
+          "internalType": "uint256",
           "name": "",
-          "type": "int256"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -338,6 +407,64 @@
         {
           "internalType": "uint256",
           "name": "removed",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "internalRewardTokens",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardsPerSecond",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastRewardTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accumulatedRewardsPerShare",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        }
+      ],
+      "name": "internalRewardsForToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -504,7 +631,7 @@
           "type": "address"
         }
       ],
-      "name": "removeRewardToken",
+      "name": "removeInternalRewardToken",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -529,64 +656,6 @@
           "internalType": "struct Permissions[]",
           "name": "permissions",
           "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "rewardTokens",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "rewardsPerSecond",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "lastRewardTime",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "accumulatedRewardsPerShare",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id_",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "user_",
-          "type": "address"
-        }
-      ],
-      "name": "rewardsForToken",
-      "outputs": [
-        {
-          "internalType": "int256",
-          "name": "",
-          "type": "int256"
         }
       ],
       "stateMutability": "view",
@@ -702,16 +771,16 @@
     "kind": "dev",
     "methods": {
       "activate()": {
-        "details": "This function can only be accessed by the liquidityamo_admin role"
+        "details": "This function can only be accessed by the liquidityvault_admin role"
       },
       "addExternalRewardToken(address)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "token_": "The address of the reward token"
         }
       },
-      "addRewardToken(address,uint256,uint256)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+      "addInternalRewardToken(address,uint256,uint256)": {
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "rewardsPerSecond_": "The amount of reward tokens to distribute per second",
           "startTimestamp_": "The timestamp at which to start distributing rewards",
@@ -719,7 +788,7 @@
         }
       },
       "claimFees()": {
-        "details": "This function can only be accessed by the liquidityamo_admin role"
+        "details": "This function can only be accessed by the liquidityvault_admin role"
       },
       "configureDependencies()": {
         "returns": {
@@ -727,7 +796,7 @@
         }
       },
       "deactivate(uint256)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role"
+        "details": "This function can only be accessed by the liquidityvault_admin role"
       },
       "deposit(uint256,uint256)": {
         "details": "This needs to be non-reentrant since the contract only knows the amount of LP tokens it                         receives after an external interaction with the liquidity pool",
@@ -752,15 +821,24 @@
           "removed": "            The amount of OHM that this contract has removed from the broader market"
         }
       },
+      "internalRewardsForToken(uint256,address)": {
+        "params": {
+          "id_": "The ID of the reward token",
+          "user_": "The user's address to check rewards for"
+        },
+        "returns": {
+          "_0": "int256              The amount of rewards the user has earned"
+        }
+      },
       "removeExternalRewardToken(uint256,address)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "id_": "The index of the reward token to remove",
           "token_": "The address of the reward token to remove"
         }
       },
-      "removeRewardToken(uint256,address)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+      "removeInternalRewardToken(uint256,address)": {
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "id_": "The index of the reward token to remove",
           "token_": "The address of the reward token to remove"
@@ -771,29 +849,20 @@
           "permissions": "- Array of keycodes and function selectors for requested permissions."
         }
       },
-      "rewardsForToken(uint256,address)": {
-        "params": {
-          "id_": "The ID of the reward token",
-          "user_": "The user's address to check rewards for"
-        },
-        "returns": {
-          "_0": "int256              The amount of rewards the user has earned"
-        }
-      },
       "setFee(uint256)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "fee_": "The new fee (out of 1000)"
         }
       },
       "setLimit(uint256)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "limit_": "The new limit"
         }
       },
       "setThreshold(uint256)": {
-        "details": "This function can only be accessed by the liquidityamo_admin role",
+        "details": "This function can only be accessed by the liquidityvault_admin role",
         "params": {
           "threshold_": "The new threshold (out of 1000)"
         }
@@ -806,20 +875,20 @@
         }
       }
     },
-    "title": "Olympus Base Liquidity AMO",
+    "title": "Olympus Base Single Sided Liquidity Vault Contract",
     "version": 1
   },
   "userdoc": {
     "kind": "user",
     "methods": {
       "activate()": {
-        "notice": "Registers the AMO in the LQREG contract"
+        "notice": "Registers the vault in the LQREG contract"
       },
       "addExternalRewardToken(address)": {
         "notice": "Adds a new external reward token to the contract"
       },
-      "addRewardToken(address,uint256,uint256)": {
-        "notice": "Adds a new reward token to the contract"
+      "addInternalRewardToken(address,uint256,uint256)": {
+        "notice": "Adds a new internal reward token to the contract"
       },
       "changeKernel(address)": {
         "notice": "Function used by kernel when migrating to a new kernel."
@@ -834,10 +903,13 @@
         "notice": "Define module dependencies for this policy."
       },
       "deactivate(uint256)": {
-        "notice": "Unregisters the AMO in the LQREG contract and sets the borrowable limit to 0"
+        "notice": "Unregisters the vault in the LQREG contract and sets the borrowable limit to 0"
       },
       "deposit(uint256,uint256)": {
         "notice": "Deposits pair tokens, mints OHM against the deposited pair tokens, and deposits the                         pair token and OHM into a liquidity pool and receives LP tokens in return"
+      },
+      "externalRewardTokens(uint256)": {
+        "notice": "An external reward token is a token where the primary accrual of reward tokens occurs outside         the scope of this contract in a system like Convex or Aura. The vault is responsible for harvesting         rewards back to the vault and then distributing them proportionally to users"
       },
       "externalRewardsForToken(uint256,address)": {
         "notice": "Returns the amount of rewards a user has earned for a given external reward token"
@@ -845,20 +917,23 @@
       "getOhmEmissions()": {
         "notice": "Calculates the net amount of OHM that this contract has emitted to or removed from the broader market"
       },
+      "internalRewardTokens(uint256)": {
+        "notice": "An internal reward token is a token where the vault is the only source of rewards and the         vault handles all accounting around how many reward tokens to distribute over time"
+      },
+      "internalRewardsForToken(uint256,address)": {
+        "notice": "Returns the amount of rewards a user has earned for a given reward token"
+      },
       "isActive()": {
         "notice": "Easily accessible indicator for if a policy is activated or not."
       },
       "removeExternalRewardToken(uint256,address)": {
         "notice": "Removes an external reward token from the contract"
       },
-      "removeRewardToken(uint256,address)": {
-        "notice": "Removes a reward token from the contract"
+      "removeInternalRewardToken(uint256,address)": {
+        "notice": "Removes an internal reward token from the contract"
       },
       "requestPermissions()": {
         "notice": "Function called by kernel to set module function permissions."
-      },
-      "rewardsForToken(uint256,address)": {
-        "notice": "Returns the amount of rewards a user has earned for a given reward token"
       },
       "setFee(uint256)": {
         "notice": "Updates the fee charged on rewards"

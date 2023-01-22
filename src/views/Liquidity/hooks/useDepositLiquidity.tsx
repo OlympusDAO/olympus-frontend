@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
-import { STETH_LIQUIDITY_AMO_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useDepositLiqudiity = () => {
@@ -10,8 +10,8 @@ export const useDepositLiqudiity = () => {
   const { data: signer } = useSigner();
   if (!signer) throw new Error(`Please connect a wallet`);
   return useMutation(
-    async ({ amount, slippage }: { amount: string; slippage: string }) => {
-      const contract = STETH_LIQUIDITY_AMO_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+    async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
+      const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
       //TODO: Get LP Price
       const lpPrice = 1;
       //TODO: Number of Decimals

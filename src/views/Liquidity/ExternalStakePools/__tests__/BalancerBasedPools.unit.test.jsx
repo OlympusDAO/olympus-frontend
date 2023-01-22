@@ -3,8 +3,8 @@ import * as helpers from "src/helpers";
 import * as Contracts from "src/hooks/useContract";
 import * as Prices from "src/hooks/usePrices";
 import { render, screen } from "src/testUtils";
-import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
-import * as STAKE from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
+import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
+import * as STAKE from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolAPY";
 import { beforeEach, describe, it, vi } from "vitest";
 vi.mock("src/helpers");
 

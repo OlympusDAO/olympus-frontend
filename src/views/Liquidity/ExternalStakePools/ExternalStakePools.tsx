@@ -6,9 +6,8 @@ import {
   DataRow,
   Icon,
   OHMTokenProps,
-  Paper,
   SecondaryButton,
-  TertiaryButton,
+  TextButton,
   Token,
   TokenStack,
   Tooltip,
@@ -23,9 +22,9 @@ import {
   ConvexPoolAPY,
   CurvePoolAPY,
   FraxPoolAPY,
-} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
-import { useStakePoolBalance } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolBalance";
-import { CurvePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+} from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolAPY";
+import { useStakePoolBalance } from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolBalance";
+import { CurvePoolTVL } from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolTVL";
 import { useAccount } from "wagmi";
 
 const PREFIX = "ExternalStakePools";
@@ -36,13 +35,6 @@ const classes = {
   poolPair: `${PREFIX}-poolPair`,
   poolName: `${PREFIX}-poolName`,
 };
-
-const StyledTableHeader = styled(TableHead)(({ theme }) => ({
-  [`&.${classes.stakePoolHeaderText}`]: {
-    color: theme.palette.text.secondary,
-    lineHeight: 1.4,
-  },
-}));
 
 const StyledPoolInfo = styled("div")(() => ({
   [`&.${classes.poolPair}`]: {
@@ -57,37 +49,44 @@ const StyledPoolInfo = styled("div")(() => ({
   },
 }));
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  padding: "6px",
+}));
+
 export const ExternalStakePools = () => {
   const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   return (
     <>
+      <Box mb="18px" mt="9px">
+        <Typography variant="h1">Pool Farms</Typography>
+        <Typography>
+          Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
+        </Typography>
+      </Box>
       {isSmallScreen ? (
         <Table>
           <Box display="flex" justifyContent="start" mt="42px">
             <Typography fontSize="24px" textAlign="left" fontWeight={600}>
-              Farm Pools
+              Pool Farms
             </Typography>
           </Box>
           <AllPools isSmallScreen={isSmallScreen} />
         </Table>
       ) : (
-        <Paper headerText={`Farm Pools`}>
-          <Table>
-            <StyledTableHeader className={classes.stakePoolHeaderText}>
-              <TableRow>
-                <TableCell style={{ width: "250px", padding: "8px 0" }}>Asset</TableCell>
-
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>TVL</TableCell>
-
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>APY</TableCell>
-
-                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{`Balance`}</TableCell>}
-              </TableRow>
-            </StyledTableHeader>
-            <AllPools isSmallScreen={isSmallScreen} />
-          </Table>
-        </Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Asset</StyledTableCell>
+              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>TVL</StyledTableCell>
+              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>APY</StyledTableCell>
+              {isConnected && (
+                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>{`Balance`}</StyledTableCell>
+              )}
+            </TableRow>
+          </TableHead>
+          <AllPools isSmallScreen={isSmallScreen} />
+        </Table>
       )}
     </>
   );
@@ -171,9 +170,9 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <TertiaryButton target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
+        <TextButton href={props.pool.href} rel="noopener noreferrer" target="_blank">
           {`Stake on`} {props.pool.stakeOn}
-        </TertiaryButton>
+        </TextButton>
       </TableCell>
     </TableRow>
   );

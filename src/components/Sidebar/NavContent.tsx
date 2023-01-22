@@ -63,7 +63,7 @@ const NavContent: React.VFC = () => {
                     <RangePrice bidOrAsk="ask" />
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>
-                  <NavItem icon="settings" label={`Liquidity`} to="/liquidity" />
+                  <NavItem icon="settings" label={`Use OHM`} to="/liquidity" />
                   <NavItem to="/stake" icon="stake" label={`Stake`} />
                   <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
