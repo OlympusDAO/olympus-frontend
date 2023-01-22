@@ -1,6 +1,7 @@
 import { Box } from "@mui/system";
 import PageTitle from "src/components/PageTitle";
 import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
+import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { SingleSidedFarms } from "src/views/Liquidity/SingleSidedFarms";
 import { YourAmoDeposits } from "src/views/Liquidity/YourAMODeposits";
 
@@ -13,6 +14,7 @@ export const Liquidity = () => (
       <SingleSidedFarms />
       <Box mb="33px" />
       <ExternalStakePools />
+      <LiquidityCTA />
     </Box>
   </div>
 );
