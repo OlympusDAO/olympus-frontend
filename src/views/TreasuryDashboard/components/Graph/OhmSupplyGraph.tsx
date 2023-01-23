@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
@@ -98,7 +97,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
    * Chart inputs
    */
   const dataKeys: string[] = ["circulatingSupply", "floatingSupply", "totalSupply"];
-  const itemNames: string[] = [t`Circulating Supply`, t`Floating Supply`, t`Total Supply`];
+  const itemNames: string[] = [`Circulating Supply`, `Floating Supply`, `Total Supply`];
 
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
@@ -110,13 +109,13 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
       data={byDateOhmSupply}
       dataKeys={dataKeys}
       dataKeyColors={colorsMap}
-      headerText={t`OHM Circulating Supply`}
+      headerText={`OHM Circulating Supply`}
       headerSubText={""}
       dataFormat={DataFormat.Number}
       dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       margin={{ left: 30 }}
-      infoTooltipMessage={t`This chart visualises the OHM circulating supply over time.`}
+      infoTooltipMessage={`This chart visualises the OHM circulating supply over time.`}
       isLoading={byDateOhmSupply.length == 0}
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
