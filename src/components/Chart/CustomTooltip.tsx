@@ -133,11 +133,11 @@ const renderBulletpointRow = (
       style={{ marginBottom: "10px" }}
       key={index}
     >
-      <Grid item xs={8} alignContent="center">
+      <Grid item xs={1} alignContent="left">
         <span style={bulletpointStyle}></span>
-        <Typography variant="body2" display="inline">
-          {`${dataKeyLabels.get(item.dataKey)}`}
-        </Typography>
+      </Grid>
+      <Grid item xs={7} alignContent="left">
+        <Typography variant="body2">{`${dataKeyLabels.get(item.dataKey)}`}</Typography>
       </Grid>
       <Grid item xs={4} textAlign="right">
         {renderItem(dataFormat, item.value, itemDecimals)}
@@ -159,7 +159,7 @@ const renderTooltipItems = (
   let ignoredIndex = 0;
 
   return (
-    <Grid container xs={12} padding={"20px"}>
+    <Grid container xs={12} padding={"10px"}>
       {renderDate(payload[0])}
       {payload.map((item, index) => {
         /**

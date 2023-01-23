@@ -116,7 +116,7 @@ export const Range = () => {
   const reserveAmountAsNumber = new DecimalBigNumber(reserveAmount, 18);
   const capacityBN = new DecimalBigNumber(maxCapacity.toString(), sellActive ? 18 : 9); //reserve asset if sell, OHM if buy
   const amountAboveCapacity = sellActive ? reserveAmountAsNumber.gt(capacityBN) : ohmAmountAsNumber.gt(capacityBN);
-  const amountAboveBalance = sellActive ? reserveAmountAsNumber.gt(reserveBalance) : ohmAmountAsNumber.gt(ohmBalance);
+  const amountAboveBalance = sellActive ? ohmAmountAsNumber.gt(ohmBalance) : reserveAmountAsNumber.gt(reserveBalance);
 
   const swapButtonText = `Swap ${sellAsset} for ${buyAsset}`;
 

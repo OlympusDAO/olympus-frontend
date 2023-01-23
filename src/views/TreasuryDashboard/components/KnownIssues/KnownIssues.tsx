@@ -30,8 +30,11 @@ const KnownIssues = (): JSX.Element => {
           Illiquid assets have been removed from market value and will be re-introduced when they reach their date of
           maturity
         </li>
-        <li>Due to technical limitations, the balance and value of native ETH is not included </li>
+        <li>Due to technical limitations, the balance and value of native ETH is not included</li>
         <li>There may be a visible delay when capital is deployed to a new contract or blockchain</li>
+        <li>
+          The timestamp shown in each tooltip represents the time of the most recently-indexed block across all chains
+        </li>
       </Grid>
     </Grid>
   );

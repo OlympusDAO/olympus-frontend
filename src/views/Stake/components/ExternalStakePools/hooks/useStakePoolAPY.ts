@@ -34,7 +34,7 @@ export const BalancerSwapFees = (address: string) => {
     data = { dailyFees: 0, totalLiquidity: 0 },
     isFetched,
     isLoading,
-  } = useQuery(["AllSwapFees"], async () => {
+  } = useQuery(["AllSwapFees", address], async () => {
     const data = await request(
       balancerURL,
       gql`

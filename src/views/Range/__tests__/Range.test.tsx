@@ -44,7 +44,7 @@ const defaultStatesWithApproval = () => {
     symbol: vi.fn().mockReturnValue("DAI"),
   });
   //@ts-expect-error
-  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "13.209363085" });
+  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "18.209363085" });
 
   //@ts-ignore
   rangeOperator.mockReturnValue({

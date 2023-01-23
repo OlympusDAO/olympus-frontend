@@ -437,7 +437,7 @@ exports[`<Stake/> > should render component 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -533,52 +533,6 @@ exports[`<Stake/> > should render component 1`] = `
                           fill="#FEFEFD"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
-                        viewBox="0 0 32 32"
-                      >
-                        <circle
-                          cx="16"
-                          cy="16"
-                          fill="#fff"
-                          r="15"
-                          stroke="url(#wETH_svg__a)"
-                          stroke-width="2"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
-                          fill="#708B96"
-                          fill-rule="evenodd"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
-                          fill="#424242"
-                          fill-rule="evenodd"
-                        />
-                        <defs>
-                          <lineargradient
-                            gradientUnits="userSpaceOnUse"
-                            id="wETH_svg__a"
-                            x1="16"
-                            x2="16"
-                            y1="0"
-                            y2="32"
-                          >
-                            <stop
-                              stop-color="#444243"
-                            />
-                            <stop
-                              offset="1"
-                              stop-color="#708B96"
-                            />
-                          </lineargradient>
-                        </defs>
-                      </svg>
                     </div>
                     <div
                       class="MuiBox-root css-mk71b3"
@@ -586,7 +540,7 @@ exports[`<Stake/> > should render component 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       >
-                        OHM-DAI-wETH
+                        OHM-DAI
                       </p>
                     </div>
                     <svg
@@ -671,7 +625,202 @@ exports[`<Stake/> > should render component 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
+                    href="https://app.balancer.fi/#/ethereum/pool/0x76fcf0e8c7ff37a47a799fa2cd4c13cde0d981c90002000000000000000003d2"
+                    rel="noopener noreferrer"
+                    tabindex="0"
+                    target="_blank"
+                  >
+                    Stake on
+                     
+                    Balancer
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeMedium css-1gnd1fd-MuiButton-endIcon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <div
+                    class="MuiBox-root css-u4p24i"
+                    style="white-space: nowrap;"
+                  >
+                    <div
+                      class="MuiBox-root css-1xhj18k"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                        focusable="false"
+                        style="z-index: 1; font-size: 24px;"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
+                        viewBox="0 0 32 32"
+                      >
+                        <circle
+                          cx="16"
+                          cy="16"
+                          fill="#fff"
+                          r="15"
+                          stroke="url(#wETH_svg__a)"
+                          stroke-width="2"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                          fill="#708B96"
+                          fill-rule="evenodd"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                          fill="#424242"
+                          fill-rule="evenodd"
+                        />
+                        <defs>
+                          <lineargradient
+                            gradientUnits="userSpaceOnUse"
+                            id="wETH_svg__a"
+                            x1="16"
+                            x2="16"
+                            y1="0"
+                            y2="32"
+                          >
+                            <stop
+                              stop-color="#444243"
+                            />
+                            <stop
+                              offset="1"
+                              stop-color="#708B96"
+                            />
+                          </lineargradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-mk71b3"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                      >
+                        OHM-wETH
+                      </p>
+                    </div>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                      focusable="false"
+                      style="font-size: 15px;"
+                      viewBox="0 0 32 32"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="#fff"
+                        r="15"
+                        stroke="url(#wETH_svg__a)"
+                        stroke-width="2"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                        fill="#708B96"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                        fill="#424242"
+                        fill-rule="evenodd"
+                      />
+                      <defs>
+                        <lineargradient
+                          gradientUnits="userSpaceOnUse"
+                          id="wETH_svg__a"
+                          x1="16"
+                          x2="16"
+                          y1="0"
+                          y2="32"
+                        >
+                          <stop
+                            stop-color="#444243"
+                          />
+                          <stop
+                            offset="1"
+                            stop-color="#708B96"
+                          />
+                        </lineargradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                    style="line-height: 1.4;"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
+                  </p>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                    style="line-height: 1.4;"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
+                  </p>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
+                    href="https://app.balancer.fi/#/ethereum/pool/0xd1ec5e215e8148d76f4460e4097fd3d5ae0a35580002000000000000000003d3"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
@@ -1717,7 +1866,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 header-text css-18k89ek-MuiTypography-root"
               >
-                Farm Pool
+                Farm Pools
               </p>
             </div>
             <div
@@ -1813,52 +1962,6 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
                           fill="#FEFEFD"
                         />
                       </svg>
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
-                        focusable="false"
-                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
-                        viewBox="0 0 32 32"
-                      >
-                        <circle
-                          cx="16"
-                          cy="16"
-                          fill="#fff"
-                          r="15"
-                          stroke="url(#wETH_svg__a)"
-                          stroke-width="2"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
-                          fill="#708B96"
-                          fill-rule="evenodd"
-                        />
-                        <path
-                          clip-rule="evenodd"
-                          d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
-                          fill="#424242"
-                          fill-rule="evenodd"
-                        />
-                        <defs>
-                          <lineargradient
-                            gradientUnits="userSpaceOnUse"
-                            id="wETH_svg__a"
-                            x1="16"
-                            x2="16"
-                            y1="0"
-                            y2="32"
-                          >
-                            <stop
-                              stop-color="#444243"
-                            />
-                            <stop
-                              offset="1"
-                              stop-color="#708B96"
-                            />
-                          </lineargradient>
-                        </defs>
-                      </svg>
                     </div>
                     <div
                       class="MuiBox-root css-mk71b3"
@@ -1866,7 +1969,7 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
                       >
-                        OHM-DAI-wETH
+                        OHM-DAI
                       </p>
                     </div>
                     <svg
@@ -1951,7 +2054,202 @@ exports[`<Stake/> > should render correct staking headers 1`] = `
                 >
                   <a
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
-                    href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
+                    href="https://app.balancer.fi/#/ethereum/pool/0x76fcf0e8c7ff37a47a799fa2cd4c13cde0d981c90002000000000000000003d2"
+                    rel="noopener noreferrer"
+                    tabindex="0"
+                    target="_blank"
+                  >
+                    Stake on
+                     
+                    Balancer
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeMedium css-1gnd1fd-MuiButton-endIcon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1vu8dwd-MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-xjst8z-MuiTableRow-root"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <div
+                    class="MuiBox-root css-u4p24i"
+                    style="white-space: nowrap;"
+                  >
+                    <div
+                      class="MuiBox-root css-1xhj18k"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                        focusable="false"
+                        style="z-index: 1; font-size: 24px;"
+                        viewBox="0 0 32 32"
+                      >
+                        <path
+                          d="M0 16C0 7.163 7.163 0 16 0s16 7.163 16 16-7.163 16-16 16S0 24.837 0 16Z"
+                          fill="#708B96"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M17.536 23.04v.032h5.504v-1.984h-2.718c1.635-1.239 2.686-3.165 2.686-5.328 0-3.738-3.138-6.768-7.008-6.768s-7.008 3.03-7.008 6.768c0 2.163 1.05 4.089 2.686 5.328H8.96v1.984h5.504v-2.667c-2.005-.63-3.456-2.465-3.456-4.629 0-2.686 2.235-4.864 4.992-4.864s4.992 2.178 4.992 4.864c0 2.164-1.45 3.998-3.456 4.63v2.634Z"
+                          fill="#fff"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                        focusable="false"
+                        style="margin-left: -6px; z-index: 1; font-size: 24px;"
+                        viewBox="0 0 32 32"
+                      >
+                        <circle
+                          cx="16"
+                          cy="16"
+                          fill="#fff"
+                          r="15"
+                          stroke="url(#wETH_svg__a)"
+                          stroke-width="2"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                          fill="#708B96"
+                          fill-rule="evenodd"
+                        />
+                        <path
+                          clip-rule="evenodd"
+                          d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                          fill="#424242"
+                          fill-rule="evenodd"
+                        />
+                        <defs>
+                          <lineargradient
+                            gradientUnits="userSpaceOnUse"
+                            id="wETH_svg__a"
+                            x1="16"
+                            x2="16"
+                            y1="0"
+                            y2="32"
+                          >
+                            <stop
+                              stop-color="#444243"
+                            />
+                            <stop
+                              offset="1"
+                              stop-color="#708B96"
+                            />
+                          </lineargradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-mk71b3"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                      >
+                        OHM-wETH
+                      </p>
+                    </div>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-rog57q-MuiSvgIcon-root"
+                      focusable="false"
+                      style="font-size: 15px;"
+                      viewBox="0 0 32 32"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="#fff"
+                        r="15"
+                        stroke="url(#wETH_svg__a)"
+                        stroke-width="2"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                        fill="#708B96"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                        fill="#424242"
+                        fill-rule="evenodd"
+                      />
+                      <defs>
+                        <lineargradient
+                          gradientUnits="userSpaceOnUse"
+                          id="wETH_svg__a"
+                          x1="16"
+                          x2="16"
+                          y1="0"
+                          y2="32"
+                        >
+                          <stop
+                            stop-color="#444243"
+                          />
+                          <stop
+                            offset="1"
+                            stop-color="#708B96"
+                          />
+                        </lineargradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                    style="line-height: 1.4;"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
+                  </p>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-pi8uen-MuiTypography-root"
+                    style="line-height: 1.4;"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                      style="width: 60px;"
+                    />
+                  </p>
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1bvq65n-MuiTableCell-root"
+                  style="padding: 8px 0px;"
+                >
+                  <a
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-root  css-1lfckoy-MuiButtonBase-root-MuiButton-root"
+                    href="https://app.balancer.fi/#/ethereum/pool/0xd1ec5e215e8148d76f4460e4097fd3d5ae0a35580002000000000000000003d3"
                     rel="noopener noreferrer"
                     tabindex="0"
                     target="_blank"
