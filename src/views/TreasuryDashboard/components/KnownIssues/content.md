@@ -1,4 +1,0 @@
-- Illiquid assets have been removed from market value and will be re-introduced when they reach their date of maturity
-- Due to technical limitations, the balance and value of native ETH is not included
-- There may be a visible delay when capital is deployed to a new contract or blockchain
-- The timestamp shown in each tooltip represents the time of the most recently-indexed block across all chains

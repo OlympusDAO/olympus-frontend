@@ -1,24 +1,12 @@
 import "src/components/CallToAction/CallToAction.scss";
 
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, SvgIcon, Typography } from "@mui/material";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import { Box, Typography } from "@mui/material";
+import { Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 
 export const LearnMoreButton = () => (
-  <Button
-    variant="outlined"
-    color="secondary"
-    href="https://docs.olympusdao.finance/main/basics/migration"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="learn-more-button"
-  >
-    <Typography variant="body1">
-      <Trans>Learn More</Trans>
-    </Typography>
-
-    <SvgIcon component={ArrowUp} color="primary" />
-  </Button>
+  <TertiaryButton href="https://docs.olympusdao.finance/main/basics/migration" style={{ marginRight: "10.5px" }}>
+    Learn More
+  </TertiaryButton>
 );
 
 export interface MigrationButtonProps {
@@ -27,16 +15,13 @@ export interface MigrationButtonProps {
 }
 
 export const MigrateButton = ({ setMigrationModalOpen, btnText }: MigrationButtonProps) => (
-  <Button
-    className="migrate-button"
-    variant="contained"
-    color="primary"
+  <PrimaryButton
     onClick={() => {
       setMigrationModalOpen(true);
     }}
   >
     {btnText}
-  </Button>
+  </PrimaryButton>
 );
 
 export interface CallToActionProps {
@@ -45,13 +30,17 @@ export interface CallToActionProps {
 
 const CallToAction = ({ setMigrationModalOpen }: CallToActionProps) => (
   <Box className="call-to-action ohm-card">
-    <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">
-      <Trans>You have assets ready to migrate to v2</Trans>
-    </Typography>
-    <div className="actionable">
-      <LearnMoreButton />
-      <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Get Started`} />
-    </div>
+    <Paper enableBackground>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography style={{ fontSize: "21px", fontWeight: "700" }} variant="h5">
+          You have assets ready to migrate to v2
+        </Typography>
+        <div className="actionable">
+          <LearnMoreButton />
+          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={`Get Started`} />
+        </div>
+      </Box>
+    </Paper>
   </Box>
 );
 

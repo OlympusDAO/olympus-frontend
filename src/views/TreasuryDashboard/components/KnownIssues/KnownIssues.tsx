@@ -1,32 +1,16 @@
-import { Trans } from "@lingui/macro";
 import { Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import MarkdownContent from "src/views/TreasuryDashboard/components/KnownIssues/content.md";
 
 /**
  * React Component that renders the contents of a Markdown file
  * and displays them in a notification banner.
  */
 const KnownIssues = (): JSX.Element => {
-  const [warningContent, setWarningContent] = useState("");
-
-  // On component mounting, load the content from the Markdown file
-  useEffect(() => {
-    fetch(MarkdownContent)
-      .then(res => res.text())
-      .then(md => setWarningContent(md));
-  }, []);
-
   return (
-    <Grid
-      container
-      sx={{ marginBottom: "-1.5rem" }} /* Ensure that the spacing from the bottom of the Paper component is the same */
-    >
+    <Grid container>
       <Grid item xs={12} textAlign="center">
         {/* Consistent with heading titles of the other components in the TreasuryDashboard. See ChartCard. */}
         <Typography variant="h6" color="textSecondary" display="inline">
-          <Trans>Disclaimers</Trans>
+          Disclaimers
         </Typography>
       </Grid>
       <Grid
@@ -42,7 +26,15 @@ const KnownIssues = (): JSX.Element => {
           margin: "0 auto", // Centers
         }}
       >
-        <ReactMarkdown children={warningContent} />
+        <li>
+          Illiquid assets have been removed from market value and will be re-introduced when they reach their date of
+          maturity
+        </li>
+        <li>Due to technical limitations, the balance and value of native ETH is not included</li>
+        <li>There may be a visible delay when capital is deployed to a new contract or blockchain</li>
+        <li>
+          The timestamp shown in each tooltip represents the time of the most recently-indexed block across all chains
+        </li>
       </Grid>
     </Grid>
   );

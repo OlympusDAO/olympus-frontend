@@ -1,6 +1,5 @@
 import "src/components/Migration/MigrationModal.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
@@ -109,13 +108,13 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
         closePosition={"left"}
         onClose={handleClose}
         closeAfterTransition
-        headerText={!oldAssetsDetected ? t`Migration complete` : t`You have assets ready to migrate to v2`}
+        headerText={!oldAssetsDetected ? `Migration complete` : `You have assets ready to migrate to v2`}
       >
         <>
           {!oldAssetsDetected ? null : (
             <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
               <Typography id="migration-modal-description" variant="body2" className={isMobileScreen ? `mobile` : ``}>
-                {t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
+                {`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
                 <a
                   href="https://docs.olympusdao.finance/main/basics/migration"
                   target="_blank"
@@ -123,16 +122,14 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                   rel="noopener noreferrer"
                   className="docs-link"
                 >
-                  <u>
-                    <Trans>Learn More</Trans>
-                  </u>
+                  <u>Learn More</u>
                 </a>
               </Typography>
             </Box>
           )}
           <Box display="flex" justifyContent="center" marginTop={1}>
             <Typography variant="h5" color="textSecondary">
-              <Trans>Migration Output</Trans>
+              Migration Output
             </Typography>
           </Box>
 
@@ -156,7 +153,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                   <Box style={{ margin: "20px 0px 20px 0px" }}>
                     <Typography
                       id="m-asset-row"
-                      style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
+                      style={{ margin: "10px 0px 10px 0px", fontWeight: 500 }}
                     >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                       <Typography>
@@ -167,7 +164,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                       {!oldAssetsDetected ? (
                         <Typography align="center" sx={{ color: "#00EE00" }}>
-                          <Trans>Migrated</Trans>
+                          Migrated
                         </Typography>
                       ) : row.fullApproval ? (
                         <Button
@@ -176,7 +173,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                           disabled={isPendingTxn(pendingTransactions, `migrate_${row.type}_tokens`)}
                         >
                           <Typography>
-                            {txnButtonText(pendingTransactions, `migrate_${row.type}_tokens`, t`Migrate`)}
+                            {txnButtonText(pendingTransactions, `migrate_${row.type}_tokens`, `Migrate`)}
                           </Typography>
                         </Button>
                       ) : (
@@ -192,7 +189,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                             {txnButtonText(
                               pendingTransactions,
                               `approve_migration_${row.initialAsset.toLowerCase()}`,
-                              t`Approve`,
+                              `Approve`,
                             )}
                           </Typography>
                         </Button>
@@ -211,11 +208,9 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                   <TableCell align="left">
                     <Box display="flex">
                       <Box display="inline-flex">
-                        <Typography>
-                          <Trans>Pre-migration</Trans>
-                        </Typography>
+                        <Typography>Pre-migration</Typography>
                         <InfoTooltip
-                          message={t`This is the current balance of v1 assets in your wallet.`}
+                          message={`This is the current balance of v1 assets in your wallet.`}
                           children={undefined}
                         ></InfoTooltip>
                       </Box>
@@ -224,19 +219,15 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                   <TableCell align="left">
                     <Box display="flex" flexDirection="column">
                       <Box display="inline-flex">
-                        <Typography>
-                          <Trans>Post-migration</Trans>
-                        </Typography>
+                        <Typography>Post-migration</Typography>
                         <InfoTooltip
-                          message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
+                          message={`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
                           children={undefined}
                         ></InfoTooltip>
                       </Box>
                     </Box>
                     <Box display="inline-flex">
-                      <Typography variant="body2">
-                        <Trans>(includes rebase rewards)</Trans>
-                      </Typography>
+                      <Typography variant="body2">(includes rebase rewards)</Typography>
                     </Box>
                   </TableCell>
 
@@ -270,7 +261,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                       <TableCell align="left">
                         {!oldAssetsDetected ? (
                           <Typography align="center" sx={{ color: "#00EE00" }}>
-                            <Trans>Migrated</Trans>
+                            Migrated
                           </Typography>
                         ) : row.fullApproval ? (
                           <Button
@@ -279,7 +270,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                             disabled={isPendingTxn(pendingTransactions, `migrate_${row.type}_tokens`)}
                           >
                             <Typography>
-                              {txnButtonText(pendingTransactions, `migrate_${row.type}_tokens`, t`Migrate`)}
+                              {txnButtonText(pendingTransactions, `migrate_${row.type}_tokens`, `Migrate`)}
                             </Typography>
                           </Button>
                         ) : (
@@ -295,7 +286,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                               {txnButtonText(
                                 pendingTransactions,
                                 `approve_migration_${row.initialAsset.toLowerCase()}`,
-                                t`Approve`,
+                                `Approve`,
                               )}
                             </Typography>
                           </Button>
@@ -310,10 +301,8 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
           <div className="help-text">
             <em>
               <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
-                <Trans>
-                  Each asset type requires two transactions. First Approve, then Migrate each asset. Amounts less than
-                  than 10$ are ignored.
-                </Trans>
+                Each asset type requires two transactions. First Approve, then Migrate each asset. Amounts less than
+                than 10$ are ignored.
               </Typography>
             </em>
           </div>

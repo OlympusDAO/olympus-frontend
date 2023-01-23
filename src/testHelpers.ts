@@ -1,17 +1,13 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { MockConnector } from "@wagmi/core/connectors/mock";
 import mediaQuery from "css-mediaquery";
-import { BigNumber, ethers, providers } from "ethers";
+import { BigNumber, providers } from "ethers";
 import { Wallet } from "ethers/lib/ethers";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { IUserRecipientInfo } from "src/hooks/useGiveInfo";
-import { IUserDonationInfo } from "src/views/Give/Interfaces";
+import { vi } from "vitest";
 import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
-
-const provider = new ethers.providers.StaticJsonRpcProvider();
-
 export const createMatchMedia = (width: string) => {
   return (query: string) => ({
     matches: mediaQuery.match(query, {
@@ -59,101 +55,96 @@ export const mockConnector = new MockConnector({
   options: { signer: getSigners()[0] },
 });
 
-export function disconnectedWallet() {
+export function invalidAddress() {
   //@ts-ignore
-  WAGMI.useConnect = jest.fn(() => {
+  vi.spyOn(WAGMI, "useConnect").mockReturnValue(() => {
     return {
       activeConnector: mockConnector,
       connectors: [mockConnector],
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useAccount = jest.fn(() => {
-    return {
-      isConnected: false,
-      address: "",
-      connector: mockConnector,
-      error: null,
-      fetchStatus: "idle",
-      internal: {
-        dataUpdatedAt: 1654570110046,
-        errorUpdatedAt: 0,
-        failureCount: 0,
-        isFetchedAfterMount: true,
-        isLoadingError: false,
-        isPaused: false,
-        isPlaceholderData: false,
-        isPreviousData: false,
-        isRefetchError: false,
-        isStale: true,
-      },
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isIdle: false,
-      isLoading: false,
-      isRefetching: false,
-      isSuccess: true,
-      refetch: jest.fn(),
-      status: "success",
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useSigner = jest.fn(() => {
-    return {
-      data: getSigners()[0],
     };
   });
 }
+
+export function disconnectedWallet() {
+  // //@ts-ignore
+  // WAGMI.useConnect = vi.fn(() => {
+  //   return {
+  //     activeConnector: mockConnector,
+  //     connectors: [mockConnector],
+  //   };
+  // });
+  // //@ts-ignore
+  // WAGMI.useAccount = vi.fn(() => {
+  //   return {
+  //     isConnected: false,
+  //     address: "",
+  //     connector: mockConnector,
+  //     error: null,
+  //     fetchStatus: "idle",
+  //     internal: {
+  //       dataUpdatedAt: 1654570110046,
+  //       errorUpdatedAt: 0,
+  //       failureCount: 0,
+  //       isFetchedAfterMount: true,
+  //       isLoadingError: false,
+  //       isPaused: false,
+  //       isPlaceholderData: false,
+  //       isPreviousData: false,
+  //       isRefetchError: false,
+  //       isStale: true,
+  //     },
+  //     isError: false,
+  //     isFetched: true,
+  //     isFetching: false,
+  //     isIdle: false,
+  //     isLoading: false,
+  //     isRefetching: false,
+  //     isSuccess: true,
+  //     refetch: vi.fn(),
+  //     status: "success",
+  //   };
+  // });
+  //   //@ts-ignore
+  //   WAGMI.useSigner = vi.fn(() => {
+  //     return {
+  //       data: getSigners()[0],
+  //     };
+  //   });
+}
+export const useAccount = {
+  address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  isConnected: true,
+  connector: mockConnector,
+  error: null,
+  fetchStatus: "idle",
+  internal: {
+    dataUpdatedAt: 1654570110046,
+    errorUpdatedAt: 0,
+    failureCount: 0,
+    isFetchedAfterMount: true,
+    isLoadingError: false,
+    isPaused: false,
+    isPlaceholderData: false,
+    isPreviousData: false,
+    isRefetchError: false,
+    isStale: true,
+  },
+  isError: false,
+  isFetched: true,
+  isFetching: false,
+  isIdle: false,
+  isLoading: false,
+  isRefetching: false,
+  isSuccess: true,
+  refetch: vi.fn(),
+  status: "success",
+};
+
 export function connectWallet() {
-  //@ts-ignore
-  WAGMI.useConnect = jest.fn(() => {
-    return {
-      activeConnector: mockConnector,
-      connectors: [mockConnector],
-    };
+  vi.spyOn(WAGMI, "useSigner").mockReturnValue({
+    data: getSigners()[0],
   });
-
-  //@ts-ignore
-  WAGMI.useAccount = jest.fn(() => {
-    return {
-      address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      connector: mockConnector,
-      isConnected: true,
-      error: null,
-      fetchStatus: "idle",
-      internal: {
-        dataUpdatedAt: 1654570110046,
-        errorUpdatedAt: 0,
-        failureCount: 0,
-        isFetchedAfterMount: true,
-        isLoadingError: false,
-        isPaused: false,
-        isPlaceholderData: false,
-        isPreviousData: false,
-        isRefetchError: false,
-        isStale: true,
-      },
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isIdle: false,
-      isLoading: false,
-      isRefetching: false,
-      isSuccess: true,
-      refetch: jest.fn(),
-      status: "success",
-    };
-  });
-
-  //@ts-ignore
-  WAGMI.useSigner = jest.fn(() => {
-    return {
-      data: getSigners()[0],
-    };
-  });
+  vi.spyOn(WAGMI, "useAccount").mockReturnValue(useAccount);
 }
 
 type Config = Partial<CreateClientConfig>;
@@ -171,42 +162,6 @@ export function setupClient(config: Config = {}) {
     ...config,
   });
 }
-
-export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUserRecipientInfo, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
-    isPaused: false,
-    fetchStatus: "idle",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-  };
-};
 
 export const mockRedeemableBalance = (data: string): UseQueryResult<string, Error> => {
   return {
@@ -276,79 +231,6 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
       return new Promise(() => {
         return true;
       });
-    },
-  };
-};
-
-export const mockSohmBalance = (
-  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, DecimalBigNumber>,
-): Record<NetworkId.MAINNET | NetworkId.TESTNET_GOERLI, UseQueryResult<DecimalBigNumber, Error>> => {
-  return {
-    [NetworkId.MAINNET]: {
-      data: data[NetworkId.MAINNET],
-      error: null,
-      isError: false,
-      isSuccess: true,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      fetchStatus: "idle",
-      isRefetchError: false,
-      failureCount: 0,
-      isFetched: true,
-      isFetchedAfterMount: true,
-      isFetching: false,
-      isPlaceholderData: false,
-      isPreviousData: false,
-      isRefetching: false,
-      isStale: false,
-      status: "success",
-      dataUpdatedAt: 0,
-      errorUpdatedAt: 0,
-      errorUpdateCount: 0,
-      refetch: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
-      remove: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
-    },
-    [NetworkId.TESTNET_GOERLI]: {
-      data: data[NetworkId.TESTNET_GOERLI],
-      error: null,
-      isError: false,
-      isSuccess: true,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      fetchStatus: "idle",
-      isRefetchError: false,
-      failureCount: 0,
-      isFetched: true,
-      isFetchedAfterMount: true,
-      isFetching: false,
-      isPlaceholderData: false,
-      isPreviousData: false,
-      isRefetching: false,
-      isStale: false,
-      status: "success",
-      dataUpdatedAt: 0,
-      errorUpdatedAt: 0,
-      errorUpdateCount: 0,
-      refetch: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
-      remove: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
     },
   };
 };
@@ -675,42 +557,6 @@ export const mockGohmBalance = (
           return true;
         });
       },
-    },
-  };
-};
-
-export const mockDonationInfo = (data: IUserDonationInfo): UseQueryResult<IUserDonationInfo, Error> => {
-  return {
-    data: data,
-    error: null,
-    isError: false,
-    isSuccess: true,
-    isLoading: false,
-    isLoadingError: false,
-    isPaused: false,
-    fetchStatus: "idle",
-    isRefetchError: false,
-    failureCount: 0,
-    isFetched: true,
-    isFetchedAfterMount: true,
-    isFetching: false,
-    isPlaceholderData: false,
-    isPreviousData: false,
-    isRefetching: false,
-    isStale: false,
-    status: "success",
-    dataUpdatedAt: 0,
-    errorUpdatedAt: 0,
-    errorUpdateCount: 0,
-    refetch: () => {
-      return new Promise(() => {
-        return true;
-      });
-    },
-    remove: () => {
-      return new Promise(() => {
-        return true;
-      });
     },
   };
 };

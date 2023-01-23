@@ -21,7 +21,7 @@ class Covalent {
   ];
 
   private _url = "https://api.covalenthq.com/v1";
-  private _key = Buffer.from(Environment.getCovalentApiKey() + "::").toString("base64");
+  private _key = Environment.getCovalentApiKey();
 
   private async _fetch<Data>(path: string) {
     const url = this._url + path;

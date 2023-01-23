@@ -23,38 +23,40 @@ export const handleBackdropFilter = rgbaString => {
 const commonSettings = {
   direction: "ltr",
   typography: {
-    fontSize: 16,
-    fontFamily: "Square",
+    fontSize: 15,
+    fontFamily: "NHassGrotesk",
     h1: {
-      fontSize: "3.3rem",
+      fontSize: "32px",
+      fontWeight: 500,
+      lineHeight: "36px",
     },
     h2: {
-      fontSize: "2.3rem",
-      fontWeight: 600,
-      letterSpacing: "1.3px",
+      fontSize: "27px",
+      lineHeight: "32px",
     },
     h3: {
-      fontSize: "1.75rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h4: {
-      fontSize: "1.5rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h5: {
-      fontSize: "1.25rem",
-      letterSpacing: "0.4px",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     h6: {
-      fontSize: "1rem",
+      fontSize: "24px",
+      lineHeight: "32px",
     },
     body1: {
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      lineHeight: 1,
+      fontSize: "15px",
+      lineHeight: "24px",
     },
     body2: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1,
+      fontSize: "12px",
+      lineHeight: "15px",
     },
     button: {
       textTransform: "none",
@@ -69,36 +71,37 @@ const commonSettings = {
       },
     },
     MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            opacity: 0.3,
+            color: "initial",
+          },
+        },
+      },
       defaultProps: {
         disableElevation: true,
         disableFocusRipple: true,
         disableRipple: true,
       },
     },
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          justifyContent: "flex-end",
-        },
-      },
-    },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backdropFilter: "blur(33px)",
           "&.ohm-card": {
             padding: "20px 30px 30px 30px",
             borderRadius: "var(--ohm-card-border-radius)",
-            maxWidth: "833px",
+            maxWidth: "900px",
             width: "97%",
             marginBottom: "1.8rem",
             overflow: "hidden",
           },
-          backdropFilter: "blur(33px)",
-          "&.ohm-menu": {
-            padding: "22px 0px",
-            borderRadius: "10px",
-            margin: "0px",
+          "&.Paper-root&.ohm-chart-card": {
+            padding: "20px 0px",
+            whiteSpace: "nowrap",
+            maxWidth: "700px",
+            width: "97%",
+            marginBottom: "1.8rem",
           },
         },
       },
@@ -155,14 +158,13 @@ const commonSettings = {
     MuiDrawer: {
       styleOverrides: {
         root: {
-          width: "312px",
+          width: "264px",
           flexShrink: 0,
         },
         paper: {
           width: "inherit",
-          backgroundColor: "inherit",
           padding: 0,
-          zIndex: 7,
+          zIndex: 100,
         },
       },
     },
@@ -199,7 +201,7 @@ const commonSettings = {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          height: "43px",
+          height: "39px",
           padding: "5px",
         },
       },
@@ -214,7 +216,10 @@ const commonSettings = {
     MuiTabs: {
       styleOverrides: {
         root: {
-          minHeight: "40px",
+          "& .MuiLink-root": {
+            textUnderlineOffset: "10px",
+            textDecorationThickness: "3px",
+          },
           height: "40px",
         },
       },
@@ -225,9 +230,9 @@ const commonSettings = {
           minWidth: "min-content !important",
           padding: "0px",
           margin: "0px 10px",
-          fontWeight: 400,
+          fontWeight: 500,
           fontStyle: "normal",
-          lineHeight: "24px",
+          lineHeight: "30px",
           opacity: 1,
         },
       },

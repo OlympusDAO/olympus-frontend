@@ -2,78 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { gql, request } from "graphql-request";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
-import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useStaticBalancerV2PoolContract,
-  useStaticBeethovenChefContract,
-  useStaticChefContract,
-  useStaticChefRewarderContract,
   useStaticCurveGaugeControllerContract,
   useStaticCurveGaugeDepositContract,
   useStaticCurvePoolContract,
-  useStaticJoeChefContract,
-  useStaticJoeRewarderContract,
 } from "src/hooks/useContract";
-import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useProvider } from "wagmi";
 
 export const stakePoolAPYQueryKey = (pool: ExternalPool) => ["StakePoolAPY", pool].filter(nonNullable);
-
-export const SushiPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const masterchef = useStaticChefContract(pool.masterchef, pool.networkID);
-  const rewarder = useStaticChefRewarderContract(pool.rewarder, pool.networkID);
-
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await masterchef.sushiPerSecond(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await rewarder.rewardPerSecond(), 18);
-    const poolInfo = await masterchef.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await masterchef.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
-
-export const JoePoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const joechef = useStaticJoeChefContract(pool.masterchef, pool.networkID);
-  const rewarder = useStaticJoeRewarderContract(pool.rewarder, pool.networkID);
-
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await joechef.joePerSec(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await rewarder.tokenPerSec(), 18);
-
-    const poolInfo = await joechef.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await joechef.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
-
-export const BeetsPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = BalancerPoolTVL(pool);
-  const beethovenChef = useStaticBeethovenChefContract(pool.masterchef, pool.networkID);
-  const beetsrewarder = useStaticChefRewarderContract(pool.rewarder, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await beethovenChef.beetsPerBlock(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await beetsrewarder.rewardPerSecond(), 18);
-    const poolInfo = await beethovenChef.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await beethovenChef.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data);
-  return { apy, isFetched, isLoading };
-};
 
 //TODO: Add support for Rewarder/Gauge if pool becomes incentivized.
 //Currently this only calculates APR based on swap fees since there is no concept of staking.
@@ -95,7 +34,7 @@ export const BalancerSwapFees = (address: string) => {
     data = { dailyFees: 0, totalLiquidity: 0 },
     isFetched,
     isLoading,
-  } = useQuery(["AllSwapFees"], async () => {
+  } = useQuery(["AllSwapFees", address], async () => {
     const data = await request(
       balancerURL,
       gql`
@@ -172,24 +111,6 @@ export const CurvePoolRewardAPY = (pool: ExternalPool) => {
   return { data, isFetched, isLoading };
 };
 
-//Returns Jones Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
-export const JonesPoolAPY = (pool: ExternalPool) => {
-  const jonesAPI = "https://data.jonesdao.io/api/v1/jones/farms/general";
-  const {
-    data = { apy: 0, liquidity_locked: 0 },
-    isFetched,
-    isLoading,
-  } = useQuery(["JonesPoolAPY", pool.address], async () => {
-    const results = await axios.get(jonesAPI).then(res => {
-      const poolData = res.data.farms.find((lp: { lpToken: string }) => lp.lpToken == pool.address);
-      console.log(poolData, "poolData");
-      return poolData;
-    });
-    return results;
-  });
-  return { apy: data.apr / 100, tvl: data.totalStakedValue, isFetched, isLoading };
-};
-
 //Returns Convex Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
 export const ConvexPoolAPY = (pool: ExternalPool) => {
   const convexAPI = "https://api.thegraph.com/subgraphs/name/convex-community/curve-pools";
@@ -235,29 +156,4 @@ export const FraxPoolAPY = (pool: ExternalPool) => {
     return results;
   });
   return { apy: data.apy / 100, tvl: data.liquidity_locked, isFetched, isLoading };
-};
-
-const APY = (
-  pool: ExternalPool,
-  tvl: number,
-  data?: { poolRewardsPerWeek: number; rewarderRewardsPerSecond: number },
-  nongOHMBonus?: string,
-) => {
-  const useDependentQuery = createDependentQuery(stakePoolAPYQueryKey(pool));
-  const { data: gohmPrice } = useGohmPrice();
-
-  const bonusGecko = useDependentQuery("bonus", () => getTokenPrice(nongOHMBonus));
-  const rewardPrice = useDependentQuery("rewardPrice", () => getTokenPrice(pool.rewardGecko));
-  const bonusTokenPrice = nongOHMBonus ? bonusGecko : gohmPrice;
-  return useQuery<number, Error>(
-    ["APY", pool],
-    () => {
-      queryAssertion(bonusTokenPrice && rewardPrice && tvl && data);
-      const rewarderRewardsPerWeek = data.rewarderRewardsPerSecond * 604800;
-      const baseRewardAPY = ((data.poolRewardsPerWeek * rewardPrice) / tvl) * 52;
-      const bonusRewardsAPY = ((rewarderRewardsPerWeek * bonusTokenPrice) / tvl) * 52;
-      return baseRewardAPY + bonusRewardsAPY;
-    },
-    { enabled: !!tvl && !!gohmPrice && !!rewardPrice && !!data },
-  );
 };

@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
@@ -159,10 +158,10 @@ export const TreasuryAssetsGraph = ({
 
     // What is displayed in the chart differs based on the value of isLiquidBackingActive
     const tempItemNames: string[] = [
-      t`Stablecoins`,
-      t`Volatile Assets`,
-      t`Protocol-Owned Liquidity`,
-      ...(isLiquidBackingActive ? [t`Market Value`] : [t`Liquid Backing`]),
+      `Stablecoins`,
+      `Volatile Assets`,
+      `Protocol-Owned Liquidity`,
+      ...(isLiquidBackingActive ? [`Market Value`] : [`Liquid Backing`]),
     ];
 
     const tempDataKeys: string[] = isLiquidBackingActive
@@ -185,14 +184,14 @@ export const TreasuryAssetsGraph = ({
       dataKeys={dataKeys}
       dataKeyColors={colorsMap}
       dataFormat={DataFormat.Currency}
-      headerText={isLiquidBackingActive ? t`Treasury Liquid Backing` : t`Market Value of Treasury Assets`}
+      headerText={isLiquidBackingActive ? `Treasury Liquid Backing` : `Market Value of Treasury Assets`}
       headerSubText={total}
       dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       infoTooltipMessage={
         isLiquidBackingActive
-          ? t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
-          : t`Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
+          ? `Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury, excluding OHM. This excludes the value of any illiquid (vesting/locked) assets. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc).`
+          : `Market Value of Treasury Assets is the sum of the value (in dollars) of all assets held by the treasury (excluding pTokens).`
       }
       isLoading={byDateMetrics.length == 0}
       itemDecimals={0}

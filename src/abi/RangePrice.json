@@ -1,0 +1,369 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract Kernel", "name": "kernel_", "type": "address" },
+        { "internalType": "contract AggregatorV2V3Interface", "name": "ohmEthPriceFeed_", "type": "address" },
+        { "internalType": "uint48", "name": "ohmEthUpdateThreshold_", "type": "uint48" },
+        { "internalType": "contract AggregatorV2V3Interface", "name": "reserveEthPriceFeed_", "type": "address" },
+        { "internalType": "uint48", "name": "reserveEthUpdateThreshold_", "type": "uint48" },
+        { "internalType": "uint48", "name": "observationFrequency_", "type": "uint48" },
+        { "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" },
+        { "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "policy_", "type": "address" }],
+      "name": "Module_PolicyNotPermitted",
+      "type": "error"
+    },
+    { "inputs": [], "name": "Price_AlreadyInitialized", "type": "error" },
+    {
+      "inputs": [{ "internalType": "address", "name": "priceFeed", "type": "address" }],
+      "name": "Price_BadFeed",
+      "type": "error"
+    },
+    { "inputs": [], "name": "Price_InvalidParams", "type": "error" },
+    { "inputs": [], "name": "Price_NotInitialized", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }],
+      "name": "MinimumTargetPriceChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" }],
+      "name": "MovingAverageDurationChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "timestamp_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "price_", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "movingAverage_", "type": "uint256" }
+      ],
+      "name": "NewObservation",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint48", "name": "observationFrequency_", "type": "uint48" }],
+      "name": "ObservationFrequencyChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint48", "name": "ohmEthUpdateThreshold_", "type": "uint48" },
+        { "indexed": false, "internalType": "uint48", "name": "reserveEthUpdateThreshold_", "type": "uint48" }
+      ],
+      "name": "UpdateThresholdsChanged",
+      "type": "event"
+    },
+    { "inputs": [], "name": "INIT", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "KEYCODE",
+      "outputs": [{ "internalType": "Keycode", "name": "", "type": "bytes5" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "VERSION",
+      "outputs": [
+        { "internalType": "uint8", "name": "major", "type": "uint8" },
+        { "internalType": "uint8", "name": "minor", "type": "uint8" }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "minimumTargetPrice_", "type": "uint256" }],
+      "name": "changeMinimumTargetPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint48", "name": "movingAverageDuration_", "type": "uint48" }],
+      "name": "changeMovingAverageDuration",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint48", "name": "observationFrequency_", "type": "uint48" }],
+      "name": "changeObservationFrequency",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint48", "name": "ohmEthUpdateThreshold_", "type": "uint48" },
+        { "internalType": "uint48", "name": "reserveEthUpdateThreshold_", "type": "uint48" }
+      ],
+      "name": "changeUpdateThresholds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "cumulativeObs",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLastPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMovingAverage",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTargetPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256[]", "name": "startObservations_", "type": "uint256[]" },
+        { "internalType": "uint48", "name": "lastObservationTime_", "type": "uint48" }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initialized",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastObservationTime",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minimumTargetPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "movingAverageDuration",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextObsIndex",
+      "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "numObservations",
+      "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "observationFrequency",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "observations",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmEthPriceFeed",
+      "outputs": [{ "internalType": "contract AggregatorV2V3Interface", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmEthUpdateThreshold",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserveEthPriceFeed",
+      "outputs": [{ "internalType": "contract AggregatorV2V3Interface", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserveEthUpdateThreshold",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "updateMovingAverage", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+  ],
+  "devdoc": {
+    "details": "The Olympus Price Oracle contract provides a standard interface for OHM price data against a reserve asset.         It also implements a moving average price calculation (same as a TWAP) on the price feed data over a configured         duration and observation frequency. The data provided by this contract is used by the Olympus Range Operator to         perform market operations. The Olympus Price Oracle is updated each epoch by the Olympus Heart contract.",
+    "kind": "dev",
+    "methods": {
+      "VERSION()": {
+        "details": "Minor version change retains interface. Major version upgrade indicates      breaking change to the interface."
+      },
+      "changeMovingAverageDuration(uint48)": {
+        "details": "Changing the moving average duration will erase the current observations array      and require the initialize function to be called again. Ensure that you have saved      the existing data and can re-populate before calling this function.",
+        "params": {
+          "movingAverageDuration_": "Moving average duration in seconds, must be a multiple of observation frequency"
+        }
+      },
+      "changeObservationFrequency(uint48)": {
+        "details": "Changing the observation frequency clears existing observation data since it will not be taken at the right time intervals.           Ensure that you have saved the existing data and/or can re-populate before calling this function.",
+        "params": {
+          "observationFrequency_": "Observation frequency in seconds, must be a divisor of the moving average duration"
+        }
+      },
+      "initialize(uint256[],uint48)": {
+        "details": "This function must be called after the Price module is deployed to activate it and after updating the observationFrequency      or movingAverageDuration (in certain cases) in order for the Price module to function properly.",
+        "params": {
+          "lastObservationTime_": "Unix timestamp of last observation being provided (in seconds).",
+          "startObservations_": "Array of observations to initialize the moving average with. Must be of length numObservations."
+        }
+      },
+      "updateMovingAverage()": {
+        "details": "This function does not have a time-gating on the observationFrequency on this contract. It is set on the Heart policy contract.      The Heart beat frequency should be set to the same value as the observationFrequency."
+      }
+    },
+    "stateVariables": {
+      "_ohmEthPriceFeed": {
+        "details": "Chainlink typically provides price feeds for an asset in ETH. Therefore, we use two price feeds against ETH, one for OHM and one for the Reserve asset, to calculate the relative price of OHM in the Reserve asset."
+      },
+      "observations": {
+        "details": "Observations are stored in a ring buffer where the moving average is the sum of all observations divided by the number of observations.         Observations can be cleared by changing the movingAverageDuration or observationFrequency and must be re-initialized."
+      }
+    },
+    "title": "Olympus Price Oracle",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "VERSION()": {
+        "notice": "Specify which version of a module is being implemented."
+      },
+      "changeMovingAverageDuration(uint48)": {
+        "notice": "Change the moving average window (duration)"
+      },
+      "changeObservationFrequency(uint48)": {
+        "notice": "Change the observation frequency of the moving average (i.e. how often a new observation is taken)"
+      },
+      "decimals()": {
+        "notice": "Number of decimals in the price values provided by the contract."
+      },
+      "getCurrentPrice()": {
+        "notice": "Get the current price of OHM in the Reserve asset from the price feeds"
+      },
+      "getLastPrice()": {
+        "notice": "Get the last stored price observation of OHM in the Reserve asset"
+      },
+      "getMovingAverage()": {
+        "notice": "Get the moving average of OHM in the Reserve asset over the defined window (see movingAverageDuration and observationFrequency)."
+      },
+      "initialize(uint256[],uint48)": {
+        "notice": "Initialize the price moduleAccess restricted to approved policies"
+      },
+      "initialized()": {
+        "notice": "Whether the price module is initialized (and therefore active)."
+      },
+      "lastObservationTime()": {
+        "notice": "Unix timestamp of last observation (in seconds)."
+      },
+      "movingAverageDuration()": {
+        "notice": "Duration (in seconds) over which the moving average is calculated."
+      },
+      "nextObsIndex()": {
+        "notice": "Index of the next observation to make. The current value at this index is the oldest observation."
+      },
+      "numObservations()": {
+        "notice": "Number of observations used in the moving average calculation. Computed from movingAverageDuration / observationFrequency."
+      },
+      "observationFrequency()": {
+        "notice": "Frequency (in seconds) that observations should be stored."
+      },
+      "observations(uint256)": {
+        "notice": "Array of price observations. Check nextObsIndex to determine latest data point."
+      },
+      "updateMovingAverage()": {
+        "notice": "Trigger an update of the moving averageAccess restricted to approved policies"
+      }
+    },
+    "notice": "Olympus Price Oracle (Module) Contract",
+    "version": 1
+  }
+}

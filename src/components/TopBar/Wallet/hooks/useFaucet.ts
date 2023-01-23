@@ -1,20 +1,17 @@
-import { t } from "@lingui/macro";
 import { useMutation } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { DEV_FAUCET } from "src/constants/addresses";
 import { useDynamicFaucetContract } from "src/hooks/useContract";
 import { EthersError } from "src/lib/EthersTypes";
-import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useFaucet = () => {
-  const dispatch = useDispatch();
   const contract = useDynamicFaucetContract(DEV_FAUCET, true);
 
   return useMutation<ContractReceipt, EthersError, string>(
     async token_ => {
       if (!contract)
-        throw new Error(t`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
+        throw new Error(`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
 
       let transaction;
       if (token_ === "OHM V1") {
@@ -34,17 +31,17 @@ export const useFaucet = () => {
       } else if (token_ === "ETH") {
         transaction = await contract.mintETH("150000000000000000");
       } else {
-        throw new Error(t`Invalid token`);
+        throw new Error(`Invalid token`);
       }
 
       return transaction.wait();
     },
     {
       onError: error => {
-        dispatch(createErrorToast("error" in error ? error.error.message : error.message));
+        toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async () => {
-        dispatch(createInfoToast(t`Successfully requested tokens from Faucet`));
+        toast.success("Successfully requested tokens from Faucet");
       },
     },
   );

@@ -9,6 +9,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Messages from "src/components/Messages/Messages";
@@ -26,22 +27,21 @@ import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
 import { getMigrationAllowances, loadAccountDetails } from "src/slices/AccountSlice";
 import { loadAppDetails } from "src/slices/AppSlice";
-import { error, info } from "src/slices/MessagesSlice";
 import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
+import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
+import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
 const Bond = lazy(() => import("./views/Bond"));
 const Bridge = lazy(() => import("./views/Bridge"));
-const Give = lazy(() => import("./views/Give/Give"));
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
-const Wrap = lazy(() => import("./views/Wrap/Wrap"));
-const Zap = lazy(() => import("./views/Zap/Zap"));
+const Range = lazy(() => import("./views/Range"));
 
 const PREFIX = "App";
 
@@ -64,14 +64,13 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
   [`& .${classes.content}`]: {
     flexGrow: 1,
-    padding: theme.spacing(1),
+    padding: "15px",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
     }),
-    height: "100%",
-    overflow: "auto",
     marginLeft: drawerWidth,
+    marginTop: "-48.5px",
   },
 
   [`& .${classes.contentShift}`]: {
@@ -90,7 +89,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.notification}`]: {
-    marginLeft: "312px",
+    marginLeft: "264px",
   },
 }));
 
@@ -102,9 +101,8 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
-const drawerWidth = 312;
+const drawerWidth = 264;
 const transitionDuration = 969;
-
 function App() {
   useGoogleAnalytics();
   const location = useLocation();
@@ -125,7 +123,7 @@ function App() {
     setMigrationModalOpen(false);
   };
 
-  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 1047px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   async function loadDetails(whichDetails: string) {
@@ -170,7 +168,7 @@ function App() {
   // ... been reloaded within App.
   useEffect(() => {
     if (shouldTriggerSafetyCheck()) {
-      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+      toast("Safety Check: Always verify you're on app.olympusdao.finance!");
     }
     loadDetails("app");
   }, []);
@@ -184,7 +182,7 @@ function App() {
   }, [isConnected, chain.id, provider]);
 
   useEffect(() => {
-    if (errorMessage) dispatch(error(errorMessage.message));
+    if (errorMessage) toast.error(errorMessage.message);
   }, [errorMessage]);
 
   const handleDrawerToggle = () => {
@@ -214,8 +212,8 @@ function App() {
         <ThemeProvider theme={themeMode}>
           <CssBaseline />
           <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+            <Toaster>{t => <Messages toast={t} />}</Toaster>
             <StagingNotification />
-            <Messages />
             <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
             <nav className={classes.drawer}>
               {isSmallerScreen ? (
@@ -235,24 +233,31 @@ function App() {
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                   />
                   <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                  <Route path="/give/*" element={<Give />} />
-
-                  <Route path="/olympusgive" element={<Navigate to="/give" />} />
-                  <Route path="/olygive" element={<Navigate to="/give" />} />
-                  <Route path="/tyche" element={<Navigate to="/give" />} />
-                  <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-                  <Route path="/ohmgive" element={<Navigate to="/give" />} />
-
-                  <Route path="/wrap" element={<Wrap />} />
-                  <Route path="/zap" element={<Zap />} />
-                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bonds/v3/:id" element={<BondModalContainerV3 />} />
+                  <Route path="/bonds/v3/inverse/:id" element={<BondModalContainerV3 />} />
+                  <Route path="/bonds/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds/inverse/:id" element={<BondModalContainer />} />
+                  <Route path="/bonds" element={<Bond />} />
+                  <Route path="/bonds/inverse" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
-
-                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                  <Route path="/range/*" element={<Range />} />
+                  <Route
+                    path={"/info/*"}
+                    element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/utility"}
+                    element={<Wallet open={true} component="utility" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path={"/wallet/history"}
+                    element={<Wallet open={true} component="wallet/history" theme={theme} toggleTheme={toggleTheme} />}
+                  />
+                  <Route
+                    path="/wallet"
+                    element={<Wallet open={true} component="wallet" theme={theme} toggleTheme={toggleTheme} />}
+                  ></Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

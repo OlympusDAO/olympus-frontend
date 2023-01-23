@@ -17,14 +17,14 @@ export const queryClient = new QueryClient({
       refetchInterval: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-      retry: Environment.env.NODE_ENV === "development" ? false : 3,
+      retry: Environment.env.MODE === "development" ? false : 3,
     },
   },
 });
 
 export const ReactQueryProvider: React.FC = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    {Environment.env.NODE_ENV === "development" && <ReactQueryDevtools />}
+    {Environment.env.MODE === "development" && <ReactQueryDevtools />}
 
     {children}
   </QueryClientProvider>

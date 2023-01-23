@@ -1,5 +1,4 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Link, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -9,40 +8,24 @@ import {
   OHMTokenProps,
   Paper,
   SecondaryButton,
+  TertiaryButton,
   Token,
   TokenStack,
   Tooltip,
 } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import {
-  balancerPools,
-  beetsPools,
-  convexPools,
-  curvePools,
-  fraxPools,
-  joePools,
-  jonesPools,
-  sushiPools,
-} from "src/helpers/AllExternalPools";
+import { balancerPools, convexPools, curvePools, fraxPools } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 import {
   BalancerPoolAPY,
   BalancerSwapFees,
-  BeetsPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
   FraxPoolAPY,
-  JoePoolAPY,
-  JonesPoolAPY,
-  SushiPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolBalance";
-import {
-  BalancerPoolTVL,
-  CurvePoolTVL,
-  useStakePoolTVL,
-} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { CurvePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useAccount } from "wagmi";
 
 const PREFIX = "ExternalStakePools";
@@ -80,25 +63,26 @@ export const ExternalStakePools = () => {
   return (
     <>
       {isSmallScreen ? (
-        <AllPools isSmallScreen={isSmallScreen} />
+        <Table>
+          <Box display="flex" justifyContent="start" mt="42px">
+            <Typography fontSize="24px" textAlign="left" fontWeight={600}>
+              Farm Pools
+            </Typography>
+          </Box>
+          <AllPools isSmallScreen={isSmallScreen} />
+        </Table>
       ) : (
-        <Paper headerText={t`Farm Pool`}>
+        <Paper headerText={`Farm Pools`}>
           <Table>
             <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
-                <TableCell style={{ width: "250px", padding: "8px 0" }}>
-                  <Trans>Asset</Trans>
-                </TableCell>
+                <TableCell style={{ width: "250px", padding: "8px 0" }}>Asset</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
-                  <Trans>TVL</Trans>
-                </TableCell>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>TVL</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
-                  <Trans>APY</Trans>
-                </TableCell>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>APY</TableCell>
 
-                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
+                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{`Balance`}</TableCell>}
               </TableRow>
             </StyledTableHeader>
             <AllPools isSmallScreen={isSmallScreen} />
@@ -110,32 +94,20 @@ export const ExternalStakePools = () => {
 };
 
 const AllPools = (props: { isSmallScreen: boolean }) => (
-  <>
-    {sushiPools.map(pool => (
-      <SushiPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {joePools.map(pool => (
-      <JoePools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {beetsPools.map(pool => (
-      <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {jonesPools.map(pool => (
-      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
+  <TableBody>
     {balancerPools.map(pool => (
-      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <BalancerPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {curvePools.map(pool => (
-      <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <CurvePools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {convexPools.map(pool => (
-      <ConvexPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <ConvexPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {fraxPools.map(pool => (
-      <FraxPools pool={pool} isSmallScreen={props.isSmallScreen} />
+      <FraxPools key={pool.poolId} pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
-  </>
+  </TableBody>
 );
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
@@ -155,18 +127,19 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
     <TableRow>
       <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-          <TokenStack tokens={props.pool.icons} />
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
-            {props.pool.poolName}
+          <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
+          <Box marginLeft="14px" marginRight="10px">
+            <Typography>{props.pool.poolName}</Typography>
             {props.pool.mintAndSync && (
-              <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
-                Mint and Sync{" "}
+              <Box>
                 <Tooltip message={<ToolTipContent />}>
-                  <Icon style={{ fontSize: "10px" }} name="info" />
+                  <Typography fontSize="12px" lineHeight="15px" justifyContent="center" alignSelf="center">
+                    Mint and Sync <Icon style={{ fontSize: "10px" }} name="info" />
+                  </Typography>
                 </Tooltip>
-              </Typography>
+              </Box>
             )}
-          </Typography>
+          </Box>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>
@@ -198,9 +171,9 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <SecondaryButton size="small" target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
-          {t`Stake on`} {props.pool.stakeOn}
-        </SecondaryButton>
+        <TertiaryButton target="_blank" rel="noopener noreferrer" href={props.pool.href} fullWidth>
+          {`Stake on`} {props.pool.stakeOn}
+        </TertiaryButton>
       </TableCell>
     </TableRow>
   );
@@ -213,9 +186,9 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
   const userBalance = userBalances[props.pool.networkID].data;
 
   return (
-    <Paper>
+    <Box mt="42px">
       <StyledPoolInfo className={classes.poolPair}>
-        <TokenStack tokens={props.pool.icons} />
+        <TokenStack tokens={props.pool.icons} style={{ fontSize: "24px" }} />
 
         <div className={classes.poolName}>
           <Typography>{props.pool.poolName}</Typography>
@@ -234,57 +207,19 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
 
       {isConnected && (
         <DataRow
-          title={t`Balance`}
+          title={`Balance`}
           isLoading={!userBalance}
           balance={userBalance && `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`}
         />
       )}
 
       <SecondaryButton href={props.pool.href} fullWidth>
-        {t`Stake on`} {props.pool.stakeOn}
+        {`Stake on`} {props.pool.stakeOn}
       </SecondaryButton>
-    </Paper>
+    </Box>
   );
 };
 
-const SushiPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = SushiPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const JoePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = JoePoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
-  const { apy } = BeetsPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  );
-};
-
-const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { apy, tvl } = JonesPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
-  );
-};
 const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);
   const { apy } = BalancerPoolAPY(props.pool);

@@ -1,4 +1,3 @@
-import { Trans } from "@lingui/macro";
 import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
 import { ChangeEvent } from "react";
@@ -14,20 +13,19 @@ export const BondSettingsModal: React.VFC<{
   return (
     <Modal
       id="hades"
-      maxWidth="300"
-      minHeight="350"
+      maxWidth="468px"
+      minHeight="350px"
       open={props.open}
       headerText="Settings"
       onClose={props.handleClose}
     >
       <>
         <Box>
-          <InputLabel htmlFor="slippage">
-            <Trans>Slippage</Trans>
-          </InputLabel>
+          <InputLabel htmlFor="slippage">Slippage</InputLabel>
           <Box mt="8px">
             <FormControl variant="outlined" color="primary" fullWidth>
               <OutlinedInput
+                inputProps={{ "data-testid": "slippage" }}
                 type="text"
                 id="slippage"
                 value={props.slippage}
@@ -38,18 +36,17 @@ export const BondSettingsModal: React.VFC<{
           </Box>
           <Box mt="8px">
             <Typography variant="body2" color="textSecondary">
-              <Trans>Transaction may revert if price changes by more than slippage %</Trans>
+              Transaction may revert if price changes by more than slippage %
             </Typography>
           </Box>
         </Box>
 
         <Box mt="32px">
-          <InputLabel htmlFor="recipient">
-            <Trans>Recipient Address</Trans>
-          </InputLabel>
+          <InputLabel htmlFor="recipient">Recipient Address</InputLabel>
           <Box mt="8px">
             <FormControl variant="outlined" color="primary" fullWidth>
               <OutlinedInput
+                inputProps={{ "data-testid": "recipient" }}
                 type="text"
                 id="recipient"
                 value={props.recipientAddress}
@@ -59,7 +56,7 @@ export const BondSettingsModal: React.VFC<{
           </Box>
           <Box mt="8px">
             <Typography variant="body2" color="textSecondary">
-              <Trans>Choose recipient address. By default, this is your currently connected address</Trans>
+              Choose recipient address. By default, this is your currently connected address
             </Typography>
           </Box>
         </Box>

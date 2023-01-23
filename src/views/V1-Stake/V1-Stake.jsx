@@ -1,7 +1,6 @@
 import "src/views/Stake/Stake.scss";
 import "src/views/V1-Stake/V1-Stake.scss";
 
-import { t, Trans } from "@lingui/macro";
 import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
@@ -22,6 +21,7 @@ import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { DataRow, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
@@ -31,7 +31,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { error } from "src/slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
@@ -112,17 +111,17 @@ function V1Stake({ setMigrationModalOpen }) {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      return dispatch(error("Please enter a value!"));
+      return toast.error("Please enter a value!");
     }
 
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
-      return dispatch(error("You cannot stake more than your OHM balance."));
+      return toast.error("You cannot stake more than your OHM balance.");
     }
 
     if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error("You cannot unstake more than your sOHM balance."));
+      return toast.error("You cannot unstake more than your sOHM balance.");
     }
 
     await dispatch(
@@ -166,7 +165,7 @@ function V1Stake({ setMigrationModalOpen }) {
 
   return (
     <div id="v1-stake-view">
-      <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
+      <Paper headerText={`${`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
             <MetricCollection>
@@ -182,9 +181,7 @@ function V1Stake({ setMigrationModalOpen }) {
                 <div className="wallet-menu" id="wallet-menu">
                   <InPageConnectButton />
                 </div>
-                <Typography variant="h6">
-                  <Trans>Connect your wallet to stake OHM</Trans>
-                </Typography>
+                <Typography variant="h6">Connect your wallet to stake OHM</Typography>
               </div>
             ) : (
               <>
@@ -199,8 +196,8 @@ function V1Stake({ setMigrationModalOpen }) {
                     onChange={changeView}
                     aria-label="stake tabs"
                   >
-                    <Tab aria-label="stake-button" label={t`Stake`} />
-                    <Tab aria-label="unstake-button" label={t`Unstake`} />
+                    <Tab aria-label="stake-button" label={`Stake`} />
+                    <Tab aria-label="unstake-button" label={`Unstake`} />
                   </Tabs>
 
                   <Box mt={"10px"}>
@@ -208,8 +205,8 @@ function V1Stake({ setMigrationModalOpen }) {
                       {view === 0 ? (
                         <>
                           {!oldAssetsDetected
-                            ? t`All your assets are migrated`
-                            : t`You must complete the migration of your assets to stake additional OHM`}
+                            ? `All your assets are migrated`
+                            : `You must complete the migration of your assets to stake additional OHM`}
                         </>
                       ) : (
                         <br />
@@ -223,10 +220,10 @@ function V1Stake({ setMigrationModalOpen }) {
                         <Box mt={"10px"}>
                           <Typography variant="body1" className="stake-note" color="textSecondary">
                             <>
-                              <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                              First time unstaking <b>sOHM</b>?
                               <br />
-                              <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
-                              <Trans> for unstaking</Trans>.
+                              Please approve Olympus Dao to use your <b>sOHM </b>
+                              for unstaking.
                             </>
                           </Typography>
                         </Box>
@@ -266,7 +263,7 @@ function V1Stake({ setMigrationModalOpen }) {
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : (
-                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
+                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={`Migrate`} />
                         )}
                       </TabPanel>
                     ) : (
@@ -279,7 +276,7 @@ function V1Stake({ setMigrationModalOpen }) {
                             goToV2Stake();
                           }}
                         >
-                          <Trans>Go to Stake V2</Trans>
+                          Go to Stake V2
                         </Button>
                       </TabPanel>
                     )}
@@ -297,7 +294,7 @@ function V1Stake({ setMigrationModalOpen }) {
                             onChangeStake("unstake");
                           }}
                         >
-                          {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                          {txnButtonText(pendingTransactions, "unstaking", `Unstake OHM`)}
                         </Button>
                       ) : (
                         <Button
@@ -309,7 +306,7 @@ function V1Stake({ setMigrationModalOpen }) {
                             onSeekApproval("sohm");
                           }}
                         >
-                          {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
+                          {txnButtonText(pendingTransactions, "approve_unstaking", `Approve`)}
                         </Button>
                       )}
                     </TabPanel>
@@ -317,7 +314,7 @@ function V1Stake({ setMigrationModalOpen }) {
                 </Box>
                 <div className="stake-user-data">
                   <DataRow
-                    title={`${t`Unstaked Balance`} (v1)`}
+                    title={`${`Unstaked Balance`} (v1)`}
                     id="user-balance"
                     balance={`${trim(Number(ohmBalance), 4)} OHM`}
                     isLoading={isAppLoading}
@@ -325,7 +322,7 @@ function V1Stake({ setMigrationModalOpen }) {
                   <Accordion className="stake-accordion" square>
                     <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                       <DataRow
-                        title={t`Total Staked Balance`}
+                        title={`Total Staked Balance`}
                         id="user-staked-balance"
                         balance={`${trimmedBalance} sOHM`}
                         isLoading={isAppLoading}
@@ -333,27 +330,27 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <DataRow
-                        title={`${t`sOHM Balance`} (v1)`}
+                        title={`${`sOHM Balance`} (v1)`}
                         balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                         indented
                         isLoading={isAppLoading}
                       />
                       {Number(wsohmBalance) > 0.0 && (
                         <DataRow
-                          title={`${t`wsOHM Balance`} (v1)`}
+                          title={`${`wsOHM Balance`} (v1)`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                           isLoading={isAppLoading}
                           indented
                         />
                       )}
                       <DataRow
-                        title={`${t`sOHM Balance`} (v2)`}
+                        title={`${`sOHM Balance`} (v2)`}
                         balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                         indented
                         isLoading={isAppLoading}
                       />
                       <DataRow
-                        title={`${t`gOHM Balance`} (v2)`}
+                        title={`${`gOHM Balance`} (v2)`}
                         balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                         indented
                         isLoading={isAppLoading}

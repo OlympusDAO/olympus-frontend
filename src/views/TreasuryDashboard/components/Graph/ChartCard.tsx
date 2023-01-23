@@ -1,4 +1,3 @@
-import { t } from "@lingui/macro";
 import { Grid, Link, Skeleton, SvgIcon, Typography } from "@mui/material";
 import { InfoTooltip, Tooltip } from "@olympusdao/component-library";
 import { ReactElement } from "react";
@@ -27,18 +26,14 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
             <Typography variant="h6" color="textSecondary" display="inline">
               {props.headerText}
             </Typography>
-            {props.headerTooltip && (
-              <Typography variant={"h6"} color="textSecondary" display="inline">
-                <InfoTooltip message={props.headerTooltip} />
-              </Typography>
-            )}
+            {props.headerTooltip && <InfoTooltip message={props.headerTooltip} />}
           </Grid>
           <Grid item xs={1}>
             <Grid container spacing={1} justifyContent="flex-end">
               <Grid item>
                 {props.subgraphQueryUrl && (
                   <Link href={props.subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                    <Tooltip message={t`Open Subgraph Query`}>
+                    <Tooltip message={`Open Subgraph Query`}>
                       <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                     </Tooltip>
                   </Link>
@@ -46,7 +41,7 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
               </Grid>
               <Grid item>
                 {props.handleOpenExpandedChart && (
-                  <Tooltip message={t`Open in Expanded View`}>
+                  <Tooltip message={`Open in Expanded View`}>
                     <SvgIcon
                       component={Fullscreen}
                       color="primary"

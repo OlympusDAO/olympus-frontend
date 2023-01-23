@@ -196,7 +196,7 @@ const renderStackedAreaChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -240,6 +240,7 @@ const renderStackedAreaChart = (
     {dataKeys.map((value: string) => {
       return (
         <Area
+          key={value}
           dataKey={value}
           stroke={dataKeyColors.get(value)}
           fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -273,7 +274,7 @@ const renderComposedChart = (
     <defs>
       {dataKeys.map((value: string) => {
         return (
-          <linearGradient id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
+          <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
             <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
           </linearGradient>
@@ -323,6 +324,7 @@ const renderComposedChart = (
       if (composedLineDataKeys && composedLineDataKeys.includes(value)) {
         return (
           <Line
+            key={value}
             dataKey={value}
             stroke={dataKeyColors.get(value)}
             fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -335,6 +337,7 @@ const renderComposedChart = (
 
       return (
         <Area
+          key={value}
           dataKey={value}
           stroke={dataKeyColors.get(value)}
           fill={`url(#${getValidCSSSelector(value, isExpanded)})`}
@@ -547,7 +550,15 @@ const renderAreaDifferenceChart = (
       />
       <Area dataKey={RANGE_KEY} stroke={dataKeyColors.get(RANGE_KEY)} fill={`url(#${getRangeCssSelector()})`} />
       {dataKeys.map((value: string) => {
-        return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+        return (
+          <Line
+            key={value}
+            dataKey={value}
+            stroke={dataKeyColors.get(value)}
+            dot={false}
+            strokeWidth={LINE_STROKE_WIDTH}
+          />
+        );
       })}
     </ComposedChart>
   );

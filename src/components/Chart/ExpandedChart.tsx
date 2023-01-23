@@ -1,11 +1,10 @@
-import { t } from "@lingui/macro";
 import { Grid, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Modal, Tooltip } from "@olympusdao/component-library";
 import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
 import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
 
-function ExpandedChart({
+const ExpandedChart = ({
   open,
   handleClose,
   renderChart,
@@ -25,7 +24,7 @@ function ExpandedChart({
   headerSubText: string;
   runwayExtraInfo?: string;
   subgraphQueryUrl?: string;
-}) {
+}) => {
   /**
    * Ensure that the expanded chart modal closes when pressing escape.
    *
@@ -79,7 +78,7 @@ function ExpandedChart({
           {subgraphQueryUrl && (
             <Grid item xs textAlign="right" marginRight="15px">
               <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                <Tooltip message={t`Open Subgraph Query`}>
+                <Tooltip message={`Open Subgraph Query`}>
                   <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                 </Tooltip>
               </Link>
@@ -110,6 +109,6 @@ function ExpandedChart({
       </Grid>
     </Modal>
   );
-}
+};
 
 export default ExpandedChart;

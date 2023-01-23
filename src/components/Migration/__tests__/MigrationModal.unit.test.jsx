@@ -9,7 +9,7 @@ import { render, screen } from "src/testUtils";
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {
     render(<MigrationModal open={false} handleClose={() => console.log("handleClose")} />);
-    expect(screen.queryByText("Migration Output")).not.toBeInTheDocument();
+    expect(screen.queryByText("Migration Output")).not;
   });
 
   it("should render user account v1 assets and estimated v2 amounts", async () => {
@@ -51,16 +51,16 @@ describe("<MigrationModal/>", () => {
     render(migrationModal, store);
 
     // there should be a header inviting user to migrate v1 tokens to v2
-    expect(await screen.getByText("You have assets ready to migrate to v2")).toBeInTheDocument();
+    expect(await screen.getByText("You have assets ready to migrate to v2"));
 
     // there should be token details table headers
-    expect(await screen.getByText("Asset")).toBeInTheDocument();
-    expect(await screen.getByText("Pre-migration")).toBeInTheDocument();
-    expect(await screen.getByText("Post-migration")).toBeInTheDocument();
+    expect(await screen.getByText("Asset"));
+    expect(await screen.getByText("Pre-migration"));
+    expect(await screen.getByText("Post-migration"));
 
     // there should be token details table data
-    expect(await screen.getByText("sOHM -> sOHM (v2)")).toBeInTheDocument();
-    expect(await screen.getByText("12.0000 sOHM")).toBeInTheDocument();
+    expect(await screen.getByText("sOHM -> sOHM (v2)"));
+    expect(await screen.getByText("12.0000 sOHM"));
 
     // verify that the dialog displays the correct conversion formula
     // prevent regression for bug report:
@@ -68,7 +68,7 @@ describe("<MigrationModal/>", () => {
     const sOHMv2Value =
       (preloadedState.account.balances.sohmV1 * preloadedState.app.currentIndex) / preloadedState.app.currentIndexV1;
     const trimmed = trim(sOHMv2Value, 4);
-    expect(await screen.getByText(`${trimmed} sOHM (v2)`)).toBeInTheDocument();
+    expect(await screen.getByText(`${trimmed} sOHM (v2)`));
 
     // screen.debug(undefined, 100000);
     // Approve button should appear as many times as there are v1 asset rows

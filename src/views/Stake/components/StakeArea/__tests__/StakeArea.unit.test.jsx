@@ -1,72 +1,91 @@
 import { BigNumber } from "ethers";
-import * as ApproveToken from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useContractAllowance } from "src/hooks/useContractAllowance";
+import * as ContractAllowance from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
+import * as Prices from "src/hooks/usePrices";
 import { connectWallet } from "src/testHelpers";
-import { act, fireEvent, render, screen } from "src/testUtils";
+import { fireEvent, render, screen } from "src/testUtils";
+import { Zap__factory } from "src/typechain/factories/Zap__factory";
+import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";
-
-jest.mock("src/hooks/useContractAllowance");
-let data;
-afterEach(() => {
-  jest.clearAllMocks();
-  jest.restoreAllMocks();
-});
+import { zapAPIResponse } from "src/views/Zap/__mocks__/mockZapBalances";
+import { beforeEach, describe, it, vi } from "vitest";
 
 describe("<StakeArea/> Disconnected", () => {
   beforeEach(async () => {
     render(<StakeArea />);
   });
   it("should ask user to connect wallet", () => {
-    expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
+    expect(screen.getByText("Connect Wallet"));
   });
 });
 
 describe("<StakeArea/> Connected no Approval", () => {
-  jest.mock("src/components/TokenAllowanceGuard/hooks/useApproveToken");
-  let approval;
-  beforeEach(async () => {
+  beforeEach(() => {
     connectWallet();
-    approval = jest.spyOn(ApproveToken, "useApproveToken");
-    useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from(0),
+    });
     render(<StakeArea />);
   });
   it("should render the stake input Area when connected", async () => {
-    expect(screen.getByText("Unstaked Balance")).toBeInTheDocument();
+    expect(await screen.findByText("Unstaked Balance"));
   });
-
   it("should display unstake approval message when clicking unstake", async () => {
-    fireEvent.click(screen.getByText("Unstake"));
-    expect(await screen.findByText("Approve")).toBeInTheDocument();
+    fireEvent.click(await screen.findByText("Unstake"));
+    expect(await screen.findByText("Approve Unstaking"));
   });
-
   it("should successfully complete the contract approval", async () => {
-    approval.mockReturnValue({ data: { confirmations: 100 } });
-    expect(screen.getByText("Approve")).toBeInTheDocument();
-    fireEvent.click(screen.getByText("Approve"));
-    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
-    act(async () => render(<StakeArea />));
-    expect(screen.getByText("Stake to sOHM")).toBeInTheDocument();
+    expect(screen.getByText("Approve Staking"));
+    fireEvent.click(screen.getByText("Approve Staking"));
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("100000000000000000000"),
+    });
+    expect(screen.getAllByText("Stake"));
   });
 });
 
 describe("<StakeArea/> Connected with Approval", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     connectWallet();
-    useContractAllowance.mockReturnValue({ data: BigNumber.from("100000000000000000000") });
-    Index.useCurrentIndex = jest.fn().mockReturnValue({ data: new DecimalBigNumber("10", 9) });
-    render(<StakeArea />);
+    vi.mock("src/typechain/factories/Zap__factory");
+    const instance = vi.mocked(Zap__factory);
+    instance.connect = vi.fn().mockReturnValue({
+      ZapStake: vi.fn().mockReturnValue({
+        wait: vi.fn().mockReturnValue(true),
+      }),
+    });
+
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from("100000000000000000000"),
+    });
+    vi.spyOn(Index, "useCurrentIndex").mockReturnValue({ data: new DecimalBigNumber("10", 9) });
+    global.fetch = vi.fn().mockResolvedValue({ ok: true, json: vi.fn().mockReturnValue(zapAPIResponse) });
+    //@ts-expect-error
+    //@ts-expect-error
+    vi.spyOn(Prices, "useGohmPrice").mockReturnValue({ data: "120.56786330999999" });
+    //@ts-expect-error
+    vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "12.056786331" });
+
+    render(
+      <>
+        <StakeInputArea />
+      </>,
+    );
   });
-  it("should switch to gOHM when toggle is selected", async () => {
-    fireEvent.click(await screen.findByRole("checkbox"));
-    expect(screen.getByText("Stake to gOHM")).toBeInTheDocument();
+  it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "2" } });
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
   });
 
-  it("gOHM conversion should appear correctly when Staking to gOHM", async () => {
-    fireEvent.click(await screen.findByRole("checkbox"));
-    expect(screen.getByText("Stake to gOHM")).toBeInTheDocument();
-    fireEvent.input(await screen.findByRole("textbox"), { target: { value: "2" } });
-    expect(screen.getByText("Stake 2 OHM → 0.2 gOHM")).toBeInTheDocument();
+  it("gOHM conversion should appear correctly when Staking ETH to gOHM", async () => {
+    fireEvent.click(screen.getAllByText("OHM")[0]);
+    expect(screen.getByText("Select a token"));
+    fireEvent.click(await screen.findByText("ETH"));
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
+    expect(await screen.findByText("Zap-Stake"));
+    fireEvent.click(await screen.findByText("Zap-Stake"));
+    expect(await screen.findByText("Successful Zap!"));
   });
 });

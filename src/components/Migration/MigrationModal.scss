@@ -45,10 +45,6 @@
         height: auto;
       }
     }
-    .ohm-modal {
-      max-width: 688px;
-      min-height: 605px;
-    }
   }
 
   /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
@@ -58,11 +54,6 @@
       .ohm-card {
         height: auto;
       }
-    }
-    .ohm-modal {
-      max-width: 688px;
-      min-height: 605px;
-      opacity: 0.9;
     }
   }
 }

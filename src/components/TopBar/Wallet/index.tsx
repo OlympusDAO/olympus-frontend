@@ -1,10 +1,10 @@
-import { Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
 import Assets from "src/components/TopBar/Wallet/Assets";
 import GetOhm from "src/components/TopBar/Wallet/GetOhm";
 import { Info } from "src/components/TopBar/Wallet/Info";
@@ -22,7 +22,7 @@ const classes = {
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   [`& .${classes.networkSelector}`]: {
-    background: theme.colors.paper.card,
+    background: theme.colors.gray[700],
     minHeight: "39px",
     borderRadius: "6px",
     padding: "9px 18px",
@@ -30,9 +30,9 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   },
 
   [`& .${classes.connectButton}`]: {
-    background: theme.colors.paper.card,
+    background: theme.colors.gray[600],
     "&:hover": {
-      background: theme.colors.paper.cardHover,
+      background: theme.colors.gray[600],
     },
   },
 
@@ -43,11 +43,16 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
 
   [`& .${classes.paper}`]: {
     maxWidth: "100%",
-    background: theme.colors.paper.background,
+    background: theme.colors.gray[700],
   },
 }));
 
-export function Wallet(props: { open?: boolean; component?: string }) {
+export function Wallet(props: {
+  open?: boolean;
+  component?: string;
+  theme: string;
+  toggleTheme: (e: KeyboardEvent) => void;
+}) {
   interface LocationState {
     state: { prevPath: string };
   }
@@ -72,17 +77,18 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const DisconnectButton = () => {
     const { disconnect } = useDisconnect();
-    return (
-      <SecondaryButton onClick={disconnect}>
-        <Trans>Disconnect</Trans>
-      </SecondaryButton>
-    );
+    return <SecondaryButton onClick={disconnect}>Disconnect</SecondaryButton>;
   };
 
   const ConnectMessage = () => (
-    <Box display="flex" justifyContent="center" mt={"32px"}>
-      <Typography variant={"h6"}> Please Connect Your Wallet </Typography>
-    </Box>
+    <>
+      <Box display="flex" justifyContent="center" mt={"61px"}>
+        <Typography fontWeight={500}> Please Connect Your Wallet </Typography>
+      </Box>
+      <Box mt={"75px"}>
+        <InPageConnectButton size="large" fullWidth />
+      </Box>
+    </>
   );
 
   return (
@@ -101,8 +107,9 @@ export function Wallet(props: { open?: boolean; component?: string }) {
       <Box p="30px 15px" style={{ overflow: "hidden" }}>
         <Box style={{ top: 0, position: "sticky" }}>
           <Box display="flex" justifyContent="space-between" mb={"18px"}>
-            <Box>
+            <Box display="flex" flexDirection="row">
               <ConnectButton />
+              <ThemeSwitcher theme={props.theme} toggleTheme={props.toggleTheme} />
             </Box>
             <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
               <Icon
@@ -148,16 +155,18 @@ export function Wallet(props: { open?: boolean; component?: string }) {
           })()}
         </Box>
       </Box>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="center"
-        style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
-        pt={"21px"}
-        pb={"21px"}
-      >
-        {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
-      </Box>
+      {(props.component !== "wallet" || isConnected) && (
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
+          pt={"21px"}
+          pb={"21px"}
+        >
+          {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
+        </Box>
+      )}
     </StyledSwipeableDrawer>
   );
 }
