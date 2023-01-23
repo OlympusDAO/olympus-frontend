@@ -117,9 +117,9 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     "treasurySupply",
     "migrationOffsetSupply",
     "vestingBondSupply",
+    "totalSupply",
     "circulatingSupply",
     "floatingSupply",
-    "totalSupply",
   ];
   const itemNames: string[] = [
     `External`,
@@ -127,12 +127,12 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     `Treasury`,
     `Migration Offset`,
     `Vesting Bonds`,
+    `Total Supply`,
     `Circulating Supply`,
     `Floating Supply`,
-    `Total Supply`,
   ];
 
-  const lineDataKeys: string[] = ["circulatingSupply", "floatingSupply", "totalSupply"];
+  const lineDataKeys: string[] = ["totalSupply", "circulatingSupply", "floatingSupply"];
 
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
