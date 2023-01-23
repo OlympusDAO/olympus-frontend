@@ -22,7 +22,7 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["./index.d.ts", "src", "babel.config.js", "**/*.test.ts", "**/*.test.tsx"],
+  "include": ["./index.d.ts", "src", "**/*.test.ts", "**/*.test.tsx"],
   "exclude": ["node_modules", "vendor", "public"],
   "compileOnSave": false
 }
