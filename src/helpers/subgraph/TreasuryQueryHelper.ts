@@ -4,7 +4,10 @@ import {
   CATEGORY_STABLE,
   CATEGORY_VOLATILE,
   TOKEN_SUPPLY_TYPE_LIQUIDITY,
+  TOKEN_SUPPLY_TYPE_OFFSET,
   TOKEN_SUPPLY_TYPE_TOTAL,
+  TOKEN_SUPPLY_TYPE_TREASURY,
+  TOKEN_SUPPLY_TYPE_VESTING_BONDS,
 } from "src/helpers/subgraph/Constants";
 
 export const getLiquidBackingPerOhmFloating = (liquidBacking: number, tokenSupplies: TokenSupply[]) =>
@@ -36,6 +39,40 @@ export const getTreasuryAssetValue = (
   }
 
   return filterReduce(records, record => categories.includes(record.category), false);
+};
+
+export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[]): number => {
+  return records
+    .filter(record => record.type == TOKEN_SUPPLY_TYPE_LIQUIDITY)
+    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+};
+
+export const getTreasurySupply = (records: TokenSupply[]): number => {
+  return records
+    .filter(record => record.type == TOKEN_SUPPLY_TYPE_TREASURY)
+    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+};
+
+export const getMigrationOffsetSupply = (records: TokenSupply[]): number => {
+  return records
+    .filter(record => record.type == TOKEN_SUPPLY_TYPE_OFFSET)
+    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+};
+
+export const getVestingBondsSupply = (records: TokenSupply[]): number => {
+  return records
+    .filter(record => record.type == TOKEN_SUPPLY_TYPE_VESTING_BONDS)
+    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+};
+
+export const getExternalSupply = (records: TokenSupply[]): number => {
+  return (
+    getOhmTotalSupply(records) -
+    getProtocolOwnedLiquiditySupply(records) -
+    getTreasurySupply(records) -
+    getMigrationOffsetSupply(records) -
+    getVestingBondsSupply(records)
+  );
 };
 
 /**

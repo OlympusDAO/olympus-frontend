@@ -9,9 +9,14 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import {
+  getExternalSupply,
+  getMigrationOffsetSupply,
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
   getOhmTotalSupply,
+  getProtocolOwnedLiquiditySupply,
+  getTreasurySupply,
+  getVestingBondsSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
 import {
@@ -58,6 +63,11 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     circulatingSupply: number;
     floatingSupply: number;
     totalSupply: number;
+    polSupply: number;
+    treasurySupply: number;
+    migrationOffsetSupply: number;
+    vestingBondSupply: number;
+    externalSupply: number;
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
@@ -78,6 +88,11 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         circulatingSupply: getOhmCirculatingSupply(dateSupplyValues),
         floatingSupply: getOhmFloatingSupply(dateSupplyValues),
         totalSupply: getOhmTotalSupply(dateSupplyValues),
+        polSupply: getProtocolOwnedLiquiditySupply(dateSupplyValues),
+        treasurySupply: getTreasurySupply(dateSupplyValues),
+        migrationOffsetSupply: getMigrationOffsetSupply(dateSupplyValues),
+        vestingBondSupply: getVestingBondsSupply(dateSupplyValues),
+        externalSupply: getExternalSupply(dateSupplyValues),
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
@@ -96,8 +111,28 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   /**
    * Chart inputs
    */
-  const dataKeys: string[] = ["circulatingSupply", "floatingSupply", "totalSupply"];
-  const itemNames: string[] = [`Circulating Supply`, `Floating Supply`, `Total Supply`];
+  const dataKeys: string[] = [
+    "externalSupply",
+    "polSupply",
+    "treasurySupply",
+    "migrationOffsetSupply",
+    "vestingBondSupply",
+    "circulatingSupply",
+    "floatingSupply",
+    "totalSupply",
+  ];
+  const itemNames: string[] = [
+    `External`,
+    `Protocol-Owned Liquidity`,
+    `Treasury`,
+    `Migration Offset`,
+    `Vesting Bonds`,
+    `Circulating Supply`,
+    `Floating Supply`,
+    `Total Supply`,
+  ];
+
+  const lineDataKeys: string[] = ["circulatingSupply", "floatingSupply", "totalSupply"];
 
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
@@ -105,20 +140,22 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
 
   return (
     <Chart
-      type={ChartType.MultiLine}
+      type={ChartType.Composed}
       data={byDateOhmSupply}
       dataKeys={dataKeys}
       dataKeyColors={colorsMap}
-      headerText={`OHM Circulating Supply`}
+      headerText={`OHM Supply`}
       headerSubText={""}
       dataFormat={DataFormat.Number}
       dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
       margin={{ left: 30 }}
-      infoTooltipMessage={`This chart visualises the OHM circulating supply over time.`}
+      infoTooltipMessage={`This chart visualises the OHM supply over time.`}
       isLoading={byDateOhmSupply.length == 0}
-      itemDecimals={2}
+      itemDecimals={0}
       subgraphQueryUrl={queryExplorerUrl}
+      displayTooltipTotal={true}
+      composedLineDataKeys={lineDataKeys}
       tickStyle={getTickStyle(theme)}
     />
   );
