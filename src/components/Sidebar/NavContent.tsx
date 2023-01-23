@@ -7,6 +7,7 @@ import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-head
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { DetermineRangeDiscount } from "src/views/Range/hooks";
@@ -64,7 +65,9 @@ const NavContent: React.VFC = () => {
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>
                   <NavItem to="/stake" icon="stake" label={`Stake`} />
-                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
+                  {chain.id === NetworkId.TESTNET_GOERLI && (
+                    <NavItem to="/governance" icon="governance" label={`Governance`} />
+                  )}
                 </>
               )}
               <Box className="menu-divider">

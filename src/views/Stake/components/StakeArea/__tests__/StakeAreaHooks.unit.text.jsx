@@ -17,7 +17,7 @@ beforeEach(async () => {
   useContractAllowance.mockReturnValue({ data: BigNumber.from("10000000000000000000000") });
   useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
-  Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
+  Balance.useBalance = vi.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   render(<StakeInputArea />);
 });
 

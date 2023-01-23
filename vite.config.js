@@ -39,7 +39,7 @@ export default ({ mode }) => {
       ],
     },
     optimizeDeps: {
-      include: ["@emotion/use-insertion-effect-with-fallbacks"],
+      include: ["@emotion/use-insertion-effect-with-fallbacks", "@uiw/react-md-editor > @uiw/react-markdown-preview"],
       esbuildOptions: {
         // Node.js global to browser globalThis
         define: {

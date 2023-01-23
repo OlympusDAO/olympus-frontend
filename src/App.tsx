@@ -33,6 +33,7 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
+import { Governance } from "src/views/Governance/Governance";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -259,6 +260,8 @@ function App() {
                     element={<Wallet open={true} component="wallet" theme={theme} toggleTheme={toggleTheme} />}
                   ></Route>
                   <Route path="*" element={<NotFound />} />
+
+                  <Route path="/governance/*" element={<Governance />} />
                 </Routes>
               </Suspense>
             </div>

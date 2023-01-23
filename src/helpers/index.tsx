@@ -3,6 +3,7 @@ import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
 import { NetworkId } from "src/constants";
 import { OHM_DAI_LP_TOKEN } from "src/constants/tokens";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 /**
@@ -50,6 +51,12 @@ export function formatCurrency(c: number, precision = 0, currency = "USD") {
     minimumFractionDigits: precision,
   }).format(c);
 }
+
+export const formatBalance = (decimals: number, balance?: DecimalBigNumber) => {
+  const zero = new DecimalBigNumber("0");
+  const number = balance ? balance : zero;
+  return number.toString({ decimals, trim: false, format: true });
+};
 
 export function trim(number = 0, precision = 0) {
   // why would number ever be undefined??? what are we trimming?
@@ -115,6 +122,14 @@ export const formatNumber = (number: number, precision = 0) => {
   }).format(number);
 };
 
+/**
+ * trims string to 31 characters max
+ * - bytes32 string must be less than 32 bytes (31 characters)
+ */
+export const stringToBytes32String = (str: string) => {
+  return str.slice(0, 31);
+};
+
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
     NetworkId.ARBITRUM_TESTNET,
@@ -137,4 +152,22 @@ export const isChainEthereum = ({
   if (!includeTestnets) return chainId === NetworkId.MAINNET;
 
   return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_GOERLI;
+};
+
+const isValidIPFSurl = (url: string) => {
+  return ~url?.indexOf("ipfs://") === -1;
+};
+
+export const isValidUrl = (url: string) => {
+  if (isValidIPFSurl(url)) return true;
+  const urlPattern = new RegExp(
+    "^((https)?:\\/\\/)?" + // validate protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i",
+  ); // validate fragment locator
+  return !!urlPattern.test(url);
 };

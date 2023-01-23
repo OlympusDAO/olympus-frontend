@@ -1,6 +1,6 @@
 import { Contract as EthersContract } from "@ethersproject/contracts";
 import { Provider } from "@ethersproject/providers";
-import { Signer } from "ethers";
+import { ethers, Signer } from "ethers";
 import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
@@ -57,13 +57,14 @@ export class Contract<TFactory extends Factory = Factory, TAddressMap extends Ad
    * call the `connect()` method on the returned contract
    *
    * @param networkId The network you want the contract on
+   * @param provider optional custom provider, i.e. for governance where we need archive node
    */
-  getEthersContract = (networkId: keyof TAddressMap) => {
+  getEthersContract = (networkId: keyof TAddressMap, provider?: ethers.providers.Provider) => {
     if (!this._contractCache[networkId]) {
       const address = this.getAddress(networkId);
-      const provider = Providers.getStaticProvider(networkId as NetworkId);
+      const localProvider = provider || Providers.getStaticProvider(networkId as NetworkId);
 
-      this._contractCache[networkId] = this._factory.connect(address, provider) as ReturnType<TFactory["connect"]>;
+      this._contractCache[networkId] = this._factory.connect(address, localProvider) as ReturnType<TFactory["connect"]>;
     }
 
     return this._contractCache[networkId];

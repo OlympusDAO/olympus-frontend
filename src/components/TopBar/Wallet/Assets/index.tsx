@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Balances from "src/components/TopBar/Wallet/Assets/Balances";
 import { TransactionHistory } from "src/components/TopBar/Wallet/Assets/TransactionHistory";
-import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
+import { useFaucet, useGovernanceFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
 import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -29,7 +29,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 const PREFIX = "AssetsIndex";
 
@@ -87,6 +87,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
+  const { address } = useAccount();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
@@ -204,7 +205,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
   const faucetMutation = useFaucet();
-  const isFaucetLoading = faucetMutation.isLoading;
+  const govFaucetMutation = useGovernanceFaucet();
+  const isFaucetLoading = faucetMutation.isLoading || govFaucetMutation.isLoading;
 
   return (
     <StyledFade in={true}>
@@ -255,11 +257,17 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
                   <MenuItem value="sOHM V2">sOHM V2</MenuItem>
                   <MenuItem value="wsOHM">wsOHM</MenuItem>
                   <MenuItem value="gOHM">gOHM</MenuItem>
+                  <MenuItem value="govGOHM">gov-gOHM</MenuItem>
                   <MenuItem value="DAI">DAI</MenuItem>
                   <MenuItem value="ETH">ETH</MenuItem>
                 </Select>
               </FormControl>
-              <SecondaryButton onClick={() => faucetMutation.mutate(faucetToken)}>
+              <SecondaryButton
+                onClick={() =>
+                  faucetToken === "govGOHM" ? govFaucetMutation.mutate() : faucetMutation.mutate(faucetToken)
+                }
+                disabled={!address}
+              >
                 {isFaucetLoading ? "Loading..." : "Get Tokens"}
               </SecondaryButton>
             </Box>

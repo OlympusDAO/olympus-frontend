@@ -54,6 +54,9 @@ beforeEach(() => {
     listen: vi.fn(),
     createHref: vi.fn(),
   }));
+  vi.mock("react-markdown", () => ({}));
+  vi.mock("@uiw/react-markdown-preview", () => ({}));
+  vi.mock("@uiw/react-md-editor", () => ({}));
 
   Object.defineProperty(window, "matchMedia", {
     writable: true,
