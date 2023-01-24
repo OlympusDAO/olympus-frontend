@@ -2117,10 +2117,10 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@ledgerhq/iframe-provider@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/iframe-provider/-/iframe-provider-0.4.2.tgz#2b63892bb3ab9a0719d2b00488be18b176ad6b7e"
-  integrity sha512-RbdwvQow/ITLk0TLb6c3M7y8IyjopIGXhhuUEMjqTU6PZhAL9Gl7TzH8INit9x9cOeG2WCuV+ZbHQ2oWsLfJ+A==
+"@ledgerhq/iframe-provider@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/iframe-provider/-/iframe-provider-0.4.3.tgz#62f680a935b753487df7d8bf48a13952f5456e4e"
+  integrity sha512-T7rSxDMjOnV25QWo3aoWWLytB+VvFcQH5xVkYt7hAhc8qCaK9fnJD5VcmrqwPnyjzXslu7Vz8wUwj9w0CIgp6A==
   dependencies:
     eventemitter3 "^4.0.0"
 
