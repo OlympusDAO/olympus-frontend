@@ -99,7 +99,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.48.2",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-react": "^3.0.1",
     "@vitest/coverage-c8": "^0.28.1",
     "@vitest/ui": "^0.27.0",
     "assert": "^2.0.0",
