@@ -109,7 +109,7 @@ export const getExternalSupply = (records: TokenSupply[]): number => {
  * - minus: OHM in circulating supply wallets
  * - minus: migration offset
  * - minus: pre-minted OHM for bonds
- * - minus: OHM user deposits for vesting bonds
+ * - minus: OHM user deposits for bonds
  *
  * @param records
  * @returns
@@ -121,6 +121,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_OFFSET,
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
   ];
 
   return records
@@ -137,7 +138,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[]): number => {
  * - minus: OHM in circulating supply wallets
  * - minus: migration offset
  * - minus: pre-minted OHM for bonds
- * - minus: OHM user deposits for vesting bonds
+ * - minus: OHM user deposits for bonds
  * - minus: protocol-owned OHM in liquidity pools
  *
  * @param records
@@ -150,6 +151,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_OFFSET,
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
   ];
 
