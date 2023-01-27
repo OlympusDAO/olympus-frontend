@@ -9,6 +9,10 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import {
+  getBondBurnableDepositsSupply,
+  getBondPremintedSupply,
+  getBondVestingDepositsSupply,
+  getBondVestingTokensSupply,
   getExternalSupply,
   getMigrationOffsetSupply,
   getOhmCirculatingSupply,
@@ -16,7 +20,6 @@ import {
   getOhmTotalSupply,
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
-  getVestingBondsSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
 import {
@@ -66,7 +69,10 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     polSupply: number;
     treasurySupply: number;
     migrationOffsetSupply: number;
-    vestingBondSupply: number;
+    bondVestingDeposits: number;
+    bondVestingTokens: number;
+    bondPreminted: number;
+    bondBurnableDeposits: number;
     externalSupply: number;
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
@@ -91,7 +97,10 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         polSupply: getProtocolOwnedLiquiditySupply(dateSupplyValues),
         treasurySupply: getTreasurySupply(dateSupplyValues),
         migrationOffsetSupply: getMigrationOffsetSupply(dateSupplyValues),
-        vestingBondSupply: getVestingBondsSupply(dateSupplyValues),
+        bondVestingDeposits: getBondVestingDepositsSupply(dateSupplyValues),
+        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues),
+        bondPreminted: getBondPremintedSupply(dateSupplyValues),
+        bondBurnableDeposits: getBondBurnableDepositsSupply(dateSupplyValues),
         externalSupply: getExternalSupply(dateSupplyValues),
       };
 
@@ -113,20 +122,26 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
    */
   const dataKeys: string[] = [
     "externalSupply",
+    "bondVestingTokens",
     "polSupply",
     "treasurySupply",
     "migrationOffsetSupply",
-    "vestingBondSupply",
+    "bondPreminted",
+    "bondVestingDeposits",
+    "bondBurnableDeposits",
     "totalSupply",
     "circulatingSupply",
     "floatingSupply",
   ];
   const itemNames: string[] = [
     `External`,
+    `OHM Bonds (Vesting Tokens)`,
     `Protocol-Owned Liquidity`,
     `Treasury`,
     `Migration Offset`,
-    `Vesting Bonds`,
+    `OHM Bonds (Pre-minted)`,
+    `OHM Bonds (Vesting User Deposits)`,
+    `OHM Bonds (Burnable User Deposits)`,
     `Total Supply`,
     `Circulating Supply`,
     `Floating Supply`,

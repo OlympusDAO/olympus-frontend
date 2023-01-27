@@ -3,11 +3,14 @@ import {
   CATEGORY_POL,
   CATEGORY_STABLE,
   CATEGORY_VOLATILE,
+  TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+  TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
+  TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+  TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS,
   TOKEN_SUPPLY_TYPE_LIQUIDITY,
   TOKEN_SUPPLY_TYPE_OFFSET,
-  TOKEN_SUPPLY_TYPE_TOTAL,
+  TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
   TOKEN_SUPPLY_TYPE_TREASURY,
-  TOKEN_SUPPLY_TYPE_VESTING_BONDS,
 } from "src/helpers/subgraph/Constants";
 
 export const getLiquidBackingPerOhmFloating = (liquidBacking: number, tokenSupplies: TokenSupply[]) =>
@@ -41,28 +44,49 @@ export const getTreasuryAssetValue = (
   return filterReduce(records, record => categories.includes(record.category), false);
 };
 
-export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[]): number => {
+/**
+ * Returns the sum of balances for different supply types.
+ *
+ * For example, passing [TOKEN_SUPPLY_TYPE_LIQUIDITY, TOKEN_SUPPLY_TYPE_TREASURY]
+ * in the {includedTypes} parameter will return a number that is
+ * the sum of the balance property all records with matching types.
+ *
+ * @param records
+ * @param includedTypes
+ * @returns
+ */
+export const getTokenSupplyBalanceForTypes = (records: TokenSupply[], includedTypes: string[]): number => {
   return records
-    .filter(record => record.type == TOKEN_SUPPLY_TYPE_LIQUIDITY)
+    .filter(record => includedTypes.includes(record.type))
     .reduce((previousValue, record) => previousValue + +record.balance, 0);
+};
+
+export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LIQUIDITY]);
 };
 
 export const getTreasurySupply = (records: TokenSupply[]): number => {
-  return records
-    .filter(record => record.type == TOKEN_SUPPLY_TYPE_TREASURY)
-    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TREASURY]);
 };
 
 export const getMigrationOffsetSupply = (records: TokenSupply[]): number => {
-  return records
-    .filter(record => record.type == TOKEN_SUPPLY_TYPE_OFFSET)
-    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_OFFSET]);
 };
 
-export const getVestingBondsSupply = (records: TokenSupply[]): number => {
-  return records
-    .filter(record => record.type == TOKEN_SUPPLY_TYPE_VESTING_BONDS)
-    .reduce((previousValue, record) => previousValue + +record.balance, 0);
+export const getBondVestingDepositsSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS]);
+};
+
+export const getBondVestingTokensSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS]);
+};
+
+export const getBondPremintedSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
+};
+
+export const getBondBurnableDepositsSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS]);
 };
 
 export const getExternalSupply = (records: TokenSupply[]): number => {
@@ -71,7 +95,10 @@ export const getExternalSupply = (records: TokenSupply[]): number => {
     getProtocolOwnedLiquiditySupply(records) -
     getTreasurySupply(records) -
     getMigrationOffsetSupply(records) -
-    getVestingBondsSupply(records)
+    getBondVestingDepositsSupply(records) -
+    getBondVestingTokensSupply(records) -
+    getBondPremintedSupply(records) -
+    getBondBurnableDepositsSupply(records)
   );
 };
 
@@ -81,35 +108,56 @@ export const getExternalSupply = (records: TokenSupply[]): number => {
  *
  * Circulating supply is defined as:
  * - OHM total supply
- * - minus: OHM in treasury wallets
+ * - minus: OHM in circulating supply wallets
  * - minus: migration offset
- *
- * In practice, this is everything except OHM in liquidity pools.
+ * - minus: pre-minted OHM for bonds
+ * - minus: OHM user deposits for vesting bonds
  *
  * @param records
  * @returns
  */
 export const getOhmCirculatingSupply = (records: TokenSupply[]): number => {
+  const includedTypes = [
+    TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
+    TOKEN_SUPPLY_TYPE_TREASURY,
+    TOKEN_SUPPLY_TYPE_OFFSET,
+    TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
+    TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+  ];
+
   return records
-    .filter(record => record.type !== TOKEN_SUPPLY_TYPE_LIQUIDITY)
+    .filter(record => includedTypes.includes(record.type))
     .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
 };
 
 /**
  * For a given array of TokenSupply records (assumed to be at the same point in time),
- * this function returns the OHM circulating supply.
+ * this function returns the OHM floating supply.
  *
- * Circulating supply is defined as:
+ * Floating supply is defined as:
  * - OHM total supply
- * - minus: OHM in treasury wallets
+ * - minus: OHM in circulating supply wallets
  * - minus: migration offset
- * - minus: OHM in liquidity pools
+ * - minus: pre-minted OHM for bonds
+ * - minus: OHM user deposits for vesting bonds
+ * - minus: protocol-owned OHM in liquidity pools
  *
  * @param records
  * @returns
  */
 export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
-  return records.reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+  const includedTypes = [
+    TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
+    TOKEN_SUPPLY_TYPE_TREASURY,
+    TOKEN_SUPPLY_TYPE_OFFSET,
+    TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
+    TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_LIQUIDITY,
+  ];
+
+  return records
+    .filter(record => includedTypes.includes(record.type))
+    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
 };
 
 /**
@@ -121,7 +169,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
  */
 export const getOhmTotalSupply = (records: TokenSupply[]): number => {
   return records
-    .filter(record => record.type === TOKEN_SUPPLY_TYPE_TOTAL)
+    .filter(record => record.type === TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY)
     .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
 };
 
