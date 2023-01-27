@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, utcToZonedTime } from "date-fns-tz";
 import { CSSProperties, useMemo, useState } from "react";
 import {
   Area,
@@ -81,7 +81,10 @@ export const formatDateMonthTick = (value: unknown): string => {
 
   if (!valueNum) return "";
 
-  return format(new Date(valueNum), "MMM dd");
+  const date = new Date(valueNum);
+
+  // A little convoluted in order to get this into UTC: https://www.npmjs.com/package/date-fns-tz#low-level-formatting-helpers
+  return format(utcToZonedTime(date, "UTC"), "MMM dd", { timeZone: "UTC" });
 };
 
 const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
