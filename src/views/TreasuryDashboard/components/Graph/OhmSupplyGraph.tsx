@@ -9,9 +9,8 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import {
-  getBondBurnableDepositsSupply,
+  getBondDepositsSupply,
   getBondPremintedSupply,
-  getBondVestingDepositsSupply,
   getBondVestingTokensSupply,
   getExternalSupply,
   getMigrationOffsetSupply,
@@ -69,10 +68,9 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     polSupply: number;
     treasurySupply: number;
     migrationOffsetSupply: number;
-    bondVestingDeposits: number;
+    bondDeposits: number;
     bondVestingTokens: number;
     bondPreminted: number;
-    bondBurnableDeposits: number;
     externalSupply: number;
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
@@ -97,10 +95,9 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         polSupply: getProtocolOwnedLiquiditySupply(dateSupplyValues),
         treasurySupply: getTreasurySupply(dateSupplyValues),
         migrationOffsetSupply: getMigrationOffsetSupply(dateSupplyValues),
-        bondVestingDeposits: getBondVestingDepositsSupply(dateSupplyValues),
+        bondDeposits: getBondDepositsSupply(dateSupplyValues),
         bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues),
         bondPreminted: getBondPremintedSupply(dateSupplyValues),
-        bondBurnableDeposits: getBondBurnableDepositsSupply(dateSupplyValues),
         externalSupply: getExternalSupply(dateSupplyValues),
       };
 
@@ -127,8 +124,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     "treasurySupply",
     "migrationOffsetSupply",
     "bondPreminted",
-    "bondVestingDeposits",
-    "bondBurnableDeposits",
+    "bondDeposits",
     "totalSupply",
     "circulatingSupply",
     "floatingSupply",
@@ -140,8 +136,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     `Treasury`,
     `Migration Offset`,
     `OHM Bonds (Pre-minted)`,
-    `OHM Bonds (Vesting User Deposits)`,
-    `OHM Bonds (Burnable User Deposits)`,
+    `OHM Bonds (User Deposits)`,
     `Total Supply`,
     `Circulating Supply`,
     `Floating Supply`,

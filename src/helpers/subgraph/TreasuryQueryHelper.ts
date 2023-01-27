@@ -73,8 +73,11 @@ export const getMigrationOffsetSupply = (records: TokenSupply[]): number => {
   return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_OFFSET]);
 };
 
-export const getBondVestingDepositsSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS]);
+export const getBondDepositsSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [
+    TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+  ]);
 };
 
 export const getBondVestingTokensSupply = (records: TokenSupply[]): number => {
@@ -85,20 +88,15 @@ export const getBondPremintedSupply = (records: TokenSupply[]): number => {
   return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
 };
 
-export const getBondBurnableDepositsSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS]);
-};
-
 export const getExternalSupply = (records: TokenSupply[]): number => {
   return (
     getOhmTotalSupply(records) -
     getProtocolOwnedLiquiditySupply(records) -
     getTreasurySupply(records) -
     getMigrationOffsetSupply(records) -
-    getBondVestingDepositsSupply(records) -
+    getBondDepositsSupply(records) -
     getBondVestingTokensSupply(records) -
-    getBondPremintedSupply(records) -
-    getBondBurnableDepositsSupply(records)
+    getBondPremintedSupply(records)
   );
 };
 
