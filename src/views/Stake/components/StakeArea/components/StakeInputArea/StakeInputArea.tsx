@@ -20,11 +20,16 @@ import {
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { prettifySeconds } from "src/helpers/timeUtil";
 import { useBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import {
+  useNextRebaseDate,
+  useNextWarmupDate,
+} from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 import TokenModal, {
   ModalHandleSelectProps,
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
@@ -241,6 +246,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   /** only appears if action is STAKE */
   const AcknowledgeWarmupCheckbox = () => {
+    const { data: warmupDate } = useNextWarmupDate();
+    const { data: rebaseDate } = useNextRebaseDate();
     return (
       <>
         {currentAction === "STAKE" && (
@@ -253,7 +260,15 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
               />
             }
-            label={`I understand the gOHM I’m staking will only be available to claim 2 epochs after my transaction is confirmed.`}
+            label={`I understand the OHM I’m staking will only be available to claim 2 epochs after my transaction is confirmed${
+              !!warmupDate && !!rebaseDate
+                ? `: ${prettifySeconds(
+                    (warmupDate.getTime() - new Date().getTime()) / 1000,
+                  )} from now if transaction is confirmed on-chain within ${prettifySeconds(
+                    (rebaseDate.getTime() - new Date().getTime()) / 1000,
+                  )}`
+                : ``
+            }`}
           />
         )}
       </>

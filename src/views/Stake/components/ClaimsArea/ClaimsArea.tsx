@@ -46,7 +46,7 @@ export const ClaimsArea = () => {
   const { data: claim } = useWarmupClaim();
   const { data: warmupDate } = useNextWarmupDate();
 
-  // if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
+  if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
 
   return (
     <>
