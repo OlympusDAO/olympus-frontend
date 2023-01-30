@@ -16,8 +16,8 @@ export interface IWarmupGons {
 }
 
 export interface IWarmupBalances extends IWarmupGons {
-  sohm: BigNumberish; // staked balance
-  gohm: BigNumberish; // staked balance
+  sohm: DecimalBigNumber; // staked balance
+  gohm: DecimalBigNumber; // staked balance
 }
 
 export const useWarmupClaim = () => {
@@ -35,8 +35,8 @@ export const useWarmupClaim = () => {
       gons: warmupClaim.gons,
       expiry: warmupClaim.expiry,
       lock: warmupClaim.lock,
-      sohm: sOHMBalance,
-      gohm: gOHMBalance,
+      sohm: new DecimalBigNumber(sOHMBalance, 9),
+      gohm: new DecimalBigNumber(gOHMBalance, 18),
     };
 
     // return new DecimalBigNumber(warmupClaim, 9);

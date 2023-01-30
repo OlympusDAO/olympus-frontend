@@ -19,7 +19,7 @@ const DECIMAL_PLACES_SHOWN = 4;
 const hasVisibleBalance = (balance?: DecimalBigNumber) =>
   balance && balance.toApproxNumber() > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
 
-const formatBalance = (balance?: DecimalBigNumber) =>
+export const formatBalance = (balance?: DecimalBigNumber) =>
   balance?.toString({ decimals: DECIMAL_PLACES_SHOWN, trim: false, format: true });
 
 export const StakeBalances = () => {
