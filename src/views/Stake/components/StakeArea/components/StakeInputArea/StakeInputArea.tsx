@@ -1,4 +1,5 @@
-import { Avatar, Box, Link, Tab, Tabs } from "@mui/material";
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
+import { Avatar, Box, Checkbox, FormControlLabel, Link, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   InfoNotification,
@@ -88,6 +89,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const wrapMutation = useWrapSohm();
 
   const fromToken = currentAction === "STAKE" ? swapAssetType.name : stakedAssetType.name;
+
+  // acknowledge warmup
+  const [acknowledgedWarmup, setAcknowledgedWarmup] = useState(false);
 
   // Max balance stuff
   const [amount, setAmount] = useState("");
@@ -235,6 +239,27 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     );
   };
 
+  /** only appears if action is STAKE */
+  const AcknowledgeWarmupCheckbox = () => {
+    return (
+      <>
+        {currentAction === "STAKE" && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={acknowledgedWarmup}
+                onChange={event => setAcknowledgedWarmup(event.target.checked)}
+                icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+              />
+            }
+            label={`I understand the gOHM I’m staking will only be available to claim 2 epochs after my transaction is confirmed.`}
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <StyledBox mb={3}>
       <Tabs
@@ -338,29 +363,38 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 isVertical
               >
                 {contractRouting === "Stake" && (
-                  <PrimaryButton
-                    data-testid="submit-button"
-                    loading={isMutating}
-                    fullWidth
-                    disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
-                    onClick={() =>
-                      currentAction === "STAKE"
-                        ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
-                        : unstakeMutation.mutate(amount)
-                    }
-                  >
-                    {amountExceedsBalance
-                      ? "Amount exceeds balance"
-                      : !amount || parseFloat(amount) === 0
-                      ? "Enter an amount"
-                      : currentAction === "STAKE"
-                      ? isMutating
-                        ? "Confirming Staking in your wallet"
-                        : "Stake"
-                      : isMutating
-                      ? "Confirming Unstaking in your wallet "
-                      : "Unstake"}
-                  </PrimaryButton>
+                  <>
+                    <AcknowledgeWarmupCheckbox />
+                    <PrimaryButton
+                      data-testid="submit-button"
+                      loading={isMutating}
+                      fullWidth
+                      disabled={
+                        isMutating ||
+                        !amount ||
+                        amountExceedsBalance ||
+                        parseFloat(amount) === 0 ||
+                        (currentAction === "STAKE" && !acknowledgedWarmup)
+                      }
+                      onClick={() =>
+                        currentAction === "STAKE"
+                          ? stakeMutation.mutate({ amount, toToken: stakedAssetType.name })
+                          : unstakeMutation.mutate(amount)
+                      }
+                    >
+                      {amountExceedsBalance
+                        ? "Amount exceeds balance"
+                        : !amount || parseFloat(amount) === 0
+                        ? "Enter an amount"
+                        : currentAction === "STAKE"
+                        ? isMutating
+                          ? "Confirming Staking in your wallet"
+                          : "Stake"
+                        : isMutating
+                        ? "Confirming Unstaking in your wallet "
+                        : "Unstake"}
+                    </PrimaryButton>
+                  </>
                 )}
 
                 {contractRouting === "Wrap" && (
@@ -385,25 +419,29 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   </PrimaryButton>
                 )}
                 {contractRouting === "Zap" && (
-                  <PrimaryButton
-                    fullWidth
-                    disabled={
-                      zapExecute.isLoading ||
-                      zapOutputAmount === "" ||
-                      (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
-                      import.meta.env.VITE_DISABLE_ZAPS ||
-                      parseFloat(amount) === 0
-                    }
-                    onClick={onZap}
-                  >
-                    <Box display="flex" flexDirection="row" alignItems="center">
-                      {zapOutputAmount === ""
-                        ? "Enter an amount"
-                        : +zapOutputAmount >= 0.5 || stakedAssetType.name == "gOHM"
-                        ? "Zap-Stake"
-                        : "Minimum Output Amount: 0.5 sOHM"}
-                    </Box>
-                  </PrimaryButton>
+                  <>
+                    <AcknowledgeWarmupCheckbox />
+                    <PrimaryButton
+                      fullWidth
+                      disabled={
+                        zapExecute.isLoading ||
+                        zapOutputAmount === "" ||
+                        (+zapOutputAmount < 0.5 && stakedAssetType.name !== "gOHM") ||
+                        import.meta.env.VITE_DISABLE_ZAPS ||
+                        parseFloat(amount) === 0 ||
+                        (currentAction === "STAKE" && !acknowledgedWarmup)
+                      }
+                      onClick={onZap}
+                    >
+                      <Box display="flex" flexDirection="row" alignItems="center">
+                        {zapOutputAmount === ""
+                          ? "Enter an amount"
+                          : +zapOutputAmount >= 0.5 || stakedAssetType.name == "gOHM"
+                          ? "Zap-Stake"
+                          : "Minimum Output Amount: 0.5 sOHM"}
+                      </Box>
+                    </PrimaryButton>
+                  </>
                 )}
               </TokenAllowanceGuard>
             </WalletConnectedGuard>
