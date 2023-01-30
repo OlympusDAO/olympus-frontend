@@ -4,7 +4,7 @@ import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { useStaticStakingContract } from "src/hooks/useContract";
-import { useEpochLength, useWarmupPeriod } from "src/hooks/useWarmupInfo";
+import { useEpoch, useWarmupPeriod } from "src/hooks/useWarmupInfo";
 
 export const useNextRebaseDate = () => {
   const { data: secondsToRebase, isSuccess } = useNextRebase();
@@ -21,11 +21,11 @@ export const useNextRebaseDate = () => {
 export const useNextWarmupDate = () => {
   const { data: secondsToRebase, isSuccess: rebaseSuccess } = useNextRebase();
   const { data: warmupEpochs, isSuccess: warmupSuccess } = useWarmupPeriod();
-  const { data: epochLength, isSuccess: epochSuccess } = useEpochLength();
+  const { data: epoch, isSuccess: epochSuccess } = useEpoch();
   const isSuccess = rebaseSuccess && warmupSuccess && epochSuccess;
 
   const parsedSeconds = parseBigNumber(secondsToRebase || BigNumber.from("0"), 0);
-  const epochLengthSeconds = parseBigNumber(epochLength?.toBigNumber() || BigNumber.from("0"), 0);
+  const epochLengthSeconds = parseBigNumber(epoch?.length.toBigNumber() || BigNumber.from("0"), 0);
   const warmupLength = parseBigNumber(warmupEpochs?.toBigNumber() || BigNumber.from("0"), 0);
 
   // secondsRemainingInThisEpoch + (epochLenghInSeconds * numberOfEpochsInWarmup)

@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { prettifySeconds } from "src/helpers/timeUtil";
-import { IWarmupBalances, useWarmupClaim } from "src/hooks/useWarmupInfo";
+import { IWarmupBalances, useEpoch, useWarmupClaim } from "src/hooks/useWarmupInfo";
 import { useNextWarmupDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { useClaimToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useClaimToken";
@@ -64,11 +64,12 @@ export const ClaimsArea = () => {
           <Table>
             <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
-                <TableCell style={{ width: "250px", padding: "8px 0" }}>Asset</TableCell>
+                <TableCell style={{ width: "200px", padding: "8px 0" }}>Asset</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>Amount</TableCell>
+                <TableCell style={{ width: "200px", padding: "8px 0" }}>Amount</TableCell>
 
-                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>Claimable In</TableCell>
+                <TableCell style={{ width: "150px", padding: "8px 0" }}>Claimable In</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </StyledTableHeader>
             <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} />
@@ -99,8 +100,6 @@ const ActiveClaims = ({
 
 const ClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?: Date }) => {
   const { isConnected } = useAccount();
-  const claimMutation = useClaimToken();
-  const forfeitMutation = useForfeitToken();
   // const userBalances = useStakePoolBalance(props.pool);
   // const userBalance = userBalances[props.pool.networkID].data;
   // const ToolTipContent = () => (
@@ -113,7 +112,7 @@ const ClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?
   // );
   return (
     <TableRow>
-      <TableCell style={{ padding: "8px 0" }}>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <Token key={"gOHM"} name={"gOHM"} />
           <Box marginLeft="14px" marginRight="10px">
@@ -122,12 +121,12 @@ const ClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?
           {/* <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} /> */}
         </Box>
       </TableCell>
-      <TableCell style={{ padding: "8px 0" }}>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {!claim?.gohm ? <Skeleton width={60} /> : `${formatBalance(claim?.gohm)} gOHM`}
         </Typography>
       </TableCell>
-      <TableCell style={{ padding: "8px 0" }}>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {!warmupDate ? (
             <Skeleton width={60} />
@@ -138,22 +137,7 @@ const ClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
-        <SecondaryButton
-          loading={forfeitMutation.isLoading}
-          className=""
-          onClick={() => forfeitMutation.mutate()}
-          disabled={forfeitMutation.isLoading}
-        >
-          {forfeitMutation.isLoading ? `Forfeiting` : `Forfeit`}
-        </SecondaryButton>
-        <PrimaryButton
-          loading={claimMutation.isLoading}
-          className=""
-          onClick={() => claimMutation.mutate({ toToken: "gOHM" })}
-          disabled={claimMutation.isLoading}
-        >
-          {claimMutation.isLoading ? `Claiming` : `Claim`}
-        </PrimaryButton>
+        <ActionButtons />
       </TableCell>
     </TableRow>
   );
@@ -162,8 +146,7 @@ const ClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?
 const MobileClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmupDate?: Date }) => {
   // const userBalances = useStakePoolBalance(props.pool);
   // const userBalance = userBalances[props.pool.networkID].data;
-  const claimMutation = useClaimToken();
-  const forfeitMutation = useForfeitToken();
+
   return (
     <Box mt="42px">
       {/* StyledPoolInfo */}
@@ -186,19 +169,35 @@ const MobileClaimInfo = ({ claim, warmupDate }: { claim?: IWarmupBalances; warmu
         balance={warmupDate ? `${prettifySeconds((warmupDate.getTime() - new Date().getTime()) / 1000)}` : undefined}
       />
 
+      <ActionButtons />
+    </Box>
+  );
+};
+
+const ActionButtons = () => {
+  const { data: claim } = useWarmupClaim();
+  const claimMutation = useClaimToken();
+  const forfeitMutation = useForfeitToken();
+  const { data: epoch } = useEpoch();
+
+  const isClaimable =
+    (claim?.expiry && epoch?.number && epoch?.number.toBigNumber().gte(claim?.expiry) && claim?.expiry.eq(0)) || false;
+  const isForfeitable = !isClaimable;
+  return (
+    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
       <SecondaryButton
         loading={forfeitMutation.isLoading}
-        className=""
+        sx={{ flexGrow: 1 }}
         onClick={() => forfeitMutation.mutate()}
-        disabled={forfeitMutation.isLoading}
+        disabled={forfeitMutation.isLoading || !isForfeitable}
       >
         {forfeitMutation.isLoading ? `Forfeiting` : `Forfeit`}
       </SecondaryButton>
       <PrimaryButton
         loading={claimMutation.isLoading}
-        className=""
+        sx={{ flexGrow: 1 }}
         onClick={() => claimMutation.mutate({ toToken: "gOHM" })}
-        disabled={claimMutation.isLoading}
+        disabled={claimMutation.isLoading || !isClaimable}
       >
         {claimMutation.isLoading ? `Claiming` : `Claim`}
       </PrimaryButton>

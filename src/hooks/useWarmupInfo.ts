@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumberish } from "ethers";
+import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -9,9 +9,9 @@ import { useAccount } from "wagmi";
 export const warmupQueryKey = (address?: string) => ["useWarmupClaim", address];
 
 export interface IWarmupGons {
-  deposit: BigNumberish; // if forfeiting
-  gons: BigNumberish; // staked balance
-  expiry: BigNumberish; // end of warmup period (epoch #)
+  deposit: BigNumber; // if forfeiting, ohm quantity
+  gons: BigNumber; // staked balance
+  expiry: BigNumber; // end of warmup period (epoch #)
   lock: boolean; // prevents malicious delays for claim
 }
 
@@ -57,17 +57,26 @@ export const useWarmupPeriod = () => {
   });
 };
 
+export interface IEpoch {
+  length: DecimalBigNumber;
+  number: DecimalBigNumber;
+  end: DecimalBigNumber;
+}
 /**
- * warmupPeriod in # of epochs
+ * length - warmupPeriod in # of epochs
+ * number - current epoch number
  */
-export const useEpochLength = () => {
+export const useEpoch = () => {
   const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
-  return useQuery<DecimalBigNumber, Error>(["epochLength"], async () => {
+  return useQuery<IEpoch, Error>(["epoch"], async () => {
     const epoch = await stakingContract.epoch();
-    const length = epoch.length;
 
-    return new DecimalBigNumber(length, 0);
+    return {
+      length: new DecimalBigNumber(epoch.length, 0),
+      number: new DecimalBigNumber(epoch.number, 0),
+      end: new DecimalBigNumber(epoch.end, 0),
+    };
   });
 };
 
