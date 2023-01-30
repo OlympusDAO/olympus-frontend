@@ -131,7 +131,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   ];
   const itemNames: string[] = [
     `External`,
-    `OHM Bonds (Vesting Tokens)`,
+    `OHM Bonds (Vesting)`,
     `Protocol-Owned Liquidity`,
     `Treasury`,
     `Migration Offset`,
