@@ -254,6 +254,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           <FormControlLabel
             control={
               <Checkbox
+                data-testid="acknowledge-warmup"
                 checked={acknowledgedWarmup}
                 onChange={event => setAcknowledgedWarmup(event.target.checked)}
                 icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
