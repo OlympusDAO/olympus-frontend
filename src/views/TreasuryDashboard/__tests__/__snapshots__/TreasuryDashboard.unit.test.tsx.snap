@@ -1528,6 +1528,166 @@ exports[`<TreasuryDashboard/> > should render component 1`] = `
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
                 <div
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-411pid-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-p6fi3e-MuiGrid-root"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 css-1a0tq7v-MuiTypography-root"
+                        >
+                          OHM Supply
+                        </h6>
+                        <div
+                          class="MuiBox-root css-0"
+                          style="display: inline-flex; justify-content: center; align-self: center;"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1b8e8sl-MuiSvgIcon-root"
+                            focusable="false"
+                            style="margin: 0px 5px; font-size: 1em;"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-1c16yah-MuiGrid-root"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-x7kx7a-MuiGrid-root"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                          >
+                            <a
+                              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-wl2u8x-MuiTypography-root-MuiLink-root"
+                              href="https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics/graphql?query=%0A%20%20%20%20query%20TokenSupplies(%24recordCount%3A%20Int!%2C%20%24startingRecord%3A%20Int%20%3D%200%2C%20%24filter%3A%20TokenSupply_filter%2C%20%24endpoint%3A%20String!)%20%7B%0A%20%20tokenSupplies(%0A%20%20%20%20first%3A%20%24recordCount%0A%20%20%20%20skip%3A%20%24startingRecord%0A%20%20%20%20where%3A%20%24filter%0A%20%20%20%20orderBy%3A%20date%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20balance%0A%20%20%20%20block%0A%20%20%20%20date%0A%20%20%20%20pool%0A%20%20%20%20poolAddress%0A%20%20%20%20source%0A%20%20%20%20sourceAddress%0A%20%20%20%20supplyBalance%0A%20%20%20%20timestamp%0A%20%20%20%20token%0A%20%20%20%20tokenAddress%0A%20%20%20%20type%0A%20%20%7D%0A%7D%0A%20%20%20%20"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div
+                                class="MuiBox-root css-0"
+                                style="display: inline-flex; justify-content: center; align-self: center;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1szvxe0-MuiSvgIcon-root"
+                                  focusable="false"
+                                  id="GRT"
+                                  style="width: 16px; height: 16px;"
+                                  viewBox="0 0 100 100"
+                                  x="0px"
+                                  xml:space="preserve"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                                  y="0px"
+                                >
+                                  <style
+                                    type="text/css"
+                                  >
+                                    
+	.st0{fill:#6747ED;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+
+                                  </style>
+                                  <circle
+                                    class="st0"
+                                    cx="48"
+                                    cy="48"
+                                    r="48"
+                                  />
+                                  <g
+                                    id="Symbols"
+                                  >
+                                    <g
+                                      transform="translate(-88.000000, -52.000000)"
+                                    >
+                                      <path
+                                        class="st1"
+                                        d="M135.3,106.2c-7.1,0-12.8-5.7-12.8-12.8c0-7.1,5.7-12.8,12.8-12.8c7.1,0,12.8,5.7,12.8,12.8 C148.1,100.5,142.4,106.2,135.3,106.2 M135.3,74.2c10.6,0,19.2,8.6,19.2,19.2s-8.6,19.2-19.2,19.2c-10.6,0-19.2-8.6-19.2-19.2 S124.7,74.2,135.3,74.2z M153.6,113.6c1.3,1.3,1.3,3.3,0,4.5l-12.8,12.8c-1.3,1.3-3.3,1.3-4.5,0c-1.3-1.3-1.3-3.3,0-4.5l12.8-12.8 C150.3,112.3,152.4,112.3,153.6,113.6z M161,77.4c0,1.8-1.4,3.2-3.2,3.2c-1.8,0-3.2-1.4-3.2-3.2s1.4-3.2,3.2-3.2 C159.5,74.2,161,75.6,161,77.4z"
+                                        id="Fill-19"
+                                      />
+                                    </g>
+                                  </g>
+                                </svg>
+                              </div>
+                            </a>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                          >
+                            <div
+                              class="MuiBox-root css-0"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1hbykvk-MuiSvgIcon-root"
+                                fill="none"
+                                focusable="false"
+                                height="17"
+                                style="font-size: 1rem; cursor: pointer;"
+                                viewBox="0 0 20 20"
+                                width="18"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9 16.5312C13.4766 16.5312 17.1641 12.8359 17.1641 8.35938C17.1641 3.88281 13.4688 0.195312 9 0.195312C4.52344 0.195312 0.835938 3.88281 0.835938 8.35938C0.835938 12.8359 4.52344 16.5312 9 16.5312ZM11.5391 10.6016C11.0859 10.6016 10.7969 10.2812 10.7969 9.78125V8.57812L10.9062 7.49219L9.88281 8.63281L7.17188 11.3359C6.99219 11.5234 6.78125 11.6016 6.53125 11.6016C6.07031 11.6016 5.71094 11.2734 5.71094 10.7812C5.71094 10.5625 5.8125 10.3359 5.97656 10.1719L8.70312 7.45312L9.85156 6.42188L8.82031 6.54688H7.53906C7.03906 6.54688 6.71875 6.25781 6.71875 5.80469C6.71875 5.35156 7.03906 5.0625 7.53906 5.0625H11.3125C11.9141 5.0625 12.2812 5.38281 12.2812 6.01562V9.77344C12.2812 10.2656 11.9922 10.6016 11.5391 10.6016Z"
+                                  fill="#768299"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
+                    >
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
+                        style="width: 100px;"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-13 css-12ijgm9-MuiGrid-root"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-16gucqp-MuiSkeleton-root"
+                      style="width: 100%; height: 400px;"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-49904w-MuiGrid-root"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-1ngkk3s-MuiPaper-root"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <div
                   class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                 >
                   <div
