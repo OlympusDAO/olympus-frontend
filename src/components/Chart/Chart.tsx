@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, utcToZonedTime } from "date-fns-tz";
 import { CSSProperties, useMemo, useState } from "react";
 import {
   Area,
@@ -24,7 +24,7 @@ import {
   getIntersectionColor,
   RANGE_KEY,
 } from "src/components/Chart/IntersectionHelper";
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
 import { getMaximumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
@@ -52,6 +52,22 @@ export const formatCurrencyTick = (value: unknown): string => {
   return formatCurrency(valueNum, 2);
 };
 
+export const formatNumberTick = (value: unknown): string => {
+  const valueNum: number = getFloat(value);
+
+  if (!valueNum) return "";
+
+  if (valueNum > 1000000) {
+    return `${formatNumber(valueNum / 1000000)}M`;
+  }
+
+  if (valueNum > 1000) {
+    return `${formatNumber(valueNum / 1000)}k`;
+  }
+
+  return formatNumber(valueNum, 2);
+};
+
 export const formatPercentTick = (value: unknown): string => {
   const valueNum: number = getFloat(value);
 
@@ -65,7 +81,10 @@ export const formatDateMonthTick = (value: unknown): string => {
 
   if (!valueNum) return "";
 
-  return format(new Date(valueNum), "MMM dd");
+  const date = new Date(valueNum);
+
+  // A little convoluted in order to get this into UTC: https://www.npmjs.com/package/date-fns-tz#low-level-formatting-helpers
+  return format(utcToZonedTime(date, "UTC"), "MMM dd", { timeZone: "UTC" });
 };
 
 const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
@@ -74,6 +93,8 @@ const getTickFormatter = (dataFormat: DataFormat, value: unknown): string => {
   if (dataFormat == DataFormat.Percentage) return formatPercentTick(value);
 
   if (dataFormat == DataFormat.DateMonth) return formatDateMonthTick(value);
+
+  if (dataFormat == DataFormat.Number) return formatNumberTick(value);
 
   return "";
 };
@@ -180,7 +201,7 @@ const renderStackedAreaChart = (
         return (
           <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
-            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.5} />
           </linearGradient>
         );
       })}
@@ -258,7 +279,7 @@ const renderComposedChart = (
         return (
           <linearGradient key={value} id={getValidCSSSelector(value, isExpanded)} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={dataKeyColors.get(value)} stopOpacity={1} />
-            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.2} />
+            <stop offset="100%" stopColor={dataKeyColors.get(value)} stopOpacity={0.5} />
           </linearGradient>
         );
       })}

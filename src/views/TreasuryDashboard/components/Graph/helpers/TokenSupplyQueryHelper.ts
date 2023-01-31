@@ -113,3 +113,15 @@ export const getTokenSupplyDateMap = (tokenRecords: TokenSupply[], latestOnly = 
 
   return dateTokenRecords;
 };
+
+export const getLatestTimestamp = (records: TokenSupply[]): number => {
+  return (
+    records.reduce((previousValue: number, currentValue: TokenSupply) => {
+      if (previousValue == -1) return currentValue.timestamp;
+
+      if (currentValue.timestamp > previousValue) return currentValue.timestamp;
+
+      return previousValue;
+    }, -1) * 1000 // To convert from second to millisecond accuracy
+  );
+};
