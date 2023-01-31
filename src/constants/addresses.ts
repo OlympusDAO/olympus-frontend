@@ -191,5 +191,5 @@ export const V1_STAKING_ADDRESSES = {
 
 export const LIQUIDITY_REGISTRY_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "",
+  [NetworkId.TESTNET_GOERLI]: "0x8EcCbA1fDbD20cfC59E2F287B199c0E72BBC4A64",
 };
