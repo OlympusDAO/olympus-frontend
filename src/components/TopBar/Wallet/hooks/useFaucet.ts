@@ -60,7 +60,7 @@ export const useGovernanceFaucet = () => {
     async () => {
       if (!chain || chain.id !== 5) throw new Error("Faucet is only supported on Goerli");
       if (!contract)
-        throw new Error(t`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
+        throw new Error(`Faucet is not supported on this network. Please switch to Goerli Testnet to use the faucet`);
       if (!signer) throw new Error("Signer is not set");
       if (!address) throw new Error("Wallet is not connected");
 
@@ -73,7 +73,7 @@ export const useGovernanceFaucet = () => {
         toast.error("error" in error ? error.error.message : error.message);
       },
       onSuccess: async () => {
-        toast.success(t`Successfully requested 1000 governance gOHM from Faucet`);
+        toast.success(`Successfully requested 1000 governance gOHM from Faucet`);
       },
     },
   );

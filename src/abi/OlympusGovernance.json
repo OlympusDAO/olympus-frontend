@@ -37,6 +37,11 @@
             "type": "error"
         },
         {
+            "inputs": [],
+            "name": "GovernanceDisabled",
+            "type": "error"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -50,6 +55,11 @@
         {
             "inputs": [],
             "name": "NotAuthorized",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotEnoughVoteSupply",
             "type": "error"
         },
         {
@@ -85,6 +95,11 @@
         },
         {
             "inputs": [],
+            "name": "ProposalDisabled",
+            "type": "error"
+        },
+        {
+            "inputs": [],
             "name": "ProposalIsNotActive",
             "type": "error"
         },
@@ -101,6 +116,11 @@
         {
             "inputs": [],
             "name": "UserAlreadyVoted",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "UserHasNoVotes",
             "type": "error"
         },
         {
@@ -157,31 +177,6 @@
                 }
             ],
             "name": "ProposalExecuted",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "proposalId",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "voter",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "ProposalRegistered",
             "type": "event"
         },
         {
@@ -346,10 +341,49 @@
         },
         {
             "inputs": [],
+            "name": "GOVERNANCE_DISABLED",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
             "name": "INSTR",
             "outputs": [
                 {
                     "internalType": "contract INSTRv1",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "MINIMUM_VOTES_THRESHOLD",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "ROLES",
+            "outputs": [
+                {
+                    "internalType": "contract ROLESv1",
                     "name": "",
                     "type": "address"
                 }
@@ -460,6 +494,33 @@
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "disableGovernance",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "proposalId_",
+                    "type": "uint256"
+                }
+            ],
+            "name": "disableProposal",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "enableGovernance",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "uint256",
@@ -525,6 +586,11 @@
                 {
                     "internalType": "bool",
                     "name": "isCollateralReturned",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "isDisabled",
                     "type": "bool"
                 }
             ],
@@ -593,19 +659,6 @@
                 }
             ],
             "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bool",
-                    "name": "activate_",
-                    "type": "bool"
-                }
-            ],
-            "name": "setActiveStatus",
-            "outputs": [],
-            "stateMutability": "nonpayable",
             "type": "function"
         },
         {

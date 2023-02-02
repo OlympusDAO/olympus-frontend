@@ -18,7 +18,7 @@
         },
         {
             "inputs": [],
-            "name": "INSTR_InvalidChangeExecutorAction",
+            "name": "INSTR_InvalidAction",
             "type": "error"
         },
         {
