@@ -89,14 +89,14 @@ const UserVote = ({ proposalId, voterAddress }: { proposalId: number; voterAddre
     <>
       {isLoadingVoteValue && (
         <Skeleton>
-          <Metric label={`Your have previously voted on this proposal with `} metric={`1 gOHM`} />
+          <Metric label={`Your have previously voted on this proposal with `} metric={`1 vOHM`} />
         </Skeleton>
       )}
       {voteValue && (
         <>
           <Metric
             label={`You have previously voted on this proposal with `}
-            metric={`${formatBalance(2, voteValue)} gOHM`}
+            metric={`${formatBalance(2, voteValue)} vOHM`}
           />
         </>
       )}
