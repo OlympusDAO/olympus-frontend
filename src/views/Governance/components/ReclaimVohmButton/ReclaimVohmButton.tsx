@@ -18,7 +18,7 @@ const ReclaimVohmButton = ({ proposal }: ProposalTabProps) => {
           disabled={Date.now() < proposal.collateralClaimableAt}
           onClick={() => reclaimCollateral.mutate(proposal.id)}
         >
-          {`Claim Your vOHM on or after ${proposalDateFormat.format(proposal.collateralClaimableAt)}`}
+          {`Claim Your gOHM on or after ${proposalDateFormat.format(proposal.collateralClaimableAt)}`}
         </TertiaryButton>
       )}
     </>

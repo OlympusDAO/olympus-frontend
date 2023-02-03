@@ -172,7 +172,9 @@ export const useSubmitProposal = () => {
   return useMutation<any, Error, { proposal: ISubmitProposal }>(
     async ({ proposal }: { proposal: ISubmitProposal }) => {
       if (!signer) throw new Error(`Signer is not set`);
-
+      console.log("proposalInstructions", proposal.instructions);
+      console.log("name", ethers.utils.formatBytes32String(stringToBytes32String(proposal.name)));
+      console.log("proposalURI", proposal.proposalURI);
       // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
       const transaction = await contract.connect(signer).submitProposal(
         proposal.instructions,

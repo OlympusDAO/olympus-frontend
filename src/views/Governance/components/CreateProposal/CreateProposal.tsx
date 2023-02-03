@@ -6,9 +6,9 @@ import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { GOVERNANCE_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
+import { GOVERNANCE_ADDRESSES, GOVERNANCE_GOHM_ADDRESSES } from "src/constants/addresses";
 import { isValidUrl } from "src/helpers";
-import { useVoteBalance } from "src/hooks/useBalance";
+import { useBalance } from "src/hooks/useBalance";
 import { useCreateProposalVotingPowerReqd, useIPFSUpload, useSubmitProposal } from "src/hooks/useProposal";
 import { ProposalAction } from "src/hooks/useProposals";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -25,7 +25,8 @@ export const CreateProposal = () => {
   const [proposalDiscussion, setProposalDiscussion] = useState<string>();
   const { data: collateralRequired, isLoading: collateralRequiredLoading } = useCreateProposalVotingPowerReqd();
   const networks = useTestableNetworks();
-  const { data: votesBalance } = useVoteBalance()[networks.MAINNET];
+  // const { data: gOhmBalance } = useVoteBalance()[networks.MAINNET];
+  const { data: gOhmBalance } = useBalance(GOVERNANCE_GOHM_ADDRESSES)[networks.MAINNET];
   // TODO(appleseed): need to allow multiple instructions
   const [proposalAction, setProposalAction] = useState<ProposalAction>(ProposalAction.InstallModule);
   const [proposalContract, setProposalContract] = useState<string>();
@@ -70,8 +71,8 @@ export const CreateProposal = () => {
       !proposalFieldsComplete ||
       submitProposal.isLoading ||
       collateralRequiredLoading ||
-      !votesBalance ||
-      collateralRequired.gt(votesBalance)
+      !gOhmBalance ||
+      collateralRequired.gt(gOhmBalance)
     )
       return false;
     return true;
@@ -145,8 +146,8 @@ export const CreateProposal = () => {
         </Grid>
         <Box id="create-proposal-btn-box" display="flex" justifyContent="flex-end">
           <TokenAllowanceGuard
-            message={`Creating a Proposal requires a vOHM Collateral deposit. Your vOHM can be redeemed after the proposal passes/fails.`}
-            tokenAddressMap={VOTE_TOKEN_ADDRESSES}
+            message={`Creating a Proposal requires a gOHM Collateral deposit. Your gOHM can be redeemed after the proposal passes/fails.`}
+            tokenAddressMap={GOVERNANCE_GOHM_ADDRESSES}
             spenderAddressMap={GOVERNANCE_ADDRESSES}
             approvalText={"Approve Collateral"}
             approvalPendingText={"Confirming Approval in your wallet"}
@@ -168,7 +169,7 @@ export const CreateProposal = () => {
 const CollateralRequiredText = () => {
   const { data: collateralRequired, isLoading: collateralRequiredLoading } = useCreateProposalVotingPowerReqd();
   const networks = useTestableNetworks();
-  const { data: votesBalance, isLoading: votesLoading } = useVoteBalance()[networks.MAINNET];
+  const { data: gOhmBalance, isLoading: gOHMLoading } = useBalance(GOVERNANCE_GOHM_ADDRESSES)[networks.MAINNET];
 
   return (
     <Box display={`flex`} flexDirection={`column`}>
@@ -180,29 +181,29 @@ const CollateralRequiredText = () => {
             </Typography>
             <Skeleton width={60} sx={{ display: "inline-block" }} />
             <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
-              {` vOHM`}
+              {` gOHM`}
             </Typography>
           </>
         ) : (
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
-            &#x2022;{` Creating a Proposal requires ${collateralRequired.toApproxNumber()} vOHM`}
+            &#x2022;{` Creating a Proposal requires ${collateralRequired.toApproxNumber()} gOHM`}
           </Typography>
         )}
       </Box>
       <Box display={`flex`}>
-        {votesLoading || !votesBalance ? (
+        {gOHMLoading || !gOhmBalance ? (
           <>
             <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
               &#x2022;{` You have `}
             </Typography>
             <Skeleton width={60} sx={{ display: "inline-block" }} />
             <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
-              {` vOHM`}
+              {` gOHM`}
             </Typography>
           </>
         ) : (
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, display: "inline-block" }}>
-            &#x2022;{` You have ${votesBalance.toApproxNumber()} vOHM`}
+            &#x2022;{` You have ${gOhmBalance.toApproxNumber()} gOHM`}
           </Typography>
         )}
       </Box>
