@@ -39,7 +39,7 @@
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.2",
-    "@mui/system": "^5.11.4",
+    "@mui/system": "^5.11.7",
     "@mui/x-data-grid": "^5.17.17",
     "@olympusdao/component-library": "^3.1.0",
     "@rainbow-me/rainbowkit": "^0.7.4",
