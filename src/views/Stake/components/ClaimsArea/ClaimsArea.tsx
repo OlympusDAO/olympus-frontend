@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { DataRow, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { DataRow, InfoTooltip, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { IWarmupBalances, useEpoch, useWarmupClaim } from "src/hooks/useWarmupInfo";
 import { useNextWarmupDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
@@ -47,6 +47,7 @@ export const ClaimsArea = () => {
   const { data: warmupDate } = useNextWarmupDate();
 
   if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
+  const warmupTooltip = `Your claim earns rebases during warmup. You can emergency withdraw, but this forfeits the rebases`;
 
   return (
     <>
@@ -54,13 +55,16 @@ export const ClaimsArea = () => {
         <Table>
           <Box display="flex" justifyContent="start" mt="42px">
             <Typography fontSize="24px" textAlign="left" fontWeight={600}>
-              Your active gOHM claim
+              Your active gOHM claim{" "}
             </Typography>
+            <Box>
+              <InfoTooltip message={warmupTooltip} />
+            </Box>
           </Box>
           <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} />
         </Table>
       ) : (
-        <Paper headerText={`Your active gOHM claim`}>
+        <Paper headerText={`Your active gOHM claim`} tooltip={warmupTooltip}>
           <Table>
             <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
@@ -191,7 +195,7 @@ const ActionButtons = () => {
         onClick={() => forfeitMutation.mutate()}
         disabled={forfeitMutation.isLoading || !isForfeitable}
       >
-        {forfeitMutation.isLoading ? `Forfeiting` : `Forfeit`}
+        {forfeitMutation.isLoading ? `Withdrawing` : `Emergency Withdraw`}
       </SecondaryButton>
       <PrimaryButton
         loading={claimMutation.isLoading}
