@@ -81,6 +81,10 @@ export const light = createTheme(
         },
         MuiLinearProgress: {
           styleOverrides: {
+            root: {
+              height: 9,
+              borderRadius: 4,
+            },
             colorPrimary: {
               backgroundColor: colors.gray[500],
             },

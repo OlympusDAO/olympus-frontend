@@ -1,16 +1,14 @@
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useDepositLiqudiity = () => {
-  const networks = useTestableNetworks();
   const { data: signer } = useSigner();
-  if (!signer) throw new Error(`Please connect a wallet`);
   return useMutation(
     async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
+      if (!signer) throw new Error(`Please connect a wallet`);
       const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
       //TODO: Get LP Price
       const lpPrice = 1;
@@ -20,6 +18,7 @@ export const useDepositLiqudiity = () => {
       //But we need to know the exchange rate between 1 deposit asset AND 1 LP TOKEN.
       const minLpAmount = (Number(amount) * (1 - Number(slippage))) / lpPrice;
       const minLpAmountToBigNumber = ethers.utils.parseUnits(minLpAmount.toString());
+      console.log(amountToBigNumber, minLpAmount, minLpAmountToBigNumber, address);
       const depositTransaction = await contract.deposit(amountToBigNumber, minLpAmountToBigNumber);
 
       const receipt = await depositTransaction.wait();

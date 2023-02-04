@@ -1,6 +1,18 @@
-import { LinearProgress, Table, TableBody, TableCell, TableHead, TableRow, Typography, useTheme } from "@mui/material";
+import {
+  LinearProgress,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Box, styled } from "@mui/system";
 import { PrimaryButton, TokenStack } from "@olympusdao/component-library";
+import { Link as RouterLink } from "react-router-dom";
+import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   padding: "6px",
@@ -8,6 +20,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export const SingleSidedFarms = () => {
   const theme = useTheme();
+  const { data } = useGetSingleSidedLiquidityVaults();
+  console.log(data, "data");
 
   return (
     <>
@@ -22,7 +36,6 @@ export const SingleSidedFarms = () => {
         <TableHead>
           <TableRow sx={{ height: "31px" }}>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Pool</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Exchange</StyledTableCell>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>OHM Mint Limit</StyledTableCell>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Fees</StyledTableCell>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>TVL</StyledTableCell>
@@ -31,42 +44,29 @@ export const SingleSidedFarms = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow key="temp1" sx={{ height: "71px" }}>
-            <StyledTableCell component="th" scope="row">
-              <Box display="flex" alignItems="center" gap="10px">
-                <TokenStack tokens={["ETH", "OHM"]} sx={{ fontSize: "27px" }} /> stETH-OHM
-              </Box>
-            </StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>
-              <Typography>Placeholder</Typography>
-              <LinearProgress variant="determinate" value={50} />
-            </StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>
-              <PrimaryButton fullWidth>Deposit Liquidity</PrimaryButton>
-            </StyledTableCell>
-          </TableRow>
-          <TableRow key="temp2" sx={{ height: "71px" }}>
-            <StyledTableCell component="th" scope="row">
-              <Box display="flex" alignItems="center" gap="10px">
-                <TokenStack tokens={["ETH", "OHM"]} sx={{ fontSize: "27px" }} /> stETH-OHM
-              </Box>
-            </StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>
-              <Typography>Placeholder</Typography>
-              <LinearProgress variant="determinate" value={50} />
-            </StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>Placeholder</StyledTableCell>
-            <StyledTableCell>
-              <PrimaryButton fullWidth>Deposit Liquidity</PrimaryButton>
-            </StyledTableCell>
-          </TableRow>
+          {data?.map(vault => (
+            <TableRow key="temp2" sx={{ height: "71px" }}>
+              <StyledTableCell component="th" scope="row">
+                <Box display="flex" alignItems="center" gap="10px">
+                  <TokenStack tokens={["ETH", "OHM"]} sx={{ fontSize: "27px" }} /> {vault.pairTokenName}-OHM
+                </Box>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography>{vault.limit} OHM</Typography>
+                <Box mt="3px" width="80%">
+                  <LinearProgress variant="determinate" value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100} />
+                </Box>
+              </StyledTableCell>
+              <StyledTableCell>{vault.fee}</StyledTableCell>
+              <StyledTableCell>{vault.totalLpBalance}</StyledTableCell>
+              <StyledTableCell>Need Contract Work</StyledTableCell>
+              <StyledTableCell>
+                <Link component={RouterLink} to={`/liquidity/${vault.vaultAddress}`}>
+                  <PrimaryButton fullWidth>Deposit Liquidity</PrimaryButton>
+                </Link>
+              </StyledTableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </>
