@@ -1,5 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import {
   DataRow,
   InfoNotification,
@@ -12,7 +12,7 @@ import {
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { useState } from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { formatNumber } from "src/helpers";
@@ -22,6 +22,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useDepositLiqudiity } from "src/views/Liquidity/hooks/useDepositLiquidity";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
+import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Vault = () => {
@@ -29,13 +30,14 @@ export const Vault = () => {
   const { data: vault, isLoading } = useGetVault({ address: id });
   const networks = useTestableNetworks();
   const deposit = useDepositLiqudiity();
+  const withdraw = useWithdrawLiquidity();
 
-  console.log(vault?.pairTokenAddress, "test");
   const { data: pairTokenBalance = new DecimalBigNumber("0", 18) } = useBalance({
     [networks.MAINNET]: vault?.pairTokenAddress || "",
   })[networks.MAINNET];
 
   const [pairAmount, setPairAmount] = useState("0");
+  const [reserveAmount, setReserveAmount] = useState("0");
   const { data: allowance } = useContractAllowance(
     { [networks.MAINNET]: vault?.pairTokenAddress },
     { [networks.MAINNET]: id },
@@ -44,18 +46,27 @@ export const Vault = () => {
   const noAllowance =
     (allowance && allowance.eq(0) && vault?.pairTokenAddress !== ethers.constants.AddressZero) ||
     (allowance && allowance.lt(pairTokenBalance.toBigNumber()));
-  const handleChangePairAmount = (value: any) => {
-    //const reserveValue = value * swapPrice;
-    setPairAmount(pairAmount);
-    //setLPAmount(reserveValue.toString());
-  };
+  // const handleChangePairAmount = (value: any) => {
+  //   //const reserveValue = value * swapPrice;
+  //   setPairAmount(pairAmount);
+  //   //setLPAmount(reserveValue.toString());
+  // };
 
   // const handleChangeReserveAmount = (value: any) => {
   //   const ohmValue = value / swapPrice;
   //   setOhmAmount(ohmValue.toString());
   //   setReserveAmount(value);
   // };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isWithdrawal = searchParams.get("withdraw");
 
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center">
+        <CircularProgress />
+      </Box>
+    );
+  }
   if (!vault && !isLoading)
     return (
       <Typography variant="h2" align="center">
@@ -63,6 +74,42 @@ export const Vault = () => {
       </Typography>
     );
   if (!vault) return <></>;
+
+  const pairToken = () => (
+    <SwapCard
+      id={""}
+      token={vault.pairTokenName as keyof OHMTokenStackProps["tokens"]}
+      tokenName={vault.pairTokenName}
+      value={pairAmount}
+      info={`Balance: ${formatNumber(Number(formatUnits(pairTokenBalance.toBigNumber(), 18)), 2)} ${
+        vault.pairTokenName
+      }`}
+      onChange={e => {
+        setPairAmount(e.target.value);
+      }}
+      endString={`Max`}
+      endStringOnClick={() => setPairAmount(formatUnits(pairTokenBalance.toBigNumber(), 18))}
+    />
+  );
+  const lpToken = () => (
+    <SwapCard
+      id={""}
+      token={
+        <TokenStack
+          tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
+          sx={{ fontSize: "21px" }}
+        />
+      }
+      tokenName="stETH-OHM LP"
+      value={reserveAmount}
+      onChange={e => {
+        setReserveAmount(e.target.value);
+      }}
+      info={`Balance: ${formatNumber(Number(vault.lpTokenBalance), 2)} ${vault.pairTokenName}-OHM LP`}
+      endString={`Max`}
+      endStringOnClick={() => setReserveAmount(vault.lpTokenBalance)}
+    />
+  );
   return (
     <>
       <Box width="100%">
@@ -103,37 +150,11 @@ export const Vault = () => {
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
           <SwapCollection
-            UpperSwapCard={
-              <SwapCard
-                id={""}
-                token={vault.pairTokenName as keyof OHMTokenStackProps["tokens"]}
-                tokenName={vault.pairTokenName}
-                value={pairAmount}
-                info={`Balance: ${formatNumber(Number(formatUnits(pairTokenBalance.toBigNumber(), 18)), 2)} ${
-                  vault.pairTokenName
-                }`}
-                onChange={e => {
-                  setPairAmount(e.target.value);
-                }}
-                endString={`Max`}
-                endStringOnClick={() => setPairAmount(formatUnits(pairTokenBalance.toBigNumber(), 18))}
-              />
-            }
-            LowerSwapCard={
-              <SwapCard
-                id={""}
-                token={
-                  <TokenStack
-                    tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
-                    sx={{ fontSize: "21px" }}
-                  />
-                }
-                tokenName="stETH-OHM LP"
-                info={`Balance: ${vault.lpTokenBalance} ${vault.pairTokenName}-OHM LP`}
-                endString={`Max`}
-                endStringOnClick={() => hasPrice && onChangeReserveAmount(reserveBalance.toString())}
-              />
-            }
+            UpperSwapCard={isWithdrawal ? lpToken() : pairToken()}
+            LowerSwapCard={isWithdrawal ? pairToken() : lpToken()}
+            arrowOnClick={() => {
+              isWithdrawal ? setSearchParams(undefined) : setSearchParams({ withdraw: "true" });
+            }}
           />
           {noAllowance && (
             <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
@@ -164,7 +185,7 @@ export const Vault = () => {
                 </InfoNotification>
                 <DataRow title="Slippage Tolerance" balance="PLACEHOLDER" />
                 <DataRow title="OHM Minted" balance={vault.ohmMinted} />
-                <DataRow title="Your LP Tokens" balance={vault.lpTokenBalance} />
+                <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
                 <DataRow title="Max You Can Deposit" balance={"TBD"} />
                 {/* (Number(vault.limit) - Number(vault.ohmMinted)).toString() */}
                 <DataRow title="Fee" balance={vault.fee} />
@@ -181,16 +202,22 @@ export const Vault = () => {
             <PrimaryButton
               fullWidth
               disabled={
-                Number(pairAmount) === 0 ||
-                Number(pairAmount) > Number(formatUnits(pairTokenBalance.toBigNumber(), 18)) ||
-                deposit.isLoading
+                isWithdrawal
+                  ? Number(reserveAmount) === 0 ||
+                    Number(reserveAmount) > Number(vault.lpTokenBalance) ||
+                    withdraw.isLoading
+                  : Number(pairAmount) === 0 ||
+                    Number(pairAmount) > Number(formatUnits(pairTokenBalance.toBigNumber(), 18)) ||
+                    deposit.isLoading
               }
               loading={deposit.isLoading}
               onClick={() => {
-                deposit.mutate({ amount: pairAmount, slippage: "0", address: vault.vaultAddress });
+                isWithdrawal
+                  ? withdraw.mutate({ amount: reserveAmount, slippage: "0", address: vault.vaultAddress })
+                  : deposit.mutate({ amount: pairAmount, slippage: "0", address: vault.vaultAddress });
               }}
             >
-              Deposit {vault.pairTokenName}
+              {isWithdrawal ? `Withdraw for ${vault.pairTokenName}` : `Deposit ${vault.pairTokenName}`}
             </PrimaryButton>
           </TokenAllowanceGuard>
           <LiquidityCTA />

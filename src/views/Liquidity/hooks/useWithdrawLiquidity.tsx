@@ -8,19 +8,22 @@ import { useMutation, useSigner } from "wagmi";
 export const useWithdrawLiquidity = () => {
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
-  if (!signer) throw new Error(`Please connect a wallet`);
+
   return useMutation(
     async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
+      if (!signer) throw new Error(`Please connect a wallet`);
       const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
+
       //TODO: Number of Decimals
       const amountToBigNumber = ethers.utils.parseUnits(amount);
       //TODO: How to calculate slippage? Need Price feed that contract is using for LP price.
-      const minPairToken = 1;
-      const minOhmToken = 1;
+      const minPairToken = 0;
+      const minOhmToken = 0;
       const minPairTokenBigNumber = ethers.utils.parseUnits(minPairToken.toString());
       const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString());
 
-      //TODO: Should claim always be set to true?
+      console.log(amountToBigNumber, minPairToken, minOhmToken, address);
+
       const withdrawTransaction = await contract.withdraw(
         amountToBigNumber,
         [minPairTokenBigNumber, minOhmTokenBigNumber],

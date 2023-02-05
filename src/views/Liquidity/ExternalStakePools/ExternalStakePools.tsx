@@ -59,7 +59,7 @@ export const ExternalStakePools = () => {
   return (
     <>
       <Box mb="18px" mt="9px">
-        <Typography variant="h1">Pool Farms</Typography>
+        <Typography variant="h1">Liquidity Pools</Typography>
         <Typography>
           Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
         </Typography>

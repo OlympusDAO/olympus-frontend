@@ -2322,9 +2322,9 @@
     fastq "^1.6.0"
 
 "@olympusdao/component-library@^3.1.0":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-3.1.1.tgz#ada6d700e6cc2e816ffc995239da9b3dd27e4f45"
-  integrity sha512-p/BnYcPb7/TzQXxpdPy8iK99J4aFJOeWHlo+PYzh7twh4g0pj3+sR4J7y8nW49Af4W+wJhASt71EYkKmAzPnUQ==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-3.1.2.tgz#7daf86c8c783b2d62f33e3c34102b613a68e3c45"
+  integrity sha512-ZhzddyfugyuUWvMuYaOCQBhmLNF967IINmUoeROyKlnVFEif6fDDP21hkX3gP95nbwYCdYezZ843O5zCgg9/FA==
   dependencies:
     "@react-spring/web" "^9.5.5"
 
