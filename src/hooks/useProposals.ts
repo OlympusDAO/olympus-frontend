@@ -185,7 +185,7 @@ export const parseProposalContent = async ({ uri }: { uri: string | undefined })
   if (!uri) return placeholder;
   let readURI = uri;
   if (~uri.indexOf("ipfs:/")) {
-    readURI = `https://ipfs.io/ipfs/${uri.replace("ipfs:/", "")}`;
+    readURI = `https://w3s.link/ipfs/${uri.replace("ipfs://", "")}`;
   }
   try {
     const res = await axios.get(readURI);
