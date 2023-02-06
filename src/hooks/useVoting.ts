@@ -227,10 +227,10 @@ export const useVote = () => {
     {
       onError: error => {
         console.error(error.message);
-        queryClient.invalidateQueries({ queryKey: ["GetVotesCastEvents", chain.id] });
       },
       onSuccess: () => {
         console.log(`Successfully voted for proposal`);
+        queryClient.invalidateQueries({ queryKey: ["GetVotesCastEvents", chain.id] });
       },
     },
   );

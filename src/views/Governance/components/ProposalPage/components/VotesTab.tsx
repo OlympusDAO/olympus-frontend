@@ -33,6 +33,7 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
   const [vote, setVote] = useState<string>("");
   const submitVote = useVote();
   const { address: voterAddress } = useAccount();
+  const { data: voteValue, isLoading: isLoadingVoteValue } = useUserVote(proposal.id, voterAddress as string);
 
   const handleVoteSubmission = () => {
     submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
@@ -49,31 +50,40 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
           </Typography>
         </Box>
         <>
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <TertiaryButton
-              template={vote === "yes" ? "secondary" : "tertiary"}
-              sx={{ minWidth: "120px" }}
-              disabled={!isConnected || !proposal.isActive}
-              onClick={() => setVote("yes")}
-            >
-              Yes
-            </TertiaryButton>
-            <TertiaryButton
-              template={vote === "no" ? "secondary" : "tertiary"}
-              sx={{ minWidth: "120px" }}
-              disabled={!isConnected || !proposal.isActive}
-              onClick={() => setVote("no")}
-            >
-              No
-            </TertiaryButton>
-          </Box>
-          <WalletConnectedGuard>
-            <Box display="flex" flexDirection="row" justifyContent="center">
-              <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
-                Vote <span style={{ textTransform: "capitalize" }}>&nbsp;{vote}</span>
-              </PrimaryButton>
-            </Box>
-          </WalletConnectedGuard>
+          {voteValue && !voteValue.gt("0") && (
+            <>
+              <Box display="flex" flexDirection="row" justifyContent="center">
+                <TertiaryButton
+                  template={vote === "yes" ? "secondary" : "tertiary"}
+                  sx={{ minWidth: "120px" }}
+                  disabled={!isConnected || !proposal.isActive}
+                  onClick={() => setVote("yes")}
+                >
+                  Yes
+                </TertiaryButton>
+                <TertiaryButton
+                  template={vote === "no" ? "secondary" : "tertiary"}
+                  sx={{ minWidth: "120px" }}
+                  disabled={!isConnected || !proposal.isActive}
+                  onClick={() => setVote("no")}
+                >
+                  No
+                </TertiaryButton>
+              </Box>
+              <WalletConnectedGuard>
+                <Box display="flex" flexDirection="row" justifyContent="center">
+                  <PrimaryButton
+                    sx={{ minWidth: "120px" }}
+                    disabled={!proposal.isActive}
+                    onClick={handleVoteSubmission}
+                  >
+                    Vote <span style={{ textTransform: "capitalize" }}>&nbsp;{vote}</span>
+                  </PrimaryButton>
+                </Box>
+              </WalletConnectedGuard>
+            </>
+          )}
+
           {voterAddress && proposal.isActive && <UserVote proposalId={proposal.id} voterAddress={voterAddress} />}
         </>
         {!proposal.isActive && <p>This Proposal is not yet active for voting.</p>}
@@ -89,7 +99,7 @@ const UserVote = ({ proposalId, voterAddress }: { proposalId: number; voterAddre
     <>
       {isLoadingVoteValue && (
         <Skeleton>
-          <Metric label={`Your have previously voted on this proposal with `} metric={`1 vOHM`} />
+          <Metric label={`You have previously voted on this proposal with `} metric={`1 vOHM`} />
         </Skeleton>
       )}
       {voteValue && (
