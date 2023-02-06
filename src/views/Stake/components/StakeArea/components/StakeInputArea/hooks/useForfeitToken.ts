@@ -22,7 +22,7 @@ export const useForfeitToken = () => {
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
   return useMutation<ContractReceipt, EthersError>({
-    onMutate: async () => {
+    mutationFn: async () => {
       if (!claimBalance) throw new Error(`Please refresh your page and try again`);
 
       if (!contract) throw new Error(`Please switch to the Ethereum network to forfeit your warmup`);
@@ -36,6 +36,14 @@ export const useForfeitToken = () => {
       toast.error("error" in error ? error.error.message : error.message);
     },
     onSuccess: async (tx, data) => {
+      const keysToRefetch = [balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET), warmupQueryKey(address)];
+
+      const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
+
+      await Promise.all(promises);
+
+      toast(`Successfully forfeited warmed-up balance`);
+
       trackGAEvent({
         category: "Staking",
         action: "forfeit",
@@ -51,14 +59,6 @@ export const useForfeitToken = () => {
         address: address.slice(2),
         txHash: tx.transactionHash.slice(2),
       });
-
-      const keysToRefetch = [balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET), warmupQueryKey(address)];
-
-      const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
-
-      await Promise.all(promises);
-
-      toast(`Successfully forfeited warmed-up balance`);
     },
   });
 };

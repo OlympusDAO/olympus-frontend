@@ -8,6 +8,7 @@ import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { balanceQueryKey } from "src/hooks/useBalance";
+import { warmupQueryKey } from "src/hooks/useWarmupInfo";
 import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
 import { EthersError } from "src/lib/EthersTypes";
 import { Zap__factory } from "src/typechain/factories/Zap__factory";
@@ -152,6 +153,7 @@ export const useZapExecute = () => {
         const keysToRefetch = [
           balanceQueryKey(address, SOHM_ADDRESSES, NetworkId.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, NetworkId.MAINNET),
+          warmupQueryKey(address),
           zapTokenBalancesKey(address),
         ];
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));

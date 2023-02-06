@@ -7,6 +7,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { warmupQueryKey } from "src/hooks/useWarmupInfo";
 import { EthersError } from "src/lib/EthersTypes";
 import { useAccount } from "wagmi";
 
@@ -18,7 +19,7 @@ export const useStakeToken = () => {
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
   return useMutation<ContractReceipt, EthersError, { amount: string; toToken: string }>({
-    onMutate: async ({ amount, toToken }) => {
+    mutationFn: async ({ amount, toToken }) => {
       if (!amount || isNaN(Number(amount))) throw new Error(`Please enter a number`);
 
       const _amount = new DecimalBigNumber(amount, 9);
@@ -44,6 +45,16 @@ export const useStakeToken = () => {
       toast.error("error" in error ? error.error.message : error.message);
     },
     onSuccess: async (tx, data) => {
+      const keysToRefetch = [
+        balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+        balanceQueryKey(address, data.toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
+        warmupQueryKey(address),
+      ];
+
+      const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
+
+      await Promise.all(promises);
+
       trackGAEvent({
         category: "Staking",
         action: "stake",
@@ -60,15 +71,6 @@ export const useStakeToken = () => {
         txHash: tx.transactionHash.slice(2),
         token: data.toToken,
       });
-
-      const keysToRefetch = [
-        balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
-        balanceQueryKey(address, data.toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
-      ];
-
-      const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
-
-      await Promise.all(promises);
 
       toast(`Successfully staked OHM`);
     },
