@@ -6,6 +6,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { useGovernanceGohmBalance, useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { queryClient } from "src/lib/react-query";
 import { VotesCastEvent } from "src/typechain/OlympusGovernance";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
@@ -226,6 +227,7 @@ export const useVote = () => {
     {
       onError: error => {
         console.error(error.message);
+        queryClient.invalidateQueries({ queryKey: ["GetVotesCastEvents", chain.id] });
       },
       onSuccess: () => {
         console.log(`Successfully voted for proposal`);

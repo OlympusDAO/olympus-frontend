@@ -258,12 +258,20 @@ export const useActivateProposal = () => {
   const { data: signer } = useSigner();
 
   // TODO(appleseed): update ANY types below
-  return useMutation<any, Error, number>(async (proposalId: number) => {
-    if (!signer) throw new Error(`Signer is not set`);
+  return useMutation<any, Error, number>(
+    async (proposalId: number) => {
+      if (!signer) throw new Error(`Signer is not set`);
 
-    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
-    await contract.connect(signer).activateProposal(proposalId);
-  });
+      // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
+      await contract.connect(signer).activateProposal(proposalId);
+    },
+    {
+      onSuccess: (data, proposalId) => {
+        toast("Successfully Activated Proposal");
+        queryClient.invalidateQueries({ queryKey: proposalQueryKey(proposalId) });
+      },
+    },
+  );
 };
 
 /**
