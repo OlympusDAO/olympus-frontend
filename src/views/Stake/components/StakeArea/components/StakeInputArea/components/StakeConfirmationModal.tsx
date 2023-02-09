@@ -1,6 +1,6 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import { Icon, InfoNotification, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -137,6 +137,9 @@ const StakeConfirmationModal = (props: {
               {props.contractRouting === "Stake" && (
                 <>
                   <AcknowledgeWarmupCheckbox />
+                  <SecondaryButton fullWidth href="https://twitter.com/OlympusDAO/status/1623378973882195978">
+                    Why is there a warmup?
+                  </SecondaryButton>
                   <PrimaryButton
                     data-testid="submit-modal-button"
                     loading={props.isMutating}
