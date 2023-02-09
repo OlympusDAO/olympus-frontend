@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
-import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { SOHM_CONTRACT, STAKING_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useStaticSohmContract, useStaticStakingContract } from "src/hooks/useContract";
 import { useAccount, useNetwork } from "wagmi";
 
-export const warmupQueryKey = (address?: string) => ["useWarmupClaim", address];
+export const warmupQueryKey = (address: string | `0x${string}`, chainId?: number) => [
+  "useWarmupClaim",
+  address,
+  chainId,
+];
 
 export interface IWarmupBalances {
   deposit: BigNumber; // if forfeiting, ohm quantity
@@ -19,13 +22,13 @@ export interface IWarmupBalances {
 export const useWarmupClaim = () => {
   const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
-  if (chain?.id !== NetworkId.MAINNET && chain?.id !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
-  const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[chain?.id], chain?.id);
-  const sohmContract = useStaticSohmContract(SOHM_ADDRESSES[chain?.id], chain?.id);
 
   return useQuery<IWarmupBalances, Error>(
-    [warmupQueryKey(address)],
+    [warmupQueryKey(address, chain?.id)],
     async () => {
+      if (![NetworkId.MAINNET, NetworkId.TESTNET_GOERLI].includes(chain.id)) throw new Error("Not implemented");
+      const stakingContract = STAKING_CONTRACT.getEthersContract(chain.id);
+      const sohmContract = SOHM_CONTRACT.getEthersContract(chain.id);
       const warmupClaim = await stakingContract.warmupInfo(address);
       const sOHMBalance = await sohmContract.balanceForGons(warmupClaim.gons);
       const gOHMBalance = await sohmContract.toG(sOHMBalance);
@@ -42,7 +45,7 @@ export const useWarmupClaim = () => {
       return warmupBalances;
     },
     {
-      enabled: !!chain && !!STAKING_ADDRESSES[chain?.id] && !!SOHM_ADDRESSES[chain?.id],
+      enabled: !!chain,
     },
   );
 };
@@ -52,10 +55,11 @@ export const useWarmupClaim = () => {
  */
 export const useWarmupPeriod = () => {
   const { chain = { id: 1 } } = useNetwork();
-  if (chain?.id !== NetworkId.MAINNET && chain?.id !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
-  const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[chain?.id], chain?.id);
 
-  return useQuery<DecimalBigNumber, Error>(["warmupPeriodLength"], async () => {
+  return useQuery<DecimalBigNumber, Error>(["warmupPeriodLength", chain?.id], async () => {
+    if (![NetworkId.MAINNET, NetworkId.TESTNET_GOERLI].includes(chain.id)) throw new Error("Not implemented");
+    const stakingContract = STAKING_CONTRACT.getEthersContract(chain.id);
+
     const length = await stakingContract.warmupPeriod();
 
     return new DecimalBigNumber(length, 0);
@@ -73,10 +77,11 @@ export interface IEpoch {
  */
 export const useEpoch = () => {
   const { chain = { id: 1 } } = useNetwork();
-  if (chain?.id !== NetworkId.MAINNET && chain?.id !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
-  const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[chain?.id], chain?.id);
 
   return useQuery<IEpoch, Error>(["epoch"], async () => {
+    if (![NetworkId.MAINNET, NetworkId.TESTNET_GOERLI].includes(chain.id)) throw new Error("Not implemented");
+    const stakingContract = STAKING_CONTRACT.getEthersContract(chain.id);
+
     const epoch = await stakingContract.epoch();
     return {
       length: new DecimalBigNumber(epoch[0], 0), // epoch.length returns the length of the epoch array, not the `length` value of the epoch object
@@ -93,10 +98,11 @@ export const useEpoch = () => {
  */
 export const useGonsForBalance = ({ balance }: { balance: string }) => {
   const { chain = { id: 1 } } = useNetwork();
-  if (chain?.id !== NetworkId.MAINNET && chain?.id !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
-  const sohmContract = useStaticSohmContract(SOHM_ADDRESSES[chain?.id], chain?.id);
 
   return useQuery<DecimalBigNumber, Error>(["gonsForBalance", balance], async () => {
+    if (![NetworkId.MAINNET, NetworkId.TESTNET_GOERLI].includes(chain.id)) throw new Error("Not implemented");
+    const sohmContract = SOHM_CONTRACT.getEthersContract(chain.id);
+
     const _balance = new DecimalBigNumber(balance, 9);
     const gons = await sohmContract.gonsForBalance(_balance.toBigNumber());
 
@@ -111,10 +117,11 @@ export const useGonsForBalance = ({ balance }: { balance: string }) => {
  */
 export const useBalanceForGons = ({ gons }: { gons: string }) => {
   const { chain = { id: 1 } } = useNetwork();
-  if (chain?.id !== NetworkId.MAINNET && chain?.id !== NetworkId.TESTNET_GOERLI) throw new Error("Not implemented");
-  const sohmContract = useStaticSohmContract(SOHM_ADDRESSES[chain?.id], chain?.id);
 
   return useQuery<DecimalBigNumber, Error>(["balanceForGons", gons], async () => {
+    if (![NetworkId.MAINNET, NetworkId.TESTNET_GOERLI].includes(chain.id)) throw new Error("Not implemented");
+    const sohmContract = SOHM_CONTRACT.getEthersContract(chain.id);
+
     const _gons = new DecimalBigNumber(gons, 9);
     const balance = await sohmContract.balanceForGons(_gons.toBigNumber());
 

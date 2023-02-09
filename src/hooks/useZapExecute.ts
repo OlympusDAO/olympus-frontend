@@ -153,7 +153,7 @@ export const useZapExecute = () => {
         const keysToRefetch = [
           balanceQueryKey(address, SOHM_ADDRESSES, NetworkId.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, NetworkId.MAINNET),
-          warmupQueryKey(address),
+          warmupQueryKey(address, chain?.id),
           zapTokenBalancesKey(address),
         ];
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));

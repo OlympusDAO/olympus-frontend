@@ -48,7 +48,7 @@ export const useStakeToken = () => {
       const keysToRefetch = [
         balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
         balanceQueryKey(address, data.toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
-        warmupQueryKey(address),
+        warmupQueryKey(address, networks.MAINNET),
       ];
 
       const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
