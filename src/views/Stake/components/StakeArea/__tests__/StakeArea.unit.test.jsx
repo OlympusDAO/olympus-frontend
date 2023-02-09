@@ -3,6 +3,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import * as ContractAllowance from "src/hooks/useContractAllowance";
 import * as Index from "src/hooks/useCurrentIndex";
 import * as Prices from "src/hooks/usePrices";
+import * as Warmup from "src/hooks/useWarmupInfo";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import { Zap__factory } from "src/typechain/factories/Zap__factory";
@@ -36,6 +37,7 @@ describe("<StakeInputArea/> Connected no Approval", () => {
     vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
       data: BigNumber.from(0),
     });
+    vi.spyOn(Warmup, "useWarmupPeriod").mockReturnValue({ data: new DecimalBigNumber("2", 0) });
     vi.spyOn(Index, "useCurrentIndex").mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     //@ts-expect-error
     vi.spyOn(Prices, "useGohmPrice").mockReturnValue({ data: "120.56786330999999" });
