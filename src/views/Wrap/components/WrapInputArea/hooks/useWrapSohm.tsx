@@ -56,7 +56,7 @@ export const useWrapSohm = () => {
       const keysToRefetch = [
         balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
         balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
-        warmupQueryKey(address),
+        warmupQueryKey(address, networks.MAINNET),
       ];
 
       const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));

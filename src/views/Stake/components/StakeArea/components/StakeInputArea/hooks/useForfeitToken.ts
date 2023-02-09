@@ -36,7 +36,10 @@ export const useForfeitToken = () => {
       toast.error("error" in error ? error.error.message : error.message);
     },
     onSuccess: async (tx, data) => {
-      const keysToRefetch = [balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET), warmupQueryKey(address)];
+      const keysToRefetch = [
+        balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+        warmupQueryKey(address, networks.MAINNET),
+      ];
 
       const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
 
