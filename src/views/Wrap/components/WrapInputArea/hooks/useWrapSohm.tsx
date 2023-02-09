@@ -6,6 +6,7 @@ import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { warmupQueryKey } from "src/hooks/useWarmupInfo";
 import { EthersError } from "src/lib/EthersTypes";
 import { OlympusStakingv2__factory } from "src/typechain";
 import { useAccount, useNetwork, useSigner } from "wagmi";
@@ -55,6 +56,7 @@ export const useWrapSohm = () => {
       const keysToRefetch = [
         balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
         balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+        warmupQueryKey(address, networks.MAINNET),
       ];
 
       const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
