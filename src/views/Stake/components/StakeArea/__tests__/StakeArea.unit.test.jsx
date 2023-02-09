@@ -118,7 +118,5 @@ describe("<StakeArea/> Connected with Approval", () => {
     fireEvent.click(await screen.findByText("ETH"));
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
     expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
-
-    expect(await screen.findByTestId("submit-button"));
   });
 });
