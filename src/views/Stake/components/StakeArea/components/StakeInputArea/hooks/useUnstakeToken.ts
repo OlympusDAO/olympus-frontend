@@ -7,6 +7,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { warmupQueryKey } from "src/hooks/useWarmupInfo";
 import { EthersError } from "src/lib/EthersTypes";
 import { useAccount } from "wagmi";
 
@@ -67,6 +68,7 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
         const keysToRefetch = [
           balanceQueryKey(address, addresses, networks.MAINNET),
           balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+          warmupQueryKey(address),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries([key], { type: "active" }));
