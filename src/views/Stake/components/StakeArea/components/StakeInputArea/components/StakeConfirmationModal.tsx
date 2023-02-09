@@ -137,7 +137,10 @@ const StakeConfirmationModal = (props: {
               {props.contractRouting === "Stake" && (
                 <>
                   <AcknowledgeWarmupCheckbox />
-                  <SecondaryButton fullWidth href="https://twitter.com/OlympusDAO/status/1623378973882195978">
+                  <SecondaryButton
+                    fullWidth
+                    href="https://docs.olympusdao.finance/main/overview/staking#staking-warm-up-period"
+                  >
                     Why is there a warmup?
                   </SecondaryButton>
                   <PrimaryButton
