@@ -60,7 +60,7 @@ export const ClaimsArea = () => {
               <InfoTooltip message={warmupTooltip} />
             </Box>
           </Box>
-          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} />
+          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} isClaimable={isClaimable} />
         </Table>
       ) : (
         <Paper headerText={`Your active gOHM claim`} tooltip={warmupTooltip}>
@@ -97,7 +97,7 @@ const ActiveClaims = ({
   isSmallScreen: boolean;
   claim?: IWarmupBalances;
   warmupDate?: Date;
-  isClaimable: boolean;
+  isClaimable?: boolean;
 }) => (
   <TableBody>
     {isSmallScreen ? (
@@ -146,7 +146,7 @@ const ClaimInfo = ({
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
-        <ActionButtons />
+        <ActionButtons isClaimable={isClaimable} />
       </TableCell>
     </TableRow>
   );
