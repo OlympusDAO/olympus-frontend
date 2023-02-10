@@ -64,17 +64,18 @@ export const useWarmupDate = () => {
 
   const parsedSeconds = parseBigNumber(secondsToRebase || BigNumber.from("0"), 0);
   const epochLengthSeconds = parseBigNumber(epoch?.length.toBigNumber() || BigNumber.from("0"), 0);
+
+  const warmupExpiry = warmupBalance?.expiry || BigNumber.from("0");
+  const currentEpoch = epoch?.number.toBigNumber() || BigNumber.from("0");
   // how many fully length epochs are remaining?
-  const warmupLength =
-    parseBigNumber(warmupBalance?.expiry || BigNumber.from("0"), 0) -
-    parseBigNumber(epoch?.number.toBigNumber() || BigNumber.from("0"), 0) -
-    1;
+  const warmupLength = parseBigNumber(warmupExpiry, 0) - parseBigNumber(currentEpoch, 0) - 1;
 
   // secondsRemainingInThisEpoch + (epochLenghInSeconds * numberOfEpochsInWarmup)
   const dateTime = new Date(Date.now() + (parsedSeconds + epochLengthSeconds * warmupLength) * 1000);
 
   return {
     data: isSuccess ? dateTime : undefined,
+    isClaimable: isSuccess ? currentEpoch.gte(warmupExpiry) : undefined,
   };
 };
 
