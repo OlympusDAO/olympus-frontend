@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
 import { SOHM_CONTRACT, STAKING_CONTRACT } from "src/constants/contracts";
+import { parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useNextRebase } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 import { useAccount, useNetwork } from "wagmi";
 
 export const warmupQueryKey = (address: string | `0x${string}`, chainId?: number) => [
@@ -19,6 +21,7 @@ export interface IWarmupBalances {
   gohm: DecimalBigNumber; // staked balance
 }
 
+/** claim info for the connected wallet */
 export const useWarmupClaim = () => {
   const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
@@ -48,6 +51,31 @@ export const useWarmupClaim = () => {
       enabled: !!chain,
     },
   );
+};
+
+/**
+ * @returns JS Date for warmup completion for connected wallet
+ */
+export const useWarmupDate = () => {
+  const { data: warmupBalance, isSuccess: balanceSuccess } = useWarmupClaim();
+  const { data: secondsToRebase, isSuccess: rebaseSuccess } = useNextRebase();
+  const { data: epoch, isSuccess: epochSuccess } = useEpoch();
+  const isSuccess = rebaseSuccess && balanceSuccess && epochSuccess;
+
+  const parsedSeconds = parseBigNumber(secondsToRebase || BigNumber.from("0"), 0);
+  const epochLengthSeconds = parseBigNumber(epoch?.length.toBigNumber() || BigNumber.from("0"), 0);
+  // how many fully length epochs are remaining?
+  const warmupLength =
+    parseBigNumber(warmupBalance?.expiry || BigNumber.from("0"), 0) -
+    parseBigNumber(epoch?.number.toBigNumber() || BigNumber.from("0"), 0) -
+    1;
+
+  // secondsRemainingInThisEpoch + (epochLenghInSeconds * numberOfEpochsInWarmup)
+  const dateTime = new Date(Date.now() + (parsedSeconds + epochLengthSeconds * warmupLength) * 1000);
+
+  return {
+    data: isSuccess ? dateTime : undefined,
+  };
 };
 
 /**

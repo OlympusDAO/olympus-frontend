@@ -4,8 +4,7 @@ import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { prettifySeconds } from "src/helpers/timeUtil";
-import { IWarmupBalances, useEpoch, useWarmupClaim } from "src/hooks/useWarmupInfo";
-import { useNextWarmupDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
+import { IWarmupBalances, useEpoch, useWarmupClaim, useWarmupDate } from "src/hooks/useWarmupInfo";
 import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { useClaimToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useClaimToken";
 import { useForfeitToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useForfeitToken";
@@ -44,7 +43,7 @@ export const ClaimsArea = () => {
   const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: claim } = useWarmupClaim();
-  const { data: warmupDate } = useNextWarmupDate();
+  const { data: warmupDate } = useWarmupDate();
 
   if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
   const warmupTooltip = `Your claim earns rebases during warmup. You can emergency withdraw, but this forfeits the rebases`;
