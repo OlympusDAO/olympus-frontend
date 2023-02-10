@@ -8,12 +8,14 @@ import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/componen
 import { StakeInputArea } from "src/views/Stake/components/StakeArea/components/StakeInputArea/StakeInputArea";
 import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
 import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
+import { SwitchToMainnet } from "src/views/Stake/components/StakeArea/components/SwitchToMainnet";
 import { CurrentIndex, StakingAPY } from "src/views/TreasuryDashboard/components/Metric/Metric";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const { isConnected } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
 
   return (
     <>
@@ -29,7 +31,8 @@ export const StakeArea: React.FC = () => {
           </Box>
         </Box>
 
-        <StakeInputArea isZoomed={isZoomed} />
+        {[1, 5].includes(chain?.id) ? <StakeInputArea isZoomed={isZoomed} /> : <SwitchToMainnet />}
+        {/* <StakeInputArea isZoomed={isZoomed} /> */}
         {isConnected && (
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
