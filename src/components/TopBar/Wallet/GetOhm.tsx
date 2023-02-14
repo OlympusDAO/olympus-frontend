@@ -181,7 +181,7 @@ const GetOhm: FC = () => {
           tokens={["IMPERMAX"]}
           title={`Borrow on Impermax`}
           networkName="ARBITRUM"
-          href={`https://arbitrum.impermax.finance/lending-pool/0x6d94f7e67c6ae0b0257c35754e059fdfb249d998`}
+          href={`https://arbitrum.impermax.finance/lending-pool/2/0x6d94f7e67c6ae0b0257c35754e059fdfb249d998`}
           external
           disableFlip
         />

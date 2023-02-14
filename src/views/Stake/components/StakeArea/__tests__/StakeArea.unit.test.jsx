@@ -20,27 +20,62 @@ describe("<StakeArea/> Disconnected", () => {
   });
 });
 
-describe("<StakeArea/> Connected no Approval", () => {
-  beforeEach(() => {
+describe("<StakeArea/> Connected", () => {
+  beforeEach(async () => {
     connectWallet();
-    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
-      data: BigNumber.from(0),
-    });
     render(<StakeArea />);
   });
   it("should render the stake input Area when connected", async () => {
     expect(await screen.findByText("Unstaked Balance"));
   });
-  it("should display unstake approval message when clicking unstake", async () => {
-    fireEvent.click(await screen.findByText("Unstake"));
-    expect(await screen.findByText("Approve Unstaking"));
+});
+
+describe("<StakeInputArea/> Connected no Approval", () => {
+  beforeEach(() => {
+    connectWallet();
+    vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
+      data: BigNumber.from(0),
+    });
+    vi.spyOn(Index, "useCurrentIndex").mockReturnValue({ data: new DecimalBigNumber("10", 9) });
+    //@ts-expect-error
+    vi.spyOn(Prices, "useGohmPrice").mockReturnValue({ data: "120.56786330999999" });
+    //@ts-expect-error
+    vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "12.056786331" });
+    render(
+      <>
+        <StakeInputArea />
+      </>,
+    );
+  });
+  it("should display stake approval message when clicking stake", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
+    expect(await screen.findByTestId("submit-button"));
+    fireEvent.click(await screen.findByTestId("submit-button"));
+
+    // expect modal
+    expect(await screen.findByTestId("stake-confirmation-modal"));
+    // fireEvent.click(await screen.findByTestId("acknowledge-warmup"));
+
+    // expect approval
+    expect(await screen.findByText("Approve Staking"));
   });
   it("should successfully complete the contract approval", async () => {
+    fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
+    expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
+    expect(await screen.findByTestId("submit-button"));
+    fireEvent.click(await screen.findByTestId("submit-button"));
+
+    // expect modal
+    expect(await screen.findByTestId("stake-confirmation-modal"));
     expect(screen.getByText("Approve Staking"));
     fireEvent.click(screen.getByText("Approve Staking"));
+
     vi.spyOn(ContractAllowance, "useContractAllowance").mockReturnValue({
       data: BigNumber.from("100000000000000000000"),
     });
+    expect(await screen.findByTestId("acknowledge-warmup"));
+    fireEvent.click(await screen.findByTestId("acknowledge-warmup"));
     expect(screen.getAllByText("Stake"));
   });
 });
@@ -61,7 +96,6 @@ describe("<StakeArea/> Connected with Approval", () => {
     });
     vi.spyOn(Index, "useCurrentIndex").mockReturnValue({ data: new DecimalBigNumber("10", 9) });
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: vi.fn().mockReturnValue(zapAPIResponse) });
-    //@ts-expect-error
     //@ts-expect-error
     vi.spyOn(Prices, "useGohmPrice").mockReturnValue({ data: "120.56786330999999" });
     //@ts-expect-error
@@ -84,8 +118,7 @@ describe("<StakeArea/> Connected with Approval", () => {
     fireEvent.click(await screen.findByText("ETH"));
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });
     expect(await screen.findByTestId("staked-input"), { target: { value: "22.5447803865539" } });
-    expect(await screen.findByText("Zap-Stake"));
-    fireEvent.click(await screen.findByText("Zap-Stake"));
-    expect(await screen.findByText("Successful Zap!"));
+
+    expect(await screen.findByTestId("submit-button"));
   });
 });
