@@ -16,10 +16,9 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
         <TableHead>
           <TableRow sx={{ height: "31px" }}>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Pool</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>OHM Mint Limit</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Fees</StyledTableCell>
+            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Vault Limit</StyledTableCell>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>TVL</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Claimed Rewards</StyledTableCell>
+            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>APY</StyledTableCell>
             <StyledTableCell></StyledTableCell>
           </TableRow>
         </TableHead>
@@ -42,7 +41,6 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                   <LinearProgress variant="determinate" value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100} />
                 </Box>
               </StyledTableCell>
-              <StyledTableCell>{vault.fee}</StyledTableCell>
               <StyledTableCell>{vault.totalLpBalance}</StyledTableCell>
               <StyledTableCell>
                 {vault.rewards.map(reward => {

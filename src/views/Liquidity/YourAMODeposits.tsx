@@ -22,15 +22,14 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
   return (
     <>
       <Box mb="18px" mt="9px">
-        <Typography variant="h1">Your SSDV Deposits</Typography>
+        <Typography variant="h1">Your LP Positions</Typography>
       </Box>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{ height: "31px" }}>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Pool</StyledTableCell>
             <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>LP Tokens</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Claim on Deposit</StyledTableCell>
-            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Rewards</StyledTableCell>
+            <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Accrued Rewards</StyledTableCell>
             <StyledTableCell></StyledTableCell>
           </TableRow>
         </TableHead>
@@ -49,7 +48,6 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
               <StyledTableCell>
                 {formatNumber(Number(vault.lpTokenBalance), 2)} {vault.pairTokenName}-OHM
               </StyledTableCell>
-              <StyledTableCell>TBD</StyledTableCell>
               <StyledTableCell>
                 {vault.rewards.map(reward => {
                   return (

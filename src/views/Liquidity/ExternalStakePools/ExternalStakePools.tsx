@@ -1,3 +1,4 @@
+import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -12,6 +13,8 @@ import {
   TokenStack,
   Tooltip,
 } from "@olympusdao/component-library";
+import { Link as RouterLink } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { balancerPools, convexPools, curvePools, fraxPools } from "src/helpers/AllExternalPools";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -26,7 +29,6 @@ import {
 import { useStakePoolBalance } from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolBalance";
 import { CurvePoolTVL } from "src/views/Liquidity/ExternalStakePools/hooks/useStakePoolTVL";
 import { useAccount } from "wagmi";
-
 const PREFIX = "ExternalStakePools";
 
 const classes = {
@@ -57,38 +59,59 @@ export const ExternalStakePools = () => {
   const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   return (
-    <>
-      <Box mb="18px" mt="9px">
-        <Typography variant="h1">Liquidity Pools</Typography>
-        <Typography>
-          Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
-        </Typography>
-      </Box>
-      {isSmallScreen ? (
-        <Table>
-          <Box display="flex" justifyContent="start" mt="42px">
-            <Typography fontSize="24px" textAlign="left" fontWeight={600}>
-              Pool Farms
-            </Typography>
+    <div id="stake-view">
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Link component={RouterLink} to="/liquidity">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                  Back
+                </Typography>
+              </Box>
+            </Link>
+
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography fontSize="32px" fontWeight={500}>
+                Liquidity Pools
+              </Typography>
+            </Box>
           </Box>
-          <AllPools isSmallScreen={isSmallScreen} />
-        </Table>
-      ) : (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Asset</StyledTableCell>
-              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>TVL</StyledTableCell>
-              <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>APY</StyledTableCell>
-              {isConnected && (
-                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>{`Balance`}</StyledTableCell>
-              )}
-            </TableRow>
-          </TableHead>
-          <AllPools isSmallScreen={isSmallScreen} />
-        </Table>
-      )}
-    </>
+        }
+      ></PageTitle>
+      <Box width="97%" maxWidth="974px">
+        <Box mb="18px" mt="9px">
+          <Typography>
+            Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
+          </Typography>
+        </Box>
+        {isSmallScreen ? (
+          <Table>
+            <Box display="flex" justifyContent="start" mt="42px">
+              <Typography fontSize="24px" textAlign="left" fontWeight={600}>
+                Pool Farms
+              </Typography>
+            </Box>
+            <AllPools isSmallScreen={isSmallScreen} />
+          </Table>
+        ) : (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>Asset</StyledTableCell>
+                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>TVL</StyledTableCell>
+                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>APY</StyledTableCell>
+                {isConnected && (
+                  <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }}>{`Balance`}</StyledTableCell>
+                )}
+              </TableRow>
+            </TableHead>
+            <AllPools isSmallScreen={isSmallScreen} />
+          </Table>
+        )}
+      </Box>
+    </div>
   );
 };
 
