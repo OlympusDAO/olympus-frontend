@@ -13,7 +13,9 @@ import {
   getBondPremintedSupply,
   getBondVestingTokensSupply,
   getExternalSupply,
+  getLendingSupply,
   getMigrationOffsetSupply,
+  getOhmBackedSupply,
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
   getOhmTotalSupply,
@@ -64,14 +66,16 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     block: number;
     circulatingSupply: number;
     floatingSupply: number;
+    backedSupply: number;
     totalSupply: number;
-    polSupply: number;
-    treasurySupply: number;
-    migrationOffsetSupply: number;
+    protocolOwnedLiquidity: number;
+    treasury: number;
+    migrationOffset: number;
     bondDeposits: number;
     bondVestingTokens: number;
     bondPreminted: number;
-    externalSupply: number;
+    external: number;
+    lending: number;
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
@@ -91,14 +95,16 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         block: latestSupplyValue.block,
         circulatingSupply: getOhmCirculatingSupply(dateSupplyValues),
         floatingSupply: getOhmFloatingSupply(dateSupplyValues),
+        backedSupply: getOhmBackedSupply(dateSupplyValues),
         totalSupply: getOhmTotalSupply(dateSupplyValues),
-        polSupply: getProtocolOwnedLiquiditySupply(dateSupplyValues),
-        treasurySupply: getTreasurySupply(dateSupplyValues),
-        migrationOffsetSupply: getMigrationOffsetSupply(dateSupplyValues),
+        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues),
+        treasury: getTreasurySupply(dateSupplyValues),
+        migrationOffset: getMigrationOffsetSupply(dateSupplyValues),
         bondDeposits: getBondDepositsSupply(dateSupplyValues),
         bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues),
         bondPreminted: getBondPremintedSupply(dateSupplyValues),
-        externalSupply: getExternalSupply(dateSupplyValues),
+        external: getExternalSupply(dateSupplyValues),
+        lending: getLendingSupply(dateSupplyValues),
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
@@ -118,19 +124,22 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
    * Chart inputs
    */
   const dataKeys: string[] = [
-    "externalSupply",
+    "external",
+    "lending",
     "bondVestingTokens",
-    "polSupply",
-    "treasurySupply",
-    "migrationOffsetSupply",
+    "protocolOwnedLiquidity",
+    "treasury",
+    "migrationOffset",
     "bondPreminted",
     "bondDeposits",
     "totalSupply",
     "circulatingSupply",
     "floatingSupply",
+    "backedSupply",
   ];
   const itemNames: string[] = [
     `External`,
+    `Deployed to Lending Markets`,
     `OHM Bonds (Vesting)`,
     `Protocol-Owned Liquidity`,
     `Treasury`,
@@ -140,9 +149,10 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     `Total Supply`,
     `Circulating Supply`,
     `Floating Supply`,
+    `Backed Supply`,
   ];
 
-  const lineDataKeys: string[] = ["totalSupply", "circulatingSupply", "floatingSupply"];
+  const lineDataKeys: string[] = ["totalSupply", "circulatingSupply", "floatingSupply", "backedSupply"];
 
   const categoriesMap = getCategoriesMap(itemNames, dataKeys);
   const bulletpointStylesMap = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
