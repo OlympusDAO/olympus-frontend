@@ -2,6 +2,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
 import {
   getLiquidBackingPerGOhmSynthetic,
+  getLiquidBackingPerOhmBacked,
   getLiquidBackingPerOhmFloating,
   getOhmCirculatingSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
@@ -38,6 +39,35 @@ export const useMarketCap = (subgraphUrl?: string) => {
       select: data => getOhmCirculatingSupply(data.tokenSupplies) * (ohmPriceQuery.data || 0),
       ...QUERY_OPTIONS,
       enabled: latestDateQuery.isSuccess && ohmPriceQuery.isSuccess, // Only fetch when we've been able to get the latest date and price
+    },
+  );
+};
+
+/**
+ * Liquid backing value / OHM backed supply
+ *
+ * @param subgraphUrl
+ * @returns react-query result wrapping a number representing the liquid backing per OHM
+ */
+export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
+  const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
+  const liquidBackingQuery = useTreasuryLiquidValue(
+    !latestDateQuery.data ? undefined : latestDateQuery.data.date,
+    subgraphUrls,
+  );
+  const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
+
+  return useTokenSuppliesQuery(
+    { endpoint: endpoint },
+    {
+      recordCount: DEFAULT_RECORD_COUNT,
+      filter: { block: latestDateQuery.data?.block },
+      endpoint: endpoint,
+    },
+    {
+      select: data => getLiquidBackingPerOhmBacked(liquidBackingQuery, data.tokenSupplies),
+      ...QUERY_OPTIONS,
+      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
     },
   );
 };

@@ -7,11 +7,15 @@ import {
   TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
   TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
   TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS,
+  TOKEN_SUPPLY_TYPE_LENDING,
   TOKEN_SUPPLY_TYPE_LIQUIDITY,
   TOKEN_SUPPLY_TYPE_OFFSET,
   TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
   TOKEN_SUPPLY_TYPE_TREASURY,
 } from "src/helpers/subgraph/Constants";
+
+export const getLiquidBackingPerOhmBacked = (liquidBacking: number, tokenSupplies: TokenSupply[]) =>
+  liquidBacking / getOhmBackedSupply(tokenSupplies);
 
 export const getLiquidBackingPerOhmFloating = (liquidBacking: number, tokenSupplies: TokenSupply[]) =>
   liquidBacking / getOhmFloatingSupply(tokenSupplies);
@@ -84,6 +88,10 @@ export const getBondVestingTokensSupply = (records: TokenSupply[]): number => {
   return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS]);
 };
 
+export const getLendingSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LENDING]);
+};
+
 export const getBondPremintedSupply = (records: TokenSupply[]): number => {
   return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
 };
@@ -96,7 +104,8 @@ export const getExternalSupply = (records: TokenSupply[]): number => {
     getMigrationOffsetSupply(records) -
     getBondDepositsSupply(records) -
     getBondVestingTokensSupply(records) -
-    getBondPremintedSupply(records)
+    getBondPremintedSupply(records) -
+    getLendingSupply(records)
   );
 };
 
@@ -153,6 +162,38 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
+  ];
+
+  return records
+    .filter(record => includedTypes.includes(record.type))
+    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+};
+
+/**
+ * For a given array of TokenSupply records (assumed to be at the same point in time),
+ * this function returns the OHM backed supply.
+ *
+ * Backed supply is the quantity of OHM backed by treasury assets.
+ *
+ * Backed supply is calculated as:
+ * - OHM total supply
+ * - minus: OHM in circulating supply wallets
+ * - minus: migration offset
+ * - minus: pre-minted OHM for bonds
+ * - minus: OHM user deposits for bonds
+ * - minus: protocol-owned OHM in liquidity pools
+ * - minus: OHM minted and deployed into lending markets
+ */
+export const getOhmBackedSupply = (records: TokenSupply[]): number => {
+  const includedTypes = [
+    TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
+    TOKEN_SUPPLY_TYPE_TREASURY,
+    TOKEN_SUPPLY_TYPE_OFFSET,
+    TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
+    TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_LIQUIDITY,
+    TOKEN_SUPPLY_TYPE_LENDING,
   ];
 
   return records

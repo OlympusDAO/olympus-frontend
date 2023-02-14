@@ -128,7 +128,7 @@ const renderBulletpointRow = (
       xs={12}
       alignContent="center"
       justifyContent="space-between"
-      style={{ marginBottom: "10px" }}
+      style={{ marginBottom: "5px" }}
       key={index}
     >
       <Grid item xs={1} alignContent="left">
