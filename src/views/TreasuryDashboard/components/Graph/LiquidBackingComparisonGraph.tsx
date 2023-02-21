@@ -11,7 +11,7 @@ import {
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import {
   getLiquidBackingPerGOhmSynthetic,
-  getLiquidBackingPerOhmFloating,
+  getLiquidBackingPerOhmBacked,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
@@ -29,7 +29,7 @@ import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph
 
 /**
  * React Component that displays a line graph comparing the
- * OHM price and liquid backing per floating OHM.
+ * OHM price and liquid backing per backed OHM.
  */
 export const LiquidBackingPerOhmComparisonGraph = ({
   subgraphUrls,
@@ -90,7 +90,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     block: number;
     gOhmPrice: number;
     liquidBackingPerGOhmSynthetic: number;
-    liquidBackingPerOhmFloating: number;
+    liquidBackingPerBackedOhm: number;
     ohmPrice: number;
   };
   const [byDateLiquidBacking, setByDateLiquidBacking] = useState<LiquidBackingComparison[]>([]);
@@ -131,7 +131,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
         block: latestTokenRecord.block,
         gOhmPrice: latestProtocolMetric.gOhmPrice,
         ohmPrice: latestProtocolMetric.ohmPrice,
-        liquidBackingPerOhmFloating: getLiquidBackingPerOhmFloating(liquidBacking, currentTokenSupplies),
+        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(liquidBacking, currentTokenSupplies),
         liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(
           liquidBacking,
           latestProtocolMetric.currentIndex,
@@ -168,7 +168,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     setCurrentBackingHeaderText(
       formatCurrency(
         isActiveTokenOHM
-          ? byDateLiquidBacking[0].liquidBackingPerOhmFloating
+          ? byDateLiquidBacking[0].liquidBackingPerBackedOhm
           : byDateLiquidBacking[0].liquidBackingPerGOhmSynthetic,
         2,
       ),
@@ -188,12 +188,12 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   const [tooltipText, setTooltipText] = useState("");
   useMemo(() => {
     const tempDataKeys: string[] = isActiveTokenOHM
-      ? ["ohmPrice", "liquidBackingPerOhmFloating"]
+      ? ["ohmPrice", "liquidBackingPerBackedOhm"]
       : ["gOhmPrice", "liquidBackingPerGOhmSynthetic"];
     setDataKeys(tempDataKeys);
 
     const itemNames: string[] = isActiveTokenOHM
-      ? [`OHM Price`, `Liquid Backing per Floating OHM`]
+      ? [`OHM Price`, `Liquid Backing per Backed OHM`]
       : [`gOHM Price`, `Liquid Backing per gOHM`];
 
     setCategoriesMap(getCategoriesMap(itemNames, tempDataKeys));
