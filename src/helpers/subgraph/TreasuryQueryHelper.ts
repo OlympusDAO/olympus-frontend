@@ -24,7 +24,7 @@ export const getLiquidBackingPerGOhmSynthetic = (
   liquidBacking: number,
   currentIndex: number,
   tokenSupplies: TokenSupply[],
-) => liquidBacking / getGOhmSyntheticSupply(currentIndex, getOhmFloatingSupply(tokenSupplies));
+) => liquidBacking / getGOhmSyntheticSupply(currentIndex, getOhmBackedSupply(tokenSupplies));
 
 export const filterReduce = (
   records: TokenRecord[],
