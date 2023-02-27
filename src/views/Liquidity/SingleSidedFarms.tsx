@@ -1,8 +1,15 @@
 import { LinearProgress, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import { OHMTokenProps, OHMTokenStackProps, PrimaryButton, Token, TokenStack } from "@olympusdao/component-library";
+import {
+  OHMTokenProps,
+  OHMTokenStackProps,
+  PrimaryButton,
+  Token,
+  TokenStack,
+  Tooltip,
+} from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
-import { formatNumber } from "src/helpers";
+import { formatCurrency, formatNumber } from "src/helpers";
 import { VaultInfo } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,24 +43,34 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                 </Box>
               </StyledTableCell>
               <StyledTableCell>
-                <Typography>{vault.limit} OHM</Typography>
+                <Typography>
+                  {vault.limit} OHM {vault.ohmMinted}
+                </Typography>
                 <Box mt="3px" width="80%">
                   <LinearProgress variant="determinate" value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100} />
                 </Box>
               </StyledTableCell>
-              <StyledTableCell>{vault.totalLpBalance}</StyledTableCell>
+              <StyledTableCell>{formatCurrency(Number(vault.tvlUsd))}</StyledTableCell>
               <StyledTableCell>
-                {vault.rewards.map(reward => {
-                  return (
-                    <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                      <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                      {formatNumber(Number(reward.accumulatedRewardsPerShare), 2)} {reward.tokenName}
-                    </Box>
-                  );
-                })}
+                <Tooltip
+                  message={
+                    <>
+                      {vault.rewards.map(reward => {
+                        return (
+                          <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                            <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
+                            {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
+                          </Box>
+                        );
+                      })}
+                    </>
+                  }
+                >
+                  {vault.totalApy}%
+                </Tooltip>
               </StyledTableCell>
               <StyledTableCell>
-                <Link component={RouterLink} to={`/liquidity/${vault.vaultAddress}`}>
+                <Link component={RouterLink} to={`/liquidity/vaults/${vault.vaultAddress}`}>
                   <PrimaryButton fullWidth>Deposit Liquidity</PrimaryButton>
                 </Link>
               </StyledTableCell>

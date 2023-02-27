@@ -13,6 +13,16 @@ export interface ModalHandleSelectProps {
   price?: number;
   decimals?: number;
 }
+type TokenItem = {
+  name: string;
+  balance: string;
+  icon?: string;
+  usdValue?: string;
+  address?: string;
+  price?: number;
+  decimals?: number;
+};
+
 type OHMTokenModalProps = {
   open: boolean;
   handleSelect: (data: ModalHandleSelectProps) => void;
@@ -21,6 +31,7 @@ type OHMTokenModalProps = {
   sOhmBalance?: string;
   gOhmBalance?: string;
   showZapAssets?: boolean;
+  alwaysShowTokens?: { name: OHMTokenProps["name"]; balance: string; address: string }[];
 };
 /**
  * Component for Displaying TokenModal
@@ -33,22 +44,13 @@ const TokenModal: FC<OHMTokenModalProps> = ({
   sOhmBalance = "0.00",
   gOhmBalance = "0.00",
   showZapAssets = false,
+  alwaysShowTokens,
 }) => {
   const theme = useTheme();
   const { data: zapTokenBalances = { balances: {} }, isLoading } = useZapTokenBalances();
   const tokensBalance = zapTokenBalances.balances;
 
   const showZap = showZapAssets && tokensBalance;
-
-  type TokenItem = {
-    name: string;
-    balance: string;
-    icon?: string;
-    usdValue?: string;
-    address?: string;
-    price?: number;
-    decimals?: number;
-  };
 
   const TokenItem: FC<TokenItem> = ({ name, balance = "0", icon, address = "", price, decimals, ...props }) => {
     return (
@@ -102,6 +104,13 @@ const TokenModal: FC<OHMTokenModalProps> = ({
               </Box>
             ) : (
               <>
+                {alwaysShowTokens && (
+                  <>
+                    {alwaysShowTokens.map(token => (
+                      <TokenItem name={token.name} balance={token.balance} address={token.address} />
+                    ))}
+                  </>
+                )}
                 <TokenItem name="OHM" balance={ohmBalance} />
                 {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
                 {Object.entries(tokensBalance)

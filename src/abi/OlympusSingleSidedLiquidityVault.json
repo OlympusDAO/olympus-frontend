@@ -2,72 +2,82 @@
   "abi": [
     {
       "inputs": [
-        { "internalType": "contract Kernel", "name": "kernel_", "type": "address" },
-        { "internalType": "address", "name": "ohm_", "type": "address" },
-        { "internalType": "address", "name": "steth_", "type": "address" },
-        { "internalType": "address", "name": "vault_", "type": "address" },
-        { "internalType": "address", "name": "liquidityPool_", "type": "address" },
         {
-          "components": [
-            { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-            { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
-          ],
-          "internalType": "struct StethLiquidityVault.OracleFeed",
-          "name": "ohmEthPriceFeed_",
-          "type": "tuple"
-        },
-        {
-          "components": [
-            { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-            { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
-          ],
-          "internalType": "struct StethLiquidityVault.OracleFeed",
-          "name": "ethUsdPriceFeed_",
-          "type": "tuple"
-        },
-        {
-          "components": [
-            { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-            { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
-          ],
-          "internalType": "struct StethLiquidityVault.OracleFeed",
-          "name": "stethUsdPriceFeed_",
-          "type": "tuple"
-        },
-        {
-          "components": [
-            { "internalType": "uint256", "name": "pid", "type": "uint256" },
-            { "internalType": "contract IAuraBooster", "name": "booster", "type": "address" },
-            { "internalType": "contract IAuraRewardPool", "name": "rewardsPool", "type": "address" }
-          ],
-          "internalType": "struct StethLiquidityVault.AuraPool",
-          "name": "auraPool_",
-          "type": "tuple"
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
         }
       ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
       "name": "KernelAdapter_OnlyKernel",
       "type": "error"
     },
-    { "inputs": [], "name": "LiquidityVault_BadPriceFeed", "type": "error" },
-    { "inputs": [], "name": "LiquidityVault_InvalidRemoval", "type": "error" },
-    { "inputs": [], "name": "LiquidityVault_LimitViolation", "type": "error" },
-    { "inputs": [], "name": "LiquidityVault_PoolImbalanced", "type": "error" },
     {
-      "inputs": [{ "internalType": "Keycode", "name": "keycode_", "type": "bytes5" }],
+      "inputs": [],
+      "name": "LiquidityVault_BadPriceFeed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_Inactive",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_InvalidParams",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_InvalidRemoval",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_LimitViolation",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_PoolImbalanced",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LiquidityVault_StillActive",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Keycode",
+          "name": "keycode_",
+          "type": "bytes5"
+        }
+      ],
       "name": "Policy_ModuleDoesNotExist",
       "type": "error"
     },
     {
       "anonymous": false,
       "inputs": [
-        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
-        { "indexed": false, "internalType": "uint256", "name": "pairAmount", "type": "uint256" },
-        { "indexed": false, "internalType": "uint256", "name": "ohmMinted", "type": "uint256" }
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ohmMinted",
+          "type": "uint256"
+        }
       ],
       "name": "Deposit",
       "type": "event"
@@ -75,9 +85,24 @@
     {
       "anonymous": false,
       "inputs": [
-        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
-        { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
-        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
       ],
       "name": "RewardsClaimed",
       "type": "event"
@@ -85,9 +110,24 @@
     {
       "anonymous": false,
       "inputs": [
-        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
-        { "indexed": false, "internalType": "uint256", "name": "pairAmount", "type": "uint256" },
-        { "indexed": false, "internalType": "uint256", "name": "ohmBurned", "type": "uint256" }
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "pairAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ohmBurned",
+          "type": "uint256"
+        }
       ],
       "name": "Withdraw",
       "type": "event"
@@ -95,69 +135,160 @@
     {
       "inputs": [],
       "name": "EXCHANGE",
-      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "FEE",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "LIMIT",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "LQREG",
-      "outputs": [{ "internalType": "contract LQREGv1", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "contract LQREGv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "MINTR",
-      "outputs": [{ "internalType": "contract MINTRv1", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "contract MINTRv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "PRECISION",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "ROLES",
-      "outputs": [{ "internalType": "contract ROLESv1", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "contract ROLESv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "THRESHOLD",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "_valueCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "name": "accumulatedFees",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
-    { "inputs": [], "name": "activate", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
-      "inputs": [{ "internalType": "address", "name": "token_", "type": "address" }],
+      "inputs": [],
+      "name": "activate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
+      ],
       "name": "addExternalRewardToken",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -165,9 +296,21 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "token_", "type": "address" },
-        { "internalType": "uint256", "name": "rewardsPerSecond_", "type": "uint256" },
-        { "internalType": "uint256", "name": "startTimestamp_", "type": "uint256" }
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardsPerSecond_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp_",
+          "type": "uint256"
+        }
       ],
       "name": "addInternalRewardToken",
       "outputs": [],
@@ -175,45 +318,71 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "auraPool",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "cachedUserRewards",
       "outputs": [
-        { "internalType": "uint256", "name": "pid", "type": "uint256" },
-        { "internalType": "contract IAuraBooster", "name": "booster", "type": "address" },
-        { "internalType": "contract IAuraRewardPool", "name": "rewardsPool", "type": "address" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "newKernel_",
+          "type": "address"
+        }
+      ],
       "name": "changeKernel",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        { "internalType": "uint48", "name": "ohmEthPriceFeedUpdateThreshold_", "type": "uint48" },
-        { "internalType": "uint48", "name": "ethUsdPriceFeedUpdateThreshold_", "type": "uint48" },
-        { "internalType": "uint48", "name": "stethUsdPriceFeedUpdateThreshold_", "type": "uint48" }
-      ],
-      "name": "changeUpdateThresholds",
+      "inputs": [],
+      "name": "claimFees",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
-    { "inputs": [], "name": "claimFees", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
-    { "inputs": [], "name": "claimRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
-      "name": "configureDependencies",
-      "outputs": [{ "internalType": "Keycode[]", "name": "dependencies", "type": "bytes5[]" }],
+      "name": "claimRewards",
+      "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "id_", "type": "uint256" }],
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [
+        {
+          "internalType": "Keycode[]",
+          "name": "dependencies",
+          "type": "bytes5[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "deactivate",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -221,42 +390,103 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
-        { "internalType": "uint256", "name": "slippageParam_", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "slippageParam_",
+          "type": "uint256"
+        }
       ],
       "name": "deposit",
-      "outputs": [{ "internalType": "uint256", "name": "lpAmountOut", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "lpAmountOut",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "ethUsdPriceFeed",
-      "outputs": [
-        { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-        { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "name": "externalRewardTokens",
       "outputs": [
-        { "internalType": "address", "name": "token", "type": "address" },
-        { "internalType": "uint256", "name": "accumulatedRewardsPerShare", "type": "uint256" }
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "decimalsAdjustment",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accumulatedRewardsPerShare",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastBalance",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "id_", "type": "uint256" },
-        { "internalType": "address", "name": "user_", "type": "address" }
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        }
       ],
       "name": "externalRewardsForToken",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "getExpectedLPAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -265,8 +495,26 @@
       "outputs": [
         {
           "components": [
-            { "internalType": "address", "name": "token", "type": "address" },
-            { "internalType": "uint256", "name": "accumulatedRewardsPerShare", "type": "uint256" }
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "decimalsAdjustment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "accumulatedRewardsPerShare",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastBalance",
+              "type": "uint256"
+            }
           ],
           "internalType": "struct SingleSidedLiquidityVault.ExternalRewardToken[]",
           "name": "",
@@ -282,10 +530,31 @@
       "outputs": [
         {
           "components": [
-            { "internalType": "address", "name": "token", "type": "address" },
-            { "internalType": "uint256", "name": "rewardsPerSecond", "type": "uint256" },
-            { "internalType": "uint256", "name": "lastRewardTime", "type": "uint256" },
-            { "internalType": "uint256", "name": "accumulatedRewardsPerShare", "type": "uint256" }
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "decimalsAdjustment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rewardsPerSecond",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastRewardTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "accumulatedRewardsPerShare",
+              "type": "uint256"
+            }
           ],
           "internalType": "struct SingleSidedLiquidityVault.InternalRewardToken[]",
           "name": "",
@@ -297,77 +566,191 @@
     },
     {
       "inputs": [],
-      "name": "getOhmEmissions",
+      "name": "getMaxDeposit",
       "outputs": [
-        { "internalType": "uint256", "name": "emitted", "type": "uint256" },
-        { "internalType": "uint256", "name": "removed", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-      "name": "internalRewardTokens",
+      "inputs": [],
+      "name": "getOhmEmissions",
       "outputs": [
-        { "internalType": "address", "name": "token", "type": "address" },
-        { "internalType": "uint256", "name": "rewardsPerSecond", "type": "uint256" },
-        { "internalType": "uint256", "name": "lastRewardTime", "type": "uint256" },
-        { "internalType": "uint256", "name": "accumulatedRewardsPerShare", "type": "uint256" }
+        {
+          "internalType": "uint256",
+          "name": "emitted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "removed",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getUsers",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "id_", "type": "uint256" },
-        { "internalType": "address", "name": "user_", "type": "address" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "internalRewardTokens",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "decimalsAdjustment",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardsPerSecond",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastRewardTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accumulatedRewardsPerShare",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        }
       ],
       "name": "internalRewardsForToken",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "isActive",
-      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isVaultActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "kernel",
-      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "liquidityPool",
-      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "name": "lpPositions",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "ohm",
-      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "ohmEthPriceFeed",
       "outputs": [
-        { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-        { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
+        {
+          "internalType": "contract OlympusERC20Token",
+          "name": "",
+          "type": "address"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -375,35 +758,86 @@
     {
       "inputs": [],
       "name": "ohmMinted",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "ohmRemoved",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "pairToken",
-      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-      "name": "pairTokenDeposits",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "inputs": [],
+      "name": "pairTokenDecimals",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "id_", "type": "uint256" },
-        { "internalType": "address", "name": "token_", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "pairTokenDeposits",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
       ],
       "name": "removeExternalRewardToken",
       "outputs": [],
@@ -412,8 +846,16 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "id_", "type": "uint256" },
-        { "internalType": "address", "name": "token_", "type": "address" }
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        }
       ],
       "name": "removeInternalRewardToken",
       "outputs": [],
@@ -426,8 +868,16 @@
       "outputs": [
         {
           "components": [
-            { "internalType": "Keycode", "name": "keycode", "type": "bytes5" },
-            { "internalType": "bytes4", "name": "funcSelector", "type": "bytes4" }
+            {
+              "internalType": "Keycode",
+              "name": "keycode",
+              "type": "bytes5"
+            },
+            {
+              "internalType": "bytes4",
+              "name": "funcSelector",
+              "type": "bytes4"
+            }
           ],
           "internalType": "struct Permissions[]",
           "name": "permissions",
@@ -438,21 +888,57 @@
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "fee_", "type": "uint256" }],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "rescueToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "fee_",
+          "type": "uint256"
+        }
+      ],
       "name": "setFee",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "limit_", "type": "uint256" }],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "limit_",
+          "type": "uint256"
+        }
+      ],
       "name": "setLimit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "threshold_", "type": "uint256" }],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "threshold_",
+          "type": "uint256"
+        }
+      ],
       "name": "setThreshold",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -460,53 +946,102 @@
     },
     {
       "inputs": [],
-      "name": "stethUsdPriceFeed",
+      "name": "totalLP",
       "outputs": [
-        { "internalType": "contract AggregatorV3Interface", "name": "feed", "type": "address" },
-        { "internalType": "uint48", "name": "updateThreshold", "type": "uint48" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
       ],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "totalLP",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
-        { "internalType": "address", "name": "", "type": "address" },
-        { "internalType": "address", "name": "", "type": "address" }
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
       ],
       "name": "userRewardDebts",
-      "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "vault",
-      "outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
-        { "internalType": "uint256[]", "name": "minTokenAmounts_", "type": "uint256[]" },
-        { "internalType": "bool", "name": "claim_", "type": "bool" }
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "users",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "lpAmount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "minTokenAmounts_",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "bool",
+          "name": "claim_",
+          "type": "bool"
+        }
       ],
       "name": "withdraw",
-      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
   "devdoc": {
+    "details": "Some caveats around this contract:         - No internal reward token should also be an external reward token         - No pair token should also be an external reward token         - No pair, internal reward, or external reward tokens should be ERC777s or non-standard ERC20s",
     "kind": "dev",
     "methods": {
+      "_valueCollateral(uint256)": {
+        "params": {
+          "amount_": "The amount of partner tokens to calculate the OHM value of"
+        },
+        "returns": {
+          "_0": "uint256         The OHM value of the given amount of partner tokens"
+        }
+      },
       "activate()": {
         "details": "This function can only be accessed by the liquidityvault_admin role"
       },
@@ -532,14 +1067,14 @@
           "dependencies": "- Keycode array of module dependencies."
         }
       },
-      "deactivate(uint256)": {
+      "deactivate()": {
         "details": "This function can only be accessed by the liquidityvault_admin role"
       },
       "deposit(uint256,uint256)": {
         "details": "This needs to be non-reentrant since the contract only knows the amount of LP tokens it                         receives after an external interaction with the liquidity pool",
         "params": {
           "amount_": "The amount of pair tokens to deposit",
-          "minLpAmount_": "The minimum amount of LP tokens to receive"
+          "slippageParam_": "Represents the slippage on joining the liquidity pool. Can either be the minimum LP token                         amount to receive in the cases of Balancer or Curve, or can be a value (in thousandths) which                         will be used to calculate the minimum amount of OHM and pair tokens to use in the case of Uniswap,                         Sushiswap, Fraxswap, etc."
         }
       },
       "externalRewardsForToken(uint256,address)": {
@@ -548,14 +1083,34 @@
           "user_": "The user's address to check rewards for"
         },
         "returns": {
-          "_0": "int256              The amount of rewards the user has earned"
+          "_0": "uint256                 The amount of rewards the user has earned"
+        }
+      },
+      "getExternalRewardTokens()": {
+        "returns": {
+          "_0": "ExternalRewardToken[]   An array of all the external reward tokens"
+        }
+      },
+      "getInternalRewardTokens()": {
+        "returns": {
+          "_0": "InternalRewardToken[]   An array of all the internal reward tokens"
+        }
+      },
+      "getMaxDeposit()": {
+        "returns": {
+          "_0": "uint256                 The max amount of pair tokens that can be deposited currently"
         }
       },
       "getOhmEmissions()": {
         "details": "This is based on a point-in-time snapshot of the liquidity pool's current OHM balance",
         "returns": {
-          "emitted": "            The amount of OHM that this contract has emitted to the broader market",
-          "removed": "            The amount of OHM that this contract has removed from the broader market"
+          "emitted": "                The amount of OHM that this contract has emitted to the broader market",
+          "removed": "                The amount of OHM that this contract has removed from the broader market"
+        }
+      },
+      "getUsers()": {
+        "returns": {
+          "_0": "address[]               An array of all users that have deposited into the vault"
         }
       },
       "internalRewardsForToken(uint256,address)": {
@@ -564,7 +1119,7 @@
           "user_": "The user's address to check rewards for"
         },
         "returns": {
-          "_0": "int256              The amount of rewards the user has earned"
+          "_0": "uint256                 The amount of rewards the user has earned"
         }
       },
       "removeExternalRewardToken(uint256,address)": {
@@ -584,6 +1139,13 @@
       "requestPermissions()": {
         "returns": {
           "permissions": "- Array of keycodes and function selectors for requested permissions."
+        }
+      },
+      "rescueToken(address,uint256)": {
+        "details": "This function can only be accessed by the liquidityvault_admin role and only when                           the vault is deactivated. This acts as an emergency migration function in the event                           that the vault is compromised.",
+        "params": {
+          "amount_": "The amount of tokens to transfer",
+          "token_": "The address of the token to transfer"
         }
       },
       "setFee(uint256)": {
@@ -618,6 +1180,9 @@
   "userdoc": {
     "kind": "user",
     "methods": {
+      "_valueCollateral(uint256)": {
+        "notice": "Calculates the equivalent OHM amount for a given amount of partner tokens"
+      },
       "activate()": {
         "notice": "Registers the vault in the LQREG contract"
       },
@@ -639,7 +1204,7 @@
       "configureDependencies()": {
         "notice": "Define module dependencies for this policy."
       },
-      "deactivate(uint256)": {
+      "deactivate()": {
         "notice": "Unregisters the vault in the LQREG contract and sets the borrowable limit to 0"
       },
       "deposit(uint256,uint256)": {
@@ -651,8 +1216,23 @@
       "externalRewardsForToken(uint256,address)": {
         "notice": "Returns the amount of rewards a user has earned for a given external reward token"
       },
+      "getExpectedLPAmount(uint256)": {
+        "notice": "Calculates the expected amount of LP tokens to receive for a given pair token                         deposit. This is useful for the frontend to have a standard interface across vaults"
+      },
+      "getExternalRewardTokens()": {
+        "notice": "Gets a list of all the external reward tokens"
+      },
+      "getInternalRewardTokens()": {
+        "notice": "Gets a list of all the internal reward tokens"
+      },
+      "getMaxDeposit()": {
+        "notice": "Gets the max amount of pair tokens that can be deposited currently"
+      },
       "getOhmEmissions()": {
         "notice": "Calculates the net amount of OHM that this contract has emitted to or removed from the broader market"
+      },
+      "getUsers()": {
+        "notice": "Gets all users that have deposited into the vault"
       },
       "internalRewardTokens(uint256)": {
         "notice": "An internal reward token is a token where the vault is the only source of rewards and the         vault handles all accounting around how many reward tokens to distribute over time"
@@ -671,6 +1251,9 @@
       },
       "requestPermissions()": {
         "notice": "Function called by kernel to set module function permissions."
+      },
+      "rescueToken(address,uint256)": {
+        "notice": "Transfers tokens from the contract to the admin"
       },
       "setFee(uint256)": {
         "notice": "Updates the fee charged on rewards"

@@ -138,3 +138,20 @@ export const isChainEthereum = ({
 
   return chainId === NetworkId.MAINNET || chainId === NetworkId.TESTNET_GOERLI;
 };
+
+//maps known testnet contracts to mainnet for testing liquidity vaults
+export const testnetToMainnetContract = (address: string) => {
+  switch (address.toLowerCase()) {
+    //AURA
+    case "0xaEeB016eAA323A1f4540C72cED40E984079e12Eb".toLowerCase():
+      return "0xc0c293ce456ff0ed870add98a0828dd4d2903dbf";
+    //LDO
+    case "0x60f9c29521de275296fbF01950FCf2D95311c53F".toLowerCase():
+      return "0x5a98fcbea516cf06857215779fd812ca3bef1b32";
+    //wstETH
+    case "0x6320cD32aA674d2898A68ec82e869385Fc5f7E2f".toLowerCase():
+      return "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0";
+    default:
+      return address;
+  }
+};

@@ -2,8 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { LIQUDITY_REGISTRY_CONTRACT } from "src/constants/contracts";
+import { OHM_TOKEN } from "src/constants/tokens";
+import { formatNumber, testnetToMainnetContract } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { getCoingeckoPrice } from "src/helpers/pricing/getCoingeckoPrice";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain";
 import { IERC20__factory } from "src/typechain";
 import { useAccount } from "wagmi";
@@ -20,9 +25,13 @@ export interface VaultInfo {
   ohmMinted: string;
   rewards: {
     tokenName: string;
-    accumulatedRewardsPerShare: string;
+    apy: string;
     userRewards: string;
   }[];
+  pricePerDepositToken: string;
+  tvlUsd: string;
+  totalApy: string;
+  usdPricePerToken: string;
 }
 
 export const useGetSingleSidedLiquidityVaults = () => {
@@ -65,24 +74,39 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const pairTokenContract = IERC20__factory.connect(pairTokenAddress, provider);
   const pairTokenName = await pairTokenContract.symbol();
   const fee = formatUnits((await contract.FEE()).mul(100).div(await contract.PRECISION()));
-
-  //TODO: Check decimals
+  const pricePerDepositToken = formatUnits(await contract.callStatic.getExpectedLPAmount("1000000000000000000"), 18); //price per deposit token
   const depositedPairTokenBalance = await contract.pairTokenDeposits(address);
   const lpTokenBalance = formatUnits(await contract.lpPositions(walletAddress), 18);
-  console.log(lpTokenBalance, "lpTokenBalance");
   const limit = formatUnits(await contract.LIMIT(), 9); //will always be denominated in OHM
   const ohmMinted = formatUnits(await contract.ohmMinted(), 9);
   //TODO: Convert to USD
   const totalLpBalance = formatUnits(await contract.totalLP());
+  const lpBigNumber = await contract.totalLP();
+  //Price per LP Token is 1 divided by the price per deposit token
+  const pricePerLpToken = new DecimalBigNumber("1").div(new DecimalBigNumber(pricePerDepositToken));
+
+  //mapping testnet addresses to mainnet so we can display tvl on testnet
+  const usdPricePairToken = await getCoingeckoPrice(NetworkId.MAINNET, testnetToMainnetContract(pairTokenAddress));
+  const usdPricePerPairToken = usdPricePairToken.mul(pricePerLpToken);
+  const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
+  const usdPricePerOhm = ohmPrice.mul(pricePerLpToken);
+  const price = usdPricePerPairToken.add(usdPricePerOhm);
+  const tvlUsd = price.mul(new DecimalBigNumber(lpBigNumber, 18)).toString();
+
   const externalRewardsTokens = await contract.getExternalRewardTokens();
   const externalRewards = await Promise.all(
     externalRewardsTokens.map(async (token, index) => {
       const tokenContract = IERC20__factory.connect(token.token, provider);
       const decimals = await tokenContract.decimals();
       const tokenName = await tokenContract.symbol();
-      const accumulatedRewardsPerShare = formatUnits(token.accumulatedRewardsPerShare, decimals);
+
+      //TODO: this doesn't have a rewardsPerSecond yet...
+      const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token.token));
+      const rewardPerYear = new DecimalBigNumber("0");
+      const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
+      const apy = rewardPerYearUsd.div(tvlUsd).mul("100").toString();
       const userRewards = formatUnits(await contract.externalRewardsForToken(index, walletAddress), decimals);
-      return { tokenName, accumulatedRewardsPerShare, userRewards };
+      return { tokenName, apy, userRewards };
     }),
   );
   const internalRewards = await contract.getInternalRewardTokens();
@@ -91,12 +115,20 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
       const tokenContract = IERC20__factory.connect(token.token, provider);
       const decimals = await tokenContract.decimals();
       const tokenName = await tokenContract.symbol();
-      const accumulatedRewardsPerShare = formatUnits(token.accumulatedRewardsPerShare, decimals);
+      const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token.token));
+      const rewardPerYear = new DecimalBigNumber(token.rewardsPerSecond, decimals).mul("31536000");
+      const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
+      const apy = rewardPerYearUsd.div(tvlUsd).mul("100").toString();
       const userRewards = formatUnits(await contract.internalRewardsForToken(index, walletAddress), decimals);
-      return { tokenName, accumulatedRewardsPerShare, userRewards };
+      return { tokenName, apy, userRewards };
     }),
   );
   const rewards = [...externalRewards, ...internalRewardsTokens];
+
+  const apySum = rewards.reduce((a, b) => {
+    return a + Number(b.apy);
+  }, 0);
+
   return {
     pairTokenName,
     pairTokenAddress,
@@ -105,8 +137,12 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     fee,
     limit,
     totalLpBalance,
+    tvlUsd,
     vaultAddress: address,
     ohmMinted,
     rewards,
+    pricePerDepositToken,
+    totalApy: formatNumber(apySum, 2),
+    usdPricePerToken: price.toString(),
   };
 };

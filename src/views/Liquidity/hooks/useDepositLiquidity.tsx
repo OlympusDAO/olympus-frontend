@@ -7,20 +7,12 @@ import { useMutation, useSigner } from "wagmi";
 export const useDepositLiqudiity = () => {
   const { data: signer } = useSigner();
   return useMutation(
-    async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
+    async ({ amount, address, minLpAmount }: { amount: string; address: string; minLpAmount: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
-      //TODO: Get LP Price
-      const lpPrice = 1;
-      //TODO: Number of Decimals
       const amountToBigNumber = ethers.utils.parseUnits(amount);
-      //TODO: How to calculate slippage? Only method we have right now is for min amount of LP to receive.
-      //But we need to know the exchange rate between 1 deposit asset AND 1 LP TOKEN.
-      const minLpAmount = (Number(amount) * (1 - Number(slippage))) / lpPrice;
       const minLpAmountToBigNumber = ethers.utils.parseUnits(minLpAmount.toString());
-      console.log(amountToBigNumber, minLpAmount, minLpAmountToBigNumber, address);
       const depositTransaction = await contract.deposit(amountToBigNumber, minLpAmountToBigNumber);
-
       const receipt = await depositTransaction.wait();
       return receipt;
     },
