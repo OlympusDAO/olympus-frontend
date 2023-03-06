@@ -42,7 +42,7 @@ export interface Proposal {
   submissionTimestamp: number;
   isActive: boolean;
   state: PStatus;
-  endorsements: number;
+  totalRegisteredVotes: number;
   yesVotes: number;
   noVotes: number;
   uri: string;
@@ -105,6 +105,10 @@ interface IActivationTimelines {
   activationTimelock: ethers.BigNumber;
   votingPeriod: ethers.BigNumber;
   collateralDuration: ethers.BigNumber;
+  executionThreshold: ethers.BigNumber;
+  executionThresholdAsNumber: number;
+  executionDeadline: ethers.BigNumber;
+  executionTimelock: ethers.BigNumber;
 }
 
 /** time in seconds */
@@ -119,12 +123,20 @@ export const useActivationTimelines = () => {
       const votingPeriod = await contract.VOTING_PERIOD();
       // collateralDuration is time your collateral will be locked after proposing
       const collateralDuration = await contract.COLLATERAL_DURATION();
+      const executionThreshold = await contract.EXECUTION_THRESHOLD();
+      const executionThresholdAsNumber = executionThreshold.toNumber() / 100;
+      const executionDeadline = await contract.EXECUTION_DEADLINE();
+      const executionTimelock = await contract.EXECUTION_TIMELOCK();
 
       return {
         activationDeadline,
         activationTimelock,
         votingPeriod,
         collateralDuration,
+        executionThreshold,
+        executionThresholdAsNumber,
+        executionDeadline,
+        executionTimelock,
       };
     },
     { enabled: !!chain && !!chain.id && !!contract },

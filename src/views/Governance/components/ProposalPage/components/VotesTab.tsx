@@ -12,13 +12,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { Metric, Paper, PrimaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
-import { IAnyProposal } from "src/hooks/useProposals";
+import { IAnyProposal, useActivationTimelines } from "src/hooks/useProposals";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useUserVote, useVote, useVotingSupply } from "src/hooks/useVoting";
+import { useGetVotesCastByVoter, useGetVotesCastForProposalBySize, useUserVote, useVote } from "src/hooks/useVoting";
+import { VotesCastEvent } from "src/typechain/OlympusGovernance";
 import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useAccount } from "wagmi";
@@ -119,7 +120,9 @@ const UserVote = ({ proposalId, voterAddress }: { proposalId: number; voterAddre
 };
 
 const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
-  const { data: totalVoteSupply, isLoading: isLoadingTotalSupply } = useVotingSupply();
+  // const { data: totalVoteSupply, isLoading: isLoadingTotalSupply } = useVotingSupply();
+  const { data: votesCast } = useGetVotesCastForProposalBySize(proposal.id);
+  const { data: timelines } = useActivationTimelines();
 
   const StyledTableCell = styled(TableCell)(() => ({
     padding: "0px",
@@ -127,6 +130,30 @@ const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
     lineHeight: "18px",
     fontWeight: "400",
   }));
+
+  const VoteTableRow = ({ voteEvent }: { voteEvent: VotesCastEvent }) => {
+    const { data: votesByVoter } = useGetVotesCastByVoter(voteEvent.args.voter);
+    const userVotes = utils.formatEther(voteEvent.args.userVotes);
+    const percentVotingPower = Number(userVotes) / proposal.totalRegisteredVotes;
+
+    return (
+      <TableRow>
+        <StyledTableCell data-rowId="voter-address">{voteEvent.args.voter}</StyledTableCell>
+        <StyledTableCell align="right" data-rowId="proposals-voted">
+          {votesByVoter.length}
+        </StyledTableCell>
+        <StyledTableCell align="right" data-rowId="total-votes">
+          {utils.commify(userVotes)}
+        </StyledTableCell>
+        <StyledTableCell align="right" data-rowId="voting-power-percent">
+          {`${(percentVotingPower * 100).toFixed(2)} %`}
+        </StyledTableCell>
+        <StyledTableCell align="right" data-rowId="voting-yes-no">
+          {voteEvent.args.approve ? "Yes" : "No"}
+        </StyledTableCell>
+      </TableRow>
+    );
+  };
 
   return (
     <>
@@ -139,35 +166,33 @@ const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
         voteAgainstLabel="No"
         voteAgainstCount={proposal.noVotes}
         voteParticipationLabel="Total Participants"
-        totalHoldersCount={Number(formatBalance(2, totalVoteSupply)) || 0}
+        totalHoldersCount={proposal.totalRegisteredVotes || 0}
         // TODO(appleseed): setup a config to make these quorum requirements (from the contract) easily modifiable
-        quorum={totalVoteSupply?.mul("0.33")?.toApproxNumber() || 0}
+        quorum={proposal.totalRegisteredVotes * (timelines?.executionThresholdAsNumber || 0) || 0}
       />
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
         Top Voters
       </Typography>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Voter</StyledTableCell>
-              <StyledTableCell align="right">Proposals voted</StyledTableCell>
-              <StyledTableCell align="right">Total Votes</StyledTableCell>
-              <StyledTableCell align="right">Voting Power</StyledTableCell>
-              <StyledTableCell align="right"></StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <StyledTableCell>name</StyledTableCell>
-              <StyledTableCell align="right">52</StyledTableCell>
-              <StyledTableCell align="right">26</StyledTableCell>
-              <StyledTableCell align="right">9.06%</StyledTableCell>
-              <StyledTableCell align="right">Delegate</StyledTableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {votesCast && votesCast.length > 0 ? (
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Voter</StyledTableCell>
+                <StyledTableCell align="right">Proposals voted</StyledTableCell>
+                <StyledTableCell align="right">Total Votes (vOHM)</StyledTableCell>
+                <StyledTableCell align="right">Voting Power</StyledTableCell>
+                <StyledTableCell align="right">Yes/No</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{votesCast && votesCast.map(voteEvent => <VoteTableRow voteEvent={voteEvent} />)}</TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Typography fontSize="12px" lineHeight="22px">
+          Zero Votes have been cast.
+        </Typography>
+      )}
     </>
   );
 };

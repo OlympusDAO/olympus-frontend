@@ -90,7 +90,7 @@ export const useProposal = (instructionsIndex: number) => {
           activationExpiry,
           votingExpiry,
         });
-        const endorsements = parseBigNumber(metadata.totalRegisteredVotes, 18);
+        const totalRegisteredVotes = parseBigNumber(metadata.totalRegisteredVotes, 18);
         const yesVotes = parseBigNumber(metadata.yesVotes, 18);
         const noVotes = parseBigNumber(metadata.noVotes, 18);
 
@@ -108,7 +108,7 @@ export const useProposal = (instructionsIndex: number) => {
           nextDeadline: proposalState.nextDeadline,
           isActive: isActive,
           state: proposalState.status,
-          endorsements,
+          totalRegisteredVotes,
           yesVotes,
           noVotes,
           uri: discussionURL,

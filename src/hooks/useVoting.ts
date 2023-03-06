@@ -67,6 +67,23 @@ export const useGetVotesCastForProposal = (
 };
 
 /**
+ * returns all VotesCast events by ALL voters for THIS proposal sorted by largest vote power
+ */
+export const useGetVotesCastForProposalBySize = (
+  proposalId: number,
+): { data: VotesCastEvent[]; isFetched: boolean; isLoading: boolean } => {
+  const { data: votesCastEvents, isFetched, isLoading } = useGetVotesCastForProposal(proposalId);
+  const sorted = votesCastEvents.sort(
+    (a, b) => Number(a.args.userVotes.toString()) - Number(b.args.userVotes.toString()),
+  );
+  return {
+    data: sorted,
+    isFetched,
+    isLoading,
+  };
+};
+
+/**
  * returns all VotesCast events by THIS voter for THIS proposal
  */
 export const useGetVotesCastForProposalAndVoter = (
