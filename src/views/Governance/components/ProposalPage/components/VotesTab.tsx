@@ -86,9 +86,13 @@ export const VotesTab = ({ proposal }: ProposalTabProps) => {
 
           {voterAddress && proposal.isActive && <UserVote proposalId={proposal.id} voterAddress={voterAddress} />}
         </>
-        {!proposal.isActive && <p>This Proposal is not yet active for voting.</p>}
+        {(proposal.state === "discussion" || proposal.state === "ready to activate") && (
+          <p>This Proposal is not yet active for voting.</p>
+        )}
+        {proposal.state === "expired activation" && <p>This Proposal missed it's activation window.</p>}
       </Box>
-      {proposal.isActive && <VoteBreakdownAndTable proposal={proposal} />}
+      {/* {proposal.isActive && <VoteBreakdownAndTable proposal={proposal} />} */}
+      <VoteBreakdownAndTable proposal={proposal} />
     </Paper>
   );
 };

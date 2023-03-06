@@ -15,6 +15,18 @@ export enum ProposalAction {
   ChangeExecutor,
 }
 
+export type IProposalReadable = {
+  [key in ProposalAction]: string;
+};
+
+export const ProposalActionsReadable: IProposalReadable = {
+  [ProposalAction.InstallModule]: "Install Module",
+  [ProposalAction.UpgradeModule]: "Upgrade Module",
+  [ProposalAction.ActivatePolicy]: "Activate Policy",
+  [ProposalAction.DeactivatePolicy]: "De-Activate Policy",
+  [ProposalAction.ChangeExecutor]: "Change Executor",
+};
+
 /// Data type for return from getProposalMetadata on Governance.sol
 export interface proposalMetadata {
   title: string;
@@ -43,6 +55,10 @@ export interface IAnyProposal extends Omit<Proposal, "isActive"> {
   collateralClaimableAt: number;
   isActive: boolean | undefined;
   now: Date;
+  activationTimestamp: number;
+  activationDeadline: number;
+  activationExpiry: number;
+  votingExpiry: number;
 }
 
 export interface IActiveProposal {
@@ -71,6 +87,7 @@ export type PStatus =
   | "executed" // passed & executed / implemented
   | "draft"
   | "closed";
+
 export interface IProposalState {
   state: PStatus;
 }
@@ -132,34 +149,50 @@ export const parseProposalState = ({
   let status: PStatus;
   let jsTimeRemaining: number;
   let nextDeadline: number;
-
+  console.log("parse Proposal state", now, earliestActivation, activationExpiry, activationTimestamp, votingExpiry);
   if (now < earliestActivation) {
+    console.log("now < earliestActivation - discussion", now, earliestActivation);
     // "discussion" // created but not ready to activate
     // block.timestamp < proposal.submissionTimestamp + ACTIVATION_TIMELOCK
     status = "discussion";
     jsTimeRemaining = earliestActivation - now;
     nextDeadline = earliestActivation;
   } else if (now < activationExpiry && activationTimestamp === 0) {
+    console.log(
+      "now < activationExpiry && activationTimestamp === 0 - ready to activate",
+      now,
+      activationExpiry,
+      activationTimestamp,
+    );
     // | "ready to activate" // ready to activate for voting
     // block.timestamp < proposal.submissionTimestamp + ACTIVATION_DEADLINE
     status = "ready to activate";
     jsTimeRemaining = activationExpiry - now;
     nextDeadline = activationExpiry;
   } else if (now >= activationExpiry && activationTimestamp === 0) {
+    console.log(
+      "now >= activationExpiry && activationTimestamp === 0 - expired activation",
+      now,
+      activationExpiry,
+      activationTimestamp,
+    );
     // | "expired activation" // missed activation window
     // block.timestamp > proposal.submissionTimestamp + ACTIVATION_DEADLINE && activationTimestamp === 0
     status = "expired activation";
     jsTimeRemaining = 0;
     nextDeadline = activationExpiry;
   } else if (activationTimestamp > 0 && now < votingExpiry) {
+    console.log("now < activationTimestamp && now < votingExpiry - active", now, activationExpiry, activationTimestamp);
     status = "active";
     jsTimeRemaining = votingExpiry - now;
     nextDeadline = votingExpiry;
   } else {
+    console.log("else - closed");
     status = "closed";
     jsTimeRemaining = 0;
     nextDeadline = votingExpiry;
   }
+  console.log("status", status);
 
   // | "executed" // passed & executed / implemented
 

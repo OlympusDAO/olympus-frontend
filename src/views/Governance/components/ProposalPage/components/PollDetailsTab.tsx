@@ -1,7 +1,7 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { useGetInstructions } from "src/hooks/useProposal";
-import { ProposalAction } from "src/hooks/useProposals";
+import { ProposalAction, ProposalActionsReadable } from "src/hooks/useProposals";
 import { MarkdownPreview } from "src/views/Governance/components/MarkdownPreview";
 import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
 import ReclaimVohmButton from "src/views/Governance/components/ReclaimVohmButton";
@@ -24,6 +24,32 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
     <Paper enableBackground fullWidth>
       <Box display="flex" flexDirection="column">
         <ActivateVoting proposal={proposal} />
+        <Box id="timeline-details" display="flex" flexDirection="column" sx={{ display: "none" }}>
+          <Box display="flex" flexDirection="row">
+            <Typography>Current Timestamp&nbsp;</Typography>
+            <Typography>{Date.now()}</Typography>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Typography>Submission Timestamp&nbsp;</Typography>
+            <Typography>{proposal.submissionTimestamp}</Typography>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Typography>Activation Timestamp&nbsp;</Typography>
+            <Typography>{proposal.activationTimestamp}</Typography>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Typography>Activation Deadline&nbsp;</Typography>
+            <Typography>{proposal.activationDeadline}</Typography>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Typography>Activation Expiry&nbsp;</Typography>
+            <Typography>{proposal.activationExpiry}</Typography>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Typography>Voting Expiry&nbsp;</Typography>
+            <Typography>{proposal.votingExpiry}</Typography>
+          </Box>
+        </Box>
         <MarkdownPreview content={proposal.content} />
 
         <Box display="flex" flexDirection="row" justifyContent="flex-end">
@@ -41,7 +67,7 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   );
 };
 
-export const InstructionsDetails = ({ action, target }: { action: number; target: string }) => {
+export const InstructionsDetails = ({ action, target }: { action: ProposalAction; target: string }) => {
   const { chain } = useNetwork();
   const etherscanURI =
     chain?.id === 5 ? `https://goerli.etherscan.io/address/${target}` : `https://etherscan.io/address/${target}`;
@@ -52,7 +78,7 @@ export const InstructionsDetails = ({ action, target }: { action: number; target
 
   return (
     <Box display="flex" flexDirection="column">
-      <Typography id="instructions-action">{`${ProposalAction[action]} ${target}`}</Typography>
+      <Typography id="instructions-action">{`${ProposalActionsReadable[action]}: ${target}`}</Typography>
       <Box display="flex" flexDirection="row" justifyContent={`center`}>
         <TertiaryButton id="instructions-target-etherscan" target="_blank" href={etherscanURI} disabled={!chain}>
           etherscan
