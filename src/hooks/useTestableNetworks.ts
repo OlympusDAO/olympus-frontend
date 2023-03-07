@@ -1,6 +1,7 @@
 import { NetworkId } from "src/networkDetails";
 import { useNetwork } from "wagmi";
 
+/** if currentNetwork === testNetwork, then use testNetwork, else use targetNetwork */
 const getTestnet = <TTargetNetwork extends NetworkId, TTestNetwork extends NetworkId>(
   targetNetwork: TTargetNetwork,
   testNetwork: TTestNetwork,

@@ -1,11 +1,12 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { AddressMap } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useWarmupPeriod } from "src/hooks/useWarmupInfo";
 import { ModalHandleSelectProps } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 
 /**
@@ -35,11 +36,18 @@ const StakeConfirmationModal = (props: {
   zapExecuteIsLoading: boolean;
   humanReadableRouting: "Stake" | "Wrap" | "Zap" | "Unstake" | "Unwrap" | "Zap out";
 }) => {
+  const { data: warmupLength } = useWarmupPeriod();
+  const needsWarmup = warmupLength?.gt("0") || false;
   // acknowledge warmup
   const [acknowledgedWarmup, setAcknowledgedWarmup] = useState(false);
 
+  useEffect(() => {
+    if (!needsWarmup) setAcknowledgedWarmup(true);
+  }, [needsWarmup]);
+
   /** only appears if action is STAKE */
   const AcknowledgeWarmupCheckbox = () => {
+    if (!needsWarmup) return <></>;
     return (
       <>
         {props.currentAction === "STAKE" && (
@@ -65,6 +73,24 @@ const StakeConfirmationModal = (props: {
         )}
       </>
     );
+  };
+
+  const NeedsWarmupDetails = () => {
+    if (needsWarmup) {
+      return (
+        <>
+          <AcknowledgeWarmupCheckbox />
+          <SecondaryButton
+            fullWidth
+            href="https://docs.olympusdao.finance/main/overview/staking#staking-warm-up-period"
+          >
+            Why is there a warmup?
+          </SecondaryButton>
+        </>
+      );
+    } else {
+      return <></>;
+    }
   };
 
   return (
@@ -136,10 +162,7 @@ const StakeConfirmationModal = (props: {
             >
               {props.contractRouting === "Stake" && (
                 <>
-                  <AcknowledgeWarmupCheckbox />
-                  <SecondaryButton fullWidth href="https://twitter.com/OlympusDAO/status/1623378973882195978">
-                    Why is there a warmup?
-                  </SecondaryButton>
+                  <NeedsWarmupDetails />
                   <PrimaryButton
                     data-testid="submit-modal-button"
                     loading={props.isMutating}
@@ -197,7 +220,7 @@ const StakeConfirmationModal = (props: {
               )}
               {props.contractRouting === "Zap" && (
                 <>
-                  <AcknowledgeWarmupCheckbox />
+                  <NeedsWarmupDetails />
                   <PrimaryButton
                     data-testid="submit-modal-button"
                     fullWidth

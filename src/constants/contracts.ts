@@ -12,6 +12,7 @@ import {
   RANGE_ADDRESSES,
   RANGE_OPERATOR_ADDRESSES,
   RANGE_PRICE_ADDRESSES,
+  SOHM_ADDRESSES,
   STAKING_ADDRESSES,
   ZAP_ADDRESSES,
 } from "src/constants/addresses";
@@ -28,6 +29,7 @@ import {
   Range__factory,
   RangeOperator__factory,
   RangePrice__factory,
+  SOhmv2__factory,
   Zap__factory,
 } from "src/typechain";
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
@@ -50,6 +52,12 @@ export const STAKING_CONTRACT = new Contract({
   factory: OlympusStakingv2__factory,
   name: "Staking Contract",
   addresses: STAKING_ADDRESSES,
+});
+
+export const SOHM_CONTRACT = new Contract({
+  factory: SOhmv2__factory,
+  name: "sOHM Contract",
+  addresses: SOHM_ADDRESSES,
 });
 
 export const ZAP_CONTRACT = new Contract({
