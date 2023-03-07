@@ -1,6 +1,5 @@
 import {
   Box,
-  Skeleton,
   styled,
   Table,
   TableBody,
@@ -9,117 +8,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useTheme,
 } from "@mui/material";
-import { Metric, Paper, PrimaryButton, TertiaryButton, VoteBreakdown } from "@olympusdao/component-library";
-import { BigNumber, utils } from "ethers";
-import { useState } from "react";
-import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { formatBalance } from "src/helpers";
+import { Paper, VoteBreakdown } from "@olympusdao/component-library";
+import { utils } from "ethers";
 import { IAnyProposal, useActivationTimelines } from "src/hooks/useProposals";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useGetVotesCastByVoter, useGetVotesCastForProposalBySize, useUserVote, useVote } from "src/hooks/useVoting";
+import { useGetVotesCastByVoter, useGetVotesCastForProposalBySize } from "src/hooks/useVoting";
 import { VotesCastEvent } from "src/typechain/OlympusGovernance";
-import { ActivateVoting } from "src/views/Governance/components/ProposalPage/components/ActivateVoting";
-import { ProposalTabProps } from "src/views/Governance/interfaces";
-import { useAccount } from "wagmi";
 
 /**
- * parses proposal status & displays votes
+ * parses proposal status & displays votes breakdown
  */
-export const VotesTab = ({ proposal }: ProposalTabProps) => {
-  const theme = useTheme();
-  const networks = useTestableNetworks();
-  const { isConnected } = useAccount();
-  const [vote, setVote] = useState<string>("");
-  const submitVote = useVote();
-  const { address: voterAddress } = useAccount();
-  const { data: voteValue, isLoading: isLoadingVoteValue } = useUserVote(proposal.id, voterAddress as string);
-
-  const handleVoteSubmission = () => {
-    submitVote.mutate({ voteData: { proposalId: BigNumber.from(proposal.id), vote: vote === "yes" } });
-  };
-
-  return (
-    <Paper fullWidth>
-      <Box sx={{ marginTop: "24px" }}></Box>
-      <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
-        <Box display="flex" flexDirection="column">
-          <ActivateVoting proposal={proposal} />
-          <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
-            Cast Your Vote
-          </Typography>
-        </Box>
-        <>
-          {voteValue && !voteValue.gt("0") && (
-            <>
-              <Box display="flex" flexDirection="row" justifyContent="center">
-                <TertiaryButton
-                  template={vote === "yes" ? "secondary" : "tertiary"}
-                  sx={{ minWidth: "120px" }}
-                  disabled={!isConnected || !proposal.isActive}
-                  onClick={() => setVote("yes")}
-                >
-                  Yes
-                </TertiaryButton>
-                <TertiaryButton
-                  template={vote === "no" ? "secondary" : "tertiary"}
-                  sx={{ minWidth: "120px" }}
-                  disabled={!isConnected || !proposal.isActive}
-                  onClick={() => setVote("no")}
-                >
-                  No
-                </TertiaryButton>
-              </Box>
-              <WalletConnectedGuard>
-                <Box display="flex" flexDirection="row" justifyContent="center">
-                  <PrimaryButton
-                    sx={{ minWidth: "120px" }}
-                    disabled={!proposal.isActive}
-                    onClick={handleVoteSubmission}
-                  >
-                    Vote <span style={{ textTransform: "capitalize" }}>&nbsp;{vote}</span>
-                  </PrimaryButton>
-                </Box>
-              </WalletConnectedGuard>
-            </>
-          )}
-
-          {voterAddress && proposal.isActive && <UserVote proposalId={proposal.id} voterAddress={voterAddress} />}
-        </>
-        {(proposal.state === "discussion" || proposal.state === "ready to activate") && (
-          <p>This Proposal is not yet active for voting.</p>
-        )}
-        {proposal.state === "expired activation" && <p>This Proposal missed it's activation window.</p>}
-      </Box>
-      {/* {proposal.isActive && <VoteBreakdownAndTable proposal={proposal} />} */}
-      <VoteBreakdownAndTable proposal={proposal} />
-    </Paper>
-  );
-};
-
-const UserVote = ({ proposalId, voterAddress }: { proposalId: number; voterAddress: string }) => {
-  const { data: voteValue, isLoading: isLoadingVoteValue } = useUserVote(proposalId, voterAddress);
-  return (
-    <>
-      {isLoadingVoteValue && (
-        <Skeleton>
-          <Metric label={`You have previously voted on this proposal with `} metric={`1 vOHM`} />
-        </Skeleton>
-      )}
-      {voteValue && (
-        <>
-          <Metric
-            label={`You have previously voted on this proposal with `}
-            metric={`${formatBalance(2, voteValue)} vOHM`}
-          />
-        </>
-      )}
-    </>
-  );
-};
-
-const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
+export const VotesTab = ({ proposal }: { proposal: IAnyProposal }) => {
   // const { data: totalVoteSupply, isLoading: isLoadingTotalSupply } = useVotingSupply();
   const { data: votesCast } = useGetVotesCastForProposalBySize(proposal.id);
   const { data: timelines } = useActivationTimelines();
@@ -156,7 +55,8 @@ const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
   };
 
   return (
-    <>
+    <Paper fullWidth>
+      <Box sx={{ marginTop: "24px" }}></Box>
       <Typography fontSize="18px" lineHeight="28px" fontWeight="500" mt="21px">
         Vote Breakdown
       </Typography>
@@ -193,6 +93,6 @@ const VoteBreakdownAndTable = ({ proposal }: { proposal: IAnyProposal }) => {
           Zero Votes have been cast.
         </Typography>
       )}
-    </>
+    </Paper>
   );
 };

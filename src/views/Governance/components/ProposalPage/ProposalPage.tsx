@@ -10,6 +10,7 @@ import { useProposal } from "src/hooks/useProposal";
 import { IAnyProposal, PStatus } from "src/hooks/useProposals";
 import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { BackButton } from "src/views/Governance/components/BackButton";
+import { CastVote } from "src/views/Governance/components/ProposalPage/components/CastVote";
 import { PollDetailsTab } from "src/views/Governance/components/ProposalPage/components/PollDetailsTab";
 import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
 import { toCapitalCase } from "src/views/Governance/helpers";
@@ -23,25 +24,26 @@ export const proposalDateFormat = new Intl.DateTimeFormat([], {
   minute: "numeric",
 });
 
-export const PageWrapper = (props: { proposal: IAnyProposal }) => (
+export const PageWrapper = ({ proposal }: { proposal: IAnyProposal }) => (
   <Box display="flex" justifyContent="center" width="100%">
     <Paper>
       <Box>
         <BackButton />
         <Grid container mb="10px">
           <Grid item sm={6}>
-            <ProposalHeader proposal={props.proposal} />
+            <ProposalHeader proposal={proposal} />
           </Grid>
           <Grid display="flex" item sm={6} justifyContent="flex-end">
             <ActionButtons />
           </Grid>
         </Grid>
+        <CastVote proposal={proposal} />
         <Box display="flex" justifyContent="center">
           <Tabs value={false} centered textColor="primary" indicatorColor="primary">
-            <Link component={NavLink} to={`/governance/proposals/${props.proposal.id}`} end>
+            <Link component={NavLink} to={`/governance/proposals/${proposal.id}`} end>
               <Tab label={`Poll Detail`}></Tab>
             </Link>
-            <Link component={NavLink} to={`/governance/proposals/${props.proposal.id}/votes`}>
+            <Link component={NavLink} to={`/governance/proposals/${proposal.id}/votes`}>
               <Tab label={`Votes`}></Tab>
             </Link>
           </Tabs>
@@ -153,12 +155,6 @@ export const ProposalPage: FC = () => {
     if (!passedId) return -1;
     return parseInt(passedId);
   }, [passedId]);
-
-  // const _useProposal = useProposal(proposalId);
-  // const proposal: IAnyProposal = useMemo(() => {
-  //   if (_useProposal.isLoading || !_useProposal.data) return NULL_PROPOSAL;
-  //   return _useProposal.data;
-  // }, [_useProposal]);
 
   const { data: proposal, isLoading } = useProposal(proposalId);
   return (

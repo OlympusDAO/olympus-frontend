@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, styled, Typography, useTheme } from "@mui/material";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { useGetInstructions } from "src/hooks/useProposal";
 import { ProposalAction, ProposalActionsReadable } from "src/hooks/useProposals";
@@ -8,7 +8,14 @@ import ReclaimVohmButton from "src/views/Governance/components/ReclaimVohmButton
 import { ProposalTabProps } from "src/views/Governance/interfaces";
 import { useNetwork } from "wagmi";
 
+export const GovHTypography = styled(Typography)({
+  fontSize: "18px",
+  lineHeight: "28px",
+  fontWeight: 600,
+});
+
 export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
+  const theme = useTheme();
   const { data: instructions, isLoading } = useGetInstructions(proposal.id);
 
   const renderInstructions = () => {
@@ -21,9 +28,18 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
   };
 
   return (
-    <Paper enableBackground fullWidth>
+    <Paper fullWidth sx={{ backgroundColor: theme.colors.gray[700] }}>
       <Box display="flex" flexDirection="column">
-        <ActivateVoting proposal={proposal} />
+        <Box display="flex" flexDirection="row" justifyContent="flex-end">
+          <Box sx={{ flexGrow: 1 }} display="flex" flexDirection="column" justifyContent="center">
+            <GovHTypography>Details</GovHTypography>
+          </Box>
+          <ReclaimVohmButton proposal={proposal} />
+          <ActivateVoting proposal={proposal} />
+          <TertiaryButton target="_blank" href={proposal.uri}>
+            Join the Discussion
+          </TertiaryButton>
+        </Box>
         <Box id="timeline-details" display="flex" flexDirection="column" sx={{ display: "none" }}>
           <Box display="flex" flexDirection="row">
             <Typography>Current Timestamp&nbsp;</Typography>
@@ -52,14 +68,8 @@ export const PollDetailsTab = ({ proposal }: ProposalTabProps) => {
         </Box>
         <MarkdownPreview content={proposal.content} />
 
-        <Box display="flex" flexDirection="row" justifyContent="flex-end">
-          <ReclaimVohmButton proposal={proposal} />
-          <TertiaryButton target="_blank" href={proposal.uri}>
-            Discussion
-          </TertiaryButton>
-        </Box>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h6">Implementation Details</Typography>
+          <GovHTypography>Implementation Details</GovHTypography>
           <>{isLoading ? <InstructionSkeleton /> : renderInstructions()}</>
         </Box>
       </Box>
@@ -78,8 +88,14 @@ export const InstructionsDetails = ({ action, target }: { action: ProposalAction
 
   return (
     <Box display="flex" flexDirection="column">
-      <Typography id="instructions-action">{`${ProposalActionsReadable[action]}: ${target}`}</Typography>
-      <Box display="flex" flexDirection="row" justifyContent={`center`}>
+      <Typography
+        sx={{ fontSize: "16px" }}
+        id="instructions-action"
+      >{`${ProposalActionsReadable[action]}: ${target}`}</Typography>
+      <Box display="flex" flexDirection="row" justifyContent={`start`}>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <Typography sx={{ fontSize: "16px" }} id="instructions-action">{`Inspect Code: `}</Typography>
+        </Box>
         <TertiaryButton id="instructions-target-etherscan" target="_blank" href={etherscanURI} disabled={!chain}>
           etherscan
         </TertiaryButton>
