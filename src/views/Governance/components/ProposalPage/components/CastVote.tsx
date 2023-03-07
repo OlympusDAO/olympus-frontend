@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, capitalize, Typography, useTheme } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
@@ -53,8 +53,13 @@ export const CastVote = ({ proposal }: ProposalTabProps) => {
             </Box>
             <WalletConnectedGuard>
               <Box display="flex" flexDirection="row" justifyContent="center">
-                <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposal.isActive} onClick={handleVoteSubmission}>
-                  Vote <span style={{ textTransform: "capitalize" }}>&nbsp;{vote}</span>
+                <PrimaryButton
+                  sx={{ minWidth: "120px" }}
+                  disabled={!proposal.isActive || submitVote.isLoading}
+                  onClick={handleVoteSubmission}
+                  loading={submitVote.isLoading}
+                >
+                  {submitVote.isLoading ? `Voting ${capitalize(vote)}...` : `Vote ${capitalize(vote)}`}
                 </PrimaryButton>
               </Box>
             </WalletConnectedGuard>

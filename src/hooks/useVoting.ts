@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
+import toast from "react-hot-toast";
 import { GOVERNANCE_GOHM_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
 import { GOVERNANCE_CONTRACT, GOVERNANCE_VOHM_VAULT_CONTRACT, VOTE_TOKEN_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { useGovernanceGohmBalance, useVoteBalance } from "src/hooks/useBalance";
+import { proposalMetadataQueryKey, proposalQueryKey } from "src/hooks/useProposal";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { queryClient } from "src/lib/react-query";
 import { VotesCastEvent } from "src/typechain/OlympusGovernance";
@@ -239,15 +241,18 @@ export const useVote = () => {
       if (!balance) throw new Error("You cannot Vote without vOHM");
 
       const transaction = await contract.connect(signer).vote(voteData.proposalId, voteData.vote);
+      toast("Submitted transaction to chain");
       return transaction.wait();
     },
     {
       onError: error => {
         console.error(error.message);
       },
-      onSuccess: () => {
-        console.log(`Successfully voted for proposal`);
+      onSuccess: (tx, { voteData }) => {
+        toast(`Successfully voted for proposal`);
         queryClient.invalidateQueries({ queryKey: ["GetVotesCastEvents", chain.id] });
+        queryClient.invalidateQueries({ queryKey: proposalQueryKey(voteData.proposalId.toNumber()) });
+        queryClient.invalidateQueries({ queryKey: proposalMetadataQueryKey(voteData.proposalId.toNumber()) });
       },
     },
   );
@@ -279,6 +284,7 @@ export const useWrapToVohm = () => {
       if (!contract) throw new Error(`Please switch to the Ethereum network to wrap your gOHM`);
 
       const transaction = await contract.connect(signer).deposit(_amount.toBigNumber());
+      toast("Submitted transaction to chain");
       return transaction.wait();
     },
     {
@@ -286,7 +292,7 @@ export const useWrapToVohm = () => {
         console.error(error.message);
       },
       onSuccess: () => {
-        console.log(`Successfully wrapped to vOHM`);
+        toast(`Successfully wrapped to vOHM`);
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: ["getVoteTokenTotalSupply", chain.id] });
@@ -321,6 +327,7 @@ export const useUnwrapFromVohm = () => {
       if (!contract) throw new Error(`Please switch to the Ethereum network to unwrap your vOHM`);
 
       const transaction = await contract.connect(signer).withdraw(_amount.toBigNumber());
+      toast("Submitted transaction to chain");
       return transaction.wait();
     },
     {
@@ -328,7 +335,7 @@ export const useUnwrapFromVohm = () => {
         console.error(error.message);
       },
       onSuccess: () => {
-        console.log(`Successfully unwrapped to gOHM`);
+        toast(`Successfully unwrapped to gOHM`);
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
         queryClient.invalidateQueries({ queryKey: ["getVoteTokenTotalSupply", chain.id] });

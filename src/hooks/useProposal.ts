@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ethers } from "ethers";
+import { ContractReceipt, ethers } from "ethers";
 import toast from "react-hot-toast";
+import { GOVERNANCE_GOHM_ADDRESSES, VOTE_TOKEN_ADDRESSES } from "src/constants/addresses";
 import { GOV_INSTRUCTIONS_CONTRACT, GOVERNANCE_CONTRACT } from "src/constants/contracts";
 import { parseBigNumber, stringToBytes32String } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -19,13 +20,15 @@ import {
 import { useVotingCollateralMinimum, useVotingCollateralRequirement, useVotingSupply } from "src/hooks/useVoting";
 import { queryClient } from "src/lib/react-query";
 import { InstructionStructOutput } from "src/typechain/OlympusGovInstructions";
-import { useNetwork, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 /**
  * @notice Query key for useProposal which is dependent on instructionsIndex
  * @param instructionsIndex The index number of the proposal to fetch
  */
-const proposalQueryKey = (instructionsIndex: number) => ["useProposal", instructionsIndex].filter(nonNullable);
+export const proposalQueryKey = (instructionsIndex: number) => ["useProposal", instructionsIndex].filter(nonNullable);
+export const proposalMetadataQueryKey = (instructionsIndex: number) =>
+  ["GetProposalMetadata", instructionsIndex].filter(nonNullable);
 
 /**
  * @notice  Fetches the metadata, related endorsements, yes votes, and no votes for the proposal
@@ -47,7 +50,7 @@ export const useProposal = (instructionsIndex: number) => {
     proposalId: instructionsIndex,
   });
   const { data: metadata, isFetched: metadataIsFetched } = useQuery(
-    ["GetProposalMetadata", instructionsIndex],
+    proposalMetadataQueryKey(instructionsIndex),
     async () => {
       console.log("GetProposalMetadata", instructionsIndex);
       return await contract.getProposalMetadata(instructionsIndex);
@@ -186,8 +189,8 @@ export const useSubmitProposal = () => {
         // TODO(appleseed): add back in name after contract update
         proposal.proposalURI,
       );
-      const response = await transaction.wait();
-      return response;
+      toast("Submitted transaction to chain");
+      return await transaction.wait();
     },
     {
       onSuccess: () => {
@@ -262,17 +265,20 @@ export const useActivateProposal = () => {
   const { data: signer } = useSigner();
 
   // TODO(appleseed): update ANY types below
-  return useMutation<any, Error, number>(
+  return useMutation<ContractReceipt, Error, number>(
     async (proposalId: number) => {
       if (!signer) throw new Error(`Signer is not set`);
 
       // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
-      await contract.connect(signer).activateProposal(proposalId);
+      const tx = await contract.connect(signer).activateProposal(proposalId);
+      toast("Submitted transaction to chain");
+      return await tx.wait();
     },
     {
       onSuccess: (data, proposalId) => {
         toast("Successfully Activated Proposal");
         queryClient.invalidateQueries({ queryKey: proposalQueryKey(proposalId) });
+        queryClient.invalidateQueries({ queryKey: proposalMetadataQueryKey(proposalId) });
       },
     },
   );
@@ -286,12 +292,25 @@ export const useReClaimVohm = () => {
   const { chain = { id: 1 } } = useNetwork();
   const contract = GOVERNANCE_CONTRACT.getEthersContract(chain.id);
   const { data: signer } = useSigner();
+  const { address } = useAccount();
 
   // TODO(appleseed): update ANY types below
-  return useMutation<any, Error, number>(async (proposalId: number) => {
-    if (!signer) throw new Error(`Signer is not set`);
+  return useMutation<ContractReceipt, Error, number>(
+    async (proposalId: number) => {
+      if (!signer) throw new Error(`Signer is not set`);
 
-    // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
-    await contract.connect(signer).reclaimCollateral(proposalId);
-  });
+      // NOTE(appleseed): proposal.name is limited 31 characters, but full proposal name is uploaded in metadata via useIPFSUpload
+      const tx = await contract.connect(signer).reclaimCollateral(proposalId);
+      toast("Submitted transaction to chain");
+      return await tx.wait();
+    },
+    {
+      onSuccess: (data, proposalId) => {
+        toast("Successfully Reclaimed Collateral");
+        queryClient.invalidateQueries({ queryKey: proposalQueryKey(proposalId) });
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, VOTE_TOKEN_ADDRESSES, chain.id]] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance", address, GOVERNANCE_GOHM_ADDRESSES, chain.id]] });
+      },
+    },
+  );
 };

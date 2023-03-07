@@ -19,8 +19,13 @@ export const ActivateVoting = ({ proposal }: ProposalTabProps) => {
     <>
       {connectedWalletIsProposer && proposalStatesToShow && (
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <PrimaryButton sx={{ minWidth: "120px" }} disabled={!proposalStateIsCorrect} onClick={handleActivate}>
-            Activate for Voting
+          <PrimaryButton
+            sx={{ minWidth: "120px" }}
+            disabled={!proposalStateIsCorrect || activateProposal.isLoading}
+            onClick={handleActivate}
+            loading={activateProposal.isLoading}
+          >
+            {activateProposal.isLoading ? "Activating..." : "Activate for Voting"}
           </PrimaryButton>
         </Box>
       )}
