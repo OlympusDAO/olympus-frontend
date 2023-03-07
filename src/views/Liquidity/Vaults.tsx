@@ -39,8 +39,10 @@ export const Vaults = () => {
       ></PageTitle>
 
       <Box width="97%" maxWidth="974px">
-        <Box mb="66px">
-          <Metric label="TVL in Vaults" metric={totalTVL ? formatCurrency(totalTVL) : "$0"} />
+        <Box mb="66px" display="flex" justifyContent="center">
+          <Box maxWidth="200px">
+            <Metric label="TVL in Vaults" metric={totalTVL ? formatCurrency(totalTVL) : "$0"} isLoading={isLoading} />
+          </Box>
         </Box>
         <Typography variant="h1">Boosted Liquidity Engine Vaults</Typography>
         <Box mb="18px" mt="9px">

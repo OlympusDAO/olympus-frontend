@@ -14,6 +14,7 @@ import {
 import { ethers } from "ethers";
 import { formatUnits, parseUnits } from "ethers/lib/utils";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -22,15 +23,16 @@ import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { useFetchZeroExSwapData } from "src/hooks/useFetchZeroExSwapData";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useZeroExSwap } from "src/hooks/useZeroExSwap";
-import { ZeroEx__factory } from "src/typechain";
-import { TransformedERC20EventObject } from "src/typechain/ZeroEx";
+import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { useDepositLiqudiity } from "src/views/Liquidity/hooks/useDepositLiquidity";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
+import { WithdrawModal } from "src/views/Liquidity/WithdrawModal";
+import { ZapAndDepositModal } from "src/views/Liquidity/ZapAndDepositModal";
 import TokenModal, {
   ModalHandleSelectProps,
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
@@ -41,13 +43,12 @@ export const Vault = () => {
   const { id } = useParams();
   const { data: vault, isLoading } = useGetVault({ address: id });
   const networks = useTestableNetworks();
-  const deposit = useDepositLiqudiity();
   const { data: ohmPrice } = useOhmPrice();
   const withdraw = useWithdrawLiquidity();
+  const zapQuote = useFetchZeroExSwapData();
   const [zapTokenModalOpen, setZapTokenModalOpen] = useState(false);
   const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({});
   const { address } = useAccount();
-  const zeroExSwap = useZeroExSwap();
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const { data: daiBalance } = useWagmiBalance({
@@ -55,6 +56,11 @@ export const Vault = () => {
     formatUnits: "ether",
     chainId: networks.MAINNET,
   });
+  const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [isZapAndDepositModalOpen, setIsZapAndDepositModalOpen] = useState(false);
+  const [zapDepositTokenAmount, setZapDepositTokenAmount] = useState("0");
+
   const { data: pairTokenBalance = new DecimalBigNumber("0", 18) } = useBalance({
     [networks.MAINNET]: vault?.pairTokenAddress || "",
   })[networks.MAINNET];
@@ -65,19 +71,83 @@ export const Vault = () => {
     { [networks.MAINNET]: vault?.pairTokenAddress },
     { [networks.MAINNET]: id },
   );
-
+  const isZap =
+    swapAssetType.name !== vault?.pairTokenName &&
+    swapAssetType.name !== undefined &&
+    vault?.pairTokenName !== undefined;
   useEffect(() => {
     if (vault) {
       setSwapAssetType({ name: vault?.pairTokenName });
     }
   }, [vault?.pairTokenName]);
 
+  useEffect(() => {
+    if (isZap && pairAmount !== "0") {
+      onDepositTokenChange(pairAmount);
+    }
+  }, [swapAssetType.name, isZap]);
+
   const onDepositTokenChange = (amount: string) => {
-    setReserveAmount((Number(vault?.pricePerDepositToken) * Number(amount)).toString());
+    if (isZap && Number(amount) > 0) {
+      if (vault?.pairTokenAddress && swapAssetType.address) {
+        zapQuote.mutate(
+          {
+            slippage: Number(customSlippage),
+            amount: parseUnits(amount, swapAssetType.decimals),
+            tokenAddress: swapAssetType.address, //TODO: REPLACE swapAssetType.address
+            buyAddress: "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f", //TODO: testnetToMainnetContract(vault.pairTokenAddress),
+          },
+          {
+            onSuccess: data => {
+              setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
+              setReserveAmount(
+                (Number(vault?.pricePerDepositToken) * Number(formatUnits(data.buyAmount, 18))).toString(),
+              );
+              console.log("parseUnits", formatUnits(data.buyAmount, 18), vault.pricePerDepositToken);
+              console.log("quote data", data);
+            },
+            onError: (err: any) => {
+              console.log(err, "err");
+              toast.error(err.message, { id: err.message, duration: 2000 });
+            },
+          },
+        );
+      }
+    } else {
+      setReserveAmount((Number(vault?.pricePerDepositToken) * Number(amount)).toString());
+    }
   };
 
   const onReserveTokenChange = (amount: string) => {
-    setPairAmount((Number(amount) / Number(vault?.pricePerDepositToken)).toString());
+    if (isZap && Number(amount) > 0) {
+      if (vault?.pairTokenAddress && swapAssetType.address) {
+        const buyAmount = (Number(amount) / Number(vault.pricePerDepositToken)).toString();
+        console.log("buyAmount", buyAmount);
+        zapQuote.mutate(
+          {
+            slippage: Number(customSlippage),
+            amount: new DecimalBigNumber(buyAmount).toBigNumber(),
+            tokenAddress: swapAssetType.address, //TODO: REPLACE swapAssetType.address
+            buyAddress: "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f", //TODO: testnetToMainnetContract(vault.pairTokenAddress),
+            isSell: false,
+          },
+          {
+            onSuccess: data => {
+              console.log("data", data);
+              setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
+              setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals)); //TODO: OHM testnet decimals
+              console.log("parseUnits", formatUnits(data.buyAmount, 18), vault.pricePerDepositToken);
+              console.log("quote data", data);
+            },
+            onError: (err: any) => {
+              toast.error(err.message, { id: err.message, duration: 2000 });
+            },
+          },
+        );
+      }
+    } else {
+      setPairAmount((Number(amount) / Number(vault?.pricePerDepositToken)).toString());
+    }
   };
 
   const noAllowance =
@@ -86,6 +156,8 @@ export const Vault = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const isWithdrawal = searchParams.get("withdraw");
+  const deposit = useDepositLiqudiity();
+  const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   if (isLoading) {
     return (
@@ -102,17 +174,14 @@ export const Vault = () => {
     );
   if (!vault) return <></>;
 
-  const isZap = swapAssetType.name !== vault.pairTokenName && swapAssetType.name !== undefined;
-  const minLpAmount = (1 - Number(customSlippage) / 100) * Number(reserveAmount);
+  const slippageToPercent = 1;
+  const minLpAmount = new DecimalBigNumber(slippageToPercent.toString()).mul(new DecimalBigNumber(reserveAmount));
+
   const ohmMinted =
-    ohmPrice &&
-    new DecimalBigNumber(vault.usdPricePerToken)
-      .mul(new DecimalBigNumber(reserveAmount))
-      .div(new DecimalBigNumber(ohmPrice?.toString()));
-
-  const usdPriceDeposit = Number(vault.pricePerDepositToken) * Number(vault.usdPricePerToken);
-
-  const vaultLimitUSD = ohmPrice && ((Number(vault.limit) - Number(vault.ohmMinted)) * ohmPrice) / usdPriceDeposit;
+    ohmPrice && isZap
+      ? new DecimalBigNumber(zapDepositTokenAmount).mul(vault.ohmPricePerDepositToken)
+      : new DecimalBigNumber(pairAmount).mul(vault.ohmPricePerDepositToken);
+  const maxBalance = (isZap ? swapAssetType.balance : formatUnits(pairTokenBalance.toBigNumber(), 18)) || "0";
   const pairToken = () => (
     <SwapCard
       id={""}
@@ -137,8 +206,9 @@ export const Vault = () => {
       }}
       endString={`Max`}
       endStringOnClick={() => {
-        onDepositTokenChange(formatUnits(pairTokenBalance.toBigNumber(), 18));
-        setPairAmount(formatUnits(pairTokenBalance.toBigNumber(), 18));
+        console.log("maxBalance", maxBalance);
+        onDepositTokenChange(maxBalance);
+        setPairAmount(maxBalance);
       }}
     />
   );
@@ -193,15 +263,6 @@ export const Vault = () => {
             </Box>
           }
         ></PageTitle>
-        {/* <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
-          <Box display="flex" flexDirection="column" width="100%" maxWidth="900px" mb="28px">
-            <MetricCollection>
-              <Metric label="First Metric" metric="1" />
-              <Metric label="First Metric" metric="1" />
-              <Metric label="First Metric" metric="1" />
-            </MetricCollection>
-          </Box>
-        </Box> */}
       </Box>
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
@@ -232,13 +293,15 @@ export const Vault = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <Box mt="12px">
-                <InfoNotification dismissible>
-                  <Typography>
-                    By depositing {vault.pairTokenName} into an AMO pools, you are not guaranteed to get back the exact
-                    same amount of deposit tokens at time of withdraw and your position will be exposed to impermanent
-                    loss.
-                  </Typography>
-                </InfoNotification>
+                {!isWithdrawal && (
+                  <InfoNotification dismissible>
+                    <Typography>
+                      By depositing {vault.pairTokenName} into an AMO pools, you are not guaranteed to get back the
+                      exact same amount of deposit tokens at time of withdraw and your position will be exposed to
+                      impermanent loss.
+                    </Typography>
+                  </InfoNotification>
+                )}
                 <DataRow
                   title="Slippage Tolerance"
                   balance={
@@ -251,12 +314,12 @@ export const Vault = () => {
                     </Box>
                   }
                 />
-                <DataRow title="OHM Minted" balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)} />
-                <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
                 <DataRow
-                  title="Max You Can Deposit"
-                  balance={(vaultLimitUSD && formatNumber(vaultLimitUSD, 2)) || "0"}
+                  title={`OHM ${isWithdrawal ? "Removed" : "Minted"}`}
+                  balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
                 />
+                <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
+                <DataRow title="Max You Can Deposit" balance={formatNumber(Number(vault.depositLimit), 2) || "0"} />
               </Box>
             </Box>
           </Box>
@@ -273,47 +336,6 @@ export const Vault = () => {
             }
             spenderAddressMap={isZap ? ZERO_EX_EXCHANGE_PROXY_ADDRESSES : { [networks.MAINNET]: id }}
           >
-            {isZap && (
-              <>
-                <PrimaryButton
-                  onClick={() => {
-                    zeroExSwap.mutate(
-                      {
-                        slippage: "10",
-                        sellAmount: parseUnits(pairAmount, swapAssetType.decimals),
-                        tokenAddress: swapAssetType.address || "",
-                        buyAddress: vault.pairTokenAddress,
-                      },
-                      {
-                        onSuccess: async data => {
-                          //Find the TransformedERC20 event, since it includes the amount received.
-                          const parsed = data.logs.find(log =>
-                            log.topics.includes("0x0f6672f78a59ba8e5e5b5d38df3ebc67f3c792e2c9259b8d97d7f00dd78ba1b3"),
-                          );
-                          const iface = new ethers.utils.Interface(ZeroEx__factory.abi);
-                          if (parsed) {
-                            const decoded = iface.decodeEventLog(
-                              "TransformedERC20",
-                              parsed.data,
-                              parsed.topics,
-                            ) as unknown as TransformedERC20EventObject;
-                            //now we'll move to the next step.
-                            console.log("depositing", formatUnits(decoded.outputTokenAmount, 18));
-                            deposit.mutate({
-                              amount: formatUnits(decoded.outputTokenAmount, 18),
-                              address: vault.vaultAddress,
-                              minLpAmount: minLpAmount.toString(),
-                            });
-                          }
-                        },
-                      },
-                    );
-                  }}
-                >
-                  TEST
-                </PrimaryButton>
-              </>
-            )}
             <PrimaryButton
               fullWidth
               disabled={
@@ -321,26 +343,107 @@ export const Vault = () => {
                   ? Number(reserveAmount) === 0 ||
                     Number(reserveAmount) > Number(vault.lpTokenBalance) ||
                     withdraw.isLoading
-                  : Number(pairAmount) === 0 ||
-                    Number(pairAmount) > Number(formatUnits(pairTokenBalance.toBigNumber(), 18)) ||
-                    deposit.isLoading
+                  : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance) || deposit.isLoading
               }
               loading={deposit.isLoading}
               onClick={() => {
-                isWithdrawal
-                  ? withdraw.mutate({ amount: reserveAmount, slippage: "0", address: vault.vaultAddress })
-                  : deposit.mutate({
-                      amount: pairAmount,
-                      minLpAmount: minLpAmount.toString(),
-                      address: vault.vaultAddress,
-                    });
+                isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
               }}
             >
-              {isWithdrawal ? `Withdraw for ${vault.pairTokenName}` : `Deposit ${vault.pairTokenName}`}
+              {isWithdrawal
+                ? `Withdraw for ${vault.pairTokenName}`
+                : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
             </PrimaryButton>
           </TokenAllowanceGuard>
           <LiquidityCTA />
-          {/* <ConfirmationModal /> */}
+          <ConfirmationModal
+            isOpen={isDepositModalOpen}
+            setIsOpen={setIsDepositModalOpen}
+            depositTokenName={swapAssetType.name}
+            vaultDepositTokenName={vault.pairTokenName}
+            depositAmount={formatNumber(Number(pairAmount), 4)}
+            receiveAmount={formatNumber(Number(reserveAmount), 4)}
+            disclaimerChecked={disclaimerChecked}
+            setDisclaimerChecked={setDisclaimerChecked}
+            confirmButton={
+              isZap ? (
+                <PrimaryButton
+                  fullWidth
+                  onClick={() => {
+                    setIsZapAndDepositModalOpen(true);
+                    setIsDepositModalOpen(false);
+                  }}
+                  disabled={!disclaimerChecked}
+                >
+                  Zap and Deposit {vault.pairTokenName}
+                </PrimaryButton>
+              ) : (
+                <PrimaryButton
+                  fullWidth
+                  onClick={() =>
+                    deposit.mutate(
+                      {
+                        amount: pairAmount,
+                        minLpAmount: minLpAmount,
+                        address: vault.vaultAddress,
+                      },
+                      {
+                        onSuccess: () => {
+                          setIsDepositModalOpen(false);
+                        },
+                      },
+                    )
+                  }
+                  disabled={deposit.isLoading || !disclaimerChecked}
+                  loading={deposit.isLoading}
+                >
+                  Deposit {vault.pairTokenName}
+                </PrimaryButton>
+              )
+            }
+          />
+          {isZapAndDepositModalOpen && (
+            <ZapAndDepositModal
+              isOpen={isZapAndDepositModalOpen}
+              vaultDepositTokenAddressMap={{ [networks.MAINNET]: vault.pairTokenAddress }}
+              vaultSpenderAddressMap={{ [networks.MAINNET]: id }}
+              setIsOpen={setIsZapAndDepositModalOpen}
+              swapAssetType={swapAssetType}
+              swapAmount={pairAmount}
+              buyAddress={"0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F"} //TODO: replace with vault address. this is testnet ETH for now for
+              vaultAddress={vault.vaultAddress}
+              minLpAmount={minLpAmount}
+              slippage={customSlippage}
+            />
+          )}
+          <WithdrawModal
+            isOpen={isWithdrawConfirmOpen}
+            setIsOpen={setIsWithdrawConfirmOpen}
+            depositToken={vault.pairTokenName}
+            rewards={vault.rewards}
+            withdrawAmount={reserveAmount}
+            pairAmount={pairAmount}
+            ohmRemoved={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
+            confirmButton={
+              <PrimaryButton
+                fullWidth
+                disabled={
+                  Number(reserveAmount) === 0 ||
+                  Number(reserveAmount) > Number(vault.lpTokenBalance) ||
+                  withdraw.isLoading
+                }
+                loading={withdraw.isLoading}
+                onClick={() => {
+                  withdraw.mutate(
+                    { amount: reserveAmount, slippage: "0", address: vault.vaultAddress },
+                    { onSuccess: () => setIsWithdrawConfirmOpen(false) },
+                  );
+                }}
+              >
+                Withdraw Liquidity
+              </PrimaryButton>
+            }
+          />
           <SlippageModal
             handleClose={() => setSlippageModalOpen(false)}
             modalOpen={slippageModalOpen}
@@ -360,11 +463,13 @@ export const Vault = () => {
                   name: vault.pairTokenName as keyof OHMTokenStackProps["tokens"],
                   balance: formatNumber(Number(formatUnits(pairTokenBalance.toBigNumber(), 18)), 2),
                   address: vault.pairTokenAddress,
+                  price: 1,
                 },
                 {
                   name: "ETH",
                   balance: daiBalance?.formatted,
                   address: ethers.constants.AddressZero,
+                  price: 10,
                 },
               ]}
             />

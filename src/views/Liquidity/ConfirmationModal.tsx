@@ -1,55 +1,70 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
-import { DataRow, Icon, Metric, Modal, PrimaryButton, TokenStack } from "@olympusdao/component-library";
-import { useState } from "react";
+import { Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "@olympusdao/component-library";
+import { ReactElement } from "react";
 
-export const ConfirmationModal = () => {
+export const ConfirmationModal = ({
+  isOpen,
+  depositTokenName,
+  vaultDepositTokenName,
+  confirmButton,
+  depositAmount,
+  receiveAmount,
+  disclaimerChecked,
+  setDisclaimerChecked,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  depositTokenName: string;
+  vaultDepositTokenName: string;
+  confirmButton: ReactElement;
+  depositAmount: string;
+  receiveAmount: string;
+  disclaimerChecked: boolean;
+  setDisclaimerChecked: (checked: boolean) => void;
+  setIsOpen: (isOpen: boolean) => void;
+}) => {
   const theme = useTheme();
-  const [checked, setChecked] = useState(false);
   return (
     <Modal
       maxWidth="476px"
       minHeight="200px"
-      open={true}
+      open={isOpen}
       headerContent={
         <Box display="flex" flexDirection="row" gap="6px" alignItems="center">
-          <TokenStack tokens={["ETH", "OHM"]} sx={{ fontSize: "27px" }} />
-          <Typography fontWeight="500">Deposit stETH</Typography>
+          <TokenStack tokens={[depositTokenName] as keyof OHMTokenStackProps["tokens"]} sx={{ fontSize: "27px" }} />
+          <Typography fontWeight="500">Deposit {depositTokenName}</Typography>
         </Box>
       }
       onClose={() => {
-        console.log("close");
+        setIsOpen(false);
       }}
     >
       <>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
           <Box display="flex" flexDirection="column">
-            <Metric label="Assets to Deposit" metric={"10"} />
+            <Metric label="Assets to Deposit" metric={depositAmount} />
             <Box display="flex" flexDirection="row" justifyContent="center">
-              <Typography>stETH</Typography>
+              <Typography>{depositTokenName}</Typography>
             </Box>
           </Box>
           <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
           <Box display="flex" flexDirection="column">
-            <Metric label="Assets to Receive" metric="10" />
+            <Metric label="Assets to Receive" metric={receiveAmount} />
             <Box display="flex" flexDirection="row" justifyContent="center">
-              <Typography>stETH-OHM LP</Typography>
+              <Typography>{vaultDepositTokenName}-OHM LP</Typography>
             </Box>
           </Box>
         </Box>
         <Box mt="21px" mb="21px" borderTop={`1px solid ${theme.colors.gray[500]}`}></Box>
-        <DataRow title="Your Balance" balance={"0.00"} />
-        <DataRow title="OHM Minted" balance={"0.00"} />
-        <DataRow title="Max You Can Buy" balance={"0.00"} />
-        <DataRow title="Max You Can Buy" balance={"0.00"} />
         <div>
           <Box display="flex" alignItems="center">
             <FormControlLabel
               sx={{ marginRight: 0 }}
               control={
                 <Checkbox
-                  checked={checked}
-                  onChange={event => setChecked(event.target.checked)}
+                  checked={disclaimerChecked}
+                  onChange={event => setDisclaimerChecked(event.target.checked)}
                   icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
                   checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
                   data-testid="disclaimer-checkbox"
@@ -61,14 +76,11 @@ export const ConfirmationModal = () => {
             <Typography fontWeight="500">I Understand</Typography>
           </Box>
           <Typography fontSize="12px" lineHeight="15px" mb="18px">
-            By depositing stETH into an AMO pools, you are not guaranteed to get back the exact same amount of deposit
-            tokens at time of withdraw and your position will be exposed to impermanent loss.
+            By depositing {vaultDepositTokenName} into an AMO pools, you are not guaranteed to get back the exact same
+            amount of deposit tokens at time of withdraw and your position will be exposed to impermanent loss.
           </Typography>
         </div>
-
-        <PrimaryButton fullWidth onClick={() => console.log("submit")} disabled={true} loading={false}>
-          Submit
-        </PrimaryButton>
+        {confirmButton}
       </>
     </Modal>
   );

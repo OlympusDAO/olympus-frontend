@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain/factories";
@@ -5,6 +6,8 @@ import { useMutation, useSigner } from "wagmi";
 
 export const useClaimRewards = () => {
   const { data: signer } = useSigner();
+  const queryClient = useQueryClient();
+
   return useMutation(
     async ({ address }: { address: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
@@ -19,6 +22,7 @@ export const useClaimRewards = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
+        queryClient.invalidateQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",

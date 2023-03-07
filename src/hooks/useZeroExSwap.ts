@@ -54,7 +54,7 @@ export const useZeroExSwap = () => {
       if (!signer) throw new Error(`Signer is not set`);
 
       if (!address) throw new Error(`Account is not set`);
-      const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100, buyAddress);
+      const swapData = await fetchSwapData(sellAmount, tokenAddress, +slippage / 100, buyAddress);
 
       console.debug("Commencing Zap");
 
@@ -137,22 +137,25 @@ export const useZeroExSwap = () => {
   );
 };
 
-const fetchSwapData = async (
-  address: string,
-  sellAmount: BigNumber,
+export const fetchSwapData = async (
+  amount: BigNumber,
   tokenAddress: string,
   slippageDecimal: number,
   buyAddress: string,
+  isSell = true,
 ): Promise<ZapTransactionResponse> => {
   tokenAddress = tokenAddress.toLowerCase();
   const sellToken = tokenAddress === "0x0000000000000000000000000000000000000000" ? "ETH" : tokenAddress;
+  //TODO: swap for mainnet
   const response = await fetch(
-    `https://goerli.api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyAddress}&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&affiliateAddress=${
+    `https://goerli.api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyAddress}&${
+      isSell ? `sellAmount` : `buyAmount`
+    }=${amount}&slippagePercentage=${slippageDecimal}&enableSlippageProtection=true&affiliateAddress=${
       DAO_TREASURY_ADDRESSES[NetworkId.MAINNET]
     }`,
   );
   const responseJson = await response.json();
-  console.log(responseJson, "responseJson");
+
   if (response.ok) {
     return responseJson;
   } else {

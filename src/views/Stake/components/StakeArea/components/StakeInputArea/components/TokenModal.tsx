@@ -31,7 +31,7 @@ type OHMTokenModalProps = {
   sOhmBalance?: string;
   gOhmBalance?: string;
   showZapAssets?: boolean;
-  alwaysShowTokens?: { name: OHMTokenProps["name"]; balance: string; address: string }[];
+  alwaysShowTokens?: { name: OHMTokenProps["name"]; balance: string; address: string; price: number }[];
 };
 /**
  * Component for Displaying TokenModal
@@ -49,7 +49,7 @@ const TokenModal: FC<OHMTokenModalProps> = ({
   const theme = useTheme();
   const { data: zapTokenBalances = { balances: {} }, isLoading } = useZapTokenBalances();
   const tokensBalance = zapTokenBalances.balances;
-
+  console.log(tokensBalance, "tokensBalance");
   const showZap = showZapAssets && tokensBalance;
 
   const TokenItem: FC<TokenItem> = ({ name, balance = "0", icon, address = "", price, decimals, ...props }) => {
@@ -107,7 +107,12 @@ const TokenModal: FC<OHMTokenModalProps> = ({
                 {alwaysShowTokens && (
                   <>
                     {alwaysShowTokens.map(token => (
-                      <TokenItem name={token.name} balance={token.balance} address={token.address} />
+                      <TokenItem
+                        name={token.name}
+                        balance={token.balance}
+                        address={token.address}
+                        price={token.price}
+                      />
                     ))}
                   </>
                 )}

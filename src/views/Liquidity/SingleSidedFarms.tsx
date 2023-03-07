@@ -43,9 +43,7 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                 </Box>
               </StyledTableCell>
               <StyledTableCell>
-                <Typography>
-                  {vault.limit} OHM {vault.ohmMinted}
-                </Typography>
+                <Typography>{formatNumber(Number(vault.limit))} OHM</Typography>
                 <Box mt="3px" width="80%">
                   <LinearProgress variant="determinate" value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100} />
                 </Box>

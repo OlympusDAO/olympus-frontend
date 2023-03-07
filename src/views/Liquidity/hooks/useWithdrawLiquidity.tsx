@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
@@ -8,6 +9,7 @@ import { useMutation, useSigner } from "wagmi";
 export const useWithdrawLiquidity = () => {
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
+  const queryClient = useQueryClient();
 
   return useMutation(
     async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
@@ -17,16 +19,14 @@ export const useWithdrawLiquidity = () => {
       //TODO: Number of Decimals
       const amountToBigNumber = ethers.utils.parseUnits(amount);
       //TODO: How to calculate slippage? Need Price feed that contract is using for LP price.
-      const minPairToken = 0;
-      const minOhmToken = 0;
+      const minPairToken = 0.00001;
+      const minOhmToken = 0.00001;
       const minPairTokenBigNumber = ethers.utils.parseUnits(minPairToken.toString());
-      const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString());
-
-      console.log(amountToBigNumber, minPairToken, minOhmToken, address);
+      const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString(), 9);
 
       const withdrawTransaction = await contract.withdraw(
         amountToBigNumber,
-        [minPairTokenBigNumber, minOhmTokenBigNumber],
+        [minOhmTokenBigNumber, minPairTokenBigNumber],
         true,
       );
 
@@ -38,6 +38,7 @@ export const useWithdrawLiquidity = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
+        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",

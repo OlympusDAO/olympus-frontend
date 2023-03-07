@@ -86,7 +86,7 @@ export const TokenAllowanceGuard: React.FC<{
     );
 
   if (
-    (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero) ||
+    (allowance && allowance.eq(0) && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero) ||
     (allowance && allowance.lt(balance.toBigNumber()))
   )
     return (

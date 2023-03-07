@@ -1,18 +1,20 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useDepositLiqudiity = () => {
   const { data: signer } = useSigner();
+  const queryClient = useQueryClient();
   return useMutation(
-    async ({ amount, address, minLpAmount }: { amount: string; address: string; minLpAmount: string }) => {
+    async ({ amount, address, minLpAmount }: { amount: string; address: string; minLpAmount: DecimalBigNumber }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
       const amountToBigNumber = ethers.utils.parseUnits(amount);
-      const minLpAmountToBigNumber = ethers.utils.parseUnits(minLpAmount.toString());
-      const depositTransaction = await contract.deposit(amountToBigNumber, minLpAmountToBigNumber);
+      const depositTransaction = await contract.deposit(amountToBigNumber, minLpAmount.toBigNumber());
       const receipt = await depositTransaction.wait();
       return receipt;
     },
@@ -21,6 +23,7 @@ export const useDepositLiqudiity = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
+        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",

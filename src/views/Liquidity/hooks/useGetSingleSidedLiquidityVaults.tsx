@@ -79,20 +79,22 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const lpTokenBalance = formatUnits(await contract.lpPositions(walletAddress), 18);
   const limit = formatUnits(await contract.LIMIT(), 9); //will always be denominated in OHM
   const ohmMinted = formatUnits(await contract.ohmMinted(), 9);
-  //TODO: Convert to USD
+
   const totalLpBalance = formatUnits(await contract.totalLP());
   const lpBigNumber = await contract.totalLP();
   //Price per LP Token is 1 divided by the price per deposit token
-  const pricePerLpToken = new DecimalBigNumber("1").div(new DecimalBigNumber(pricePerDepositToken));
+  const depositPricePerLpToken = new DecimalBigNumber("1").div(new DecimalBigNumber(pricePerDepositToken));
 
   //mapping testnet addresses to mainnet so we can display tvl on testnet
-  const usdPricePairToken = await getCoingeckoPrice(NetworkId.MAINNET, testnetToMainnetContract(pairTokenAddress));
-  const usdPricePerPairToken = usdPricePairToken.mul(pricePerLpToken);
+  const usdPriceDepositToken = await getCoingeckoPrice(NetworkId.MAINNET, testnetToMainnetContract(pairTokenAddress));
+  const usdPricePerDepositToken = usdPriceDepositToken.mul(depositPricePerLpToken);
   const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
-  const usdPricePerOhm = ohmPrice.mul(pricePerLpToken);
-  const price = usdPricePerPairToken.add(usdPricePerOhm);
-  const tvlUsd = price.mul(new DecimalBigNumber(lpBigNumber, 18)).toString();
 
+  const ohmPricePerDepositToken = usdPriceDepositToken.div(ohmPrice);
+  const usdPricePerOhm = ohmPrice.mul(ohmPricePerDepositToken).mul(depositPricePerLpToken);
+
+  const price = usdPricePerDepositToken.add(usdPricePerOhm);
+  const tvlUsd = price.mul(new DecimalBigNumber(lpBigNumber, 18)).toString({ decimals: 2 });
   const externalRewardsTokens = await contract.getExternalRewardTokens();
   const externalRewards = await Promise.all(
     externalRewardsTokens.map(async (token, index) => {
@@ -123,6 +125,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
       return { tokenName, apy, userRewards };
     }),
   );
+  const depositLimit = await contract.getMaxDeposit();
   const rewards = [...externalRewards, ...internalRewardsTokens];
 
   const apySum = rewards.reduce((a, b) => {
@@ -144,5 +147,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     pricePerDepositToken,
     totalApy: formatNumber(apySum, 2),
     usdPricePerToken: price.toString(),
+    ohmPricePerDepositToken: ohmPricePerDepositToken,
+    depositLimit: formatUnits(depositLimit, 18),
   };
 };

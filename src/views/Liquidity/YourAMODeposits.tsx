@@ -9,8 +9,10 @@ import {
   Token,
   TokenStack,
 } from "@olympusdao/component-library";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { formatNumber } from "src/helpers";
+import { ClaimModal } from "src/views/Liquidity/ClaimModal";
 import { useClaimRewards } from "src/views/Liquidity/hooks/useClaimRewards";
 import { VaultInfo } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 
@@ -22,6 +24,7 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
   const claim = useClaimRewards();
   const activeVaults = vaults.filter(vault => Number(vault.lpTokenBalance) > 0);
   const theme = useTheme();
+  const [claimReward, setClaimReward] = useState({ open: false, vault: undefined as VaultInfo | undefined });
   return (
     <>
       <Box mb="21px" mt="9px">
@@ -80,10 +83,9 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
                     <Link component={RouterLink} to={`/liquidity/vaults/${vault.vaultAddress}?withdraw=true`}>
                       <SecondaryButton fullWidth>Withdraw </SecondaryButton>
                     </Link>
-
                     <PrimaryButton
                       onClick={() => {
-                        claim.mutate({ address: vault.vaultAddress });
+                        setClaimReward({ open: true, vault: vault });
                       }}
                       disabled={claim.isLoading}
                       loading={claim.isLoading}
@@ -97,6 +99,36 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
             ))}
           </TableBody>
         </Table>
+      )}
+      {claimReward.vault && (
+        <ClaimModal
+          depositToken={claimReward.vault.pairTokenName}
+          rewards={claimReward.vault.rewards}
+          isOpen={claimReward.open}
+          setIsOpen={() => {
+            setClaimReward({ open: false, vault: undefined });
+          }}
+          confirmButton={
+            <PrimaryButton
+              onClick={() => {
+                claimReward.vault &&
+                  claim.mutate(
+                    { address: claimReward.vault.vaultAddress },
+                    {
+                      onSuccess: () => {
+                        setClaimReward({ open: false, vault: undefined });
+                      },
+                    },
+                  );
+              }}
+              disabled={claim.isLoading}
+              loading={claim.isLoading}
+              fullWidth
+            >
+              Claim
+            </PrimaryButton>
+          }
+        />
       )}
     </>
   );
