@@ -9,6 +9,9 @@ export const MarkdownPreview = (props: { content: string }) => {
     "p > img": {
       maxWidth: "100%",
     },
+    p: {
+      fontSize: "16px",
+    },
   }));
 
   const allowedImgDomains = ["i.imgur.com"];
