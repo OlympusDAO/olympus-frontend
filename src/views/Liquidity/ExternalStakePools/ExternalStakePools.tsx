@@ -15,8 +15,10 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
+import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
+import { normalizeSymbol } from "src/helpers/normalizeSymbol";
 import { useGetLPStats } from "src/hooks/useGetLPStats";
-import { useAccount } from "wagmi";
+
 const PREFIX = "ExternalStakePools";
 
 const classes = {
@@ -44,39 +46,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const ExternalStakePools = () => {
-  const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: defiLlamaPools } = useGetLPStats();
-  console.log(defiLlamaPools, "defi");
 
-  const defiLlamaChainToNetworkId = (chain: string) => {
-    switch (chain.toLowerCase()) {
-      case "ethereum":
-        return "ETH";
-      case "polygon":
-        return "MATIC";
-      default:
-        return chain.toUpperCase();
-    }
-  };
-  const normalizeSymbol = (symbol: string[]) => {
-    return symbol.map(s => {
-      switch (s.toLowerCase()) {
-        case "weth":
-          return "wETH";
-        case "gohm":
-          return "gOHM";
-        case "wftm":
-          return "FTM";
-        case "fraxbp":
-          return "FRAX";
-        case "wavax":
-          return "AVAX";
-        default:
-          return s;
-      }
-    });
-  };
   return (
     <div id="stake-view">
       <PageTitle
@@ -126,7 +98,7 @@ export const ExternalStakePools = () => {
                     </div>
                     <div className={classes.poolName}>
                       <Token
-                        name={defiLlamaChainToNetworkId(pool.chain) as OHMTokenProps["name"]}
+                        name={defiLlamaChainToNetwork(pool.chain) as OHMTokenProps["name"]}
                         style={{ fontSize: "15px" }}
                       />
                     </div>
@@ -169,7 +141,7 @@ export const ExternalStakePools = () => {
                           <Typography>{pool.symbol}</Typography>
                         </Box>
                         <Token
-                          name={defiLlamaChainToNetworkId(pool.chain) as OHMTokenProps["name"]}
+                          name={defiLlamaChainToNetwork(pool.chain) as OHMTokenProps["name"]}
                           style={{ fontSize: "15px" }}
                         />
                       </Box>
