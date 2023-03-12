@@ -122,20 +122,26 @@ const RangeChart = (props: {
     const timestamp = payload && payload.length > 4 ? payload[4].payload.timestamp : "";
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
-        <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2)} />
+        <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
         <DataRow title="Time" balance={timestamp}></DataRow>
         {label === "now" && (
           <>
-            <DataRow title="Upper Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2)} />
+            <DataRow
+              title="Upper Wall"
+              balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2, reserveSymbol)}
+            />
             <DataRow
               title="Upper Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2)}
+              balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2, reserveSymbol)}
             />
             <DataRow
               title="Lower Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2)}
+              balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2, reserveSymbol)}
             />
-            <DataRow title="Lower Wall" balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2)} />
+            <DataRow
+              title="Lower Wall"
+              balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2, reserveSymbol)}
+            />
             <DataRow
               title="Upper Capacity"
               balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
@@ -144,8 +150,8 @@ const RangeChart = (props: {
               title="Lower Capacity"
               balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
             />
-            <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2)}`} />
-            <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2)}`} />
+            <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />
+            <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2, reserveSymbol)}`} />
           </>
         )}
       </Paper>
@@ -171,13 +177,13 @@ const RangeChart = (props: {
             strokeDasharray={"6 3"}
             strokeWidth={0.5}
             className="moving-average"
-            label={targetPrice ? `Target Price: ${formatCurrency(targetPrice, 2)}` : ""}
+            label={targetPrice ? `Target Price: ${formatCurrency(targetPrice, 2, reserveSymbol)}` : ""}
             position="start"
           />
           <XAxis reversed scale="auto" dataKey="timestamp" interval="preserveStartEnd" tick={false} hide></XAxis>
           <YAxis
             scale="auto"
-            tickFormatter={number => formatCurrency(number, 2)}
+            tickFormatter={number => formatCurrency(number, 2, reserveSymbol)}
             orientation="left"
             type="number"
             domain={[
@@ -241,18 +247,18 @@ const RangeChart = (props: {
               className={classes.currentPrice}
               position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
             >
-              {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
+              {formatCurrency(chartData.length > 1 && chartData[1].price, 2, reserveSymbol)}
             </Label>
           </ReferenceDot>
           <ReferenceDot x={"now"} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
             <Label className={classes.currentPrice} position={isSquishyAsk && askPriceDelta < 0 ? "top" : "bottom"}>
-              {`Ask: ${formatCurrency(askPrice, 2)}`}
+              {`Ask: ${formatCurrency(askPrice, 2, reserveSymbol)}`}
             </Label>
           </ReferenceDot>
 
           <ReferenceDot x={"now"} y={bidPrice} shape={CustomReferenceDot} fill={theme.colors.primary[300]}>
             <Label className={classes.currentPrice} position={isSquishyBid && bidPriceDelta < 0 ? "top" : "bottom"}>
-              {`Bid: ${formatCurrency(bidPrice, 2)}`}
+              {`Bid: ${formatCurrency(bidPrice, 2, reserveSymbol)}`}
             </Label>
           </ReferenceDot>
         </ComposedChart>
