@@ -105,7 +105,7 @@ export const ExternalStakePools = () => {
                   </StyledPoolInfo>
 
                   <DataRow title={`TVL`} balance={formatCurrency(pool.tvlUsd || 0)} />
-                  <DataRow title={`APY`} balance={`${formatNumber(pool.apy || 0 * 100, 2)}%`} />
+                  <DataRow title={`APY`} balance={`${formatNumber(pool.apy || 0, 2)}%`} />
 
                   <SecondaryButton href={pool.project.link} fullWidth>
                     Stake on {pool.project.name}
@@ -156,13 +156,13 @@ export const ExternalStakePools = () => {
                         <Tooltip
                           message={
                             <>
-                              <p>Base APY: {formatNumber(pool.apyBase || 0 * 100, 2)}%</p>
-                              <p>Reward APY: {formatNumber(pool.apyReward || 0 * 100, 2)}%</p>
+                              <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
+                              <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
                             </>
                           }
                         >
                           {" "}
-                          {formatNumber(pool.apy || 0 * 100, 2)}%
+                          {formatNumber(pool.apy || 0, 2)}%
                         </Tooltip>
                       </Typography>
                     </TableCell>
