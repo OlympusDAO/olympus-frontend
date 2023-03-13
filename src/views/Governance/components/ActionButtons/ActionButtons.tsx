@@ -1,5 +1,5 @@
 import { Box, Link } from "@mui/material";
-import { SecondaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { FC, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import DelegateModal from "src/views/Governance/components/DelegateModal";
@@ -20,7 +20,13 @@ const ActionButtons: FC = () => {
         <SecondaryButton>Create new Proposal</SecondaryButton>
       </Link>
       {/* <PrimaryButton onClick={() => setOpen(true)}>Get Voting Power</PrimaryButton> */}
-
+      {/* <WalletConnectedGuard> */}
+      <Box display="flex" flexDirection="row" justifyContent="center">
+        <Link to="/governance/get-vohm" component={RouterLink}>
+          <PrimaryButton sx={{ minWidth: "120px" }}>Get More Voting Power</PrimaryButton>
+        </Link>
+      </Box>
+      {/* </WalletConnectedGuard> */}
       <DelegateModal open={open} handleClose={handleClose} />
     </Box>
   );

@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import { MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
 import { VohmInputArea } from "src/views/Governance/components/VohmArea/VohmInputArea/VohmInputArea";
 import { useAccount } from "wagmi";
@@ -12,12 +11,6 @@ export const VohmArea: React.FC = () => {
     <>
       {/* <PageTitle name="vOHM" /> */}
       <Box width="100%">
-        <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
-          <Box display="flex" flexDirection="column" width="100%" maxWidth="521px" mb="28px">
-            <MetricCollection>{/* <VotingPowerMetrics /> */}</MetricCollection>
-          </Box>
-        </Box>
-
         <VohmInputArea isZoomed={isZoomed} />
         {isConnected && (
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">

@@ -1,8 +1,6 @@
-import { Box, Grid, Link, Typography, useTheme } from "@mui/material";
-import { Metric, PrimaryButton } from "@olympusdao/component-library";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Metric } from "@olympusdao/component-library";
 import { Paper } from "@olympusdao/component-library";
-import { Link as RouterLink } from "react-router-dom";
-import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
 import { useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -14,6 +12,11 @@ import { useAccount } from "wagmi";
 export const VotingPower = () => {
   return (
     <>
+      <Box display="flex" justifyContent="center" width="100%">
+        <Paper id="hello" sx={{ marginBottom: "0rem !important", paddingBottom: "0rem !important" }}>
+          <VotingPowerMetrics />
+        </Paper>
+      </Box>
       <Box display="flex" justifyContent="center">
         <Paper>
           <Grid container direction="column" paddingLeft="4.5px" paddingRight="4.5px">
@@ -42,18 +45,18 @@ export const VotingPowerMetrics = () => {
         </Typography>
       </Box>
       <Box display="flex" flexDirection="row">
-        {isConnected && <Metric label={`Your voting power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />}
+        {isConnected && <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />}
         {totalVoteSupply && (
           <Metric label={`Total Voting Supply`} metric={`${formatBalance(2, totalVoteSupply)} vOHM`} />
         )}
       </Box>
-      <WalletConnectedGuard>
+      {/* <WalletConnectedGuard>
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Link to="/governance/get-vohm" component={RouterLink}>
             <PrimaryButton sx={{ minWidth: "120px" }}>Get More Voting Power</PrimaryButton>
           </Link>
         </Box>
-      </WalletConnectedGuard>
+      </WalletConnectedGuard> */}
     </Box>
   );
 };
