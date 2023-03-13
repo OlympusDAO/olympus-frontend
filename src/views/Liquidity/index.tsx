@@ -30,10 +30,11 @@ export const Liquidity = () => {
             </Box>
             <Box borderRadius="12px" padding="32px" sx={{ backgroundColor: theme.colors.paper.card }} maxWidth="427px">
               <Typography fontSize="32px" fontWeight="500" lineHeight="36px" align="center">
-                Boosted Liquidity Engine Vaults
+                Boosted <br />
+                Liquidity Vaults
               </Typography>
               <Typography align="center" color={theme.colors.gray[40]}>
-                Get double the rewards for the same liquidity as Olympus takes on the other side of your LP.{" "}
+                Get double the rewards for the same liquidity. Olympus takes on the other side of your LP.{" "}
               </Typography>
               <Box mt="18px">
                 <Link component={RouterLink} to="/liquidity/vaults">

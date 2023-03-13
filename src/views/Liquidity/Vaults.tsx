@@ -5,8 +5,8 @@ import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { SingleSidedFarms } from "src/views/Liquidity/SingleSidedFarms";
+import { VaultFAQ } from "src/views/Liquidity/VaultFAQ";
 import { YourAmoDeposits } from "src/views/Liquidity/YourAMODeposits";
 
 export const Vaults = () => {
@@ -70,8 +70,9 @@ export const Vaults = () => {
             <Box mb="33px" />
           </>
         )}
-
-        <LiquidityCTA />
+        <Box mt="100px">
+          <VaultFAQ />
+        </Box>
       </Box>
     </div>
   );
