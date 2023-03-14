@@ -346,6 +346,13 @@ export const dark = createTheme(
             },
           },
         },
+        MuiSvgIcon: {
+          styleOverrides: {
+            colorAction: {
+              color: colors.primary[300],
+            },
+          },
+        },
         MuiTypography: {
           styleOverrides: {
             root: {

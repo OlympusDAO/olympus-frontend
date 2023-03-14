@@ -2,13 +2,14 @@ import "src/views/Governance/Governance.scss";
 
 import { Box, Grid, Link, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import { Paper, Proposal, Tab, Tabs } from "@olympusdao/component-library";
+import { Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useProposal } from "src/hooks/useProposal";
 import { useGetLastProposalId } from "src/hooks/useProposals";
 import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { FilterModal } from "src/views/Governance/components/FilterModal";
+import { Proposal } from "src/views/Governance/components/Proposal";
 import { SearchBar } from "src/views/Governance/components/SearchBar/SearchBar";
 import { toCapitalCase } from "src/views/Governance/helpers";
 

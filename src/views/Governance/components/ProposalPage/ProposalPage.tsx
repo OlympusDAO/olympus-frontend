@@ -16,6 +16,25 @@ import { StatusBar } from "src/views/Governance/components/ProposalPage/componen
 import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
 import { toCapitalCase } from "src/views/Governance/helpers";
 
+export const mapProposalStatus = (status: PStatus) => {
+  switch (status) {
+    case "active":
+      return "success" as OHMChipProps["template"];
+    case "executed":
+      return "purple" as OHMChipProps["template"];
+    case "discussion":
+    case "ready to activate":
+    case "ready to execute":
+      return "userFeedback" as OHMChipProps["template"];
+    case "closed":
+    case "expired activation":
+    case "expired execution":
+      return "gray" as OHMChipProps["template"];
+    case "draft":
+      return "darkGray" as OHMChipProps["template"];
+  }
+};
+
 export const proposalDateFormat = new Intl.DateTimeFormat([], {
   month: "short",
   day: "numeric",
@@ -110,22 +129,6 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
   const { proposal } = props;
   const theme = useTheme();
 
-  const mapStatus = (status: PStatus) => {
-    switch (status) {
-      case "active":
-        return "success" as OHMChipProps["template"];
-      case "executed":
-        return "purple" as OHMChipProps["template"];
-      case "discussion":
-      case "ready to activate":
-        return "userFeedback" as OHMChipProps["template"];
-      case "closed":
-      case "expired activation":
-        return "gray" as OHMChipProps["template"];
-      case "draft":
-        return "darkGray" as OHMChipProps["template"];
-    }
-  };
   const formattedPublishedDate = proposalDateFormat.format(proposal.submissionTimestamp);
 
   return (
@@ -142,7 +145,7 @@ const ProposalHeader = (props: { proposal: IAnyProposal }) => {
         </Typography>
       </Grid>
       <Box display="flex" flexDirection="row" mt="4px">
-        <Chip label={toCapitalCase(proposal.state)} template={mapStatus(proposal.state)} strong />
+        <Chip label={toCapitalCase(proposal.state)} template={mapProposalStatus(proposal.state)} strong />
         <Box pl="9px" display="flex" alignItems="center">
           {proposal && <TimeRemaining proposal={proposal} />}
         </Box>
