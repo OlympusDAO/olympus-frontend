@@ -1,4 +1,4 @@
-import { Box, capitalize, Typography, useTheme } from "@mui/material";
+import { Box, capitalize, useTheme } from "@mui/material";
 import { Metric, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { useState } from "react";
@@ -31,28 +31,34 @@ export const CastVote = ({ proposal }: ProposalTabProps) => {
     <Box borderRadius="6px" padding="18px" sx={{ backgroundColor: theme.colors.gray[700] }}>
       <Box display="flex" flexDirection="column">
         <ActivateVoting proposal={proposal} />
-        <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
+        {/* <Typography fontSize="15px" fontWeight={500} lineHeight="24px">
           Your Vote
-        </Typography>
+        </Typography> */}
       </Box>
       <Box display="flex" flexDirection="row">
-        {isConnected && voteValue && voteValue.amount.gt("0") ? (
-          <Metric label={`Your Voting Power`} metric={`${formatBalance(2, voteValue.amount)} vOHM`} />
-        ) : (
-          <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />
-        )}
         {voteValue && voteValue.amount.gt("0") ? (
-          <Metric label={`Your Vote`} metric={`${voteValue.voteYes ? "Yes" : "No"}`} />
-        ) : ["active", "closed"].includes(proposal.state) ? (
-          <Metric
-            label={proposal.state === "active" ? `Vote Closes On` : proposal.state === "closed" ? `Vote Closed On` : ``}
-            metric={`${proposalDateFormat.format(proposal.nextDeadline)}`}
-          />
+          <>
+            <Metric label={`Your Voting Power`} metric={`${formatBalance(2, voteValue.amount)} vOHM`} />
+            <Metric label={`Your Vote`} metric={`${voteValue.voteYes ? "Yes" : "No"}`} />
+          </>
+        ) : proposal.state === "active" ? (
+          <>
+            <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />
+            <Metric label={`Vote Closes On`} metric={`${proposalDateFormat.format(proposal.nextDeadline)}`} />
+          </>
+        ) : proposal.state === "closed" ? (
+          <>
+            <Metric label={`Vote Closed On`} metric={`${proposalDateFormat.format(proposal.nextDeadline)}`} />
+            <Metric label={`Your Vote`} metric={`None`} />
+          </>
         ) : (
-          <Metric
-            label={"Total Registered Votes"}
-            metric={`${formatBalance(2, new DecimalBigNumber(String(proposal.totalRegisteredVotes)))} vOHM`}
-          />
+          <>
+            <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />
+            <Metric
+              label={"Total Registered Votes"}
+              metric={`${formatBalance(2, new DecimalBigNumber(String(proposal.totalRegisteredVotes)))} vOHM`}
+            />
+          </>
         )}
       </Box>
       <>
