@@ -11,6 +11,7 @@ import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 /// Import Proposal data type and mock data getters from useProposals
 import {
   IAnyProposal,
+  notEnoughVotesToExecute,
   parseProposalContent,
   parseProposalState,
   ProposalAction,
@@ -79,23 +80,38 @@ export const useProposal = (instructionsIndex: number) => {
         const activationTimestamp = parseBigNumber(metadata.activationTimestamp, 0) * 1000;
         const activationTimelock = parseBigNumber(activationTimelines.activationTimelock, 0) * 1000;
         const activationDeadline = parseBigNumber(activationTimelines.activationDeadline, 0) * 1000;
+        const executionTimelock = parseBigNumber(activationTimelines.executionTimelock, 0) * 1000;
+        const executionDeadline = parseBigNumber(activationTimelines.executionDeadline, 0) * 1000;
         const collateralDuration = parseBigNumber(activationTimelines.collateralDuration, 0) * 1000;
         const votingPeriod = parseBigNumber(activationTimelines.votingPeriod, 0) * 1000;
         const earliestActivation = submissionTimestamp + activationTimelock;
         const activationExpiry = submissionTimestamp + activationDeadline;
+        const earliestExecution = activationTimestamp + executionTimelock;
+        const executionExpiry = activationTimestamp + executionDeadline;
         const votingExpiry = activationTimestamp + votingPeriod;
         const isActive = votingExpiry > Date.now();
 
         const collateralClaimableAt = submissionTimestamp + collateralDuration;
+        const totalRegisteredVotes = parseBigNumber(metadata.totalRegisteredVotes, 18);
+        const yesVotes = parseBigNumber(metadata.yesVotes, 18);
+        const noVotes = parseBigNumber(metadata.noVotes, 18);
+        const notEnoughVotes = notEnoughVotesToExecute({
+          totalRegisteredVotes,
+          yesVotes,
+          noVotes,
+          executionThreshold: activationTimelines.executionThresholdAsNumber,
+        });
+
         const proposalState = parseProposalState({
+          isExecuted: metadata.isExecuted,
+          notEnoughVotes,
           activationTimestamp,
           earliestActivation,
           activationExpiry,
           votingExpiry,
+          earliestExecution,
+          executionExpiry,
         });
-        const totalRegisteredVotes = parseBigNumber(metadata.totalRegisteredVotes, 18);
-        const yesVotes = parseBigNumber(metadata.yesVotes, 18);
-        const noVotes = parseBigNumber(metadata.noVotes, 18);
 
         const currentProposal = {
           id: instructionsIndex,
@@ -106,6 +122,9 @@ export const useProposal = (instructionsIndex: number) => {
           activationTimestamp: activationTimestamp,
           activationDeadline: activationDeadline,
           activationExpiry: activationExpiry,
+          executionDeadline: executionDeadline,
+          executionExpiry: executionExpiry,
+          isExecuted: metadata.isExecuted,
           votingExpiry: votingExpiry,
           timeRemaining: proposalState.jsTimeRemaining,
           nextDeadline: proposalState.nextDeadline,
@@ -114,6 +133,8 @@ export const useProposal = (instructionsIndex: number) => {
           totalRegisteredVotes,
           yesVotes,
           noVotes,
+          notEnoughVotesToExecute: notEnoughVotes,
+          quorum: totalRegisteredVotes * activationTimelines.executionThresholdAsNumber,
           uri: discussionURL,
           content,
           now: new Date(),

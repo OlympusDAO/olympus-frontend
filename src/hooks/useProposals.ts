@@ -35,7 +35,7 @@ export interface proposalMetadata {
 }
 
 /// Data type for returning full proposal informations
-export interface Proposal {
+interface IProposal {
   id: number;
   title: string;
   submitter: string;
@@ -49,7 +49,7 @@ export interface Proposal {
   content: string;
 }
 
-export interface IAnyProposal extends Omit<Proposal, "isActive"> {
+export interface IAnyProposal extends Omit<IProposal, "isActive"> {
   timeRemaining: number;
   nextDeadline: number;
   collateralClaimableAt: number;
@@ -58,13 +58,12 @@ export interface IAnyProposal extends Omit<Proposal, "isActive"> {
   activationTimestamp: number;
   activationDeadline: number;
   activationExpiry: number;
+  executionDeadline: number;
+  executionExpiry: number;
+  isExecuted: boolean;
   votingExpiry: number;
-}
-
-export interface IActiveProposal {
-  instructionsId: number;
-  activationTimestamp: number;
-  timeRemaining: number;
+  notEnoughVotesToExecute: boolean;
+  quorum: number;
 }
 
 export interface IProposalContent {
@@ -84,6 +83,9 @@ export type PStatus =
   | "ready to activate" // ready to activate for voting
   | "expired activation" // missed activation window
   | "active" // active for voting
+  | "awaiting execution"
+  | "ready to execute"
+  | "expired execution"
   | "executed" // passed & executed / implemented
   | "draft"
   | "closed";
@@ -143,25 +145,54 @@ export const useActivationTimelines = () => {
   );
 };
 
+export const notEnoughVotesToExecute = ({
+  totalRegisteredVotes,
+  yesVotes,
+  noVotes,
+  executionThreshold,
+}: {
+  totalRegisteredVotes: number;
+  yesVotes: number;
+  noVotes: number;
+  executionThreshold: number;
+}) => {
+  return (yesVotes - noVotes) * 100 < totalRegisteredVotes * executionThreshold;
+};
+
 /**
  * All parameters & return values are js timestamps (milliseconds).
  */
 export const parseProposalState = ({
+  isExecuted,
+  notEnoughVotes,
   activationTimestamp,
   earliestActivation,
   activationExpiry,
   votingExpiry,
+  earliestExecution,
+  executionExpiry,
 }: {
+  isExecuted: boolean;
+  notEnoughVotes: boolean;
   activationTimestamp: number;
   earliestActivation: number;
   activationExpiry: number;
   votingExpiry: number;
+  earliestExecution: number;
+  executionExpiry: number;
 }): { status: PStatus; jsTimeRemaining: number; nextDeadline: number } => {
   const now = Date.now();
   let status: PStatus;
   let jsTimeRemaining: number;
   let nextDeadline: number;
   console.log("parse Proposal state", now, earliestActivation, activationExpiry, activationTimestamp, votingExpiry);
+  if (isExecuted) {
+    return {
+      status: "executed",
+      jsTimeRemaining: 0,
+      nextDeadline: votingExpiry,
+    };
+  }
   if (now < earliestActivation) {
     console.log("now < earliestActivation - discussion", now, earliestActivation);
     // "discussion" // created but not ready to activate
@@ -196,6 +227,22 @@ export const parseProposalState = ({
   } else if (activationTimestamp > 0 && now < votingExpiry) {
     console.log("now < activationTimestamp && now < votingExpiry - active", now, activationExpiry, activationTimestamp);
     status = "active";
+    jsTimeRemaining = votingExpiry - now;
+    nextDeadline = votingExpiry;
+  } else if (activationTimestamp > 0 && now >= votingExpiry && notEnoughVotes) {
+    status = "closed";
+    jsTimeRemaining = 0;
+    nextDeadline = votingExpiry;
+  } else if (activationTimestamp > 0 && now >= votingExpiry && now < earliestExecution) {
+    status = "awaiting execution";
+    jsTimeRemaining = earliestExecution - now;
+    nextDeadline = earliestExecution;
+  } else if (activationTimestamp > 0 && now >= votingExpiry && now >= earliestExecution && now < executionExpiry) {
+    status = "ready to execute";
+    jsTimeRemaining = executionExpiry - now;
+    nextDeadline = executionExpiry;
+  } else if (activationTimestamp > 0 && now >= votingExpiry && now >= executionExpiry) {
+    status = "expired execution";
     jsTimeRemaining = votingExpiry - now;
     nextDeadline = votingExpiry;
   } else {
@@ -327,7 +374,7 @@ export const proposalsQueryKey = (filters: IProposalState) => {
   }
 };
 
-export const filterStatement = ({ proposal, filters }: { proposal: Proposal; filters: IProposalState }) => {
+export const filterStatement = ({ proposal, filters }: { proposal: IAnyProposal; filters: IProposalState }) => {
   let result = proposal.isActive;
   if (filters) {
     switch (filters.state) {

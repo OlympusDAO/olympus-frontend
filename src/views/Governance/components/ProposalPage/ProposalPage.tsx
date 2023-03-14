@@ -12,6 +12,7 @@ import ActionButtons from "src/views/Governance/components/ActionButtons";
 import { BackButton } from "src/views/Governance/components/BackButton";
 import { CastVote } from "src/views/Governance/components/ProposalPage/components/CastVote";
 import { PollDetailsTab } from "src/views/Governance/components/ProposalPage/components/PollDetailsTab";
+import { StatusBar } from "src/views/Governance/components/ProposalPage/components/StatusBar";
 import { VotesTab } from "src/views/Governance/components/ProposalPage/components/VotesTab";
 import { toCapitalCase } from "src/views/Governance/helpers";
 
@@ -37,6 +38,7 @@ export const PageWrapper = ({ proposal }: { proposal: IAnyProposal }) => (
             <ActionButtons />
           </Grid>
         </Grid>
+        <StatusBar proposal={proposal} />
         <CastVote proposal={proposal} />
         <Box display="flex" justifyContent="center">
           <Tabs value={false} centered textColor="primary" indicatorColor="primary">

@@ -16,7 +16,7 @@ export const UserVote = ({ proposalId, voterAddress }: { proposalId: number; vot
         <>
           <Metric
             label={`You have previously voted on this proposal with `}
-            metric={`${formatBalance(2, voteValue)} vOHM`}
+            metric={`${formatBalance(2, voteValue.amount)} vOHM`}
           />
         </>
       )}

@@ -50,6 +50,13 @@ export const dark = createTheme(
             }
             `,
         },
+        MuiLinearProgress: {
+          styleOverrides: {
+            barColorSecondary: {
+              backgroundColor: colors.primary[300],
+            },
+          },
+        },
         MuiSwitch: {
           styleOverrides: {
             switchBase: {

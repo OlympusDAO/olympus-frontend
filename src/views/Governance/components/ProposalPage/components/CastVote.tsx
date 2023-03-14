@@ -4,6 +4,7 @@ import { BigNumber } from "ethers";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatBalance } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useVoteBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useUserVote, useVote } from "src/hooks/useVoting";
@@ -34,17 +35,28 @@ export const CastVote = ({ proposal }: ProposalTabProps) => {
           Your Vote
         </Typography>
       </Box>
-      {["active", "closed"].includes(proposal.state) && (
-        <Box display="flex" flexDirection="row">
-          {isConnected && <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />}
+      <Box display="flex" flexDirection="row">
+        {isConnected && voteValue && voteValue.amount.gt("0") ? (
+          <Metric label={`Your Voting Power`} metric={`${formatBalance(2, voteValue.amount)} vOHM`} />
+        ) : (
+          <Metric label={`Your Voting Power`} metric={`${formatBalance(2, votesBalance)} vOHM`} />
+        )}
+        {voteValue && voteValue.amount.gt("0") ? (
+          <Metric label={`Your Vote`} metric={`${voteValue.voteYes ? "Yes" : "No"}`} />
+        ) : ["active", "closed"].includes(proposal.state) ? (
           <Metric
             label={proposal.state === "active" ? `Vote Closes On` : proposal.state === "closed" ? `Vote Closed On` : ``}
             metric={`${proposalDateFormat.format(proposal.nextDeadline)}`}
           />
-        </Box>
-      )}
+        ) : (
+          <Metric
+            label={"Total Registered Votes"}
+            metric={`${formatBalance(2, new DecimalBigNumber(String(proposal.totalRegisteredVotes)))} vOHM`}
+          />
+        )}
+      </Box>
       <>
-        {voteValue && !voteValue.gt("0") && (
+        {voteValue && !voteValue.amount.gt("0") && (
           <>
             <Box display="flex" flexDirection="row" justifyContent="center">
               <TertiaryButton
