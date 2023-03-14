@@ -72,6 +72,7 @@ export const ZapAndDepositModal = ({
             setCurrentStep(1);
             approveMutation.mutate(undefined, {
               onSuccess: async () => {
+                setCurrentStep(2);
                 depositIntoVault(data);
               },
             });
