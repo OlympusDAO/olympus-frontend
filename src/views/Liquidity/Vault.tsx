@@ -17,8 +17,6 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
-import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { ZERO_EX_EXCHANGE_PROXY_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -27,12 +25,12 @@ import { useFetchZeroExSwapData } from "src/hooks/useFetchZeroExSwapData";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
-import { useDepositLiqudiity } from "src/views/Liquidity/hooks/useDepositLiquidity";
+import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
+import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { WithdrawModal } from "src/views/Liquidity/WithdrawModal";
-import { ZapAndDepositModal } from "src/views/Liquidity/ZapAndDepositModal";
 import TokenModal, {
   ModalHandleSelectProps,
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
@@ -51,6 +49,9 @@ export const Vault = () => {
   const { address } = useAccount();
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
+  const { data: userVault, isLoading: userVaultLoading } = useGetUserVault({ address: id });
+
+  console.log(userVault, "userVault");
   const { data: daiBalance } = useWagmiBalance({
     addressOrName: address,
     formatUnits: "ether",
@@ -59,6 +60,7 @@ export const Vault = () => {
   const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isZapAndDepositModalOpen, setIsZapAndDepositModalOpen] = useState(false);
+  const [isDepositStepsModalOpen, setIsDepositStepsModalOpen] = useState(false);
   const [zapDepositTokenAmount, setZapDepositTokenAmount] = useState("0");
 
   const { data: pairTokenBalance = new DecimalBigNumber("0", 18) } = useBalance({
@@ -156,7 +158,6 @@ export const Vault = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const isWithdrawal = searchParams.get("withdraw");
-  const deposit = useDepositLiqudiity();
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   if (isLoading) {
@@ -289,7 +290,6 @@ export const Vault = () => {
               </Box>
             </Box>
           )}
-
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <Box mt="12px">
@@ -324,37 +324,39 @@ export const Vault = () => {
             </Box>
           </Box>
 
-          <TokenAllowanceGuard
-            isVertical
-            tokenAddressMap={
-              isZap ? { [networks.MAINNET]: swapAssetType.address } : { [networks.MAINNET]: vault.pairTokenAddress }
+          <PrimaryButton
+            fullWidth
+            disabled={
+              isWithdrawal
+                ? Number(reserveAmount) === 0 ||
+                  Number(reserveAmount) > Number(vault.lpTokenBalance) ||
+                  withdraw.isLoading
+                : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
             }
-            approvalText={
-              isZap
-                ? `Approve ${swapAssetType.name} for Swapping`
-                : `Approve ${vault.pairTokenName} for Deposit to Vault`
-            }
-            spenderAddressMap={isZap ? ZERO_EX_EXCHANGE_PROXY_ADDRESSES : { [networks.MAINNET]: id }}
+            onClick={() => {
+              isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
+            }}
           >
-            <PrimaryButton
-              fullWidth
-              disabled={
-                isWithdrawal
-                  ? Number(reserveAmount) === 0 ||
-                    Number(reserveAmount) > Number(vault.lpTokenBalance) ||
-                    withdraw.isLoading
-                  : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance) || deposit.isLoading
-              }
-              loading={deposit.isLoading}
-              onClick={() => {
-                isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
-              }}
-            >
-              {isWithdrawal
-                ? `Withdraw for ${vault.pairTokenName}`
-                : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
-            </PrimaryButton>
-          </TokenAllowanceGuard>
+            {isWithdrawal
+              ? `Withdraw for ${vault.pairTokenName}`
+              : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
+          </PrimaryButton>
+
+          {isDepositStepsModalOpen && (
+            <DepositSteps
+              userVault={userVault}
+              vaultDepositTokenAddressMap={{ [networks.MAINNET]: vault.pairTokenAddress }}
+              vaultManagerAddress={vault.vaultAddress}
+              // zapFromTokenAddressMap={{ [networks.MAINNET]: swapAssetType.address }}
+              pairAmount={pairAmount}
+              minLpAmount={minLpAmount}
+              setIsOpen={() => setIsDepositStepsModalOpen(false)}
+              isOpen={isDepositStepsModalOpen}
+              swapAssetType={swapAssetType}
+              slippage={customSlippage}
+              zapIntoAddress={isZap ? "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F" : undefined} //TODO: replace with vault address. this is testnet stETH for now for
+            />
+          )}
           <LiquidityCTA />
           <ConfirmationModal
             isOpen={isDepositModalOpen}
@@ -366,56 +368,19 @@ export const Vault = () => {
             disclaimerChecked={disclaimerChecked}
             setDisclaimerChecked={setDisclaimerChecked}
             confirmButton={
-              isZap ? (
-                <PrimaryButton
-                  fullWidth
-                  onClick={() => {
-                    setIsZapAndDepositModalOpen(true);
-                    setIsDepositModalOpen(false);
-                  }}
-                  disabled={!disclaimerChecked}
-                >
-                  Zap and Deposit {vault.pairTokenName}
-                </PrimaryButton>
-              ) : (
-                <PrimaryButton
-                  fullWidth
-                  onClick={() =>
-                    deposit.mutate(
-                      {
-                        amount: pairAmount,
-                        minLpAmount: minLpAmount,
-                        address: vault.vaultAddress,
-                      },
-                      {
-                        onSuccess: () => {
-                          setIsDepositModalOpen(false);
-                        },
-                      },
-                    )
-                  }
-                  disabled={deposit.isLoading || !disclaimerChecked}
-                  loading={deposit.isLoading}
-                >
-                  Deposit {vault.pairTokenName}
-                </PrimaryButton>
-              )
+              <PrimaryButton
+                fullWidth
+                onClick={() => {
+                  setIsDepositStepsModalOpen(true);
+                  setIsDepositModalOpen(false);
+                }}
+                disabled={!disclaimerChecked}
+              >
+                {`${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
+              </PrimaryButton>
             }
           />
-          {isZapAndDepositModalOpen && (
-            <ZapAndDepositModal
-              isOpen={isZapAndDepositModalOpen}
-              vaultDepositTokenAddressMap={{ [networks.MAINNET]: vault.pairTokenAddress }}
-              vaultSpenderAddressMap={{ [networks.MAINNET]: id }}
-              setIsOpen={setIsZapAndDepositModalOpen}
-              swapAssetType={swapAssetType}
-              swapAmount={pairAmount}
-              buyAddress={"0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F"} //TODO: replace with vault address. this is testnet ETH for now for
-              vaultAddress={vault.vaultAddress}
-              minLpAmount={minLpAmount}
-              slippage={customSlippage}
-            />
-          )}
+
           <WithdrawModal
             isOpen={isWithdrawConfirmOpen}
             setIsOpen={setIsWithdrawConfirmOpen}
@@ -434,10 +399,11 @@ export const Vault = () => {
                 }
                 loading={withdraw.isLoading}
                 onClick={() => {
-                  withdraw.mutate(
-                    { amount: reserveAmount, slippage: "0", address: vault.vaultAddress },
-                    { onSuccess: () => setIsWithdrawConfirmOpen(false) },
-                  );
+                  userVault &&
+                    withdraw.mutate(
+                      { amount: reserveAmount, slippage: "0", address: userVault },
+                      { onSuccess: () => setIsWithdrawConfirmOpen(false) },
+                    );
                 }}
               >
                 Withdraw Liquidity

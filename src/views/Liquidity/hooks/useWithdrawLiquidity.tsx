@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain";
+import { BLEVaultLido__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useWithdrawLiquidity = () => {
@@ -14,7 +14,7 @@ export const useWithdrawLiquidity = () => {
   return useMutation(
     async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
-      const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
+      const contract = BLEVaultLido__factory.connect(address, signer);
 
       //TODO: Number of Decimals
       const amountToBigNumber = ethers.utils.parseUnits(amount);
@@ -24,11 +24,10 @@ export const useWithdrawLiquidity = () => {
       const minPairTokenBigNumber = ethers.utils.parseUnits(minPairToken.toString());
       const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString(), 9);
 
-      const withdrawTransaction = await contract.withdraw(
-        amountToBigNumber,
-        [minOhmTokenBigNumber, minPairTokenBigNumber],
-        true,
-      );
+      const withdrawTransaction = await contract.withdraw(amountToBigNumber, [
+        minOhmTokenBigNumber,
+        minPairTokenBigNumber,
+      ]);
 
       const receipt = await withdrawTransaction.wait();
       return receipt;

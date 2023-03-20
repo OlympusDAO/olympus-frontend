@@ -19,11 +19,11 @@ import {
 import { Contract } from "src/helpers/contracts/Contract";
 import {
   BalancerVault__factory,
+  BLEVaultManagerLido__factory,
   BondDepository__factory,
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
   CrossChainMigrator__factory,
-  OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   Range__factory,
@@ -127,7 +127,7 @@ export const DISTRIBUTOR_CONTRACT = new Contract({
 });
 
 export const LIQUDITY_REGISTRY_CONTRACT = new Contract({
-  factory: OlympusLiquidityRegistry__factory,
+  factory: BLEVaultManagerLido__factory,
   name: "Liquidity Registry Contract",
   addresses: LIQUIDITY_REGISTRY_ADDRESSES,
 });

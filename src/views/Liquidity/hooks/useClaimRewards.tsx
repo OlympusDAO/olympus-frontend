@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
-import { OlympusSingleSidedLiquidityVault__factory } from "src/typechain/factories";
+import { BLEVaultLido__factory } from "src/typechain/factories";
 import { useMutation, useSigner } from "wagmi";
 
 export const useClaimRewards = () => {
@@ -11,7 +11,7 @@ export const useClaimRewards = () => {
   return useMutation(
     async ({ address }: { address: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
-      const contract = OlympusSingleSidedLiquidityVault__factory.connect(address, signer);
+      const contract = BLEVaultLido__factory.connect(address, signer);
       const claimTransaction = await contract.claimRewards();
 
       const receipt = await claimTransaction.wait();

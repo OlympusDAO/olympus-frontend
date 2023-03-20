@@ -50,7 +50,7 @@ export const WithdrawModal = ({
           <Typography>You Get</Typography>
         </Box>
 
-        <Box display="flex" alignItems="center" justifyContent="center" gap="25px">
+        <Box display="flex" alignItems="center" justifyContent="center" gap="20px" flexWrap="wrap">
           <Box textAlign="center">
             <Typography fontSize="27px" lineHeight="33px" fontWeight="500">
               {formatNumber(Number(pairAmount), 4)}
@@ -58,13 +58,13 @@ export const WithdrawModal = ({
             <Typography>{depositToken}</Typography>
           </Box>
           {rewards.map((reward, index) => (
-            <Box display="flex" key={index} gap="25px">
+            <Box display="flex" key={index} gap="20px" alignItems="center">
               <Typography fontSize="27px" lineHeight="33px" fontWeight="500">
                 +
               </Typography>
               <Box textAlign="center">
                 <Typography fontSize="27px" lineHeight="33px" fontWeight="500">
-                  {formatNumber(Number(reward.userRewards), 4)}
+                  {formatNumber(Number(reward.userRewards), 2)}
                 </Typography>
                 <Typography>{reward.tokenName}</Typography>
               </Box>

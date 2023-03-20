@@ -15,6 +15,7 @@ import { formatNumber } from "src/helpers";
 import { ClaimModal } from "src/views/Liquidity/ClaimModal";
 import { useClaimRewards } from "src/views/Liquidity/hooks/useClaimRewards";
 import { VaultInfo } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
+import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   padding: "6px",
@@ -25,6 +26,7 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
   const activeVaults = vaults.filter(vault => Number(vault.lpTokenBalance) > 0);
   const theme = useTheme();
   const [claimReward, setClaimReward] = useState({ open: false, vault: undefined as VaultInfo | undefined });
+  const { data: userVault } = useGetUserVault({ address: claimReward.vault?.vaultAddress });
   return (
     <>
       <Box mb="21px" mt="9px">
@@ -111,9 +113,9 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
           confirmButton={
             <PrimaryButton
               onClick={() => {
-                claimReward.vault &&
+                userVault &&
                   claim.mutate(
-                    { address: claimReward.vault.vaultAddress },
+                    { address: userVault },
                     {
                       onSuccess: () => {
                         setClaimReward({ open: false, vault: undefined });
