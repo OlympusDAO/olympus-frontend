@@ -79,7 +79,7 @@
     "@graphql-codegen/typescript": "3.0.0",
     "@graphql-codegen/typescript-operations": "^2.5.12",
     "@graphql-codegen/typescript-react-apollo": "3.3.7",
-    "@graphql-codegen/typescript-react-query": "^4.0.6",
+    "@graphql-codegen/typescript-react-query": "^4.1.0",
     "@tanstack/react-query-devtools": "^4.19.1",
     "@testing-library/dom": "^8.19.1",
     "@testing-library/react": "^12.1.5",
