@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
+import { LIQUDITY_REGISTRY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { formatNumber, testnetToMainnetContract } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -34,24 +35,20 @@ export interface VaultInfo {
 
 export const useGetSingleSidedLiquidityVaults = () => {
   const networks = useTestableNetworks();
-  // const contract = LIQUDITY_REGISTRY_CONTRACT.getEthersContract(networks.MAINNET);
+  const contract = LIQUDITY_REGISTRY_CONTRACT.getEthersContract(networks.MAINNET);
   const { address: walletAddress = "" } = useAccount();
   const { data, isFetched, isLoading } = useQuery(["getSingleSidedLiquidityVaults", networks.MAINNET], async () => {
-    //DISABLED SINCE THERE IS NO CONCEPT OF A REGISTRY CONTRACT ANYMORE
-
-    // const activeVaultsCount = (await contract.activeVaultCount()).toNumber();
-    // console.log("activeVaultsCount", activeVaultsCount);
-    // /* Returns an array of active Single Sided Liquidity Vault Addresses */
-    // /* we only care about the count, so we can fill an array with 0s and map over it */
-    // const countArray = Array(activeVaultsCount).fill(0);
-    // const addresses = await Promise.all(
-    //   countArray.map(async (value, position) => {
-    //     const address = await contract.activeVaults(position);
-    //     return address;
-    //   }),
-    // );
-
-    const addresses = ["0x45Bb1F5d73A8eCC42CAA4029BdbBFe5754C21f56"];
+    const activeVaultsCount = (await contract.activeVaultCount()).toNumber();
+    console.log("activeVaultsCount", activeVaultsCount);
+    /* Returns an array of active Single Sided Liquidity Vault Addresses */
+    /* we only care about the count, so we can fill an array with 0s and map over it */
+    const countArray = Array(activeVaultsCount).fill(0);
+    const addresses = await Promise.all(
+      countArray.map(async (value, position) => {
+        const address = await contract.activeVaults(position);
+        return address;
+      }),
+    );
 
     const data = await Promise.all(
       addresses.map(async address => {
@@ -73,55 +70,38 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const provider = Providers.getStaticProvider(network);
   const contract = BLEVaultManagerLido__factory.connect(address, provider);
   const pairTokenAddress = await contract.pairToken();
-  console.log("pairTokenAddress", pairTokenAddress);
   const pairTokenContract = IERC20__factory.connect(pairTokenAddress, provider);
   const pairTokenName = await pairTokenContract.symbol();
-  console.log("pairTokenName", pairTokenName);
   const fee = formatUnits((await contract.currentFee()).mul(100).mul(10000));
-  console.log("fee", fee);
-  const pricePerDepositToken = formatUnits(await contract.callStatic.getExpectedLpAmount("100000000000000000"), 18); //price per deposit token
-  console.log(pricePerDepositToken, "pricePerDepositToken");
+  const pricePerDepositToken = await contract.callStatic.getExpectedLpAmount("1000000000000000000"); //price per deposit token
 
   const lpTokenBalance = formatUnits(await contract.getLpBalance(walletAddress).catch(() => BigNumber.from("0")), 18);
 
   const limit = formatUnits(await contract.ohmLimit(), 9); //will always be denominated in OHM
-  console.log("1");
 
   const ohmMinted = formatUnits((await contract.getOhmSupplyChangeData()).deployedOhm, 9);
-  console.log("2");
 
-  const lpBigNumber = await contract.totalLp();
-  console.log("3");
-
-  const totalLpBalance = formatUnits(lpBigNumber);
-
-  console.log("here we are");
-
-  //Price per LP Token is 1 divided by the price per deposit token
-  const depositPricePerLpToken = new DecimalBigNumber("1").div(new DecimalBigNumber(pricePerDepositToken));
-
-  //mapping testnet addresses to mainnet so we can display tvl on testnet
-  //Maybe use: getTknOhmPrice or getOhmTknPrice
-  const usdPriceDepositToken = await getCoingeckoPrice(NetworkId.MAINNET, testnetToMainnetContract(pairTokenAddress));
-  const usdPricePerDepositToken = usdPriceDepositToken.mul(depositPricePerLpToken);
-  const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
-  console.log("ohmPrice", ohmPrice);
-  const ohmPricePerDepositToken = usdPriceDepositToken.div(ohmPrice);
-  const usdPricePerOhm = ohmPrice.mul(ohmPricePerDepositToken).mul(depositPricePerLpToken);
-
-  const price = usdPricePerDepositToken.add(usdPricePerOhm);
-  const tvlUsd = price.mul(new DecimalBigNumber(lpBigNumber, 18)).toString({ decimals: 2 });
+  const totalLp = await contract.totalLp();
 
   const rewardTokens = await contract.getRewardTokens(); //temp filter to remove the current vault
-  console.log(rewardTokens, "rewardTokens");
+
   const outstandingRewards = await contract.getOutstandingRewards(walletAddress).catch(() => []);
-  console.log(outstandingRewards, "userRewards");
+
+  const { tvlUsd, price, ohmPricePerDepositToken } = await getVaultPriceData({
+    totalLp,
+    pairTokenAddress,
+    pricePerDepositToken,
+  });
+
+  // Iterate through each reward token to retrieve info
   const rewards = await Promise.all(
     rewardTokens.map(async (token, index) => {
       const tokenContract = IERC20__factory.connect(token, provider);
       const decimals = await tokenContract.decimals();
       const tokenName = await tokenContract.symbol();
-      const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token));
+      const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token)).catch(
+        () => new DecimalBigNumber("0"),
+      );
       const rewardsPerSecond = await contract.getRewardRate(token);
       const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
       const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
@@ -139,7 +119,6 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     }),
   );
 
-  console.log(rewards, "rewards");
   const depositLimit = await contract.getMaxDeposit();
 
   const apySum = rewards.reduce((a, b) => {
@@ -152,15 +131,44 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     lpTokenBalance,
     fee,
     limit,
-    totalLpBalance,
+    totalLpBalance: formatUnits(totalLp),
     tvlUsd,
     vaultAddress: address,
     ohmMinted,
     rewards,
-    pricePerDepositToken,
+    pricePerDepositToken: formatUnits(pricePerDepositToken, 18),
     totalApy: formatNumber(apySum, 2),
     usdPricePerToken: price.toString(),
     ohmPricePerDepositToken: ohmPricePerDepositToken,
     depositLimit: formatUnits(depositLimit, 18),
   };
+};
+
+/**
+ * Calculates the TVL of a vault.
+ */
+export const getVaultPriceData = async ({
+  pricePerDepositToken,
+  pairTokenAddress,
+  totalLp,
+}: {
+  pricePerDepositToken: BigNumber;
+  pairTokenAddress: string;
+  totalLp: BigNumber;
+}) => {
+  //Price per LP Token is 1 divided by the price per deposit token
+  const depositPricePerLpToken = new DecimalBigNumber("1").div(new DecimalBigNumber(pricePerDepositToken, 18));
+
+  //mapping testnet addresses to mainnet so we can display tvl on testnet
+  const usdPriceDepositToken = await getCoingeckoPrice(
+    NetworkId.MAINNET,
+    testnetToMainnetContract(pairTokenAddress),
+  ).catch(e => new DecimalBigNumber("0"));
+  const usdPricePerDepositToken = usdPriceDepositToken.mul(depositPricePerLpToken);
+  const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
+  const ohmPricePerDepositToken = usdPriceDepositToken.div(ohmPrice);
+  const usdPricePerOhm = ohmPrice.mul(ohmPricePerDepositToken).mul(depositPricePerLpToken);
+  const price = usdPricePerDepositToken.add(usdPricePerOhm);
+  const tvlUsd = price.mul(new DecimalBigNumber(totalLp, 18)).toString({ decimals: 2 });
+  return { price, tvlUsd, ohmPricePerDepositToken };
 };
