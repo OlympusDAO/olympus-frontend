@@ -49,7 +49,7 @@ export const Vault = () => {
   const { address } = useAccount();
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
-  const { data: userVault, isLoading: userVaultLoading } = useGetUserVault({ address: id });
+  const { data: userVault } = useGetUserVault({ address: id });
 
   console.log(userVault, "userVault");
   const { data: daiBalance } = useWagmiBalance({
@@ -59,7 +59,6 @@ export const Vault = () => {
   });
   const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
-  const [isZapAndDepositModalOpen, setIsZapAndDepositModalOpen] = useState(false);
   const [isDepositStepsModalOpen, setIsDepositStepsModalOpen] = useState(false);
   const [zapDepositTokenAmount, setZapDepositTokenAmount] = useState("0");
 
