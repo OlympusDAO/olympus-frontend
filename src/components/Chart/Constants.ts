@@ -2,6 +2,7 @@ export enum DataFormat {
   Currency,
   Percentage,
   DateMonth,
+  Number,
   None,
 }
 

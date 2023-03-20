@@ -55,9 +55,7 @@ const renderDate = (item: TooltipPayloadItem) => {
  * @returns
  */
 const formatNumber = (type: DataFormat, item: number, decimals: number) => {
-  return type === DataFormat.Currency
-    ? formatCurrency(item, decimals)
-    : `${Math.round(item).toLocaleString("en-US")}${type}`;
+  return type === DataFormat.Currency ? formatCurrency(item, decimals) : `${Math.round(item).toLocaleString("en-US")}`;
 };
 
 const renderItem = (type: DataFormat, item: number, decimals = 0) => {
@@ -130,14 +128,14 @@ const renderBulletpointRow = (
       xs={12}
       alignContent="center"
       justifyContent="space-between"
-      style={{ marginBottom: "10px" }}
+      style={{ marginBottom: "5px" }}
       key={index}
     >
-      <Grid item xs={8} alignContent="center">
+      <Grid item xs={1} alignContent="left">
         <span style={bulletpointStyle}></span>
-        <Typography variant="body2" display="inline">
-          {`${dataKeyLabels.get(item.dataKey)}`}
-        </Typography>
+      </Grid>
+      <Grid item xs={7} alignContent="left">
+        <Typography variant="body2">{`${dataKeyLabels.get(item.dataKey)}`}</Typography>
       </Grid>
       <Grid item xs={4} textAlign="right">
         {renderItem(dataFormat, item.value, itemDecimals)}
@@ -159,32 +157,40 @@ const renderTooltipItems = (
   let ignoredIndex = 0;
 
   return (
-    <Grid container xs={12} padding={"20px"}>
+    <Grid container xs={12} padding={"10px"}>
       {renderDate(payload[0])}
-      {payload.map((item, index) => {
-        /**
-         * The "range" area element triggers showing a tooltip. To avoid this,
-         * we restrict the tooltips to those included in the {dataKey} array.
-         */
-        if (
-          !dataKey.includes(item.dataKey) ||
-          (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
-        ) {
-          ignoredIndex++;
-          return <></>;
-        }
+      {payload
+        .map((item, index) => {
+          const label: string = dataKeyLabels.get(item.dataKey) || item.dataKey;
+          /**
+           * The "range" area element triggers showing a tooltip. To avoid this,
+           * we restrict the tooltips to those included in the {dataKey} array.
+           */
+          if (
+            !dataKey.includes(item.dataKey) ||
+            (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
+          ) {
+            ignoredIndex++;
+            return { label: label, element: <></> };
+          }
 
-        const adjustedIndex = index - ignoredIndex;
+          const adjustedIndex = index - ignoredIndex;
 
-        return renderBulletpointRow(
-          dataKeyBulletpointStyles,
-          dataKeyLabels,
-          dataFormat,
-          itemDecimals,
-          adjustedIndex,
-          item,
-        );
-      })}
+          return {
+            label: label,
+            element: renderBulletpointRow(
+              dataKeyBulletpointStyles,
+              dataKeyLabels,
+              dataFormat,
+              itemDecimals,
+              adjustedIndex,
+              item,
+            ),
+          };
+        })
+        // Sort tooltip entries alphabetically
+        .sort((a, b) => a.label.localeCompare(b.label))
+        .map(item => item.element)}
       {displayTotal && renderTotal(dataFormat, payload, dataKeysExcludedFromTotal)}
       <Grid item xs={12} marginBottom="20px" />
       {

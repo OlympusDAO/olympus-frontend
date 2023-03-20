@@ -11,8 +11,8 @@ import {
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTokenRecordsLatestRecord, useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
-import { useOhmCirculatingSupply, useOhmFloatingSupply } from "src/hooks/useTokenSupplyMetrics";
-import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmFloating, useMarketCap } from "src/hooks/useTreasuryMetrics";
+import { useOhmBackedSupply, useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
+import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
   subgraphUrls?: SUBGRAPH_URLS;
@@ -96,7 +96,7 @@ export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgra
   const _props: MetricProps = {
     ...props,
     label: `OHM Circulating Supply / Total`,
-    tooltip: `Circulating supply is the quantity of outstanding OHM not owned by the protocol (excluding OHM in LPs).`,
+    tooltip: `Circulating supply is the quantity of outstanding OHM not held by the protocol in the treasury. OHM deployed in Protocol-Owned Liquidity is therefore included in circulating supply.`,
   };
 
   if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
@@ -118,22 +118,13 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: floatingSupply } = useOhmFloatingSupply(props.subgraphUrl);
-  /**
-   * Liquid backing per OHM floating is used as the metric here.
-   * Liquid backing does not include OHM in protocol-owned liquidity,
-   * so it makes sense to do the same for the denominator, and floating supply
-   * is circulating supply - OHM in liquidity.
-   */
-  const { data: liquidBackingPerOhmFloating } = useLiquidBackingPerOhmFloating(props.subgraphUrls);
+  const { data: backedSupply } = useOhmBackedSupply(props.subgraphUrl);
+  const { data: liquidBackingPerOhmBacked } = useLiquidBackingPerOhmBacked(props.subgraphUrls);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = `Liquid backing is divided by floating supply of OHM to give liquid backing per OHM.
-  
-  Floating supply of OHM is the quantity of outstanding OHM not owned by the protocol (including OHM in LPs): ${
-    floatingSupply ? formatNumber(floatingSupply) : "Loading..."
-  }
-  `;
+  const tooltip = `Liquid backing is divided by backed supply of OHM to give liquid backing per OHM.\n\nBacked supply (${
+    backedSupply ? formatNumber(backedSupply) : "Loading..."
+  }) is the quantity of outstanding OHM that is backed by assets in the treasury. This typically excludes pre-minted OHM and user deposits for bonds, protocol-owned OHM in liquidity pools and OHM deployed into lending markets.`;
 
   const _props: MetricProps = {
     ...props,
@@ -141,7 +132,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
     tooltip: tooltip,
   };
 
-  if (liquidBackingPerOhmFloating) _props.metric = `${formatCurrency(liquidBackingPerOhmFloating, 2)}`;
+  if (liquidBackingPerOhmBacked) _props.metric = `${formatCurrency(liquidBackingPerOhmBacked, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
