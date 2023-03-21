@@ -42,13 +42,15 @@ export function shorten(str: string) {
 }
 
 export function formatCurrency(c: number, precision = 0, currency = "USD") {
-  if (currency === "OHM") return `${trim(c, precision)} Ω`;
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+  const formatted = new Intl.NumberFormat("en-US", {
+    style: currency === "USD" ? "currency" : undefined,
     currency,
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   }).format(c);
+  if (currency === "OHM") return `${formatted} Ω`;
+  if (currency === "DAI") return `${formatted} DAI`;
+  return formatted;
 }
 
 export function trim(number = 0, precision = 0) {

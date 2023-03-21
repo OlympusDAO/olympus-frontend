@@ -41,12 +41,14 @@ Open the source code and start editing!
 
 ## Testing
 
-We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver for unit tests, snapshot tests and e2e tests.
+We use the [Vitest](https://vitest.dev/guide/) test driver for unit tests, snapshot tests and e2e tests.
 
 To run tests in interactive mode during development:
 
 ```
 yarn test
+# or
+yarn test --ui
 ```
 
 ### Unit Testing
@@ -61,7 +63,7 @@ To run all unit test and see a coverage report:
 yarn test:unit
 ```
 
-Note that the focus of unit testing is to exercise all paths through the code hosted in this repo and **only** code hosted in this repo. To the extent possible, unit tests should abstract out dependencies such as remote API calls as well as crypto wallet APIs via [`mock functions`](https://jestjs.io/docs/mock-functions).
+Note that the focus of unit testing is to exercise all paths through the code hosted in this repo and **only** code hosted in this repo. To the extent possible, unit tests should abstract out dependencies such as remote API calls as well as crypto wallet APIs via [`mock functions`](https://vitest.dev/guide/mocking.html).
 
 Coverage thresholds are enforced via CI checks. If a new PR introduces regression in code coverage, the CI will fail. The goal is to keep us at a minimum level of test automation coverage as we introduce new code into the repo. To see the current coverage thresholds, see the `coverageThreshold` in [`package.json`](package.json).
 
@@ -80,7 +82,7 @@ We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testi
 
 ### Snapshot Testing
 
-We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
+We use [Snapshot tests](https://vitest.dev/guide/snapshot.html) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
 
