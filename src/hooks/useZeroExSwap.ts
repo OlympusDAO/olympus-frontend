@@ -17,6 +17,7 @@ interface ZapTransactionResponse {
   buyAmount: string;
   gasPrice: string;
   value: string;
+  sellAmount: string;
 }
 
 interface IUADataZap {
