@@ -24,6 +24,9 @@ export const useDepositLiqudiity = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.refetchQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
+        queryClient.refetchQueries({ queryKey: ["getVault"] });
+
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",

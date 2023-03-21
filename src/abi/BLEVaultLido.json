@@ -1,45 +1,16 @@
 {
   "abi": [
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "inputs": [],
-      "name": "BLVaultLido_AlreadyInitialized",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "BLVaultLido_Inactive",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "BLVaultLido_OnlyOwner",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "BLVaultLido_Reentrancy",
-      "type": "error"
-    },
+    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+    { "inputs": [], "name": "BLVaultLido_AlreadyInitialized", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_AuraDepositFailed", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_Inactive", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_OnlyOwner", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_Reentrancy", "type": "error" },
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "ohmAmount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "wstethAmount",
-          "type": "uint256"
-        }
+        { "indexed": false, "internalType": "uint256", "name": "ohmAmount", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wstethAmount", "type": "uint256" }
       ],
       "name": "Deposit",
       "type": "event"
@@ -47,18 +18,8 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "rewardsToken",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
+        { "indexed": true, "internalType": "address", "name": "rewardsToken", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
       ],
       "name": "RewardsClaimed",
       "type": "event"
@@ -66,18 +27,8 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "ohmAmount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "wstethAmount",
-          "type": "uint256"
-        }
+        { "indexed": false, "internalType": "uint256", "name": "ohmAmount", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wstethAmount", "type": "uint256" }
       ],
       "name": "Withdraw",
       "type": "event"
@@ -85,135 +36,67 @@
     {
       "inputs": [],
       "name": "MINTR",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "TRSRY",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "aura",
-      "outputs": [
-        {
-          "internalType": "contract ERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "auraBooster",
-      "outputs": [
-        {
-          "internalType": "contract IAuraBooster",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract IAuraBooster", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "auraRewardPool",
-      "outputs": [
-        {
-          "internalType": "contract IAuraRewardPool",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract IAuraRewardPool", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "bal",
-      "outputs": [
-        {
-          "internalType": "contract ERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
-    {
-      "inputs": [],
-      "name": "claimRewards",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+    { "inputs": [], "name": "claimRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount_",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "minLpAmount_",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
+        { "internalType": "uint256", "name": "minLpAmount_", "type": "uint256" }
       ],
       "name": "deposit",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "lpAmountOut",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "lpAmountOut", "type": "uint256" }],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "fee",
-      "outputs": [
-        {
-          "internalType": "uint64",
-          "name": "",
-          "type": "uint64"
-        }
-      ],
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "getLpBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -223,16 +106,8 @@
       "outputs": [
         {
           "components": [
-            {
-              "internalType": "address",
-              "name": "rewardToken",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "outstandingRewards",
-              "type": "uint256"
-            }
+            { "internalType": "address", "name": "rewardToken", "type": "address" },
+            { "internalType": "uint256", "name": "outstandingRewards", "type": "uint256" }
           ],
           "internalType": "struct RewardsData[]",
           "name": "",
@@ -245,126 +120,63 @@
     {
       "inputs": [],
       "name": "getUserPairShare",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
-    {
-      "inputs": [],
-      "name": "initializeClone",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+    { "inputs": [], "name": "initializeClone", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
       "name": "liquidityPool",
-      "outputs": [
-        {
-          "internalType": "contract IBasePool",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract IBasePool", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "manager",
-      "outputs": [
-        {
-          "internalType": "contract BLVaultManagerLido",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract BLVaultManagerLido", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "ohm",
-      "outputs": [
-        {
-          "internalType": "contract OlympusERC20Token",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract OlympusERC20Token", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "pid",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "vault",
-      "outputs": [
-        {
-          "internalType": "contract IVault",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "lpAmount_",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "minTokenAmounts_",
-          "type": "uint256[]"
-        }
+        { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
+        { "internalType": "uint256[]", "name": "minTokenAmounts_", "type": "uint256[]" },
+        { "internalType": "bool", "name": "claim_", "type": "bool" }
       ],
       "name": "withdraw",
       "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
       ],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -372,13 +184,7 @@
     {
       "inputs": [],
       "name": "wsteth",
-      "outputs": [
-        {
-          "internalType": "contract ERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
       "stateMutability": "pure",
       "type": "function"
     }

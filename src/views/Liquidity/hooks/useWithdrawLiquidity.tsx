@@ -22,10 +22,11 @@ export const useWithdrawLiquidity = () => {
       const minPairTokenBigNumber = ethers.utils.parseUnits(minPairToken.toString());
       const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString(), 9);
 
-      const withdrawTransaction = await contract.withdraw(amountToBigNumber, [
-        minOhmTokenBigNumber,
-        minPairTokenBigNumber,
-      ]);
+      const withdrawTransaction = await contract.withdraw(
+        amountToBigNumber,
+        [minOhmTokenBigNumber, minPairTokenBigNumber],
+        true,
+      );
 
       const receipt = await withdrawTransaction.wait();
       return receipt;
@@ -36,6 +37,8 @@ export const useWithdrawLiquidity = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.refetchQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
+        queryClient.refetchQueries({ queryKey: ["getVault"] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",

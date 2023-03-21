@@ -22,7 +22,8 @@ export const useClaimRewards = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
-        queryClient.invalidateQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
+        queryClient.refetchQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
+        queryClient.refetchQueries({ queryKey: ["getVault"] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Liquidity",
