@@ -75,7 +75,7 @@ export const TokenAllowanceGuard: React.FC<{
   const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[
     chain.id as keyof typeof tokenAddressMap
   ] || { data: new DecimalBigNumber("0") };
-  const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
+  const approveMutation = useApproveToken(tokenAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
   if (!allowance && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero)
@@ -107,7 +107,7 @@ export const TokenAllowanceGuard: React.FC<{
               loading={approveMutation.isLoading}
               fullWidth
               className=""
-              onClick={approveMutation.mutate}
+              onClick={() => approveMutation.mutate({ spenderAddressMap })}
               disabled={approveMutation.isLoading}
             >
               {approveMutation.isLoading ? `${approvalPendingText}` : `${approvalText}`}

@@ -52,9 +52,7 @@ export const DepositSteps = ({
     chain.id as keyof typeof vaultDepositTokenAddressMap
   ] || { data: new DecimalBigNumber("0") };
 
-  const approveDepositVault = useApproveToken(vaultDepositTokenAddressMap, {
-    [networks.MAINNET]: userVault,
-  });
+  const approveDepositVault = useApproveToken(vaultDepositTokenAddressMap);
   const { data: allowanceDepositToken, isLoading: allowanceIsLoading } = useContractAllowance(
     vaultDepositTokenAddressMap,
     {
@@ -97,9 +95,16 @@ export const DepositSteps = ({
       if (needsToApproveDepositVault()) {
         const depositTokenAddress = vaultDepositTokenAddressMap[chain.id as NetworkId];
         if (depositTokenAddress) {
-          approveDepositVault.mutate(undefined, {
-            onSuccess: () => (zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5)),
-          });
+          approveDepositVault.mutate(
+            {
+              spenderAddressMap: {
+                [networks.MAINNET]: userVault,
+              },
+            },
+            {
+              onSuccess: () => (zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5)),
+            },
+          );
         }
       } else {
         zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5);

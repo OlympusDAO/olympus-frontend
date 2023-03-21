@@ -41,7 +41,7 @@ export const ZapSteps = ({
     [networks.MAINNET]: zapIntoAddress,
   })[networks.MAINNET] || { data: new DecimalBigNumber("0") };
 
-  const approveZap = useApproveToken({ [networks.MAINNET]: swapAssetType.address }, ZERO_EX_EXCHANGE_PROXY_ADDRESSES);
+  const approveZap = useApproveToken({ [networks.MAINNET]: swapAssetType.address });
   const { data: allowanceZapFromToken, isLoading: allowanceIsLoading } = useContractAllowance(
     { [networks.MAINNET]: swapAssetType.address },
     ZERO_EX_EXCHANGE_PROXY_ADDRESSES,
@@ -50,12 +50,15 @@ export const ZapSteps = ({
   useEffect(() => {
     if (currentStep === 3 && !allowanceIsLoading) {
       if (needsToApproveProxy()) {
-        approveZap.mutate(undefined, {
-          onSuccess: () => {
-            setCurrentStep(4);
-            depositIntoVault();
+        approveZap.mutate(
+          { spenderAddressMap: ZERO_EX_EXCHANGE_PROXY_ADDRESSES },
+          {
+            onSuccess: () => {
+              setCurrentStep(4);
+              depositIntoVault();
+            },
           },
-        });
+        );
       } else {
         setCurrentStep(4);
         depositIntoVault();
