@@ -101,7 +101,9 @@ export const DepositSteps = ({
         console.log("we need to approve");
         const depositTokenAddress = vaultDepositTokenAddressMap[chain.id as NetworkId];
         if (depositTokenAddress) {
-          approveDepositVault.mutate(undefined, { onSuccess: () => setCurrentStep(3) });
+          approveDepositVault.mutate(undefined, {
+            onSuccess: () => (zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5)),
+          });
         }
       } else {
         zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5);

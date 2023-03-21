@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { LIQUDITY_REGISTRY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
@@ -83,7 +83,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
 
   const totalLp = await contract.totalLp();
 
-  const rewardTokens = await contract.getRewardTokens(); //temp filter to remove the current vault
+  const rewardTokens = (await contract.getRewardTokens()).filter(token => token !== ethers.constants.AddressZero); //temp filter to remove the current vault
 
   const outstandingRewards = await contract.getOutstandingRewards(walletAddress).catch(() => []);
 
@@ -92,16 +92,18 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     pairTokenAddress,
     pricePerDepositToken,
   });
-
+  console.log(tvlUsd, "tvlUsd");
   // Iterate through each reward token to retrieve info
   const rewards = await Promise.all(
     rewardTokens.map(async (token, index) => {
       const tokenContract = IERC20__factory.connect(token, provider);
       const decimals = await tokenContract.decimals();
+      console.log(decimals, "decimals");
       const tokenName = await tokenContract.symbol();
       const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token)).catch(
         () => new DecimalBigNumber("0"),
       );
+      console.log(rewardTokenPrice, "rewardTokenPrice");
       const rewardsPerSecond = await contract.getRewardRate(token);
       const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
       const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
@@ -114,16 +116,19 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
 
       console.log(balance, "balancer");
       const userRewards = formatUnits(balance, decimals);
-
+      console.log("userRewards", tokenName);
       return { tokenName, apy, userRewards };
     }),
   );
+
+  console.log("test");
 
   const depositLimit = await contract.getMaxDeposit();
 
   const apySum = rewards.reduce((a, b) => {
     return a + Number(b.apy);
   }, 0);
+  console.log(apySum, "apySum");
 
   return {
     pairTokenName,

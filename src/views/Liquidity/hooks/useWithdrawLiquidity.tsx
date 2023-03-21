@@ -2,12 +2,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BLEVaultLido__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useWithdrawLiquidity = () => {
-  const networks = useTestableNetworks();
   const { data: signer } = useSigner();
   const queryClient = useQueryClient();
 
