@@ -1,4 +1,9 @@
-const SUBGRAPH_URL_ETHEREUM = "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics";
+import { Environment } from "src/helpers/environment/Environment/Environment";
+
+const STUB_API_KEY = "[api-key]";
+
+const SUBGRAPH_URL_ETHEREUM =
+  "https://gateway.thegraph.com/api/[api-key]/subgraphs/id/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-arbitrum";
 const SUBGRAPH_URL_FANTOM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-fantom";
 const SUBGRAPH_URL_POLYGON = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-polygon";
@@ -15,11 +20,27 @@ export enum BLOCKCHAINS {
 
 export type SUBGRAPH_URLS = Record<BLOCKCHAINS, string>;
 
+/**
+ * Resolves a subgaph URL by replacing any API key templates with the actual values
+ *
+ * @param url
+ * @returns
+ * @throws if the API key is not present
+ */
+const resolveSubgraphUrl = (url: string): string => {
+  const subgraphApiKey = Environment.getSubgraphApiKey();
+  if (!subgraphApiKey) {
+    throw new Error("Please provide a Graph Protocol API key in your .env file");
+  }
+
+  return url.replace(STUB_API_KEY, subgraphApiKey);
+};
+
 const BLOCKCHAIN_SUBGRAPH_URLS: SUBGRAPH_URLS = {
-  Arbitrum: SUBGRAPH_URL_ARBITRUM,
-  Ethereum: SUBGRAPH_URL_ETHEREUM,
-  Fantom: SUBGRAPH_URL_FANTOM,
-  Polygon: SUBGRAPH_URL_POLYGON,
+  Arbitrum: resolveSubgraphUrl(SUBGRAPH_URL_ARBITRUM),
+  Ethereum: resolveSubgraphUrl(SUBGRAPH_URL_ETHEREUM),
+  Fantom: resolveSubgraphUrl(SUBGRAPH_URL_FANTOM),
+  Polygon: resolveSubgraphUrl(SUBGRAPH_URL_POLYGON),
 };
 
 /**
@@ -102,6 +123,6 @@ export const getSubgraphUrl = (subgraphId?: string) => {
     return SUBGRAPH_URL_STAGING_STUB + subgraphId;
   } else {
     console.info("Using production subgraph");
-    return SUBGRAPH_URL_ETHEREUM;
+    return resolveSubgraphUrl(SUBGRAPH_URL_ETHEREUM);
   }
 };
