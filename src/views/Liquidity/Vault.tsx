@@ -51,7 +51,6 @@ export const Vault = () => {
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const { data: userVault } = useGetUserVault({ address: id });
 
-  console.log(userVault, "userVault");
   const { data: daiBalance } = useWagmiBalance({
     addressOrName: address,
     formatUnits: "ether",
@@ -104,11 +103,8 @@ export const Vault = () => {
               setReserveAmount(
                 (Number(vault?.pricePerDepositToken) * Number(formatUnits(data.buyAmount, 18))).toString(),
               );
-              console.log("parseUnits", formatUnits(data.buyAmount, 18), vault.pricePerDepositToken);
-              console.log("quote data", data);
             },
             onError: (err: any) => {
-              console.log(err, "err");
               toast.error(err.message, { id: err.message, duration: 2000 });
             },
           },
@@ -123,7 +119,6 @@ export const Vault = () => {
     if (isZap && Number(amount) > 0) {
       if (vault?.pairTokenAddress && swapAssetType.address) {
         const buyAmount = (Number(amount) / Number(vault.pricePerDepositToken)).toString();
-        console.log("buyAmount", buyAmount);
         zapQuote.mutate(
           {
             slippage: Number(customSlippage),
@@ -134,11 +129,8 @@ export const Vault = () => {
           },
           {
             onSuccess: data => {
-              console.log("data", data);
               setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
               setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals)); //TODO: OHM testnet decimals
-              console.log("parseUnits", formatUnits(data.buyAmount, 18), vault.pricePerDepositToken);
-              console.log("quote data", data);
             },
             onError: (err: any) => {
               toast.error(err.message, { id: err.message, duration: 2000 });
@@ -206,7 +198,6 @@ export const Vault = () => {
       }}
       endString={`Max`}
       endStringOnClick={() => {
-        console.log("maxBalance", maxBalance);
         onDepositTokenChange(maxBalance);
         setPairAmount(maxBalance);
       }}

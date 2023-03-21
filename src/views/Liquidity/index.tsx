@@ -5,16 +5,11 @@ import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useOhmPrice } from "src/hooks/usePrices";
-import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Liquidity = () => {
-  const { data: vaults, isLoading } = useGetSingleSidedLiquidityVaults();
-  const vaultsWithDeposits = vaults && vaults.filter(vault => vault.lpTokenBalance !== "0");
   const theme = useTheme();
   const { data: ohmPrice } = useOhmPrice();
-
-  console.log(vaults, "vaults");
 
   return (
     <div id="stake-view">

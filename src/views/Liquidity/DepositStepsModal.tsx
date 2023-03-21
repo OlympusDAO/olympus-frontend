@@ -92,13 +92,9 @@ export const DepositSteps = ({
     }
   }, [currentStep]);
 
-  console.log(currentStep, "currentStep");
-
   useEffect(() => {
     if (currentStep === 2 && !allowanceIsLoading && hasUserVault) {
-      console.log(needsToApproveDepositVault(), "needsToApproveDepositVault");
       if (needsToApproveDepositVault()) {
-        console.log("we need to approve");
         const depositTokenAddress = vaultDepositTokenAddressMap[chain.id as NetworkId];
         if (depositTokenAddress) {
           approveDepositVault.mutate(undefined, {

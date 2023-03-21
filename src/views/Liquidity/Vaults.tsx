@@ -12,7 +12,6 @@ import { YourAmoDeposits } from "src/views/Liquidity/YourAMODeposits";
 export const Vaults = () => {
   const { data: vaults, isLoading } = useGetSingleSidedLiquidityVaults();
   const vaultsWithDeposits = vaults && vaults.filter(vault => vault.lpTokenBalance !== "0");
-  console.log(vaultsWithDeposits, "vaultsWithDeposits");
   const totalTVL = vaults?.reduce((acc, vault) => acc + Number(vault.tvlUsd), 0);
 
   return (

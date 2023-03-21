@@ -99,7 +99,6 @@ export const ExternalStakePools = () => {
     />
   );
 
-  console.log(defiLlamaPools, "pools");
   return (
     <div id="stake-view">
       <PageTitle
