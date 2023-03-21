@@ -122,12 +122,15 @@ export const ZapSteps = ({
             loading={approveZap.isLoading}
             fullWidth
             onClick={() =>
-              approveZap.mutate(undefined, {
-                onSuccess: () => {
-                  setCurrentStep(4);
-                  depositIntoVault();
+              approveZap.mutate(
+                { spenderAddressMap: ZERO_EX_EXCHANGE_PROXY_ADDRESSES },
+                {
+                  onSuccess: () => {
+                    setCurrentStep(4);
+                    depositIntoVault();
+                  },
                 },
-              })
+              )
             }
           >
             Approve {swapAssetType.name} for Swapping

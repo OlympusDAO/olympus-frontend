@@ -172,7 +172,14 @@ export const DepositSteps = ({
               disabled={currentStep !== 2 || approveDepositVault.isLoading}
               loading={approveDepositVault.isLoading}
               onClick={() => {
-                approveDepositVault.mutate(undefined, { onSuccess: () => setCurrentStep(3) });
+                approveDepositVault.mutate(
+                  {
+                    spenderAddressMap: {
+                      [networks.MAINNET]: userVault,
+                    },
+                  },
+                  { onSuccess: () => setCurrentStep(3) },
+                );
               }}
               fullWidth
             >
