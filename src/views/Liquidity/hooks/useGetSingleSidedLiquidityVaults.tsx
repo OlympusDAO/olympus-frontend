@@ -39,7 +39,6 @@ export const useGetSingleSidedLiquidityVaults = () => {
   const { address: walletAddress = "" } = useAccount();
   const { data, isFetched, isLoading } = useQuery(["getSingleSidedLiquidityVaults", networks.MAINNET], async () => {
     const activeVaultsCount = (await contract.activeVaultCount()).toNumber();
-    console.log("activeVaultsCount", activeVaultsCount);
     /* Returns an array of active Single Sided Liquidity Vault Addresses */
     /* we only care about the count, so we can fill an array with 0s and map over it */
     const countArray = Array(activeVaultsCount).fill(0);
@@ -92,18 +91,15 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     pairTokenAddress,
     pricePerDepositToken,
   });
-  console.log(tvlUsd, "tvlUsd");
   // Iterate through each reward token to retrieve info
   const rewards = await Promise.all(
     rewardTokens.map(async (token, index) => {
       const tokenContract = IERC20__factory.connect(token, provider);
       const decimals = await tokenContract.decimals();
-      console.log(decimals, "decimals");
       const tokenName = await tokenContract.symbol();
       const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token)).catch(
         () => new DecimalBigNumber("0"),
       );
-      console.log(rewardTokenPrice, "rewardTokenPrice");
       const rewardsPerSecond = await contract.getRewardRate(token);
       const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
       const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
@@ -114,21 +110,16 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
       const balance =
         outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
 
-      console.log(balance, "balancer");
       const userRewards = formatUnits(balance, decimals);
-      console.log("userRewards", tokenName);
       return { tokenName, apy, userRewards };
     }),
   );
-
-  console.log("test");
 
   const depositLimit = await contract.getMaxDeposit();
 
   const apySum = rewards.reduce((a, b) => {
     return a + Number(b.apy);
   }, 0);
-  console.log(apySum, "apySum");
 
   return {
     pairTokenName,
