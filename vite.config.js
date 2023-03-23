@@ -37,6 +37,9 @@ export default ({ mode }) => {
         "**/cypress/**",
         "**/.{idea,git,cache,output,temp}/**, **/src/typechain/**",
       ],
+      coverage: {
+        provider: "c8", // or 'c8'
+      },
     },
     optimizeDeps: {
       include: ["@emotion/use-insertion-effect-with-fallbacks"],
