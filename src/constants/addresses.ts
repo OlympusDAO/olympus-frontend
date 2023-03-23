@@ -188,3 +188,29 @@ export const V1_STAKING_ADDRESSES = {
   [NetworkId.MAINNET]: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a",
   [NetworkId.TESTNET_GOERLI]: "0x2868546dB0850fE969de651395887F18e66A2d26",
 };
+
+export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.TESTNET_GOERLI]: "",
+};
+
+export interface IChainAttrs {
+  iconUrl: string;
+  iconBackground: string;
+  name: string;
+}
+
+export const BRIDGE_CHAINS_LIST = [NetworkId.MAINNET, NetworkId.TESTNET_GOERLI];
+
+export const BRIDGE_CHAINS = {
+  [NetworkId.MAINNET]: {
+    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
+    iconBackground: "",
+    name: "Ethereum",
+  },
+  [NetworkId.TESTNET_GOERLI]: {
+    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
+    iconBackground: "",
+    name: "Goerli",
+  },
+};

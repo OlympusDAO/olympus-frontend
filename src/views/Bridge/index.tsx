@@ -1,13 +1,15 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, MiniCard, Paper } from "@olympusdao/component-library";
-import { useState } from "react";
+import { DataRow, Paper, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
+import { IHistoryTx, useGetBridgeHistory } from "src/hooks/useBridging";
+import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
 
 const PREFIX = "Bridge";
 
 const classes = {
   dismiss: `${PREFIX}-dismiss`,
+  bridgeHistoryHeaderText: `${PREFIX}-bridgeHistoryHeaderText`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -16,87 +18,119 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+const StyledTableHeader = styled(TableHead)(({ theme }) => ({
+  [`&.${classes.bridgeHistoryHeaderText}`]: {
+    color: theme.palette.text.secondary,
+    lineHeight: 1.4,
+  },
+}));
+
 /**
  * Component for Displaying BridgeLinks
  */
 const Bridge = () => {
-  const [open, setOpen] = useState(true);
-
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  const { data: bridgeHistory } = useGetBridgeHistory();
+  console.log("bridge", bridgeHistory);
   return (
     <>
       <PageTitle name="Bridge" />
-      <div id="stake-view">
-        {open && (
-          <Paper enableBackground>
-            <StyledBox display="flex" flexDirection="row" justifyContent="flex-end">
-              <Icon data-testid="dismiss" className={classes.dismiss} name="x" onClick={() => setOpen(false)} />
-            </StyledBox>
-            <Box justifyContent="center" alignItems="center" textAlign="center">
-              <Typography variant="h6">Use your gOHM on your favorite chain.</Typography>
-              <Typography variant="h6">Find the Bridge you need.</Typography>
-            </Box>
-          </Paper>
-        )}
-
-        <Paper>
-          <Box display="flex" flexDirection="row">
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Box display="flex" flexDirection="column">
-                  <MiniCard
-                    label="Bridge to"
-                    title="Ethereum"
-                    icon="ETH"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=1"
-                  />
-                  <MiniCard
-                    label="Bridge to"
-                    title="Polygon"
-                    icon="POLYGON"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=137"
-                  />
-                  <MiniCard
-                    label="Bridge to"
-                    title="Avalanche"
-                    icon="AVAX"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
-                  <MiniCard
-                    label="Bridge to"
-                    title="Boba"
-                    icon="BOBA"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=288"
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box display="flex" flexDirection="column">
-                  <MiniCard
-                    label="Bridge to"
-                    title="Arbitrum"
-                    icon="ARBITRUM"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=42161"
-                  />
-                  <MiniCard
-                    label="Bridge to"
-                    title="Optimism"
-                    icon="OPTIMISM"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=10"
-                  />
-                  <MiniCard
-                    label="Bridge to"
-                    title="Fantom"
-                    icon="FANTOM"
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250"
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
+      <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <Box width="100%" mt="24px">
+          <BridgeInputArea />
+        </Box>
+        <Paper headerText={`Bridging History`}>
+          {bridgeHistory && (
+            <Table>
+              <StyledTableHeader className={classes.bridgeHistoryHeaderText}>
+                <TableRow>
+                  <TableCell style={{ width: "200px", padding: "8px 0" }}>Timestamp</TableCell>
+                  <TableCell style={{ width: "200px", padding: "8px 0" }}>Amount</TableCell>
+                  <TableCell style={{ width: "150px", padding: "8px 0" }}>Transactions</TableCell>
+                  <TableCell style={{ width: "150px", padding: "8px 0" }}>Confirmations</TableCell>
+                </TableRow>
+              </StyledTableHeader>
+              <BridgeHistory isSmallScreen={isSmallScreen} txs={bridgeHistory} />
+            </Table>
+          )}
         </Paper>
-      </div>
+      </Box>
     </>
   );
 };
 
 export default Bridge;
+
+const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IHistoryTx[] }) => {
+  console.log("in history", txs);
+  return (
+    <TableBody>
+      {txs.map((tx, index) =>
+        isSmallScreen ? <MobileHistoryTx tx={tx} key={index} /> : <HistoryTx tx={tx} key={index} />,
+      )}
+    </TableBody>
+  );
+};
+
+const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
+  console.log("claim Info", tx);
+  return (
+    <TableRow>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+          {tx.timestamp}
+        </Typography>
+      </TableCell>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
+        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
+          <Token key={"OHM"} name={"OHM"} />
+          <Box marginLeft="14px" marginRight="10px">
+            <Typography>{tx.amount}</Typography>
+          </Box>
+        </Box>
+      </TableCell>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+          {tx.transactions.sendingChain}
+        </Typography>
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+          {tx.transactions.receivingChain}
+        </Typography>
+      </TableCell>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+          {tx.confirmations}
+        </Typography>
+      </TableCell>
+    </TableRow>
+  );
+};
+
+const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
+  // const userBalances = useStakePoolBalance(props.pool);
+  // const userBalance = userBalances[props.pool.networkID].data;
+  console.log("mobile claim Info", tx);
+  return (
+    <Box mt="42px">
+      {/* StyledPoolInfo */}
+      <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
+        <Token key={"gOHM"} name={"gOHM"} />
+        <Box marginLeft="14px" marginRight="10px">
+          <Typography>{`gOHM`}</Typography>
+        </Box>
+        {/* <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} /> */}
+      </Box>
+
+      <DataRow
+        title={`Amount`}
+        // isLoading={!claim?.gohm}
+        balance={tx.amount}
+      />
+      <DataRow
+        title={`Timestamp`}
+        // isLoading={!warmupDate}
+        balance={tx.timestamp}
+      />
+    </Box>
+  );
+};

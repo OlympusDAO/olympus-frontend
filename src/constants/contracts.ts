@@ -4,6 +4,7 @@ import {
   BOND_DEPOSITORY_ADDRESSES,
   BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
   BOND_FIXED_TERM_TELLER_ADDRESSES,
+  CROSS_CHAIN_BRIDGE_ADDRESSES,
   DEV_FAUCET,
   DISTRIBUTOR_ADDRESSES,
   MIGRATOR_ADDRESSES,
@@ -21,6 +22,7 @@ import {
   BondDepository__factory,
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
+  CrossChainBridge__factory,
   CrossChainMigrator__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
@@ -122,4 +124,10 @@ export const DISTRIBUTOR_CONTRACT = new Contract({
   factory: OlympusDistributor__factory,
   name: "Distributor Contract",
   addresses: DISTRIBUTOR_ADDRESSES,
+});
+
+export const CROSS_CHAIN_BRIDGE_CONTRACT = new Contract({
+  factory: CrossChainBridge__factory,
+  name: "Cross Chain Bridge Contract",
+  addresses: CROSS_CHAIN_BRIDGE_ADDRESSES,
 });
