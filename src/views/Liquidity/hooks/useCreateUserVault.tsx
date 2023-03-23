@@ -36,7 +36,7 @@ export const useCreateUserVault = () => {
           });
         }
 
-        toast(`Deposit Successful`);
+        toast(`Vault Created Successfully`);
       },
     },
   );
