@@ -55,6 +55,7 @@ jobs:
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
+          skip-step: all
           test-script: yarn test:unit --silent
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
