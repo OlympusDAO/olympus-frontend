@@ -60,7 +60,7 @@
     "react-ga": "^3.3.1",
     "react-ga4": "^2.1.0",
     "react-hot-toast": "^2.4.0",
-    "react-markdown": "^8.0.4",
+    "react-markdown": "^8.0.6",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "react-step-progress-bar": "^1.0.3",
