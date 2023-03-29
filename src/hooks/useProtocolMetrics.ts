@@ -1,4 +1,5 @@
 import { useProtocolMetricsQuery } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
@@ -7,7 +8,7 @@ export const useOhmTotalSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
@@ -20,7 +21,7 @@ export const useGOhmTotalSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
@@ -33,7 +34,7 @@ export const useTotalValueDeposited = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
@@ -55,7 +56,7 @@ export const useOhmPrice = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
@@ -77,7 +78,7 @@ export const useGOhmPrice = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
@@ -95,7 +96,7 @@ export const useCurrentIndex = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useProtocolMetricsQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: 1,
       endpoint: endpoint,
