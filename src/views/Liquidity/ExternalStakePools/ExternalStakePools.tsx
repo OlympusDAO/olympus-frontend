@@ -1,5 +1,5 @@
-import { ArrowBack, Check } from "@mui/icons-material";
-import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Check } from "@mui/icons-material";
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
@@ -15,7 +15,6 @@ import {
   Tooltip,
 } from "@olympusdao/component-library";
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
@@ -104,15 +103,6 @@ export const ExternalStakePools = () => {
       <PageTitle
         name={
           <Box display="flex" flexDirection="row" alignItems="center">
-            <Link component={RouterLink} to="/liquidity">
-              <Box display="flex" flexDirection="row">
-                <ArrowBack />
-                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
-                  Back
-                </Typography>
-              </Box>
-            </Link>
-
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
               <Typography fontSize="32px" fontWeight={500}>
                 Liquidity Pools
