@@ -4,11 +4,7 @@ import { describe, expect, it } from "vitest";
 describe("prettifySeconds", () => {
   const oneMinute = 70;
   const oneHour = 3600;
-  const test3 = 3660;
   const oneDay = 86400;
-  const test5 = 172800;
-  const test6 = 172860;
-  const test7 = 172860 + 3600;
 
   it("returns an empty string if input is not a number", () => {
     // @ts-expect-error
