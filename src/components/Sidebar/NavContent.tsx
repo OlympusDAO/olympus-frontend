@@ -55,15 +55,16 @@ const NavContent: React.VFC = () => {
                   <Box className="menu-divider">
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>
+                  <NavItem to="/stake" icon="stake" label={`Stake`} />
                   <NavItem to="/bonds" icon="bond" label={`Bond`}>
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
+                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity/pools" />
                   <NavItem to="/range" icon="range" label={`Range`}>
                     <RangePrice bidOrAsk="ask" />
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
                   <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
               )}
