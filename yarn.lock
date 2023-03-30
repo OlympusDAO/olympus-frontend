@@ -3229,10 +3229,10 @@
   dependencies:
     tinyspy "^1.0.2"
 
-"@vitest/ui@^0.29.7":
-  version "0.29.7"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.29.7.tgz#24f756f395f45e0c8a3fb10d6d1e472bd0197a28"
-  integrity sha512-KeOztcAldlFU5i8DKCQcmGrih1dVowurZy/9iPz5JyQdPJzej+nW1nI4nYvc4ZmUtA8+IAe9uViqnU7IXc1RNw==
+"@vitest/ui@^0.29.8":
+  version "0.29.8"
+  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.29.8.tgz#0897b8632760047729a07083bc463072545e8b0f"
+  integrity sha512-+vbLd+c1R/XUWfzJsWeyjeiw13fwJ95I5tguxaqXRg61y9iYUKesVljg7Pttp2uo7VK+kAjvY91J41NZ1Vx3vg==
   dependencies:
     fast-glob "^3.2.12"
     flatted "^3.2.7"
