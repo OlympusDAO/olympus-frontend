@@ -1,7 +1,16 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
+const subgraphApiKey = process.env.VITE_SUBGRAPH_API_KEY;
+if (!subgraphApiKey) {
+  throw new Error("VITE_SUBGRAPH_API_KEY is not defined");
+}
+
 const config: CodegenConfig = {
-  schema: "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics",
+  schema:
+    "https://gateway.thegraph.com/api/[api-key]/subgraphs/id/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY".replace(
+      "[api-key]",
+      subgraphApiKey,
+    ),
   documents: ["src/graphql/queries.graphql"],
   generates: {
     "src/generated/graphql.tsx": {
