@@ -1,31 +1,22 @@
 import { Box, Fade, Grid, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
+import { GetOnButton, ItemCard, OHMTokenProps, OHMTokenStackProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import { ReactComponent as balancerIcon } from "src/assets/balancer.svg";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
-import { SupplyRatePerBlock } from "src/components/TopBar/Wallet/queries";
 import { OHM_ADDRESSES } from "src/constants/addresses";
-import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
-import { balancerPools, convexPools, curvePools, fraxPools } from "src/helpers/AllExternalPools";
+import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
+import { normalizeSymbol } from "src/helpers/normalizeSymbol";
 import { prettifySecondsInDays } from "src/helpers/timeUtil";
+import { useGetLPStats } from "src/hooks/useGetLPStats";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
-import {
-  BalancerPoolAPY,
-  BalancerSwapFees,
-  ConvexPoolAPY,
-  CurvePoolAPY,
-  FraxPoolAPY,
-} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
-import { CurvePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 import { useNetwork } from "wagmi";
-
 const PREFIX = "GetOhm";
 
 const classes = {
@@ -46,16 +37,11 @@ const StyledBox = styled(Box)(() => ({
  */
 const GetOhm: FC = () => {
   const { chain = { id: 1 } } = useNetwork();
-  const { data: supplyRate } = SupplyRatePerBlock();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
-  const ethMantissa = 1e18;
-  const blocksPerDay = 6500;
-  const daysPerYear = 365;
-  const fuseSupplyApy =
-    supplyRate && (Math.pow((parseBigNumber(supplyRate) / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
   const bonds = useLiveBonds().data;
   const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
+  const { data: defiLlamaPools } = useGetLPStats();
 
   return (
     <Fade in={true}>
@@ -128,18 +114,19 @@ const GetOhm: FC = () => {
         <Typography variant="h6" className={classes.title}>
           Farm Pool
         </Typography>
-        {balancerPools.map((pool, index) => (
-          <BalancerPools key={index} pool={pool} />
-        ))}
-        {curvePools.map((pool, index) => (
-          <CurvePools key={index} pool={pool} />
-        ))}
-        {convexPools.map((pool, index) => (
-          <ConvexPools key={index} pool={pool} />
-        ))}
-        {fraxPools.map((pool, index) => (
-          <FraxPools key={index} pool={pool} />
-        ))}
+        {defiLlamaPools &&
+          defiLlamaPools.map(pool => (
+            <ItemCard
+              tokens={normalizeSymbol(pool.symbol.split("-")) as OHMTokenStackProps["tokens"]}
+              title={pool.symbol}
+              href={pool.project.link}
+              external
+              disableFlip
+              value={formatCurrency(pool.tvlUsd || 0)}
+              roi={`${formatNumber(pool.apy || 0, 2)} %`}
+              networkName={defiLlamaChainToNetwork(pool.chain) as OHMTokenProps["name"]}
+            />
+          ))}
         <Typography variant="h6" className={classes.title}>
           Vaults
         </Typography>
@@ -147,14 +134,6 @@ const GetOhm: FC = () => {
           tokens={["DOPEX"]}
           title={`Deposit on Dopex`}
           href={`https://app.dopex.io/ssov`}
-          networkName="ARBITRUM"
-          external
-          disableFlip
-        />
-        <ItemCard
-          tokens={["JONES"]}
-          title={`Deposit on Jones DAO`}
-          href={`https://jonesdao.io/vaults/gOHM`}
           networkName="ARBITRUM"
           external
           disableFlip
@@ -191,38 +170,3 @@ const GetOhm: FC = () => {
 };
 
 export default GetOhm;
-
-const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data } = BalancerSwapFees(props.pool.address);
-  const { apy } = BalancerPoolAPY(props.pool);
-  return <PoolCard {...props} value={data.totalLiquidity && formatCurrency(data.totalLiquidity)} roi={apy} />;
-};
-const CurvePools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data } = CurvePoolTVL(props.pool);
-  const { apy } = CurvePoolAPY(props.pool);
-  return <PoolCard {...props} value={data && formatCurrency(data.usdTotal)} roi={apy} />;
-};
-const ConvexPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { apy, tvl } = ConvexPoolAPY(props.pool);
-  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
-};
-const FraxPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { apy, tvl } = FraxPoolAPY(props.pool);
-  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
-};
-
-const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {
-  const networkName = NetworkId[props.pool.networkID] as OHMItemCardProps["networkName"];
-  return (
-    <ItemCard
-      tokens={props.pool.icons}
-      title={props.pool.poolName}
-      href={props.pool.href}
-      external
-      disableFlip
-      value={props.value}
-      roi={`${props.roi && formatNumber(Number(props.roi) * 100, 2)} %`}
-      networkName={networkName}
-    />
-  );
-};
