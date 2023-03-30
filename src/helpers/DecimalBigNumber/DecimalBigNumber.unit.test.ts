@@ -7,6 +7,26 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber(BigNumber.from("101"), 1).toString()).toEqual("10.1");
   });
 
+  it("should not initialise with BigNumber & undefined decimals", async () => {
+    const throwTest = async () => {
+      // @ts-expect-error
+      new DecimalBigNumber(BigNumber.from("101"), undefined);
+    };
+    await expect(throwTest()).rejects.toThrow("Decimal cannot be undefined");
+  });
+
+  it("should initialise with String", () => {
+    expect(new DecimalBigNumber("101", undefined).toString()).toEqual("101");
+    const randomIntFrom0To18 = Math.floor(Math.random() * 18);
+    expect(new DecimalBigNumber("101", randomIntFrom0To18).toString()).toEqual("101");
+    expect(new DecimalBigNumber("101.1", 0).toString()).toEqual("101");
+    expect(new DecimalBigNumber("101.1", 1).toString()).toEqual("101.1");
+    expect(new DecimalBigNumber("101.1", 18).toString()).toEqual("101.1");
+    expect(new DecimalBigNumber("101.12", 0).toString()).toEqual("101");
+    expect(new DecimalBigNumber("101.12", 1).toString()).toEqual("101.1");
+    expect(new DecimalBigNumber("101.12", 2).toString()).toEqual("101.12");
+  });
+
   it("should determine decimal places at initialisation", () => {
     expect(new DecimalBigNumber("100").toString()).toEqual("100");
     expect(new DecimalBigNumber("1").toString()).toEqual("1");
@@ -169,5 +189,6 @@ describe("DecimalBigNumber", () => {
   it("should format toBigNumber to a specified number of decimals", () => {
     expect(new DecimalBigNumber("10", 10).toBigNumber(1).toString()).toEqual("100");
     expect(new DecimalBigNumber("10").toBigNumber(4).toString()).toEqual("100000");
+    expect(new DecimalBigNumber("10").toBigNumber(undefined).toString()).toEqual("10");
   });
 });
