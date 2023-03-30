@@ -370,8 +370,6 @@ function V1Stake({ setMigrationModalOpen }) {
           </div>
         </Grid>
       </Paper>
-
-      {/* <ExternalStakePools /> */}
       <ClaimsArea />
     </div>
   );
