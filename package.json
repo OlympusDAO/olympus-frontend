@@ -37,7 +37,7 @@
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.7.1",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.13",
+    "@mui/material": "^5.11.15",
     "@mui/system": "^5.11.15",
     "@mui/x-data-grid": "^6.0.3",
     "@olympusdao/component-library": "^3.1.5",
