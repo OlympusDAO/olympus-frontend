@@ -67,11 +67,13 @@ export const ExternalStakePools = () => {
     defiLlamaPools &&
     defiLlamaPools.filter(pool => {
       const symbols = pool.symbol.split("-");
-      const stable =
-        (!symbols.includes("DAI") && !symbols.includes("USDC") && !symbols.includes("FRAXBP")) ||
-        symbols.includes("OHMFRAXBP");
+      const volatile =
+        !symbols.includes("DAI") &&
+        !symbols.includes("USDC") &&
+        !symbols.includes("FRAXBP") &&
+        !symbols.includes("OHMFRAXBP");
 
-      return stable;
+      return volatile;
     });
 
   const gOHMPools =
