@@ -11,7 +11,8 @@ export const useGetLPStats = () => {
             pool.symbol.split("-")[0] === "OHM" ||
             pool.symbol.split("-")[0] === "GOHM" ||
             pool.symbol.split("-")[1] === "GOHM" ||
-            pool.symbol.split("-")[1] === "OHM",
+            pool.symbol.split("-")[1] === "OHM" ||
+            pool.symbol.split("-")[0] === "OHMFRAXBP",
         )
         .filter(pool => pool.apy !== 0 && pool.exposure !== "single")
         .map(pool => {
@@ -19,6 +20,7 @@ export const useGetLPStats = () => {
         });
     });
   });
+
   return { data, isFetched, isLoading };
 };
 
@@ -50,6 +52,8 @@ const mapProjectToName = (project: string) => {
       return { name: "Frax", icon: "frax", link: "https://app.frax.finance/staking/overview" };
     case "beethoven-x":
       return { name: "Beethoven X", icon: "beethovenx", link: "https://beets.fi/pools" };
+    case "yearn-finance":
+      return { name: "Yearn", icon: "yearn", link: "https://yearn.finance/vaults" };
   }
 };
 
