@@ -45,7 +45,7 @@ export const Liquidity = () => {
           </Box>
           <Box borderRadius="12px" padding="32px" sx={{ backgroundColor: theme.colors.paper.card }} maxWidth="427px">
             <Typography fontSize="32px" fontWeight="500" lineHeight="36px" align="center">
-              Incentivized Liquidity Pools
+              Liquidity Pools
             </Typography>
             <Typography align="center" color={theme.colors.gray[40]}>
               Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity{" "}

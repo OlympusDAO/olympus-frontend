@@ -60,8 +60,8 @@ const NavContent: React.VFC = () => {
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
-                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity/pools" />
-                  <NavItem to="/range" icon="range" label={`Range`}>
+                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                  <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
                     <RangePrice bidOrAsk="ask" />
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>

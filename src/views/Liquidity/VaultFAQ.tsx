@@ -1,12 +1,12 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { Tab, Tabs } from "@olympusdao/component-library";
+import { Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 
 export const VaultFAQ = () => {
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
   return (
-    <>
+    <Paper enableBackground fullWidth>
       <Tabs
         TabIndicatorProps={{ style: { display: "none" } }}
         value={activeTab}
@@ -29,7 +29,7 @@ export const VaultFAQ = () => {
           </Box>
         ))}
       </Box>
-    </>
+    </Paper>
   );
 };
 

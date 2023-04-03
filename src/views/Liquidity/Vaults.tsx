@@ -1,6 +1,6 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Skeleton, Typography } from "@mui/material";
-import { Metric } from "@olympusdao/component-library";
+import { Metric, TextButton } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
@@ -30,7 +30,7 @@ export const Vaults = () => {
 
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
               <Typography fontSize="32px" fontWeight={500}>
-                Boosted Liquidity Engine
+                Boosted Liquidity
               </Typography>
             </Box>
           </Box>
@@ -43,11 +43,18 @@ export const Vaults = () => {
             <Metric label="TVL in Vaults" metric={totalTVL ? formatCurrency(totalTVL) : "$0"} isLoading={isLoading} />
           </Box>
         </Box>
-        <Typography variant="h1">Boosted Liquidity Engine Vaults</Typography>
-        <Box mb="18px" mt="9px">
-          <Typography>
-            Get double the rewards for the same liquidity as Olympus takes on the other side of your LP.
-          </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h1">Boosted Liquidity Engine Vaults</Typography>
+            <Box mb="18px" mt="9px">
+              <Typography>
+                Get double the rewards for the same liquidity as Olympus takes on the other side of your LP.
+              </Typography>
+            </Box>
+          </Box>
+          <TextButton href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults" target="_blank">
+            What is Boosted Liquidity?
+          </TextButton>
         </Box>
         {isLoading ? (
           <Skeleton height="64px" />
@@ -59,7 +66,9 @@ export const Vaults = () => {
                 <Box mb="33px" />
               </>
             ) : (
-              <Typography variant="h1">No Active Vaults</Typography>
+              <Box display="flex" justifyContent="center" mt="100px">
+                <Typography variant="h1">No Active Vaults</Typography>
+              </Box>
             )}
           </>
         )}
