@@ -13,7 +13,12 @@ export const LiquidityCTA = () => {
           Deep market liquidity combined with a strong Olympus treasury will help realize OHM as the de facto
           utilitarian DeFi currency.
         </Typography>
-        <TertiaryButton fullWidth>Learn Why</TertiaryButton>
+        <TertiaryButton
+          fullWidth
+          href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#security-considerations"
+        >
+          Learn Why
+        </TertiaryButton>
       </Box>
     </Box>
   );

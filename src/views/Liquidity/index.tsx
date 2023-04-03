@@ -35,7 +35,7 @@ export const Liquidity = () => {
                 <Link component={RouterLink} to="/liquidity/vaults">
                   <PrimaryButton sx={{ width: "100%" }}>
                     <Box display="flex" gap="6px">
-                      <Typography fontWeight="500">Take me to the Vaults </Typography>
+                      <Typography fontWeight="500">View Vaults</Typography>
                       <ArrowForward sx={{ fontSize: "21px !important" }} />
                     </Box>
                   </PrimaryButton>
