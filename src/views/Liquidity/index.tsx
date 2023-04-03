@@ -43,7 +43,15 @@ export const Liquidity = () => {
               </Box>
             </Box>
           </Box>
-          <Box borderRadius="12px" padding="32px" sx={{ backgroundColor: theme.colors.paper.card }} maxWidth="427px">
+          <Box
+            borderRadius="12px"
+            padding="32px"
+            sx={{ backgroundColor: theme.colors.paper.card }}
+            maxWidth="427px"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
             <Typography fontSize="32px" fontWeight="500" lineHeight="36px" align="center">
               Liquidity Pools
             </Typography>

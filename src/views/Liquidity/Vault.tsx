@@ -94,8 +94,8 @@ export const Vault = () => {
           {
             slippage: Number(customSlippage),
             amount: parseUnits(amount, swapAssetType.decimals),
-            tokenAddress: swapAssetType.address, //TODO: REPLACE swapAssetType.address
-            buyAddress: "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f", //TODO: testnetToMainnetContract(vault.pairTokenAddress),
+            tokenAddress: swapAssetType.address,
+            buyAddress: vault.pairTokenAddress,
           },
           {
             onSuccess: data => {
@@ -123,14 +123,14 @@ export const Vault = () => {
           {
             slippage: Number(customSlippage),
             amount: new DecimalBigNumber(buyAmount).toBigNumber(),
-            tokenAddress: swapAssetType.address, //TODO: REPLACE swapAssetType.address
-            buyAddress: "0x1643e812ae58766192cf7d2cf9567df2c37e9b7f", //TODO: testnetToMainnetContract(vault.pairTokenAddress),
+            tokenAddress: swapAssetType.address,
+            buyAddress: vault.pairTokenAddress,
             isSell: false,
           },
           {
             onSuccess: data => {
               setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
-              setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals)); //TODO: OHM testnet decimals
+              setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals));
             },
             onError: (err: any) => {
               toast.error(err.message, { id: err.message, duration: 2000 });
@@ -344,7 +344,7 @@ export const Vault = () => {
               isOpen={isDepositStepsModalOpen}
               swapAssetType={swapAssetType}
               slippage={customSlippage}
-              zapIntoAddress={isZap ? "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F" : undefined} //TODO: replace with vault address. this is testnet stETH for now for
+              zapIntoAddress={isZap ? vault.pairTokenAddress : undefined}
             />
           )}
           <LiquidityCTA />
@@ -420,12 +420,6 @@ export const Vault = () => {
                   balance: formatNumber(Number(formatUnits(pairTokenBalance.toBigNumber(), 18)), 2),
                   address: vault.pairTokenAddress,
                   price: 1,
-                },
-                {
-                  name: "ETH",
-                  balance: daiBalance?.formatted,
-                  address: ethers.constants.AddressZero,
-                  price: 10,
                 },
               ]}
             />

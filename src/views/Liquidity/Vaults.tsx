@@ -45,7 +45,7 @@ export const Vaults = () => {
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
-            <Typography variant="h1">Boosted Liquidity Engine Vaults</Typography>
+            <Typography variant="h1">Boosted Liquidity Vaults</Typography>
             <Box mb="18px" mt="9px">
               <Typography>
                 Get double the rewards for the same liquidity as Olympus takes on the other side of your LP.

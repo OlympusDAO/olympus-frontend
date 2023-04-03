@@ -149,7 +149,7 @@ export const fetchSwapData = async (
   const sellToken = tokenAddress === "0x0000000000000000000000000000000000000000" ? "ETH" : tokenAddress;
   //TODO: swap for mainnet
   const response = await fetch(
-    `https://goerli.api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyAddress}&${
+    `https://api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyAddress}&${
       isSell ? `sellAmount` : `buyAmount`
     }=${amount}&slippagePercentage=${slippageDecimal}&enableSlippageProtection=true&affiliateAddress=${
       DAO_TREASURY_ADDRESSES[NetworkId.MAINNET]
