@@ -1,0 +1,362 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<StakeBalances/> > should render balances and rebase info 1`] = `
+<div>
+  <div
+    style="position: fixed; z-index: 9999; top: 16px; left: 16px; right: 16px; bottom: 16px; pointer-events: none;"
+  />
+  <div
+    class="DataRow-root data-row css-19fvmib"
+  >
+    <div
+      class="MuiBox-root css-dlyoou"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
+      >
+        Unstaked Balance
+      </p>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
+      id="user-balance"
+      style="text-align: right;"
+    >
+      15.0000 OHM
+    </p>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root DataRow-accordion css-1hryd3o-MuiPaper-root-MuiAccordion-root"
+  >
+    <div
+      aria-expanded="true"
+      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+      >
+        <div
+          class="DataRow-root data-row css-19fvmib"
+        >
+          <div
+            class="MuiBox-root css-dlyoou"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
+            >
+              Total Staked Balance
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1sxx1a1-MuiTypography-root"
+            id="user-staked-balance"
+            style="text-align: right;"
+          >
+            134,228.0000 OHM
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1b8e8sl-MuiSvgIcon-root"
+          focusable="false"
+          style="font-size: 12px;"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M 0.419 4.705 C 0.976 4.146 1.88 4.146 2.439 4.705 L 10 12.265 L 17.561 4.705 C 18.119 4.146 19.023 4.146 19.582 4.705 C 20.139 5.262 20.139 6.166 19.582 6.725 L 11.01 15.296 C 10.452 15.854 9.547 15.854 8.99 15.296 L 0.419 6.725 C -0.14 6.166 -0.14 5.262 0.419 4.705 Z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    sOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  id="sohm-balance"
+                  style="text-align: right;"
+                >
+                  12.0000 sOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  131.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Arbitrum)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  132.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Avalanche)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  133.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Polygon)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  134.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Fantom)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  135.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Optimism)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  136.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Tokemak)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  14.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    gOHM (Fuse)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  11.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    sOHM (v1)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  16.0000 sOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    wsOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  171.0000 wsOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    wsOHM (Arbitrum)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  172.0000 wsOHM
+                </p>
+              </div>
+              <div
+                class="DataRow-root data-row css-19fvmib"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root css-1xv45iw"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  >
+                    wsOHM (Avalanche)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-iwe8j-MuiTypography-root"
+                  style="text-align: right;"
+                >
+                  173.0000 wsOHM
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

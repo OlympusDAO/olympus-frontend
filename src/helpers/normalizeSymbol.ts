@@ -1,6 +1,5 @@
 export const normalizeSymbol = (symbol: string[]) => {
   return symbol.map(s => {
-    console.log(s, "symbol");
     switch (s.toLowerCase()) {
       case "weth":
         return "wETH";

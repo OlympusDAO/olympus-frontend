@@ -1,5 +1,5 @@
-import { ArrowBack, Check } from "@mui/icons-material";
-import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Check } from "@mui/icons-material";
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
@@ -15,7 +15,6 @@ import {
   Tooltip,
 } from "@olympusdao/component-library";
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
@@ -104,15 +103,6 @@ export const ExternalStakePools = () => {
       <PageTitle
         name={
           <Box display="flex" flexDirection="row" alignItems="center">
-            <Link component={RouterLink} to="/liquidity">
-              <Box display="flex" flexDirection="row">
-                <ArrowBack />
-                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
-                  Back
-                </Typography>
-              </Box>
-            </Link>
-
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
               <Typography fontSize="32px" fontWeight={500}>
                 Liquidity Pools
@@ -128,6 +118,7 @@ export const ExternalStakePools = () => {
           </Typography>
         </Box>
         <Box display="flex" gap="9px">
+          <PoolChip label="All" />
           <PoolChip label="Stable" />
           <PoolChip label="Volatile" />
           <PoolChip label="gOHM" />
@@ -143,7 +134,7 @@ export const ExternalStakePools = () => {
               poolList.map(pool => {
                 const symbols = pool.symbol.split("-").filter(s => s !== "");
                 return (
-                  <Box mt="42px">
+                  <Box mt="42px" key={pool.pool}>
                     <StyledPoolInfo className={classes.poolPair}>
                       <TokenStack
                         tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
@@ -191,7 +182,7 @@ export const ExternalStakePools = () => {
                   const symbols = pool.symbol.split("-").filter(s => s !== "");
 
                   return (
-                    <TableRow>
+                    <TableRow key={pool.pool}>
                       <TableCell style={{ padding: "8px 0" }}>
                         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
                           <TokenStack
@@ -213,19 +204,16 @@ export const ExternalStakePools = () => {
                         </Typography>
                       </TableCell>
                       <TableCell style={{ padding: "8px 0" }}>
-                        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }} fontWeight="700">
-                          <Tooltip
-                            message={
-                              <>
-                                <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
-                                <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
-                              </>
-                            }
-                          >
-                            {" "}
-                            {formatNumber(pool.apy || 0, 2)}%
-                          </Tooltip>
-                        </Typography>
+                        <Tooltip
+                          message={
+                            <>
+                              <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
+                              <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
+                            </>
+                          }
+                        >
+                          {formatNumber(pool.apy || 0, 2)}%
+                        </Tooltip>
                       </TableCell>
 
                       <TableCell style={{ padding: "8px 0" }}>
