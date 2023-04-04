@@ -161,12 +161,12 @@ export const TreasuryAssetsTable = ({
       <DataGrid
         autoHeight
         loading={currentTokens.length == 0}
-        disableSelectionOnClick
+        disableRowSelectionOnClick={true}
         rows={currentTokens}
         rowHeight={30}
         columns={columns}
-        rowsPerPageOptions={[10]}
-        pageSize={10}
+        pageSizeOptions={[10]}
+        pagination={true}
         getRowId={row => row.id}
         // Sort by value descending
         initialState={{
@@ -180,6 +180,7 @@ export const TreasuryAssetsTable = ({
               balance: false,
             },
           },
+          pagination: { paginationModel: { pageSize: 10 } },
         }}
         // Only ascending or descending sort
         sortingOrder={["desc", "asc"]}
