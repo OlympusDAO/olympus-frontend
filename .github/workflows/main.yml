@@ -15,6 +15,8 @@ jobs:
       - name: Build UI
         run: yarn install --frozen-lockfile
       - name: Run unit tests
+        env:
+          VITE_SUBGRAPH_API_KEY: ${{ secrets.VITE_SUBGRAPH_API_KEY }}
         run: yarn test:unit --reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile base-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v3
@@ -31,6 +33,8 @@ jobs:
       - name: Build UI
         run: yarn install --frozen-lockfile
       - name: Run unit tests
+        env:
+          VITE_SUBGRAPH_API_KEY: ${{ secrets.VITE_SUBGRAPH_API_KEY }}
         run: yarn test:unit --reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v3

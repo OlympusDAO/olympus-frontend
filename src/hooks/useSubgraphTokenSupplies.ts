@@ -6,6 +6,7 @@ import {
   TokenSupply_Filter,
   useInfiniteTokenSuppliesQuery,
 } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
@@ -51,9 +52,9 @@ export const useTokenSuppliesQuery = (
   /**
    * Handle changes to the props
    */
-  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
-    endpoint: subgraphUrl,
-  });
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>(
+    getDataSource(subgraphUrl),
+  );
   const [queryVariables, setQueryVariables] = useState<TokenSuppliesQueryVariables>({
     filter: {
       ...baseFilter,
@@ -85,9 +86,7 @@ export const useTokenSuppliesQuery = (
       endpoint: subgraphUrl,
     });
 
-    setDataSource({
-      endpoint: subgraphUrl,
-    });
+    setDataSource(getDataSource(subgraphUrl));
 
     // Create a new paginator with the new earliestDate
     const tempPaginator =

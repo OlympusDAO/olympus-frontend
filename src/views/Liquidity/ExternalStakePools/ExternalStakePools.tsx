@@ -51,12 +51,15 @@ export const ExternalStakePools = () => {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: defiLlamaPools } = useGetLPStats();
   const [poolFilter, setPoolFilter] = useState("all");
-
   const stablePools =
     defiLlamaPools &&
     defiLlamaPools.filter(pool => {
       const symbols = pool.symbol.split("-");
-      const stable = symbols.includes("DAI") || symbols.includes("USDC");
+      const stable =
+        symbols.includes("DAI") ||
+        symbols.includes("USDC") ||
+        symbols.includes("FRAXBP") ||
+        symbols.includes("OHMFRAXBP");
       return stable;
     });
 
@@ -64,8 +67,13 @@ export const ExternalStakePools = () => {
     defiLlamaPools &&
     defiLlamaPools.filter(pool => {
       const symbols = pool.symbol.split("-");
-      const stable = !symbols.includes("DAI") && !symbols.includes("USDC");
-      return stable;
+      const volatile =
+        !symbols.includes("DAI") &&
+        !symbols.includes("USDC") &&
+        !symbols.includes("FRAXBP") &&
+        !symbols.includes("OHMFRAXBP");
+
+      return volatile;
     });
 
   const gOHMPools =
@@ -204,16 +212,22 @@ export const ExternalStakePools = () => {
                         </Typography>
                       </TableCell>
                       <TableCell style={{ padding: "8px 0" }}>
-                        <Tooltip
-                          message={
-                            <>
-                              <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
-                              <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
-                            </>
-                          }
-                        >
-                          {formatNumber(pool.apy || 0, 2)}%
-                        </Tooltip>
+                        <>
+                          {pool.apyBase || pool.apyReward ? (
+                            <Tooltip
+                              message={
+                                <>
+                                  <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
+                                  <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
+                                </>
+                              }
+                            >
+                              {formatNumber(pool.apy || 0, 2)}%
+                            </Tooltip>
+                          ) : (
+                            <>{formatNumber(pool.apy || 0, 2)}%</>
+                          )}
+                        </>
                       </TableCell>
 
                       <TableCell style={{ padding: "8px 0" }}>
