@@ -6,6 +6,7 @@ import {
   TokenRecordsQueryVariables,
   useInfiniteTokenRecordsQuery,
 } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import { adjustDateByDays, dateGreaterThan, getISO8601String } from "src/helpers/DateHelper";
 import { BLOCKCHAINS, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
@@ -59,9 +60,9 @@ export const useTokenRecordsQuery = (
   /**
    * Handle changes to the props
    */
-  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
-    endpoint: endpointNotNull,
-  });
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>(
+    getDataSource(endpointNotNull),
+  );
   const [queryVariables, setQueryVariables] = useState<TokenRecordsQueryVariables>({
     filter: {
       ...baseFilter,
@@ -91,9 +92,7 @@ export const useTokenRecordsQuery = (
       endpoint: endpointNotNull,
     });
 
-    setDataSource({
-      endpoint: endpointNotNull,
-    });
+    setDataSource(getDataSource(endpointNotNull));
 
     // Create a new paginator with the new earliestDate
     const tempPaginator =
@@ -379,7 +378,13 @@ export const useTokenRecordsQueries = (
       }, "");
     };
 
-    const commonLatestDate = getCommonLatestDate();
+    /**
+     * If getCommonLatestDate() is used, then the results will be limited to the day
+     * for which all blockchains have data. As some blockchains have intermittent issues
+     * with indexing, this is set to null for the moment.
+     */
+    // const commonLatestDate = getCommonLatestDate();
+    const commonLatestDate = null;
 
     console.info(`${chartName}: Received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();

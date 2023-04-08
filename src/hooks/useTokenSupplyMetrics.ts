@@ -1,4 +1,5 @@
 import { useTokenSuppliesQuery } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import {
   getOhmBackedSupply,
   getOhmCirculatingSupply,
@@ -15,7 +16,7 @@ export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
@@ -34,7 +35,7 @@ export const useOhmFloatingSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
@@ -53,7 +54,7 @@ export const useOhmBackedSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
@@ -72,7 +73,7 @@ export const useGOhmSyntheticSupply = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },

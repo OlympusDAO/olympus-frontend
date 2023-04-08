@@ -13,6 +13,7 @@ type ChartCardProps = {
   handleOpenExpandedChart?(): void;
   isLoading: boolean;
   height?: number;
+  children?: React.ReactNode;
 };
 
 export const DEFAULT_HEIGHT = 400;
