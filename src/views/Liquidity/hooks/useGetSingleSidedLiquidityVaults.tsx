@@ -39,6 +39,7 @@ export const useGetSingleSidedLiquidityVaults = () => {
   const { address: walletAddress = "" } = useAccount();
   const { data, isFetched, isLoading } = useQuery(["getSingleSidedLiquidityVaults", networks.MAINNET], async () => {
     const activeVaultsCount = (await contract.activeVaultCount()).toNumber();
+
     /* Returns an array of active Single Sided Liquidity Vault Addresses */
     /* we only care about the count, so we can fill an array with 0s and map over it */
     const countArray = Array(activeVaultsCount).fill(0);
@@ -75,10 +76,11 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const pricePerDepositToken = await contract.callStatic.getExpectedLpAmount("1000000000000000000"); //price per deposit token
 
   const lpTokenBalance = formatUnits(await contract.getLpBalance(walletAddress).catch(() => BigNumber.from("0")), 18);
+  const canWithdraw = await contract.canWithdraw(walletAddress).catch(() => false);
 
   const limit = formatUnits(await contract.ohmLimit(), 9); //will always be denominated in OHM
 
-  const ohmMinted = formatUnits((await contract.getOhmSupplyChangeData()).deployedOhm, 9);
+  const ohmMinted = formatUnits((await contract.getOhmSupplyChangeData()).mintedOhm, 9);
 
   const totalLp = await contract.totalLp();
 
@@ -125,6 +127,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     pairTokenName,
     pairTokenAddress,
     lpTokenBalance,
+    canWithdraw,
     fee,
     limit,
     totalLpBalance: formatUnits(totalLp),

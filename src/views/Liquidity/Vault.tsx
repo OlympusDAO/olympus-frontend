@@ -320,7 +320,8 @@ export const Vault = () => {
               isWithdrawal
                 ? Number(reserveAmount) === 0 ||
                   Number(reserveAmount) > Number(vault.lpTokenBalance) ||
-                  withdraw.isLoading
+                  withdraw.isLoading ||
+                  !vault.canWithdraw
                 : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
             }
             onClick={() => {
