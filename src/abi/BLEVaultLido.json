@@ -1,11 +1,17 @@
 {
   "abi": [
     { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+    { "inputs": [], "name": "BLVaultLido_Active", "type": "error" },
     { "inputs": [], "name": "BLVaultLido_AlreadyInitialized", "type": "error" },
     { "inputs": [], "name": "BLVaultLido_AuraDepositFailed", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_AuraWithdrawalFailed", "type": "error" },
     { "inputs": [], "name": "BLVaultLido_Inactive", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_InvalidWithdrawal", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_OnlyManager", "type": "error" },
     { "inputs": [], "name": "BLVaultLido_OnlyOwner", "type": "error" },
     { "inputs": [], "name": "BLVaultLido_Reentrancy", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_WithdrawFailedPriceImbalance", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_WithdrawalDelay", "type": "error" },
     {
       "anonymous": false,
       "inputs": [
@@ -75,6 +81,13 @@
       "stateMutability": "pure",
       "type": "function"
     },
+    {
+      "inputs": [],
+      "name": "canWithdraw",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
     { "inputs": [], "name": "claimRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [
@@ -83,6 +96,19 @@
       ],
       "name": "deposit",
       "outputs": [{ "internalType": "uint256", "name": "lpAmountOut", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
+        { "internalType": "uint256[]", "name": "minTokenAmounts_", "type": "uint256[]" }
+      ],
+      "name": "emergencyWithdraw",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -127,9 +153,23 @@
     { "inputs": [], "name": "initializeClone", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
+      "name": "lastDeposit",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "liquidityPool",
       "outputs": [{ "internalType": "contract IBasePool", "name": "", "type": "address" }],
       "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lpBalance",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -170,7 +210,8 @@
     {
       "inputs": [
         { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
-        { "internalType": "uint256[]", "name": "minTokenAmounts_", "type": "uint256[]" },
+        { "internalType": "uint256[]", "name": "minTokenAmountsBalancer_", "type": "uint256[]" },
+        { "internalType": "uint256", "name": "minTokenAmountUser_", "type": "uint256" },
         { "internalType": "bool", "name": "claim_", "type": "bool" }
       ],
       "name": "withdraw",

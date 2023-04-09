@@ -56,8 +56,11 @@ export const fetchLiveBondsV3 = async ({ networkId, isInverseBond }: UseLiveBond
   const markets = await contract
     .liveMarketsFor(OHM_ADDRESSES[networkId], isInverseBond ? false : true)
     .then(ids => ids.map(id => id.toString()));
+
+  //Limit the number of testnet markets to last five.
+  const filteredMarkets = networkId === NetworkId.TESTNET_GOERLI ? markets.slice(-5) : markets;
   const promises = await Promise.allSettled(
-    markets
+    filteredMarkets
       .filter(id => id !== "3") //Market 3 has a contract issue and should not be displayed
       .map(id => {
         const args = { id, isInverseBond, networkId };
