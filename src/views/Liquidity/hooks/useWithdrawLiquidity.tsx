@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
-import { BLEVaultLido__factory } from "src/typechain";
+import { BLEVaultLido__factory, BLEVaultManagerLido__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
 export const useWithdrawLiquidity = () => {
@@ -13,18 +13,22 @@ export const useWithdrawLiquidity = () => {
     async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = BLEVaultLido__factory.connect(address, signer);
+      const vaultManagerContract = BLEVaultManagerLido__factory.connect(address, signer);
 
-      //TODO: Number of Decimals
       const amountToBigNumber = ethers.utils.parseUnits(amount);
-      //TODO: How to calculate slippage? Need Price feed that contract is using for LP price.
-      const minPairToken = 0.00001;
-      const minOhmToken = 0.00001;
-      const minPairTokenBigNumber = ethers.utils.parseUnits(minPairToken.toString());
-      const minOhmTokenBigNumber = ethers.utils.parseUnits(minOhmToken.toString(), 9);
 
+      //amount minus slippage percentage. 0.5% slippage = 0.995
+      const amountLessCustomSlippage = amountToBigNumber
+        .mul(ethers.BigNumber.from(100).sub(ethers.BigNumber.from(slippage)))
+        .div(ethers.BigNumber.from(100));
+
+      const protocolOut = await vaultManagerContract.callStatic.getExpectedTokensOutProtocol(amountToBigNumber);
+
+      //TODO: need new abi for vault
       const withdrawTransaction = await contract.withdraw(
         amountToBigNumber,
-        [minOhmTokenBigNumber, minPairTokenBigNumber],
+        protocolOut,
+        amountLessCustomSlippage,
         true,
       );
 

@@ -26,6 +26,7 @@ import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
+import { useGetExpectedPairTokenAmount } from "src/views/Liquidity/hooks/useGetExpectedPairTokenAmount";
 import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
@@ -35,7 +36,6 @@ import TokenModal, {
   ModalHandleSelectProps,
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 import SlippageModal from "src/views/Zap/SlippageModal";
-import { useAccount, useBalance as useWagmiBalance } from "wagmi";
 
 export const Vault = () => {
   const { id } = useParams();
@@ -46,16 +46,11 @@ export const Vault = () => {
   const zapQuote = useFetchZeroExSwapData();
   const [zapTokenModalOpen, setZapTokenModalOpen] = useState(false);
   const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({});
-  const { address } = useAccount();
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const { data: userVault } = useGetUserVault({ address: id });
+  const getExpectedPairTokenAmount = useGetExpectedPairTokenAmount();
 
-  const { data: daiBalance } = useWagmiBalance({
-    addressOrName: address,
-    formatUnits: "ether",
-    chainId: networks.MAINNET,
-  });
   const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isDepositStepsModalOpen, setIsDepositStepsModalOpen] = useState(false);
@@ -75,6 +70,8 @@ export const Vault = () => {
     swapAssetType.name !== vault?.pairTokenName &&
     swapAssetType.name !== undefined &&
     vault?.pairTokenName !== undefined;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isWithdrawal = searchParams.get("withdraw") ? true : false;
   useEffect(() => {
     if (vault) {
       setSwapAssetType({ name: vault?.pairTokenName });
@@ -86,6 +83,22 @@ export const Vault = () => {
       onDepositTokenChange(pairAmount);
     }
   }, [swapAssetType.name, isZap]);
+
+  useEffect(() => {
+    if (isWithdrawal && vault && +pairAmount > 0) {
+      getExpectedPairTokenAmount.mutate(
+        {
+          lpAmount: parseUnits(pairAmount, 18),
+          address: vault.vaultAddress,
+        },
+        {
+          onSuccess: data => {
+            setPairAmount(formatUnits(data, 18));
+          },
+        },
+      );
+    }
+  }, [isWithdrawal]);
 
   const onDepositTokenChange = (amount: string) => {
     if (isZap && Number(amount) > 0) {
@@ -116,30 +129,44 @@ export const Vault = () => {
   };
 
   const onReserveTokenChange = (amount: string) => {
-    if (isZap && Number(amount) > 0) {
-      if (vault?.pairTokenAddress && swapAssetType.address) {
-        const buyAmount = (Number(amount) / Number(vault.pricePerDepositToken)).toString();
-        zapQuote.mutate(
-          {
-            slippage: Number(customSlippage),
-            amount: new DecimalBigNumber(buyAmount).toBigNumber(),
-            tokenAddress: swapAssetType.address,
-            buyAddress: vault.pairTokenAddress,
-            isSell: false,
+    if (isWithdrawal && vault && +amount > 0) {
+      getExpectedPairTokenAmount.mutate(
+        {
+          lpAmount: parseUnits(amount, 18),
+          address: vault.vaultAddress,
+        },
+        {
+          onSuccess: data => {
+            setPairAmount(formatUnits(data, 18));
           },
-          {
-            onSuccess: data => {
-              setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
-              setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals));
-            },
-            onError: (err: any) => {
-              toast.error(err.message, { id: err.message, duration: 2000 });
-            },
-          },
-        );
-      }
+        },
+      );
     } else {
-      setPairAmount((Number(amount) / Number(vault?.pricePerDepositToken)).toString());
+      if (isZap && Number(amount) > 0) {
+        if (vault?.pairTokenAddress && swapAssetType.address) {
+          const buyAmount = (Number(amount) / Number(vault.pricePerDepositToken)).toString();
+          zapQuote.mutate(
+            {
+              slippage: Number(customSlippage),
+              amount: new DecimalBigNumber(buyAmount).toBigNumber(),
+              tokenAddress: swapAssetType.address,
+              buyAddress: vault.pairTokenAddress,
+              isSell: false,
+            },
+            {
+              onSuccess: data => {
+                setZapDepositTokenAmount(formatUnits(data.buyAmount, 18));
+                setPairAmount(formatUnits(data.sellAmount, swapAssetType.decimals));
+              },
+              onError: (err: any) => {
+                toast.error(err.message, { id: err.message, duration: 2000 });
+              },
+            },
+          );
+        }
+      } else {
+        setPairAmount((Number(amount) / Number(vault?.pricePerDepositToken)).toString());
+      }
     }
   };
 
@@ -147,8 +174,6 @@ export const Vault = () => {
     (allowance && allowance.eq(0) && vault?.pairTokenAddress !== ethers.constants.AddressZero) ||
     (allowance && allowance.lt(pairTokenBalance.toBigNumber()));
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const isWithdrawal = searchParams.get("withdraw");
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   if (isLoading) {
@@ -166,7 +191,7 @@ export const Vault = () => {
     );
   if (!vault) return <></>;
 
-  const slippageToPercent = 1;
+  const slippageToPercent = 1 - +customSlippage / 100;
   const minLpAmount = new DecimalBigNumber(slippageToPercent.toString()).mul(new DecimalBigNumber(reserveAmount));
 
   const ohmMinted =
@@ -201,6 +226,7 @@ export const Vault = () => {
         onDepositTokenChange(maxBalance);
         setPairAmount(maxBalance);
       }}
+      disabled={isWithdrawal}
     />
   );
   const lpToken = () => (
@@ -392,7 +418,7 @@ export const Vault = () => {
                 onClick={() => {
                   userVault &&
                     withdraw.mutate(
-                      { amount: reserveAmount, slippage: "0", address: userVault },
+                      { amount: reserveAmount, slippage: customSlippage, address: userVault },
                       { onSuccess: () => setIsWithdrawConfirmOpen(false) },
                     );
                 }}
