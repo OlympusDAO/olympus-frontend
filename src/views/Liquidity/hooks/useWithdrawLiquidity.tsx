@@ -18,10 +18,8 @@ export const useWithdrawLiquidity = () => {
       const amountToBigNumber = ethers.utils.parseUnits(amount);
 
       //amount minus slippage percentage. 0.5% slippage = 0.995
-      const amountLessCustomSlippage = amountToBigNumber
-        .mul(ethers.BigNumber.from(100).sub(ethers.BigNumber.from(slippage)))
-        .div(ethers.BigNumber.from(100));
-
+      const slippageToPercent = 1 - +slippage / 100;
+      const amountLessCustomSlippage = amountToBigNumber.mul(ethers.utils.parseUnits(slippageToPercent.toString()));
       const protocolOut = await vaultManagerContract.callStatic.getExpectedTokensOutProtocol(amountToBigNumber);
 
       //TODO: need new abi for vault
