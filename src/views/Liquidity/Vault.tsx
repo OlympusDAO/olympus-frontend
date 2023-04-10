@@ -209,7 +209,9 @@ export const Vault = () => {
           (swapAssetType.name as OHMSwapCardProps["token"])
         )
       }
-      tokenOnClick={!isWithdrawal ? () => setZapTokenModalOpen(true) : undefined}
+      tokenOnClick={
+        import.meta.env.VITE_BLE_ZAP_DISABLED ? undefined : !isWithdrawal ? () => setZapTokenModalOpen(true) : undefined
+      }
       tokenName={swapAssetType.name}
       value={pairAmount}
       info={`Balance: ${
@@ -364,7 +366,6 @@ export const Vault = () => {
               userVault={userVault}
               vaultDepositTokenAddressMap={{ [networks.MAINNET]: vault.pairTokenAddress }}
               vaultManagerAddress={vault.vaultAddress}
-              // zapFromTokenAddressMap={{ [networks.MAINNET]: swapAssetType.address }}
               pairAmount={pairAmount}
               minLpAmount={minLpAmount}
               setIsOpen={() => setIsDepositStepsModalOpen(false)}

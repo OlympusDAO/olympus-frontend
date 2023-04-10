@@ -14,7 +14,6 @@ export const useDepositLiqudiity = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = BLEVaultLido__factory.connect(address, signer);
       const amountToBigNumber = ethers.utils.parseUnits(amount);
-      console.log(amountToBigNumber, minLpAmount.toBigNumber(18));
       const depositTransaction = await contract.deposit(amountToBigNumber, minLpAmount.toBigNumber(18));
       const receipt = await depositTransaction.wait();
       return receipt;
