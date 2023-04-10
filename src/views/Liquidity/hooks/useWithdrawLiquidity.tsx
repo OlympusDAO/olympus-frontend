@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { BLEVaultLido__factory, BLEVaultManagerLido__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
@@ -10,23 +10,38 @@ export const useWithdrawLiquidity = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async ({ amount, slippage, address }: { amount: string; slippage: string; address: string }) => {
+    async ({
+      amount,
+      slippage,
+      userVault,
+      vaultAddress,
+      pairAmountToReceive,
+    }: {
+      amount: string;
+      slippage: string;
+      userVault: string;
+      vaultAddress: string;
+      pairAmountToReceive: string;
+    }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
-      const contract = BLEVaultLido__factory.connect(address, signer);
-      const vaultManagerContract = BLEVaultManagerLido__factory.connect(address, signer);
-
-      const amountToBigNumber = ethers.utils.parseUnits(amount);
-
+      const contract = BLEVaultLido__factory.connect(userVault, signer);
+      const vaultManagerContract = BLEVaultManagerLido__factory.connect(vaultAddress, signer);
+      const amountToBigNumber = new DecimalBigNumber(amount);
+      //pairAmount is calculated based on getExpectedPairTokenOutUser.
+      //This is displayed to the user prior to withdraw and slippage should be calculated on this value.
+      const pairAmount = new DecimalBigNumber(pairAmountToReceive);
       //amount minus slippage percentage. 0.5% slippage = 0.995
       const slippageToPercent = 1 - +slippage / 100;
-      const amountLessCustomSlippage = amountToBigNumber.mul(ethers.utils.parseUnits(slippageToPercent.toString()));
-      const protocolOut = await vaultManagerContract.callStatic.getExpectedTokensOutProtocol(amountToBigNumber);
+      const slippageBigNumber = new DecimalBigNumber(slippageToPercent.toString());
+      const pairAmountLessCustomSlippage = pairAmount.mul(slippageBigNumber);
+      const protocolOut = await vaultManagerContract.callStatic.getExpectedTokensOutProtocol(
+        amountToBigNumber.toBigNumber(18),
+      );
 
-      //TODO: need new abi for vault
       const withdrawTransaction = await contract.withdraw(
-        amountToBigNumber,
+        amountToBigNumber.toBigNumber(18),
         protocolOut,
-        amountLessCustomSlippage,
+        pairAmountLessCustomSlippage.toBigNumber(18),
         true,
       );
 

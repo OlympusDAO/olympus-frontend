@@ -418,8 +418,15 @@ export const Vault = () => {
                 loading={withdraw.isLoading}
                 onClick={() => {
                   userVault &&
+                    vault &&
                     withdraw.mutate(
-                      { amount: reserveAmount, slippage: customSlippage, address: userVault },
+                      {
+                        amount: reserveAmount,
+                        slippage: customSlippage,
+                        pairAmountToReceive: pairAmount,
+                        userVault,
+                        vaultAddress: vault.vaultAddress,
+                      },
                       { onSuccess: () => setIsWithdrawConfirmOpen(false) },
                     );
                 }}
