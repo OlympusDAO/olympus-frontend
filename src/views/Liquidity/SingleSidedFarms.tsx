@@ -30,8 +30,8 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {vaults?.map(vault => (
-            <TableRow key="temp2" sx={{ height: "71px" }}>
+          {vaults?.map((vault, index) => (
+            <TableRow key={index} sx={{ height: "71px" }}>
               <StyledTableCell component="th" scope="row">
                 <Box display="flex" alignItems="center" gap="10px">
                   <TokenStack
