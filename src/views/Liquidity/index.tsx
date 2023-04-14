@@ -29,7 +29,7 @@ export const Liquidity = () => {
                 Liquidity Vaults
               </Typography>
               <Typography align="center" color={theme.colors.gray[40]}>
-                Get double the rewards for the same liquidity. Olympus takes on the other side of your LP.{" "}
+                Single-asset deposits with double the rewards compared to traditional LP.{" "}
               </Typography>
               <Box mt="18px">
                 <Link component={RouterLink} to="/liquidity/vaults">

@@ -81,7 +81,7 @@ const content: VaultFaqContent = {
         "As more stETH utilizes the Boosted Vaults, the deeper the OHM-stETH becomes, and the lower the slippage is enabled between the pair. This deep liquidity encourages network effects of other protocols looking to incorporate stETH liquidity. It allows them to simply pair with OHM to access broader stETH liquidity via routing instead of attempting build native liquidity with stETH.",
     },
     {
-      title: "Boosted Liquidity Vaultsvaults allow you to get more rewards for the same liquidity",
+      title: "Further OHM elasticity",
       content:
         "When stETH depositors exit their LP position, in some cases there will be more OHM in the pool than the initial deposit, which results in a net reduction of OHM in circulating supply. In other cases, the benefit of liquidity proliferation and the accompanied revenue from trading fees should offset excess OHM in circulation.",
     },

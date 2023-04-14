@@ -47,9 +47,7 @@ export const Vaults = () => {
           <Box>
             <Typography variant="h1">Boosted Liquidity Vaults</Typography>
             <Box mb="18px" mt="9px">
-              <Typography>
-                Get double the rewards for the same liquidity as Olympus takes on the other side of your LP.
-              </Typography>
+              <Typography>Single-asset deposits with double the rewards compared to traditional LP.</Typography>
             </Box>
           </Box>
           <TextButton href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults" target="_blank">

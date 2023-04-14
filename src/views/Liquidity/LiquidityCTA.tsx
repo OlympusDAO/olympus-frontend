@@ -15,7 +15,7 @@ export const LiquidityCTA = () => {
         </Typography>
         <TertiaryButton
           fullWidth
-          href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#security-considerations"
+          href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults/#benefits-by-stakeholder"
         >
           Learn Why
         </TertiaryButton>
