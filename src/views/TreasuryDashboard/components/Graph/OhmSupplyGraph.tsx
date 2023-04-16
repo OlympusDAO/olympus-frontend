@@ -12,6 +12,7 @@ import {
   getBondDepositsSupply,
   getBondPremintedSupply,
   getBondVestingTokensSupply,
+  getBoostedLiquidityVaultSupply,
   getExternalSupply,
   getLendingSupply,
   getMigrationOffsetSupply,
@@ -76,6 +77,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     bondPreminted: number;
     external: number;
     lending: number;
+    boostedLiquidityVault: number;
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
@@ -105,6 +107,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         bondPreminted: getBondPremintedSupply(dateSupplyValues),
         external: getExternalSupply(dateSupplyValues),
         lending: getLendingSupply(dateSupplyValues),
+        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues),
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
@@ -128,6 +131,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     "lending",
     "bondVestingTokens",
     "protocolOwnedLiquidity",
+    "boostedLiquidityVault",
     "treasury",
     "migrationOffset",
     "bondPreminted",
@@ -142,6 +146,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     `Deployed to Lending Markets`,
     `OHM Bonds (Vesting)`,
     `Protocol-Owned Liquidity`,
+    `Boosted Liquidity Vault`,
     `Treasury`,
     `Migration Offset`,
     `OHM Bonds (Pre-minted)`,
