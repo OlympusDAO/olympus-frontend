@@ -81,6 +81,7 @@ export const WSOHM_ADDRESSES = {
 export const OHM_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0x0595328847AF962F951a4f8F8eE9A3Bf261e4f6b",
   [NetworkId.MAINNET]: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+  [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
 };
 
 export const V1_OHM_ADDRESSES = {
@@ -191,7 +192,17 @@ export const V1_STAKING_ADDRESSES = {
 
 export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.TESTNET_GOERLI]: "",
+  [NetworkId.ARBITRUM]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
+};
+
+/** for cross-chain */
+export const MINTER_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.ARBITRUM]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0x78f84998c73655ac2da0aa1e1270f6cb985a343e",
 };
 
 export interface IChainAttrs {
@@ -200,17 +211,44 @@ export interface IChainAttrs {
   name: string;
 }
 
-export const BRIDGE_CHAINS_LIST = [NetworkId.MAINNET, NetworkId.TESTNET_GOERLI];
-
 export const BRIDGE_CHAINS = {
   [NetworkId.MAINNET]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
     name: "Ethereum",
   },
+  [NetworkId.ARBITRUM]: {
+    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
+    iconBackground: "",
+    name: "Arbitrum",
+  },
   [NetworkId.TESTNET_GOERLI]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
-    name: "Goerli",
+    name: "Ethereum",
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
+    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
+    iconBackground: "",
+    name: "Arbitrum Goerli",
+  },
+};
+
+export const BRIDGEABLE_CHAINS = {
+  // [NetworkId.MAINNET]: {
+  //   defaultRecChain: NetworkId.ARBITRUM,
+  //   availableChains: [NetworkId.ARBITRUM],
+  // },
+  // [NetworkId.ARBITRUM]: {
+  //   defaultRecChain: NetworkId.MAINNET,
+  //   availableChains: [NetworkId.MAINNET],
+  // },
+  [NetworkId.TESTNET_GOERLI]: {
+    defaultRecChain: NetworkId.ARBITRUM_GOERLI,
+    availableChains: [NetworkId.ARBITRUM_GOERLI],
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
+    defaultRecChain: NetworkId.TESTNET_GOERLI,
+    availableChains: [NetworkId.TESTNET_GOERLI],
   },
 };

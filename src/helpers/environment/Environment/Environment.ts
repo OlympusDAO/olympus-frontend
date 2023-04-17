@@ -79,6 +79,11 @@ export class Environment {
           key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
           fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
         });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_NODE_URL`,
+          fallback: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
+        });
       case NetworkId.AVALANCHE:
         return this._get({
           key: `VITE_AVALANCHE_NODE_URL`,

@@ -76,6 +76,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
       rpcUrls: { default: "https://rpc.ankr.com/fantom" },
     },
     { ...chain.goerli, rpcUrls: { default: "https://rpc.ankr.com/eth_goerli" } },
+    { ...chain.arbitrumGoerli, rpcUrls: { default: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public" } },
   ],
   [
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),

@@ -4,6 +4,7 @@ export enum NetworkId {
 
   ARBITRUM = 42161,
   ARBITRUM_TESTNET = 421611,
+  ARBITRUM_GOERLI = 421613,
 
   AVALANCHE = 43114,
   AVALANCHE_TESTNET = 43113,
@@ -74,6 +75,17 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     range: false,
   },
   [NetworkId.ARBITRUM_TESTNET]: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+    bondsV2: false,
+    range: false,
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
     dashboard: true,
     stake: false,
     wrap: true,

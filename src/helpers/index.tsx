@@ -120,6 +120,7 @@ export const formatNumber = (number: number, precision = 0) => {
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
     NetworkId.ARBITRUM_TESTNET,
+    NetworkId.ARBITRUM_GOERLI,
     NetworkId.AVALANCHE_TESTNET,
     NetworkId.FANTOM_TESTNET,
     NetworkId.POLYGON_TESTNET,
