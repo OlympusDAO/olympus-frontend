@@ -76,8 +76,9 @@ export const ConfirmationModal = ({
             <Typography fontWeight="500">I Understand</Typography>
           </Box>
           <Typography fontSize="12px" lineHeight="15px" mb="18px">
-            By depositing {vaultDepositTokenName} into an AMO pools, you are not guaranteed to get back the exact same
-            amount of deposit tokens at time of withdraw and your position will be exposed to impermanent loss.
+            By depositing {vaultDepositTokenName}, you are not guaranteed to get back the exact same amount of deposit
+            tokens at time of withdraw and your position will be exposed to impermanent loss. In addition, there is a 24
+            hour withdraw lock at time of deposit.
           </Typography>
         </div>
         {confirmButton}

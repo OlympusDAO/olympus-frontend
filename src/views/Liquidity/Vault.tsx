@@ -314,9 +314,9 @@ export const Vault = () => {
                 {!isWithdrawal && (
                   <InfoNotification dismissible>
                     <Typography>
-                      By depositing {vault.pairTokenName} into an AMO pools, you are not guaranteed to get back the
-                      exact same amount of deposit tokens at time of withdraw and your position will be exposed to
-                      impermanent loss.
+                      By depositing {vault.pairTokenName}, you are not guaranteed to get back the exact same amount of
+                      deposit tokens at time of withdraw and your position will be exposed to impermanent loss. In
+                      addition, there is a 24 hour withdraw lock at time of deposit.
                     </Typography>
                   </InfoNotification>
                 )}
