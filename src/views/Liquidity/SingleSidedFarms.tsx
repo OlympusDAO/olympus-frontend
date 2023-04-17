@@ -43,10 +43,17 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                 </Box>
               </StyledTableCell>
               <StyledTableCell>
-                <Typography>{formatNumber(Number(vault.limit))} OHM</Typography>
-                <Box mt="3px" width="80%">
-                  <LinearProgress variant="determinate" value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100} />
-                </Box>
+                <Tooltip message={`${formatNumber(+vault.ohmMinted, 2)} OHM Minted`}>
+                  <Box>
+                    <Typography>{formatNumber(Number(vault.limit))} OHM</Typography>
+                    <Box mt="3px" width="100%">
+                      <LinearProgress
+                        variant="determinate"
+                        value={(Number(vault.ohmMinted) / Number(vault.limit)) * 100}
+                      />
+                    </Box>
+                  </Box>
+                </Tooltip>
               </StyledTableCell>
               <StyledTableCell>{formatCurrency(Number(vault.tvlUsd))}</StyledTableCell>
               <StyledTableCell>

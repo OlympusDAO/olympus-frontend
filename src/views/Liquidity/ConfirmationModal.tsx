@@ -77,8 +77,12 @@ export const ConfirmationModal = ({
           </Box>
           <Typography fontSize="12px" lineHeight="15px" mb="18px">
             By depositing {vaultDepositTokenName}, you are not guaranteed to get back the exact same amount of deposit
-            tokens at time of withdraw and your position will be exposed to impermanent loss. In addition, there is a 24
-            hour withdraw lock at time of deposit.
+            tokens at time of withdraw. In addition, there is a 24 hour withdraw period from time of last deposit. Learn
+            more{" "}
+            <a href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1" target="_blank">
+              here
+            </a>
+            .
           </Typography>
         </div>
         {confirmButton}
