@@ -11,9 +11,10 @@ import { useBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZeroExSwap } from "src/hooks/useZeroExSwap";
-import { ZeroEx__factory } from "src/typechain";
-import { TransformedERC20EventObject } from "src/typechain/ZeroEx";
+import { IERC20__factory } from "src/typechain";
+import { TransferEventObject } from "src/typechain/IERC20";
 import { ModalHandleSelectProps } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
+import { useAccount } from "wagmi";
 
 interface ZapSteps {
   zapIntoAddress: string;
@@ -36,6 +37,7 @@ export const ZapSteps = ({
   const networks = useTestableNetworks();
   const zeroExSwap = useZeroExSwap();
   const theme = useTheme();
+  const { address } = useAccount();
 
   const { data: zapBalance = new DecimalBigNumber("0") } = useBalance({
     [networks.MAINNET]: zapIntoAddress,
@@ -84,20 +86,24 @@ export const ZapSteps = ({
 
   //** Finds the amount that came from the deposit transaction, and sets it in state */
   const parseDepositReceipt = (data: ContractReceipt) => {
-    //Find the TransformedERC20 event, since it includes the amount received.
-    const parsed = data.logs.find(log =>
-      log.topics.includes("0x0f6672f78a59ba8e5e5b5d38df3ebc67f3c792e2c9259b8d97d7f00dd78ba1b3"),
+    //Find the Transfer events, then filter by transfer to the depositor address
+    const transferEvents = data.logs.filter(log =>
+      log.topics.includes("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"),
     );
-    const iface = new ethers.utils.Interface(ZeroEx__factory.abi);
-    if (parsed) {
-      const decoded = iface.decodeEventLog(
-        "TransformedERC20",
-        parsed.data,
-        parsed.topics,
-      ) as unknown as TransformedERC20EventObject;
-      //set to step 5. set the amount to the amount received from the swap.
-      setDepositAmountFromZap(formatUnits(decoded.outputTokenAmount, 18));
-      setCurrentStep(5);
+    const iface = new ethers.utils.Interface(IERC20__factory.abi);
+    if (transferEvents) {
+      const decodedEvents = transferEvents.map(transfer => {
+        return iface.decodeEventLog("Transfer", transfer.data, transfer.topics) as unknown as TransferEventObject;
+      });
+
+      //find the amount that was sent back to the depositor
+      const transferIn = decodedEvents.find(event => event.to === address);
+
+      if (transferIn) {
+        //set to step 5. set the amount to the amount received from the swap.
+        setDepositAmountFromZap(formatUnits(transferIn.value, 18));
+        setCurrentStep(5);
+      }
     }
   };
 
