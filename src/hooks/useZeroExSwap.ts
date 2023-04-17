@@ -55,7 +55,7 @@ export const useZeroExSwap = () => {
       if (!signer) throw new Error(`Signer is not set`);
 
       if (!address) throw new Error(`Account is not set`);
-      const swapData = await fetchSwapData(sellAmount, tokenAddress, +slippage / 100, buyAddress);
+      const swapData = await fetchSwapData(sellAmount, tokenAddress, +slippage / 100, buyAddress, true, address);
 
       console.debug("Commencing Zap");
 
@@ -144,14 +144,19 @@ export const fetchSwapData = async (
   slippageDecimal: number,
   buyAddress: string,
   isSell = true,
+  userAddress?: `0x${string}` | undefined,
 ): Promise<ZapTransactionResponse> => {
   tokenAddress = tokenAddress.toLowerCase();
   const sellToken = tokenAddress === "0x0000000000000000000000000000000000000000" ? "ETH" : tokenAddress;
+  //This is important to get an accurate gas price at time of transaction.
+  //https://docs.0x.org/~/changes/PCjEyAi54cQNhYQqyeuy/developer-resources/faqs-and-troubleshooting#how-does-takeraddress-help-with-catching-issues
+  //If we pass this takerAddress prior to approvals, the quote will return an error. Only pass it when about to swap
+  const takerAddress = userAddress ? `&takerAddress=${userAddress}` : "";
   //TODO: swap for mainnet
   const response = await fetch(
     `https://api.0x.org/swap/v1/quote?sellToken=${sellToken}&buyToken=${buyAddress}&${
       isSell ? `sellAmount` : `buyAmount`
-    }=${amount}&slippagePercentage=${slippageDecimal}&enableSlippageProtection=true&affiliateAddress=${
+    }=${amount}&slippagePercentage=${slippageDecimal}&enableSlippageProtection=true${takerAddress}&affiliateAddress=${
       DAO_TREASURY_ADDRESSES[NetworkId.MAINNET]
     }`,
   );
