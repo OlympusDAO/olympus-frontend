@@ -7,6 +7,7 @@ import {
   TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
   TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
   TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS,
+  TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
   TOKEN_SUPPLY_TYPE_LENDING,
   TOKEN_SUPPLY_TYPE_LIQUIDITY,
   TOKEN_SUPPLY_TYPE_OFFSET,
@@ -96,6 +97,10 @@ export const getBondPremintedSupply = (records: TokenSupply[]): number => {
   return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
 };
 
+export const getBoostedLiquidityVaultSupply = (records: TokenSupply[]): number => {
+  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT]);
+};
+
 export const getExternalSupply = (records: TokenSupply[]): number => {
   return (
     getOhmTotalSupply(records) -
@@ -105,7 +110,8 @@ export const getExternalSupply = (records: TokenSupply[]): number => {
     getBondDepositsSupply(records) -
     getBondVestingTokensSupply(records) -
     getBondPremintedSupply(records) -
-    getLendingSupply(records)
+    getLendingSupply(records) -
+    getBoostedLiquidityVaultSupply(records)
   );
 };
 
@@ -131,6 +137,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
   ];
 
   return records
@@ -161,6 +168,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
   ];
 
@@ -192,6 +200,7 @@ export const getOhmBackedSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
+    TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
     TOKEN_SUPPLY_TYPE_LENDING,
   ];

@@ -7,6 +7,7 @@ export const TOKEN_SUPPLY_TYPE_BONDS_PREMINTED = "OHM Bonds (Pre-minted)";
 export const TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS = "OHM Bonds (Vesting Deposits)";
 export const TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS = "OHM Bonds (Vesting Tokens)";
 export const TOKEN_SUPPLY_TYPE_LIQUIDITY = "Liquidity";
+export const TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT = "Boosted Liquidity Vault";
 export const TOKEN_SUPPLY_TYPE_OFFSET = "Manual Offset";
 export const TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY = "Total Supply";
 export const TOKEN_SUPPLY_TYPE_TREASURY = "Treasury";
