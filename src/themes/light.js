@@ -79,6 +79,20 @@ export const light = createTheme(
             },
           },
         },
+        MuiLinearProgress: {
+          styleOverrides: {
+            root: {
+              height: 9,
+              borderRadius: 4,
+            },
+            colorPrimary: {
+              backgroundColor: colors.gray[500],
+            },
+            barColorPrimary: {
+              backgroundColor: colors.primary[300],
+            },
+          },
+        },
         MuiPaper: {
           styleOverrides: {
             root: {
