@@ -9,7 +9,7 @@ import { getCoingeckoPrice } from "src/helpers/pricing/getCoingeckoPrice";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
-import { BLEVaultManagerLido__factory } from "src/typechain";
+import { BalancerV2Pool__factory, BLEVaultManagerLido__factory } from "src/typechain";
 import { IERC20__factory } from "src/typechain";
 import { useAccount } from "wagmi";
 
@@ -75,6 +75,9 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const fee = formatUnits((await contract.currentFee()).mul(100).mul(10000));
   const pricePerDepositToken = await contract.callStatic.getExpectedLpAmount("1000000000000000000"); //price per deposit token
 
+  const balancerPoolAddress = await contract.balancerData();
+  const balancerContract = BalancerV2Pool__factory.connect(balancerPoolAddress.liquidityPool, provider);
+
   const lpTokenBalance = formatUnits(await contract.getLpBalance(walletAddress).catch(() => BigNumber.from("0")), 18);
   const canWithdraw = await contract.canWithdraw(walletAddress).catch(() => false);
 
@@ -83,6 +86,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const ohmMinted = formatUnits((await contract.getOhmSupplyChangeData()).mintedOhm, 9);
 
   const totalLp = await contract.totalLp();
+  const totalBalancerLp = await balancerContract.totalSupply();
 
   const rewardTokens = (await contract.getRewardTokens()).filter(token => token !== ethers.constants.AddressZero); //temp filter to remove the current vault
 
@@ -90,6 +94,12 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
 
   const { tvlUsd, price, ohmPricePerDepositToken } = await getVaultPriceData({
     totalLp,
+    pairTokenAddress,
+    pricePerDepositToken,
+  });
+
+  const { tvlUsd: balancerTvl } = await getVaultPriceData({
+    totalLp: totalBalancerLp,
     pairTokenAddress,
     pricePerDepositToken,
   });
@@ -106,7 +116,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
       const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
       const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
       const apy = rewardPerYearUsd
-        .div(new DecimalBigNumber(+tvlUsd > 0 ? tvlUsd : "1"))
+        .div(new DecimalBigNumber(+balancerTvl > 0 ? balancerTvl : "1"))
         .mul(new DecimalBigNumber("100"))
         .toString();
       const balance =
