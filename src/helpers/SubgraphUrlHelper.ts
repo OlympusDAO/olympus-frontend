@@ -3,7 +3,7 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 const STUB_API_KEY = "[api-key]";
 
 const SUBGRAPH_URL_ETHEREUM =
-  "https://gateway.thegraph.com/api/[api-key]/subgraphs/id/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY";
+  "https://gateway.thegraph.com/api/[api-key]/deployments/id/QmYMDVYuLWwpH3nsW72orjWBom3LBAbipdTFAygEshRqmU";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-arbitrum";
 const SUBGRAPH_URL_FANTOM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-fantom";
 const SUBGRAPH_URL_POLYGON = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-polygon";
