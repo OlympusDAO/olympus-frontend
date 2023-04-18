@@ -18,6 +18,7 @@ interface ZapTransactionResponse {
   gasPrice: string;
   value: string;
   sellAmount: string;
+  gas: string;
 }
 
 interface IUADataZap {
@@ -67,6 +68,7 @@ export const useZeroExSwap = () => {
         data: swapData.data,
         value: swapData.value,
         gasPrice: swapData.gasPrice,
+        gas: swapData.gas,
       };
 
       const transaction = await signer.sendTransaction(payload);
