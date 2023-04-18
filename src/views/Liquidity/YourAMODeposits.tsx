@@ -63,7 +63,7 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
             balance={
               <Box>
                 {vault.rewards
-                  .filter(reward => +reward.apy > 0)
+                  .filter(reward => +reward.userRewards > 0)
                   .map(reward => {
                     return (
                       <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
@@ -144,7 +144,7 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
                     </StyledTableCell>
                     <StyledTableCell>
                       {vault.rewards
-                        .filter(reward => +reward.apy > 0)
+                        .filter(reward => +reward.userRewards > 0)
                         .map(reward => {
                           return (
                             <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
