@@ -314,9 +314,16 @@ export const Vault = () => {
                 {!isWithdrawal && (
                   <InfoNotification dismissible>
                     <Typography>
-                      By depositing {vault.pairTokenName} into an AMO pools, you are not guaranteed to get back the
-                      exact same amount of deposit tokens at time of withdraw and your position will be exposed to
-                      impermanent loss.
+                      By depositing {vault.pairTokenName}, you are not guaranteed to get back the exact same amount of
+                      deposit tokens at time of withdraw. In addition, there is a 24 hour withdraw period from time of
+                      last deposit. Learn more{" "}
+                      <Link
+                        href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1"
+                        target="_blank"
+                      >
+                        here
+                      </Link>
+                      .
                     </Typography>
                   </InfoNotification>
                 )}
@@ -337,7 +344,10 @@ export const Vault = () => {
                   balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
                 />
                 <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
-                <DataRow title="Max You Can Deposit" balance={formatNumber(Number(vault.depositLimit), 2) || "0"} />
+                <DataRow
+                  title={`Max You Can Deposit ${vault.pairTokenName}-OHM LP)`}
+                  balance={formatNumber(Number(vault.depositLimit), 2) || "0"}
+                />
               </Box>
             </Box>
           </Box>
