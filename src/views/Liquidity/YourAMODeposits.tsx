@@ -62,14 +62,16 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
             title={"Accrued Rewards"}
             balance={
               <Box>
-                {vault.rewards.map(reward => {
-                  return (
-                    <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                      <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                      {formatNumber(Number(reward.userRewards), 2)} {reward.tokenName}
-                    </Box>
-                  );
-                })}
+                {vault.rewards
+                  .filter(reward => +reward.apy > 0)
+                  .map(reward => {
+                    return (
+                      <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                        <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
+                        {formatNumber(Number(reward.userRewards), 2)} {reward.tokenName}
+                      </Box>
+                    );
+                  })}
               </Box>
             }
           />
@@ -141,14 +143,16 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
                       {formatNumber(Number(vault.lpTokenBalance), 2)} {vault.pairTokenName}-OHM
                     </StyledTableCell>
                     <StyledTableCell>
-                      {vault.rewards.map(reward => {
-                        return (
-                          <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                            <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                            {formatNumber(Number(reward.userRewards), 2)} {reward.tokenName}
-                          </Box>
-                        );
-                      })}
+                      {vault.rewards
+                        .filter(reward => +reward.apy > 0)
+                        .map(reward => {
+                          return (
+                            <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                              <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
+                              {formatNumber(Number(reward.userRewards), 2)} {reward.tokenName}
+                            </Box>
+                          );
+                        })}
                     </StyledTableCell>
                     <StyledTableCell>
                       <Box display="flex" gap="9px">

@@ -27,6 +27,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
 import { useGetExpectedPairTokenAmount } from "src/views/Liquidity/hooks/useGetExpectedPairTokenAmount";
+import { useGetLastDeposit } from "src/views/Liquidity/hooks/useGetLastDeposit";
 import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
@@ -50,6 +51,12 @@ export const Vault = () => {
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const { data: userVault } = useGetUserVault({ address: id });
   const getExpectedPairTokenAmount = useGetExpectedPairTokenAmount();
+  const { data: lastDeposit } = useGetLastDeposit({ userVaultAddress: userVault });
+
+  const date =
+    (lastDeposit &&
+      `${new Date(+lastDeposit * 1000).toLocaleDateString()} ${new Date(+lastDeposit * 1000).toLocaleTimeString()}`) ||
+    undefined;
 
   const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -296,7 +303,7 @@ export const Vault = () => {
               isWithdrawal ? setSearchParams(undefined) : setSearchParams({ withdraw: "true" });
             }}
           />
-          {noAllowance && (
+          {noAllowance && !isWithdrawal && (
             <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
               <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
                 <Box mt="12px">
@@ -315,12 +322,10 @@ export const Vault = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <Box mt="12px">
-                {!isWithdrawal && (
+                {isWithdrawal && !vault.canWithdraw && (
                   <InfoNotification dismissible>
                     <Typography>
-                      By depositing {vault.pairTokenName}, you are not guaranteed to get back the exact same amount of
-                      deposit tokens at time of withdraw. In addition, there is a 24 hour withdraw period from time of
-                      last deposit. Learn more{" "}
+                      There is a 24 hour withdraw period from time of last deposit {date}. Learn more{" "}
                       <Link
                         href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1"
                         target="_blank"

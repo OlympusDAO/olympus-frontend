@@ -61,14 +61,16 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
               <Tooltip
                 message={
                   <>
-                    {vault.rewards.map(reward => {
-                      return (
-                        <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                          <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                          {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
-                        </Box>
-                      );
-                    })}
+                    {vault.rewards
+                      .filter(reward => +reward.apy > 0)
+                      .map(reward => {
+                        return (
+                          <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                            <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
+                            {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
+                          </Box>
+                        );
+                      })}
                   </>
                 }
               >
@@ -138,14 +140,16 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                   <Tooltip
                     message={
                       <>
-                        {vault.rewards.map(reward => {
-                          return (
-                            <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                              <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                              {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
-                            </Box>
-                          );
-                        })}
+                        {vault.rewards
+                          .filter(reward => +reward.apy > 0)
+                          .map(reward => {
+                            return (
+                              <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                                <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
+                                {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
+                              </Box>
+                            );
+                          })}
                       </>
                     }
                   >
