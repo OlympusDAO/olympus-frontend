@@ -6,6 +6,7 @@ import {
   BOND_FIXED_TERM_TELLER_ADDRESSES,
   DEV_FAUCET,
   DISTRIBUTOR_ADDRESSES,
+  LIQUIDITY_REGISTRY_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
@@ -22,6 +23,7 @@ import {
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
   CrossChainMigrator__factory,
+  OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   Range__factory,
@@ -122,4 +124,10 @@ export const DISTRIBUTOR_CONTRACT = new Contract({
   factory: OlympusDistributor__factory,
   name: "Distributor Contract",
   addresses: DISTRIBUTOR_ADDRESSES,
+});
+
+export const LIQUDITY_REGISTRY_CONTRACT = new Contract({
+  factory: OlympusLiquidityRegistry__factory,
+  name: "Liquidity Registry Contract",
+  addresses: LIQUIDITY_REGISTRY_ADDRESSES,
 });

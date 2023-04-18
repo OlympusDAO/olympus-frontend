@@ -90,8 +90,8 @@ const SlippageModal: FC<SlippageModal> = ({ handleClose, modalOpen, currentSlipp
         </FormControl>
 
         <Box display="flex" flexDirection="row" justifyContent="space-between">
-          {presetSlippageOptions.map(slippage => (
-            <SecondaryButton onClick={() => handleChangeProposedSlippage(slippage)}>
+          {presetSlippageOptions.map((slippage, index) => (
+            <SecondaryButton onClick={() => handleChangeProposedSlippage(slippage)} key={index}>
               <Typography>{`${slippage}%`}</Typography>
             </SecondaryButton>
           ))}
