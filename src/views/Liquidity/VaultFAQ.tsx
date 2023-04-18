@@ -1,16 +1,18 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 
 export const VaultFAQ = () => {
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Paper enableBackground fullWidth>
       <Tabs
         TabIndicatorProps={{ style: { display: "none" } }}
         value={activeTab}
         onChange={(_, view: number) => setActiveTab(view)}
+        variant="scrollable"
       >
         <Tab label="Liquidity Without Compromise" />
         <Tab label="Hedge stETH volatility" />
@@ -19,7 +21,7 @@ export const VaultFAQ = () => {
       </Tabs>
       <Box display="flex" flexWrap="wrap" mt="21px" gap="66px">
         {content[activeTab].map((item, index) => (
-          <Box width="45%" key={index}>
+          <Box width={mobile ? "70%" : "45%"} key={index}>
             <Typography fontWeight={500} fontSize="15px" lineHeight="24px">
               {item.title}
             </Typography>

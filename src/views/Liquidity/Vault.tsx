@@ -1,5 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Avatar, Box, CircularProgress, Link, Typography } from "@mui/material";
+import { Avatar, Box, CircularProgress, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
 import {
   DataRow,
   Icon,
@@ -72,6 +72,8 @@ export const Vault = () => {
     vault?.pairTokenName !== undefined;
   const [searchParams, setSearchParams] = useSearchParams();
   const isWithdrawal = searchParams.get("withdraw") ? true : false;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     if (vault) {
       setSwapAssetType({ name: vault?.pairTokenName });
@@ -258,30 +260,32 @@ export const Vault = () => {
   return (
     <>
       <Box width="100%">
-        <PageTitle
-          name={
-            <Box display="flex" flexDirection="row" alignItems="center">
-              <Link component={RouterLink} to="/liquidity/vaults">
-                <Box display="flex" flexDirection="row">
-                  <ArrowBack />
-                  <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
-                    Back
+        <Box mt={mobile ? "50px" : "0px"}>
+          <PageTitle
+            name={
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <Link component={RouterLink} to="/liquidity/vaults">
+                  <Box display="flex" flexDirection="row">
+                    <ArrowBack />
+                    <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                      Back
+                    </Typography>
+                  </Box>
+                </Link>
+
+                <TokenStack
+                  tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
+                  sx={{ fontSize: "27px" }}
+                />
+                <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+                  <Typography variant="h4" fontWeight={500}>
+                    {vault?.pairTokenName}-OHM LP
                   </Typography>
                 </Box>
-              </Link>
-
-              <TokenStack
-                tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
-                sx={{ fontSize: "27px" }}
-              />
-              <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-                <Typography variant="h4" fontWeight={500}>
-                  {vault?.pairTokenName}-OHM LP
-                </Typography>
               </Box>
-            </Box>
-          }
-        ></PageTitle>
+            }
+          />
+        </Box>
       </Box>
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
