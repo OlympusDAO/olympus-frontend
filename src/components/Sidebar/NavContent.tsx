@@ -49,9 +49,9 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
+              <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
               {chain.id === networks.MAINNET && (
                 <>
-                  <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
                   <Box className="menu-divider">
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>

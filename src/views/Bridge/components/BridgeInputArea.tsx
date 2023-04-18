@@ -2,24 +2,22 @@ import { useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { Icon, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, IChainAttrs, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance } from "src/hooks/useBalance";
 import { useBridgeOhm } from "src/hooks/useBridging";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
-import { useBridgeableChains } from "src/views/Bridge/helpers";
+import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 
 export const BridgeInputArea = () => {
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
   const bridgeMutation = useBridgeOhm();
-  const networks = useTestableNetworks();
-  console.log("chainDefaults", chainDefaults, isInvalid);
-  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
+  const network = useBridgeableTestableNetwork();
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
   const [amount, setAmount] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recChainOpen, setRecChainOpen] = useState(false);
@@ -28,6 +26,11 @@ export const BridgeInputArea = () => {
     if (!ohmBalance) return;
     setAmount(ohmBalance.toString());
   };
+
+  useEffect(() => {
+    if (bridgeMutation.isSuccess) setConfirmOpen(false);
+  }, [bridgeMutation.isSuccess]);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -74,84 +77,12 @@ export const BridgeInputArea = () => {
                   </>
                 }
               >
-                {/* {showDisclaimer && (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={event => setChecked(event.target.checked)}
-                      icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-                      checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-                    />
-                  }
-                  label={
-                    isInverseBond
-                      ? `I understand that I'm buying a negative premium bond`
-                      : `I understand that I'm buying a negative discount bond`
-                  }
-                />
-              )} */}
-                <PrimaryButton
-                  fullWidth
-                  // disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
-                  onClick={() => setConfirmOpen(true)}
-                >
-                  {/* {purchaseBondMutation.isLoading ? "Bonding..." : "Bond"} */}
-                  Bridge
+                <PrimaryButton fullWidth disabled={bridgeMutation.isLoading} onClick={() => setConfirmOpen(true)}>
+                  {bridgeMutation.isLoading ? "Bridging..." : "Bridge"}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>
           )}
-
-          {/* <Box mt="24px">
-            <DataRow
-              title={`You Will Get`}
-              balance={
-                <span>
-                  {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
-                  {isInverseBond ? props.bond.baseToken.name : `OHM`}{" "}
-                  {!isInverseBond && !!currentIndex && (
-                    <span>
-                      (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
-                    </span>
-                  )}
-                </span>
-              }
-              tooltip={`The total amount of payout asset you will recieve from this bond purchase. (OHM quantity will be higher due to rebasing)`}
-            />
-
-            <DataRow
-              title={isInverseBond ? `Max You Can Sell` : `Max You Can Buy`}
-              tooltip={`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
-              balance={
-                <span>
-                  {isInverseBond
-                    ? `${quoteTokenString} (≈${baseTokenString})`
-                    : props.bond.baseToken === props.bond.quoteToken
-                    ? `${baseTokenString}`
-                    : `${baseTokenString} (≈${quoteTokenString})`}
-                </span>
-              }
-            />
-
-            <DataRow
-              title={isInverseBond ? `Premium` : `Discount`}
-              balance={<BondDiscount discount={props.bond.discount} textOnly />}
-              tooltip={`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
-                isInverseBond ? props.bond.baseToken.name : `OHM`
-              }'s market value and the bond's price.`}
-            />
-
-            <DataRow
-              title={`Vesting Term`}
-              balance={<BondDuration duration={props.bond.duration} />}
-              tooltip={`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-            />
-
-            {props.recipientAddress !== address && (
-              <DataRow title={`Recipient`} balance={shorten(props.recipientAddress)} />
-            )}
-          </Box> */}
         </Box>
       </Box>
       <BridgeConfirmModal

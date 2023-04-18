@@ -16,7 +16,10 @@ export const ChainPickerModal = ({
   handleConfirmClose: () => void;
 }) => {
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
+  console.log("chainDefaults", chainDefaults);
   const chainIds = chainDefaults?.availableChains || [1];
+  console.log("chainIds", chainIds);
+
   const theme = useTheme();
   const handleSelection = (e: React.MouseEvent, chainId: NetworkId) => {
     e.preventDefault();

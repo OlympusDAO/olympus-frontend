@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ContractReceipt, ethers } from "ethers";
+import { ContractReceipt } from "ethers";
 import toast from "react-hot-toast";
 import { CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { CROSS_CHAIN_BRIDGE_CONTRACT } from "src/constants/contracts";
@@ -7,6 +7,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
+import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const historyQueryKey = (address: string | `0x${string}`, chainId?: number) => [
@@ -41,6 +42,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
   const { address = "" } = useAccount();
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const networks = useTestableNetworks();
+  console.log("chsoen chain", chain.id, destinationChainId);
 
   return useQuery<IBridgeFee, Error>(
     ["estimateSendFee", destinationChainId, amount],
@@ -54,14 +56,11 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
       if (Number(amount) === 0) throw new Error("You cannot bridge 0 OHM");
       const decimalAmount = new DecimalBigNumber(amount, 9);
       console.log("decimalAmount", decimalAmount);
-      const adapterParams = ethers.utils.formatBytes32String("");
-
+      const layerZeroChainId = layerZeroChainIdsFromEVM({ evmChainId: destinationChainId });
       const fee = await bridgeContract.estimateSendFee(
-        // destinationChainId,
-        String(10143),
+        String(layerZeroChainId),
         recipientAddress,
         decimalAmount.toBigNumber(),
-        // adapterParams,
         "0x",
       );
 
@@ -82,10 +81,10 @@ export const useBridgeOhm = () => {
 
   const { address = "" } = useAccount();
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
-  const networks = useTestableNetworks();
-  const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(networks.MAINNET);
   const { data: signer } = useSigner();
-  const ohmBalance = useOhmBalance()[networks.MAINNET].data;
+  const network = useBridgeableTestableNetwork();
+  const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(network);
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
 
   return useMutation<ContractReceipt, EthersError, IBridgeOhm>(
     async ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
@@ -97,10 +96,12 @@ export const useBridgeOhm = () => {
       if (!ohmBalance) throw new Error("Something went wrong. Please refresh your screen & try again.");
       const decimalAmount = new DecimalBigNumber(amount, 9);
       if (ohmBalance.lt(decimalAmount))
-        throw new Error(`You cannot bridge more than your OHM balance on this ${chain.name}`);
+        throw new Error(`You cannot bridge more than your OHM balance on ${chain.name}`);
       if (!signer) throw new Error("No signer");
+
+      const layerZeroChainId = layerZeroChainIdsFromEVM({ evmChainId: destinationChainId });
       const fee = await bridgeContract.estimateSendFee(
-        String(10143),
+        String(layerZeroChainId),
         recipientAddress,
         decimalAmount.toBigNumber(),
         "0x",
@@ -108,15 +109,14 @@ export const useBridgeOhm = () => {
       console.log("fee", fee);
       const transaction = await bridgeContract
         .connect(signer)
-        .sendOhm(String(10143), recipientAddress, decimalAmount.toBigNumber(), { value: fee.nativeFee });
-      // .sendOhm(String(destinationChainId), recipientAddress, amount);
+        .sendOhm(String(layerZeroChainId), recipientAddress, decimalAmount.toBigNumber(), { value: fee.nativeFee });
 
       return transaction.wait();
     },
     {
       onError: (error: any) => toast.error("error" in error ? error.error.message : error.message),
       onSuccess: async () => {
-        toast.success("Successfully approved");
+        toast.success("Successfully bridged");
         await client.refetchQueries([balanceQueryKey(address, OHM_ADDRESSES, chain.id)]);
       },
     },

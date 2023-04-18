@@ -81,6 +81,7 @@ export const WSOHM_ADDRESSES = {
 export const OHM_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0x0595328847AF962F951a4f8F8eE9A3Bf261e4f6b",
   [NetworkId.MAINNET]: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+  [NetworkId.ARBITRUM]: "",
   [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
 };
 
@@ -225,7 +226,7 @@ export const BRIDGE_CHAINS = {
   [NetworkId.TESTNET_GOERLI]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
-    name: "Ethereum",
+    name: "Goerli",
   },
   [NetworkId.ARBITRUM_GOERLI]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
