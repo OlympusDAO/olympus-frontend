@@ -17,27 +17,26 @@ export const Vaults = () => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div id="stake-view">
-      <Box mt={mobile ? "50px" : "0px"}>
-        <PageTitle
-          name={
-            <Box display="flex" flexDirection="row" alignItems="center">
-              <Link component={RouterLink} to="/liquidity">
-                <Box display="flex" flexDirection="row">
-                  <ArrowBack />
-                  <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
-                    Back
-                  </Typography>
-                </Box>
-              </Link>
-              <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-                <Typography fontSize="32px" fontWeight={500}>
-                  Boosted Liquidity
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center" mt={mobile ? "50px" : "0px"}>
+            <Link component={RouterLink} to="/liquidity">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                  Back
                 </Typography>
               </Box>
+            </Link>
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography fontSize="32px" fontWeight={500}>
+                Boosted Liquidity
+              </Typography>
             </Box>
-          }
-        />
-      </Box>
+          </Box>
+        }
+      />
+
       <Box width="97%" maxWidth="974px">
         <Box mb="66px" display="flex" justifyContent="center">
           <Box maxWidth="200px">
