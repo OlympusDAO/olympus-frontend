@@ -105,8 +105,10 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   });
 
   let apySum = 0;
-  let rewards: { tokenName: string; apy?: string; userRewards: string }[];
+  let rewards: { tokenName: string; apy: string; userRewards: string }[];
   let apyBreakdown = { baseApy: 0, rewardApy: 0 };
+
+  //Need to do this because contract method does not account for stETH rewards.
   if (address.toLowerCase() === "0xafe729d57d2CC58978C2e01b4EC39C47FB7C4b23".toLowerCase()) {
     //OHM-WSTETH Defillama
     const apyData = await axios
@@ -126,7 +128,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
           outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
 
         const userRewards = formatUnits(balance, decimals);
-        return { tokenName, userRewards };
+        return { tokenName, apy: "0", userRewards };
       }),
     );
     apyBreakdown = { baseApy: apyBase, rewardApy: apyReward * 2 };
