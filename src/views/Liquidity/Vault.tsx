@@ -1,5 +1,5 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Avatar, Box, CircularProgress, Link, Typography } from "@mui/material";
+import { Avatar, Box, CircularProgress, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
 import {
   DataRow,
   Icon,
@@ -27,6 +27,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
 import { useGetExpectedPairTokenAmount } from "src/views/Liquidity/hooks/useGetExpectedPairTokenAmount";
+import { useGetLastDeposit } from "src/views/Liquidity/hooks/useGetLastDeposit";
 import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
@@ -50,6 +51,12 @@ export const Vault = () => {
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
   const { data: userVault } = useGetUserVault({ address: id });
   const getExpectedPairTokenAmount = useGetExpectedPairTokenAmount();
+  const { data: lastDeposit } = useGetLastDeposit({ userVaultAddress: userVault });
+
+  const date =
+    (lastDeposit &&
+      `${new Date(+lastDeposit * 1000).toLocaleDateString()} ${new Date(+lastDeposit * 1000).toLocaleTimeString()}`) ||
+    undefined;
 
   const [isWithdrawConfirmOpen, setIsWithdrawConfirmOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -72,6 +79,8 @@ export const Vault = () => {
     vault?.pairTokenName !== undefined;
   const [searchParams, setSearchParams] = useSearchParams();
   const isWithdrawal = searchParams.get("withdraw") ? true : false;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     if (vault) {
       setSwapAssetType({ name: vault?.pairTokenName });
@@ -258,30 +267,32 @@ export const Vault = () => {
   return (
     <>
       <Box width="100%">
-        <PageTitle
-          name={
-            <Box display="flex" flexDirection="row" alignItems="center">
-              <Link component={RouterLink} to="/liquidity/vaults">
-                <Box display="flex" flexDirection="row">
-                  <ArrowBack />
-                  <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
-                    Back
+        <Box mt={mobile ? "50px" : "0px"}>
+          <PageTitle
+            name={
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <Link component={RouterLink} to="/liquidity/vaults">
+                  <Box display="flex" flexDirection="row">
+                    <ArrowBack />
+                    <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px">
+                      Back
+                    </Typography>
+                  </Box>
+                </Link>
+
+                <TokenStack
+                  tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
+                  sx={{ fontSize: "27px" }}
+                />
+                <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+                  <Typography variant="h4" fontWeight={500}>
+                    {vault?.pairTokenName}-OHM LP
                   </Typography>
                 </Box>
-              </Link>
-
-              <TokenStack
-                tokens={[vault.pairTokenName as keyof OHMTokenStackProps["tokens"], "OHM"]}
-                sx={{ fontSize: "27px" }}
-              />
-              <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-                <Typography variant="h4" fontWeight={500}>
-                  {vault?.pairTokenName}-OHM LP
-                </Typography>
               </Box>
-            </Box>
-          }
-        ></PageTitle>
+            }
+          />
+        </Box>
       </Box>
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
@@ -292,7 +303,7 @@ export const Vault = () => {
               isWithdrawal ? setSearchParams(undefined) : setSearchParams({ withdraw: "true" });
             }}
           />
-          {noAllowance && (
+          {noAllowance && !isWithdrawal && (
             <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
               <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
                 <Box mt="12px">
@@ -311,12 +322,17 @@ export const Vault = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <Box mt="12px">
-                {!isWithdrawal && (
+                {isWithdrawal && !vault.canWithdraw && (
                   <InfoNotification dismissible>
                     <Typography>
-                      By depositing {vault.pairTokenName} into an AMO pools, you are not guaranteed to get back the
-                      exact same amount of deposit tokens at time of withdraw and your position will be exposed to
-                      impermanent loss.
+                      There is a 24 hour withdraw period from time of last deposit {date}. Learn more{" "}
+                      <Link
+                        href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1"
+                        target="_blank"
+                      >
+                        here
+                      </Link>
+                      .
                     </Typography>
                   </InfoNotification>
                 )}
@@ -337,7 +353,10 @@ export const Vault = () => {
                   balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
                 />
                 <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
-                <DataRow title="Max You Can Deposit" balance={formatNumber(Number(vault.depositLimit), 2) || "0"} />
+                <DataRow
+                  title={`Max You Can Deposit ${vault.pairTokenName}-OHM LP)`}
+                  balance={formatNumber(Number(vault.depositLimit), 2) || "0"}
+                />
               </Box>
             </Box>
           </Box>

@@ -178,12 +178,12 @@ export const DepositSteps = ({
                       [networks.MAINNET]: userVault,
                     },
                   },
-                  { onSuccess: () => setCurrentStep(3) },
+                  { onSuccess: () => (zapIntoAddress ? setCurrentStep(3) : setCurrentStep(5)) },
                 );
               }}
               fullWidth
             >
-              Approve Depositing wsETH to Vault
+              Approve Depositing wstETH to Vault
             </PrimaryButton>
           </Box>
         ) : (
@@ -196,7 +196,7 @@ export const DepositSteps = ({
             mt="18px"
           >
             {!needsToApproveDepositVault() && <CheckCircleOutline style={{ fontSize: "18px" }} viewBox="0 0 24 24" />}{" "}
-            Approve Depositing wsETH to Vault
+            Approve Depositing wstETH to Vault
           </Box>
         )}
         <>
@@ -232,7 +232,7 @@ export const DepositSteps = ({
                 );
             }}
           >
-            Deposit wsETH to Vault
+            Deposit wstETH to Vault
           </PrimaryButton>
         ) : (
           <Box
@@ -243,7 +243,7 @@ export const DepositSteps = ({
             color={theme.colors.gray[40]}
             mt="18px"
           >
-            Deposit wsETH to Vault
+            Deposit wstETH to Vault
           </Box>
         )}
       </Box>
