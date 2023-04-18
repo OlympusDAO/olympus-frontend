@@ -71,8 +71,6 @@ export const useZeroExSwap = () => {
         gasLimit: swapData.gas,
       };
 
-      console.log(swapData.gas, "swapDataaaa");
-
       const transaction = await signer.sendTransaction(payload);
 
       console.debug("Awaiting transaction");
