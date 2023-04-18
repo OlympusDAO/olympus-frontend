@@ -317,12 +317,12 @@ export const Vault = () => {
                       By depositing {vault.pairTokenName}, you are not guaranteed to get back the exact same amount of
                       deposit tokens at time of withdraw. In addition, there is a 24 hour withdraw period from time of
                       last deposit. Learn more{" "}
-                      <a
+                      <Link
                         href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1"
                         target="_blank"
                       >
                         here
-                      </a>
+                      </Link>
                       .
                     </Typography>
                   </InfoNotification>

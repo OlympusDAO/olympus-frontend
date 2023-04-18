@@ -1,5 +1,5 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
-import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, Link, Typography, useTheme } from "@mui/material";
 import { Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "@olympusdao/component-library";
 import { ReactElement } from "react";
 
@@ -79,9 +79,9 @@ export const ConfirmationModal = ({
             By depositing {vaultDepositTokenName}, you are not guaranteed to get back the exact same amount of deposit
             tokens at time of withdraw. In addition, there is a 24 hour withdraw period from time of last deposit. Learn
             more{" "}
-            <a href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1" target="_blank">
+            <Link href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1" target="_blank">
               here
-            </a>
+            </Link>
             .
           </Typography>
         </div>
