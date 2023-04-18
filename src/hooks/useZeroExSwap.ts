@@ -68,8 +68,10 @@ export const useZeroExSwap = () => {
         data: swapData.data,
         value: swapData.value,
         gasPrice: swapData.gasPrice,
-        gas: swapData.gas,
+        gasLimit: swapData.gas,
       };
+
+      console.log(swapData.gas, "swapDataaaa");
 
       const transaction = await signer.sendTransaction(payload);
 
