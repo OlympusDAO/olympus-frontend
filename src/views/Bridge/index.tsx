@@ -3,9 +3,8 @@ import { styled } from "@mui/material/styles";
 import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
 import { shorten } from "src/helpers";
-import { IHistoryTx, useGetBridgeHistory } from "src/hooks/useBridging";
+import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
-import { useGetBridgeTransferredEvents } from "src/views/Bridge/helpers";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "Bridge";
@@ -33,9 +32,6 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
  */
 const Bridge = () => {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const { data: bridgeHistory } = useGetBridgeHistory();
-  console.log("bridge", bridgeHistory);
-
   const { data: transferEvents } = useGetBridgeTransferredEvents();
 
   console.log("transferEvents", transferEvents);
