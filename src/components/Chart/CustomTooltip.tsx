@@ -30,7 +30,7 @@ const renderDate = (item: TooltipPayloadItem) => {
 
   return (
     <>
-      <Grid item xs={12} marginBottom="20px">
+      <Grid item xs={12} marginBottom="5px">
         {
           // Format: October 10, 2022 - 01:22 UTC
           // The `slice` approach is documented here: https://stackoverflow.com/a/3605248
@@ -121,6 +121,11 @@ const renderBulletpointRow = (
     ...dataKeyBulletpointStyles.get(item.dataKey),
   };
 
+  // Don't render a tooltip row if the value is 0 (#2673)
+  if (!item.value) {
+    return <></>;
+  }
+
   return (
     <Grid
       item
@@ -128,7 +133,7 @@ const renderBulletpointRow = (
       xs={12}
       alignContent="center"
       justifyContent="space-between"
-      style={{ marginBottom: "5px" }}
+      style={{ marginBottom: "2px" }}
       key={index}
     >
       <Grid item xs={1} alignContent="left">
@@ -192,7 +197,7 @@ const renderTooltipItems = (
         .sort((a, b) => a.label.localeCompare(b.label))
         .map(item => item.element)}
       {displayTotal && renderTotal(dataFormat, payload, dataKeysExcludedFromTotal)}
-      <Grid item xs={12} marginBottom="20px" />
+      <Grid item xs={12} marginBottom="10px" />
       {
         // Display elements of totalExcludesDataKeys below the total
         payload.map((item, index) => {
