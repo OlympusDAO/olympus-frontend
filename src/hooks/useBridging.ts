@@ -21,9 +21,9 @@ export interface IHistoryTx {
   amount: string;
   transactions: {
     sendingChain: string;
-    receivingChain: string;
+    receivingChain?: string;
   };
-  confirmations: number;
+  confirmations: string;
 }
 
 export interface IBridgeOhm {

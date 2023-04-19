@@ -1,3 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+import { DateTime } from "luxon";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+
 export function prettifySecondsInDays(seconds: number): string {
   let prettifiedSeconds = "";
   if (seconds > 86400) {
@@ -32,3 +36,37 @@ export function prettifySeconds(seconds: number, resolution?: string) {
 
   return result;
 }
+
+const getDateTimeFromBlockNumber = async (blockNumber: number, chainId: number) => {
+  const provider = Providers.getStaticProvider(chainId);
+  let dateTime;
+  try {
+    const block = await provider.getBlock(blockNumber);
+    if (block.timestamp) {
+      dateTime = DateTime.fromSeconds(block.timestamp);
+    }
+  } catch {
+    dateTime = undefined;
+  }
+  return {
+    dateTime,
+    isInvalid: !dateTime,
+  };
+};
+
+/** @return a luxon datetime */
+export const useGetDateTimeFromBlockNumber = (blockNumber: number, chainId: number) => {
+  const provider = Providers.getStaticProvider(chainId);
+
+  return useQuery<{ dateTime: DateTime | undefined; isInvalid: boolean }, Error>(
+    ["getDateTimeFromBlockNumber", blockNumber, chainId],
+    async () => {
+      return await getDateTimeFromBlockNumber(blockNumber, chainId);
+    },
+    {
+      enabled: !!chainId,
+      cacheTime: Number.POSITIVE_INFINITY,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
