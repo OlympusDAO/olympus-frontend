@@ -58,24 +58,28 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
   console.log("in history", txs);
   return (
     <>
-      {txs.map((tx, index) =>
-        isSmallScreen ? (
-          <MobileHistoryTx tx={tx} key={index} />
-        ) : (
-          <Table>
-            <StyledTableHeader className={classes.bridgeHistoryHeaderText}>
-              <TableRow>
-                <TableCell style={{ width: "200px", padding: "8px 0" }}>Block Number</TableCell>
-                <TableCell style={{ width: "200px", padding: "8px 0" }}>Amount</TableCell>
-                <TableCell style={{ width: "150px", padding: "8px 0" }}>Transactions</TableCell>
-                <TableCell style={{ width: "150px", padding: "8px 0" }}>Confirmations</TableCell>
-              </TableRow>
-            </StyledTableHeader>
-            <TableBody>
+      {isSmallScreen ? (
+        <>
+          {txs.map((tx, index) => (
+            <MobileHistoryTx tx={tx} key={index} />
+          ))}
+        </>
+      ) : (
+        <Table>
+          <StyledTableHeader className={classes.bridgeHistoryHeaderText}>
+            <TableRow>
+              <TableCell style={{ width: "200px", padding: "8px 0" }}>Block Number</TableCell>
+              <TableCell style={{ width: "200px", padding: "8px 0" }}>Amount</TableCell>
+              <TableCell style={{ width: "150px", padding: "8px 0" }}>Transactions</TableCell>
+              <TableCell style={{ width: "150px", padding: "8px 0" }}>Confirmations</TableCell>
+            </TableRow>
+          </StyledTableHeader>
+          <TableBody>
+            {txs.map((tx, index) => (
               <HistoryTx tx={tx} key={index} />
-            </TableBody>
-          </Table>
-        ),
+            ))}
+          </TableBody>
+        </Table>
       )}
     </>
   );
