@@ -112,12 +112,12 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   if (address.toLowerCase() === "0xafe729d57d2CC58978C2e01b4EC39C47FB7C4b23".toLowerCase()) {
     //OHM-WSTETH Defillama
     const apyData = await axios
-      .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=23cb475b-c21b-4a79-81d9-813156c05150")
+      .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=10c1698f-bc44-4fbf-8287-2540acf45eff")
       .then(res => {
         return res.data.data[0];
       });
     const { apyReward = 0, apyBase = 0 } = apyData;
-    apySum = apyReward * 2 + apyBase;
+    apySum = apyReward + apyBase;
 
     rewards = await Promise.all(
       rewardTokens.map(async (token, index) => {
@@ -131,7 +131,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
         return { tokenName, apy: "0", userRewards };
       }),
     );
-    apyBreakdown = { baseApy: apyBase, rewardApy: apyReward * 2 };
+    apyBreakdown = { baseApy: apyBase, rewardApy: apyReward };
   } else {
     const { tvlUsd: balancerTvl } = await getVaultPriceData({
       totalLp: totalBalancerLp,
@@ -214,6 +214,7 @@ export const getVaultPriceData = async ({
   const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
   const ohmPricePerDepositToken = usdPriceDepositToken.div(ohmPrice);
   const usdPricePerOhm = ohmPrice.mul(ohmPricePerDepositToken).mul(depositPricePerLpToken);
+  console.log("usdPricePerOhm", usdPricePerOhm.toString());
   const price = usdPricePerDepositToken.add(usdPricePerOhm);
   const tvlUsd = price.mul(new DecimalBigNumber(totalLp, 18)).toString({ decimals: 2 });
   return { price, tvlUsd, ohmPricePerDepositToken };
