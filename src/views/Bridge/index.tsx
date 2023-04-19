@@ -1,11 +1,12 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, Paper, Token } from "@olympusdao/component-library";
+import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
 import { shorten } from "src/helpers";
 import { IHistoryTx, useGetBridgeHistory } from "src/hooks/useBridging";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
 import { useGetBridgeTransferredEvents } from "src/views/Bridge/helpers";
+import { useNetwork } from "wagmi";
 
 const PREFIX = "Bridge";
 
@@ -86,6 +87,8 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
 
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   console.log("claim Info", tx);
+  const { chain } = useNetwork();
+
   return (
     <TableRow>
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
@@ -102,9 +105,19 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
         </Box>
       </TableCell>
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {shorten(tx.transactions.sendingChain)}
-        </Typography>
+        {chain && chain.blockExplorers ? (
+          <TextButton
+            sx={{ padding: "0px !important", margin: "0px !important" }}
+            href={`${chain.blockExplorers.default.url}/tx/${tx.transactions.sendingChain}`}
+            target="_blank"
+          >
+            {shorten(tx.transactions.sendingChain)}
+          </TextButton>
+        ) : (
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            {shorten(tx.transactions.sendingChain)}
+          </Typography>
+        )}
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {tx.transactions.receivingChain && shorten(tx.transactions.receivingChain)}
         </Typography>
@@ -122,6 +135,7 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   // const userBalances = useStakePoolBalance(props.pool);
   // const userBalance = userBalances[props.pool.networkID].data;
   console.log("mobile claim Info", tx);
+  const { chain } = useNetwork();
   return (
     <Box mt="42px">
       {/* StyledPoolInfo */}
@@ -145,7 +159,23 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
       <DataRow
         title={`Transaction`}
         // isLoading={!warmupDate}
-        balance={shorten(tx.transactions.sendingChain)}
+        balance={
+          <>
+            {chain && chain.blockExplorers ? (
+              <TextButton
+                sx={{ padding: "0px !important", margin: "0px !important", height: "24px !important" }}
+                href={`${chain.blockExplorers.default.url}/tx/${tx.transactions.sendingChain}`}
+                target="_blank"
+              >
+                {shorten(tx.transactions.sendingChain)}
+              </TextButton>
+            ) : (
+              <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+                {shorten(tx.transactions.sendingChain)}
+              </Typography>
+            )}
+          </>
+        }
       />
       <DataRow
         title={`Confirmations`}
