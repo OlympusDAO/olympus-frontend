@@ -11,15 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import {
-  DataRow,
-  OHMTokenProps,
-  OHMTokenStackProps,
-  PrimaryButton,
-  Token,
-  TokenStack,
-  Tooltip,
-} from "@olympusdao/component-library";
+import { DataRow, OHMTokenStackProps, PrimaryButton, TokenStack, Tooltip } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { VaultInfo } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
@@ -61,16 +53,12 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
               <Tooltip
                 message={
                   <>
-                    {vault.rewards
-                      .filter(reward => +reward.apy > 0)
-                      .map(reward => {
-                        return (
-                          <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                            <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                            {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
-                          </Box>
-                        );
-                      })}
+                    <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                      Base APY: {formatNumber(Number(vault.apyBreakdown.baseApy), 2)}%
+                    </Box>
+                    <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                      Rewards APY: {formatNumber(Number(vault.apyBreakdown.rewardApy), 2)}%
+                    </Box>
                   </>
                 }
               >
@@ -140,16 +128,12 @@ export const SingleSidedFarms = ({ vaults }: { vaults: VaultInfo[] }) => {
                   <Tooltip
                     message={
                       <>
-                        {vault.rewards
-                          .filter(reward => +reward.apy > 0)
-                          .map(reward => {
-                            return (
-                              <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
-                                <Token name={reward.tokenName as OHMTokenProps["name"]} sx={{ fontSize: "21px" }} />
-                                {formatNumber(Number(reward.apy), 2)}% {reward.tokenName}
-                              </Box>
-                            );
-                          })}
+                        <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                          Base APY: {formatNumber(Number(vault.apyBreakdown.baseApy), 2)}%
+                        </Box>
+                        <Box display="flex" alignItems="center" gap="4px" pt={"2px"}>
+                          Rewards APY: {formatNumber(Number(vault.apyBreakdown.rewardApy), 2)}%
+                        </Box>
                       </>
                     }
                   >

@@ -57,7 +57,7 @@ const mapProjectToName = (project: string) => {
   }
 };
 
-interface defillamaAPI {
+export interface defillamaAPI {
   data: {
     apy?: number;
     apyBase?: number;

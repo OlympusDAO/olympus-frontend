@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { BigNumber, ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { LIQUDITY_REGISTRY_CONTRACT } from "src/constants/contracts";
@@ -7,6 +8,7 @@ import { formatNumber, testnetToMainnetContract } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getCoingeckoPrice } from "src/helpers/pricing/getCoingeckoPrice";
 import { Providers } from "src/helpers/providers/Providers/Providers";
+import { defillamaAPI } from "src/hooks/useGetLPStats";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { BalancerV2Pool__factory, BLEVaultManagerLido__factory } from "src/typechain";
@@ -31,6 +33,10 @@ export interface VaultInfo {
   tvlUsd: string;
   totalApy: string;
   usdPricePerToken: string;
+  apyBreakdown: {
+    baseApy: string;
+    rewardApy: string;
+  };
 }
 
 export const useGetSingleSidedLiquidityVaults = () => {
@@ -98,40 +104,70 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     pricePerDepositToken,
   });
 
-  const { tvlUsd: balancerTvl } = await getVaultPriceData({
-    totalLp: totalBalancerLp,
-    pairTokenAddress,
-    pricePerDepositToken,
-  });
-  // Iterate through each reward token to retrieve info
-  const rewards = await Promise.all(
-    rewardTokens.map(async (token, index) => {
-      const tokenContract = IERC20__factory.connect(token, provider);
-      const decimals = await tokenContract.decimals();
-      const tokenName = await tokenContract.symbol();
-      const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token)).catch(
-        () => new DecimalBigNumber("0"),
-      );
-      const rewardsPerSecond = await contract.getRewardRate(token);
-      const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
-      const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
-      const apy = rewardPerYearUsd
-        .div(new DecimalBigNumber(+balancerTvl > 0 ? balancerTvl : "1"))
-        .mul(new DecimalBigNumber("100"))
-        .toString();
-      const balance =
-        outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
+  let apySum = 0;
+  let rewards: { tokenName: string; apy: string; userRewards: string }[];
+  let apyBreakdown = { baseApy: 0, rewardApy: 0 };
 
-      const userRewards = formatUnits(balance, decimals);
-      return { tokenName, apy, userRewards };
-    }),
-  );
+  //Need to do this because contract method does not account for stETH rewards.
+  if (address.toLowerCase() === "0xafe729d57d2CC58978C2e01b4EC39C47FB7C4b23".toLowerCase()) {
+    //OHM-WSTETH Defillama
+    const apyData = await axios
+      .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=23cb475b-c21b-4a79-81d9-813156c05150")
+      .then(res => {
+        return res.data.data[0];
+      });
+    const { apyReward = 0, apyBase = 0 } = apyData;
+    apySum = apyReward * 2 + apyBase;
+
+    rewards = await Promise.all(
+      rewardTokens.map(async (token, index) => {
+        const tokenContract = IERC20__factory.connect(token, provider);
+        const decimals = await tokenContract.decimals();
+        const tokenName = await tokenContract.symbol();
+        const balance =
+          outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
+
+        const userRewards = formatUnits(balance, decimals);
+        return { tokenName, apy: "0", userRewards };
+      }),
+    );
+    apyBreakdown = { baseApy: apyBase, rewardApy: apyReward * 2 };
+  } else {
+    const { tvlUsd: balancerTvl } = await getVaultPriceData({
+      totalLp: totalBalancerLp,
+      pairTokenAddress,
+      pricePerDepositToken,
+    });
+    // Iterate through each reward token to retrieve info
+    rewards = await Promise.all(
+      rewardTokens.map(async (token, index) => {
+        const tokenContract = IERC20__factory.connect(token, provider);
+        const decimals = await tokenContract.decimals();
+        const tokenName = await tokenContract.symbol();
+        const rewardTokenPrice = await getCoingeckoPrice(network, testnetToMainnetContract(token)).catch(
+          () => new DecimalBigNumber("0"),
+        );
+        const rewardsPerSecond = await contract.getRewardRate(token);
+        const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
+        const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
+        const apy = rewardPerYearUsd
+          .div(new DecimalBigNumber(+balancerTvl > 0 ? balancerTvl : "1"))
+          .mul(new DecimalBigNumber("100"))
+          .toString();
+        const balance =
+          outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
+
+        const userRewards = formatUnits(balance, decimals);
+        return { tokenName, apy, userRewards };
+      }),
+    );
+    apySum = rewards.reduce((a, b) => {
+      return a + Number(b.apy);
+    }, 0);
+    apyBreakdown = { baseApy: 0, rewardApy: apySum };
+  }
 
   const depositLimit = await contract.getMaxDeposit();
-
-  const apySum = rewards.reduce((a, b) => {
-    return a + Number(b.apy);
-  }, 0);
 
   return {
     pairTokenName,
@@ -147,6 +183,7 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
     rewards,
     pricePerDepositToken: formatUnits(pricePerDepositToken, 18),
     totalApy: formatNumber(apySum, 2),
+    apyBreakdown,
     usdPricePerToken: price.toString(),
     ohmPricePerDepositToken: ohmPricePerDepositToken,
     depositLimit: formatUnits(depositLimit, 18),
