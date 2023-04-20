@@ -214,7 +214,6 @@ export const getVaultPriceData = async ({
   const ohmPrice = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
   const ohmPricePerDepositToken = usdPriceDepositToken.div(ohmPrice);
   const usdPricePerOhm = ohmPrice.mul(ohmPricePerDepositToken).mul(depositPricePerLpToken);
-  console.log("usdPricePerOhm", usdPricePerOhm.toString());
   const price = usdPricePerDepositToken.add(usdPricePerOhm);
   const tvlUsd = price.mul(new DecimalBigNumber(totalLp, 18)).toString({ decimals: 2 });
   return { price, tvlUsd, ohmPricePerDepositToken };
