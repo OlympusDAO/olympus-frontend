@@ -11,7 +11,10 @@ export const useCreateUserVault = () => {
     async ({ address }: { address: string }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = BLEVaultManagerLido__factory.connect(address, signer);
+      console.log("before depoloy vault");
       const createVault = await contract.deployVault();
+      console.log("after depoloy vault");
+
       const receipt = await createVault.wait();
       return receipt;
     },
