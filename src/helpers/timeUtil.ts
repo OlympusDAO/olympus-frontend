@@ -1,7 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { DateTime } from "luxon";
-import { Providers } from "src/helpers/providers/Providers/Providers";
-import { useNetwork } from "wagmi";
+// import { DateTime } from "luxon";
 
 export function prettifySecondsInDays(seconds: number): string {
   let prettifiedSeconds = "";
@@ -38,36 +35,36 @@ export function prettifySeconds(seconds: number, resolution?: string) {
   return result;
 }
 
-const getDateTimeFromBlockNumber = async (blockNumber: number, chainId: number) => {
-  const provider = Providers.getStaticProvider(chainId);
-  console.log("provider", provider);
-  let dateTime;
-  try {
-    const block = await provider.getBlock(blockNumber);
-    console.log("block", block);
-    if (block.timestamp) {
-      dateTime = DateTime.fromSeconds(block.timestamp);
-    }
-  } catch (e) {
-    console.log("block error", e);
-    dateTime = undefined;
-  }
-  return dateTime;
-};
+// const getDateTimeFromBlockNumber = async (blockNumber: number, chainId: number) => {
+//   const provider = Providers.getStaticProvider(chainId);
+//   console.log("provider", provider);
+//   let dateTime;
+//   try {
+//     const block = await provider.getBlock(blockNumber);
+//     console.log("block", block);
+//     if (block.timestamp) {
+//       dateTime = DateTime.fromSeconds(block.timestamp);
+//     }
+//   } catch (e) {
+//     console.log("block error", e);
+//     dateTime = undefined;
+//   }
+//   return dateTime;
+// };
 
-/** @return a luxon datetime */
-export const useGetDateTimeFromBlockNumber = ({ blockNumber }: { blockNumber: string }) => {
-  const { chain } = useNetwork();
-  return useQuery<{ dateTime: DateTime | undefined; isInvalid: boolean }, Error>(
-    ["getDateTimeFromBlockNumber", blockNumber, chain?.id],
-    async () => {
-      const dateTime = await getDateTimeFromBlockNumber(Number(blockNumber), chain?.id || 1);
-      return { dateTime, isInvalid: !dateTime };
-    },
-    {
-      enabled: !!chain,
-      cacheTime: Number.POSITIVE_INFINITY,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-};
+// /** @return a luxon datetime */
+// export const useGetDateTimeFromBlockNumber = ({ blockNumber }: { blockNumber: string }) => {
+//   const { chain } = useNetwork();
+//   return useQuery<{ dateTime: DateTime | undefined; isInvalid: boolean }, Error>(
+//     ["getDateTimeFromBlockNumber", blockNumber, chain?.id],
+//     async () => {
+//       const dateTime = await getDateTimeFromBlockNumber(Number(blockNumber), chain?.id || 1);
+//       return { dateTime, isInvalid: !dateTime };
+//     },
+//     {
+//       enabled: !!chain,
+//       cacheTime: Number.POSITIVE_INFINITY,
+//       staleTime: Number.POSITIVE_INFINITY,
+//     },
+//   );
+// };

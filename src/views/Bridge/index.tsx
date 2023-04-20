@@ -16,7 +16,6 @@ import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";
-import { useGetDateTimeFromBlockNumber } from "src/helpers/timeUtil";
 import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
 import { useNetwork } from "wagmi";
@@ -126,8 +125,8 @@ const NetworkIcon = ({ chainId }: { chainId: keyof typeof BRIDGE_CHAINS }) => {
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   console.log("claim Info", tx);
   const { chain } = useNetwork();
-  const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
-  console.log("dateTime", dateTime);
+  // const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
+  // console.log("dateTime", dateTime);
   return (
     <TableRow>
       <TableCell align="right">
@@ -135,13 +134,14 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
       </TableCell>
       <TableCell style={{ padding: "8px 24px 8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy") : tx.timestamp}
+          {/* {dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy") : tx.timestamp} */}
+          {tx.timestamp}
         </Typography>
         <Typography
           gutterBottom={false}
           style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}
         >
-          {dateTime && dateTime.dateTime && dateTime.dateTime.toFormat("HH:mm ZZZZ")}
+          {/* {dateTime && dateTime.dateTime && dateTime.dateTime.toFormat("HH:mm ZZZZ")} */}
         </Typography>
       </TableCell>
 
@@ -191,7 +191,7 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   // const userBalance = userBalances[props.pool.networkID].data;
   console.log("mobile claim Info", tx);
   const { chain } = useNetwork();
-  const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
+  // const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
 
   return (
     <Box mt="42px">
@@ -226,7 +226,8 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
       <DataRow
         title={`Timestamp`}
         // isLoading={!warmupDate}
-        balance={dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy HH:mm ZZZZ") : tx.timestamp}
+        balance={tx.timestamp}
+        // balance={dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy HH:mm ZZZZ") : tx.timestamp}
       />
       <DataRow
         title={`Transaction`}
