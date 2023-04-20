@@ -12,6 +12,7 @@ export const useCreateUserVault = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = BLEVaultManagerLido__factory.connect(address, signer);
       const createVault = await contract.deployVault();
+
       const receipt = await createVault.wait();
       return receipt;
     },
