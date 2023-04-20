@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
 import { shorten } from "src/helpers";
+import { useGetDateTimeFromBlockNumber } from "src/helpers/timeUtil";
 import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
 import { useNetwork } from "wagmi";
@@ -55,7 +56,6 @@ const Bridge = () => {
 export default Bridge;
 
 const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IHistoryTx[] }) => {
-  console.log("in history", txs);
   return (
     <>
       {isSmallScreen ? (
@@ -68,9 +68,13 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
         <Table>
           <StyledTableHeader className={classes.bridgeHistoryHeaderText}>
             <TableRow>
-              <TableCell style={{ width: "200px", padding: "8px 0" }}>Block Number</TableCell>
-              <TableCell style={{ width: "200px", padding: "8px 0" }}>Amount</TableCell>
+              <TableCell align="right" style={{ width: "100px", padding: "8px 24px 8px 0" }}>
+                Timestamp
+              </TableCell>
+
               <TableCell style={{ width: "150px", padding: "8px 0" }}>Transactions</TableCell>
+              <TableCell style={{ width: "150px", padding: "8px 0" }}>Amount</TableCell>
+
               <TableCell style={{ width: "150px", padding: "8px 0" }}>Confirmations</TableCell>
             </TableRow>
           </StyledTableHeader>
@@ -88,22 +92,22 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   console.log("claim Info", tx);
   const { chain } = useNetwork();
-
+  const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
+  console.log("dateTime", dateTime);
   return (
     <TableRow>
-      <TableCell style={{ padding: "8px 8px 8px 0" }}>
+      <TableCell style={{ padding: "8px 24px 8px 0" }} align="right">
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {tx.timestamp}
+          {dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy") : tx.timestamp}
+        </Typography>
+        <Typography
+          gutterBottom={false}
+          style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}
+        >
+          {dateTime && dateTime.dateTime && dateTime.dateTime.toFormat("HH:mm ZZZZ")}
         </Typography>
       </TableCell>
-      <TableCell style={{ padding: "8px 8px 8px 0" }}>
-        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-          <Token key={"OHM"} name={"OHM"} />
-          <Box marginLeft="14px" marginRight="10px">
-            <Typography>{tx.amount}</Typography>
-          </Box>
-        </Box>
-      </TableCell>
+
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
         {chain && chain.blockExplorers ? (
           <TextButton
@@ -123,6 +127,14 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
         </Typography>
       </TableCell>
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
+        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
+          <Token key={"OHM"} name={"OHM"} />
+          <Box marginLeft="14px" marginRight="10px">
+            <Typography>{tx.amount}</Typography>
+          </Box>
+        </Box>
+      </TableCell>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {tx.confirmations}
         </Typography>
@@ -136,6 +148,8 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   // const userBalance = userBalances[props.pool.networkID].data;
   console.log("mobile claim Info", tx);
   const { chain } = useNetwork();
+  const { data: dateTime } = useGetDateTimeFromBlockNumber({ blockNumber: tx.timestamp });
+
   return (
     <Box mt="42px">
       {/* StyledPoolInfo */}
@@ -152,9 +166,9 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
         balance={tx.amount}
       />
       <DataRow
-        title={`Block Number`}
+        title={`Timestamp`}
         // isLoading={!warmupDate}
-        balance={tx.timestamp}
+        balance={dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy HH:mm ZZZZ") : tx.timestamp}
       />
       <DataRow
         title={`Transaction`}
