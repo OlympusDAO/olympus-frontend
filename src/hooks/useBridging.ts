@@ -19,6 +19,8 @@ export interface IHistoryTx {
     receivingChain?: string;
   };
   confirmations: string;
+  send: boolean;
+  chainId: number;
 }
 
 export interface IBridgeOhm {
@@ -118,16 +120,16 @@ export const useBridgeOhm = () => {
   );
 };
 
-export const useGetBridgeTransferredEvents = () => {
-  const { chain = { id: 1 } } = useNetwork();
+export const useGetBridgeTransferredEvents = (chainId: number) => {
+  // const { chain = { id: 1 } } = useNetwork();
   const { address } = useAccount();
   // const archiveProvider = useArchiveNodeProvider(chain?.id);
-  const contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chain.id);
+  const contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
   // const provider = Providers.getStaticProvider(chain.id);
   const { data: signer } = useSigner();
-  const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId: chain.id });
+  const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId });
   return useQuery<IHistoryTx[], Error>(
-    ["GetBridgingEvents", chain.id, address],
+    ["GetBridgingEvents", chainId, address],
     async () => {
       // using EVENTS
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
@@ -139,10 +141,10 @@ export const useGetBridgeTransferredEvents = () => {
       return [
         ...sendOhmEvents
           .filter(event => event.args.sender_ === address)
-          .map((event: BridgeTransferredEvent) => mapBridgeEvents(event, blockNumber)),
+          .map((event: BridgeTransferredEvent) => mapBridgeEvents({ event, blockNumber, type: "send", chainId })),
         ...receiveOhmEvents
           .filter(event => event.args.receiver_ === address)
-          .map((event: BridgeReceivedEvent) => mapBridgeEvents(event, blockNumber)),
+          .map((event: BridgeReceivedEvent) => mapBridgeEvents({ event, blockNumber, type: "receive", chainId })),
       ];
       // const contract = IERC20__factory.connect(OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES], signer);
       // const sendOhmEvents = await contract.queryFilter(
@@ -153,11 +155,21 @@ export const useGetBridgeTransferredEvents = () => {
       // );
       // return [...sendOhmEvents, ...receiveOhmEvents];
     },
-    { enabled: !!chain && !!chain.id && !!contract && !!address && !!signer && (!!blockNumber || blockNumberError) },
+    { enabled: !!chainId && !!contract && !!address && !!signer && (!!blockNumber || blockNumberError) },
   );
 };
 
-const mapBridgeEvents = (event: BridgeTransferredEvent | BridgeReceivedEvent, blockNumber?: number): IHistoryTx => {
+const mapBridgeEvents = ({
+  event,
+  blockNumber,
+  type,
+  chainId,
+}: {
+  event: BridgeTransferredEvent | BridgeReceivedEvent;
+  blockNumber?: number;
+  type: "send" | "receive";
+  chainId: number;
+}): IHistoryTx => {
   console.log("event block", event.blockNumber, blockNumber);
   const confirmations = blockNumber && blockNumber - event.blockNumber;
   return {
@@ -165,5 +177,7 @@ const mapBridgeEvents = (event: BridgeTransferredEvent | BridgeReceivedEvent, bl
     amount: ethers.utils.formatUnits(event.args.amount_, 9),
     transactions: { sendingChain: event.transactionHash },
     confirmations: confirmations ? (confirmations <= 100 ? String(confirmations) : "> 100") : "1",
+    send: type === "send",
+    chainId,
   };
 };

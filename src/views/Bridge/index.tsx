@@ -1,7 +1,20 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography, useMediaQuery } from "@mui/material";
+import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
+import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
+import {
+  Box,
+  SvgIcon,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
+import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { useGetDateTimeFromBlockNumber } from "src/helpers/timeUtil";
 import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging";
@@ -13,11 +26,14 @@ const PREFIX = "Bridge";
 const classes = {
   dismiss: `${PREFIX}-dismiss`,
   bridgeHistoryHeaderText: `${PREFIX}-bridgeHistoryHeaderText`,
+  root: `${PREFIX}-root`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  [`& .${classes.dismiss}`]: {
-    fill: theme.colors.primary[300],
+const StyledTextButton = styled(TextButton)(({ theme }) => ({
+  [`&.custom-root`]: {
+    fontWeight: 400,
+    padding: "0px !important",
+    margin: "0px !important",
   },
 }));
 
@@ -33,7 +49,7 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
  */
 const Bridge = () => {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const { data: transferEvents } = useGetBridgeTransferredEvents();
+  const { data: transferEvents } = useGetBridgeTransferredEvents(5);
 
   console.log("transferEvents", transferEvents);
   return (
@@ -68,14 +84,13 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
         <Table>
           <StyledTableHeader className={classes.bridgeHistoryHeaderText}>
             <TableRow>
-              <TableCell align="right" style={{ width: "100px", padding: "8px 24px 8px 0" }}>
-                Timestamp
-              </TableCell>
+              <TableCell width="30px"></TableCell>
+              <TableCell style={{ padding: "8px 24px 8px 0" }}>Timestamp</TableCell>
 
-              <TableCell style={{ width: "150px", padding: "8px 0" }}>Transactions</TableCell>
-              <TableCell style={{ width: "150px", padding: "8px 0" }}>Amount</TableCell>
+              <TableCell style={{ padding: "8px 0" }}>Transactions</TableCell>
+              <TableCell style={{ padding: "8px 0" }}>Amount</TableCell>
 
-              <TableCell style={{ width: "150px", padding: "8px 0" }}>Confirmations</TableCell>
+              <TableCell style={{ padding: "8px 0" }}>Confirmations</TableCell>
             </TableRow>
           </StyledTableHeader>
           <TableBody>
@@ -89,6 +104,25 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
   );
 };
 
+const NetworkIcon = ({ chainId }: { chainId: keyof typeof BRIDGE_CHAINS }) => {
+  const bridgeChain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
+  return (
+    <div
+      style={{
+        background: bridgeChain.iconBackground,
+        width: 24,
+        height: 24,
+        borderRadius: 999,
+        overflow: "hidden",
+      }}
+    >
+      {bridgeChain.iconUrl && (
+        <img alt={bridgeChain.name ?? "chain icon"} src={bridgeChain.iconUrl} style={{ width: 24, height: 24 }} />
+      )}
+    </div>
+  );
+};
+
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   console.log("claim Info", tx);
   const { chain } = useNetwork();
@@ -96,7 +130,10 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   console.log("dateTime", dateTime);
   return (
     <TableRow>
-      <TableCell style={{ padding: "8px 24px 8px 0" }} align="right">
+      <TableCell align="right">
+        <NetworkIcon chainId={tx.chainId} />
+      </TableCell>
+      <TableCell style={{ padding: "8px 24px 8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
           {dateTime && dateTime.dateTime ? dateTime.dateTime.toFormat("LL.dd.yyyy") : tx.timestamp}
         </Typography>
@@ -110,13 +147,19 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
 
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
         {chain && chain.blockExplorers ? (
-          <TextButton
-            sx={{ padding: "0px !important", margin: "0px !important" }}
-            href={`${chain.blockExplorers.default.url}/tx/${tx.transactions.sendingChain}`}
-            target="_blank"
-          >
-            {shorten(tx.transactions.sendingChain)}
-          </TextButton>
+          <Box display="flex" flexDirection="row" justifyContent="start" alignItems="center" gap="4px">
+            <SvgIcon
+              sx={{ marginBottom: "4px" }}
+              fontSize="small"
+              component={tx.send ? VerticalAlignTopIcon : VerticalAlignBottomIcon}
+            />
+            <StyledTextButton
+              href={`${chain.blockExplorers.default.url}/tx/${tx.transactions.sendingChain}`}
+              target="_blank"
+            >
+              {shorten(tx.transactions.sendingChain)}
+            </StyledTextButton>
+          </Box>
         ) : (
           <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
             {shorten(tx.transactions.sendingChain)}
@@ -130,7 +173,7 @@ const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <Token key={"OHM"} name={"OHM"} />
           <Box marginLeft="14px" marginRight="10px">
-            <Typography>{tx.amount}</Typography>
+            <Typography>{`${tx.amount} OHM`}</Typography>
           </Box>
         </Box>
       </TableCell>
@@ -153,17 +196,32 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
   return (
     <Box mt="42px">
       {/* StyledPoolInfo */}
-      <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-        <Token key={"OHM"} name={"OHM"} />
-        <Box marginLeft="14px" marginRight="10px">
-          <Typography>{`OHM`}</Typography>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        style={{ whiteSpace: "nowrap" }}
+      >
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Token key={"OHM"} name={"OHM"} />
+          <Box marginLeft="14px" marginRight="10px">
+            <Typography>{`OHM`}</Typography>
+          </Box>
         </Box>
-        {/* <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} /> */}
+        <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+          <NetworkIcon chainId={tx.chainId} />
+          <SvgIcon
+            sx={{ marginBottom: "4px" }}
+            fontSize="small"
+            component={tx.send ? VerticalAlignTopIcon : VerticalAlignBottomIcon}
+          />
+        </Box>
       </Box>
       <DataRow
         title={`Amount`}
         // isLoading={!claim?.gohm}
-        balance={tx.amount}
+        balance={`${tx.amount} OHM`}
       />
       <DataRow
         title={`Timestamp`}
@@ -176,13 +234,13 @@ const MobileHistoryTx = ({ tx }: { tx: IHistoryTx }) => {
         balance={
           <>
             {chain && chain.blockExplorers ? (
-              <TextButton
-                sx={{ padding: "0px !important", margin: "0px !important", height: "24px !important" }}
+              <StyledTextButton
+                sx={{ height: "24px !important" }}
                 href={`${chain.blockExplorers.default.url}/tx/${tx.transactions.sendingChain}`}
                 target="_blank"
               >
                 {shorten(tx.transactions.sendingChain)}
-              </TextButton>
+              </StyledTextButton>
             ) : (
               <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
                 {shorten(tx.transactions.sendingChain)}

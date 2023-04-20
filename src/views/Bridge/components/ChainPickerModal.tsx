@@ -73,7 +73,7 @@ export const ChainPickerModal = ({
                   {chain.iconUrl && (
                     <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
                   )}
-                </div>{" "}
+                </div>
                 <Typography variant="body1" sx={{ fontWeight: "400" }}>
                   {chain.name && chain.name}
                 </Typography>
