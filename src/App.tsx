@@ -33,6 +33,10 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
+import { Liquidity } from "src/views/Liquidity";
+import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
+import { Vault } from "src/views/Liquidity/Vault";
+import { Vaults } from "src/views/Liquidity/Vaults";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -227,7 +231,7 @@ function App() {
               <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
               <Suspense fallback={<div></div>}>
                 <Routes>
-                  <Route path="/" element={<Navigate to="/stake" />} />
+                  <Route path="/" element={<Navigate to="/dashboard" />} />
                   <Route
                     path="/stake"
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
@@ -242,6 +246,11 @@ function App() {
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />
+                  <Route path="/liquidity" element={<Liquidity />} />
+                  <Route path="/liquidity/pools" element={<ExternalStakePools />} />
+                  <Route path="/liquidity/vaults" element={<Vaults />} />
+                  <Route path="/liquidity/vaults/:id" element={<Vault />} />
+
                   <Route
                     path={"/info/*"}
                     element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}

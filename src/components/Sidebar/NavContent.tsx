@@ -4,11 +4,9 @@ import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
-import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
 import { DetermineRangeDiscount } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
 
@@ -55,15 +53,12 @@ const NavContent: React.VFC = () => {
                   <Box className="menu-divider">
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>
-                  <NavItem to="/bonds" icon="bond" label={`Bond`}>
-                    <Bonds />
-                    <InverseBonds />
-                  </NavItem>
-                  <NavItem to="/range" icon="range" label={`Range`}>
+                  <NavItem to="/stake" icon="stake" label={`Stake`} />
+                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                  <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
                     <RangePrice bidOrAsk="ask" />
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
                   <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
               )}
@@ -106,32 +101,6 @@ const NavContent: React.VFC = () => {
   );
 };
 
-const Bonds: React.VFC = () => {
-  const { data: bondsV2 = [] } = useLiveBonds();
-  const { data: bondsV3 = [] } = useLiveBondsV3();
-
-  const bonds = bondsV2.concat(bondsV3);
-
-  if (!bonds || bonds.length === 0) return null;
-
-  return (
-    <Box ml="26px" mb="12px" mr="18px">
-      {sortByDiscount(bonds)
-        .filter(bond => !bond.isSoldOut)
-        .map(bond => (
-          <Box mt="8px" key={bond.id}>
-            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}${bond.id}`}>
-              <Box display="flex" flexDirection="row" justifyContent="space-between">
-                <Typography variant="body1">{bond.quoteToken.name}</Typography>
-                <BondDiscount discount={bond.discount} />
-              </Box>
-            </Link>
-          </Box>
-        ))}
-    </Box>
-  );
-};
-
 const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
   const { data, isFetched } = DetermineRangeDiscount(props.bidOrAsk);
   return (
@@ -154,38 +123,6 @@ const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
         </Box>
       )}
     </>
-  );
-};
-
-const InverseBonds: React.VFC = () => {
-  const { data: bondsV2 = [] } = useLiveBonds({ isInverseBond: true });
-  const { data: bondsV3 = [] } = useLiveBondsV3({ isInverseBond: true });
-
-  const bonds = bondsV2.concat(bondsV3);
-
-  if (!bonds || bonds.length === 0) return null;
-
-  return (
-    <Box ml="26px" mt="12px" mb="12px" mr="18px">
-      <Typography variant="body2" color="textSecondary">
-        Inverse Bonds
-      </Typography>
-
-      <Box mt="12px">
-        {sortByDiscount(bonds)
-          .filter(bond => !bond.isSoldOut)
-          .map(bond => (
-            <Box mt="8px" key={bond.id}>
-              <Link component={NavLink} to={`/bonds/${bond.isV3Bond ? `v3/` : ""}inverse/${bond.id}`}>
-                <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  <Typography variant="body1">{bond.quoteToken.name}</Typography>
-                  <BondDiscount discount={bond.discount} />
-                </Box>
-              </Link>
-            </Box>
-          ))}
-      </Box>
-    </Box>
   );
 };
 

@@ -1,5 +1,6 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { useTokenSuppliesQuery } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import {
   getLiquidBackingPerGOhmSynthetic,
   getLiquidBackingPerOhmBacked,
@@ -29,7 +30,7 @@ export const useMarketCap = (subgraphUrl?: string) => {
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data },
@@ -58,7 +59,7 @@ export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQ
   const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data?.block },
@@ -87,7 +88,7 @@ export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): Us
   const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data?.block },
@@ -117,7 +118,7 @@ export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS): UseQueryR
   const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
-    { endpoint: endpoint },
+    getDataSource(endpoint),
     {
       recordCount: DEFAULT_RECORD_COUNT,
       filter: { block: latestDateQuery.data?.block },

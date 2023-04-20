@@ -1,0 +1,302 @@
+{
+  "abi": [
+    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+    { "inputs": [], "name": "BLVaultLido_Active", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_AlreadyInitialized", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_AuraDepositFailed", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_AuraWithdrawalFailed", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_Inactive", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_InvalidWithdrawal", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_OnlyManager", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_OnlyOwner", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_Reentrancy", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_WithdrawFailedPriceImbalance", "type": "error" },
+    { "inputs": [], "name": "BLVaultLido_WithdrawalDelay", "type": "error" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "ohmAmount", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wstethAmount", "type": "uint256" }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "rewardsToken", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+      ],
+      "name": "RewardsClaimed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "ohmAmount", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "wstethAmount", "type": "uint256" }
+      ],
+      "name": "Withdraw",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "MINTR",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRSRY",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "aura",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auraBooster",
+      "outputs": [{ "internalType": "contract IAuraBooster", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auraRewardPool",
+      "outputs": [{ "internalType": "contract IAuraRewardPool", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "bal",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "canWithdraw",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "claimRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
+        { "internalType": "uint256", "name": "minLpAmount_", "type": "uint256" }
+      ],
+      "name": "deposit",
+      "outputs": [{ "internalType": "uint256", "name": "lpAmountOut", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
+        { "internalType": "uint256[]", "name": "minTokenAmounts_", "type": "uint256[]" }
+      ],
+      "name": "emergencyWithdraw",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "fee",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLpBalance",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getOutstandingRewards",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "address", "name": "rewardToken", "type": "address" },
+            { "internalType": "uint256", "name": "outstandingRewards", "type": "uint256" }
+          ],
+          "internalType": "struct RewardsData[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getUserPairShare",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "initializeClone", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "lastDeposit",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "liquidityPool",
+      "outputs": [{ "internalType": "contract IBasePool", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lpBalance",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "manager",
+      "outputs": [{ "internalType": "contract BLVaultManagerLido", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [{ "internalType": "contract OlympusERC20Token", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pid",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "vault",
+      "outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "lpAmount_", "type": "uint256" },
+        { "internalType": "uint256[]", "name": "minTokenAmountsBalancer_", "type": "uint256[]" },
+        { "internalType": "uint256", "name": "minTokenAmountUser_", "type": "uint256" },
+        { "internalType": "bool", "name": "claim_", "type": "bool" }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "wsteth",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "claimRewards()": {
+        "details": "Can only be called by the owner of the vault"
+      },
+      "deposit(uint256,uint256)": {
+        "details": "Can only be called by the owner of the vault",
+        "params": {
+          "amount_": "The amount of wstETH to deposit",
+          "minLpAmount_": "The minimum acceptable amount of LP tokens to receive back"
+        },
+        "returns": {
+          "lpAmountOut": "    The amount of LP tokens received by the transaction"
+        }
+      },
+      "getLpBalance()": {
+        "returns": {
+          "_0": "uint256         LP balance deposited into Aura"
+        }
+      },
+      "getOutstandingRewards()": {
+        "returns": {
+          "_0": "RewardsData[]           The vault's unclaimed rewards in Aura"
+        }
+      },
+      "getUserPairShare()": {
+        "returns": {
+          "_0": "uint256         Claim on wstETH"
+        }
+      },
+      "withdraw(uint256,uint256[])": {
+        "details": "Can only be called by the owner of the vault",
+        "params": {
+          "lpAmount_": "The amount of LP tokens to withdraw from Balancer",
+          "minTokenAmounts_": "The minimum acceptable amounts of OHM (first entry), and wstETH (second entry) to receive back from Balancer"
+        },
+        "returns": {
+          "_0": "uint256         The amount of OHM received",
+          "_1": "uint256         The amount of wstETH received"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "claimRewards()": {
+        "notice": "Claims outstanding rewards from Aura"
+      },
+      "deposit(uint256,uint256)": {
+        "notice": "Mints OHM against a wstETH deposit and uses the OHM and wstETH to add liquidity to a Balancer pool"
+      },
+      "getLpBalance()": {
+        "notice": "Gets the LP balance of the contract based on its deposits to Aura"
+      },
+      "getOutstandingRewards()": {
+        "notice": "Returns the vault's unclaimed rewards in Aura"
+      },
+      "getUserPairShare()": {
+        "notice": "Gets the contract's claim on wstETH based on its LP balance deposited into Aura"
+      },
+      "withdraw(uint256,uint256[])": {
+        "notice": "Withdraws LP tokens from Balancer, burns the OHM side, and returns the wstETH side to the user"
+      }
+    },
+    "version": 1
+  }
+}

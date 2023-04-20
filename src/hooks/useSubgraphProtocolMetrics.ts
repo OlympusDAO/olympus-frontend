@@ -6,6 +6,7 @@ import {
   ProtocolMetricsQueryVariables,
   useInfiniteProtocolMetricsQuery,
 } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import {
@@ -51,9 +52,9 @@ export const useProtocolMetricsQuery = (
   /**
    * Handle changes to the props
    */
-  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>({
-    endpoint: subgraphUrl,
-  });
+  const [dataSource, setDataSource] = useState<{ endpoint: string; fetchParams?: RequestInit }>(
+    getDataSource(subgraphUrl),
+  );
   const [queryVariables, setQueryVariables] = useState<ProtocolMetricsQueryVariables>({
     filter: {
       ...baseFilter,
@@ -85,9 +86,7 @@ export const useProtocolMetricsQuery = (
       endpoint: subgraphUrl,
     });
 
-    setDataSource({
-      endpoint: subgraphUrl,
-    });
+    setDataSource(getDataSource(subgraphUrl));
 
     // Create a new paginator with the new earliestDate
     const tempPaginator =

@@ -45,6 +45,13 @@ export class Environment {
       fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
 
+  public static getSubgraphApiKey = () =>
+    this._get({
+      first: true,
+      key: "VITE_SUBGRAPH_API_KEY",
+      err: "Please provide a Graph Protocol API key in your .env file",
+    });
+
   /**
    * a feature flag for denoting when we are on the staging server
    * @returns {string} true or false

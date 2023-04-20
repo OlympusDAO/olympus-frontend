@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { TokenRecord, TokenRecord_Filter, useTokenRecordsQuery } from "src/generated/graphql";
+import { getDataSource } from "src/graphql/query";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
@@ -18,7 +19,7 @@ export const useTokenRecordsLatestBlock = (subgraphUrl?: string) => {
   const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
 
   return useTokenRecordsQuery(
-    { endpoint: finalSubgraphUrl },
+    getDataSource(finalSubgraphUrl),
     {
       recordCount: 1,
       endpoint: finalSubgraphUrl,
@@ -39,7 +40,7 @@ export const useTokenRecordsLatestRecord = (subgraphUrl?: string) => {
   const finalSubgraphUrl = subgraphUrl || getSubgraphUrl();
 
   return useTokenRecordsQuery(
-    { endpoint: finalSubgraphUrl },
+    getDataSource(finalSubgraphUrl),
     {
       recordCount: 1,
       endpoint: finalSubgraphUrl,
