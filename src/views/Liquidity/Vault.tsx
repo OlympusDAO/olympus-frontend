@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -24,6 +25,7 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useFetchZeroExSwapData } from "src/hooks/useFetchZeroExSwapData";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
 import { useGetExpectedPairTokenAmount } from "src/views/Liquidity/hooks/useGetExpectedPairTokenAmount";
@@ -37,10 +39,13 @@ import TokenModal, {
   ModalHandleSelectProps,
 } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
 import SlippageModal from "src/views/Zap/SlippageModal";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 
 export const Vault = () => {
   const { id } = useParams();
   const { data: vault, isLoading } = useGetVault({ address: id });
+  const { chain } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork();
   const networks = useTestableNetworks();
   const { data: ohmPrice } = useOhmPrice();
   const withdraw = useWithdrawLiquidity();
@@ -360,25 +365,32 @@ export const Vault = () => {
               </Box>
             </Box>
           </Box>
-
-          <PrimaryButton
-            fullWidth
-            disabled={
-              isWithdrawal
-                ? Number(reserveAmount) === 0 ||
-                  Number(reserveAmount) > Number(vault.lpTokenBalance) ||
-                  withdraw.isLoading ||
-                  !vault.canWithdraw
-                : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
-            }
-            onClick={() => {
-              isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
-            }}
-          >
-            {isWithdrawal
-              ? `Withdraw for ${vault.pairTokenName}`
-              : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
-          </PrimaryButton>
+          <WalletConnectedGuard fullWidth>
+            <>
+              {networks.MAINNET == chain?.id ? (
+                <PrimaryButton
+                  fullWidth
+                  disabled={
+                    isWithdrawal
+                      ? Number(reserveAmount) === 0 ||
+                        Number(reserveAmount) > Number(vault.lpTokenBalance) ||
+                        withdraw.isLoading ||
+                        !vault.canWithdraw
+                      : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
+                  }
+                  onClick={() => {
+                    isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
+                  }}
+                >
+                  {isWithdrawal
+                    ? `Withdraw for ${vault.pairTokenName}`
+                    : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
+                </PrimaryButton>
+              ) : (
+                <PrimaryButton onClick={() => switchNetwork?.(NetworkId.MAINNET)}>Switch Network</PrimaryButton>
+              )}
+            </>
+          </WalletConnectedGuard>
 
           {isDepositStepsModalOpen && (
             <DepositSteps
