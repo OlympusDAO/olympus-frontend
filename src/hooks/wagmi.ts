@@ -73,6 +73,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
     },
     { ...chain.goerli, rpcUrls: { default: "https://rpc.ankr.com/eth_goerli" } },
+    { ...chain.arbitrumGoerli, rpcUrls: { default: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public" } },
   ],
   [
     jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
