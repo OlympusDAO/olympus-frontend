@@ -2,9 +2,8 @@ import { Provider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import { useMemo } from "react";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { EthereumNetwork } from "src/networkDetails";
 
-export const useArchiveNodeProvider = (networkId: EthereumNetwork) => {
+export const useArchiveNodeProvider = (networkId: number) => {
   const provider: Provider | undefined = useMemo(() => {
     if (networkId) {
       const url = Environment.getArchiveNodeUrl(networkId);

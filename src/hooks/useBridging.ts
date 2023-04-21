@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { CROSS_CHAIN_BRIDGE_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
@@ -123,8 +124,9 @@ export const useBridgeOhm = () => {
 export const useGetBridgeTransferredEvents = (chainId: number) => {
   // const { chain = { id: 1 } } = useNetwork();
   const { address } = useAccount();
-  // const archiveProvider = useArchiveNodeProvider(chain?.id);
-  const contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
+  const archiveProvider = useArchiveNodeProvider(chainId);
+  let contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
+  if (archiveProvider) contract = contract.connect(archiveProvider);
   // const provider = Providers.getStaticProvider(chain.id);
   const { data: signer } = useSigner();
   const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId });
@@ -134,16 +136,18 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
       // using EVENTS
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
       if (!signer) throw new Error("Cannot get transfer events without a signer");
+      if (!signer) throw new Error("Cannot get transfer events without a signer");
       // const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred(address));
       // const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived(address));
+      // const fromBlock = blockNumber && blockNumber - 300;
       const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred());
       const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived());
       return [
         ...sendOhmEvents
-          .filter(event => event.args.sender_ === address)
+          .filter((event: BridgeTransferredEvent) => event.args.sender_ === address)
           .map((event: BridgeTransferredEvent) => mapBridgeEvents({ event, blockNumber, type: "send", chainId })),
         ...receiveOhmEvents
-          .filter(event => event.args.receiver_ === address)
+          .filter((event: BridgeReceivedEvent) => event.args.receiver_ === address)
           .map((event: BridgeReceivedEvent) => mapBridgeEvents({ event, blockNumber, type: "receive", chainId })),
       ];
       // const contract = IERC20__factory.connect(OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES], signer);

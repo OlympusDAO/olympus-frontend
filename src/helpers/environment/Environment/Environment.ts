@@ -1,4 +1,4 @@
-import { EthereumNetwork, NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/networkDetails";
 export class Environment {
   public static env = import.meta.env;
 
@@ -63,7 +63,7 @@ export class Environment {
       fallback: "false",
     });
 
-  public static getArchiveNodeUrl = (networkId: EthereumNetwork) => {
+  public static getArchiveNodeUrl = (networkId: number) => {
     switch (networkId) {
       case NetworkId.MAINNET:
         return this._get({
@@ -74,6 +74,11 @@ export class Environment {
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
           err: "Please provide a VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
         });
     }
   };

@@ -22,8 +22,6 @@ export enum NetworkId {
   BOBA_TESTNET = 28,
 }
 
-export type EthereumNetwork = NetworkId.MAINNET | NetworkId.TESTNET_GOERLI;
-
 // VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
 // ... attempting to prevent contract calls that can't complete & prevent user's from getting
 // ... stuck on the wrong view
