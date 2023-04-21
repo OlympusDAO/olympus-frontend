@@ -77,7 +77,6 @@ const NavContent: React.VFC = () => {
           <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
           <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
           <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
-          <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={`Grants`} />
           <StyledBox display="flex" justifyContent="space-around" paddingY="24px">
             <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="github" className={classes.gray} />
