@@ -1,13 +1,16 @@
 import { Environment } from "src/helpers/environment/Environment/Environment";
+import { NetworkId } from "src/networkDetails";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 beforeEach(() => {
-  vi.spyOn(console, "warn").mockImplementation();
+  vi.spyOn(console, "warn");
 });
 
 afterEach(() => {
   delete import.meta.env.VITE_GOOGLE_ANALYTICS_API_KEY;
   delete import.meta.env.VITE_GA_4_API_KEY;
   delete import.meta.env.VITE_COVALENT_API_KEY;
+  delete import.meta.env.VITE_ZAPPER_API;
   vi.spyOn(console, "warn").mockReset();
 });
 
@@ -55,6 +58,52 @@ describe("Environment", () => {
           "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
         ),
       );
+    });
+  });
+
+  describe("Zapper", () => {
+    it("should return a Zapper API key", () => {
+      import.meta.env.VITE_ZAPPER_API = "somekey";
+      expect(Environment.getZapperApiKey()).toEqual("somekey");
+    });
+  });
+
+  describe("StagingEnv", () => {
+    it("should return a StagingEnv", () => {
+      import.meta.env.VITE_STAGING_ENV = "false";
+      expect(Environment.getStagingFlag()).toEqual("false");
+
+      import.meta.env.VITE_STAGING_ENV = "true";
+      expect(Environment.getStagingFlag()).toEqual("true");
+    });
+  });
+
+  describe("WalletNewsDisabled", () => {
+    it("should return WalletNewsDisabled", () => {
+      import.meta.env.VITE_DISABLE_NEWS = "true";
+      expect(Environment.isWalletNewsEnabled()).toEqual(false);
+
+      import.meta.env.VITE_DISABLE_NEWS = "false";
+      expect(Environment.isWalletNewsEnabled()).toEqual(true);
+    });
+  });
+
+  describe("Node URLs", () => {
+    it("should return appropriate NodeURLs by default", () => {
+      expect(Environment.getNodeUrls(NetworkId.MAINNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.TESTNET_GOERLI)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.ARBITRUM)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.ARBITRUM_TESTNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.AVALANCHE)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.AVALANCHE_TESTNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.POLYGON)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.POLYGON_TESTNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.FANTOM)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.FANTOM_TESTNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.OPTIMISM)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.OPTIMISM_TESTNET)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.BOBA)).not.toBeUndefined();
+      expect(Environment.getNodeUrls(NetworkId.BOBA_TESTNET)).not.toBeUndefined();
     });
   });
 });

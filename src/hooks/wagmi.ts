@@ -23,9 +23,7 @@ const boba: Chain = {
     symbol: "BOBA",
     decimals: 18,
   },
-  rpcUrls: {
-    default: "https://mainnet.boba.network",
-  },
+  rpcUrls: { default: "https://mainnet.boba.network" },
   testnet: false,
 };
 
@@ -38,7 +36,7 @@ const avalanche: Chain = {
     symbol: "AVAX",
     decimals: 18,
   },
-  rpcUrls: { default: "https://api.avax.network/ext/bc/C/rpc" },
+  rpcUrls: { default: "https://rpc.ankr.com/avalanche" },
 };
 
 const fantom: Chain = {
@@ -50,8 +48,9 @@ const fantom: Chain = {
     symbol: "FTM",
     decimals: 18,
   },
-  rpcUrls: { default: "https://rpc.fantom.network" },
+  rpcUrls: { default: "https://rpc.ankr.com/fantom" },
 };
+
 export const { chains, provider, webSocketProvider } = configureChains(
   [
     { ...chain.mainnet, rpcUrls: { default: "https://rpc.ankr.com/eth" } },
@@ -67,13 +66,11 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...avalanche,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=32&q=100",
-      rpcUrls: { default: "https://rpc.ankr.com/avalanche" },
     },
     {
       ...fantom,
       iconUrl:
         "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
-      rpcUrls: { default: "https://rpc.ankr.com/fantom" },
     },
     { ...chain.goerli, rpcUrls: { default: "https://rpc.ankr.com/eth_goerli" } },
   ],
