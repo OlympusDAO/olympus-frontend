@@ -162,7 +162,7 @@ const renderTooltipItems = (
   let ignoredIndex = 0;
 
   return (
-    <Grid container xs={12} padding={"10px"}>
+    <Grid container padding={"10px"}>
       {renderDate(payload[0])}
       {payload
         .map((item, index) => {
