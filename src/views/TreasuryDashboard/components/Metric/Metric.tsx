@@ -48,7 +48,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: "OHM " + `Price`,
-    tooltip: `This price is sourced from the subgraph, so will lag the real-time market rate.`,
+    tooltip: `This price is sourced from the liquidity pools, so will show the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -65,6 +65,7 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgra
   const _props: MetricProps = {
     ...props,
     label: "OHM " + `Price`,
+    tooltip: `This price is determined at the time a snapshot is recorded (every 8 hours). As a result, it will lag the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
