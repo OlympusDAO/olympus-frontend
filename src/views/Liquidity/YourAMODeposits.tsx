@@ -107,9 +107,6 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
             <Typography fontSize="12px" fontWeight="500" lineHeight="15px">
               You don't have any Boosted Liquidity Vault deposits yet.
             </Typography>
-            <Typography fontSize="12px" color={theme.colors.gray[40]} mb="16.5px">
-              By doing so, you are strengthening the protocol and making your voice heard.
-            </Typography>
             <TertiaryButton href="https://docs.olympusdao.finance">Learn about OHM Boosted Vaults</TertiaryButton>
           </Box>
         </>
