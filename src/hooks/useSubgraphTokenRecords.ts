@@ -378,13 +378,8 @@ export const useTokenRecordsQueries = (
       }, "");
     };
 
-    /**
-     * If getCommonLatestDate() is used, then the results will be limited to the day
-     * for which all blockchains have data. As some blockchains have intermittent issues
-     * with indexing, this is set to null for the moment.
-     */
-    // const commonLatestDate = getCommonLatestDate();
-    const commonLatestDate = null;
+    // This results in the dashboard only showing data for the latest day for which all blockchains have data
+    const commonLatestDate = getCommonLatestDate();
 
     console.info(`${chartName}: Received all results. Combining.`);
     const tempResults = new Map<string, TokenRecord[]>();

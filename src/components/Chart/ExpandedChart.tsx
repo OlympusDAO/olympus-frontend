@@ -78,9 +78,8 @@ const ExpandedChart = ({
           {subgraphQueryUrl && (
             <Grid item xs textAlign="right" marginRight="15px">
               <Link href={subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                <Tooltip message={`Open Subgraph Query`}>
-                  <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
-                </Tooltip>
+                <Tooltip message={`Open Subgraph Query`} />
+                <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
               </Link>
             </Grid>
           )}
