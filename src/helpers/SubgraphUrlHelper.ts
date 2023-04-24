@@ -6,7 +6,7 @@ const STUB_API_KEY = "[api-key]";
  * NOTE: This is a deployment-specific URL, as the decentralized network does not support smooth migrations between deployments.
  */
 const SUBGRAPH_URL_ETHEREUM =
-  "https://gateway.thegraph.com/api/[api-key]/deployments/id/QmTX2jyTzouDkqXfmPx3mFYnXFi7TuEnMt1oTRvvXyfYRx";
+  "https://gateway.thegraph.com/api/[api-key]/deployments/id/QmaRGfd56bd3bTaxbKwU6fQ4vmVGTUJwSeXVWMQhfaXEV3";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-arbitrum";
 const SUBGRAPH_URL_FANTOM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-fantom";
 const SUBGRAPH_URL_POLYGON = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-polygon";
