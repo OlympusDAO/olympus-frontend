@@ -618,7 +618,15 @@ const renderMultiLineChart = (
       }
     />
     {dataKeys.map((value: string) => {
-      return <Line dataKey={value} stroke={dataKeyColors.get(value)} dot={false} strokeWidth={LINE_STROKE_WIDTH} />;
+      return (
+        <Line
+          key={value}
+          dataKey={value}
+          stroke={dataKeyColors.get(value)}
+          dot={false}
+          strokeWidth={LINE_STROKE_WIDTH}
+        />
+      );
     })}
   </LineChart>
 );
