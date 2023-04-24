@@ -7,6 +7,8 @@ const DEFAULT_DATE_OFFSET = -14;
  *
  * NOTE: if the subgraph is deployed on the decentralized network, the URL will be the playground interface
  * for the subgraph. There is currently no mechanism to pass a query to that interface.
+ *
+ * TODO: add support for blockchain-specific decentralized network subgraph URLs
  */
 export const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string): string => {
   if (subgraphUrl.includes("gateway.thegraph.com")) {
