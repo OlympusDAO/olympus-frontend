@@ -35,8 +35,6 @@ export interface IBridgeFee {
 }
 
 export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
-  const client = useQueryClient();
-  const { address = "" } = useAccount();
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const network = useBridgeableTestableNetwork();
   console.log("chsoen chain", chain.id, destinationChainId);

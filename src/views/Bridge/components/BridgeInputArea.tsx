@@ -1,6 +1,14 @@
-import { useTheme } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { Icon, OHMTokenProps, PrimaryButton, SwapCard, SwapCollection, Token } from "@olympusdao/component-library";
+import {
+  DataRow,
+  Icon,
+  OHMTokenProps,
+  PrimaryButton,
+  SwapCard,
+  SwapCollection,
+  Token,
+} from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -8,11 +16,12 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance } from "src/hooks/useBalance";
-import { useBridgeOhm } from "src/hooks/useBridging";
+import { useBridgeOhm, useEstimateSendFee } from "src/hooks/useBridging";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
-import { useNetwork } from "wagmi";
+import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
+import { useAccount, useNetwork } from "wagmi";
 
 export const BridgeInputArea = () => {
   const { chain = { id: 1 } } = useNetwork();
@@ -25,6 +34,14 @@ export const BridgeInputArea = () => {
   const [recChainOpen, setRecChainOpen] = useState(false);
   const [sendChainOpen, setSendChainOpen] = useState(false);
   const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
+
+  const { address } = useAccount();
+  const { data: fee, isLoading: feeIsLoading } = useEstimateSendFee({
+    destinationChainId: receivingChain,
+    recipientAddress: address as string,
+    amount,
+  });
+
   const setMax = () => {
     if (!ohmBalance) return;
     setAmount(ohmBalance.toString());
@@ -94,12 +111,39 @@ export const BridgeInputArea = () => {
                   </>
                 }
               >
-                <PrimaryButton fullWidth disabled={bridgeMutation.isLoading} onClick={() => setConfirmOpen(true)}>
-                  {bridgeMutation.isLoading ? "Bridging..." : "Bridge"}
+                <PrimaryButton
+                  fullWidth
+                  disabled={bridgeMutation.isLoading || !(Number(amount) > 0)}
+                  onClick={() => setConfirmOpen(true)}
+                >
+                  {bridgeMutation.isLoading
+                    ? "Bridging..."
+                    : Number(amount) > 0
+                    ? "Bridge"
+                    : "Enter an amount to bridge"}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>
           )}
+          <Box sx={{ padding: "15px 0" }}>
+            <Typography
+              variant="body1"
+              style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90", textAlign: "center" }}
+            >
+              When bridging <strong>OHM</strong>, the <strong>OHM</strong> on the sending chain gets burned and new{" "}
+              <strong>OHM</strong> gets minted on the other side.
+              <br />
+              Bridge in peace OHMie.
+            </Typography>
+          </Box>
+          <Box display="flex" flexDirection="column">
+            <DataRow
+              id="bridge-fees"
+              title={`Fees`}
+              // isLoading={feeIsLoading}
+              balance={fee ? `${formatBalance(fee.nativeFee)} ETH` : `TBD`}
+            />
+          </Box>
         </Box>
       </Box>
       <BridgeConfirmModal

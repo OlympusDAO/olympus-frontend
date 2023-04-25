@@ -93,7 +93,9 @@ const Bridge = () => {
           {transferEvents && transferEvents.length > 0 ? (
             <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
           ) : (
-            <Typography>You have not bridged any OHM recently.</Typography>
+            <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
+              You have not bridged any OHM recently.
+            </Typography>
           )}
         </Paper>
       </Box>
