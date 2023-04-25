@@ -227,21 +227,25 @@ export const BRIDGE_CHAINS = {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
     name: "Ethereum",
+    token: "MAINNET",
   },
   [NetworkId.ARBITRUM]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
     name: "Arbitrum",
+    token: "ARBITRUM",
   },
   [NetworkId.TESTNET_GOERLI]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
     name: "Goerli",
+    token: "MAINNET",
   },
   [NetworkId.ARBITRUM_GOERLI]: {
     iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
     iconBackground: "",
     name: "Arbitrum Goerli",
+    token: "ARBITRUM",
   },
 };
 

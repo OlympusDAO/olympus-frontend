@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { Icon, Modal } from "@olympusdao/component-library";
+import { Icon, Modal, OHMTokenProps, Token } from "@olympusdao/component-library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
 import { useBridgeableChains } from "src/views/Bridge/helpers";
@@ -76,20 +76,8 @@ export const ChainPickerModal = ({
                   border: selected ? `1px solid ${theme.colors.primary[300]}` : ``,
                 }}
               >
-                <Box display="flex" gap={1}>
-                  <div
-                    style={{
-                      background: chain.iconBackground,
-                      width: 24,
-                      height: 24,
-                      borderRadius: 999,
-                      overflow: "hidden",
-                    }}
-                  >
-                    {chain.iconUrl && (
-                      <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
-                    )}
-                  </div>
+                <Box display="flex" gap={1} alignItems="center">
+                  <Token name={chain.token as OHMTokenProps["name"]} />
                   <Typography variant="body1" sx={{ fontWeight: "400" }}>
                     {chain.name && chain.name}
                   </Typography>

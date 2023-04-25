@@ -1,11 +1,11 @@
-import { useTheme } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { Icon, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
+import { Icon, OHMTokenProps, PrimaryButton, SwapCard, SwapCollection, Token } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { BRIDGE_CHAINS, IChainAttrs, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
+import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance } from "src/hooks/useBalance";
 import { useBridgeOhm } from "src/hooks/useBridging";
@@ -144,7 +144,7 @@ const SwitchChainBtn = () => {
 
 const BridgingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () => void }) => {
   const theme = useTheme();
-  const chain: IChainAttrs | undefined = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
+  const chain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
 
   return (
     <Box
@@ -153,7 +153,7 @@ const BridgingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () 
       sx={{
         height: "39px",
         borderRadius: "6px",
-        padding: "9px 18px",
+        padding: "9px 0px",
         cursor: "pointer",
         background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
       }}
@@ -166,22 +166,15 @@ const BridgingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () 
           {" Unkown"}
         </>
       ) : (
-        <>
-          <div
-            style={{
-              background: chain.iconBackground,
-              width: 24,
-              height: 24,
-              borderRadius: 999,
-              overflow: "hidden",
-            }}
-          >
-            {chain.iconUrl && (
-              <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
-            )}
-          </div>{" "}
-          {chain.name && chain.name}
-        </>
+        <Box display="flex" gap={1} alignItems="center">
+          <Token name={chain.token as OHMTokenProps["name"]} />
+          <Typography variant="body1" sx={{ fontWeight: "400" }}>
+            {chain.name && chain.name}
+          </Typography>
+          <Box display="flex" justifyContent="center" my="9px">
+            <Icon name="caret-down" />
+          </Box>
+        </Box>
       )}
     </Box>
   );
