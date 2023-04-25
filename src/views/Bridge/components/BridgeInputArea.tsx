@@ -1,14 +1,6 @@
 import { Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import {
-  DataRow,
-  Icon,
-  OHMTokenProps,
-  PrimaryButton,
-  SwapCard,
-  SwapCollection,
-  Token,
-} from "@olympusdao/component-library";
+import { Icon, OHMTokenProps, PrimaryButton, SwapCard, SwapCollection, Token } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -16,12 +8,12 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance } from "src/hooks/useBalance";
-import { useBridgeOhm, useEstimateSendFee } from "src/hooks/useBridging";
+import { useBridgeOhm } from "src/hooks/useBridging";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
+import { BridgeFees } from "src/views/Bridge/components/BridgeFees";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
-import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
-import { useAccount, useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 
 export const BridgeInputArea = () => {
   const { chain = { id: 1 } } = useNetwork();
@@ -34,13 +26,6 @@ export const BridgeInputArea = () => {
   const [recChainOpen, setRecChainOpen] = useState(false);
   const [sendChainOpen, setSendChainOpen] = useState(false);
   const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
-
-  const { address } = useAccount();
-  const { data: fee, isLoading: feeIsLoading } = useEstimateSendFee({
-    destinationChainId: receivingChain,
-    recipientAddress: address as string,
-    amount,
-  });
 
   const setMax = () => {
     if (!ohmBalance) return;
@@ -137,12 +122,7 @@ export const BridgeInputArea = () => {
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column">
-            <DataRow
-              id="bridge-fees"
-              title={`Fees`}
-              // isLoading={feeIsLoading}
-              balance={fee ? `${formatBalance(fee.nativeFee)} ETH` : `TBD`}
-            />
+            <BridgeFees amount={amount} receivingChain={receivingChain} />
           </Box>
         </Box>
       </Box>
