@@ -1,4 +1,4 @@
-import { Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { Icon, OHMTokenProps, PrimaryButton, SwapCard, SwapCollection, Token } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
@@ -43,7 +43,14 @@ export const BridgeInputArea = () => {
               UpperSwapCard={
                 <SwapCard
                   id="from"
-                  token={<BridgingChainIcon chainId={chain.id} onClick={() => setSendChainOpen(true)} />}
+                  token={
+                    <Token
+                      name={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
+                      sx={{ width: "21px", height: "21px" }}
+                    />
+                  }
+                  tokenName={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].name}
+                  tokenOnClick={() => setSendChainOpen(true)}
                   // tokenName={"OHM"}
                   info={`${ohmBalance?.toString({ decimals: 4, format: true, trim: true }) || "0.00"} ${"OHM"}`}
                   endString="Max"
@@ -56,7 +63,14 @@ export const BridgeInputArea = () => {
               LowerSwapCard={
                 <SwapCard
                   id="to"
-                  token={<BridgingChainIcon chainId={receivingChain} onClick={() => setRecChainOpen(true)} />}
+                  token={
+                    <Token
+                      name={BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
+                      sx={{ width: "21px", height: "21px" }}
+                    />
+                  }
+                  tokenName={BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].name}
+                  tokenOnClick={() => setRecChainOpen(true)}
                   // tokenName={"OHM"}
                   value={amount}
                   inputProps={{ "data-testid": "toInput" }}
@@ -139,43 +153,5 @@ const SwitchChainBtn = () => {
         );
       }}
     </RainbowConnectButton.Custom>
-  );
-};
-
-const BridgingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () => void }) => {
-  const theme = useTheme();
-  const chain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
-
-  return (
-    <Box
-      display="flex"
-      alignItems="center"
-      sx={{
-        height: "39px",
-        borderRadius: "6px",
-        padding: "9px 0px",
-        cursor: "pointer",
-        background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
-      }}
-      onClick={onClick}
-      gap={1}
-    >
-      {!chain ? (
-        <>
-          <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />
-          {" Unkown"}
-        </>
-      ) : (
-        <Box display="flex" gap={1} alignItems="center">
-          <Token name={chain.token as OHMTokenProps["name"]} />
-          <Typography variant="body1" sx={{ fontWeight: "400" }}>
-            {chain.name && chain.name}
-          </Typography>
-          <Box display="flex" justifyContent="center" my="9px">
-            <Icon name="caret-down" />
-          </Box>
-        </Box>
-      )}
-    </Box>
   );
 };
