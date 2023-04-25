@@ -1,29 +1,40 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { Modal } from "@olympusdao/component-library";
+import { Icon, Modal } from "@olympusdao/component-library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
 import { useBridgeableChains } from "src/views/Bridge/helpers";
+import { useSwitchNetwork } from "wagmi";
 
 export const ChainPickerModal = ({
   isOpen,
-  receivingChain,
-  setReceivingChain,
+  selectedChain,
+  setSelectedChain,
   handleConfirmClose,
+  variant,
 }: {
   isOpen: boolean;
-  receivingChain: NetworkId;
-  setReceivingChain: React.Dispatch<React.SetStateAction<number>>;
+  selectedChain: NetworkId;
+  setSelectedChain: React.Dispatch<React.SetStateAction<number>>;
   handleConfirmClose: () => void;
+  variant: "send" | "receive";
 }) => {
+  // for sending variant
+  const { switchNetworkAsync } = useSwitchNetwork();
+  // for all variants
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
-  console.log("chainDefaults", chainDefaults);
   const chainIds = chainDefaults?.availableChains || [1];
-  console.log("chainIds", chainIds);
-
+  const chainsInSelector = variant === "send" ? [selectedChain, ...chainIds] : chainIds;
   const theme = useTheme();
-  const handleSelection = (e: React.MouseEvent, chainId: NetworkId) => {
+  const handleSelection = async (e: React.MouseEvent, chainId: NetworkId) => {
     e.preventDefault();
-    setReceivingChain(chainId);
+    console.log("handle selection");
+    if (variant === "send") {
+      await switchNetworkAsync?.(chainId);
+      setSelectedChain(selectedChain);
+    } else {
+      setSelectedChain(chainId);
+    }
+
     handleConfirmClose();
   };
 
@@ -34,18 +45,18 @@ export const ChainPickerModal = ({
       open={isOpen}
       headerContent={
         <Box display="flex" flexDirection="row">
-          <Typography variant="h4" sx={{ marginLeft: "6px" }}>
-            Choose Destination Chain
+          <Typography variant="body1" sx={{ marginLeft: "6px", fontSize: "18px" }} fontWeight="500">
+            {variant === "send" ? `Select source chain` : `Select target chain`}
           </Typography>
         </Box>
       }
       onClose={handleConfirmClose}
     >
       <>
-        <Box display="flex" flexDirection="column" justifyContent="space-between" alignItems="start" gap={0}>
-          {chainIds.map(chainId => {
+        <Box display="flex" flexDirection="column" justifyContent="space-between" alignItems="start" gap={1}>
+          {chainsInSelector.map(chainId => {
             const chain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
-            const selected = receivingChain === chainId;
+            const selected = variant === "send" && selectedChain === chainId;
             return (
               <Box
                 key={chainId}
@@ -53,30 +64,37 @@ export const ChainPickerModal = ({
                 display="flex"
                 flexDirection="row"
                 alignItems="center"
+                justifyContent="space-between"
                 gap={1}
                 sx={{
+                  cursor: "pointer",
+                  borderRadius: "12px",
                   padding: "1rem",
-                  height: "3rem",
+                  height: "5rem",
                   width: "100%",
-                  backgroundColor: selected ? theme.colors.gray[500] : ``,
+                  backgroundColor: theme.colors.gray[700],
+                  border: selected ? `1px solid ${theme.colors.primary[300]}` : ``,
                 }}
               >
-                <div
-                  style={{
-                    background: chain.iconBackground,
-                    width: 24,
-                    height: 24,
-                    borderRadius: 999,
-                    overflow: "hidden",
-                  }}
-                >
-                  {chain.iconUrl && (
-                    <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
-                  )}
-                </div>
-                <Typography variant="body1" sx={{ fontWeight: "400" }}>
-                  {chain.name && chain.name}
-                </Typography>
+                <Box display="flex" gap={1}>
+                  <div
+                    style={{
+                      background: chain.iconBackground,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 999,
+                      overflow: "hidden",
+                    }}
+                  >
+                    {chain.iconUrl && (
+                      <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
+                    )}
+                  </div>
+                  <Typography variant="body1" sx={{ fontWeight: "400" }}>
+                    {chain.name && chain.name}
+                  </Typography>
+                </Box>
+                {selected && <Icon name="check-circle" sx={{ fontSize: "18px" }} htmlColor="#F8CC82" />}
               </Box>
             );
           })}

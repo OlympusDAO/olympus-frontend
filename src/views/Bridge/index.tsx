@@ -12,12 +12,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { DataRow, MiniCard, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGetDateTimeFromBlockNumber } from "src/helpers/timeUtil";
+import { nonNullable } from "src/helpers/types/nonNullable";
+import { useGohmBalance } from "src/hooks/useBalance";
 import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
 import { useNetwork } from "wagmi";
 
@@ -27,6 +32,7 @@ const classes = {
   dismiss: `${PREFIX}-dismiss`,
   bridgeHistoryHeaderText: `${PREFIX}-bridgeHistoryHeaderText`,
   root: `${PREFIX}-root`,
+  miniCardContainer: `MiniCard-miniCardContainer`,
 };
 
 const StyledTextButton = styled(TextButton)(({ theme }) => ({
@@ -48,9 +54,23 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
  * Component for Displaying BridgeLinks
  */
 const Bridge = () => {
+  const networks = useTestableNetworks();
+
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const { data: transferEvents } = useGetBridgeTransferredEvents(chain.id);
+  const gohmBalances = useGohmBalance();
+  const gohmTokens = [
+    // gohmBalances[networks.MAINNET].data,
+    gohmBalances[networks.ARBITRUM_V0].data,
+    gohmBalances[networks.AVALANCHE].data,
+    gohmBalances[NetworkId.POLYGON].data,
+    gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
+  ];
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   return (
     <>
@@ -59,9 +79,21 @@ const Bridge = () => {
         <Box width="100%" mt="24px">
           <BridgeInputArea />
         </Box>
+        {totalGohmBalance.gt("0") && (
+          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+            <MiniCard
+              title="Bridge gOHM on Synapse"
+              icon={["ETH", "ARBITRUM", "OPTIMISM"]}
+              href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
+            />
+          </Box>
+        )}
+
         <Paper headerText={`Bridging History`}>
-          {transferEvents && transferEvents.length > 0 && (
+          {transferEvents && transferEvents.length > 0 ? (
             <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
+          ) : (
+            <Typography>You have not bridged any OHM recently.</Typography>
           )}
         </Paper>
       </Box>

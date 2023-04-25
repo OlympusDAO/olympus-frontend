@@ -12,8 +12,10 @@ import { useBridgeOhm } from "src/hooks/useBridging";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
+import { useNetwork } from "wagmi";
 
 export const BridgeInputArea = () => {
+  const { chain = { id: 1 } } = useNetwork();
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
   const bridgeMutation = useBridgeOhm();
   const network = useBridgeableTestableNetwork();
@@ -21,6 +23,7 @@ export const BridgeInputArea = () => {
   const [amount, setAmount] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recChainOpen, setRecChainOpen] = useState(false);
+  const [sendChainOpen, setSendChainOpen] = useState(false);
   const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
   const setMax = () => {
     if (!ohmBalance) return;
@@ -40,7 +43,7 @@ export const BridgeInputArea = () => {
               UpperSwapCard={
                 <SwapCard
                   id="from"
-                  token={<SendingChainIcon />}
+                  token={<BridgingChainIcon chainId={chain.id} onClick={() => setSendChainOpen(true)} />}
                   // tokenName={"OHM"}
                   info={`${ohmBalance?.toString({ decimals: 4, format: true, trim: true }) || "0.00"} ${"OHM"}`}
                   endString="Max"
@@ -53,7 +56,7 @@ export const BridgeInputArea = () => {
               LowerSwapCard={
                 <SwapCard
                   id="to"
-                  token={<ReceivingChainIcon chainId={receivingChain} onClick={() => setRecChainOpen(true)} />}
+                  token={<BridgingChainIcon chainId={receivingChain} onClick={() => setRecChainOpen(true)} />}
                   // tokenName={"OHM"}
                   value={amount}
                   inputProps={{ "data-testid": "toInput" }}
@@ -95,9 +98,17 @@ export const BridgeInputArea = () => {
       />
       <ChainPickerModal
         isOpen={recChainOpen}
-        receivingChain={receivingChain}
-        setReceivingChain={setReceivingChain}
+        selectedChain={receivingChain}
+        setSelectedChain={setReceivingChain}
         handleConfirmClose={() => setRecChainOpen(false)}
+        variant="receive"
+      />
+      <ChainPickerModal
+        isOpen={sendChainOpen}
+        selectedChain={chain.id}
+        setSelectedChain={setReceivingChain}
+        handleConfirmClose={() => setSendChainOpen(false)}
+        variant="send"
       />
     </Box>
   );
@@ -131,51 +142,7 @@ const SwitchChainBtn = () => {
   );
 };
 
-/** displays the icon AND switches chains */
-const SendingChainIcon = () => {
-  const theme = useTheme();
-  return (
-    <RainbowConnectButton.Custom>
-      {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
-        if (!chain) return <></>;
-        return (
-          <Box
-            display="flex"
-            alignItems="center"
-            sx={{
-              height: "39px",
-              borderRadius: "6px",
-              padding: "9px 18px",
-              cursor: "pointer",
-              background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
-            }}
-            onClick={openChainModal}
-          >
-            {chain.unsupported && <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />}
-            {chain.hasIcon && (
-              <div
-                style={{
-                  background: chain.iconBackground,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 999,
-                  overflow: "hidden",
-                }}
-              >
-                {chain.iconUrl && (
-                  <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
-                )}
-              </div>
-            )}{" "}
-            {chain.name && chain.name}
-          </Box>
-        );
-      }}
-    </RainbowConnectButton.Custom>
-  );
-};
-
-const ReceivingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () => void }) => {
+const BridgingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: () => void }) => {
   const theme = useTheme();
   const chain: IChainAttrs | undefined = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
 
@@ -191,6 +158,7 @@ const ReceivingChainIcon = ({ chainId, onClick }: { chainId: number; onClick: ()
         background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
       }}
       onClick={onClick}
+      gap={1}
     >
       {!chain ? (
         <>
