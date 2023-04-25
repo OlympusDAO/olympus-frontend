@@ -49,9 +49,9 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
  */
 const Bridge = () => {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const { data: transferEvents } = useGetBridgeTransferredEvents(5);
+  const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
+  const { data: transferEvents } = useGetBridgeTransferredEvents(chain.id);
 
-  console.log("transferEvents", transferEvents);
   return (
     <>
       <PageTitle name="Bridge" />

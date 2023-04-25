@@ -6,7 +6,6 @@ import { CROSS_CHAIN_BRIDGE_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
 import { BridgeReceivedEvent, BridgeTransferredEvent } from "src/typechain/CrossChainBridge";
 import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
@@ -39,7 +38,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
   const client = useQueryClient();
   const { address = "" } = useAccount();
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
-  const networks = useTestableNetworks();
+  const network = useBridgeableTestableNetwork();
   console.log("chsoen chain", chain.id, destinationChainId);
 
   return useQuery<IBridgeFee, Error>(
@@ -49,7 +48,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
         !!CROSS_CHAIN_BRIDGE_ADDRESSES[destinationChainId as keyof typeof CROSS_CHAIN_BRIDGE_ADDRESSES];
       if (!destinationExists) throw new Error("Bridging to the chosen chain is not enabled");
 
-      const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(networks.MAINNET);
+      const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(network);
       if (!bridgeContract) throw new Error("Bridging doesn't exist on current network. Please switch networks.");
       if (Number(amount) === 0) throw new Error("You cannot bridge 0 OHM");
       const decimalAmount = new DecimalBigNumber(amount, 9);
