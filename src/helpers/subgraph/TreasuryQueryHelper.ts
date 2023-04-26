@@ -93,6 +93,25 @@ const getBalanceForTypes = (records: TokenSupply[], includedTypes: string[]): nu
     .reduce((previousValue, record) => previousValue + +record.balance, 0);
 };
 
+/**
+ * Returns the sum of balances for different supply types.
+ *
+ * Note that this will return positive or negative balances, depending on the type.
+ *
+ * For example, passing [TOKEN_SUPPLY_TYPE_LIQUIDITY, TOKEN_SUPPLY_TYPE_TREASURY]
+ * in the {includedTypes} parameter will return a number that is
+ * the sum of the supplyBalance property all records with matching types.
+ *
+ * @param records
+ * @param includedTypes
+ * @returns
+ */
+const getSupplyBalanceForTypes = (records: TokenSupply[], includedTypes: string[]): number => {
+  return records
+    .filter(record => isSupportedToken(record) && includedTypes.includes(record.type))
+    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+};
+
 export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[]): number => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LIQUIDITY]);
 };
@@ -164,9 +183,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
   ];
 
-  return records
-    .filter(record => includedTypes.includes(record.type))
-    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+  return getSupplyBalanceForTypes(records, includedTypes);
 };
 
 /**
@@ -196,9 +213,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
   ];
 
-  return records
-    .filter(record => includedTypes.includes(record.type))
-    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+  return getSupplyBalanceForTypes(records, includedTypes);
 };
 
 /**
@@ -229,9 +244,7 @@ export const getOhmBackedSupply = (records: TokenSupply[]): number => {
     TOKEN_SUPPLY_TYPE_LENDING,
   ];
 
-  return records
-    .filter(record => includedTypes.includes(record.type))
-    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+  return getSupplyBalanceForTypes(records, includedTypes);
 };
 
 /**
@@ -242,9 +255,7 @@ export const getOhmBackedSupply = (records: TokenSupply[]): number => {
  * @returns
  */
 export const getOhmTotalSupply = (records: TokenSupply[]): number => {
-  return records
-    .filter(record => record.type === TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY)
-    .reduce((previousValue, record) => previousValue + +record.supplyBalance, 0);
+  return getSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY]);
 };
 
 /**
