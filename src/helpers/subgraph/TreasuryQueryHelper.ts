@@ -52,6 +52,8 @@ export const getTreasuryAssetValue = (
 /**
  * Returns the sum of balances for different supply types.
  *
+ * Note that this will return positive balances for each type.
+ *
  * For example, passing [TOKEN_SUPPLY_TYPE_LIQUIDITY, TOKEN_SUPPLY_TYPE_TREASURY]
  * in the {includedTypes} parameter will return a number that is
  * the sum of the balance property all records with matching types.
@@ -60,45 +62,42 @@ export const getTreasuryAssetValue = (
  * @param includedTypes
  * @returns
  */
-export const getTokenSupplyBalanceForTypes = (records: TokenSupply[], includedTypes: string[]): number => {
+const getBalanceForTypes = (records: TokenSupply[], includedTypes: string[]): number => {
   return records
-    .filter(record => includedTypes.includes(record.type))
+    .filter(record => isSupportedToken(record) && includedTypes.includes(record.type))
     .reduce((previousValue, record) => previousValue + +record.balance, 0);
 };
 
 export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LIQUIDITY]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LIQUIDITY]);
 };
 
 export const getTreasurySupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TREASURY]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TREASURY]);
 };
 
 export const getMigrationOffsetSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_OFFSET]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_OFFSET]);
 };
 
 export const getBondDepositsSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [
-    TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
-    TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
-  ]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS, TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS]);
 };
 
 export const getBondVestingTokensSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS]);
 };
 
 export const getLendingSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LENDING]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LENDING]);
 };
 
 export const getBondPremintedSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED]);
 };
 
 export const getBoostedLiquidityVaultSupply = (records: TokenSupply[]): number => {
-  return getTokenSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT]);
+  return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT]);
 };
 
 export const getExternalSupply = (records: TokenSupply[]): number => {
