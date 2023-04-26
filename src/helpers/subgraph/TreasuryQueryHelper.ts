@@ -1,3 +1,4 @@
+import { GOHM_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { TokenRecord, TokenSupply } from "src/generated/graphql";
 import {
   CATEGORY_POL,
@@ -47,6 +48,30 @@ export const getTreasuryAssetValue = (
   }
 
   return filterReduce(records, record => categories.includes(record.category), false);
+};
+
+let supportedTokens: string[];
+
+const getSupportedTokens = (): string[] => {
+  if (!supportedTokens) {
+    const tokens: string[] = [];
+    const ohmAddresses = Object.values(OHM_ADDRESSES).map(address => address.toLowerCase());
+    const gOhmAddresses = Object.values(GOHM_ADDRESSES).map(address => address.toLowerCase());
+    tokens.push(...ohmAddresses);
+    tokens.push(...gOhmAddresses);
+
+    supportedTokens = tokens;
+  }
+
+  return supportedTokens;
+};
+
+const isSupportedToken = (record: TokenSupply) => {
+  if (!getSupportedTokens().includes(record.tokenAddress.toLocaleLowerCase())) {
+    return false;
+  }
+
+  return true;
 };
 
 /**
