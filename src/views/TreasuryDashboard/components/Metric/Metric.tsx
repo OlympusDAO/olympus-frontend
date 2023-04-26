@@ -93,7 +93,7 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
 export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const { data: totalSupply } = useOhmTotalSupply(props.subgraphUrl);
-  const { data: circSupply } = useOhmCirculatingSupply(props.subgraphUrl);
+  const circSupply = useOhmCirculatingSupply(props.subgraphUrls);
   const _props: MetricProps = {
     ...props,
     label: `OHM Circulating Supply / Total`,

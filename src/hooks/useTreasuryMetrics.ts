@@ -27,6 +27,7 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 export const useMarketCap = (subgraphUrl?: string) => {
   const ohmPriceQuery = useOhmPrice(subgraphUrl);
   const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
+  const currentIndexQuery = useCurrentIndex(subgraphUrl);
   const endpoint = subgraphUrl || getSubgraphUrl();
 
   return useTokenSuppliesQuery(
@@ -37,9 +38,10 @@ export const useMarketCap = (subgraphUrl?: string) => {
       endpoint: endpoint,
     },
     {
-      select: data => getOhmCirculatingSupply(data.tokenSupplies) * (ohmPriceQuery.data || 0),
+      select: data =>
+        getOhmCirculatingSupply(data.tokenSupplies, currentIndexQuery.data || 0) * (ohmPriceQuery.data || 0),
       ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && ohmPriceQuery.isSuccess, // Only fetch when we've been able to get the latest date and price
+      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess && ohmPriceQuery.isSuccess, // Only fetch when we've been able to get the latest date and price
     },
   );
 };
@@ -52,6 +54,7 @@ export const useMarketCap = (subgraphUrl?: string) => {
  */
 export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
+  const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
     subgraphUrls,
@@ -66,9 +69,9 @@ export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQ
       endpoint: endpoint,
     },
     {
-      select: data => getLiquidBackingPerOhmBacked(liquidBackingQuery, data.tokenSupplies),
+      select: data => getLiquidBackingPerOhmBacked(liquidBackingQuery, data.tokenSupplies, currentIndexQuery.data || 0),
       ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
+      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess, // Only fetch when we've been able to get the latest date
     },
   );
 };
@@ -81,6 +84,7 @@ export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQ
  */
 export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
   const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
+  const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
     subgraphUrls,
@@ -95,9 +99,10 @@ export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): Us
       endpoint: endpoint,
     },
     {
-      select: data => getLiquidBackingPerOhmFloating(liquidBackingQuery, data.tokenSupplies),
+      select: data =>
+        getLiquidBackingPerOhmFloating(liquidBackingQuery, data.tokenSupplies, currentIndexQuery.data || 0),
       ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
+      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess, // Only fetch when we've been able to get the latest date
     },
   );
 };
