@@ -92,7 +92,6 @@ export const useTokenSuppliesQuery = (
       recordCount: DEFAULT_RECORD_COUNT,
       endpoint: endpointNotNull,
     });
-    console.log(`${chartName}: queryVariables`, queryVariables);
 
     setDataSource(getDataSource(endpointNotNull));
 
