@@ -1,18 +1,14 @@
 import { useState } from "react";
-import { TokenSupply_Filter, useTokenSuppliesQuery } from "src/generated/graphql";
-import { getDataSource } from "src/graphql/query";
+import { TokenSupply_Filter } from "src/generated/graphql";
 import {
+  getGOhmSyntheticSupply,
   getOhmBackedSupply,
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
+import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
-import { useTokenRecordsLatestBlock } from "src/hooks/useTokenRecordsMetrics";
-import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
-
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
 
 export const useOhmCirculatingSupply = (subgraphUrls?: SUBGRAPH_URLS, earliestDate?: string | null): number => {
   const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
@@ -44,22 +40,15 @@ export const useOhmBackedSupply = (subgraphUrls?: SUBGRAPH_URLS, earliestDate?: 
   return getOhmBackedSupply(supplyData, currentIndexQuery.data || 0);
 };
 
-export const useGOhmSyntheticSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const currentIndexQuery = useCurrentIndex(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useGOhmSyntheticSupply = (subgraphUrls?: SUBGRAPH_URLS, earliestDate?: string | null) => {
+  const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
+  const [tokenSupplyBaseFilter] = useState<TokenSupply_Filter>({});
 
-  return useTokenSuppliesQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getOhmFloatingSupply(data.tokenSupplies, currentIndexQuery.data || 0),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
+  const supplyQuery = useTokenSuppliesQueries("GOhmSyntheticSupply", subgraphUrls, tokenSupplyBaseFilter, earliestDate);
+
+  const supplyData = supplyQuery && Array.from(supplyQuery).length > 0 ? Array.from(supplyQuery)[0][1] : [];
+  return getGOhmSyntheticSupply(
+    currentIndexQuery.data || 0,
+    getOhmFloatingSupply(supplyData, currentIndexQuery.data || 0),
   );
 };

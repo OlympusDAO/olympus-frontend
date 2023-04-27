@@ -23,7 +23,7 @@ type MetricProps = PropsOf<typeof Metric>;
 export type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
 export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: marketCap } = useMarketCap(props.subgraphUrl);
+  const marketCap = useMarketCap(props.subgraphUrls, props.earliestDate);
   const _props: MetricProps = {
     ...props,
     label: `OHM Market Cap`,
@@ -140,7 +140,7 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: liquidBackingPerGOhmCirculating } = useLiquidBackingPerGOhm(props.subgraphUrls);
+  const liquidBackingPerGOhmCirculating = useLiquidBackingPerGOhm(props.subgraphUrls, props.earliestDate);
 
   const tooltip = `Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
 

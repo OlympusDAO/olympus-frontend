@@ -16,7 +16,7 @@ import {
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
 import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
-import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
+import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -51,9 +51,9 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     subgraphDaysOffset,
   );
 
-  const tokenSupplyResults = useTokenSuppliesQuery(
+  const tokenSupplyResults = useTokenSuppliesQueries(
     chartName,
-    subgraphUrls.Ethereum,
+    subgraphUrls,
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
@@ -131,7 +131,11 @@ export const LiquidBackingPerOhmComparisonGraph = ({
         block: latestTokenRecord.block,
         gOhmPrice: latestProtocolMetric.gOhmPrice,
         ohmPrice: latestProtocolMetric.ohmPrice,
-        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(liquidBacking, currentTokenSupplies),
+        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(
+          liquidBacking,
+          currentTokenSupplies,
+          latestProtocolMetric.currentIndex,
+        ),
         liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(
           liquidBacking,
           latestProtocolMetric.currentIndex,
