@@ -1,19 +1,17 @@
 import { UseQueryResult } from "@tanstack/react-query";
-import { useTokenSuppliesQuery } from "src/generated/graphql";
+import { useState } from "react";
+import { TokenSupply_Filter, useTokenSuppliesQuery } from "src/generated/graphql";
 import { getDataSource } from "src/graphql/query";
 import {
   getLiquidBackingPerGOhmSynthetic,
   getLiquidBackingPerOhmBacked,
   getLiquidBackingPerOhmFloating,
-  getOhmCirculatingSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
-import {
-  useTokenRecordsLatestBlock,
-  useTokenRecordsLatestRecord,
-  useTreasuryLiquidValue,
-} from "src/hooks/useTokenRecordsMetrics";
+import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
+import { useTokenRecordsLatestRecord, useTreasuryLiquidValue } from "src/hooks/useTokenRecordsMetrics";
+import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
 import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
 
 const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
@@ -24,26 +22,9 @@ const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
  * @param subgraphUrl
  * @returns
  */
-export const useMarketCap = (subgraphUrl?: string) => {
-  const ohmPriceQuery = useOhmPrice(subgraphUrl);
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const currentIndexQuery = useCurrentIndex(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
-
-  return useTokenSuppliesQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data =>
-        getOhmCirculatingSupply(data.tokenSupplies, currentIndexQuery.data || 0) * (ohmPriceQuery.data || 0),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess && ohmPriceQuery.isSuccess, // Only fetch when we've been able to get the latest date and price
-    },
-  );
+export const useMarketCap = (subgraphUrls?: SUBGRAPH_URLS, earliestDate?: string | null): number => {
+  const ohmPriceQuery = useOhmPrice(subgraphUrls?.Ethereum);
+  return useOhmCirculatingSupply(subgraphUrls, earliestDate) * (ohmPriceQuery.data || 0);
 };
 
 /**
@@ -52,28 +33,25 @@ export const useMarketCap = (subgraphUrl?: string) => {
  * @param subgraphUrl
  * @returns react-query result wrapping a number representing the liquid backing per OHM
  */
-export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
-  const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
+export const useLiquidBackingPerOhmBacked = (subgraphUrls?: SUBGRAPH_URLS, earliestDate?: string | null): number => {
   const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
+  const [tokenSupplyBaseFilter] = useState<TokenSupply_Filter>({});
+
+  const supplyQuery = useTokenSuppliesQueries(
+    "LiquidBackingPerOhmBacked",
+    subgraphUrls,
+    tokenSupplyBaseFilter,
+    earliestDate,
+  );
+  const supplyData = supplyQuery && Array.from(supplyQuery).length > 0 ? Array.from(supplyQuery)[0][1] : [];
+
+  const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
   const liquidBackingQuery = useTreasuryLiquidValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
     subgraphUrls,
   );
-  const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
 
-  return useTokenSuppliesQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data?.block },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getLiquidBackingPerOhmBacked(liquidBackingQuery, data.tokenSupplies, currentIndexQuery.data || 0),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  return getLiquidBackingPerOhmBacked(liquidBackingQuery, supplyData, currentIndexQuery.data || 0);
 };
 
 /**
