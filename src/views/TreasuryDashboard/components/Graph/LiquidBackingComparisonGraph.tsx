@@ -206,8 +206,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     setHeaderText(isActiveTokenOHM ? `OHM Backing` : `gOHM Backing`);
     setTooltipText(
       isActiveTokenOHM
-        ? `This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`
-        : `This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`,
+        ? `This chart compares the price of OHM against its liquid backing per backed OHM. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`
+        : `This chart compares the price of gOHM against its liquid backing per backed gOHM. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`,
     );
   }, [isActiveTokenOHM]);
 
