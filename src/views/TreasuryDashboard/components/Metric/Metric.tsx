@@ -119,8 +119,8 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const { data: backedSupply } = useOhmBackedSupply(props.subgraphUrl);
-  const { data: liquidBackingPerOhmBacked } = useLiquidBackingPerOhmBacked(props.subgraphUrls);
+  const backedSupply = useOhmBackedSupply(props.subgraphUrls, props.earliestDate);
+  const liquidBackingPerOhmBacked: number = useLiquidBackingPerOhmBacked(props.subgraphUrls, props.earliestDate);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = `Liquid backing is divided by backed supply of OHM to give liquid backing per OHM.\n\nBacked supply (${
@@ -236,7 +236,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 
 export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const latestDateQuery = useTokenRecordsLatestRecord(props.subgraphUrls?.Ethereum);
-  const liquidBackingQuery = useTreasuryMarketValue(
+  const marketValueQuery = useTreasuryMarketValue(
     !latestDateQuery.data ? undefined : latestDateQuery.data.date,
     props.subgraphUrls,
   );
@@ -246,7 +246,7 @@ export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphPro
     label: `Treasury Balance`,
   };
 
-  if (liquidBackingQuery) _props.metric = formatCurrency(liquidBackingQuery);
+  if (marketValueQuery) _props.metric = formatCurrency(marketValueQuery);
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
