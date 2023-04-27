@@ -29,9 +29,9 @@ export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = 
     label: `OHM Market Cap`,
     tooltip: `Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
     
-    As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
+As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
 
-    Note: other sources may be inaccurate.`,
+Note: other sources may be inaccurate.`,
   };
 
   if (marketCap) _props.metric = formatCurrency(marketCap, 0);
@@ -123,7 +123,9 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps
   const liquidBackingPerOhmBacked: number = useLiquidBackingPerOhmBacked(props.subgraphUrls, props.earliestDate);
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = `Liquid backing is divided by backed supply of OHM to give liquid backing per OHM.\n\nBacked supply (${
+  const tooltip = `Liquid backing is divided by backed supply of OHM to give liquid backing per OHM.
+  
+Backed supply (${
     backedSupply ? formatNumber(backedSupply) : "Loading..."
   }) is the quantity of outstanding OHM that is backed by assets in the treasury. This typically excludes pre-minted OHM and user deposits for bonds, protocol-owned OHM in liquidity pools and OHM deployed into lending markets.`;
 
