@@ -212,7 +212,9 @@ export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgr
     ...props,
     label: "gOHM " + `Price`,
     tooltip:
-      "gOHM = sOHM * index" + "\n\n" + `The price of gOHM is equal to the price of OHM multiplied by the current index`,
+      "gOHM = sOHM * index" +
+      "\n\n" +
+      `The price of gOHM is equal to the price of OHM multiplied by the current index.`,
   };
 
   if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
