@@ -1,5 +1,5 @@
 import { Metric } from "@olympusdao/component-library";
-import { formatCurrency, formatNumber } from "src/helpers";
+import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
 import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -11,7 +11,7 @@ import {
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTokenRecordsLatestRecord, useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
-import { useOhmBackedSupply, useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
+import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
@@ -23,11 +23,13 @@ type MetricProps = PropsOf<typeof Metric>;
 export type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
 export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const marketCap = useMarketCap(props.subgraphUrls, props.earliestDate);
+  const [marketCap, ohmPrice, ohmCirculatingSupply] = useMarketCap(props.subgraphUrls, props.earliestDate);
   const _props: MetricProps = {
     ...props,
     label: `OHM Market Cap`,
-    tooltip: `Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM multiplied by the circulating supply. 
+    tooltip: `Market capitalization is the dollar value of the outstanding OHM tokens. It is calculated here as the price of OHM (${formatCurrencyOrLoading(
+      ohmPrice,
+    )}) multiplied by the circulating supply (${formatNumberOrLoading(ohmCirculatingSupply)}). 
     
 As the displayed OHM price is rounded to 2 decimal places, a manual calculation using the displayed values is likely to slightly differ from the reported market cap. The reported market cap is accurate, as it uses the unrounded price of OHM.
 
@@ -110,7 +112,7 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
   const _props: MetricProps = {
     ...props,
     label: `gOHM Circulating Supply / Total`,
-    tooltip: `gOHM supply is synthetically derived from OHM supply divided by the index.`,
+    tooltip: `gOHM supply is synthetically derived from OHM circulating supply divided by the index.`,
   };
 
   _props.metric = `- / -`;
@@ -119,15 +121,17 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const backedSupply = useOhmBackedSupply(props.subgraphUrls, props.earliestDate);
-  const liquidBackingPerOhmBacked: number = useLiquidBackingPerOhmBacked(props.subgraphUrls, props.earliestDate);
+  const [liquidBackingPerOhmBacked, liquidBacking, backedSupply] = useLiquidBackingPerOhmBacked(
+    props.subgraphUrls,
+    props.earliestDate,
+  );
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
-  const tooltip = `Liquid backing is divided by backed supply of OHM to give liquid backing per OHM.
+  const tooltip = `Liquid backing (${formatCurrencyOrLoading(
+    liquidBacking,
+  )}) is divided by backed supply of OHM (${formatNumberOrLoading(backedSupply)}) to give liquid backing per OHM.
   
-Backed supply (${
-    backedSupply ? formatNumber(backedSupply) : "Loading..."
-  }) is the quantity of outstanding OHM that is backed by assets in the treasury. This typically excludes pre-minted OHM and user deposits for bonds, protocol-owned OHM in liquidity pools and OHM deployed into lending markets.`;
+Backed supply is the quantity of outstanding OHM that is backed by assets in the treasury. This typically excludes pre-minted OHM and user deposits for bonds, protocol-owned OHM in liquidity pools and OHM deployed into lending markets.`;
 
   const _props: MetricProps = {
     ...props,
@@ -142,9 +146,14 @@ Backed supply (${
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const liquidBackingPerGOhmCirculating = useLiquidBackingPerGOhm(props.subgraphUrls, props.earliestDate);
+  const [liquidBackingPerGOhmCirculating, liquidBacking, gOhmSupply, latestIndex, ohmFloatingSupply] =
+    useLiquidBackingPerGOhm(props.subgraphUrls, props.earliestDate);
 
-  const tooltip = `Liquid backing per gOHM is synthetically calculated as liquid backing multiplied by the current index and divided by OHM floating supply.`;
+  const tooltip = `Liquid backing per gOHM is calculated as liquid backing (${formatCurrencyOrLoading(
+    liquidBacking,
+  )}) multiplied by the latest index (${formatNumberOrLoading(
+    latestIndex,
+  )}) and divided by OHM floating supply (${formatNumberOrLoading(ohmFloatingSupply)}).`;
 
   const _props: MetricProps = {
     ...props,
@@ -158,6 +167,12 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
   return <Metric {..._props} />;
 };
 
+/**
+ * React Component that displays the most recent OHM index.
+ *
+ * @param props
+ * @returns
+ */
 export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const { data: currentIndex } = useCurrentIndex(props.subgraphUrl);
   const _props: MetricProps = {

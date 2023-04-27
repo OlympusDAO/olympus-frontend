@@ -101,7 +101,8 @@ const getBalanceMultiplier = (record: TokenSupply, ohmIndex: number): number => 
  * in the {includedTypes} parameter will return a number that is
  * the sum of the balance property all records with matching types.
  *
- * @param records
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  * @param includedTypes
  * @returns
  */
@@ -120,7 +121,8 @@ const getBalanceForTypes = (records: TokenSupply[], includedTypes: string[], ohm
  * in the {includedTypes} parameter will return a number that is
  * the sum of the supplyBalance property all records with matching types.
  *
- * @param records
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  * @param includedTypes
  * @returns
  */
@@ -194,7 +196,8 @@ export const getExternalSupply = (records: TokenSupply[], ohmIndex: number): num
  * - minus: pre-minted OHM for bonds
  * - minus: OHM user deposits for bonds
  *
- * @param records
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  * @returns
  */
 export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number): number => {
@@ -223,7 +226,8 @@ export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number
  * - minus: OHM user deposits for bonds
  * - minus: protocol-owned OHM in liquidity pools
  *
- * @param records
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  * @returns
  */
 export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): number => {
@@ -255,6 +259,9 @@ export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): 
  * - minus: OHM user deposits for bonds
  * - minus: protocol-owned OHM in liquidity pools
  * - minus: OHM minted and deployed into lending markets
+ *
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  */
 export const getOhmBackedSupply = (records: TokenSupply[], ohmIndex: number): number => {
   const includedTypes = [
@@ -276,7 +283,8 @@ export const getOhmBackedSupply = (records: TokenSupply[], ohmIndex: number): nu
  * For a given array of TokenSupply records (assumed to be at the same point in time),
  * this function returns the OHM total supply.
  *
- * @param records
+ * @param records TokenSupply records for the given day
+ * @param ohmIndex The index of OHM for the given day
  * @returns
  */
 export const getOhmTotalSupply = (records: TokenSupply[], ohmIndex: number): number => {
