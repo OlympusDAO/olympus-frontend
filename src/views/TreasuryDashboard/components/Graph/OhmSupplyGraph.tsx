@@ -104,8 +104,10 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
        */
       const dayProtocolMetricsResults = protocolMetricsResults.get(dateString);
       if (!dayProtocolMetricsResults || dayProtocolMetricsResults.length == 0) {
-        throw new Error(`No protocol metrics found for ${dateString}`);
+        console.log(`${chartName}: No protocol metrics found for ${dateString}. Skipping.`);
+        return;
       }
+
       const ohmIndex = dayProtocolMetricsResults[0].currentIndex;
 
       const earliestTimestamp = getLatestTimestamp(dateSupplyValues);
