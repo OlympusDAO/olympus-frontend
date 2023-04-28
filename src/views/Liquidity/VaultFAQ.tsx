@@ -16,7 +16,7 @@ export const VaultFAQ = () => {
       >
         <Tab label="Liquidity Without Compromise" />
         <Tab label="Hedge stETH volatility" />
-        <Tab label="2x your LP rewards" />
+        <Tab label="More LP rewards" />
         <Tab label="What's in it for Olympus?" />
       </Tabs>
       <Box display="flex" flexWrap="wrap" mt="21px" gap="66px">
@@ -68,7 +68,7 @@ const content: VaultFaqContent = {
     {
       title: "Make your stETH work twice as hard compared to other LP pools.",
       content:
-        "Olympus matches your stETH deposit with OHM, but refrains from collecting rewards from the pool, instead passing those along to you as the depositor. Earn rewards as if you owned the entire LP position with only half the deposit.",
+        "Olympus matches your stETH deposit with OHM, but refrains from collecting rewards from the pool, instead passing those along to you as the depositor. Earn rewards as if you owned the entire LP position with only half the deposit and no exposure to margin.",
     },
     {
       title: "Share impermanent loss with Olympus, but not the rewards.",

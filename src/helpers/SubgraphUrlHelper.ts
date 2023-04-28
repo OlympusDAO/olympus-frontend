@@ -2,6 +2,9 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 
 const STUB_API_KEY = "[api-key]";
 
+/**
+ * NOTE: This is a deployment-specific URL, as the decentralized network does not support smooth migrations between deployments.
+ */
 const SUBGRAPH_URL_ETHEREUM =
   "https://gateway.thegraph.com/api/[api-key]/deployments/id/QmPCuWLfoH33u699BFwfDEcqaSedhyZpVNk48pQDaS2Kmy";
 const SUBGRAPH_URL_ARBITRUM = "https://api.thegraph.com/subgraphs/name/olympusdao/protocol-metrics-arbitrum";

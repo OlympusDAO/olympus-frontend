@@ -101,6 +101,26 @@ export const useCurrentIndex = (subgraphUrl?: string) => {
       recordCount: 1,
       endpoint: endpoint,
     },
-    { select: data => data.protocolMetrics[0].currentIndex, ...QUERY_OPTIONS },
+    { select: data => (data.protocolMetrics.length ? data.protocolMetrics[0].currentIndex : 0), ...QUERY_OPTIONS },
+  );
+};
+
+/**
+ * Determines the index on the specified date.
+ *
+ * @param date YYYY-MM-DD format date string
+ * @returns
+ */
+export const useIndexOnDate = (date: string, subgraphUrl?: string) => {
+  const endpoint = subgraphUrl || getSubgraphUrl();
+
+  return useProtocolMetricsQuery(
+    getDataSource(endpoint),
+    {
+      recordCount: 1,
+      endpoint: endpoint,
+      filter: { date: date },
+    },
+    { select: data => (data.protocolMetrics.length ? data.protocolMetrics[0].currentIndex : 0), ...QUERY_OPTIONS },
   );
 };

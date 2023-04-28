@@ -1,3 +1,4 @@
+import { useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
@@ -27,6 +28,8 @@ export const TreasuryAssetsTable = ({
   selectedIndex,
   subgraphDaysOffset,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
+  const theme = useTheme();
+
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const chartName = "TreasuryAssetsTable";
   const [baseFilter] = useState<TokenRecord_Filter>({});
@@ -218,6 +221,15 @@ export const TreasuryAssetsTable = ({
           // Disables outline on clicked header cells
           "& .MuiDataGrid-columnHeader:focus": {
             outline: "none",
+          },
+        }}
+        componentsProps={{
+          // Fixes #2736
+          // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
+          basePopper: {
+            sx: {
+              backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+            },
           },
         }}
       />
