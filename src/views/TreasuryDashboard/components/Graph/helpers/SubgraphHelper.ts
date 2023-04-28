@@ -13,7 +13,7 @@ const DEFAULT_DATE_OFFSET = -14;
 export const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string): string => {
   try {
     const url = new URL(subgraphUrl);
-    if (url.hostname.includes("gateway.thegraph.com")) {
+    if (["gateway.thegraph.com"].includes(url.hostname)) {
       return `https://thegraph.com/explorer/subgraphs/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY?view=Playground&chain=mainnet`;
     }
   } catch {
