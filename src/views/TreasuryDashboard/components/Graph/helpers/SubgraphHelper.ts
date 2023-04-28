@@ -11,8 +11,13 @@ const DEFAULT_DATE_OFFSET = -14;
  * TODO: add support for blockchain-specific decentralized network subgraph URLs
  */
 export const getSubgraphQueryExplorerUrl = (queryDocument: string, subgraphUrl: string): string => {
-  if (subgraphUrl.includes("https://gateway.thegraph.com")) {
-    return `https://thegraph.com/explorer/subgraphs/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY?view=Playground&chain=mainnet`;
+  try {
+    const url = new URL(subgraphUrl);
+    if (url.hostname.includes("gateway.thegraph.com")) {
+      return `https://thegraph.com/explorer/subgraphs/DTcDcUSBRJjz9NeoK5VbXCVzYbRTyuBwdPUqMi8x32pY?view=Playground&chain=mainnet`;
+    }
+  } catch {
+    console.log("not a valid subgraphUrl");
   }
 
   return `${subgraphUrl}/graphql?query=${encodeURIComponent(queryDocument)}`;
