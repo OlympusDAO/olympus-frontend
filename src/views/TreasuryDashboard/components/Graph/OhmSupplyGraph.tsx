@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenSuppliesDocument, TokenSupply_Filter } from "src/generated/graphql";
+import { ProtocolMetric_Filter, TokenSuppliesDocument, TokenSupply_Filter } from "src/generated/graphql";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -23,7 +23,8 @@ import {
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
+import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
+import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -44,12 +45,20 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   const theme = useTheme();
 
   const chartName = "OhmSupplyGraph";
-  const [baseFilter] = useState<TokenSupply_Filter>({});
+  const [tokenSupplyBaseFilter] = useState<TokenSupply_Filter>({});
+  const [protocolMetricsBaseFilter] = useState<ProtocolMetric_Filter>({});
 
-  const tokenSupplyResults = useTokenSuppliesQuery(
+  const tokenSupplyResults = useTokenSuppliesQueries(
+    chartName,
+    subgraphUrls,
+    tokenSupplyBaseFilter,
+    earliestDate,
+    subgraphDaysOffset,
+  );
+  const protocolMetricsResults = useProtocolMetricsQuery(
     chartName,
     subgraphUrls.Ethereum,
-    baseFilter,
+    protocolMetricsBaseFilter,
     earliestDate,
     subgraphDaysOffset,
   );
@@ -81,13 +90,26 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
-    if (!tokenSupplyResults) {
+    if (!tokenSupplyResults || !protocolMetricsResults) {
       return;
     }
 
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateOhmSupply: OhmSupplyComparison[] = [];
     tokenSupplyResults.forEach((dateSupplyValues, dateString) => {
+      /**
+       * Non-Ethereum mainnet chains do not have the OHM index, so they return
+       * TokenSupply results in terms of gOHM. We supply the OHM index from the
+       * protocol metrics query to convert the gOHM values to OHM.
+       */
+      const dayProtocolMetricsResults = protocolMetricsResults.get(dateString);
+      if (!dayProtocolMetricsResults || dayProtocolMetricsResults.length == 0) {
+        console.log(`${chartName}: No protocol metrics found for ${dateString}. Skipping.`);
+        return;
+      }
+
+      const ohmIndex = dayProtocolMetricsResults[0].currentIndex;
+
       const earliestTimestamp = getLatestTimestamp(dateSupplyValues);
       const latestSupplyValue = dateSupplyValues[0];
 
@@ -95,26 +117,26 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
         date: dateString,
         timestamp: earliestTimestamp,
         block: latestSupplyValue.block,
-        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues),
-        floatingSupply: getOhmFloatingSupply(dateSupplyValues),
-        backedSupply: getOhmBackedSupply(dateSupplyValues),
-        totalSupply: getOhmTotalSupply(dateSupplyValues),
-        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues),
-        treasury: getTreasurySupply(dateSupplyValues),
-        migrationOffset: getMigrationOffsetSupply(dateSupplyValues),
-        bondDeposits: getBondDepositsSupply(dateSupplyValues),
-        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues),
-        bondPreminted: getBondPremintedSupply(dateSupplyValues),
-        external: getExternalSupply(dateSupplyValues),
-        lending: getLendingSupply(dateSupplyValues),
-        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues),
+        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex),
+        floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex),
+        backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex),
+        totalSupply: getOhmTotalSupply(dateSupplyValues, ohmIndex),
+        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex),
+        treasury: getTreasurySupply(dateSupplyValues, ohmIndex),
+        migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex),
+        bondDeposits: getBondDepositsSupply(dateSupplyValues, ohmIndex),
+        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues, ohmIndex),
+        bondPreminted: getBondPremintedSupply(dateSupplyValues, ohmIndex),
+        external: getExternalSupply(dateSupplyValues, ohmIndex),
+        lending: getLendingSupply(dateSupplyValues, ohmIndex),
+        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues, ohmIndex),
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
     });
 
     setByDateOhmSupply(tempByDateOhmSupply);
-  }, [tokenSupplyResults]);
+  }, [tokenSupplyResults, protocolMetricsResults]);
 
   // Handle parameter changes
   useEffect(() => {

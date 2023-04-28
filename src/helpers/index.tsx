@@ -160,3 +160,11 @@ export const testnetToMainnetContract = (address: string) => {
       return address;
   }
 };
+
+export const formatNumberOrLoading = (value: number | null | undefined): string => {
+  return value ? formatNumber(value) : "Loading...";
+};
+
+export const formatCurrencyOrLoading = (value: number | null | undefined): string => {
+  return value ? formatCurrency(value, 2) : "Loading...";
+};

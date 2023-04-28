@@ -16,7 +16,7 @@ import {
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
 import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
-import { useTokenSuppliesQuery } from "src/hooks/useSubgraphTokenSupplies";
+import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -51,9 +51,9 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     subgraphDaysOffset,
   );
 
-  const tokenSupplyResults = useTokenSuppliesQuery(
+  const tokenSupplyResults = useTokenSuppliesQueries(
     chartName,
-    subgraphUrls.Ethereum,
+    subgraphUrls,
     baseFilter,
     earliestDate,
     subgraphDaysOffset,
@@ -131,7 +131,11 @@ export const LiquidBackingPerOhmComparisonGraph = ({
         block: latestTokenRecord.block,
         gOhmPrice: latestProtocolMetric.gOhmPrice,
         ohmPrice: latestProtocolMetric.ohmPrice,
-        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(liquidBacking, currentTokenSupplies),
+        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(
+          liquidBacking,
+          currentTokenSupplies,
+          latestProtocolMetric.currentIndex,
+        ),
         liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(
           liquidBacking,
           latestProtocolMetric.currentIndex,
@@ -202,8 +206,16 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     setHeaderText(isActiveTokenOHM ? `OHM Backing` : `gOHM Backing`);
     setTooltipText(
       isActiveTokenOHM
-        ? `This chart compares the price of OHM against its liquid backing. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`
-        : `This chart compares the price of gOHM against its liquid backing. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.\n\nThe values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.`,
+        ? `This chart compares the price of OHM against its liquid backing per backed OHM. When OHM is above liquid backing, the difference will be highlighted in green. Conversely, when OHM is below liquid backing, the difference will be highlighted in red.
+        
+The values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.
+
+As data is sourced from multiple chains that may have different snapshot times, the data shown represents the snapshots for which all data has been recorded. As a result, the data may lag.`
+        : `This chart compares the price of gOHM against its liquid backing per backed gOHM. When gOHM is above liquid backing, the difference will be highlighted in green. Conversely, when gOHM is below liquid backing, the difference will be highlighted in red.
+
+The values are determined at the time a snapshot is recorded (every 8 hours). As a result, they will lag the real-time market rates.
+
+As data is sourced from multiple chains that may have different snapshot times, the data shown represents the snapshots for which all data has been recorded. As a result, the data may lag.`,
     );
   }, [isActiveTokenOHM]);
 

@@ -1,5 +1,6 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import React from "react";
 import { CSSProperties } from "react";
 import { DataFormat } from "src/components/Chart/Constants";
 import { formatCurrency } from "src/helpers";
@@ -123,7 +124,7 @@ const renderBulletpointRow = (
 
   // Don't render a tooltip row if the value is 0 (#2673)
   if (!item.value) {
-    return <></>;
+    return <React.Fragment key={item.dataKey}></React.Fragment>;
   }
 
   return (
@@ -134,7 +135,7 @@ const renderBulletpointRow = (
       alignContent="center"
       justifyContent="space-between"
       style={{ marginBottom: "2px" }}
-      key={index}
+      key={item.dataKey}
     >
       <Grid item xs={1} alignContent="left">
         <span style={bulletpointStyle}></span>
@@ -176,7 +177,7 @@ const renderTooltipItems = (
             (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
           ) {
             ignoredIndex++;
-            return { label: label, element: <></> };
+            return { label: label, element: <React.Fragment key={item.dataKey}></React.Fragment> };
           }
 
           const adjustedIndex = index - ignoredIndex;
@@ -203,7 +204,7 @@ const renderTooltipItems = (
         payload.map((item, index) => {
           if (!dataKeysExcludedFromTotal || !dataKeysExcludedFromTotal.includes(item.dataKey)) {
             ignoredIndex++;
-            return <></>;
+            return <React.Fragment key={item.dataKey}></React.Fragment>;
           }
 
           const adjustedIndex = index - ignoredIndex;
