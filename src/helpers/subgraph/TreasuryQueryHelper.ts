@@ -73,7 +73,7 @@ const getSupportedTokens = (): string[] => {
 };
 
 const isSupportedToken = (record: TokenSupply) => {
-  if (!getSupportedTokens().includes(record.tokenAddress.toLocaleLowerCase())) {
+  if (!getSupportedTokens().includes(record.tokenAddress.toLowerCase())) {
     return false;
   }
 
