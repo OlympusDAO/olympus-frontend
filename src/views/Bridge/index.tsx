@@ -50,6 +50,12 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
   },
 }));
 
+const StyledMiniCard = styled(MiniCard)(({ theme }) => ({
+  [`& .MiniCard-additionalIcons`]: {
+    marginLeft: "-10px",
+  },
+}));
+
 /**
  * Component for Displaying BridgeLinks
  */
@@ -79,9 +85,9 @@ const Bridge = () => {
         <Box width="100%" mt="24px">
           <BridgeInputArea />
         </Box>
-        {totalGohmBalance.gt("0") && (
+        {true && (
           <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-            <MiniCard
+            <StyledMiniCard
               title="Bridge gOHM on Synapse"
               icon={["ETH", "ARBITRUM", "OPTIMISM"]}
               href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"

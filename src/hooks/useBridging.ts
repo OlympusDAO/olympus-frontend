@@ -32,16 +32,19 @@ export interface IBridgeOhm {
 export interface IBridgeFee {
   nativeFee: DecimalBigNumber;
   zroFee: DecimalBigNumber;
+  gasFee: DecimalBigNumber;
 }
 
 export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const network = useBridgeableTestableNetwork();
+  const { data: signer } = useSigner();
   console.log("chsoen chain", chain.id, destinationChainId);
 
   return useQuery<IBridgeFee, Error>(
     ["estimateSendFee", destinationChainId, amount],
     async () => {
+      if (!signer) throw new Error("No signer");
       const destinationExists =
         !!CROSS_CHAIN_BRIDGE_ADDRESSES[destinationChainId as keyof typeof CROSS_CHAIN_BRIDGE_ADDRESSES];
       if (!destinationExists) throw new Error("Bridging to the chosen chain is not enabled");
@@ -58,15 +61,27 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
         decimalAmount.toBigNumber(),
         "0x",
       );
+      // gas fees
+      // in gwei
+      const gasUnits = new DecimalBigNumber(
+        await bridgeContract
+          .connect(signer)
+          .estimateGas.sendOhm(String(layerZeroChainId), recipientAddress, decimalAmount.toBigNumber(), {
+            value: fee.nativeFee,
+          }),
+        9,
+      );
+      const gasPrice = new DecimalBigNumber(await signer.getGasPrice(), 9);
+      const gasFee = gasUnits.mul(gasPrice);
 
-      console.log("qfee", fee);
       return {
         nativeFee: new DecimalBigNumber(fee.nativeFee, 18),
         zroFee: new DecimalBigNumber(fee.zroFee, 18),
+        gasFee,
       };
     },
     {
-      enabled: !!chain && Number(amount) > 0,
+      enabled: !!chain && Number(amount) > 0 && !!signer,
     },
   );
 };
