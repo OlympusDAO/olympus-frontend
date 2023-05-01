@@ -1,0 +1,3 @@
+[submodule "treasury-subgraph"]
+	path = lib/treasury-subgraph
+	url = git@github.com:0xJem/federated-subgraph.git
