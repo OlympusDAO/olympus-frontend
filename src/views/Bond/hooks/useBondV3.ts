@@ -28,6 +28,7 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
   const aggregatorContract = BOND_AGGREGATOR_CONTRACT.getEthersContract(networkId);
   const auctioneerAddress = await aggregatorContract.getAuctioneer(id);
   const tellerAddress = await aggregatorContract.getTeller(id);
+  const isLive = await aggregatorContract.isLive(id);
   const tellerContract = BondFixedExpiryTeller__factory.connect(tellerAddress, aggregatorContract.provider);
 
   /*
@@ -149,5 +150,6 @@ export const fetchBondV3 = async ({ id, isInverseBond, networkId }: UseBondOptio
     },
     isV3Bond: true,
     bondToken,
+    isLive,
   };
 };
