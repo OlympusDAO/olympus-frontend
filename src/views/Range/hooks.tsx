@@ -235,7 +235,6 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: rangeData } = RangeData();
   const { data: upperBondMarket } = useBondV3({ id: rangeData.high.market.toString() });
   const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
-
   const {
     data = { price: 0, contract: "swap" },
     isFetched,
@@ -243,9 +242,10 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   } = useQuery(
     ["getDetermineRangePrice", bidOrAsk, rangeData, upperBondMarket, lowerBondMarket],
     async () => {
+      const liveOnBondAggregator = (bidOrAsk === "ask" ? upperBondMarket?.isLive : lowerBondMarket?.isLive) || false;
       const sideActive = bidOrAsk === "ask" ? rangeData.high.active : rangeData.low.active;
       const market = bidOrAsk === "ask" ? rangeData.high.market : rangeData.low.market;
-      const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256); //>=0 <=MAXUint256
+      const activeBondMarket = market.gt(-1) && market.lt(ethers.constants.MaxUint256) && liveOnBondAggregator; //>=0 <=MAXUint256
       const bondOutsideWall =
         bidOrAsk === "ask"
           ? upperBondMarket?.price.inBaseToken.gt(new DecimalBigNumber(rangeData.wall.high.price, 18))
