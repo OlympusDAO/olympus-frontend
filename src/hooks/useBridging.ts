@@ -33,14 +33,13 @@ export interface IBridgeOhm {
 export interface IBridgeFee {
   nativeFee: DecimalBigNumber;
   zroFee: DecimalBigNumber;
-  gasFee: DecimalBigNumber;
+  gasFee?: DecimalBigNumber;
 }
 
 export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const network = useBridgeableTestableNetwork();
   const { data: signer } = useSigner();
-  console.log("chsoen chain", chain.id, destinationChainId);
 
   return useQuery<IBridgeFee, Error>(
     ["estimateSendFee", destinationChainId, amount],
@@ -62,24 +61,34 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
         decimalAmount.toBigNumber(),
         "0x",
       );
-      // gas fees
-      // in gwei
-      const gasUnits = new DecimalBigNumber(
-        await bridgeContract
-          .connect(signer)
-          .estimateGas.sendOhm(String(layerZeroChainId), recipientAddress, decimalAmount.toBigNumber(), {
-            value: fee.nativeFee,
-          }),
-        9,
-      );
-      const gasPrice = new DecimalBigNumber(await signer.getGasPrice(), 9);
-      const gasFee = gasUnits.mul(gasPrice);
+      try {
+        // gas fees
+        // in gwei
+        const gasUnits = new DecimalBigNumber(
+          await bridgeContract
+            .connect(signer)
+            .estimateGas.sendOhm(String(layerZeroChainId), recipientAddress, decimalAmount.toBigNumber(), {
+              value: fee.nativeFee,
+            }),
+          9,
+        );
+        console.log("gas units", gasUnits);
+        const gasPrice = new DecimalBigNumber(await signer.getGasPrice(), 9);
+        console.log("gasprice", gasPrice);
+        const gasFee = gasUnits.mul(gasPrice);
+        console.log("gasfee", gasFee);
 
-      return {
-        nativeFee: new DecimalBigNumber(fee.nativeFee, 18),
-        zroFee: new DecimalBigNumber(fee.zroFee, 18),
-        gasFee,
-      };
+        return {
+          nativeFee: new DecimalBigNumber(fee.nativeFee, 18),
+          zroFee: new DecimalBigNumber(fee.zroFee, 18),
+          gasFee,
+        };
+      } catch {
+        return {
+          nativeFee: new DecimalBigNumber(fee.nativeFee, 18),
+          zroFee: new DecimalBigNumber(fee.zroFee, 18),
+        };
+      }
     },
     {
       enabled: !!chain && Number(amount) > 0 && !!signer,

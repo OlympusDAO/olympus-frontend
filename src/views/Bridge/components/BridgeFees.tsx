@@ -22,13 +22,13 @@ export const BridgeFees = ({ amount, receivingChain }: { amount: string; receivi
         id="bridge-gas-fees"
         title={`Est. Gas Fees`}
         // isLoading={feeIsLoading}
-        balance={fee ? `${formatBalance(fee.gasFee)} ETH` : `--`}
+        balance={!!fee?.gasFee ? `${formatBalance(fee.gasFee)} ETH` : `--`}
       />
       <StyledDataRow
         id="bridge-fees"
         title={`Bridge Fees`}
         // isLoading={feeIsLoading}
-        balance={fee ? `${formatBalance(fee.nativeFee)} ETH` : `--`}
+        balance={!!fee?.nativeFee ? `${formatBalance(fee.nativeFee)} ETH` : `--`}
       />
     </>
   );
