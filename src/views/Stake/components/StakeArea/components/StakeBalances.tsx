@@ -30,6 +30,11 @@ export const StakeBalances = () => {
   const wsohmBalances = useWsohmBalance();
 
   const ohmBalance = useOhmBalance()[networks.MAINNET].data;
+  const crossChainOhmBalances = [
+    { networkName: "Goerli", balance: useOhmBalance()[NetworkId.TESTNET_GOERLI].data },
+    { networkName: "Arbitrum Goerli", balance: useOhmBalance()[NetworkId.ARBITRUM_GOERLI].data },
+    { networkName: "Arbitrum", balance: useOhmBalance()[NetworkId.ARBITRUM].data },
+  ];
   const sohmBalance = useSohmBalance()[networks.MAINNET].data;
   const v1sohmBalance = useV1SohmBalance()[networks.MAINNET].data;
   const gohmFuseBalance = useFuseBalance()[NetworkId.MAINNET].data;
@@ -71,6 +76,19 @@ export const StakeBalances = () => {
         isLoading={!ohmBalance}
         balance={`${formatBalance(ohmBalance)} OHM`}
       />
+
+      {crossChainOhmBalances
+        .filter(crossChainBalance => hasVisibleBalance(crossChainBalance.balance))
+        .map(crossChainBalance => {
+          return (
+            <DataRow
+              id="user-balance"
+              title={`OHM (${crossChainBalance.networkName})`}
+              isLoading={!crossChainBalance.balance}
+              balance={`${formatBalance(crossChainBalance.balance)} OHM`}
+            />
+          );
+        })}
 
       <DataRow
         id="user-staked-balance"
