@@ -80,6 +80,11 @@ export class Environment {
           key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
           err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
         });
+      case NetworkId.ARBITRUM:
+        return this._get({
+          key: `VITE_ARBITRUM_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ARBITRUM_ARCHIVE_NODE_URL for governance to function properly",
+        });
     }
   };
 
