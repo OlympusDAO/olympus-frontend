@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, MiniCard, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { DataRow, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";
@@ -146,21 +146,7 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
 
 const NetworkIcon = ({ chainId }: { chainId: keyof typeof BRIDGE_CHAINS }) => {
   const bridgeChain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
-  return (
-    <div
-      style={{
-        background: bridgeChain.iconBackground,
-        width: 24,
-        height: 24,
-        borderRadius: 999,
-        overflow: "hidden",
-      }}
-    >
-      {bridgeChain.iconUrl && (
-        <img alt={bridgeChain.name ?? "chain icon"} src={bridgeChain.iconUrl} style={{ width: 24, height: 24 }} />
-      )}
-    </div>
-  );
+  return <Token name={bridgeChain.token as OHMTokenProps["name"]} />;
 };
 
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {

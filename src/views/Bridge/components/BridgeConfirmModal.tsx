@@ -54,18 +54,10 @@ export const BridgeConfirmModal = (props: {
 
         <Box id="bridge-metrics" display="flex" flexDirection="row" justifyContent="space-around" alignItems="center">
           <Box display="flex" flexDirection="column">
-            {/* <Metric
-              label={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].name}
-              metric={new DecimalBigNumber(props.amount).toString({ decimals: 4, format: true, trim: true })}
-            /> */}
             <BridgeMetric amount={props.amount} chainId={chain.id} />
           </Box>
           <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
           <Box display="flex" flexDirection="column">
-            {/* <Metric
-              label={BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name}
-              metric={new DecimalBigNumber(props.amount).toString({ decimals: 4, format: true, trim: true })}
-            /> */}
             <BridgeMetric amount={props.amount} chainId={props.destinationChainId} />
           </Box>
         </Box>

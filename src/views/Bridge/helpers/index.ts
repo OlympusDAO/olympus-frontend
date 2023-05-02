@@ -50,13 +50,3 @@ export const layerZeroChainIdsFromEVM = ({ evmChainId }: { evmChainId: number })
       return 101;
   }
 };
-
-// export const getBridgeEventsForWalletAndChain = ({
-//   chainId,
-//   walletAddress,
-// }: {
-//   chainId: number;
-//   walletAddress: string;
-// }) => {
-//   const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
-// };

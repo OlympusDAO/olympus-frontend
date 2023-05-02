@@ -216,34 +216,21 @@ export const MINTER_ADDRESSES = {
   [NetworkId.ARBITRUM_GOERLI]: "0x78f84998c73655ac2da0aa1e1270f6cb985a343e",
 };
 
-export interface IChainAttrs {
-  iconUrl: string;
-  iconBackground: string;
-  name: string;
-}
-
+/** for display purposes */
 export const BRIDGE_CHAINS = {
   [NetworkId.MAINNET]: {
-    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
-    iconBackground: "",
     name: "Ethereum",
     token: "MAINNET",
   },
   [NetworkId.ARBITRUM]: {
-    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
-    iconBackground: "",
     name: "Arbitrum",
     token: "ARBITRUM",
   },
   [NetworkId.TESTNET_GOERLI]: {
-    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
-    iconBackground: "",
     name: "Goerli",
     token: "MAINNET",
   },
   [NetworkId.ARBITRUM_GOERLI]: {
-    iconUrl: "https://icons.llamao.fi/icons/chains/rsz_ethereum.jpg",
-    iconBackground: "",
     name: "Arbitrum Goerli",
     token: "ARBITRUM",
   },
