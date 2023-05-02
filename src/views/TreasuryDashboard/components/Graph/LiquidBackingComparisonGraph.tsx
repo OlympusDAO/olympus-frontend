@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { ProtocolMetricsDocument, TokenRecord_Filter } from "src/generated/graphql";
+import { ProtocolMetricsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
   getBulletpointStylesMap,
@@ -14,9 +14,9 @@ import {
   getLiquidBackingPerOhmBacked,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
-import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
+import { useProtocolMetricQuery } from "src/hooks/usePaginatedProtocolMetrics";
+import { useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
+import { useTokenSupplyQuery } from "src/hooks/usePaginatedTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -24,8 +24,13 @@ import {
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
+import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import {
+  getDateTokenRecordMap,
+  getLatestTimestamp,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import { getDateTokenSupplyMap } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -41,31 +46,30 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
-  const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: tokenRecordResults } = useTokenRecordQuery({
+    operationName: "paginated/tokenRecords",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
-  const tokenSupplyResults = useTokenSuppliesQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: tokenSupplyResults } = useTokenSupplyQuery({
+    operationName: "paginated/tokenSupplies",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
-  const protocolMetricResults = useProtocolMetricsQuery(
-    chartName,
-    subgraphUrls.Ethereum,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: protocolMetricResults } = useProtocolMetricQuery({
+    operationName: "paginated/protocolMetrics",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
   /**
    * Active token:
@@ -100,13 +104,18 @@ export const LiquidBackingPerOhmComparisonGraph = ({
       return;
     }
 
+    // Extract into a by-date map
+    const byDateTokenRecordMap = getDateTokenRecordMap(tokenRecordResults);
+    const byDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
+    const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
+
     // We need to flatten the records from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
-    tokenRecordResults.forEach((value, key) => {
+    byDateTokenRecordMap.forEach((value, key) => {
       const currentTokenRecords = value;
-      const currentTokenSupplies = tokenSupplyResults.get(key);
-      const currentProtocolMetrics = protocolMetricResults.get(key);
+      const currentTokenSupplies = byDateTokenSupplyMap.get(key);
+      const currentProtocolMetrics = byDateProtocolMetricMap.get(key);
 
       if (!currentTokenSupplies || !currentProtocolMetrics) {
         /**
@@ -125,22 +134,15 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
       const liquidBacking = getTreasuryAssetValue(currentTokenRecords, true);
 
+      const ohmIndex: number = +latestProtocolMetric.currentIndex;
       const liquidBackingRecord: LiquidBackingComparison = {
         date: key,
         timestamp: earliestTimestamp,
-        block: latestTokenRecord.block,
-        gOhmPrice: latestProtocolMetric.gOhmPrice,
-        ohmPrice: latestProtocolMetric.ohmPrice,
-        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(
-          liquidBacking,
-          currentTokenSupplies,
-          latestProtocolMetric.currentIndex,
-        ),
-        liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(
-          liquidBacking,
-          latestProtocolMetric.currentIndex,
-          currentTokenSupplies,
-        ),
+        block: +latestTokenRecord.block,
+        gOhmPrice: +latestProtocolMetric.gOhmPrice,
+        ohmPrice: +latestProtocolMetric.ohmPrice,
+        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(liquidBacking, currentTokenSupplies, ohmIndex),
+        liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(liquidBacking, ohmIndex, currentTokenSupplies),
       };
 
       tempByDateLiquidBacking.push(liquidBackingRecord);

@@ -1,10 +1,10 @@
 import { useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
-import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
+import { TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordQuery } from "src/hooks/useTokenRecords";
+import { useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -32,7 +32,6 @@ export const TreasuryAssetsTable = ({
 
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const chartName = "TreasuryAssetsTable";
-  const [baseFilter] = useState<TokenRecord_Filter>({});
 
   const { data: tokenRecordResults } = useTokenRecordQuery({
     operationName: "paginated/tokenRecords",
@@ -57,9 +56,10 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
-    const flatRecords = tokenRecordResults;
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
-    const filteredRecords = isLiquidBackingActive ? flatRecords.filter(value => value.isLiquid == true) : flatRecords;
+    const filteredRecords = isLiquidBackingActive
+      ? tokenRecordResults.filter(value => value.isLiquid == true)
+      : tokenRecordResults;
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.

@@ -4,6 +4,7 @@ import {
   ProtocolMetricsQuery,
   ProtocolMetricsQueryVariables,
 } from "src/generated/graphql";
+import { PaginatedProtocolMetric } from "src/hooks/usePaginatedProtocolMetrics";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**
@@ -115,4 +116,18 @@ export const getProtocolMetricDateMap = (
   });
 
   return dateTokenRecords;
+};
+
+export const getDateProtocolMetricMap = (
+  records: PaginatedProtocolMetric[],
+): Map<string, PaginatedProtocolMetric[]> => {
+  const dateMap = new Map<string, PaginatedProtocolMetric[]>();
+  records.map(value => {
+    // Group all records by date
+    const currentDateRecords = dateMap.get(value.date) || [];
+    currentDateRecords.push(value);
+    dateMap.set(value.date, currentDateRecords);
+  });
+
+  return dateMap;
 };

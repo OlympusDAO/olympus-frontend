@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { ProtocolMetric_Filter, TokenSuppliesDocument, TokenSupply_Filter } from "src/generated/graphql";
+import { TokenSuppliesDocument } from "src/generated/graphql";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -23,16 +23,20 @@ import {
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
-import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
+import { useProtocolMetricQuery } from "src/hooks/usePaginatedProtocolMetrics";
+import { useTokenSupplyQuery } from "src/hooks/usePaginatedTokenSupplies";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
+import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
+import {
+  getDateTokenSupplyMap,
+  getLatestTimestamp,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -45,23 +49,22 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   const theme = useTheme();
 
   const chartName = "OhmSupplyGraph";
-  const [tokenSupplyBaseFilter] = useState<TokenSupply_Filter>({});
-  const [protocolMetricsBaseFilter] = useState<ProtocolMetric_Filter>({});
 
-  const tokenSupplyResults = useTokenSuppliesQueries(
-    chartName,
-    subgraphUrls,
-    tokenSupplyBaseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
-  const protocolMetricsResults = useProtocolMetricsQuery(
-    chartName,
-    subgraphUrls.Ethereum,
-    protocolMetricsBaseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: tokenSupplyResults } = useTokenSupplyQuery({
+    operationName: "paginated/tokenSupplies",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
+
+  const { data: protocolMetricResults } = useProtocolMetricQuery({
+    operationName: "paginated/protocolMetrics",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
   /**
    * Chart population:
@@ -90,25 +93,29 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
-    if (!tokenSupplyResults || !protocolMetricsResults) {
+    if (!tokenSupplyResults || !protocolMetricResults) {
       return;
     }
 
+    // Extract into a by-date map
+    const byDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
+    const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
+
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateOhmSupply: OhmSupplyComparison[] = [];
-    tokenSupplyResults.forEach((dateSupplyValues, dateString) => {
+    byDateTokenSupplyMap.forEach((dateSupplyValues, dateString) => {
       /**
        * Non-Ethereum mainnet chains do not have the OHM index, so they return
        * TokenSupply results in terms of gOHM. We supply the OHM index from the
        * protocol metrics query to convert the gOHM values to OHM.
        */
-      const dayProtocolMetricsResults = protocolMetricsResults.get(dateString);
+      const dayProtocolMetricsResults = byDateProtocolMetricMap.get(dateString);
       if (!dayProtocolMetricsResults || dayProtocolMetricsResults.length == 0) {
         console.log(`${chartName}: No protocol metrics found for ${dateString}. Skipping.`);
         return;
       }
 
-      const ohmIndex = dayProtocolMetricsResults[0].currentIndex;
+      const ohmIndex: number = +dayProtocolMetricsResults[0].currentIndex;
 
       const earliestTimestamp = getLatestTimestamp(dateSupplyValues);
       const latestSupplyValue = dateSupplyValues[0];
@@ -116,7 +123,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
       const dateOhmSupply: OhmSupplyComparison = {
         date: dateString,
         timestamp: earliestTimestamp,
-        block: latestSupplyValue.block,
+        block: +latestSupplyValue.block,
         circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex),
         floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex),
         backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex),
@@ -136,7 +143,7 @@ export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset 
     });
 
     setByDateOhmSupply(tempByDateOhmSupply);
-  }, [tokenSupplyResults, protocolMetricsResults]);
+  }, [tokenSupplyResults, protocolMetricResults]);
 
   // Handle parameter changes
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecord, TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
+import { TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
@@ -11,7 +11,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { PaginatedTokenRecord, useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -21,7 +21,7 @@ import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpe
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
-  getDateTokenSummary,
+  getDateTokenRecordSummary,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
@@ -32,17 +32,14 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
   const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
-  const [baseFilter] = useState<TokenRecord_Filter>({
-    category: CATEGORY_POL,
-  });
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: tokenRecordResults } = useTokenRecordQuery({
+    operationName: "paginated/tokenRecords",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
   /**
    * Chart population:
@@ -64,20 +61,23 @@ export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgra
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
-    const flatRecords = Array.from(tokenRecordResults.values()).flat();
+
+    // Filter to POL
+    const filteredRecords = tokenRecordResults.filter(value => value.category === CATEGORY_POL);
+
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
-    const newDateTokenSummary = getDateTokenSummary(flatRecords, false);
+    const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const getTokenId = (record: TokenRecord): string => {
+    const getTokenId = (record: PaginatedTokenRecord): string => {
       return `${record.token}/${record.blockchain}`;
     };
 
     // Sort the source records array, so that anything generated from this doesn't need to be sorted again, and is consistent.
-    const sortedRecords = flatRecords.sort((a: TokenRecord, b: TokenRecord) => {
+    const sortedRecords = filteredRecords.sort((a: PaginatedTokenRecord, b: PaginatedTokenRecord) => {
       if (getTokenId(a) < getTokenId(b)) return -1;
       if (getTokenId(a) > getTokenId(b)) return 1;
 

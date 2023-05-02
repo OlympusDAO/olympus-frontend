@@ -1,5 +1,5 @@
-import { Queries } from "olympusdao-treasury-subgraph-client-test";
 import { TokenRecord, TokenRecord_Filter, TokenRecordsQuery, TokenRecordsQueryVariables } from "src/generated/graphql";
+import { PaginatedTokenRecord } from "src/hooks/usePaginatedTokenRecords";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 export type TokenRow = {
@@ -205,7 +205,17 @@ export const getDateTokenSummary = (tokenRecords: TokenRecord[], latestOnly = tr
   });
 };
 
-type PaginatedTokenRecordArray = Queries["paginated/tokenRecords"]["response"]["data"];
+export const getDateTokenRecordMap = (tokenRecords: PaginatedTokenRecord[]): Map<string, PaginatedTokenRecord[]> => {
+  const dateMap = new Map<string, PaginatedTokenRecord[]>();
+  tokenRecords.map(value => {
+    // Group all records by date
+    const currentDateRecords = dateMap.get(value.date) || [];
+    currentDateRecords.push(value);
+    dateMap.set(value.date, currentDateRecords);
+  });
+
+  return dateMap;
+};
 
 /**
  * Generates an array containing one DateTokenSummary element for each date,
@@ -220,7 +230,7 @@ type PaginatedTokenRecordArray = Queries["paginated/tokenRecords"]["response"]["
  * @returns
  */
 export const getDateTokenRecordSummary = (
-  tokenRecords: PaginatedTokenRecordArray,
+  tokenRecords: PaginatedTokenRecord[],
   latestOnly = true,
 ): DateTokenSummary[] => {
   // For each date, determine the latest block
@@ -229,6 +239,7 @@ export const getDateTokenRecordSummary = (
     return [];
   }
 
+  // TODO check on blockchain-sensitivity
   tokenRecords.map(value => {
     const currentDateBlock = dateBlockMap.get(value.date);
     // New date, record the block
@@ -289,12 +300,12 @@ export const getDateTokenRecordSummary = (
   });
 };
 
-export const getLatestTimestamp = (records: TokenRecord[]): number => {
+export const getLatestTimestamp = (records: PaginatedTokenRecord[]): number => {
   return (
-    records.reduce((previousValue: number, currentValue: TokenRecord) => {
-      if (previousValue == -1) return currentValue.timestamp;
+    records.reduce((previousValue: number, currentValue: PaginatedTokenRecord) => {
+      if (previousValue == -1) return +currentValue.timestamp;
 
-      if (currentValue.timestamp > previousValue) return currentValue.timestamp;
+      if (+currentValue.timestamp > previousValue) return +currentValue.timestamp;
 
       return previousValue;
     }, -1) * 1000 // To convert from second to millisecond accuracy
