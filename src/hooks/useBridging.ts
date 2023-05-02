@@ -7,6 +7,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
 import { EthersError } from "src/lib/EthersTypes";
+import { NetworkId } from "src/networkDetails";
 import { BridgeReceivedEvent, BridgeTransferredEvent } from "src/typechain/CrossChainBridge";
 import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 import { useAccount, useBlockNumber, useNetwork, useSigner } from "wagmi";
@@ -116,7 +117,6 @@ export const useBridgeOhm = () => {
         decimalAmount.toBigNumber(),
         "0x",
       );
-      console.log("fee", fee);
       const transaction = await bridgeContract
         .connect(signer)
         .sendOhm(String(layerZeroChainId), recipientAddress, decimalAmount.toBigNumber(), { value: fee.nativeFee });
@@ -134,12 +134,10 @@ export const useBridgeOhm = () => {
 };
 
 export const useGetBridgeTransferredEvents = (chainId: number) => {
-  // const { chain = { id: 1 } } = useNetwork();
   const { address } = useAccount();
   const archiveProvider = useArchiveNodeProvider(chainId);
   let contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
   if (archiveProvider) contract = contract.connect(archiveProvider);
-  // const provider = Providers.getStaticProvider(chain.id);
   const { data: signer } = useSigner();
   const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId });
   return useQuery<IHistoryTx[], Error>(
@@ -148,28 +146,29 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
       // using EVENTS
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
       if (!signer) throw new Error("Cannot get transfer events without a signer");
-      if (!signer) throw new Error("Cannot get transfer events without a signer");
-      // const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred(address));
-      // const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived(address));
-      // const fromBlock = blockNumber && blockNumber - 300;
-      const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred());
-      const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived());
-      return [
-        ...sendOhmEvents
-          .filter((event: BridgeTransferredEvent) => event.args.sender_ === address)
-          .map((event: BridgeTransferredEvent) => mapBridgeEvents({ event, blockNumber, type: "send", chainId })),
-        ...receiveOhmEvents
-          .filter((event: BridgeReceivedEvent) => event.args.receiver_ === address)
-          .map((event: BridgeReceivedEvent) => mapBridgeEvents({ event, blockNumber, type: "receive", chainId })),
-      ];
-      // const contract = IERC20__factory.connect(OHM_ADDRESSES[chain.id as keyof typeof OHM_ADDRESSES], signer);
-      // const sendOhmEvents = await contract.queryFilter(
-      //   contract.filters.Transfer(address, ethers.constants.AddressZero),
-      // );
-      // const receiveOhmEvents = await contract.queryFilter(
-      //   contract.filters.Transfer(ethers.constants.AddressZero, address),
-      // );
-      // return [...sendOhmEvents, ...receiveOhmEvents];
+      if ([NetworkId.TESTNET_GOERLI, NetworkId.ARBITRUM_GOERLI].includes(chainId)) {
+        const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred());
+        const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived());
+        return [
+          ...sendOhmEvents
+            .filter((event: BridgeTransferredEvent) => event.args.sender_ === address)
+            .map((event: BridgeTransferredEvent) => mapBridgeEvents({ event, blockNumber, type: "send", chainId })),
+          ...receiveOhmEvents
+            .filter((event: BridgeReceivedEvent) => event.args.receiver_ === address)
+            .map((event: BridgeReceivedEvent) => mapBridgeEvents({ event, blockNumber, type: "receive", chainId })),
+        ];
+      } else {
+        const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred(address));
+        const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived(address));
+        return [
+          ...sendOhmEvents.map((event: BridgeTransferredEvent) =>
+            mapBridgeEvents({ event, blockNumber, type: "send", chainId }),
+          ),
+          ...receiveOhmEvents.map((event: BridgeReceivedEvent) =>
+            mapBridgeEvents({ event, blockNumber, type: "receive", chainId }),
+          ),
+        ];
+      }
     },
     { enabled: !!chainId && !!contract && !!address && !!signer && (!!blockNumber || blockNumberError) },
   );

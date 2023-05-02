@@ -85,7 +85,7 @@ const Bridge = () => {
         <Box width="100%" mt="24px">
           <BridgeInputArea />
         </Box>
-        {true && (
+        {totalGohmBalance.gt("0") && (
           <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
             <StyledMiniCard
               title="Bridge gOHM on Synapse"
