@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { ProtocolMetricsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
   getBulletpointStylesMap,
@@ -14,9 +13,11 @@ import {
   getLiquidBackingPerOhmBacked,
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricQuery } from "src/hooks/usePaginatedProtocolMetrics";
-import { useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
-import { useTokenSupplyQuery } from "src/hooks/usePaginatedTokenSupplies";
+import {
+  useProtocolMetricsQuery,
+  useTokenRecordsQuery,
+  useTokenSuppliesQuery,
+} from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -25,7 +26,6 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   getDateTokenRecordMap,
   getLatestTimestamp,
@@ -43,33 +43,13 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   subgraphDaysOffset,
 }: GraphProps) => {
   // TODO look at how to combine query documents
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
 
-  const { data: tokenRecordResults } = useTokenRecordQuery({
-    operationName: "paginated/tokenRecords",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
-
-  const { data: tokenSupplyResults } = useTokenSupplyQuery({
-    operationName: "paginated/tokenSupplies",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
-
-  const { data: protocolMetricResults } = useProtocolMetricQuery({
-    operationName: "paginated/protocolMetrics",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
+  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
+  const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
+  const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
 
   /**
    * Active token:

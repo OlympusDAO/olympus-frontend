@@ -1,17 +1,15 @@
 import { useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
-import { TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
+import { useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
   GraphProps,
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
   getDateTokenRecordSummary,
@@ -30,16 +28,10 @@ export const TreasuryAssetsTable = ({
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
   const theme = useTheme();
 
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const chartName = "TreasuryAssetsTable";
 
-  const { data: tokenRecordResults } = useTokenRecordQuery({
-    operationName: "paginated/tokenRecords",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
+  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
 
   /**
    * Chart population:

@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenSuppliesDocument } from "src/generated/graphql";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -23,8 +22,7 @@ import {
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricQuery } from "src/hooks/usePaginatedProtocolMetrics";
-import { useTokenSupplyQuery } from "src/hooks/usePaginatedTokenSupplies";
+import { useProtocolMetricsQuery, useTokenSuppliesQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -32,7 +30,6 @@ import {
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   getDateTokenSupplyMap,
   getLatestTimestamp,
@@ -45,26 +42,13 @@ import {
  * @returns
  */
 export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenSuppliesDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const theme = useTheme();
 
   const chartName = "OhmSupplyGraph";
 
-  const { data: tokenSupplyResults } = useTokenSupplyQuery({
-    operationName: "paginated/tokenSupplies",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
-
-  const { data: protocolMetricResults } = useProtocolMetricQuery({
-    operationName: "paginated/protocolMetrics",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
+  const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
+  const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
 
   /**
    * Chart population:

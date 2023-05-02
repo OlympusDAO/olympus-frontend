@@ -1,46 +1,49 @@
-import { useProtocolMetricsQuery } from "src/generated/graphql";
-import { getDataSource } from "src/graphql/query";
-import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
+import { useFederatedSubgraphQuery } from "src/hooks/useFederatedSubgraphQuery";
 
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
-
-export const useOhmTotalSupply = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
-
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-    },
-    { select: data => data.protocolMetrics[0].ohmTotalSupply, ...QUERY_OPTIONS },
-  );
+export const useLatestProtocolMetric = () => {
+  return useFederatedSubgraphQuery({
+    operationName: "latest/protocolMetrics",
+  });
 };
 
-export const useGOhmTotalSupply = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
-
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
+export const useProtocolMetricOnDate = (date: string) => {
+  return useFederatedSubgraphQuery({
+    operationName: "paginated/protocolMetrics",
+    input: {
+      startDate: date,
     },
-    { select: data => data.protocolMetrics[0].gOhmTotalSupply, ...QUERY_OPTIONS },
-  );
+    enabled: date != null && date.length > 0,
+  });
 };
 
-export const useTotalValueDeposited = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useOhmTotalSupply = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
 
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-    },
-    { select: data => data.protocolMetrics[0].totalValueLocked, ...QUERY_OPTIONS },
-  );
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].ohmTotalSupply;
+};
+
+export const useGOhmTotalSupply = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
+
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].gOhmTotalSupply;
+};
+
+export const useTotalValueDeposited = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
+
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].totalValueLocked;
 };
 
 /**
@@ -52,17 +55,14 @@ export const useTotalValueDeposited = (subgraphUrl?: string) => {
  *
  * @returns
  */
-export const useOhmPrice = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useOhmPrice = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
 
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-    },
-    { select: data => data.protocolMetrics[0].ohmPrice, ...QUERY_OPTIONS },
-  );
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].ohmPrice;
 };
 
 /**
@@ -74,17 +74,14 @@ export const useOhmPrice = (subgraphUrl?: string) => {
  *
  * @returns
  */
-export const useGOhmPrice = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useGOhmPrice = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
 
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-    },
-    { select: data => data.protocolMetrics[0].gOhmPrice, ...QUERY_OPTIONS },
-  );
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].gOhmPrice;
 };
 
 /**
@@ -92,17 +89,14 @@ export const useGOhmPrice = (subgraphUrl?: string) => {
  *
  * @returns
  */
-export const useCurrentIndex = (subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useCurrentIndex = (): number | undefined => {
+  const { data } = useLatestProtocolMetric();
 
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-    },
-    { select: data => (data.protocolMetrics.length ? data.protocolMetrics[0].currentIndex : 0), ...QUERY_OPTIONS },
-  );
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].currentIndex;
 };
 
 /**
@@ -111,16 +105,12 @@ export const useCurrentIndex = (subgraphUrl?: string) => {
  * @param date YYYY-MM-DD format date string
  * @returns
  */
-export const useIndexOnDate = (date: string, subgraphUrl?: string) => {
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useIndexOnDate = (date: string): number | undefined => {
+  const { data } = useProtocolMetricOnDate(date);
 
-  return useProtocolMetricsQuery(
-    getDataSource(endpoint),
-    {
-      recordCount: 1,
-      endpoint: endpoint,
-      filter: { date: date },
-    },
-    { select: data => (data.protocolMetrics.length ? data.protocolMetrics[0].currentIndex : 0), ...QUERY_OPTIONS },
-  );
+  if (!data || !data.length) {
+    return undefined;
+  }
+
+  return +data[0].currentIndex;
 };

@@ -4,7 +4,7 @@ import {
   ProtocolMetricsQuery,
   ProtocolMetricsQueryVariables,
 } from "src/generated/graphql";
-import { PaginatedProtocolMetric } from "src/hooks/usePaginatedProtocolMetrics";
+import { PaginatedProtocolMetric } from "src/hooks/useFederatedSubgraphQuery";
 import { getNextPageStartDate } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 
 /**

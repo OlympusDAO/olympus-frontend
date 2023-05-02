@@ -14,8 +14,7 @@ import {
   TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
   TOKEN_SUPPLY_TYPE_TREASURY,
 } from "src/helpers/subgraph/Constants";
-import { PaginatedTokenRecord } from "src/hooks/usePaginatedTokenRecords";
-import { PaginatedTokenSupply } from "src/hooks/usePaginatedTokenSupplies";
+import { PaginatedTokenRecord, PaginatedTokenSupply } from "src/hooks/useFederatedSubgraphQuery";
 
 export const getLiquidBackingPerOhmBacked = (
   liquidBacking: number,

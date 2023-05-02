@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { CATEGORY_POL } from "src/helpers/subgraph/Constants";
 import {
@@ -11,14 +10,13 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { PaginatedTokenRecord, useTokenRecordQuery } from "src/hooks/usePaginatedTokenRecords";
+import { PaginatedTokenRecord, useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
   getDateTokenRecordSummary,
@@ -29,17 +27,11 @@ import {
  * Stacked area chart that displays protocol-owned liquidity.
  */
 export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
 
-  const { data: tokenRecordResults } = useTokenRecordQuery({
-    operationName: "paginated/tokenRecords",
-    input: {
-      startDate: earliestDate || "",
-    },
-    enabled: earliestDate != null,
-  });
+  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
 
   /**
    * Chart population:
