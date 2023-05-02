@@ -191,6 +191,13 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 The Treasury Dashboard utilises subgraphs served by the Graph Protocol. Each subgraph can index only one blockchain, so there are subgraphs deployed for each blockchain. As a result, for each dashboard chart, multiple subgraphs are queried and the returned data is stitched together.
 
+### Code Generation
+
+Checkout submodule
+SUBGRAPH_API_KEY
+yarn build
+Copy
+
 ### Known Issues
 
 The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited within the GitHub interface [here](src/views/TreasuryDashboard/components/KnownIssues/content.md).
