@@ -40,11 +40,9 @@ export function prettifySeconds(seconds: number, resolution?: string) {
 
 const getDateTimeFromBlockNumber = async (blockNumber: number, chainId: number) => {
   const provider = Providers.getStaticProvider(chainId);
-  console.log("provider", provider);
   let dateTime;
   try {
     const block = await provider.getBlock(blockNumber);
-    console.log("block", block);
     if (block.timestamp) {
       dateTime = DateTime.fromSeconds(block.timestamp);
     }
