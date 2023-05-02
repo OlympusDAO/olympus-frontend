@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { useTokenRecordQuery } from "src/hooks/useTokenRecords";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -14,7 +14,7 @@ import {
 import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
-  getDateTokenSummary,
+  getDateTokenRecordSummary,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
@@ -34,13 +34,13 @@ export const TreasuryAssetsTable = ({
   const chartName = "TreasuryAssetsTable";
   const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: tokenRecordResults } = useTokenRecordQuery({
+    operationName: "paginated/tokenRecords",
+    input: {
+      startDate: earliestDate || "",
+    },
+    enabled: earliestDate != null,
+  });
 
   /**
    * Chart population:
@@ -57,14 +57,14 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
-    const flatRecords = Array.from(tokenRecordResults.values()).flat();
+    const flatRecords = tokenRecordResults;
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive ? flatRecords.filter(value => value.isLiquid == true) : flatRecords;
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
-    const newDateTokenSummary = getDateTokenSummary(filteredRecords, false);
+    const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords, false);
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
 
