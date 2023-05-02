@@ -15,43 +15,6 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
-// const boba: Chain = {
-//   id: 288,
-//   name: "Boba Network",
-//   network: "boba",
-//   nativeCurrency: {
-//     name: "Boba",
-//     symbol: "BOBA",
-//     decimals: 18,
-//   },
-//   rpcUrls: { default: { http: ["https://mainnet.boba.network"] } },
-//   testnet: false,
-// };
-
-// const avalanche: Chain = {
-//   name: "Avalanche",
-//   network: "avalanche",
-//   id: 43114,
-//   nativeCurrency: {
-//     name: "Avalanche",
-//     symbol: "AVAX",
-//     decimals: 18,
-//   },
-//   rpcUrls: { default: { http: "https://rpc.ankr.com/avalanche" } },
-// };
-
-// const fantom: Chain = {
-//   name: "Fantom",
-//   network: "fantom",
-//   id: 250,
-//   nativeCurrency: {
-//     name: "Fantom",
-//     symbol: "FTM",
-//     decimals: 18,
-//   },
-//   rpcUrls: { default: { http: "https://rpc.ankr.com/fantom" } },
-// };
-
 export const { chains, provider, webSocketProvider } = configureChains(
   [
     {
@@ -81,18 +44,12 @@ export const { chains, provider, webSocketProvider } = configureChains(
     },
     {
       ...boba,
-      // iconUrl:
-      //   "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=32&q=100",
     },
     {
       ...avalanche,
-      // iconUrl:
-      //   "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=32&q=100",
     },
     {
       ...fantom,
-      // iconUrl:
-      //   "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
     },
     goerli,
     arbitrumGoerli,
