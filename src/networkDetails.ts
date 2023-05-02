@@ -4,6 +4,7 @@ export enum NetworkId {
 
   ARBITRUM = 42161,
   ARBITRUM_TESTNET = 421611,
+  ARBITRUM_GOERLI = 421613,
 
   AVALANCHE = 43114,
   AVALANCHE_TESTNET = 43113,
@@ -20,8 +21,6 @@ export enum NetworkId {
   BOBA = 288,
   BOBA_TESTNET = 28,
 }
-
-export type EthereumNetwork = NetworkId.MAINNET | NetworkId.TESTNET_GOERLI;
 
 // VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
 // ... attempting to prevent contract calls that can't complete & prevent user's from getting
@@ -74,6 +73,17 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     range: false,
   },
   [NetworkId.ARBITRUM_TESTNET]: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+    bondsV2: false,
+    range: false,
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
     dashboard: true,
     stake: false,
     wrap: true,

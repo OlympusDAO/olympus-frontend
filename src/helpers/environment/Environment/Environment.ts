@@ -1,5 +1,4 @@
 import { NetworkId } from "src/networkDetails";
-
 export class Environment {
   public static env = import.meta.env;
 
@@ -64,6 +63,26 @@ export class Environment {
       fallback: "false",
     });
 
+  public static getArchiveNodeUrl = (networkId: number) => {
+    switch (networkId) {
+      case NetworkId.MAINNET:
+        return this._get({
+          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ETHEREUM_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.TESTNET_GOERLI:
+        return this._get({
+          key: `VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
+        });
+    }
+  };
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
@@ -85,6 +104,11 @@ export class Environment {
         return this._get({
           key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
           fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_NODE_URL`,
+          fallback: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
         });
       case NetworkId.AVALANCHE:
         return this._get({
