@@ -3,6 +3,7 @@ import {
   getOhmBackedSupply,
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
+  getOhmTotalSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
 import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
@@ -16,7 +17,7 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number =>
   const [circulatingSupply, setCirculatingSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData || !latestIndexQuery) {
+    if (!supplyData.length || !latestIndexQuery) {
       return;
     }
 
@@ -35,7 +36,7 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
   const [floatingSupply, setFloatingSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData || !latestIndexQuery) {
+    if (!supplyData.length || !latestIndexQuery) {
       return;
     }
 
@@ -54,7 +55,7 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number => {
   const [backedSupply, setBackedSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData || !latestIndexQuery) {
+    if (!supplyData.length || !latestIndexQuery) {
       return;
     }
 
@@ -62,4 +63,23 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number => {
   }, [latestIndexQuery, supplyData]);
 
   return backedSupply;
+};
+
+export const useOhmTotalSupply = (earliestDate?: string | null): number => {
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
+
+  // State variables
+  const [totalSupply, setTotalSupply] = useState(0);
+
+  useEffect(() => {
+    if (!supplyData.length || !latestIndexQuery) {
+      return;
+    }
+
+    setTotalSupply(getOhmTotalSupply(supplyData, latestIndexQuery));
+  }, [latestIndexQuery, supplyData]);
+
+  return totalSupply;
 };

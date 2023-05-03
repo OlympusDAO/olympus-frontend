@@ -6,12 +6,11 @@ import {
   useCurrentIndex,
   useGOhmPrice as useGOhmPriceFromSubgraph,
   useOhmPrice as useOhmPriceFromSubgraph,
-  useOhmTotalSupply,
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTokenRecordsLatestDate, useTreasuryMarketValue } from "src/hooks/useTokenRecordsMetrics";
-import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
+import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
@@ -94,7 +93,7 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const totalSupply = useOhmTotalSupply();
+  const totalSupply = useOhmTotalSupply(props.earliestDate);
   const circSupply = useOhmCirculatingSupply(props.earliestDate);
   const _props: MetricProps = {
     ...props,

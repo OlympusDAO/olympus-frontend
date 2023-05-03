@@ -16,8 +16,16 @@ export const useProtocolMetricOnDate = (date: string | undefined) => {
   });
 };
 
+/**
+ * Gets the total supply of OHM at a given date.
+ *
+ * NOTE: this function is deprecated, as the ProtocolMetric subgraph
+ * does not include cross-chain OHM.
+ *
+ * @returns
+ * @deprecated
+ */
 export const useOhmTotalSupply = (): number | undefined => {
-  // TODO shift to calculating across chains
   const { data } = useLatestProtocolMetric();
 
   if (!data || !data.length) {
