@@ -12,6 +12,7 @@ import {
   getSubgraphUrlForBlockchain,
   getSubgraphUrls,
 } from "src/helpers/SubgraphUrlHelper";
+import DataWarning from "src/views/TreasuryDashboard/components/DataWarning";
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
@@ -245,6 +246,11 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <OhmSupplyGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper {...paperProps} style={paperStyles}>
+            <DataWarning />
           </Paper>
         </Grid>
         <Grid item xs={12}>
