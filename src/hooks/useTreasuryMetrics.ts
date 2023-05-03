@@ -9,7 +9,7 @@ import {
   getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenRecordsQueryLatestData, useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
-import { useCurrentIndex, useIndexOnDate, useOhmPrice } from "src/hooks/useProtocolMetrics";
+import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
 
 /**
@@ -19,9 +19,26 @@ import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
  * @returns [marketCap, ohmPrice, circulatingSupply]
  */
 export const useMarketCap = (earliestDate?: string | null): [number, number, number] => {
-  const ohmPrice = useOhmPrice() || 0;
-  const circulatingSupply = useOhmCirculatingSupply(earliestDate);
-  return [circulatingSupply * ohmPrice, ohmPrice, circulatingSupply];
+  // Query hooks
+  const ohmPriceQuery: number | undefined = useOhmPrice();
+  const circulatingSupplyQuery = useOhmCirculatingSupply(earliestDate);
+
+  // State variables
+  const [ohmPrice, setOhmPrice] = useState(0);
+  const [circulatingSupply, setCirculatingSupply] = useState(0);
+  const [marketCap, setMarketCap] = useState(0);
+
+  useEffect(() => {
+    if (!ohmPriceQuery || !circulatingSupplyQuery) {
+      return;
+    }
+
+    setOhmPrice(ohmPriceQuery);
+    setCirculatingSupply(circulatingSupplyQuery);
+    setMarketCap(ohmPriceQuery * circulatingSupplyQuery);
+  }, [circulatingSupplyQuery, ohmPriceQuery]);
+
+  return [marketCap, ohmPrice, circulatingSupply];
 };
 
 /**
@@ -31,19 +48,32 @@ export const useMarketCap = (earliestDate?: string | null): [number, number, num
  * @returns [liquidBackingPerBackedOhm, liquidBacking, backedOhm]
  */
 export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [number, number, number] => {
+  // Query hooks
   const [recordData] = useTokenRecordsQueryLatestData(earliestDate);
-  const liquidBacking: number = getTreasuryAssetValue(recordData, true);
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
+  // State variables
+  const [liquidBackingPerOhmBacked, setLiquidBackingPerOhmBacked] = useState(0);
+  const [liquidBacking, setLiquidBacking] = useState(0);
+  const [backedSupply, setBackedSupply] = useState(0);
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const latestIndex: number = useIndexOnDate(latestDate) || 0;
+  useEffect(() => {
+    if (!recordData || !latestIndexQuery || !supplyData) {
+      return;
+    }
 
-  return [
-    getLiquidBackingPerOhmBacked(liquidBacking, supplyData, latestIndex),
-    liquidBacking,
-    getOhmBackedSupply(supplyData, latestIndex),
-  ];
+    const tempLiquidBacking = getTreasuryAssetValue(recordData, true);
+    setLiquidBacking(tempLiquidBacking);
+
+    const tempLiquidBackingPerOhmBacked = getLiquidBackingPerOhmBacked(tempLiquidBacking, supplyData, latestIndexQuery);
+    setLiquidBackingPerOhmBacked(tempLiquidBackingPerOhmBacked);
+
+    const tempBackedSupply = getOhmBackedSupply(supplyData, latestIndexQuery);
+    setBackedSupply(tempBackedSupply);
+  }, [latestIndexQuery, recordData, supplyData]);
+
+  return [liquidBackingPerOhmBacked, liquidBacking, backedSupply];
 };
 
 /**
@@ -53,19 +83,36 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
  * @returns [liquidBackingPerFloatingOhm, liquidBacking, floatingOhm]
  */
 export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [number, number, number] => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
-
+  // Query hooks
   const [recordData] = useTokenRecordsQueryLatestData(earliestDate);
-  const liquidBackingQuery: number = getTreasuryAssetValue(recordData, true);
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const latestIndex: number = useIndexOnDate(latestDate) || 0;
+  // State variables
+  const [liquidBackingPerOhmFloating, setLiquidBackingPerOhmFloating] = useState(0);
+  const [liquidBacking, setLiquidBacking] = useState(0);
+  const [floatingSupply, setFloatingSupply] = useState(0);
 
-  return [
-    getLiquidBackingPerOhmFloating(liquidBackingQuery, supplyData, latestIndex),
-    liquidBackingQuery,
-    getOhmFloatingSupply(supplyData, latestIndex),
-  ];
+  useEffect(() => {
+    if (!recordData || !latestIndexQuery || !supplyData) {
+      return;
+    }
+
+    const tempLiquidBacking = getTreasuryAssetValue(recordData, true);
+    setLiquidBacking(tempLiquidBacking);
+
+    const tempLiquidBackingPerOhmFloating = getLiquidBackingPerOhmFloating(
+      tempLiquidBacking,
+      supplyData,
+      latestIndexQuery,
+    );
+    setLiquidBackingPerOhmFloating(tempLiquidBackingPerOhmFloating);
+
+    const tempFloatingSupply = getOhmFloatingSupply(supplyData, latestIndexQuery);
+    setFloatingSupply(tempFloatingSupply);
+  }, [latestIndexQuery, recordData, supplyData]);
+
+  return [liquidBackingPerOhmFloating, liquidBacking, floatingSupply];
 };
 
 /**

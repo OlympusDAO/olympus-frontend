@@ -1,44 +1,65 @@
+import { useEffect, useState } from "react";
 import {
-  getGOhmSyntheticSupply,
   getOhmBackedSupply,
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
-import { useIndexOnDate } from "src/hooks/useProtocolMetrics";
+import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 
 export const useOhmCirculatingSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const currentIndexQuery = useIndexOnDate(latestDate) || 0;
+  // State variables
+  const [circulatingSupply, setCirculatingSupply] = useState(0);
 
-  return getOhmCirculatingSupply(supplyData, currentIndexQuery);
+  useEffect(() => {
+    if (!supplyData || !latestIndexQuery) {
+      return;
+    }
+
+    setCirculatingSupply(getOhmCirculatingSupply(supplyData, latestIndexQuery));
+  }, [latestIndexQuery, supplyData]);
+
+  return circulatingSupply;
 };
 
 export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const currentIndexQuery = useIndexOnDate(latestDate) || 0;
+  // State variables
+  const [floatingSupply, setFloatingSupply] = useState(0);
 
-  return getOhmFloatingSupply(supplyData, currentIndexQuery);
+  useEffect(() => {
+    if (!supplyData || !latestIndexQuery) {
+      return;
+    }
+
+    setFloatingSupply(getOhmFloatingSupply(supplyData, latestIndexQuery));
+  }, [latestIndexQuery, supplyData]);
+
+  return floatingSupply;
 };
 
 export const useOhmBackedSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const currentIndexQuery = useIndexOnDate(latestDate) || 0;
+  // State variables
+  const [backedSupply, setBackedSupply] = useState(0);
 
-  return getOhmBackedSupply(supplyData, currentIndexQuery);
-};
+  useEffect(() => {
+    if (!supplyData || !latestIndexQuery) {
+      return;
+    }
 
-export const useGOhmSyntheticSupply = (earliestDate?: string | null) => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
+    setBackedSupply(getOhmBackedSupply(supplyData, latestIndexQuery));
+  }, [latestIndexQuery, supplyData]);
 
-  // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
-  const currentIndexQuery = useIndexOnDate(latestDate) || 0;
-
-  return getGOhmSyntheticSupply(currentIndexQuery, getOhmFloatingSupply(supplyData, currentIndexQuery));
+  return backedSupply;
 };
