@@ -151,6 +151,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
     liquidBacking,
   )}) multiplied by the latest index (${formatNumberOrLoading(
     latestIndex,
+    2,
   )}) and divided by OHM floating supply (${formatNumberOrLoading(ohmFloatingSupply)}).`;
 
   const _props: MetricProps = {

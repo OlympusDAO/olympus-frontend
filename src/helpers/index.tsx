@@ -162,8 +162,8 @@ export const testnetToMainnetContract = (address: string) => {
   }
 };
 
-export const formatNumberOrLoading = (value: number | null | undefined): string => {
-  return value ? formatNumber(value) : "Loading...";
+export const formatNumberOrLoading = (value: number | null | undefined, decimals = 0): string => {
+  return value ? formatNumber(value, decimals) : "Loading...";
 };
 
 export const formatCurrencyOrLoading = (value: number | null | undefined, decimals = 0): string => {
