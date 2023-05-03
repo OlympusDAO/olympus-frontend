@@ -22,24 +22,25 @@ export const BridgeFees = ({ amount, receivingChain }: { amount: string; receivi
 
   return (
     <>
-      <StyledDataRow
-        id="bridging-chain-fees"
-        title={`${BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].name} Est. Gas Fees`}
-        // isLoading={feeIsLoading}
-        balance={!!fee?.gasFee ? `${formatBalance(fee.gasFee)} ETH` : `--`}
-      />
+      {!!fee?.gasFee && (
+        <StyledDataRow
+          id="bridging-chain-fees"
+          title={`${BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].name} Est. Gas Fees`}
+          balance={`${formatBalance(fee.gasFee)} ETH`}
+        />
+      )}
       <StyledDataRow
         id="receiving-chain-fees"
         title={`${BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].name} Gas Fees`}
-        // isLoading={feeIsLoading}
         balance={!!fee?.nativeFee ? `${formatBalance(fee.nativeFee)} ETH` : `--`}
       />
-      <StyledDataRow
-        id="total-fees"
-        title={`Total Est. Gas Fees`}
-        // isLoading={feeIsLoading}
-        balance={totalFees.gt("0") ? `${formatBalance(totalFees)} ETH` : `--`}
-      />
+      {!!fee?.gasFee && !!fee?.nativeFee && (
+        <StyledDataRow
+          id="total-fees"
+          title={`Total Est. Gas Fees`}
+          balance={totalFees.gt("0") ? `${formatBalance(totalFees)} ETH` : `--`}
+        />
+      )}
     </>
   );
 };
