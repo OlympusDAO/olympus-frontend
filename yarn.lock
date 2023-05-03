@@ -2472,6 +2472,13 @@
   dependencies:
     "@react-spring/web" "^9.5.5"
 
+"@olympusdao/treasury-subgraph-client@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@olympusdao/treasury-subgraph-client/-/treasury-subgraph-client-1.0.4.tgz#a588fcf596e818ee1446b4c2eda3460b86f52585"
+  integrity sha512-1i6P9uclRvvjrAabnXbpufSckt+tf0qJKpR1NpVtO4fv1MphzV8v3eiX7udUjmdTCMv8DzljVZgDv2pPaFPJnw==
+  dependencies:
+    "@wundergraph/sdk" "^0.149.1"
+
 "@omnigraph/json-schema@0.39.0":
   version "0.39.0"
   resolved "https://registry.yarnpkg.com/@omnigraph/json-schema/-/json-schema-0.39.0.tgz#a9ba311080da5bad9bef370c5ba5bbde090898b3"
