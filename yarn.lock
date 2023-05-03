@@ -2473,9 +2473,9 @@
     "@react-spring/web" "^9.5.5"
 
 "@olympusdao/treasury-subgraph-client@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@olympusdao/treasury-subgraph-client/-/treasury-subgraph-client-1.0.4.tgz#a588fcf596e818ee1446b4c2eda3460b86f52585"
-  integrity sha512-1i6P9uclRvvjrAabnXbpufSckt+tf0qJKpR1NpVtO4fv1MphzV8v3eiX7udUjmdTCMv8DzljVZgDv2pPaFPJnw==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@olympusdao/treasury-subgraph-client/-/treasury-subgraph-client-1.0.5.tgz#d7d17cdc31fc84955dd33840bbcd8d4765fefb62"
+  integrity sha512-b/2ELX5umFtdHxwx93RNrbco2o1I45HJVSsdm8AJL8OcAIYDIStZdMWD3Rlj4LqeFzb9T8his0/DLdMmjjFdMw==
   dependencies:
     "@wundergraph/sdk" "^0.149.1"
 
