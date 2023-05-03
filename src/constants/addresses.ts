@@ -201,9 +201,17 @@ export const ZERO_EX_EXCHANGE_PROXY_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0xF91bB752490473B8342a3E964E855b9f9a2A668e",
 };
 
+/** the testnet abi is different than the mainnet */
 export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
   [NetworkId.MAINNET]: "0x45e563c39cddba8699a90078f42353a57509543a",
   [NetworkId.ARBITRUM]: "0x20B3834091f038Ce04D8686FAC99CA44A0FB285c",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
+};
+/** the testnet abi is different than the mainnet */
+export const CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.ARBITRUM]: "",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };

@@ -2,13 +2,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ContractReceipt, ethers } from "ethers";
 import toast from "react-hot-toast";
 import { CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
-import { CROSS_CHAIN_BRIDGE_CONTRACT } from "src/constants/contracts";
+import { CROSS_CHAIN_BRIDGE_CONTRACT, CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET } from "src/constants/contracts";
+import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
 import { EthersError } from "src/lib/EthersTypes";
 import { NetworkId } from "src/networkDetails";
-import { BridgeReceivedEvent, BridgeTransferredEvent } from "src/typechain/CrossChainBridge";
+import { CrossChainBridgeTestnet } from "src/typechain";
+import { BridgeReceivedEvent, BridgeTransferredEvent, CrossChainBridge } from "src/typechain/CrossChainBridge";
 import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 import { useAccount, useBlockNumber, useNetwork, useSigner } from "wagmi";
 
@@ -36,6 +38,11 @@ export interface IBridgeFee {
   gasFee?: DecimalBigNumber;
 }
 
+const normalizedBridgeContract = ({ chainId }: { chainId: number }): CrossChainBridge | CrossChainBridgeTestnet => {
+  const contractConstant = isTestnet(chainId) ? CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET : CROSS_CHAIN_BRIDGE_CONTRACT;
+  return contractConstant.getEthersContract(chainId);
+};
+
 export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const network = useBridgeableTestableNetwork();
@@ -49,7 +56,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
         !!CROSS_CHAIN_BRIDGE_ADDRESSES[destinationChainId as keyof typeof CROSS_CHAIN_BRIDGE_ADDRESSES];
       if (!destinationExists) throw new Error("Bridging to the chosen chain is not enabled");
 
-      const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(network);
+      const bridgeContract = normalizedBridgeContract({ chainId: network });
       if (!bridgeContract) throw new Error("Bridging doesn't exist on current network. Please switch networks.");
       if (Number(amount) === 0) throw new Error("You cannot bridge 0 OHM");
       const decimalAmount = new DecimalBigNumber(amount, 9);
@@ -103,7 +110,7 @@ export const useBridgeOhm = () => {
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
   const { data: signer } = useSigner();
   const network = useBridgeableTestableNetwork();
-  const bridgeContract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(network);
+  const bridgeContract = normalizedBridgeContract({ chainId: network });
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
 
   return useMutation<ContractReceipt, EthersError, IBridgeOhm>(
@@ -145,7 +152,7 @@ export const useBridgeOhm = () => {
 export const useGetBridgeTransferredEvents = (chainId: number) => {
   const { address } = useAccount();
   const archiveProvider = useArchiveNodeProvider(chainId);
-  let contract = CROSS_CHAIN_BRIDGE_CONTRACT.getEthersContract(chainId);
+  let contract = normalizedBridgeContract({ chainId });
   if (archiveProvider) contract = contract.connect(archiveProvider);
   const { data: signer } = useSigner();
   const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId });
@@ -156,8 +163,9 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
       if (!signer) throw new Error("Cannot get transfer events without a signer");
       if ([NetworkId.TESTNET_GOERLI, NetworkId.ARBITRUM_GOERLI].includes(chainId)) {
-        const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred());
-        const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived());
+        const queryContract = contract as CrossChainBridgeTestnet;
+        const sendOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeTransferred());
+        const receiveOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeReceived());
         return [
           ...sendOhmEvents
             .filter((event: BridgeTransferredEvent) => event.args.sender_ === address)
@@ -167,8 +175,9 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
             .map((event: BridgeReceivedEvent) => mapBridgeEvents({ event, blockNumber, type: "receive", chainId })),
         ];
       } else {
-        const sendOhmEvents = await contract.queryFilter(contract.filters.BridgeTransferred(address));
-        const receiveOhmEvents = await contract.queryFilter(contract.filters.BridgeReceived(address));
+        const queryContract = contract as CrossChainBridge;
+        const sendOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeTransferred(address));
+        const receiveOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeReceived(address));
         return [
           ...sendOhmEvents.map((event: BridgeTransferredEvent) =>
             mapBridgeEvents({ event, blockNumber, type: "send", chainId }),
