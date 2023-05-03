@@ -1,9 +1,7 @@
-import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
-import { Box, Checkbox, FormControlLabel, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Icon, InfoNotification, Modal, OHMTokenProps, PrimaryButton, Token } from "@olympusdao/component-library";
 import { UseMutationResult } from "@tanstack/react-query";
 import { ContractReceipt } from "ethers";
-import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
@@ -29,7 +27,6 @@ export const BridgeConfirmModal = (props: {
     recipientAddress: address as string,
     amount: props.amount,
   });
-  const [acknowledgedBridging, setAcknowledgedBridging] = useState(false);
 
   return (
     <Modal
@@ -69,47 +66,6 @@ export const BridgeConfirmModal = (props: {
             <BridgeFees amount={props.amount} receivingChain={props.destinationChainId} />
           </Box>
         )}
-        <FormControlLabel
-          control={
-            <Checkbox
-              data-testid="acknowledge-bridging"
-              checked={acknowledgedBridging}
-              onChange={event => setAcknowledgedBridging(event.target.checked)}
-              icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-              checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-            />
-          }
-          label={
-            <Box display="flex" flexDirection="column">
-              <Typography fontWeight={500}>{`I understand`}</Typography>
-            </Box>
-          }
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={acknowledgedBridging}
-              onChange={event => setAcknowledgedBridging(event.target.checked)}
-              icon={<CheckBoxOutlineBlank />}
-              checkedIcon={<CheckBoxOutlined />}
-              sx={{ visibility: "hidden", padding: "0 9px" }}
-            />
-          }
-          label={
-            <Box display="flex" flexDirection="column" sx={{ marginTop: "-10px" }}>
-              <Typography variant="body2" color="textSecondary">
-                {`Bridging comes with re-org risks, be aware of those risk and read more about them `}
-                <Link
-                  href={`https://jumpcrypto.com/bridging-and-finality-op-and-arb/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  here.
-                </Link>
-              </Typography>
-            </Box>
-          }
-        />
 
         <Box id="bridge-button" sx={{ marginTop: "2rem" }}>
           <WalletConnectedGuard fullWidth>
@@ -132,8 +88,7 @@ export const BridgeConfirmModal = (props: {
                     props.bridgeMutation.isLoading ||
                     !props.amount ||
                     props.amountExceedsBalance ||
-                    parseFloat(props.amount) === 0 ||
-                    !acknowledgedBridging
+                    parseFloat(props.amount) === 0
                   }
                   onClick={() =>
                     props.bridgeMutation.mutate({
