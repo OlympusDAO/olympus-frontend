@@ -1,5 +1,5 @@
+import { createClient, Operations, Queries } from "@olympusdao/treasury-subgraph-client";
 import { createHooks } from "@wundergraph/react-query";
-import { createClient, Operations, Queries } from "olympusdao-treasury-subgraph-client-test";
 
 const client = createClient(); // Typesafe WunderGraph client
 
