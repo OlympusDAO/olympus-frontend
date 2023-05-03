@@ -22,6 +22,9 @@ export type DateTokenSummary = {
   tokens: TokenMap;
 };
 
+/**
+ * Returns a mapping of date to token records.
+ */
 export const getDateTokenRecordMap = (tokenRecords: PaginatedTokenRecord[]): Map<string, PaginatedTokenRecord[]> => {
   const dateMap = new Map<string, PaginatedTokenRecord[]>();
   tokenRecords.map(value => {
@@ -50,33 +53,13 @@ export const getDateTokenRecordSummary = (
   tokenRecords: PaginatedTokenRecord[],
   latestOnly = true,
 ): DateTokenSummary[] => {
-  // For each date, determine the latest block
-  const dateBlockMap = new Map<string, number>();
   if (!tokenRecords) {
     return [];
   }
 
-  // TODO check on blockchain-sensitivity
-  tokenRecords.map(value => {
-    const currentDateBlock = dateBlockMap.get(value.date);
-    // New date, record the block
-    if (typeof currentDateBlock == "undefined") {
-      dateBlockMap.set(value.date, +value.block);
-    }
-    // Greater than what is recorded
-    else if (currentDateBlock < +value.block) {
-      dateBlockMap.set(value.date, +value.block);
-    }
-  });
-
   // tokenRecords is an array of flat records, one token each. We need to aggregate that date, then token-blockchain combination
   const dateSummaryMap: Map<string, DateTokenSummary> = new Map<string, DateTokenSummary>();
   tokenRecords.forEach(record => {
-    const latestBlock = dateBlockMap.get(record.date);
-    if (latestOnly && typeof latestBlock !== "undefined" && +record.block < latestBlock) {
-      return;
-    }
-
     const recordTimestamp = +record.timestamp * 1000; // * 1000 as the number from the subgraph is in seconds
     const dateSummary = dateSummaryMap.get(record.date) || {
       date: record.date,

@@ -1,5 +1,6 @@
 import { createClient, Operations, Queries } from "@olympusdao/treasury-subgraph-client";
 import { createHooks } from "@wundergraph/react-query";
+import { useEffect, useState } from "react";
 
 const client = createClient(); // Typesafe WunderGraph client
 
@@ -70,11 +71,20 @@ export const useTokenSuppliesQuery = (startDate: string | null | undefined) => {
  */
 export const useTokenSuppliesQueryLatestData = (
   startDate: string | null | undefined,
-): [PaginatedTokenSupply[], string] => {
+): [PaginatedTokenSupply[], string | undefined] => {
   const { data: tokenSupplyResults } = useTokenSuppliesQuery(startDate);
-  const supplyData = tokenSupplyResults && tokenSupplyResults.length > 0 ? tokenSupplyResults : [];
-  const latestDate: string = supplyData.length ? supplyData[0].date : "";
-  const latestSupplyData = supplyData.filter(record => record.date === latestDate);
+  const [latestDate, setLatestDate] = useState<string | undefined>();
+  const [latestSupplyData, setLatestSupplyData] = useState<PaginatedTokenSupply[]>([]);
+
+  useEffect(() => {
+    if (!tokenSupplyResults || tokenSupplyResults.length === 0) {
+      return;
+    }
+
+    const tempLatestDate: string = tokenSupplyResults[0].date;
+    setLatestDate(tempLatestDate);
+    setLatestSupplyData(tokenSupplyResults.filter(record => record.date === tempLatestDate));
+  }, [tokenSupplyResults]);
 
   return [latestSupplyData, latestDate];
 };

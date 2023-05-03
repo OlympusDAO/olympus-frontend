@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useFederatedSubgraphQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 export const useLatestProtocolMetric = () => {
@@ -6,11 +7,11 @@ export const useLatestProtocolMetric = () => {
   });
 };
 
-export const useProtocolMetricOnDate = (date: string) => {
+export const useProtocolMetricOnDate = (date: string | undefined) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/protocolMetrics",
     input: {
-      startDate: date,
+      startDate: date || "",
     },
     enabled: date != null && date.length > 0,
   });
@@ -106,12 +107,17 @@ export const useCurrentIndex = (): number | undefined => {
  * @param date YYYY-MM-DD format date string
  * @returns
  */
-export const useIndexOnDate = (date: string): number | undefined => {
+export const useIndexOnDate = (date: string | undefined): number | undefined => {
   const { data } = useProtocolMetricOnDate(date);
+  const [currentIndex, setCurrentIndex] = useState<number | undefined>();
 
-  if (!data || !data.length) {
-    return undefined;
-  }
+  useEffect(() => {
+    if (!data || !data.length) {
+      return;
+    }
 
-  return +data[0].currentIndex;
+    setCurrentIndex(+data[0].currentIndex);
+  }, [data]);
+
+  return currentIndex;
 };
