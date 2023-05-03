@@ -144,7 +144,6 @@ Backed supply is the quantity of outstanding OHM that is backed by assets in the
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const [liquidBackingPerGOhmCirculating, liquidBacking, , latestIndex, ohmFloatingSupply] = useLiquidBackingPerGOhm(
-    props.subgraphUrls,
     props.earliestDate,
   );
 

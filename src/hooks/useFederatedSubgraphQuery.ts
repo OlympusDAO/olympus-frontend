@@ -25,7 +25,26 @@ export const useTokenRecordsQuery = (startDate: string | null | undefined) => {
 };
 
 /**
- * Returns the latest token records for each chain.
+ * Returns TokenRecord records for the latest date.
+ *
+ * @param startDate
+ * @returns [array of latest TokenRecord records, latest date in YYYY-MM-DD format]
+ */
+export const useTokenRecordsQueryLatestData = (
+  startDate: string | null | undefined,
+): [PaginatedTokenRecord[], string] => {
+  const { data: tokenRecordResults } = useTokenRecordsQuery(startDate);
+  const recordData = tokenRecordResults && tokenRecordResults.length > 0 ? tokenRecordResults : [];
+  const latestDate: string = recordData.length ? recordData[0].date : "";
+  const latestRecordData = recordData.filter(record => record.date === latestDate);
+
+  return [latestRecordData, latestDate];
+};
+
+/**
+ * Returns the latest token record for each chain.
+ *
+ * This is useful for determining the latest block that has been indexed.
  */
 export const useTokenRecordsLatestQuery = () => {
   return useFederatedSubgraphQuery({
@@ -43,12 +62,21 @@ export const useTokenSuppliesQuery = (startDate: string | null | undefined) => {
   });
 };
 
-export const useTokenSuppliesQueryData = (startDate: string | null | undefined): [PaginatedTokenSupply[], string] => {
+/**
+ * Returns TokenSupply records for the latest date.
+ *
+ * @param startDate
+ * @returns [array of latest TokenSupply records, latest date in YYYY-MM-DD format]
+ */
+export const useTokenSuppliesQueryLatestData = (
+  startDate: string | null | undefined,
+): [PaginatedTokenSupply[], string] => {
   const { data: tokenSupplyResults } = useTokenSuppliesQuery(startDate);
   const supplyData = tokenSupplyResults && tokenSupplyResults.length > 0 ? tokenSupplyResults : [];
   const latestDate: string = supplyData.length ? supplyData[0].date : "";
+  const latestSupplyData = supplyData.filter(record => record.date === latestDate);
 
-  return [supplyData, latestDate];
+  return [latestSupplyData, latestDate];
 };
 
 export const useProtocolMetricsQuery = (startDate: string | null | undefined) => {

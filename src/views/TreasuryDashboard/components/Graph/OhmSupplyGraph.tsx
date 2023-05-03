@@ -41,7 +41,7 @@ import {
  *
  * @returns
  */
-export const OhmSupplyGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
+export const OhmSupplyGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
 

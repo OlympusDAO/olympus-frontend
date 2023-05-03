@@ -46,7 +46,6 @@ type DateTreasuryMetrics = {
  * specified by the `isLiquidBackingActive` prop.
  */
 export const TreasuryAssetsGraph = ({
-  subgraphUrls,
   earliestDate,
   onMouseMove,
   isLiquidBackingActive,

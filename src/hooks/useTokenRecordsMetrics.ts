@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import {
-  PaginatedTokenRecord,
-  useTokenRecordsLatestQuery,
-  useTokenRecordsQuery,
-} from "src/hooks/useFederatedSubgraphQuery";
-import { getDateTokenRecordMap } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import { useTokenRecordsLatestQuery, useTokenRecordsQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
 
 export const useTokenRecordsLatestDate = (): string | undefined => {
   const { data } = useTokenRecordsLatestQuery();
@@ -35,24 +30,11 @@ export const useTokenRecordsLatestDate = (): string | undefined => {
  */
 const useTreasuryAssets = (_liquidOnly: boolean, _earliestDate?: string): number => {
   const [liquidOnly, setLiquidOnly] = useState(_liquidOnly);
-  const [latestDayResult, setLatestDayResult] = useState<PaginatedTokenRecord[]>([]);
-  const { data: tokenRecordResults } = useTokenRecordsQuery(_earliestDate);
+  const [latestDayResult] = useTokenRecordsQueryLatestData(_earliestDate);
 
   useEffect(() => {
     setLiquidOnly(_liquidOnly);
   }, [_liquidOnly]);
-
-  useEffect(() => {
-    if (!tokenRecordResults) {
-      return;
-    }
-
-    const byDateTokenRecordsMap = getDateTokenRecordMap(tokenRecordResults);
-    // Get the latest result (but be defensive in case the are no results)
-    const tempLatestResult =
-      byDateTokenRecordsMap.size == 0 ? [] : Array.from(byDateTokenRecordsMap)[byDateTokenRecordsMap.size - 1][1];
-    setLatestDayResult(tempLatestResult);
-  }, [tokenRecordResults]);
 
   return getTreasuryAssetValue(latestDayResult, liquidOnly);
 };

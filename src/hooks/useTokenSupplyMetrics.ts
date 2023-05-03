@@ -4,11 +4,11 @@ import {
   getOhmCirculatingSupply,
   getOhmFloatingSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenSuppliesQueryData } from "src/hooks/useFederatedSubgraphQuery";
+import { useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
 import { useIndexOnDate } from "src/hooks/useProtocolMetrics";
 
 export const useOhmCirculatingSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryData(earliestDate);
+  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
 
   // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
   const currentIndexQuery = useIndexOnDate(latestDate) || 0;
@@ -17,7 +17,7 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number =>
 };
 
 export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryData(earliestDate);
+  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
 
   // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
   const currentIndexQuery = useIndexOnDate(latestDate) || 0;
@@ -26,7 +26,7 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
 };
 
 export const useOhmBackedSupply = (earliestDate?: string | null): number => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryData(earliestDate);
+  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
 
   // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
   const currentIndexQuery = useIndexOnDate(latestDate) || 0;
@@ -35,7 +35,7 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number => {
 };
 
 export const useGOhmSyntheticSupply = (earliestDate?: string | null) => {
-  const [supplyData, latestDate] = useTokenSuppliesQueryData(earliestDate);
+  const [supplyData, latestDate] = useTokenSuppliesQueryLatestData(earliestDate);
 
   // Ensures that the index for the day is displayed. Otherwise metrics will be inconsistent.
   const currentIndexQuery = useIndexOnDate(latestDate) || 0;

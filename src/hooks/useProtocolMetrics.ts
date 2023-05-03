@@ -17,6 +17,7 @@ export const useProtocolMetricOnDate = (date: string) => {
 };
 
 export const useOhmTotalSupply = (): number | undefined => {
+  // TODO shift to calculating across chains
   const { data } = useLatestProtocolMetric();
 
   if (!data || !data.length) {

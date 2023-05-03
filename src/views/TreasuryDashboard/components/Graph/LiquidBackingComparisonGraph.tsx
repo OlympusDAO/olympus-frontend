@@ -36,12 +36,7 @@ import { getDateTokenSupplyMap } from "src/views/TreasuryDashboard/components/Gr
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per backed OHM.
  */
-export const LiquidBackingPerOhmComparisonGraph = ({
-  subgraphUrls,
-  earliestDate,
-  activeToken,
-  subgraphDaysOffset,
-}: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({ earliestDate, activeToken, subgraphDaysOffset }: GraphProps) => {
   // TODO look at how to combine query documents
   const queryExplorerUrl = "";
   const theme = useTheme();

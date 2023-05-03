@@ -226,7 +226,6 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph
-              subgraphUrls={subgraphUrls}
               activeToken={token}
               earliestDate={earliestDate}
               subgraphDaysOffset={daysOffset}
@@ -235,21 +234,17 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph
-              subgraphUrls={subgraphUrls}
-              earliestDate={earliestDate}
-              subgraphDaysOffset={daysOffset}
-            />
+            <ProtocolOwnedLiquidityGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <OhmSupplyGraph subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <OhmSupplyGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

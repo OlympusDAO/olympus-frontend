@@ -20,7 +20,6 @@ import {
  * Data grid that displays the details of treasury assets.
  */
 export const TreasuryAssetsTable = ({
-  subgraphUrls,
   earliestDate,
   isLiquidBackingActive,
   selectedIndex,

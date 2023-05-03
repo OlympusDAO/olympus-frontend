@@ -26,7 +26,7 @@ import {
 /**
  * Stacked area chart that displays protocol-owned liquidity.
  */
-export const ProtocolOwnedLiquidityGraph = ({ subgraphUrls, earliestDate, subgraphDaysOffset }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
