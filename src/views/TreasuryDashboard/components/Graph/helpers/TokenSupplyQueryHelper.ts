@@ -1,7 +1,7 @@
-import { PaginatedTokenSupply } from "src/hooks/useFederatedSubgraphQuery";
+import { TokenSupply } from "src/hooks/useFederatedSubgraphQuery";
 
-export const getDateTokenSupplyMap = (records: PaginatedTokenSupply[]): Map<string, PaginatedTokenSupply[]> => {
-  const dateMap = new Map<string, PaginatedTokenSupply[]>();
+export const getDateTokenSupplyMap = (records: TokenSupply[]): Map<string, TokenSupply[]> => {
+  const dateMap = new Map<string, TokenSupply[]>();
   records.map(value => {
     // Group all records by date
     const currentDateRecords = dateMap.get(value.date) || [];
@@ -12,9 +12,9 @@ export const getDateTokenSupplyMap = (records: PaginatedTokenSupply[]): Map<stri
   return dateMap;
 };
 
-export const getLatestTimestamp = (records: PaginatedTokenSupply[]): number => {
+export const getLatestTimestamp = (records: TokenSupply[]): number => {
   return (
-    records.reduce((previousValue: number, currentValue: PaginatedTokenSupply) => {
+    records.reduce((previousValue: number, currentValue: TokenSupply) => {
       if (previousValue == -1) return +currentValue.timestamp;
 
       if (+currentValue.timestamp > previousValue) return +currentValue.timestamp;

@@ -1,4 +1,4 @@
-import { PaginatedTokenRecord } from "src/hooks/useFederatedSubgraphQuery";
+import { TokenRecord } from "src/hooks/useFederatedSubgraphQuery";
 
 export type TokenRow = {
   id: string;
@@ -25,8 +25,8 @@ export type DateTokenSummary = {
 /**
  * Returns a mapping of date to token records.
  */
-export const getDateTokenRecordMap = (tokenRecords: PaginatedTokenRecord[]): Map<string, PaginatedTokenRecord[]> => {
-  const dateMap = new Map<string, PaginatedTokenRecord[]>();
+export const getDateTokenRecordMap = (tokenRecords: TokenRecord[]): Map<string, TokenRecord[]> => {
+  const dateMap = new Map<string, TokenRecord[]>();
   tokenRecords.map(value => {
     // Group all records by date
     const currentDateRecords = dateMap.get(value.date) || [];
@@ -46,7 +46,7 @@ export const getDateTokenRecordMap = (tokenRecords: PaginatedTokenRecord[]): Map
  * @param tokenRecords
  * @returns
  */
-export const getDateTokenRecordSummary = (tokenRecords: PaginatedTokenRecord[]): DateTokenSummary[] => {
+export const getDateTokenRecordSummary = (tokenRecords: TokenRecord[]): DateTokenSummary[] => {
   if (!tokenRecords) {
     return [];
   }
@@ -94,9 +94,9 @@ export const getDateTokenRecordSummary = (tokenRecords: PaginatedTokenRecord[]):
   });
 };
 
-export const getLatestTimestamp = (records: PaginatedTokenRecord[]): number => {
+export const getLatestTimestamp = (records: TokenRecord[]): number => {
   return (
-    records.reduce((previousValue: number, currentValue: PaginatedTokenRecord) => {
+    records.reduce((previousValue: number, currentValue: TokenRecord) => {
       if (previousValue == -1) return +currentValue.timestamp;
 
       if (+currentValue.timestamp > previousValue) return +currentValue.timestamp;

@@ -1,7 +1,7 @@
 import { Grid, Skeleton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getISO8601String } from "src/helpers/DateHelper";
-import { PaginatedTokenRecord, useTokenRecordsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { TokenRecord, useTokenRecordsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 const getDateFromTimestamp = (timestamp: string): Date => {
   return new Date(+timestamp * 1000);
@@ -18,7 +18,7 @@ const DataWarning = (): JSX.Element => {
   // State variables
   const [isWarningEnabled, setIsWarningEnabled] = useState(false);
   const [latestCompleteDate, setLatestCompleteDate] = useState<string>();
-  const [latestRecords, setLatestRecords] = useState<PaginatedTokenRecord[]>([]);
+  const [latestRecords, setLatestRecords] = useState<TokenRecord[]>([]);
 
   const laggingColorStyle = { background: "orange" };
 

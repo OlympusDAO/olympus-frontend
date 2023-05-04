@@ -10,7 +10,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { PaginatedTokenRecord, useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { TokenRecord, useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -64,12 +64,12 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }
     const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords);
     setByDateTokenSummary(newDateTokenSummary);
 
-    const getTokenId = (record: PaginatedTokenRecord): string => {
+    const getTokenId = (record: TokenRecord): string => {
       return `${record.token}/${record.blockchain}`;
     };
 
     // Sort the source records array, so that anything generated from this doesn't need to be sorted again, and is consistent.
-    const sortedRecords = filteredRecords.sort((a: PaginatedTokenRecord, b: PaginatedTokenRecord) => {
+    const sortedRecords = filteredRecords.sort((a: TokenRecord, b: TokenRecord) => {
       if (getTokenId(a) < getTokenId(b)) return -1;
       if (getTokenId(a) > getTokenId(b)) return 1;
 
