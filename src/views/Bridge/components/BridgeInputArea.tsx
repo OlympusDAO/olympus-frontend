@@ -11,21 +11,25 @@ import { useOhmBalance } from "src/hooks/useBalance";
 import { useBridgeOhm } from "src/hooks/useBridging";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
 import { BridgeFees } from "src/views/Bridge/components/BridgeFees";
+import { BridgeSettingsModal } from "src/views/Bridge/components/BridgeSettingsModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 export const BridgeInputArea = () => {
+  const { address } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
   const bridgeMutation = useBridgeOhm();
   const network = useBridgeableTestableNetwork();
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
+  const [recipientAddress, setRecipientAddress] = useState<string>(address as string);
   const [amount, setAmount] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recChainOpen, setRecChainOpen] = useState(false);
   const [sendChainOpen, setSendChainOpen] = useState(false);
   const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const setMax = () => {
     if (!ohmBalance) return;
@@ -122,7 +126,7 @@ export const BridgeInputArea = () => {
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column">
-            <BridgeFees amount={amount} receivingChain={receivingChain} />
+            <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
           </Box>
         </Box>
       </Box>
@@ -133,6 +137,14 @@ export const BridgeInputArea = () => {
         amountExceedsBalance={false}
         bridgeMutation={bridgeMutation}
         destinationChainId={receivingChain}
+        recipientAddress={recipientAddress}
+        handleSettingsOpen={() => setSettingsOpen(true)}
+      />
+      <BridgeSettingsModal
+        open={settingsOpen}
+        handleClose={() => setSettingsOpen(false)}
+        recipientAddress={recipientAddress}
+        setRecipientAddress={setRecipientAddress}
       />
       <ChainPickerModal
         isOpen={recChainOpen}

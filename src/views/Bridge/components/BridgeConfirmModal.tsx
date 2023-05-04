@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { Icon, InfoNotification, Modal, OHMTokenProps, PrimaryButton, Token } from "@olympusdao/component-library";
 import { UseMutationResult } from "@tanstack/react-query";
-import { ContractReceipt } from "ethers";
+import { ContractReceipt, utils } from "ethers";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
+import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { IBridgeOhm, useEstimateSendFee } from "src/hooks/useBridging";
 import { EthersError } from "src/lib/EthersTypes";
@@ -18,15 +19,19 @@ export const BridgeConfirmModal = (props: {
   amount: string;
   bridgeMutation: UseMutationResult<ContractReceipt, EthersError, IBridgeOhm, unknown>;
   destinationChainId: number;
+  recipientAddress: string;
+  handleSettingsOpen: () => void;
 }) => {
+  const { address } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
 
-  const { address } = useAccount();
   const { data: fee } = useEstimateSendFee({
     destinationChainId: props.destinationChainId,
-    recipientAddress: address as string,
+    recipientAddress: props.recipientAddress,
     amount: props.amount,
   });
+
+  const isValidAddress = utils.isAddress(props.recipientAddress);
 
   return (
     <Modal
@@ -38,6 +43,7 @@ export const BridgeConfirmModal = (props: {
           <Typography variant="body1" sx={{ fontSize: "15px", fontWeight: 500 }}>{`Confirm Bridging`}</Typography>
         </Box>
       }
+      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={props.handleSettingsOpen} />}
       open={props.isOpen}
       onClose={props.handleConfirmClose}
       minHeight={"100px"}
@@ -51,11 +57,16 @@ export const BridgeConfirmModal = (props: {
 
         <Box id="bridge-metrics" display="flex" flexDirection="row" justifyContent="space-around" alignItems="center">
           <Box display="flex" flexDirection="column">
-            <BridgeMetric amount={props.amount} chainId={chain.id} />
+            <BridgeMetric amount={props.amount} chainId={chain.id} address={address as string} fromTo="From" />
           </Box>
           <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
           <Box display="flex" flexDirection="column">
-            <BridgeMetric amount={props.amount} chainId={props.destinationChainId} />
+            <BridgeMetric
+              amount={props.amount}
+              chainId={props.destinationChainId}
+              address={props.recipientAddress}
+              fromTo="To"
+            />
           </Box>
         </Box>
         {fee && (
@@ -63,7 +74,11 @@ export const BridgeConfirmModal = (props: {
             <Box sx={{ marginTop: "1rem" }}>
               <hr style={{ borderWidth: "0.5px" }} />
             </Box>
-            <BridgeFees amount={props.amount} receivingChain={props.destinationChainId} />
+            <BridgeFees
+              amount={props.amount}
+              receivingChain={props.destinationChainId}
+              recipientAddress={props.recipientAddress}
+            />
           </Box>
         )}
 
@@ -88,12 +103,13 @@ export const BridgeConfirmModal = (props: {
                     props.bridgeMutation.isLoading ||
                     !props.amount ||
                     props.amountExceedsBalance ||
-                    parseFloat(props.amount) === 0
+                    parseFloat(props.amount) === 0 ||
+                    !isValidAddress
                   }
                   onClick={() =>
                     props.bridgeMutation.mutate({
                       destinationChainId: props.destinationChainId,
-                      recipientAddress: address as string,
+                      recipientAddress: props.recipientAddress,
                       amount: props.amount,
                     })
                   }
@@ -102,6 +118,8 @@ export const BridgeConfirmModal = (props: {
                     ? "Amount exceeds balance"
                     : !props.amount || parseFloat(props.amount) === 0
                     ? "Enter an amount"
+                    : !isValidAddress
+                    ? `Invalid recipient address: ${shorten(props.recipientAddress)}`
                     : props.bridgeMutation.isLoading
                     ? "Confirming Bridging in your wallet"
                     : `Bridge OHM to ${BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name}`}
@@ -115,7 +133,17 @@ export const BridgeConfirmModal = (props: {
   );
 };
 
-const BridgeMetric = ({ amount, chainId }: { amount: string; chainId: number }) => {
+const BridgeMetric = ({
+  amount,
+  chainId,
+  address,
+  fromTo,
+}: {
+  amount: string;
+  chainId: number;
+  address: string;
+  fromTo: "From" | "To";
+}) => {
   return (
     <>
       <Box display="flex" flexDirection="row" justifyContent="center" alignItems="center" gap={1}>
@@ -134,6 +162,12 @@ const BridgeMetric = ({ amount, chainId }: { amount: string; chainId: number }) 
       </Box>
       <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
         <Typography>{`OHM`}</Typography>
+      </Box>
+      <Box display="flex" flexDirection="row" justifyContent="center" alignItems="center" gap={1}>
+        <Typography variant="caption">
+          <strong>{`${fromTo}:`}</strong>
+        </Typography>
+        <Typography variant="caption">{shorten(address)}</Typography>
       </Box>
     </>
   );

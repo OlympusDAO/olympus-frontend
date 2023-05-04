@@ -49,7 +49,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
   const { data: signer } = useSigner();
 
   return useQuery<IBridgeFee, Error>(
-    ["estimateSendFee", destinationChainId, amount],
+    ["estimateSendFee", destinationChainId, amount, recipientAddress],
     async () => {
       if (!signer) throw new Error("No signer");
       const destinationExists =
@@ -98,7 +98,7 @@ export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amoun
       }
     },
     {
-      enabled: !!chain && Number(amount) > 0 && !!signer,
+      enabled: !!chain && Number(amount) > 0 && !!signer && !!recipientAddress,
     },
   );
 };

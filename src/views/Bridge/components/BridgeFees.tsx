@@ -10,12 +10,20 @@ const StyledDataRow = styled(DataRow)({
   margin: "1rem", // not actually doing anything without a component library change to add a className prop
 });
 
-export const BridgeFees = ({ amount, receivingChain }: { amount: string; receivingChain: number }) => {
+export const BridgeFees = ({
+  amount,
+  receivingChain,
+  recipientAddress,
+}: {
+  amount: string;
+  receivingChain: number;
+  recipientAddress: string;
+}) => {
   const { address } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const { data: fee, isLoading: feeIsLoading } = useEstimateSendFee({
     destinationChainId: receivingChain,
-    recipientAddress: address as string,
+    recipientAddress,
     amount,
   });
   const totalFees = (fee?.nativeFee || new DecimalBigNumber("0")).add(fee?.gasFee || new DecimalBigNumber("0"));
