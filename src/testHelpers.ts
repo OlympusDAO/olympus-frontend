@@ -59,6 +59,13 @@ export const mockConnector = new MockConnector({
 });
 
 export function invalidAddress() {
+  vi.mock("wagmi", async () => {
+    const actualModule = await vi.importActual("wagmi");
+    return {
+      __esModule: true,
+      ...actualModule,
+    };
+  });
   //@ts-ignore
   vi.spyOn(WAGMI, "useConnect").mockReturnValue(() => {
     return {
@@ -144,15 +151,19 @@ export const useAccount = {
 };
 
 export function connectWallet() {
+  vi.mock("wagmi", async () => {
+    const actualModule = await vi.importActual("wagmi");
+    return {
+      __esModule: true,
+      ...actualModule,
+    };
+  });
   //@ts-ignore
   vi.spyOn(WAGMI, "useSigner").mockReturnValue(() => {
     return {
       data: getSigners()[0],
     };
   });
-  // vi.spyOn(WAGMI, "useSigner").mockReturnValue({
-  //   data: getSigners()[0],
-  // });
   vi.spyOn(WAGMI, "useAccount").mockReturnValue(() => useAccount);
 }
 
