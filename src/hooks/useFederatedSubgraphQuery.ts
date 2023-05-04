@@ -1,8 +1,12 @@
 import { createClient, Operations, Queries } from "@olympusdao/treasury-subgraph-client";
 import { createHooks } from "@wundergraph/react-query";
 import { useEffect, useState } from "react";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
-const client = createClient(); // Typesafe WunderGraph client
+const wgNodeUrl: string | undefined = Environment.getWundergraphNodeUrl();
+const client = createClient({
+  ...(wgNodeUrl ? { baseURL: wgNodeUrl } : {}), // Override the wundergraph client's API endpoint if the environment variable is present
+}); // Typesafe WunderGraph client
 
 type PaginatedTokenRecordArray = Exclude<Queries["paginated/tokenRecords"]["response"]["data"], undefined>;
 export type PaginatedTokenRecord = PaginatedTokenRecordArray[0];

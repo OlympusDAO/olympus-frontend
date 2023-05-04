@@ -52,6 +52,12 @@ export class Environment {
       err: "Please provide a Graph Protocol API key in your .env file",
     });
 
+  public static getWundergraphNodeUrl = (): string | undefined =>
+    this._get({
+      first: true,
+      key: "VITE_WG_PUBLIC_NODE_URL",
+    });
+
   /**
    * a feature flag for denoting when we are on the staging server
    * @returns {string} true or false

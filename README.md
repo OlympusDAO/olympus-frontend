@@ -198,6 +198,12 @@ SUBGRAPH_API_KEY
 yarn build
 Copy
 
+### Wundergraph Node URL
+
+The Wundergraph client is pre-configured with the production endpoint (referred to as a public node URL).
+
+A developer may wish to use a different endpoint during development (e.g. to test changes that are not live in production). To achieve this, prefix the `yarn start` command with the `VITE_WG_PUBLIC_NODE_URL` variable, e.g. `VITE_WG_PUBLIC_NODE_URL=http://localhost:9991 yarn start`. It is recommended to define the variable this way, rather than in `.env`, as it makes the variable override explicit.
+
 ### Known Issues
 
 The Treasury Dashboard has a notification banner to proactively communicate any known issues to users. Content is sourced from a Markdown file, and can be edited within the GitHub interface [here](src/views/TreasuryDashboard/components/KnownIssues/content.md).
