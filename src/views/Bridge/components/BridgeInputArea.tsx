@@ -99,6 +99,7 @@ export const BridgeInputArea = () => {
                     bridging.
                   </>
                 }
+                spendAmount={!!amount ? new DecimalBigNumber(amount, 9) : new DecimalBigNumber("0", 9)}
               >
                 <PrimaryButton
                   fullWidth
