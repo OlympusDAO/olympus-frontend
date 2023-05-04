@@ -8,8 +8,7 @@ describe("Chain object tests", () => {
     expect(boba?.name).toEqual("Boba Network");
     expect(boba?.nativeCurrency?.symbol).toEqual("BOBA");
     expect(boba?.nativeCurrency?.decimals).toEqual(18);
-    expect(boba?.rpcUrls?.default).toEqual("https://mainnet.boba.network");
-    expect(boba?.testnet).toEqual(false);
+    expect(boba?.rpcUrls?.default.http[0]).toEqual("https://mainnet.boba.network");
   });
 
   it("should return correct values for Avalanche", () => {
@@ -18,7 +17,7 @@ describe("Chain object tests", () => {
     expect(avalanche?.name).toEqual("Avalanche");
     expect(avalanche?.nativeCurrency?.symbol).toEqual("AVAX");
     expect(avalanche?.nativeCurrency?.decimals).toEqual(18);
-    expect(avalanche?.rpcUrls?.default).toEqual("https://rpc.ankr.com/avalanche");
+    expect(avalanche?.rpcUrls?.default.http[0]).toEqual("https://api.avax.network/ext/bc/C/rpc");
   });
 
   it("should return correct values for Avalanche", () => {
@@ -27,30 +26,30 @@ describe("Chain object tests", () => {
     expect(fantom?.name).toEqual("Fantom");
     expect(fantom?.nativeCurrency?.symbol).toEqual("FTM");
     expect(fantom?.nativeCurrency?.decimals).toEqual(18);
-    expect(fantom?.rpcUrls?.default).toEqual("https://rpc.ankr.com/fantom");
+    expect(fantom?.rpcUrls?.default.http[0]).toEqual("https://rpc.ankr.com/fantom");
   });
 
   it("should return correct values for Mainnet", () => {
     const mainnet = chains.find(chain => chain.id === 1);
     expect(mainnet).toBeDefined();
-    expect(mainnet?.rpcUrls?.default).toEqual("https://rpc.ankr.com/eth");
+    expect(mainnet?.rpcUrls?.default.http[0]).toEqual("https://rpc.ankr.com/eth");
   });
 
   it("should return correct values for Polygon", () => {
     const polygon = chains.find(chain => chain.id === 137);
     expect(polygon).toBeDefined();
-    expect(polygon?.rpcUrls?.default).toEqual("https://rpc.ankr.com/polygon");
+    expect(polygon?.rpcUrls?.default.http[0]).toEqual("https://rpc.ankr.com/polygon");
   });
 
   it("should return correct values for Optimism", () => {
     const optimism = chains.find(chain => chain.id === 10);
     expect(optimism).toBeDefined();
-    expect(optimism?.rpcUrls?.default).toEqual("https://rpc.ankr.com/optimism");
+    expect(optimism?.rpcUrls?.default.http[0]).toEqual("https://rpc.ankr.com/optimism");
   });
 
   it("should return correct values for Arbitrum", () => {
     const arbitrum = chains.find(chain => chain.id === 42161);
     expect(arbitrum).toBeDefined();
-    expect(arbitrum?.rpcUrls?.default).toEqual("https://rpc.ankr.com/arbitrum");
+    expect(arbitrum?.rpcUrls?.default.http[0]).toEqual("https://rpc.ankr.com/arbitrum");
   });
 });

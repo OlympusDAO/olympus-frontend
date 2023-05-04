@@ -52,9 +52,8 @@ const StakeConfirmationModal = (props: {
       <>
         {props.currentAction === "STAKE" && (
           <>
-            {/* <hr /> */}
             <Box sx={{ marginBottom: "1rem" }}>
-              <hr />
+              <hr style={{ borderWidth: "0.5px" }} />
 
               <FormControlLabel
                 control={

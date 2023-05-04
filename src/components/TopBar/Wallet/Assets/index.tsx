@@ -8,7 +8,7 @@ import Balances from "src/components/TopBar/Wallet/Assets/Balances";
 import { TransactionHistory } from "src/components/TopBar/Wallet/Assets/TransactionHistory";
 import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
 import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
-import { formatCurrency, formatNumber, trim } from "src/helpers";
+import { formatCurrency, formatNumber, isTestnet, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -92,15 +92,19 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: nextRebaseDate } = useNextRebaseDate();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
-  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
   const wsohmBalances = useWsohmBalance();
   const gohmBalances = useGohmBalance();
+  const ohmBalances = useOhmBalance();
   const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
   const [faucetToken, setFaucetToken] = useState("OHM V2");
+
+  const ohmTokens = isTestnet(chain.id)
+    ? [ohmBalances[NetworkId.TESTNET_GOERLI].data, ohmBalances[NetworkId.ARBITRUM_GOERLI].data]
+    : [ohmBalances[NetworkId.MAINNET].data, ohmBalances[NetworkId.ARBITRUM].data];
 
   const gohmTokens = [
     gohmFuseBalance,
@@ -118,6 +122,10 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     wsohmBalances[NetworkId.AVALANCHE].data,
   ];
 
+  const totalOhmBalance = ohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+
   const totalGohmBalance = gohmTokens
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
@@ -127,7 +135,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const notes = useBondNotes().data;
-  const formattedohmBalance = ohmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedohmBalance = totalOhmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedV1OhmBalance = v1OhmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedV1SohmBalance = v1SohmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedWsOhmBalance = totalWsohmBalance.toString({ decimals: 4, trim: false, format: true });
@@ -141,7 +149,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedohmBalance,
-      assetValue: ohmBalance.toApproxNumber() * ohmPrice,
+      assetValue: totalOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
     },
     {
