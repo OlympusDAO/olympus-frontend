@@ -1,4 +1,4 @@
-import { fireEvent } from "@testing-library/react";
+import { cleanup, fireEvent } from "@testing-library/react";
 import { BigNumber } from "ethers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
@@ -43,7 +43,10 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("Wrap ", () => {
+describe("Wrap to gOHM", () => {
+  afterEach(() => {
+    cleanup();
+  });
   it("Should display Wrap to gOHM when selecting sOHM as the FROM asset", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     fireEvent.click(screen.getAllByText("OHM")[0]);
@@ -51,6 +54,7 @@ describe("Wrap ", () => {
     fireEvent.click(await screen.findByText("sOHM"));
     expect(await screen.findByText("Wrap to gOHM"));
   });
+
   it("Should display successfully wrapped sOHM to gOHM when clicking submit", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     fireEvent.click(screen.getAllByText("OHM")[0]);
@@ -63,6 +67,7 @@ describe("Wrap ", () => {
     fireEvent.click(await screen.findByTestId("submit-modal-button"));
     expect(await screen.findByText("Successfully wrapped sOHM to gOHM"));
   });
+
   it("Should display Approve Staking when wrapping sOHM and staking contract not approved", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
