@@ -164,7 +164,7 @@ export function connectWallet() {
       data: getSigners()[0],
     };
   });
-  vi.spyOn(WAGMI, "useAccount").mockReturnValue(() => useAccount);
+  vi.spyOn(WAGMI, "useAccount").mockReturnValue(useAccount);
 }
 
 type Config = Partial<CreateClientConfig>;
