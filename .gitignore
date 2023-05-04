@@ -23,6 +23,8 @@ tenderly.yaml
 # testing
 coverage
 tests/e2e/videos
+base-report.json
+branch-report.json
 
 # production
 build
