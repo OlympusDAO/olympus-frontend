@@ -5,7 +5,6 @@ import { CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addre
 import { CROSS_CHAIN_BRIDGE_CONTRACT, CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET } from "src/constants/contracts";
 import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useArchiveNodeProvider } from "src/hooks/useArchiveNodeProvider";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
 import { EthersError } from "src/lib/EthersTypes";
 import { NetworkId } from "src/networkDetails";
@@ -151,10 +150,8 @@ export const useBridgeOhm = () => {
 
 export const useGetBridgeTransferredEvents = (chainId: number) => {
   const { address } = useAccount();
-  const archiveProvider = useArchiveNodeProvider(chainId);
-  let contract = normalizedBridgeContract({ chainId });
-  if (archiveProvider) contract = contract.connect(archiveProvider);
   const { data: signer } = useSigner();
+  const contract = normalizedBridgeContract({ chainId });
   const { data: blockNumber, isError: blockNumberError } = useBlockNumber({ chainId });
   return useQuery<IHistoryTx[], Error>(
     ["GetBridgingEvents", chainId, address],
@@ -163,7 +160,7 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
       if (!signer) throw new Error("Cannot get transfer events without a signer");
       if ([NetworkId.TESTNET_GOERLI, NetworkId.ARBITRUM_GOERLI].includes(chainId)) {
-        const queryContract = contract as CrossChainBridgeTestnet;
+        const queryContract = contract.connect(signer) as CrossChainBridgeTestnet;
         const sendOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeTransferred());
         const receiveOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeReceived());
         return [
