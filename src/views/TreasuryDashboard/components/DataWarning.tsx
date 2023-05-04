@@ -103,7 +103,7 @@ const DataWarning = (): JSX.Element => {
                     }}
                   >
                     <TableCell>{record.blockchain}</TableCell>
-                    <TableCell>{getDateFromTimestamp(record.timestamp).toISOString()}</TableCell>
+                    <TableCell>{getDateFromTimestamp(record.timestamp).toUTCString()}</TableCell>
                     <TableCell>{record.block}</TableCell>
                   </TableRow>
                 ))
