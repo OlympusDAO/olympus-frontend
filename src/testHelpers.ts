@@ -159,10 +159,8 @@ export function connectWallet() {
     };
   });
   //@ts-ignore
-  vi.spyOn(WAGMI, "useSigner").mockReturnValue(() => {
-    return {
-      data: getSigners()[0],
-    };
+  vi.spyOn(WAGMI, "useSigner").mockReturnValue({
+    data: getSigners()[0],
   });
   vi.spyOn(WAGMI, "useAccount").mockReturnValue(useAccount);
 }
