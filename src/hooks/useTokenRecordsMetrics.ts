@@ -28,35 +28,35 @@ export const useTokenRecordsLatestDate = (): string | undefined => {
  * @param _earliestDate
  * @returns
  */
-const useTreasuryAssets = (_liquidOnly: boolean, _earliestDate?: string): number => {
-  const [liquidOnly, setLiquidOnly] = useState(_liquidOnly);
-  const [latestDayResult] = useTokenRecordsQueryLatestData(_earliestDate);
+export const useTreasuryAssetsLatestValue = (liquidOnly: boolean): number | undefined => {
+  // State variables
+  const [latestDate, setLatestDate] = useState<string>();
+  const [assetValue, setAssetValue] = useState<number>();
+
+  // Query hooks
+  const latestDateQuery = useTokenRecordsLatestDate();
+  const [latestTokenRecordData] = useTokenRecordsQueryLatestData(latestDate);
+
+  //
+  useEffect(() => {
+    if (!latestDateQuery) {
+      return;
+    }
+
+    console.log(`latest date = ${latestDateQuery}`);
+    setLatestDate(latestDateQuery);
+  }, [latestDateQuery]);
 
   useEffect(() => {
-    setLiquidOnly(_liquidOnly);
-  }, [_liquidOnly]);
+    if (!latestTokenRecordData || latestTokenRecordData.length === 0 || !latestDate) {
+      console.log(`count = ${latestTokenRecordData.length}`);
+      console.log(`date = ${latestDate}`);
+      return;
+    }
 
-  return getTreasuryAssetValue(latestDayResult, liquidOnly);
-};
+    console.log(`setting asset value`);
+    setAssetValue(getTreasuryAssetValue(latestTokenRecordData, liquidOnly));
+  }, [latestTokenRecordData, latestDate, liquidOnly]);
 
-/**
- * Provides the market value of the treasury for the latest data available in the subgraph.
- *
- * The market value is the sum of all TokenRecord objects in the subgraph, and includes vested/illiquid tokens.
- *
- * @returns react-query result wrapping a number representing the market value of the treasury
- */
-export const useTreasuryMarketValue = (_earliestDate?: string): number => {
-  return useTreasuryAssets(false, _earliestDate);
-};
-
-/**
- * Provides the liquid backing of the treasury for the latest data available in the subgraph.
- *
- * Liquid backing is defined as the value of all liquid assets in the treasury.
- *
- * @returns react-query result wrapping a number representing the liquid backing of the treasury
- */
-export const useTreasuryLiquidValue = (_earliestDate?: string): number => {
-  return useTreasuryAssets(true, _earliestDate);
+  return assetValue;
 };
