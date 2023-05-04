@@ -93,6 +93,7 @@ export const BridgeConfirmModal = (props: {
                   First time bridging <b>OHM</b>? <br /> Please approve Olympus DAO to use your <b>OHM</b> for bridging.
                 </>
               }
+              spendAmount={!!props.amount ? new DecimalBigNumber(props.amount, 9) : undefined}
             >
               <>
                 <PrimaryButton
