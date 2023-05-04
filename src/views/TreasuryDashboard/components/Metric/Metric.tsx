@@ -1,6 +1,5 @@
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
-import { SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useCurrentIndex,
@@ -14,8 +13,6 @@ import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSu
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
 export type MetricSubgraphProps = {
-  subgraphUrls?: SUBGRAPH_URLS;
-  subgraphUrl?: string;
   earliestDate?: string | null;
 };
 type MetricProps = PropsOf<typeof Metric>;

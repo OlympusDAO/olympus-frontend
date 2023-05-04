@@ -15,7 +15,6 @@ import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
 /**
  * OHM price * circulating supply
  *
- * @param subgraphUrl
  * @returns [marketCap, ohmPrice, circulatingSupply]
  */
 export const useMarketCap = (earliestDate?: string | null): [number, number, number] => {
@@ -44,7 +43,6 @@ export const useMarketCap = (earliestDate?: string | null): [number, number, num
 /**
  * Liquid backing value / OHM backed supply
  *
- * @param subgraphUrl
  * @returns [liquidBackingPerBackedOhm, liquidBacking, backedOhm]
  */
 export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [number, number, number] => {
@@ -79,7 +77,6 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
 /**
  * Liquid backing value / OHM floating supply
  *
- * @param subgraphUrl
  * @returns [liquidBackingPerFloatingOhm, liquidBacking, floatingOhm]
  */
 export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [number, number, number] => {
@@ -118,7 +115,6 @@ export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [n
 /**
  * Liquid backing value / gOHM synthetic supply
  *
- * @param subgraphUrl
  * @returns [liquidBackingPerGOhm, liquidBacking, gOHMSupply, latestIndex, ohmFloatingSupply]
  */
 export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number, number] => {

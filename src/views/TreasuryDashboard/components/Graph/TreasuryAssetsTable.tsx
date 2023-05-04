@@ -55,7 +55,7 @@ export const TreasuryAssetsTable = ({
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
-    const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords, false);
+    const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords);
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
 

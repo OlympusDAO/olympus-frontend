@@ -6,12 +6,6 @@ import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
-import {
-  BLOCKCHAINS,
-  getSubgraphIdForBlockchain,
-  getSubgraphUrlForBlockchain,
-  getSubgraphUrls,
-} from "src/helpers/SubgraphUrlHelper";
 import DataWarning from "src/views/TreasuryDashboard/components/DataWarning";
 import {
   DEFAULT_DAYS,
@@ -68,16 +62,6 @@ const MetricsDashboard = () => {
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
-  // Determine the subgraph URL
-  // Originally, this was performed at the component level, but it ended up with a lot of redundant
-  // calls to useSearchParams that could have led to wonky behaviour.
-  const subgraphUrls = getSubgraphUrls();
-  const subgraphUrlEthereum = getSubgraphUrlForBlockchain(
-    BLOCKCHAINS.Ethereum,
-    getSubgraphIdForBlockchain(BLOCKCHAINS.Ethereum),
-  );
-  console.debug("Subgraph URLs are: " + JSON.stringify(subgraphUrls));
-
   const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the days from the URL query parameters, or use the default
@@ -100,8 +84,6 @@ const MetricsDashboard = () => {
   // Used by the Metrics
   const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
     ...baseMetricProps,
-    subgraphUrl: subgraphUrlEthereum,
-    subgraphUrls: subgraphUrls,
     earliestDate: earliestDate,
   };
 

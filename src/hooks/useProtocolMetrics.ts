@@ -1,52 +1,7 @@
-import { useFederatedSubgraphQuery } from "src/hooks/useFederatedSubgraphQuery";
-
-export const useLatestProtocolMetric = () => {
-  return useFederatedSubgraphQuery({
-    operationName: "latest/protocolMetrics",
-  });
-};
-
-export const useProtocolMetricOnDate = (date: string | undefined) => {
-  return useFederatedSubgraphQuery({
-    operationName: "paginated/protocolMetrics",
-    input: {
-      startDate: date || "",
-    },
-    enabled: date != null && date.length > 0,
-  });
-};
-
-/**
- * Gets the total supply of OHM at a given date.
- *
- * NOTE: this function is deprecated, as the ProtocolMetric subgraph
- * does not include cross-chain OHM.
- *
- * @returns
- * @deprecated
- */
-export const useOhmTotalSupply = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
-
-  if (!data || !data.length) {
-    return undefined;
-  }
-
-  return +data[0].ohmTotalSupply;
-};
-
-export const useGOhmTotalSupply = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
-
-  if (!data || !data.length) {
-    return undefined;
-  }
-
-  return +data[0].gOhmTotalSupply;
-};
+import { useProtocolMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 export const useTotalValueDeposited = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
+  const { data } = useProtocolMetricsLatestQuery();
 
   if (!data || !data.length) {
     return undefined;
@@ -65,7 +20,7 @@ export const useTotalValueDeposited = (): number | undefined => {
  * @returns
  */
 export const useOhmPrice = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
+  const { data } = useProtocolMetricsLatestQuery();
 
   if (!data || !data.length) {
     return undefined;
@@ -84,7 +39,7 @@ export const useOhmPrice = (): number | undefined => {
  * @returns
  */
 export const useGOhmPrice = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
+  const { data } = useProtocolMetricsLatestQuery();
 
   if (!data || !data.length) {
     return undefined;
@@ -99,7 +54,7 @@ export const useGOhmPrice = (): number | undefined => {
  * @returns
  */
 export const useCurrentIndex = (): number | undefined => {
-  const { data } = useLatestProtocolMetric();
+  const { data } = useProtocolMetricsLatestQuery();
 
   if (!data || !data.length) {
     return undefined;

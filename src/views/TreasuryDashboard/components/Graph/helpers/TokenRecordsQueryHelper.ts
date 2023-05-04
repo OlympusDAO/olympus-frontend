@@ -41,18 +41,12 @@ export const getDateTokenRecordMap = (tokenRecords: PaginatedTokenRecord[]): Map
  * Generates an array containing one DateTokenSummary element for each date,
  * in which the token balances are contained.
  *
- * By default, this will include entries only from the latest block on each day, to avoid incorrect aggregation of data.
- *
  * The array is sorted in descending order by date.
  *
  * @param tokenRecords
- * @param latestOnly Defaults to true
  * @returns
  */
-export const getDateTokenRecordSummary = (
-  tokenRecords: PaginatedTokenRecord[],
-  latestOnly = true,
-): DateTokenSummary[] => {
+export const getDateTokenRecordSummary = (tokenRecords: PaginatedTokenRecord[]): DateTokenSummary[] => {
   if (!tokenRecords) {
     return [];
   }

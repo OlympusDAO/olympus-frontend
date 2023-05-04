@@ -102,3 +102,9 @@ export const useProtocolMetricsQuery = (startDate: string | null | undefined) =>
     enabled: startDate != null,
   });
 };
+
+export const useProtocolMetricsLatestQuery = () => {
+  return useFederatedSubgraphQuery({
+    operationName: "latest/protocolMetrics",
+  });
+};
