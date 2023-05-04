@@ -57,9 +57,10 @@ describe("Wrap to gOHM", () => {
 
   it("Should display successfully wrapped sOHM to gOHM when clicking submit", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
-    fireEvent.click(screen.getAllByText("OHM")[0]);
+    fireEvent.click(await screen.findByText("OHM"));
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
+    expect(await screen.findByText("Wrap to gOHM"));
     fireEvent.click(await screen.findByText("Wrap to gOHM"));
     // expect modal
     expect(await screen.findByTestId("stake-confirmation-modal"));
@@ -71,9 +72,10 @@ describe("Wrap to gOHM", () => {
   it("Should display Approve Staking when wrapping sOHM and staking contract not approved", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
-    fireEvent.click(screen.getAllByText("OHM")[0]);
+    fireEvent.click(await screen.findByText("OHM"));
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
+    expect(await screen.findByText("Wrap to gOHM"));
     fireEvent.click(await screen.findByText("Wrap to gOHM"));
     // expect modal
     expect(await screen.findByTestId("stake-confirmation-modal"));
@@ -96,6 +98,7 @@ describe("Check Wrap to gOHM Error Messages", () => {
     fireEvent.click(await screen.findByText("sOHM"));
     vi.spyOn(Balance, "useBalance").mockReturnValue({ 1: { data: undefined } });
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "10000" } });
+    expect(await screen.findByText("Wrap to gOHM"));
     fireEvent.click(screen.getByText("Wrap to gOHM"));
     // expect modal
     expect(await screen.findByTestId("stake-confirmation-modal"));
