@@ -47,10 +47,6 @@ const DataWarning = (): JSX.Element => {
     setLatestRecords(latestRecordsQuery.sort((a, b) => a.blockchain.localeCompare(b.blockchain)));
   }, [latestRecordsQuery]);
 
-  if (!isWarningEnabled) {
-    return <></>;
-  }
-
   return (
     <Grid container>
       <Grid item xs={12} textAlign="center">
@@ -72,11 +68,16 @@ const DataWarning = (): JSX.Element => {
           margin: "0 auto", // Centers
         }}
       >
-        The data on this dashboard is sourced from subgraphs on each blockchain that are periodically updated. One or
-        more of the subgraphs is currently out of date, which is affecting the accuracy of the data shown here.
+        The data on this dashboard is sourced from subgraphs on each blockchain that are periodically updated.
         <br />
         <br />
         The latest date for which data is complete is: {latestCompleteDate || <Skeleton width="20px" />}
+        {isWarningEnabled && (
+          <>
+            One or more of the subgraphs is currently out of date, which is affecting the accuracy of the data shown
+            here.
+          </>
+        )}
       </Grid>
       <Grid item xs={12} container wrap={"nowrap"}>
         <Grid item xs={1} m={2} />
@@ -95,7 +96,8 @@ const DataWarning = (): JSX.Element => {
                   <TableRow
                     style={{
                       // If the current timestamp is equal to the value of latestCompleteDate, then it is the lagging blockchain and should be highlighted
-                      ...(getISO8601String(getDateFromTimestamp(record.timestamp)) == latestCompleteDate
+                      ...(isWarningEnabled &&
+                      getISO8601String(getDateFromTimestamp(record.timestamp)) == latestCompleteDate
                         ? laggingColorStyle
                         : {}),
                     }}
