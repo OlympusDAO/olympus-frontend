@@ -6,16 +6,11 @@ export const BridgeSettingsModal: React.FC<{
   open: boolean;
   handleClose: () => void;
   recipientAddress: string;
-  onRecipientAddressChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   setRecipientAddress: React.Dispatch<React.SetStateAction<string>>;
 }> = props => {
   const handleRecipientChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newAddress = event.currentTarget.value;
-    // if (utils.isAddress(newAddress)) {
     props.setRecipientAddress(newAddress);
-    // } else {
-    //   toast(`Not a valid address`);
-    // }
   };
   return (
     <Modal
