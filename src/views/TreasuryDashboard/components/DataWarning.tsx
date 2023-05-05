@@ -101,6 +101,7 @@ const DataWarning = (): JSX.Element => {
                         ? laggingColorStyle
                         : {}),
                     }}
+                    key={record.id}
                   >
                     <TableCell>{record.blockchain}</TableCell>
                     <TableCell>{getDateFromTimestamp(record.timestamp).toUTCString()}</TableCell>
