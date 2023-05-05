@@ -148,9 +148,9 @@
   "scripts": {
     "build": "yarn vite build",
     "start": "yarn vite dev",
-    "test": "vitest",
-    "test:unit": "vitest --coverage",
-    "test:e2e": "vitest --watchAll=false",
+    "test": "vitest --threads false",
+    "test:unit": "vitest --threads false --coverage",
+    "test:e2e": "vitest --threads false --watchAll=false",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "theme": "npx gulp less",

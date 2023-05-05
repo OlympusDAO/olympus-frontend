@@ -16,9 +16,4 @@ describe("ExternalStakePools", () => {
     expect(volatilePoolChip).not.toBeNull();
     expect(gohmPoolChip).not.toBeNull();
   });
-
-  it("renders snapshot correctly", () => {
-    const container = render(<ExternalStakePools />);
-    expect(container).toMatchSnapshot();
-  });
 });

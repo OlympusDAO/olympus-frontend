@@ -5,9 +5,12 @@ import { BigNumber, providers } from "ethers";
 import { Wallet } from "ethers/lib/ethers";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { chains as allChains } from "src/hooks/wagmi";
 import { vi } from "vitest";
-import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
+import { Chain, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
+import { hardhat } from "wagmi/chains";
+
 export const createMatchMedia = (width: string) => {
   return (query: string) => ({
     matches: mediaQuery.match(query, {
@@ -37,9 +40,9 @@ class EthersProviderWrapper extends providers.StaticJsonRpcProvider {
 }
 
 export function getProvider({ chainId }: { chainId?: number } = {}) {
-  const chain = allChains.find(x => x.id === chainId) ?? chain_.hardhat;
+  const chain = allChains.find(x => x.id === chainId) ?? hardhat;
   const network = getNetwork(chain);
-  const url = chain_.mainnet.rpcUrls.default.toString();
+  const url: string = chain.rpcUrls.default.http[0];
   const provider = new EthersProviderWrapper(url, network);
   provider.pollingInterval = 1_000;
   return provider;
@@ -56,6 +59,13 @@ export const mockConnector = new MockConnector({
 });
 
 export function invalidAddress() {
+  vi.mock("wagmi", async () => {
+    const actualModule = await vi.importActual("wagmi");
+    return {
+      __esModule: true,
+      ...actualModule,
+    };
+  });
   //@ts-ignore
   vi.spyOn(WAGMI, "useConnect").mockReturnValue(() => {
     return {
@@ -141,6 +151,14 @@ export const useAccount = {
 };
 
 export function connectWallet() {
+  vi.mock("wagmi", async () => {
+    const actualModule = await vi.importActual("wagmi");
+    return {
+      __esModule: true,
+      ...actualModule,
+    };
+  });
+  //@ts-ignore
   vi.spyOn(WAGMI, "useSigner").mockReturnValue({
     data: getSigners()[0],
   });

@@ -1,3 +1,4 @@
+import { cleanup } from "@testing-library/react";
 import { BigNumber } from "ethers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
@@ -48,6 +49,9 @@ describe("<StakeInputArea/> Connected no Approval", () => {
         <StakeInputArea />
       </>,
     );
+  });
+  afterEach(() => {
+    cleanup();
   });
   it("should display stake approval message when clicking stake", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "0.8" } });

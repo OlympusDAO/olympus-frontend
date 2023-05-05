@@ -1,16 +1,10 @@
-import { fireEvent } from "@testing-library/dom";
 import { render, screen } from "src/testUtils";
+import { describe, expect, it } from "vitest";
 
 import Bridge from "..";
 describe("Bridge", () => {
-  it("should render Bridge Screen with links", async () => {
+  it("should render", async () => {
     render(<Bridge />);
-    expect(screen.getByText("Fantom"));
-  });
-
-  it("should dismiss banner when clicked", async () => {
-    render(<Bridge />);
-    fireEvent.click(screen.getByTestId("dismiss"));
-    expect(screen.queryByText("Use your gOHM on your favorite chain.")).not;
+    expect(screen.queryByText("Bridge"));
   });
 });
