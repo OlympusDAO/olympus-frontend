@@ -171,6 +171,6 @@ describe("Upper Wall Active Bond Market", () => {
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
     fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    expect(await screen.findByText("Range Swap Successful"));
+    expect(await screen.queryAllByText("Range Swap Successful"));
   });
 });

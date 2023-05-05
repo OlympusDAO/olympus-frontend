@@ -57,7 +57,7 @@ describe("Wrap to gOHM", () => {
 
   it("Should display successfully wrapped sOHM to gOHM when clicking submit", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
-    fireEvent.click(await screen.findByText("OHM"));
+    fireEvent.click(screen.getAllByText("OHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
     expect(await screen.findByText("Wrap to gOHM"));
@@ -72,7 +72,7 @@ describe("Wrap to gOHM", () => {
   it("Should display Approve Staking when wrapping sOHM and staking contract not approved", async () => {
     fireEvent.input(await screen.findByTestId("ohm-input"), { target: { value: "5" } });
     useContractAllowance.mockReturnValue({ data: BigNumber.from(0) });
-    fireEvent.click(await screen.findByText("OHM"));
+    fireEvent.click(screen.getAllByText("OHM")[0]);
     expect(screen.getByText("Select a token"));
     fireEvent.click(await screen.findByText("sOHM"));
     expect(await screen.findByText("Wrap to gOHM"));
