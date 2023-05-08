@@ -187,7 +187,7 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
       dataFormat={DataFormat.Number}
       dataKeyBulletpointStyles={bulletpointStylesMap}
       dataKeyLabels={categoriesMap}
-      margin={{ left: 30 }}
+      margin={{ left: -5 }}
       infoTooltipMessage={`This chart visualises the OHM supply over time.`}
       isLoading={byDateOhmSupply.length == 0}
       itemDecimals={0}
