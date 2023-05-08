@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, useTheme } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
@@ -37,6 +37,9 @@ type OhmSupplyDateMap = {
 };
 
 export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset }: GraphProps & AssetsTableProps) => {
+  const theme = useTheme();
+  const columnHeaderColor = theme.palette.text.secondary;
+
   const chartName = "OhmSupplyTable";
 
   const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
@@ -172,6 +175,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
         sx={{
           "& .MuiTableCell-head": {
             fontSize: "16px",
+            color: columnHeaderColor,
           },
           "& .MuiTableCell-body": {
             fontSize: "14px",
