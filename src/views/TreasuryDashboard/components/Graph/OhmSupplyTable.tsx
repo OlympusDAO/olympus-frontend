@@ -168,7 +168,19 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       headerTooltip={`This table lists the details of how OHM supply is calculated`}
       isLoading={Object.keys(byDateCategoryTokenSupplyMap).length == 0}
     >
-      <Table>
+      <Table
+        sx={{
+          "& .MuiTableCell-head": {
+            fontSize: "16px",
+          },
+          "& .MuiTableCell-body": {
+            fontSize: "14px",
+            height: "30px",
+            paddingTop: "0px",
+            paddingBottom: "0px",
+          },
+        }}
+      >
         <TableHead>
           <TableRow>
             <TableCell>Type</TableCell>
