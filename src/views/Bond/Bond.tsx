@@ -3,26 +3,15 @@ import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
-import { getSubgraphUrls } from "src/helpers/SubgraphUrlHelper";
 import { BondList } from "src/views/Bond/components/BondList";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
 import { ClaimBondsV3 } from "src/views/Bond/components/ClaimBonds/ClaimBondsV3";
 import { useLiveBonds, useLiveBondsV3 } from "src/views/Bond/hooks/useLiveBonds";
-import {
-  AbstractedMetricProps,
-  MetricSubgraphProps,
-  OHMPrice,
-  TreasuryBalance,
-} from "src/views/TreasuryDashboard/components/Metric/Metric";
+import { OHMPrice, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 export const Bond = () => {
   const [isZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
-
-  const subgraphUrls = getSubgraphUrls();
-  const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
-    subgraphUrls: subgraphUrls,
-  };
 
   const navigate = useNavigate();
 
@@ -72,8 +61,8 @@ export const Bond = () => {
         <ClaimBondsV3 />
         <Paper>
           <MetricCollection>
-            <TreasuryBalance {...sharedMetricProps} />
-            <OHMPrice {...sharedMetricProps} />
+            <TreasuryBalance />
+            <OHMPrice />
           </MetricCollection>
 
           <Box mt="24px">
