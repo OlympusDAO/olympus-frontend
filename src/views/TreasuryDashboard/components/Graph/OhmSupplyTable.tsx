@@ -69,14 +69,18 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
     };
 
     /**
-     * Sorts the array elements by type, then blockchain.
+     * Sorts the array elements by type, blockchain, location, then pool.
      *
      * @param array
-     * @returns
+     * @returns sorted array
      */
     const sortElements = (array: TokenSupply[]): TokenSupply[] => {
       return array.sort(
-        (a, b) => a.type.localeCompare(b.type) || (a.blockchain || "").localeCompare(b.blockchain || ""),
+        (a, b) =>
+          a.type.localeCompare(b.type) ||
+          (a.blockchain || "").localeCompare(b.blockchain || "") ||
+          (a.source || "").localeCompare(b.source || "") ||
+          (a.pool || "").localeCompare(b.pool || ""),
       );
     };
 
@@ -190,6 +194,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
             <TableCell>Type</TableCell>
             <TableCell>Chain</TableCell>
             <TableCell>Location</TableCell>
+            <TableCell>Market / Pool</TableCell>
             <TableCell># OHM</TableCell>
           </TableRow>
         </TableHead>
@@ -217,6 +222,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                             </TableCell>
                             <TableCell>{record.blockchain}</TableCell>
                             <TableCell>{record.source}</TableCell>
+                            <TableCell>{record.pool}</TableCell>
                             <TableCell align="right">{formatNumber(ohmValue, 0)}</TableCell>
                           </TableRow>
                         );
@@ -224,7 +230,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                     }
                     {/* Display total */}
                     <TableRow key={metricName}>
-                      <TableCell colSpan={3} align="left">
+                      <TableCell colSpan={4} align="left">
                         <strong>{metricName}</strong>
                       </TableCell>
                       <TableCell align="right">
