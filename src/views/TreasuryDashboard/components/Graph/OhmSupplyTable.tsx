@@ -1,4 +1,13 @@
-import { Table, TableBody, TableCell, TableHead, TableRow, useTheme } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
@@ -38,6 +47,7 @@ type OhmSupplyDateMap = {
 
 export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset }: GraphProps & AssetsTableProps) => {
   const theme = useTheme();
+  const isBreakpointSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const columnHeaderColor = theme.palette.text.primary;
 
   const chartName = "OhmSupplyTable";
@@ -167,6 +177,13 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
 
   const headerText = "Breakdown";
   const gOhmAddresses: string[] = Object.values(GOHM_TOKEN.addresses).map(address => address.toLowerCase());
+  const totalColumnSpan = isBreakpointSmall ? 3 : 4;
+  const styleOverflowEllipsis: React.CSSProperties = {
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    maxWidth: "1px",
+  };
 
   return (
     <ChartCard
@@ -175,74 +192,96 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       headerTooltip={`This table lists the details of how OHM supply is calculated`}
       isLoading={Object.keys(byDateCategoryTokenSupplyMap).length == 0}
     >
-      <Table
-        sx={{
-          "& .MuiTableCell-head": {
-            fontSize: "16px",
-            color: columnHeaderColor,
-          },
-          "& .MuiTableCell-body": {
-            fontSize: "14px",
-            height: "30px",
-            paddingTop: "0px",
-            paddingBottom: "0px",
-          },
-        }}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Type</TableCell>
-            <TableCell>Chain</TableCell>
-            <TableCell>Location</TableCell>
-            <TableCell>Market / Pool</TableCell>
-            <TableCell># OHM</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            // Iterate over all metrics, in order
-            selectedDaySupplyMap &&
-              selectedDaySupplyMap.metrics &&
-              Object.keys(selectedDaySupplyMap.metrics).map(metricName => {
-                const currentIndex = selectedDaySupplyMap.currentIndex;
-                const metric = selectedDaySupplyMap.metrics[metricName];
+      <TableContainer>
+        <Table
+          sx={{
+            "& .MuiTableCell-head": {
+              fontSize: "16px",
+              color: columnHeaderColor,
+            },
+            "& .MuiTableCell-body": {
+              fontSize: "14px",
+              height: "30px",
+              paddingTop: "0px",
+              paddingBottom: "0px",
+            },
+          }}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>Type</TableCell>
+              {isBreakpointSmall ? <></> : <TableCell>Chain</TableCell>}
+              <TableCell>Location</TableCell>
+              <TableCell>Market / Pool</TableCell>
+              <TableCell># OHM</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              // Iterate over all metrics, in order
+              selectedDaySupplyMap &&
+                selectedDaySupplyMap.metrics &&
+                Object.keys(selectedDaySupplyMap.metrics).map(metricName => {
+                  const currentIndex = selectedDaySupplyMap.currentIndex;
+                  const metric = selectedDaySupplyMap.metrics[metricName];
 
-                return (
-                  <>
-                    {
-                      // One row per record
-                      metric.records.map(record => {
-                        const isGOhm = gOhmAddresses.includes(record.tokenAddress.toLowerCase());
-                        const ohmValue: number = (isGOhm ? currentIndex : 1) * +record.supplyBalance;
+                  return (
+                    <>
+                      {
+                        // One row per record
+                        metric.records.map(record => {
+                          const isGOhm = gOhmAddresses.includes(record.tokenAddress.toLowerCase());
+                          const ohmValue: number = (isGOhm ? currentIndex : 1) * +record.supplyBalance;
 
-                        return (
-                          <TableRow key={record.id}>
-                            <TableCell>
-                              {record.type == TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY ? "Supply" : record.type}
-                            </TableCell>
-                            <TableCell>{record.blockchain}</TableCell>
-                            <TableCell>{record.source}</TableCell>
-                            <TableCell>{record.pool}</TableCell>
-                            <TableCell align="right">{formatNumber(ohmValue, 0)}</TableCell>
-                          </TableRow>
-                        );
-                      })
-                    }
-                    {/* Display total */}
-                    <TableRow key={metricName}>
-                      <TableCell colSpan={4} align="left">
-                        <strong>{metricName}</strong>
-                      </TableCell>
-                      <TableCell align="right">
-                        <strong>{formatNumber(metric.metric, 0)}</strong>
-                      </TableCell>
-                    </TableRow>
-                  </>
-                );
-              })
-          }
-        </TableBody>
-      </Table>
+                          return (
+                            <TableRow key={record.id}>
+                              <TableCell style={{ width: "15%" }}>
+                                {record.type == TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY ? "Supply" : record.type}
+                              </TableCell>
+                              {isBreakpointSmall ? (
+                                <></>
+                              ) : (
+                                <TableCell style={{ width: "15%" }}>{record.blockchain}</TableCell>
+                              )}
+                              <TableCell
+                                style={{
+                                  width: "20%",
+                                  ...styleOverflowEllipsis,
+                                }}
+                              >
+                                {record.source}
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  width: "20%",
+                                  ...styleOverflowEllipsis,
+                                }}
+                              >
+                                {record.pool}
+                              </TableCell>
+                              <TableCell style={{ width: "15%" }} align="right">
+                                {formatNumber(ohmValue, 0)}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      }
+                      {/* Display total */}
+                      <TableRow key={metricName}>
+                        <TableCell colSpan={totalColumnSpan} align="left">
+                          <strong>{metricName}</strong>
+                        </TableCell>
+                        <TableCell align="right">
+                          <strong>{formatNumber(metric.metric, 0)}</strong>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  );
+                })
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
     </ChartCard>
   );
 };
