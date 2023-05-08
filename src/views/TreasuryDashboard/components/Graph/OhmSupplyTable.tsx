@@ -65,6 +65,18 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       return array.filter(item => !elements.includes(item));
     };
 
+    /**
+     * Sorts the array elements by type, then blockchain.
+     *
+     * @param array
+     * @returns
+     */
+    const sortElements = (array: TokenSupply[]): TokenSupply[] => {
+      return array.sort(
+        (a, b) => a.type.localeCompare(b.type) || (a.blockchain || "").localeCompare(b.blockchain || ""),
+      );
+    };
+
     // Group by date by category
     const tempDateCategoryTokenSupplyMap: OhmSupplyDateMap = {};
     for (const [date, tokenSupplyRecords] of tempDateTokenSupplyMap) {
@@ -90,7 +102,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       const [totalSupply, totalSupplyRecords] = getOhmTotalSupply(tokenSupplyRecords, dateLatestIndex);
       categoryTokenSupplyMap.metrics[SupplyMetric.TotalSupply] = {
         metric: totalSupply,
-        records: removeElementsFromArray(totalSupplyRecords, processedRecords),
+        records: sortElements(removeElementsFromArray(totalSupplyRecords, processedRecords)),
       };
       processedRecords.push(...totalSupplyRecords);
 
@@ -100,21 +112,21 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       );
       categoryTokenSupplyMap.metrics[SupplyMetric.CirculatingSupply] = {
         metric: circulatingSupply,
-        records: removeElementsFromArray(circulatingSupplyRecords, processedRecords),
+        records: sortElements(removeElementsFromArray(circulatingSupplyRecords, processedRecords)),
       };
       processedRecords.push(...circulatingSupplyRecords);
 
       const [floatingSupply, floatingSupplyRecords] = getOhmFloatingSupply(tokenSupplyRecords, dateLatestIndex);
       categoryTokenSupplyMap.metrics[SupplyMetric.FloatingSupply] = {
         metric: floatingSupply,
-        records: removeElementsFromArray(floatingSupplyRecords, processedRecords),
+        records: sortElements(removeElementsFromArray(floatingSupplyRecords, processedRecords)),
       };
       processedRecords.push(...floatingSupplyRecords);
 
       const [backedSupply, backedSupplyRecords] = getOhmBackedSupply(tokenSupplyRecords, dateLatestIndex);
       categoryTokenSupplyMap.metrics[SupplyMetric.BackedSupply] = {
         metric: backedSupply,
-        records: removeElementsFromArray(backedSupplyRecords, processedRecords),
+        records: sortElements(removeElementsFromArray(backedSupplyRecords, processedRecords)),
       };
       processedRecords.push(...backedSupplyRecords);
 
