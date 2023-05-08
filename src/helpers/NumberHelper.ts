@@ -1,3 +1,8 @@
+/**
+ * converts input to float
+ * @param input should be: `undefined | number | string`
+ * - throws Error when not in above types
+ */
 export const getFloat = (input: unknown): number => {
   if (typeof input === "undefined") return 0;
 

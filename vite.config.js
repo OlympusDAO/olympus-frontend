@@ -35,8 +35,16 @@ export default ({ mode }) => {
         "**/node_modules/**",
         "**/dist/**",
         "**/cypress/**",
-        "**/.{idea,git,cache,output,temp}/**, **/src/typechain/**",
+        "**/.{idea,git,cache,output,temp}/**",
+        "**/src/typechain/**",
+        "src/testHelpers.ts",
+        "src/testHandlers.js",
+        "src/testUtils.tsx",
+        "src/testWagmiUtils.tsx",
       ],
+      coverage: {
+        provider: "c8", // or 'c8'
+      },
     },
     optimizeDeps: {
       include: ["@emotion/use-insertion-effect-with-fallbacks", "@uiw/react-md-editor > @uiw/react-markdown-preview"],

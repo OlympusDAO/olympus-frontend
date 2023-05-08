@@ -81,6 +81,8 @@ export const WSOHM_ADDRESSES = {
 export const OHM_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0x0595328847AF962F951a4f8F8eE9A3Bf261e4f6b",
   [NetworkId.MAINNET]: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+  [NetworkId.ARBITRUM]: "0xf0cb2dc0db5e6c66B9a70Ac27B06b878da017028",
+  [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
 };
 
 export const V1_OHM_ADDRESSES = {
@@ -245,4 +247,76 @@ export const V1_STAKING_HELPER_ADDRESSES = {
 export const V1_STAKING_ADDRESSES = {
   [NetworkId.MAINNET]: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a",
   [NetworkId.TESTNET_GOERLI]: "0x2868546dB0850fE969de651395887F18e66A2d26",
+};
+
+export const LIQUIDITY_REGISTRY_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x375E06C694B5E50aF8be8FB03495A612eA3e2275",
+  [NetworkId.TESTNET_GOERLI]: "0x24963bEA5a156E3dAb8aBA4FCB8a2dBE8c1Aaa14",
+};
+
+export const ZERO_EX_EXCHANGE_PROXY_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xDef1C0ded9bec7F1a1670819833240f027b25EfF",
+  [NetworkId.TESTNET_GOERLI]: "0xF91bB752490473B8342a3E964E855b9f9a2A668e",
+};
+
+/** the testnet abi is different than the mainnet */
+export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x45e563c39cddba8699a90078f42353a57509543a",
+  [NetworkId.ARBITRUM]: "0x20B3834091f038Ce04D8686FAC99CA44A0FB285c",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
+};
+/** the testnet abi is different than the mainnet */
+export const CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET = {
+  [NetworkId.MAINNET]: "",
+  [NetworkId.ARBITRUM]: "",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
+};
+
+/** for cross-chain */
+export const MINTER_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xa90bFe53217da78D900749eb6Ef513ee5b6a491e",
+  [NetworkId.ARBITRUM]: "0x8f6406eDbFA393e327822D4A08BcF15503570D87",
+  [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
+  [NetworkId.ARBITRUM_GOERLI]: "0x78f84998c73655ac2da0aa1e1270f6cb985a343e",
+};
+
+/** for display purposes */
+export const BRIDGE_CHAINS = {
+  [NetworkId.MAINNET]: {
+    name: "Ethereum",
+    token: "MAINNET",
+  },
+  [NetworkId.ARBITRUM]: {
+    name: "Arbitrum",
+    token: "ARBITRUM",
+  },
+  [NetworkId.TESTNET_GOERLI]: {
+    name: "Goerli",
+    token: "MAINNET",
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
+    name: "Arbitrum Goerli",
+    token: "ARBITRUM",
+  },
+};
+
+export const BRIDGEABLE_CHAINS = {
+  [NetworkId.MAINNET]: {
+    defaultRecChain: NetworkId.ARBITRUM,
+    availableChains: [NetworkId.ARBITRUM],
+  },
+  [NetworkId.ARBITRUM]: {
+    defaultRecChain: NetworkId.MAINNET,
+    availableChains: [NetworkId.MAINNET],
+  },
+  [NetworkId.TESTNET_GOERLI]: {
+    defaultRecChain: NetworkId.ARBITRUM_GOERLI,
+    availableChains: [NetworkId.ARBITRUM_GOERLI],
+  },
+  [NetworkId.ARBITRUM_GOERLI]: {
+    defaultRecChain: NetworkId.TESTNET_GOERLI,
+    availableChains: [NetworkId.TESTNET_GOERLI],
+  },
 };

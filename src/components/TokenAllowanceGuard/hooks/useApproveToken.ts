@@ -8,15 +8,15 @@ import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { EthersError } from "src/lib/EthersTypes";
 import { useAccount, useNetwork } from "wagmi";
 
-export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: AddressMap) => {
+export const useApproveToken = (tokenAddressMap: AddressMap) => {
   const client = useQueryClient();
 
   const { address = "" } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const token = useDynamicTokenContract(tokenAddressMap, true);
 
-  return useMutation<ContractReceipt, EthersError>(
-    async () => {
+  return useMutation<ContractReceipt, EthersError, { spenderAddressMap: AddressMap }>(
+    async ({ spenderAddressMap }) => {
       const contractAddress = spenderAddressMap[chain.id as keyof typeof spenderAddressMap];
 
       if (!token) throw new Error("Token doesn't exist on current network. Please switch networks.");
@@ -28,9 +28,11 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
     },
     {
       onError: error => toast.error("error" in error ? error.error.message : error.message),
-      onSuccess: async () => {
+      onSuccess: async (data, variables) => {
         toast.success("Successfully approved");
-        await client.refetchQueries([contractAllowanceQueryKey(address, chain.id, tokenAddressMap, spenderAddressMap)]);
+        await client.refetchQueries([
+          contractAllowanceQueryKey(address, chain.id, tokenAddressMap, variables.spenderAddressMap),
+        ]);
       },
     },
   );

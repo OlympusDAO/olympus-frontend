@@ -4,17 +4,21 @@ import {
   BOND_DEPOSITORY_ADDRESSES,
   BOND_FIXED_EXPIRY_TELLER_ADDRESSES,
   BOND_FIXED_TERM_TELLER_ADDRESSES,
+  CROSS_CHAIN_BRIDGE_ADDRESSES,
+  CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
   DEV_FAUCET,
   DISTRIBUTOR_ADDRESSES,
   GOV_INSTRUCTIONS_ADDRESSES,
   GOVERNANCE_ADDRESSES,
   GOVERNANCE_MOCK_GOHM,
   GOVERNANCE_VOHM_VAULT_ADDRESSES,
+  LIQUIDITY_REGISTRY_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
   RANGE_OPERATOR_ADDRESSES,
   RANGE_PRICE_ADDRESSES,
+  SOHM_ADDRESSES,
   STAKING_ADDRESSES,
   VOTE_TOKEN_ADDRESSES,
   ZAP_ADDRESSES,
@@ -25,15 +29,19 @@ import {
   BondDepository__factory,
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
+  CrossChainBridge__factory,
+  CrossChainBridgeTestnet__factory,
   CrossChainMigrator__factory,
   IERC20__factory,
   OlympusGovernance__factory,
   OlympusGovInstructions__factory,
+  OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   Range__factory,
   RangeOperator__factory,
   RangePrice__factory,
+  SOhmv2__factory,
   Zap__factory,
 } from "src/typechain";
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
@@ -58,6 +66,12 @@ export const STAKING_CONTRACT = new Contract({
   factory: OlympusStakingv2__factory,
   name: "Staking Contract",
   addresses: STAKING_ADDRESSES,
+});
+
+export const SOHM_CONTRACT = new Contract({
+  factory: SOhmv2__factory,
+  name: "sOHM Contract",
+  addresses: SOHM_ADDRESSES,
 });
 
 export const ZAP_CONTRACT = new Contract({
@@ -154,4 +168,22 @@ export const DISTRIBUTOR_CONTRACT = new Contract({
   factory: OlympusDistributor__factory,
   name: "Distributor Contract",
   addresses: DISTRIBUTOR_ADDRESSES,
+});
+
+export const LIQUDITY_REGISTRY_CONTRACT = new Contract({
+  factory: OlympusLiquidityRegistry__factory,
+  name: "Liquidity Registry Contract",
+  addresses: LIQUIDITY_REGISTRY_ADDRESSES,
+});
+
+export const CROSS_CHAIN_BRIDGE_CONTRACT = new Contract({
+  factory: CrossChainBridge__factory,
+  name: "Cross Chain Bridge Contract",
+  addresses: CROSS_CHAIN_BRIDGE_ADDRESSES,
+});
+
+export const CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET = new Contract({
+  factory: CrossChainBridgeTestnet__factory,
+  name: "Cross Chain Bridge Contract",
+  addresses: CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
 });

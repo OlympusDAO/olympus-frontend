@@ -1,64 +1,85 @@
-import { useTokenSuppliesQuery } from "src/generated/graphql";
-import { getOhmCirculatingSupply, getOhmFloatingSupply } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { getSubgraphUrl } from "src/helpers/SubgraphUrlHelper";
-import { useTokenRecordsLatestBlock } from "src/hooks/useTokenRecordsMetrics";
-import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
+import { useEffect, useState } from "react";
+import {
+  getOhmBackedSupply,
+  getOhmCirculatingSupply,
+  getOhmFloatingSupply,
+  getOhmTotalSupply,
+} from "src/helpers/subgraph/TreasuryQueryHelper";
+import { useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
+import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
+export const useOhmCirculatingSupply = (earliestDate?: string | null): number => {
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-export const useOhmCirculatingSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
+  // State variables
+  const [circulatingSupply, setCirculatingSupply] = useState(0);
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getOhmCirculatingSupply(data.tokenSupplies),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  useEffect(() => {
+    if (!supplyData.length || !latestIndexQuery) {
+      return;
+    }
+
+    setCirculatingSupply(getOhmCirculatingSupply(supplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, supplyData]);
+
+  return circulatingSupply;
 };
 
-export const useOhmFloatingSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getOhmFloatingSupply(data.tokenSupplies),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  // State variables
+  const [floatingSupply, setFloatingSupply] = useState(0);
+
+  useEffect(() => {
+    if (!supplyData.length || !latestIndexQuery) {
+      return;
+    }
+
+    setFloatingSupply(getOhmFloatingSupply(supplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, supplyData]);
+
+  return floatingSupply;
 };
 
-export const useGOhmSyntheticSupply = (subgraphUrl?: string) => {
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useOhmBackedSupply = (earliestDate?: string | null): number => {
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getOhmFloatingSupply(data.tokenSupplies),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  // State variables
+  const [backedSupply, setBackedSupply] = useState(0);
+
+  useEffect(() => {
+    if (!supplyData.length || !latestIndexQuery) {
+      return;
+    }
+
+    setBackedSupply(getOhmBackedSupply(supplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, supplyData]);
+
+  return backedSupply;
+};
+
+export const useOhmTotalSupply = (earliestDate?: string | null): number => {
+  // Query hooks
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
+
+  // State variables
+  const [totalSupply, setTotalSupply] = useState(0);
+
+  useEffect(() => {
+    if (!supplyData.length || !latestIndexQuery) {
+      return;
+    }
+
+    setTotalSupply(getOhmTotalSupply(supplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, supplyData]);
+
+  return totalSupply;
 };

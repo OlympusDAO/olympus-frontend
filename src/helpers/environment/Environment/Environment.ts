@@ -1,5 +1,4 @@
-import { EthereumNetwork, NetworkId } from "src/networkDetails";
-
+import { NetworkId } from "src/networkDetails";
 export class Environment {
   public static env = import.meta.env;
 
@@ -53,6 +52,12 @@ export class Environment {
       err: "Please provide an Web3.Storage API key in your .env file",
     });
 
+  public static getWundergraphNodeUrl = (): string | undefined =>
+    this._get({
+      first: true,
+      key: "VITE_WG_PUBLIC_NODE_URL",
+    });
+
   /**
    * a feature flag for denoting when we are on the staging server
    * @returns {string} true or false
@@ -64,7 +69,7 @@ export class Environment {
       fallback: "false",
     });
 
-  public static getArchiveNodeUrl = (networkId: EthereumNetwork) => {
+  public static getArchiveNodeUrl = (networkId: number) => {
     switch (networkId) {
       case NetworkId.MAINNET:
         return this._get({
@@ -75,6 +80,16 @@ export class Environment {
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
           err: "Please provide a VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
+        });
+      case NetworkId.ARBITRUM:
+        return this._get({
+          key: `VITE_ARBITRUM_ARCHIVE_NODE_URL`,
+          err: "Please provide a VITE_ARBITRUM_ARCHIVE_NODE_URL for governance to function properly",
         });
     }
   };
@@ -100,6 +115,11 @@ export class Environment {
         return this._get({
           key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
           fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.ARBITRUM_GOERLI:
+        return this._get({
+          key: `VITE_ARBITRUM_GOERLI_NODE_URL`,
+          fallback: "https://endpoints.omniatech.io/v1/arbitrum/goerli/public",
         });
       case NetworkId.AVALANCHE:
         return this._get({

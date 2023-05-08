@@ -62,6 +62,8 @@ export const TokenAllowanceGuard: React.FC<{
   spenderAddressMap: AddressMap;
   approvalText?: string;
   approvalPendingText?: string;
+  spendAmount?: DecimalBigNumber;
+  children: any;
 }> = ({
   message,
   isVertical = false,
@@ -69,13 +71,14 @@ export const TokenAllowanceGuard: React.FC<{
   spenderAddressMap,
   approvalText = "Approve",
   approvalPendingText = "Approving...",
+  spendAmount,
   children,
 }) => {
   const { chain = { id: 1 } } = useNetwork();
   const { data: balance = new DecimalBigNumber("0") } = useBalance(tokenAddressMap)[
     chain.id as keyof typeof tokenAddressMap
   ] || { data: new DecimalBigNumber("0") };
-  const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
+  const approveMutation = useApproveToken(tokenAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
   if (!allowance && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero)
@@ -86,12 +89,20 @@ export const TokenAllowanceGuard: React.FC<{
     );
 
   if (
-    (allowance && allowance.eq(0) && tokenAddressMap !== ethers.constants.AddressZero) ||
-    (allowance && allowance.lt(balance.toBigNumber()))
+    (allowance && allowance.eq(0) && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero) ||
+    (allowance && allowance.lt(spendAmount?.toBigNumber() || balance.toBigNumber()))
   )
     return (
       <Grid container alignItems="center">
-        {message && (
+        {allowance && spendAmount && allowance.lt(spendAmount.toBigNumber()) ? (
+          <Grid item xs={12} sm={isVertical ? 12 : 8}>
+            <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
+              <Typography variant="body1" color="textSecondary">
+                <em>{`Your current allowance is less than your requested spend amount. Approve at least your spend amount.`}</em>
+              </Typography>
+            </Box>
+          </Grid>
+        ) : message ? (
           <Grid item xs={12} sm={isVertical ? 12 : 8}>
             <Box display="flex" textAlign="center" alignItems="center" justifyContent="center">
               <Typography variant="body1" color="textSecondary">
@@ -99,6 +110,8 @@ export const TokenAllowanceGuard: React.FC<{
               </Typography>
             </Box>
           </Grid>
+        ) : (
+          <></>
         )}
 
         <Grid item xs={12} sm={isVertical ? 12 : 4}>
@@ -107,7 +120,7 @@ export const TokenAllowanceGuard: React.FC<{
               loading={approveMutation.isLoading}
               fullWidth
               className=""
-              onClick={approveMutation.mutate}
+              onClick={() => approveMutation.mutate({ spenderAddressMap })}
               disabled={approveMutation.isLoading}
             >
               {approveMutation.isLoading ? `${approvalPendingText}` : `${approvalText}`}

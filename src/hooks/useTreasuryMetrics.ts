@@ -1,103 +1,153 @@
-import { UseQueryResult } from "@tanstack/react-query";
-import { useTokenSuppliesQuery } from "src/generated/graphql";
+import { useEffect, useState } from "react";
 import {
+  getGOhmSyntheticSupply,
   getLiquidBackingPerGOhmSynthetic,
+  getLiquidBackingPerOhmBacked,
   getLiquidBackingPerOhmFloating,
-  getOhmCirculatingSupply,
+  getOhmBackedSupply,
+  getOhmFloatingSupply,
+  getTreasuryAssetValue,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { getSubgraphUrl, SUBGRAPH_URLS } from "src/helpers/SubgraphUrlHelper";
+import { useTokenRecordsQueryLatestData, useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
 import { useCurrentIndex, useOhmPrice } from "src/hooks/useProtocolMetrics";
-import {
-  useTokenRecordsLatestBlock,
-  useTokenRecordsLatestRecord,
-  useTreasuryLiquidValue,
-} from "src/hooks/useTokenRecordsMetrics";
-import { DEFAULT_RECORD_COUNT } from "src/views/TreasuryDashboard/components/Graph/Constants";
-
-const QUERY_OPTIONS = { refetchInterval: 60000 }; // Refresh every 60 seconds
+import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
 
 /**
  * OHM price * circulating supply
  *
- * @param subgraphUrl
- * @returns
+ * @returns [marketCap, ohmPrice, circulatingSupply]
  */
-export const useMarketCap = (subgraphUrl?: string) => {
-  const ohmPriceQuery = useOhmPrice(subgraphUrl);
-  const latestDateQuery = useTokenRecordsLatestBlock(subgraphUrl);
-  const endpoint = subgraphUrl || getSubgraphUrl();
+export const useMarketCap = (earliestDate?: string | null): [number, number, number] => {
+  // Query hooks
+  const ohmPriceQuery: number | undefined = useOhmPrice();
+  const circulatingSupplyQuery = useOhmCirculatingSupply(earliestDate);
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getOhmCirculatingSupply(data.tokenSupplies) * (ohmPriceQuery.data || 0),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && ohmPriceQuery.isSuccess, // Only fetch when we've been able to get the latest date and price
-    },
-  );
+  // State variables
+  const [ohmPrice, setOhmPrice] = useState(0);
+  const [circulatingSupply, setCirculatingSupply] = useState(0);
+  const [marketCap, setMarketCap] = useState(0);
+
+  useEffect(() => {
+    if (!ohmPriceQuery || !circulatingSupplyQuery) {
+      return;
+    }
+
+    setOhmPrice(ohmPriceQuery);
+    setCirculatingSupply(circulatingSupplyQuery);
+    setMarketCap(ohmPriceQuery * circulatingSupplyQuery);
+  }, [circulatingSupplyQuery, ohmPriceQuery]);
+
+  return [marketCap, ohmPrice, circulatingSupply];
+};
+
+/**
+ * Liquid backing value / OHM backed supply
+ *
+ * @returns [liquidBackingPerBackedOhm, liquidBacking, backedOhm]
+ */
+export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [number, number, number] => {
+  // Query hooks
+  const [recordData] = useTokenRecordsQueryLatestData(earliestDate);
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
+
+  // State variables
+  const [liquidBackingPerOhmBacked, setLiquidBackingPerOhmBacked] = useState(0);
+  const [liquidBacking, setLiquidBacking] = useState(0);
+  const [backedSupply, setBackedSupply] = useState(0);
+
+  useEffect(() => {
+    if (!recordData || !latestIndexQuery || !supplyData) {
+      return;
+    }
+
+    const tempLiquidBacking = getTreasuryAssetValue(recordData, true);
+    setLiquidBacking(tempLiquidBacking);
+
+    const tempLiquidBackingPerOhmBacked = getLiquidBackingPerOhmBacked(tempLiquidBacking, supplyData, latestIndexQuery);
+    setLiquidBackingPerOhmBacked(tempLiquidBackingPerOhmBacked);
+
+    const tempBackedSupply = getOhmBackedSupply(supplyData, latestIndexQuery)[0];
+    setBackedSupply(tempBackedSupply);
+  }, [latestIndexQuery, recordData, supplyData]);
+
+  return [liquidBackingPerOhmBacked, liquidBacking, backedSupply];
 };
 
 /**
  * Liquid backing value / OHM floating supply
  *
- * @param subgraphUrl
- * @returns react-query result wrapping a number representing the liquid backing per OHM
+ * @returns [liquidBackingPerFloatingOhm, liquidBacking, floatingOhm]
  */
-export const useLiquidBackingPerOhmFloating = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
-  const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
-  const liquidBackingQuery = useTreasuryLiquidValue(
-    !latestDateQuery.data ? undefined : latestDateQuery.data.date,
-    subgraphUrls,
-  );
-  const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
+export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [number, number, number] => {
+  // Query hooks
+  const [recordData] = useTokenRecordsQueryLatestData(earliestDate);
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data?.block },
-      endpoint: endpoint,
-    },
-    {
-      select: data => getLiquidBackingPerOhmFloating(liquidBackingQuery, data.tokenSupplies),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess, // Only fetch when we've been able to get the latest date
-    },
-  );
+  // State variables
+  const [liquidBackingPerOhmFloating, setLiquidBackingPerOhmFloating] = useState(0);
+  const [liquidBacking, setLiquidBacking] = useState(0);
+  const [floatingSupply, setFloatingSupply] = useState(0);
+
+  useEffect(() => {
+    if (!recordData || !latestIndexQuery || !supplyData) {
+      return;
+    }
+
+    const tempLiquidBacking = getTreasuryAssetValue(recordData, true);
+    setLiquidBacking(tempLiquidBacking);
+
+    const tempLiquidBackingPerOhmFloating = getLiquidBackingPerOhmFloating(
+      tempLiquidBacking,
+      supplyData,
+      latestIndexQuery,
+    );
+    setLiquidBackingPerOhmFloating(tempLiquidBackingPerOhmFloating);
+
+    const tempFloatingSupply = getOhmFloatingSupply(supplyData, latestIndexQuery)[0];
+    setFloatingSupply(tempFloatingSupply);
+  }, [latestIndexQuery, recordData, supplyData]);
+
+  return [liquidBackingPerOhmFloating, liquidBacking, floatingSupply];
 };
 
 /**
  * Liquid backing value / gOHM synthetic supply
  *
- * @param subgraphUrl
- * @returns react-query result wrapping a number representing the liquid backing per gOHM
+ * @returns [liquidBackingPerGOhm, liquidBacking, gOHMSupply, latestIndex, ohmFloatingSupply]
  */
-export const useLiquidBackingPerGOhm = (subgraphUrls?: SUBGRAPH_URLS): UseQueryResult<number, unknown> => {
-  const latestDateQuery = useTokenRecordsLatestRecord(subgraphUrls?.Ethereum);
-  const liquidBackingQuery = useTreasuryLiquidValue(
-    !latestDateQuery.data ? undefined : latestDateQuery.data.date,
-    subgraphUrls,
-  );
-  const currentIndexQuery = useCurrentIndex(subgraphUrls?.Ethereum);
-  const endpoint = subgraphUrls?.Ethereum || getSubgraphUrl();
+export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number, number] => {
+  // Query hooks
+  const [recordData] = useTokenRecordsQueryLatestData(earliestDate);
+  const latestIndexQuery = useCurrentIndex();
+  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
 
-  return useTokenSuppliesQuery(
-    { endpoint: endpoint },
-    {
-      recordCount: DEFAULT_RECORD_COUNT,
-      filter: { block: latestDateQuery.data?.block },
-      endpoint: endpoint,
-    },
-    {
-      select: data =>
-        getLiquidBackingPerGOhmSynthetic(liquidBackingQuery, currentIndexQuery.data || 0, data.tokenSupplies),
-      ...QUERY_OPTIONS,
-      enabled: latestDateQuery.isSuccess && currentIndexQuery.isSuccess, // Only fetch when we've been able to get the requirements
-    },
-  );
+  // State variables
+  const [liquidBacking, setLiquidBacking] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [floatingSupply, setFloatingSupply] = useState(0);
+  const [liquidBackingPerGOhm, setLiquidBackingPerGOhm] = useState(0);
+  const [gOhmSupply, setGOhmSupply] = useState(0);
+
+  useEffect(() => {
+    if (!recordData || !latestIndexQuery || !supplyData) {
+      return;
+    }
+
+    const tempLiquidBacking = getTreasuryAssetValue(recordData, true);
+    setLiquidBacking(tempLiquidBacking);
+
+    const tempCurrentIndex = latestIndexQuery;
+    setCurrentIndex(tempCurrentIndex);
+
+    const tempFloatingSupply = getOhmFloatingSupply(supplyData, tempCurrentIndex)[0];
+    setFloatingSupply(tempFloatingSupply);
+
+    setLiquidBackingPerGOhm(getLiquidBackingPerGOhmSynthetic(tempLiquidBacking, tempCurrentIndex, supplyData));
+
+    setGOhmSupply(getGOhmSyntheticSupply(tempCurrentIndex, tempFloatingSupply));
+  }, [latestIndexQuery, recordData, supplyData]);
+
+  return [liquidBackingPerGOhm, liquidBacking, gOhmSupply, currentIndex, floatingSupply];
 };

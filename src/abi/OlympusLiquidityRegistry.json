@@ -1,0 +1,253 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "kernel_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
+        }
+      ],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LQREG_RemovalMismatch",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "policy_",
+          "type": "address"
+        }
+      ],
+      "name": "Module_PolicyNotPermitted",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "vault",
+          "type": "address"
+        }
+      ],
+      "name": "VaultAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "vault",
+          "type": "address"
+        }
+      ],
+      "name": "VaultRemoved",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "INIT",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "KEYCODE",
+      "outputs": [
+        {
+          "internalType": "Keycode",
+          "name": "",
+          "type": "bytes5"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "VERSION",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "major",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "minor",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "activeVaultCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "activeVaults",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "vault_",
+          "type": "address"
+        }
+      ],
+      "name": "addVault",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "newKernel_",
+          "type": "address"
+        }
+      ],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "vault_",
+          "type": "address"
+        }
+      ],
+      "name": "removeVault",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "details": "The Olympus Liquidity Vault Registry Module tracks the single-sided liquidity vaults         that are approved to be used by the Olympus protocol. This allows for a single-soure         of truth for reporting purposes around total OHM deployed and net emissions.",
+    "kind": "dev",
+    "methods": {
+      "INIT()": {
+        "details": "This function is called when the module is installed or upgraded by the kernel.MUST BE GATED BY onlyKernel. Used to encompass any initialization or upgrade logic."
+      },
+      "VERSION()": {
+        "returns": {
+          "major": "- Major version upgrade indicates breaking change to the interface.",
+          "minor": "- Minor version change retains backward-compatible interface."
+        }
+      },
+      "addVault(address)": {
+        "params": {
+          "vault_": "The address of the vault to add"
+        }
+      },
+      "removeVault(uint256,address)": {
+        "params": {
+          "vault_": "The address of the vault to remove"
+        }
+      }
+    },
+    "title": "Olympus Liquidity Vault Registry",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "INIT()": {
+        "notice": "Initialization function for the module"
+      },
+      "KEYCODE()": {
+        "notice": "5 byte identifier for a module."
+      },
+      "VERSION()": {
+        "notice": "Returns which semantic version of a module is being implemented."
+      },
+      "activeVaultCount()": {
+        "notice": "Count of active vaults"
+      },
+      "activeVaults(uint256)": {
+        "notice": "Tracks all active vaults"
+      },
+      "addVault(address)": {
+        "notice": "Adds an vault to the registry"
+      },
+      "changeKernel(address)": {
+        "notice": "Function used by kernel when migrating to a new kernel."
+      },
+      "removeVault(uint256,address)": {
+        "notice": "Removes an vault from the registry"
+      }
+    },
+    "notice": "Olympus Liquidity Vault Registry (Module) Contract",
+    "version": 1
+  }
+}

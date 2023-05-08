@@ -82,7 +82,7 @@ describe("Default Main Range View", () => {
 
   it("Should open the confirmation modal when Reserve amount is lower than balance", async () => {
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
+    fireEvent.click(await screen.getByTestId("range-submit"));
     expect(await screen.getAllByText("Confirm Swap")[0]);
   });
 

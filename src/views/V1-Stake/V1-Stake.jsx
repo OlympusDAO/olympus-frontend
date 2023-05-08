@@ -33,7 +33,7 @@ import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
-import { ExternalStakePools } from "src/views/Stake/components/ExternalStakePools/ExternalStakePools";
+import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
 import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
 import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
@@ -370,8 +370,7 @@ function V1Stake({ setMigrationModalOpen }) {
           </div>
         </Grid>
       </Paper>
-
-      <ExternalStakePools />
+      <ClaimsArea />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import React from "react";
 import { CSSProperties } from "react";
 import { DataFormat } from "src/components/Chart/Constants";
 import { formatCurrency } from "src/helpers";
@@ -30,7 +31,7 @@ const renderDate = (item: TooltipPayloadItem) => {
 
   return (
     <>
-      <Grid item xs={12} marginBottom="20px">
+      <Grid item xs={12} marginBottom="5px">
         {
           // Format: October 10, 2022 - 01:22 UTC
           // The `slice` approach is documented here: https://stackoverflow.com/a/3605248
@@ -55,9 +56,7 @@ const renderDate = (item: TooltipPayloadItem) => {
  * @returns
  */
 const formatNumber = (type: DataFormat, item: number, decimals: number) => {
-  return type === DataFormat.Currency
-    ? formatCurrency(item, decimals)
-    : `${Math.round(item).toLocaleString("en-US")}${type}`;
+  return type === DataFormat.Currency ? formatCurrency(item, decimals) : `${Math.round(item).toLocaleString("en-US")}`;
 };
 
 const renderItem = (type: DataFormat, item: number, decimals = 0) => {
@@ -123,6 +122,11 @@ const renderBulletpointRow = (
     ...dataKeyBulletpointStyles.get(item.dataKey),
   };
 
+  // Don't render a tooltip row if the value is 0 (#2673)
+  if (!item.value) {
+    return <React.Fragment key={item.dataKey}></React.Fragment>;
+  }
+
   return (
     <Grid
       item
@@ -130,8 +134,8 @@ const renderBulletpointRow = (
       xs={12}
       alignContent="center"
       justifyContent="space-between"
-      style={{ marginBottom: "10px" }}
-      key={index}
+      style={{ marginBottom: "2px" }}
+      key={item.dataKey}
     >
       <Grid item xs={1} alignContent="left">
         <span style={bulletpointStyle}></span>
@@ -159,40 +163,48 @@ const renderTooltipItems = (
   let ignoredIndex = 0;
 
   return (
-    <Grid container xs={12} padding={"10px"}>
+    <Grid container padding={"10px"}>
       {renderDate(payload[0])}
-      {payload.map((item, index) => {
-        /**
-         * The "range" area element triggers showing a tooltip. To avoid this,
-         * we restrict the tooltips to those included in the {dataKey} array.
-         */
-        if (
-          !dataKey.includes(item.dataKey) ||
-          (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
-        ) {
-          ignoredIndex++;
-          return <></>;
-        }
+      {payload
+        .map((item, index) => {
+          const label: string = dataKeyLabels.get(item.dataKey) || item.dataKey;
+          /**
+           * The "range" area element triggers showing a tooltip. To avoid this,
+           * we restrict the tooltips to those included in the {dataKey} array.
+           */
+          if (
+            !dataKey.includes(item.dataKey) ||
+            (dataKeysExcludedFromTotal && dataKeysExcludedFromTotal.includes(item.dataKey))
+          ) {
+            ignoredIndex++;
+            return { label: label, element: <React.Fragment key={item.dataKey}></React.Fragment> };
+          }
 
-        const adjustedIndex = index - ignoredIndex;
+          const adjustedIndex = index - ignoredIndex;
 
-        return renderBulletpointRow(
-          dataKeyBulletpointStyles,
-          dataKeyLabels,
-          dataFormat,
-          itemDecimals,
-          adjustedIndex,
-          item,
-        );
-      })}
+          return {
+            label: label,
+            element: renderBulletpointRow(
+              dataKeyBulletpointStyles,
+              dataKeyLabels,
+              dataFormat,
+              itemDecimals,
+              adjustedIndex,
+              item,
+            ),
+          };
+        })
+        // Sort tooltip entries alphabetically
+        .sort((a, b) => a.label.localeCompare(b.label))
+        .map(item => item.element)}
       {displayTotal && renderTotal(dataFormat, payload, dataKeysExcludedFromTotal)}
-      <Grid item xs={12} marginBottom="20px" />
+      <Grid item xs={12} marginBottom="10px" />
       {
         // Display elements of totalExcludesDataKeys below the total
         payload.map((item, index) => {
           if (!dataKeysExcludedFromTotal || !dataKeysExcludedFromTotal.includes(item.dataKey)) {
             ignoredIndex++;
-            return <></>;
+            return <React.Fragment key={item.dataKey}></React.Fragment>;
           }
 
           const adjustedIndex = index - ignoredIndex;

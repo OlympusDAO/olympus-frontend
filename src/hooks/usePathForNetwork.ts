@@ -22,8 +22,11 @@ export function usePathForNetwork({
       case "stake":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].stake) {
           break;
+        } else if ([NetworkId.ARBITRUM, NetworkId.ARBITRUM_GOERLI].includes(networkID)) {
+          navigate("/bridge");
+          break;
         } else {
-          navigate("/stake");
+          navigate("/dashboard");
           break;
         }
       case "bonds":

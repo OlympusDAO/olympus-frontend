@@ -47,13 +47,15 @@ export function capitalize(str: string) {
 }
 
 export function formatCurrency(c: number, precision = 0, currency = "USD") {
-  if (currency === "OHM") return `${trim(c, precision)} Ω`;
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+  const formatted = new Intl.NumberFormat("en-US", {
+    style: currency === "USD" ? "currency" : undefined,
     currency,
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   }).format(c);
+  if (currency === "OHM") return `${formatted} Ω`;
+  if (currency === "DAI") return `${formatted} DAI`;
+  return formatted;
 }
 
 export const formatBalance = (decimals: number, balance?: DecimalBigNumber) => {
@@ -137,6 +139,7 @@ export const stringToBytes32String = (str: string) => {
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
     NetworkId.ARBITRUM_TESTNET,
+    NetworkId.ARBITRUM_GOERLI,
     NetworkId.AVALANCHE_TESTNET,
     NetworkId.FANTOM_TESTNET,
     NetworkId.POLYGON_TESTNET,
@@ -174,4 +177,32 @@ export const isValidUrl = (url: string) => {
     "i",
   ); // validate fragment locator
   return !!urlPattern.test(url);
+};
+
+//maps known testnet contracts to mainnet for testing liquidity vaults
+export const testnetToMainnetContract = (address: string) => {
+  switch (address.toLowerCase()) {
+    //AURA
+    case "0x4a92f7C880f14c2a06FfCf56C7849739B0E492f5".toLowerCase():
+      return "0xc0c293ce456ff0ed870add98a0828dd4d2903dbf";
+    //LDO
+    case "0x7A2D6a40f2FcF8D45669F31F51791D3B348165aa".toLowerCase():
+      return "0x5a98fcbea516cf06857215779fd812ca3bef1b32";
+    //wstETH
+    case "0x6320cD32aA674d2898A68ec82e869385Fc5f7E2f".toLowerCase():
+      return "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0";
+    //BAL
+    case "0xd517A8E45771a40B29eCDa347634bD62051F91B9".toLowerCase():
+      return "0xba100000625a3754423978a60c9317c58a424e3d";
+    default:
+      return address;
+  }
+};
+
+export const formatNumberOrLoading = (value: number | null | undefined, decimals = 0): string => {
+  return value ? formatNumber(value, decimals) : "Loading...";
+};
+
+export const formatCurrencyOrLoading = (value: number | null | undefined, decimals = 0): string => {
+  return value ? formatCurrency(value, decimals) : "Loading...";
 };

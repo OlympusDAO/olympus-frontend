@@ -13,6 +13,7 @@ type ChartCardProps = {
   handleOpenExpandedChart?(): void;
   isLoading: boolean;
   height?: number;
+  children?: React.ReactNode;
 };
 
 export const DEFAULT_HEIGHT = 400;
@@ -33,22 +34,22 @@ export const ChartCard: React.FC<ChartCardProps> = props => {
               <Grid item>
                 {props.subgraphQueryUrl && (
                   <Link href={props.subgraphQueryUrl} target="_blank" rel="noopener noreferrer">
-                    <Tooltip message={`Open Subgraph Query`}>
-                      <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
-                    </Tooltip>
+                    <Tooltip message={`Open Subgraph Query`} />
+                    <SvgIcon component={GraphLogo} viewBox="0 0 100 100" style={{ width: "16px", height: "16px" }} />
                   </Link>
                 )}
               </Grid>
               <Grid item>
                 {props.handleOpenExpandedChart && (
-                  <Tooltip message={`Open in Expanded View`}>
+                  <>
+                    <Tooltip message={`Open in Expanded View`} />
                     <SvgIcon
                       component={Fullscreen}
                       color="primary"
                       onClick={props.handleOpenExpandedChart}
                       style={{ fontSize: "1rem", cursor: "pointer" }}
                     />
-                  </Tooltip>
+                  </>
                 )}
               </Grid>
             </Grid>
