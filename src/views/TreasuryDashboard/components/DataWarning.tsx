@@ -1,4 +1,15 @@
-import { Grid, Skeleton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Grid,
+  Skeleton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { getISO8601String } from "src/helpers/DateHelper";
 import { TokenRecord, useTokenRecordsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
@@ -12,6 +23,11 @@ const getDateFromTimestamp = (timestamp: string): Date => {
  * and displays them in a notification banner.
  */
 const DataWarning = (): JSX.Element => {
+  const theme = useTheme();
+  const columnHeaderColor = theme.palette.text.primary;
+
+  const isBreakpointSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
   // Query hooks
   const { data: latestRecordsQuery } = useTokenRecordsLatestQuery();
 
@@ -80,9 +96,22 @@ const DataWarning = (): JSX.Element => {
         )}
       </Grid>
       <Grid item xs={12} container wrap={"nowrap"}>
-        <Grid item xs={1} m={2} />
-        <Grid item xs={10} m={8} style={{ margin: "0px" }}>
-          <Table>
+        {isBreakpointSmall ? <></> : <Grid item m={2} />}
+        <Grid item sm={12} m={8} style={{ margin: "0px" }}>
+          <Table
+            sx={{
+              "& .MuiTableCell-head": {
+                fontSize: "16px",
+                color: columnHeaderColor,
+              },
+              "& .MuiTableCell-body": {
+                fontSize: "14px",
+                height: "30px",
+                paddingTop: "0px",
+                paddingBottom: "0px",
+              },
+            }}
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Blockchain</TableCell>
@@ -114,7 +143,7 @@ const DataWarning = (): JSX.Element => {
             </TableBody>
           </Table>
         </Grid>
-        <Grid item xs={1} m={2} />
+        {isBreakpointSmall ? <></> : <Grid item m={2} />}
       </Grid>
     </Grid>
   );
