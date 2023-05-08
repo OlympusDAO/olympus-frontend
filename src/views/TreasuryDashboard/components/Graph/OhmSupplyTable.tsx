@@ -38,7 +38,7 @@ type OhmSupplyDateMap = {
 
 export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset }: GraphProps & AssetsTableProps) => {
   const theme = useTheme();
-  const columnHeaderColor = theme.palette.text.secondary;
+  const columnHeaderColor = theme.palette.text.primary;
 
   const chartName = "OhmSupplyTable";
 
