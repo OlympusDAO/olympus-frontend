@@ -16,7 +16,7 @@ import {
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
-import { OhmSupplyGraph } from "src/views/TreasuryDashboard/components/Graph/OhmSupplyGraph";
+import { OhmSupply } from "src/views/TreasuryDashboard/components/Graph/OhmSupply";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import KnownIssues from "src/views/TreasuryDashboard/components/KnownIssues/KnownIssues";
@@ -227,7 +227,7 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <OhmSupplyGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

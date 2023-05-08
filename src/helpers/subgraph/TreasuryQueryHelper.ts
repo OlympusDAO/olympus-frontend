@@ -17,16 +17,16 @@ import {
 import { TokenRecord, TokenSupply } from "src/hooks/useFederatedSubgraphQuery";
 
 export const getLiquidBackingPerOhmBacked = (liquidBacking: number, tokenSupplies: TokenSupply[], ohmIndex: number) =>
-  liquidBacking / getOhmBackedSupply(tokenSupplies, ohmIndex);
+  liquidBacking / getOhmBackedSupply(tokenSupplies, ohmIndex)[0];
 
 export const getLiquidBackingPerOhmFloating = (liquidBacking: number, tokenSupplies: TokenSupply[], ohmIndex: number) =>
-  liquidBacking / getOhmFloatingSupply(tokenSupplies, ohmIndex);
+  liquidBacking / getOhmFloatingSupply(tokenSupplies, ohmIndex)[0];
 
 export const getLiquidBackingPerGOhmSynthetic = (
   liquidBacking: number,
   currentIndex: number,
   tokenSupplies: TokenSupply[],
-) => liquidBacking / getGOhmSyntheticSupply(currentIndex, getOhmBackedSupply(tokenSupplies, currentIndex));
+) => liquidBacking / getGOhmSyntheticSupply(currentIndex, getOhmBackedSupply(tokenSupplies, currentIndex)[0]);
 
 export const filterReduce = (
   records: TokenRecord[],
@@ -104,12 +104,20 @@ const getBalanceMultiplier = (record: TokenSupply, ohmIndex: number): number => 
  * @param records TokenSupply records for the given day
  * @param ohmIndex The index of OHM for the given day
  * @param includedTypes
- * @returns
+ * @returns [balance, included records]
  */
-const getBalanceForTypes = (records: TokenSupply[], includedTypes: string[], ohmIndex: number): number => {
-  return records
-    .filter(record => isSupportedToken(record) && includedTypes.includes(record.type))
-    .reduce((previousValue, record) => previousValue + +record.balance * getBalanceMultiplier(record, ohmIndex), 0);
+const getBalanceForTypes = (
+  records: TokenSupply[],
+  includedTypes: string[],
+  ohmIndex: number,
+): [number, TokenSupply[]] => {
+  const filteredRecords = records.filter(record => isSupportedToken(record) && includedTypes.includes(record.type));
+  const balance = filteredRecords.reduce(
+    (previousValue, record) => previousValue + +record.balance * getBalanceMultiplier(record, ohmIndex),
+    0,
+  );
+
+  return [balance, filteredRecords];
 };
 
 /**
@@ -124,30 +132,36 @@ const getBalanceForTypes = (records: TokenSupply[], includedTypes: string[], ohm
  * @param records TokenSupply records for the given day
  * @param ohmIndex The index of OHM for the given day
  * @param includedTypes
- * @returns
+ * @returns [balance, included records]
  */
-const getSupplyBalanceForTypes = (records: TokenSupply[], includedTypes: string[], ohmIndex: number): number => {
-  return records
-    .filter(record => isSupportedToken(record) && includedTypes.includes(record.type))
-    .reduce(
-      (previousValue, record) => previousValue + +record.supplyBalance * getBalanceMultiplier(record, ohmIndex),
-      0,
-    );
+const getSupplyBalanceForTypes = (
+  records: TokenSupply[],
+  includedTypes: string[],
+  ohmIndex: number,
+): [number, TokenSupply[]] => {
+  const filteredRecords = records.filter(record => isSupportedToken(record) && includedTypes.includes(record.type));
+
+  const supplyBalance = filteredRecords.reduce(
+    (previousValue, record) => previousValue + +record.supplyBalance * getBalanceMultiplier(record, ohmIndex),
+    0,
+  );
+
+  return [supplyBalance, filteredRecords];
 };
 
-export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getProtocolOwnedLiquiditySupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LIQUIDITY], ohmIndex);
 };
 
-export const getTreasurySupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getTreasurySupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TREASURY], ohmIndex);
 };
 
-export const getMigrationOffsetSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getMigrationOffsetSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_OFFSET], ohmIndex);
 };
 
-export const getBondDepositsSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getBondDepositsSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(
     records,
     [TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS, TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS],
@@ -155,33 +169,33 @@ export const getBondDepositsSupply = (records: TokenSupply[], ohmIndex: number):
   );
 };
 
-export const getBondVestingTokensSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getBondVestingTokensSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_VESTING_TOKENS], ohmIndex);
 };
 
-export const getLendingSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getLendingSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_LENDING], ohmIndex);
 };
 
-export const getBondPremintedSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getBondPremintedSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BONDS_PREMINTED], ohmIndex);
 };
 
-export const getBoostedLiquidityVaultSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getBoostedLiquidityVaultSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT], ohmIndex);
 };
 
 export const getExternalSupply = (records: TokenSupply[], ohmIndex: number): number => {
   return (
-    getOhmTotalSupply(records, ohmIndex) -
-    getProtocolOwnedLiquiditySupply(records, ohmIndex) -
-    getTreasurySupply(records, ohmIndex) -
-    getMigrationOffsetSupply(records, ohmIndex) -
-    getBondDepositsSupply(records, ohmIndex) -
-    getBondVestingTokensSupply(records, ohmIndex) -
-    getBondPremintedSupply(records, ohmIndex) -
-    getLendingSupply(records, ohmIndex) -
-    getBoostedLiquidityVaultSupply(records, ohmIndex)
+    getOhmTotalSupply(records, ohmIndex)[0] -
+    getProtocolOwnedLiquiditySupply(records, ohmIndex)[0] -
+    getTreasurySupply(records, ohmIndex)[0] -
+    getMigrationOffsetSupply(records, ohmIndex)[0] -
+    getBondDepositsSupply(records, ohmIndex)[0] -
+    getBondVestingTokensSupply(records, ohmIndex)[0] -
+    getBondPremintedSupply(records, ohmIndex)[0] -
+    getLendingSupply(records, ohmIndex)[0] -
+    getBoostedLiquidityVaultSupply(records, ohmIndex)[0]
   );
 };
 
@@ -200,7 +214,7 @@ export const getExternalSupply = (records: TokenSupply[], ohmIndex: number): num
  * @param ohmIndex The index of OHM for the given day
  * @returns
  */
-export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   const includedTypes = [
     TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
     TOKEN_SUPPLY_TYPE_TREASURY,
@@ -230,7 +244,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number
  * @param ohmIndex The index of OHM for the given day
  * @returns
  */
-export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   const includedTypes = [
     TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
     TOKEN_SUPPLY_TYPE_TREASURY,
@@ -263,7 +277,7 @@ export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): 
  * @param records TokenSupply records for the given day
  * @param ohmIndex The index of OHM for the given day
  */
-export const getOhmBackedSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getOhmBackedSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   const includedTypes = [
     TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY,
     TOKEN_SUPPLY_TYPE_TREASURY,
@@ -287,7 +301,7 @@ export const getOhmBackedSupply = (records: TokenSupply[], ohmIndex: number): nu
  * @param ohmIndex The index of OHM for the given day
  * @returns
  */
-export const getOhmTotalSupply = (records: TokenSupply[], ohmIndex: number): number => {
+export const getOhmTotalSupply = (records: TokenSupply[], ohmIndex: number): [number, TokenSupply[]] => {
   return getSupplyBalanceForTypes(records, [TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY], ohmIndex);
 };
 

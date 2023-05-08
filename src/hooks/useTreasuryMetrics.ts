@@ -67,7 +67,7 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
     const tempLiquidBackingPerOhmBacked = getLiquidBackingPerOhmBacked(tempLiquidBacking, supplyData, latestIndexQuery);
     setLiquidBackingPerOhmBacked(tempLiquidBackingPerOhmBacked);
 
-    const tempBackedSupply = getOhmBackedSupply(supplyData, latestIndexQuery);
+    const tempBackedSupply = getOhmBackedSupply(supplyData, latestIndexQuery)[0];
     setBackedSupply(tempBackedSupply);
   }, [latestIndexQuery, recordData, supplyData]);
 
@@ -105,7 +105,7 @@ export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [n
     );
     setLiquidBackingPerOhmFloating(tempLiquidBackingPerOhmFloating);
 
-    const tempFloatingSupply = getOhmFloatingSupply(supplyData, latestIndexQuery);
+    const tempFloatingSupply = getOhmFloatingSupply(supplyData, latestIndexQuery)[0];
     setFloatingSupply(tempFloatingSupply);
   }, [latestIndexQuery, recordData, supplyData]);
 
@@ -141,7 +141,7 @@ export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, 
     const tempCurrentIndex = latestIndexQuery;
     setCurrentIndex(tempCurrentIndex);
 
-    const tempFloatingSupply = getOhmFloatingSupply(supplyData, tempCurrentIndex);
+    const tempFloatingSupply = getOhmFloatingSupply(supplyData, tempCurrentIndex)[0];
     setFloatingSupply(tempFloatingSupply);
 
     setLiquidBackingPerGOhm(getLiquidBackingPerGOhmSynthetic(tempLiquidBacking, tempCurrentIndex, supplyData));

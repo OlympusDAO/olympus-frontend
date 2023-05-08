@@ -41,7 +41,7 @@ import {
  *
  * @returns
  */
-export const OhmSupplyGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
+export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
 
@@ -108,19 +108,19 @@ export const OhmSupplyGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps)
         date: dateString,
         timestamp: earliestTimestamp,
         block: +latestSupplyValue.block,
-        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex),
-        floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex),
-        backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex),
-        totalSupply: getOhmTotalSupply(dateSupplyValues, ohmIndex),
-        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex),
-        treasury: getTreasurySupply(dateSupplyValues, ohmIndex),
-        migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex),
-        bondDeposits: getBondDepositsSupply(dateSupplyValues, ohmIndex),
-        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues, ohmIndex),
-        bondPreminted: getBondPremintedSupply(dateSupplyValues, ohmIndex),
+        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex)[0],
+        floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex)[0],
+        backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex)[0],
+        totalSupply: getOhmTotalSupply(dateSupplyValues, ohmIndex)[0],
+        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex)[0],
+        treasury: getTreasurySupply(dateSupplyValues, ohmIndex)[0],
+        migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex)[0],
+        bondDeposits: getBondDepositsSupply(dateSupplyValues, ohmIndex)[0],
+        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues, ohmIndex)[0],
+        bondPreminted: getBondPremintedSupply(dateSupplyValues, ohmIndex)[0],
         external: getExternalSupply(dateSupplyValues, ohmIndex),
-        lending: getLendingSupply(dateSupplyValues, ohmIndex),
-        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues, ohmIndex),
+        lending: getLendingSupply(dateSupplyValues, ohmIndex)[0],
+        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues, ohmIndex)[0],
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
@@ -195,6 +195,7 @@ export const OhmSupplyGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps)
       displayTooltipTotal={true}
       composedLineDataKeys={lineDataKeys}
       tickStyle={getTickStyle(theme)}
+      onMouseMove={onMouseMove}
     />
   );
 };

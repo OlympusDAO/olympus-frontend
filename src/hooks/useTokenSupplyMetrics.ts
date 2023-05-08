@@ -21,7 +21,7 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number =>
       return;
     }
 
-    setCirculatingSupply(getOhmCirculatingSupply(supplyData, latestIndexQuery));
+    setCirculatingSupply(getOhmCirculatingSupply(supplyData, latestIndexQuery)[0]);
   }, [latestIndexQuery, supplyData]);
 
   return circulatingSupply;
@@ -40,7 +40,7 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
       return;
     }
 
-    setFloatingSupply(getOhmFloatingSupply(supplyData, latestIndexQuery));
+    setFloatingSupply(getOhmFloatingSupply(supplyData, latestIndexQuery)[0]);
   }, [latestIndexQuery, supplyData]);
 
   return floatingSupply;
@@ -59,7 +59,7 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number => {
       return;
     }
 
-    setBackedSupply(getOhmBackedSupply(supplyData, latestIndexQuery));
+    setBackedSupply(getOhmBackedSupply(supplyData, latestIndexQuery)[0]);
   }, [latestIndexQuery, supplyData]);
 
   return backedSupply;
@@ -78,7 +78,7 @@ export const useOhmTotalSupply = (earliestDate?: string | null): number => {
       return;
     }
 
-    setTotalSupply(getOhmTotalSupply(supplyData, latestIndexQuery));
+    setTotalSupply(getOhmTotalSupply(supplyData, latestIndexQuery)[0]);
   }, [latestIndexQuery, supplyData]);
 
   return totalSupply;
