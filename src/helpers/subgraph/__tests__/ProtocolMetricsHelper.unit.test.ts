@@ -1,5 +1,6 @@
 import { ChartType } from "src/components/Chart/Constants";
 import { getDataKeysFromTokens, getMaximumValue } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { describe, expect, test } from "vitest";
 
 describe("getDataKeysFromTokens", () => {
   test("works as expected", () => {

@@ -6,12 +6,7 @@ import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
-import {
-  BLOCKCHAINS,
-  getSubgraphIdForBlockchain,
-  getSubgraphUrlForBlockchain,
-  getSubgraphUrls,
-} from "src/helpers/SubgraphUrlHelper";
+import DataWarning from "src/views/TreasuryDashboard/components/DataWarning";
 import {
   DEFAULT_DAYS,
   PARAM_DAYS,
@@ -21,7 +16,7 @@ import {
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { LiquidBackingPerOhmComparisonGraph } from "src/views/TreasuryDashboard/components/Graph/LiquidBackingComparisonGraph";
-import { OhmSupplyGraph } from "src/views/TreasuryDashboard/components/Graph/OhmSupplyGraph";
+import { OhmSupply } from "src/views/TreasuryDashboard/components/Graph/OhmSupply";
 import { ProtocolOwnedLiquidityGraph } from "src/views/TreasuryDashboard/components/Graph/OwnedLiquidityGraph";
 import { TreasuryAssets } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssets";
 import KnownIssues from "src/views/TreasuryDashboard/components/KnownIssues/KnownIssues";
@@ -67,16 +62,6 @@ const MetricsDashboard = () => {
   // State variable for the current token
   const [token, setToken] = useState(PARAM_TOKEN_OHM);
 
-  // Determine the subgraph URL
-  // Originally, this was performed at the component level, but it ended up with a lot of redundant
-  // calls to useSearchParams that could have led to wonky behaviour.
-  const subgraphUrls = getSubgraphUrls();
-  const subgraphUrlEthereum = getSubgraphUrlForBlockchain(
-    BLOCKCHAINS.Ethereum,
-    getSubgraphIdForBlockchain(BLOCKCHAINS.Ethereum),
-  );
-  console.debug("Subgraph URLs are: " + JSON.stringify(subgraphUrls));
-
   const [searchParams] = useSearchParams();
   useEffect(() => {
     // Get the days from the URL query parameters, or use the default
@@ -99,8 +84,6 @@ const MetricsDashboard = () => {
   // Used by the Metrics
   const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
     ...baseMetricProps,
-    subgraphUrl: subgraphUrlEthereum,
-    subgraphUrls: subgraphUrls,
     earliestDate: earliestDate,
   };
 
@@ -226,7 +209,6 @@ const MetricsDashboard = () => {
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <LiquidBackingPerOhmComparisonGraph
-              subgraphUrls={subgraphUrls}
               activeToken={token}
               earliestDate={earliestDate}
               subgraphDaysOffset={daysOffset}
@@ -235,21 +217,22 @@ const MetricsDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph
-              subgraphUrls={subgraphUrls}
-              earliestDate={earliestDate}
-              subgraphDaysOffset={daysOffset}
-            />
+            <ProtocolOwnedLiquidityGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <OhmSupplyGraph subgraphUrls={subgraphUrls} earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper {...paperProps} style={paperStyles}>
+            <DataWarning />
           </Paper>
         </Grid>
         <Grid item xs={12}>
