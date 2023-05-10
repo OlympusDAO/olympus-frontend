@@ -40,7 +40,7 @@ const DataWarning = (): JSX.Element => {
 
   useEffect(() => {
     // Still loading
-    if (!latestRecordsQuery) {
+    if (!latestRecordsQuery || !latestRecordsQuery.length) {
       return;
     }
 
