@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsLatestQuery, useTokenRecordsQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
+import {
+  useTokenRecordsLatestQuery,
+  useTokenRecordsQueryLatestCompleteData,
+} from "src/hooks/useFederatedSubgraphQuery";
 
 export const useTokenRecordsLatestDate = (): string | undefined => {
   const { data } = useTokenRecordsLatestQuery();
@@ -35,26 +38,21 @@ export const useTreasuryAssetsLatestValue = (liquidOnly: boolean): number | unde
 
   // Query hooks
   const latestDateQuery = useTokenRecordsLatestDate();
-  const [latestTokenRecordData] = useTokenRecordsQueryLatestData(latestDate);
+  const latestTokenRecordData = useTokenRecordsQueryLatestCompleteData(latestDate);
 
-  //
   useEffect(() => {
     if (!latestDateQuery) {
       return;
     }
 
-    console.log(`latest date = ${latestDateQuery}`);
     setLatestDate(latestDateQuery);
   }, [latestDateQuery]);
 
   useEffect(() => {
     if (!latestTokenRecordData || latestTokenRecordData.length === 0 || !latestDate) {
-      console.log(`count = ${latestTokenRecordData.length}`);
-      console.log(`date = ${latestDate}`);
       return;
     }
 
-    console.log(`setting asset value`);
     setAssetValue(getTreasuryAssetValue(latestTokenRecordData, liquidOnly));
   }, [latestTokenRecordData, latestDate, liquidOnly]);
 

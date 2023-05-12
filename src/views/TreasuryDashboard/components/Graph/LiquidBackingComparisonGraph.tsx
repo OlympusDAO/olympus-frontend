@@ -15,8 +15,8 @@ import {
 } from "src/helpers/subgraph/TreasuryQueryHelper";
 import {
   useProtocolMetricsQuery,
-  useTokenRecordsQuery,
-  useTokenSuppliesQuery,
+  useTokenRecordsQueryComplete,
+  useTokenSuppliesQueryComplete,
 } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
@@ -42,8 +42,8 @@ export const LiquidBackingPerOhmComparisonGraph = ({ earliestDate, activeToken, 
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
 
-  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
-  const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
   const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
 
   /**

@@ -10,7 +10,7 @@ import {
   getDataKeyColorsMap,
   getDataKeysFromTokens,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { TokenRecord, useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { TokenRecord, useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -31,7 +31,7 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
 
-  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
 
   /**
    * Chart population:

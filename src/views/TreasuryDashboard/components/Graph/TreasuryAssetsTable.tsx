@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -30,7 +30,7 @@ export const TreasuryAssetsTable = ({
   const queryExplorerUrl = "";
   const chartName = "TreasuryAssetsTable";
 
-  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
 
   /**
    * Chart population:

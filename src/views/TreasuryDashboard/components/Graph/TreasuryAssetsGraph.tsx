@@ -10,7 +10,7 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -55,7 +55,7 @@ export const TreasuryAssetsGraph = ({
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
 
-  const { data: tokenRecordResults } = useTokenRecordsQuery(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
 
   /**
    * Chart population:

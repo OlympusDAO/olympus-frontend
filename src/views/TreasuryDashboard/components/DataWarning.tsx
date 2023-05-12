@@ -29,6 +29,7 @@ const DataWarning = (): JSX.Element => {
   const isBreakpointSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Query hooks
+  // This will get the absolute latest records from each blockchain, without any filtering
   const { data: latestRecordsQuery } = useTokenRecordsLatestQuery();
 
   // State variables

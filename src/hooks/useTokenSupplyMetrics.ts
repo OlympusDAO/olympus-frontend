@@ -5,81 +5,81 @@ import {
   getOhmFloatingSupply,
   getOhmTotalSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenSuppliesQueryLatestData } from "src/hooks/useFederatedSubgraphQuery";
+import { useTokenSuppliesQueryLatestCompleteData } from "src/hooks/useFederatedSubgraphQuery";
 import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 
 export const useOhmCirculatingSupply = (earliestDate?: string | null): number => {
   // Query hooks
-  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
   const [circulatingSupply, setCirculatingSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData.length || !latestIndexQuery) {
+    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
       return;
     }
 
-    setCirculatingSupply(getOhmCirculatingSupply(supplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, supplyData]);
+    setCirculatingSupply(getOhmCirculatingSupply(latestSupplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, latestSupplyData]);
 
   return circulatingSupply;
 };
 
 export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
   // Query hooks
-  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
   const [floatingSupply, setFloatingSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData.length || !latestIndexQuery) {
+    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
       return;
     }
 
-    setFloatingSupply(getOhmFloatingSupply(supplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, supplyData]);
+    setFloatingSupply(getOhmFloatingSupply(latestSupplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, latestSupplyData]);
 
   return floatingSupply;
 };
 
 export const useOhmBackedSupply = (earliestDate?: string | null): number => {
   // Query hooks
-  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
   const [backedSupply, setBackedSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData.length || !latestIndexQuery) {
+    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
       return;
     }
 
-    setBackedSupply(getOhmBackedSupply(supplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, supplyData]);
+    setBackedSupply(getOhmBackedSupply(latestSupplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, latestSupplyData]);
 
   return backedSupply;
 };
 
 export const useOhmTotalSupply = (earliestDate?: string | null): number => {
   // Query hooks
-  const [supplyData] = useTokenSuppliesQueryLatestData(earliestDate);
+  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
   const [totalSupply, setTotalSupply] = useState(0);
 
   useEffect(() => {
-    if (!supplyData.length || !latestIndexQuery) {
+    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
       return;
     }
 
-    setTotalSupply(getOhmTotalSupply(supplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, supplyData]);
+    setTotalSupply(getOhmTotalSupply(latestSupplyData, latestIndexQuery)[0]);
+  }, [latestIndexQuery, latestSupplyData]);
 
   return totalSupply;
 };
