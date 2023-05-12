@@ -42,6 +42,7 @@ export const useTreasuryAssetsLatestValue = (liquidOnly: boolean): number | unde
 
   useEffect(() => {
     if (!latestDateQuery) {
+      setLatestDate(undefined);
       return;
     }
 
@@ -50,6 +51,7 @@ export const useTreasuryAssetsLatestValue = (liquidOnly: boolean): number | unde
 
   useEffect(() => {
     if (!latestTokenRecordData || latestTokenRecordData.length === 0 || !latestDate) {
+      setAssetValue(undefined);
       return;
     }
 

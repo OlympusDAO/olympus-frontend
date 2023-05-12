@@ -20,18 +20,23 @@ import { useOhmCirculatingSupply } from "src/hooks/useTokenSupplyMetrics";
  *
  * @returns [marketCap, ohmPrice, circulatingSupply]
  */
-export const useMarketCap = (earliestDate?: string | null): [number, number, number] => {
+export const useMarketCap = (
+  earliestDate?: string | null,
+): [number | undefined, number | undefined, number | undefined] => {
   // Query hooks
   const ohmPriceQuery: number | undefined = useOhmPrice();
   const circulatingSupplyQuery = useOhmCirculatingSupply(earliestDate);
 
   // State variables
-  const [ohmPrice, setOhmPrice] = useState(0);
-  const [circulatingSupply, setCirculatingSupply] = useState(0);
-  const [marketCap, setMarketCap] = useState(0);
+  const [ohmPrice, setOhmPrice] = useState<number>();
+  const [circulatingSupply, setCirculatingSupply] = useState<number>();
+  const [marketCap, setMarketCap] = useState<number>();
 
   useEffect(() => {
     if (!ohmPriceQuery || !circulatingSupplyQuery) {
+      setOhmPrice(undefined);
+      setCirculatingSupply(undefined);
+      setMarketCap(undefined);
       return;
     }
 

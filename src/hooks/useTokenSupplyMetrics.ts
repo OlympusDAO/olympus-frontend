@@ -8,16 +8,17 @@ import {
 import { useTokenSuppliesQueryLatestCompleteData } from "src/hooks/useFederatedSubgraphQuery";
 import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 
-export const useOhmCirculatingSupply = (earliestDate?: string | null): number => {
+export const useOhmCirculatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
-  const [circulatingSupply, setCirculatingSupply] = useState(0);
+  const [circulatingSupply, setCirculatingSupply] = useState<number>();
 
   useEffect(() => {
     if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+      setCirculatingSupply(undefined);
       return;
     }
 
@@ -27,16 +28,17 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number =>
   return circulatingSupply;
 };
 
-export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
+export const useOhmFloatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
-  const [floatingSupply, setFloatingSupply] = useState(0);
+  const [floatingSupply, setFloatingSupply] = useState<number>();
 
   useEffect(() => {
     if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+      setFloatingSupply(undefined);
       return;
     }
 
@@ -46,16 +48,17 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number => {
   return floatingSupply;
 };
 
-export const useOhmBackedSupply = (earliestDate?: string | null): number => {
+export const useOhmBackedSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
-  const [backedSupply, setBackedSupply] = useState(0);
+  const [backedSupply, setBackedSupply] = useState<number>();
 
   useEffect(() => {
     if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+      setBackedSupply(undefined);
       return;
     }
 
@@ -65,16 +68,17 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number => {
   return backedSupply;
 };
 
-export const useOhmTotalSupply = (earliestDate?: string | null): number => {
+export const useOhmTotalSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
   // State variables
-  const [totalSupply, setTotalSupply] = useState(0);
+  const [totalSupply, setTotalSupply] = useState<number>();
 
   useEffect(() => {
     if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+      setTotalSupply(undefined);
       return;
     }
 

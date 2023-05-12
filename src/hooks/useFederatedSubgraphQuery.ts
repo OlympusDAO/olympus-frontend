@@ -55,6 +55,7 @@ export const useTokenRecordsQueryComplete = (startDate: string | null | undefine
 
   useEffect(() => {
     if (!tokenRecordResults || tokenRecordResults.length === 0) {
+      setUntilLatestDateResults(undefined);
       return;
     }
 
@@ -66,6 +67,7 @@ export const useTokenRecordsQueryComplete = (startDate: string | null | undefine
     // Get the latest date across all chains
     const ethereumResults = sortedResults.filter(result => result.blockchain === CHAIN_ETHEREUM);
     if (ethereumResults.length == 0) {
+      setUntilLatestDateResults(undefined);
       return;
     }
 
@@ -95,6 +97,7 @@ export const useTokenRecordsQueryLatestCompleteData = (
 
   useEffect(() => {
     if (!tokenRecordResults || tokenRecordResults.length === 0) {
+      setLatestData(undefined);
       return;
     }
 
@@ -144,6 +147,7 @@ export const useTokenSuppliesQueryComplete = (startDate: string | null | undefin
 
   useEffect(() => {
     if (!tokenSupplyResults || tokenSupplyResults.length === 0) {
+      setUntilLatestDateResults(undefined);
       return;
     }
 
@@ -155,6 +159,7 @@ export const useTokenSuppliesQueryComplete = (startDate: string | null | undefin
     // Get the latest date across all chains
     const ethereumResults = sortedResults.filter(result => result.blockchain === CHAIN_ETHEREUM);
     if (ethereumResults.length == 0) {
+      setUntilLatestDateResults(undefined);
       return;
     }
 
@@ -184,6 +189,7 @@ export const useTokenSuppliesQueryLatestCompleteData = (
 
   useEffect(() => {
     if (!tokenSupplyResults || tokenSupplyResults.length === 0) {
+      setLatestData(undefined);
       return;
     }
 
