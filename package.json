@@ -126,7 +126,7 @@
     "node-watch": "^0.7.1",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "resize-observer-polyfill": "^1.5.1",
