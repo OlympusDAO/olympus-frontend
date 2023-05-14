@@ -98,7 +98,7 @@ export const dark = createTheme(
         MuiSelect: {
           styleOverrides: {
             select: {
-              color: "#F8CC82",
+              color: "#FFF",
             },
           },
         },
@@ -137,6 +137,18 @@ export const dark = createTheme(
             root: {
               ".Paper-root": {
                 background: colors.gray[600],
+              },
+            },
+          },
+        },
+        MuiPopover: {
+          styleOverrides: {
+            root: {
+              "& .MuiList-root": {
+                background: colors.gray[700],
+              },
+              "& .MuiSelect-select.MuiSelect-select": {
+                color: "#fff",
               },
             },
           },

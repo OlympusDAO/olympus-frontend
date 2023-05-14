@@ -250,6 +250,13 @@ const commonSettings = {
       },
     },
     MuiPopover: {
+      styleOverrides: {
+        root: {
+          "& .MuiBackdrop-root": {
+            backdropFilter: "none",
+          },
+        },
+      },
       defaultProps: {
         transitionDuration: 300,
       },
