@@ -18,7 +18,11 @@ import {
   getOhmFloatingSupply,
   getOhmTotalSupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { TokenSupply, useProtocolMetricsQuery, useTokenSuppliesQuery } from "src/hooks/useFederatedSubgraphQuery";
+import {
+  TokenSupply,
+  useProtocolMetricsQuery,
+  useTokenSuppliesQueryComplete,
+} from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import { AssetsTableProps, GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
@@ -52,7 +56,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
 
   const chartName = "OhmSupplyTable";
 
-  const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
+  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
   const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
 
   /**

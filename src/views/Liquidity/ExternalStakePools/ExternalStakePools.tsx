@@ -1,14 +1,11 @@
 import { Check } from "@mui/icons-material";
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
 import {
   Chip,
-  DataRow,
-  InfoTooltip,
   OHMTokenProps,
   OHMTokenStackProps,
-  SecondaryButton,
   TextButton,
   Token,
   TokenStack,
@@ -19,7 +16,7 @@ import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
 import { normalizeSymbol } from "src/helpers/normalizeSymbol";
-import { useGetLPStats } from "src/hooks/useGetLPStats";
+import { DefiLlamaPool, useGetLPStats } from "src/hooks/useGetLPStats";
 
 const PREFIX = "ExternalStakePools";
 
@@ -32,10 +29,9 @@ const classes = {
 
 const StyledPoolInfo = styled("div")(() => ({
   [`&.${classes.poolPair}`]: {
-    display: "flex !important",
+    display: "flex",
     alignItems: "center",
     justifyContent: "left",
-    marginBottom: "15px",
   },
 
   [`& .${classes.poolName}`]: {
@@ -43,14 +39,12 @@ const StyledPoolInfo = styled("div")(() => ({
   },
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  padding: "6px",
-}));
-
 export const ExternalStakePools = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: defiLlamaPools } = useGetLPStats();
   const [poolFilter, setPoolFilter] = useState("all");
+  const theme = useTheme();
+  const networks = [...new Set(defiLlamaPools?.map(pool => pool.chain))];
+  const [networkFilter, setNetworkFilter] = useState<undefined | string>(undefined);
   const stablePools =
     defiLlamaPools &&
     defiLlamaPools.filter(pool => {
@@ -72,7 +66,6 @@ export const ExternalStakePools = () => {
         !symbols.includes("USDC") &&
         !symbols.includes("FRAXBP") &&
         !symbols.includes("OHMFRAXBP");
-
       return volatile;
     });
 
@@ -93,6 +86,7 @@ export const ExternalStakePools = () => {
       ? gOHMPools
       : defiLlamaPools;
 
+  const poolListByNetwork = networkFilter ? poolList?.filter(pool => pool.chain === networkFilter) : poolList;
   const PoolChip = ({ label }: { label: string }) => (
     <Chip
       label={
@@ -105,6 +99,75 @@ export const ExternalStakePools = () => {
       onClick={() => (poolFilter === label.toLowerCase() ? setPoolFilter("all") : setPoolFilter(label.toLowerCase()))}
     />
   );
+
+  const columns: GridColDef<DefiLlamaPool>[] = [
+    {
+      field: "symbol",
+      headerName: "Pool",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => {
+        const symbols = params.row.symbol.split("-").filter(s => s !== "");
+        return (
+          <StyledPoolInfo className={classes.poolPair}>
+            {params.row.symbol !== "OHMFRAXBP-F" && (
+              <TokenStack
+                tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
+                style={{ fontSize: "27px" }}
+                network={defiLlamaChainToNetwork(params.row.chain) as OHMTokenProps["name"]}
+              />
+            )}
+            <div className={classes.poolName}>
+              <Typography fontWeight={700}>{params.row.symbol}</Typography>
+            </div>
+          </StyledPoolInfo>
+        );
+      },
+      minWidth: 250,
+    },
+    {
+      field: "tvlUsd",
+      headerName: "TVL",
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 0),
+      minWidth: 200,
+    },
+    {
+      field: "apy",
+      headerName: "APY",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
+        <>
+          {params.row.apyBase || params.row.apyReward ? (
+            <Tooltip
+              message={
+                <>
+                  <p>Base APY: {formatNumber(params.row.apyBase || 0, 2)}%</p>
+                  <p>Reward APY: {formatNumber(params.row.apyReward || 0, 2)}%</p>
+                </>
+              }
+            >
+              {formatNumber(params.row.apy || 0, 2)}%
+            </Tooltip>
+          ) : (
+            <>{formatNumber(params.row.apy || 0, 2)}%</>
+          )}
+        </>
+      ),
+    },
+    {
+      field: "projectName",
+      headerName: "",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
+        <TextButton
+          href={params.row.projectLink}
+          size="small"
+          fullWidth
+          style={{ justifyContent: "left", fontWeight: "700" }}
+        >
+          {params.row.projectName}
+        </TextButton>
+      ),
+      minWidth: 200,
+      flex: 1,
+    },
+  ];
 
   return (
     <div id="stake-view">
@@ -125,127 +188,96 @@ export const ExternalStakePools = () => {
             Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
           </Typography>
         </Box>
-        <Box display="flex" gap="9px">
-          <PoolChip label="All" />
-          <PoolChip label="Stable" />
-          <PoolChip label="Volatile" />
-          <PoolChip label="gOHM" />
+        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
+          <Box display="flex" gap="9px">
+            <PoolChip label="All" />
+            <PoolChip label="Stable" />
+            <PoolChip label="Volatile" />
+            <PoolChip label="gOHM" />
+          </Box>
+          <FormControl
+            sx={{
+              m: 1,
+              minWidth: 210,
+              "& .MuiFormLabel-filled": {
+                display: "none",
+              },
+            }}
+          >
+            <InputLabel id="demo-select-small">Filter by Network</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              value={networkFilter}
+              label="Age"
+              onChange={e => {
+                setNetworkFilter(e.target.value as string);
+              }}
+              fullWidth
+              sx={{
+                height: "44px",
+                backgroundColor: theme.colors.gray[700],
+                border: "none",
+                ".MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "& .MuiSelect-select": {
+                  display: "flex",
+                  alignItems: "center",
+                },
+              }}
+            >
+              {networks.map(network => (
+                <MenuItem value={network} key={network}>
+                  <Token
+                    name={defiLlamaChainToNetwork(network) as OHMTokenProps["name"]}
+                    style={{ fontSize: "27px", marginRight: "9px" }}
+                  />
+                  <Typography fontWeight={700}>{network}</Typography>
+                </MenuItem>
+              ))}
+              <MenuItem value={undefined} key="1">
+                All Networks
+              </MenuItem>
+            </Select>
+          </FormControl>
         </Box>
-        {isSmallScreen ? (
-          <Table>
-            <Box display="flex" justifyContent="start" mt="42px">
-              <Typography fontSize="24px" textAlign="left" fontWeight={600}>
-                Pool Farms
-              </Typography>
-            </Box>
-            {poolList &&
-              poolList.map(pool => {
-                const symbols = pool.symbol.split("-").filter(s => s !== "");
-                return (
-                  <Box mt="42px" key={pool.pool}>
-                    <StyledPoolInfo className={classes.poolPair}>
-                      <TokenStack
-                        tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
-                        style={{ fontSize: "24px" }}
-                      />
-
-                      <div className={classes.poolName}>
-                        <Typography>{pool.symbol}</Typography>
-                      </div>
-                      <div className={classes.poolName}>
-                        <Token
-                          name={defiLlamaChainToNetwork(pool.chain) as OHMTokenProps["name"]}
-                          style={{ fontSize: "15px" }}
-                        />
-                      </div>
-                    </StyledPoolInfo>
-
-                    <DataRow title={`TVL`} balance={formatCurrency(pool.tvlUsd || 0)} />
-                    <DataRow title={`APY`} balance={`${formatNumber(pool.apy || 0, 2)}%`} />
-
-                    <SecondaryButton href={pool.project.link} fullWidth>
-                      Stake on {pool.project.name}
-                    </SecondaryButton>
-                  </Box>
-                );
-              })}
-          </Table>
-        ) : (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell sx={{ fontSize: "14px", fontWeight: "700" }}>Asset</StyledTableCell>
-                <StyledTableCell sx={{ fontSize: "14px", fontWeight: "700" }}>TVL</StyledTableCell>
-                <StyledTableCell sx={{ fontSize: "14px", fontWeight: "700" }}>
-                  APY
-                  <InfoTooltip message="APY = Base APY + Reward APY. For non-autocompounding pools we do not account for reinvesting, in which case APY = APR." />
-                </StyledTableCell>
-
-                <StyledTableCell sx={{ fontSize: "12px", fontWeight: "450" }} width="100px"></StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {poolList &&
-                poolList.map(pool => {
-                  const symbols = pool.symbol.split("-").filter(s => s !== "");
-
-                  return (
-                    <TableRow key={pool.pool}>
-                      <TableCell style={{ padding: "8px 0" }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
-                          <TokenStack
-                            tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
-                            style={{ fontSize: "24px" }}
-                          />
-                          <Box marginLeft="14px" marginRight="10px">
-                            <Typography fontWeight="700">{pool.symbol}</Typography>
-                          </Box>
-                          <Token
-                            name={defiLlamaChainToNetwork(pool.chain) as OHMTokenProps["name"]}
-                            style={{ fontSize: "15px" }}
-                          />
-                        </Box>
-                      </TableCell>
-                      <TableCell style={{ padding: "8px 0" }}>
-                        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }} fontWeight="700">
-                          {formatCurrency(pool.tvlUsd || 0)}
-                        </Typography>
-                      </TableCell>
-                      <TableCell style={{ padding: "8px 0" }}>
-                        <>
-                          {pool.apyBase || pool.apyReward ? (
-                            <Tooltip
-                              message={
-                                <>
-                                  <p>Base APY: {formatNumber(pool.apyBase || 0, 2)}%</p>
-                                  <p>Reward APY: {formatNumber(pool.apyReward || 0, 2)}%</p>
-                                </>
-                              }
-                            >
-                              {formatNumber(pool.apy || 0, 2)}%
-                            </Tooltip>
-                          ) : (
-                            <>{formatNumber(pool.apy || 0, 2)}%</>
-                          )}
-                        </>
-                      </TableCell>
-
-                      <TableCell style={{ padding: "8px 0" }}>
-                        <TextButton
-                          href={pool.project.link}
-                          size="small"
-                          fullWidth
-                          style={{ justifyContent: "left", fontWeight: "700" }}
-                        >
-                          {pool.project.name}
-                        </TextButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        )}
+        <DataGrid
+          columns={columns}
+          rows={poolListByNetwork || []}
+          autoHeight
+          sx={{
+            border: 0,
+            fontSize: "15px",
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-withBorderColor": {
+              border: "none",
+            },
+            "& .MuiDataGrid-iconSeparator": {
+              display: "none",
+            },
+            "& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within": {
+              outline: "none",
+            },
+          }}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "apy", sort: "desc" }],
+            },
+          }}
+          disableRowSelectionOnClick
+          rowHeight={58}
+          disableColumnMenu
+          hideFooter
+        />
       </Box>
     </div>
   );
