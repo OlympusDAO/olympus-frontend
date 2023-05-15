@@ -3532,6 +3532,15 @@
     protobufjs "^6.11.2"
     ts-proto "^1.112.1"
 
+"@wundergraph/protobuf@^0.111.0":
+  version "0.111.0"
+  resolved "https://registry.yarnpkg.com/@wundergraph/protobuf/-/protobuf-0.111.0.tgz#2c11be44135651a0e8b37135d5a8a5d4284c9386"
+  integrity sha512-L1e0EaQ39xt4HWckaciQ3wXJIEesZKB28wHBZXVlIxHBKek/LVzfYkirqVukbbf9FOglM2efeB3CaE1Mkj71lw==
+  dependencies:
+    long "^5.2.0"
+    protobufjs "^6.11.2"
+    ts-proto "^1.112.1"
+
 "@wundergraph/react-query@^0.8.22":
   version "0.8.22"
   resolved "https://registry.yarnpkg.com/@wundergraph/react-query/-/react-query-0.8.22.tgz#7b7017202f4c785118e986e181f79ae447490912"
@@ -3590,10 +3599,10 @@
     zod "^3.20.2"
     zod-to-json-schema "^3.20.2"
 
-"@wundergraph/sdk@^0.155.0":
-  version "0.155.0"
-  resolved "https://registry.yarnpkg.com/@wundergraph/sdk/-/sdk-0.155.0.tgz#e1c4a61e044573ad9460fd52e46874d04e7984ca"
-  integrity sha512-jM3QYadcB5nu/SG6fZTQ1MGFkXbSVnb/CtzN7hrBM0KCGiSlotjWRgZuD5pq17pxpmV/RLdECkazPzGuKbumsw==
+"@wundergraph/sdk@^0.157.0":
+  version "0.157.0"
+  resolved "https://registry.yarnpkg.com/@wundergraph/sdk/-/sdk-0.157.0.tgz#e49677ec56c86007e07795009eef98917e361f81"
+  integrity sha512-IMiZdTcIuD187lkhnHjtAFlovXKgdmAw7rypyX6Viuu7uwvc/BUjLSfQUfkIzBw5UISPJzKYe1IKTmuk2wpBvQ==
   dependencies:
     "@fastify/formbody" "^7.3.0"
     "@graphql-mesh/cross-helpers" "^0.3.4"
@@ -3607,9 +3616,9 @@
     "@prisma/generator-helper" "^3.9.2"
     "@web-std/fetch" "^4.1.0"
     "@whatwg-node/fetch" "^0.8.4"
-    "@wundergraph/protobuf" "^0.110.0"
+    "@wundergraph/protobuf" "^0.111.0"
     "@wundergraph/straightforward" "^4.2.5"
-    "@wundergraph/wunderctl" "^0.149.0"
+    "@wundergraph/wunderctl" "^0.151.0"
     axios "^0.26.1"
     axios-retry "^3.3.1"
     close-with-grace "^1.1.0"
@@ -3663,10 +3672,10 @@
     rimraf "^3.0.2"
     tar "^6.1.13"
 
-"@wundergraph/wunderctl@^0.149.0":
-  version "0.149.0"
-  resolved "https://registry.yarnpkg.com/@wundergraph/wunderctl/-/wunderctl-0.149.0.tgz#9e160b68cabb23eaa6f4d648b9f901f498958d03"
-  integrity sha512-kb1pOGkcws4PqFhCRjqNxjXxgxH5Y2lS6hlbb1UisK6sEAFYJglBC4A7fLCxGaB0Ri1is64tFVDeKFbx4LeeUg==
+"@wundergraph/wunderctl@^0.151.0":
+  version "0.151.0"
+  resolved "https://registry.yarnpkg.com/@wundergraph/wunderctl/-/wunderctl-0.151.0.tgz#daa88cf8e55db4116b8707a1163d00830ead347d"
+  integrity sha512-n+PbCwpUL16FtaGqf91W54vnJ/RM+tMDfX1s84uU/co14RPUaP0DVcz2s0d0sbcj4EsTXXHV21jWknxp53ycDA==
   dependencies:
     axios "^0.26.1"
     debug "^4.3.4"
@@ -6349,15 +6358,15 @@ graphql-type-json@0.3.2:
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.3.2.tgz#f53a851dbfe07bd1c8157d24150064baab41e115"
   integrity sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==
 
-graphql@*, graphql@^15.8.0:
-  version "15.8.0"
-  resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz"
-  integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
-
-graphql@^16.6.0:
+graphql@*, graphql@^16.6.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
   integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
+
+graphql@^15.8.0:
+  version "15.8.0"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz"
+  integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
 handlebars@^4.7.7:
   version "4.7.7"
