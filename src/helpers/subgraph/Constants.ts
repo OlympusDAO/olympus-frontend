@@ -12,3 +12,5 @@ export const TOKEN_SUPPLY_TYPE_OFFSET = "Manual Offset";
 export const TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY = "Total Supply";
 export const TOKEN_SUPPLY_TYPE_TREASURY = "Treasury";
 export const TOKEN_SUPPLY_TYPE_LENDING = "Lending";
+
+export const CHAIN_ETHEREUM = "Ethereum";
