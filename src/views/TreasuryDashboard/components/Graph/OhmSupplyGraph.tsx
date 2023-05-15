@@ -22,7 +22,7 @@ import {
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery, useTokenSuppliesQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { useProtocolMetricsQuery, useTokenSuppliesQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -47,7 +47,7 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
 
   const chartName = "OhmSupplyGraph";
 
-  const { data: tokenSupplyResults } = useTokenSuppliesQuery(earliestDate);
+  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
   const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
 
   /**
