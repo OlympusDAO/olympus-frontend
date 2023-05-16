@@ -49,7 +49,7 @@
     "@vitejs/plugin-react-swc": "^3.2.0",
     "@wundergraph/react-query": "^0.8.22",
     "@wundergraph/sdk": "^0.155.0",
-    "axios": "^1.2.1",
+    "axios": "^1.4.0",
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.3",
     "date-fns-tz": "^2.0.0",
