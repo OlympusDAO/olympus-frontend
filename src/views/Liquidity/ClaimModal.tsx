@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { Modal, OHMTokenStackProps, TokenStack } from "@olympusdao/component-library";
 import { ReactElement } from "react";
+import { Modal, OHMTokenStackProps, TokenStack } from "src/components/library";
 import { formatNumber } from "src/helpers";
 
 export const ClaimModal = ({

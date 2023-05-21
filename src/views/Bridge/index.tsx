@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { DataRow, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";

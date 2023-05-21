@@ -1,4 +1,4 @@
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow } from "src/components/library";
 import { formatNumber } from "src/helpers";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 

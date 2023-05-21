@@ -9,7 +9,7 @@ vi.mock("@mui/material", () => ({
   useMediaQuery: vi.fn(),
 }));
 
-vi.mock("@olympusdao/component-library", () => ({
+vi.mock("src/components/library", () => ({
   WarningNotification: (props: any) => <div>{props.children}</div>,
 }));
 

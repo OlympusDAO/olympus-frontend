@@ -1,9 +1,9 @@
 import { Box, Fade, FormControl, Link, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/component-library";
 import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "src/components/library";
 import Balances from "src/components/TopBar/Wallet/Assets/Balances";
 import { TransactionHistory } from "src/components/TopBar/Wallet/Assets/TransactionHistory";
 import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";

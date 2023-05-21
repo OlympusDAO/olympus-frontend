@@ -1,4 +1,4 @@
-import { AssetCard, OHMTokenStackProps } from "@olympusdao/component-library";
+import { AssetCard, OHMTokenStackProps } from "src/components/library";
 import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency } from "src/helpers";
 

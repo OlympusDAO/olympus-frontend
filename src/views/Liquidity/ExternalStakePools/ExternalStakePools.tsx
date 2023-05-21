@@ -2,6 +2,7 @@ import { Check } from "@mui/icons-material";
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
+import { useState } from "react";
 import {
   Chip,
   OHMTokenProps,
@@ -10,8 +11,7 @@ import {
   Token,
   TokenStack,
   Tooltip,
-} from "@olympusdao/component-library";
-import { useState } from "react";
+} from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";

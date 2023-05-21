@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { Icon, Modal, OHMTokenProps, Token } from "@olympusdao/component-library";
+import { Icon, Modal, OHMTokenProps, Token } from "src/components/library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
 import { useBridgeableChains } from "src/views/Bridge/helpers";

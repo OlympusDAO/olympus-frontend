@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
-import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";

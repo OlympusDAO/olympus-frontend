@@ -1,6 +1,6 @@
 import { Box, Divider } from "@mui/material";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { useState } from "react";
+import { Metric, MetricCollection } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";

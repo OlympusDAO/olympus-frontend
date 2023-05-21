@@ -1,7 +1,7 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
+import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { AddressMap } from "src/constants/addresses";

@@ -1,6 +1,6 @@
 import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
-import { Modal } from "@olympusdao/component-library";
 import { ChangeEvent } from "react";
+import { Modal } from "src/components/library";
 
 export const BondSettingsModal: React.VFC<{
   open: boolean;

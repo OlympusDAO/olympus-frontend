@@ -1,14 +1,8 @@
 import { Avatar, Box, Link, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import {
-  InfoNotification,
-  OHMSwapCardProps,
-  PrimaryButton,
-  SwapCard,
-  SwapCollection,
-} from "@olympusdao/component-library";
 import { parseUnits } from "ethers/lib/utils";
 import React, { useEffect, useState } from "react";
+import { InfoNotification, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "src/components/library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import {
   GOHM_ADDRESSES,

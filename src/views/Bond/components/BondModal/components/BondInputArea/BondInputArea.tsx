@@ -1,8 +1,8 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { DataRow, PrimaryButton, SwapCard, SwapCollection, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { DataRow, PrimaryButton, SwapCard, SwapCollection, TokenStack } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import {

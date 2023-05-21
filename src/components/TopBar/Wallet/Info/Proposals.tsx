@@ -1,6 +1,6 @@
 import { Box, Fade } from "@mui/material";
-import { InfoCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
+import { InfoCard } from "src/components/library";
 import { ActiveProposals } from "src/components/TopBar/Wallet/queries";
 
 /**

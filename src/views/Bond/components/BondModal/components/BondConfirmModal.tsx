@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import { DataRow, Icon, Metric, Modal, PrimaryButton, TokenStack } from "@olympusdao/component-library";
 import { FC } from "react";
+import { DataRow, Icon, Metric, Modal, PrimaryButton, TokenStack } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { BondDuration } from "src/views/Bond/components/BondDuration";

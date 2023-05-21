@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { TransactionRow } from "@olympusdao/component-library";
 import { FC, useMemo, useRef, useState } from "react";
+import { TransactionRow } from "src/components/library";
 import useIntersectionObserver from "src/components/TopBar/Wallet/helpers";
 import { useTransactionHistory, useTransferHistory } from "src/components/TopBar/Wallet/queries";
 import { GOHM_TOKEN, OHM_TOKEN, SOHM_TOKEN, V1_OHM_TOKEN, V1_SOHM_TOKEN, WSOHM_TOKEN } from "src/constants/tokens";

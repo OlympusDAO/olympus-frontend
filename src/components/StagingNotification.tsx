@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { WarningNotification } from "@olympusdao/component-library";
+import { WarningNotification } from "src/components/library";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 const PREFIX = "StagingNotification";

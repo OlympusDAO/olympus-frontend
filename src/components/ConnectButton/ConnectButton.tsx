@@ -1,8 +1,8 @@
 import { Box, Button, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Icon, OHMButtonProps, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
+import { Icon, OHMButtonProps, PrimaryButton } from "src/components/library";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 
 const fireAnalyticsEvent = () => {

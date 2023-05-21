@@ -1,6 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataRow, Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "@olympusdao/component-library";
 import { ReactElement } from "react";
+import { DataRow, Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "src/components/library";
 import { formatNumber } from "src/helpers";
 
 export const WithdrawModal = ({

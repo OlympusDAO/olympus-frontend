@@ -1,7 +1,7 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
+import { Metric, MetricCollection, Paper, TabBar } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
 import { adjustDateByDays, getISO8601String } from "src/helpers/DateHelper";

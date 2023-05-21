@@ -1,7 +1,7 @@
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Link, Skeleton, Typography, useTheme } from "@mui/material";
-import { Chip, Metric, PrimaryButton } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
+import { Chip, Metric, PrimaryButton } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useOhmPrice } from "src/hooks/usePrices";

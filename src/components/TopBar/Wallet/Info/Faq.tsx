@@ -1,5 +1,5 @@
 import { Box, Fade } from "@mui/material";
-import { InfoCard } from "@olympusdao/component-library";
+import { InfoCard } from "src/components/library";
 
 /**
  * Component for Displaying Faq

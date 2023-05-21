@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { TertiaryButton } from "@olympusdao/component-library";
+import { TertiaryButton } from "src/components/library";
 
 export const LiquidityCTA = () => {
   const theme = useTheme();

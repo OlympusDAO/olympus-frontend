@@ -1,4 +1,4 @@
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow } from "src/components/library";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";

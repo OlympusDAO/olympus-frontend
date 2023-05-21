@@ -11,8 +11,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import { DataRow, OHMTokenStackProps, PrimaryButton, TokenStack, Tooltip } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
+import { DataRow, OHMTokenStackProps, PrimaryButton, TokenStack, Tooltip } from "src/components/library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { VaultInfo } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 

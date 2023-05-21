@@ -1,7 +1,7 @@
 import "src/components/CallToAction/CallToAction.scss";
 
 import { Box, Typography } from "@mui/material";
-import { Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, TertiaryButton } from "src/components/library";
 
 export const LearnMoreButton = () => (
   <TertiaryButton href="https://docs.olympusdao.finance/main/basics/migration" style={{ marginRight: "10.5px" }}>

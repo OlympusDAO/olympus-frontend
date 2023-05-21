@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import { TabBar } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
+import { TabBar } from "src/components/library";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { TreasuryAssetsGraph } from "src/views/TreasuryDashboard/components/Graph/TreasuryAssetsGraph";

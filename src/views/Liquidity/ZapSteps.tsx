@@ -1,9 +1,9 @@
 import { CheckCircleOutline } from "@mui/icons-material";
 import { Box, useTheme } from "@mui/material";
-import { PrimaryButton } from "@olympusdao/component-library";
 import { ContractReceipt, ethers } from "ethers";
 import { formatUnits, parseUnits } from "ethers/lib/utils";
 import { useEffect } from "react";
+import { PrimaryButton } from "src/components/library";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { ZERO_EX_EXCHANGE_PROXY_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

@@ -1,10 +1,10 @@
 import { Box, Fade, Grid, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { GetOnButton, ItemCard, OHMTokenProps, OHMTokenStackProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import { ReactComponent as balancerIcon } from "src/assets/balancer.svg";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
+import { GetOnButton, ItemCard, OHMTokenProps, OHMTokenStackProps } from "src/components/library";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";

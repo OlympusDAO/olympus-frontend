@@ -1,6 +1,6 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
+import { Paper, Tab, Tabs } from "src/components/library";
 
 export const VaultFAQ = () => {
   const [activeTab, setActiveTab] = useState(0);

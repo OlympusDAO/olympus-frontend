@@ -1,7 +1,7 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Skeleton, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Metric, TextButton } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
+import { Metric, TextButton } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";

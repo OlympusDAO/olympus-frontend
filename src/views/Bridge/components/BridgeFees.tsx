@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow } from "src/components/library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useEstimateSendFee } from "src/hooks/useBridging";

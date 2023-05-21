@@ -1,9 +1,9 @@
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { Icon, SecondaryButton, TabBar } from "src/components/library";
 import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
 import Assets from "src/components/TopBar/Wallet/Assets";
 import GetOhm from "src/components/TopBar/Wallet/GetOhm";

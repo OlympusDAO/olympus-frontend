@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import { Chip } from "@olympusdao/component-library";
+import { Chip } from "src/components/library";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 

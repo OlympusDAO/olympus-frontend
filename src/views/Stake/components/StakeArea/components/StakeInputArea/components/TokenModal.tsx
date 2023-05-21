@@ -1,7 +1,7 @@
 import { Avatar, Box, CircularProgress, Dialog, Link, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Icon, OHMTokenProps, Token } from "@olympusdao/component-library";
 import { FC } from "react";
+import { Icon, OHMTokenProps, Token } from "src/components/library";
 import { trim } from "src/helpers";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 

@@ -1,5 +1,10 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Avatar, Box, CircularProgress, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { ethers } from "ethers";
+import { formatUnits, parseUnits } from "ethers/lib/utils";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
 import {
   DataRow,
   Icon,
@@ -10,12 +15,7 @@ import {
   SwapCard,
   SwapCollection,
   TokenStack,
-} from "@olympusdao/component-library";
-import { ethers } from "ethers";
-import { formatUnits, parseUnits } from "ethers/lib/utils";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { Link as RouterLink, useParams, useSearchParams } from "react-router-dom";
+} from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatNumber } from "src/helpers";

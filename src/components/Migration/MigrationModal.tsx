@@ -2,10 +2,10 @@ import "src/components/Migration/MigrationModal.scss";
 
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { InfoTooltip, Modal, Tab, Tabs } from "src/components/library";
 import { isChainEthereum, trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
 import { useAppSelector } from "src/hooks";
