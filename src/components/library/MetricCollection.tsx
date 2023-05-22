@@ -5,7 +5,7 @@ import { ReactElement } from "react-markdown/lib/react-markdown";
 /**
  * Metrics Collection. Takes in Metric Component and properly them across the grid.
  */
-const MetricCollection = ({ children }: { children: JSX.Element | ReactElement }) => {
+const MetricCollection = ({ children }: { children: JSX.Element[] | ReactElement[] | JSX.Element | ReactElement }) => {
   // Based on Number of Children, determine each rows grid width
   const numOfMetrics = Children.count(children);
   let numPerRow = (12 / numOfMetrics) as GridSize;
