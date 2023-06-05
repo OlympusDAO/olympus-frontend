@@ -105,7 +105,7 @@
     "autoprefixer": "^10.4.14",
     "css-mediaquery": "^0.1.2",
     "dotenv": "^16.0.3",
-    "eslint": "^8.37.0",
+    "eslint": "^8.42.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
