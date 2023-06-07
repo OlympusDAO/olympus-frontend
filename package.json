@@ -47,7 +47,7 @@
     "@tanstack/react-query": "^4.2.3",
     "@types/recharts": "^1.8.24",
     "@vitejs/plugin-react-swc": "^3.2.0",
-    "@wundergraph/react-query": "^0.8.22",
+    "@wundergraph/react-query": "^0.8.43",
     "@wundergraph/sdk": "^0.155.0",
     "axios": "^1.4.0",
     "class-validator": "^0.14.0",
