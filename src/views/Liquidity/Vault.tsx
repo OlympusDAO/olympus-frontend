@@ -404,6 +404,7 @@ export const Vault = () => {
               swapAssetType={swapAssetType}
               slippage={customSlippage}
               zapIntoAddress={isZap ? vault.pairTokenAddress : undefined}
+              vaultPairTokenName={vault.pairTokenName}
             />
           )}
           <LiquidityCTA />

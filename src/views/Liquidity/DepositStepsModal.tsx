@@ -28,6 +28,7 @@ interface DepositSteps {
   isOpen: boolean;
   slippage?: string;
   swapAssetType?: ModalHandleSelectProps;
+  vaultPairTokenName: string;
 }
 export const DepositSteps = ({
   userVault,
@@ -40,6 +41,7 @@ export const DepositSteps = ({
   isOpen,
   slippage,
   swapAssetType,
+  vaultPairTokenName,
 }: DepositSteps) => {
   const createUserVault = useCreateUserVault();
   const { chain = { id: 1 } } = useNetwork();
@@ -183,7 +185,7 @@ export const DepositSteps = ({
               }}
               fullWidth
             >
-              Approve Depositing wstETH to Vault
+              Approve Depositing {vaultPairTokenName} to Vault
             </PrimaryButton>
           </Box>
         ) : (
@@ -196,7 +198,7 @@ export const DepositSteps = ({
             mt="18px"
           >
             {!needsToApproveDepositVault() && <CheckCircleOutline style={{ fontSize: "18px" }} viewBox="0 0 24 24" />}{" "}
-            Approve Depositing wstETH to Vault
+            Approve Depositing {vaultPairTokenName} to Vault
           </Box>
         )}
         <>
@@ -232,7 +234,7 @@ export const DepositSteps = ({
                 );
             }}
           >
-            Deposit wstETH to Vault
+            Deposit {vaultPairTokenName} to Vault
           </PrimaryButton>
         ) : (
           <Box
@@ -243,7 +245,7 @@ export const DepositSteps = ({
             color={theme.colors.gray[40]}
             mt="18px"
           >
-            Deposit wstETH to Vault
+            Deposit {vaultPairTokenName} to Vault
           </Box>
         )}
       </Box>
