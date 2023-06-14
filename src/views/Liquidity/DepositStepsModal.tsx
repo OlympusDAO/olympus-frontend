@@ -211,6 +211,7 @@ export const DepositSteps = ({
               setDepositAmountFromZap={setDepositAmountFromZap}
               swapAmount={pairAmount}
               swapAssetType={swapAssetType}
+              vaultPairTokenName={vaultPairTokenName}
             />
           )}
         </>

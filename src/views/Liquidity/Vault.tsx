@@ -314,7 +314,7 @@ export const Vault = () => {
                 <Box mt="12px">
                   <InfoNotification dismissible>
                     <Typography>
-                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>
+                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>?
                     </Typography>
                     <Typography>
                       Please approve Olympus DAO to use your <strong>{vault.pairTokenName}</strong> for depositing.
