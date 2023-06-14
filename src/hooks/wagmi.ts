@@ -6,7 +6,6 @@ import {
   coinbaseWallet,
   injectedWallet,
   metaMaskWallet,
-  rabbyWallet,
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
@@ -74,7 +73,6 @@ const connectors = connectorsForWallets([
       braveWallet({ chains, shimDisconnect: true }),
       rainbowWallet({ chains }),
       walletConnectWallet({ chains }),
-      rabbyWallet({ chains }),
       coinbaseWallet({ appName: "Olympus DAO", chains }),
       ...(needsInjectedWalletFallback ? [injectedWallet({ chains, shimDisconnect: true })] : []),
     ],
