@@ -54,6 +54,7 @@ const NavContent: React.VFC = () => {
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>
                   <NavItem to="/stake" icon="stake" label={`Stake`} />
+                  <NavItem icon="settings" label={`Lend & Borrow`} to="/lending" />
                   <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
                   <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
                     <RangePrice bidOrAsk="ask" />

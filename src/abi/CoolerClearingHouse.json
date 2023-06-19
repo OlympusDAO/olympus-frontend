@@ -1,0 +1,327 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "o",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "g",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "d",
+          "type": "address"
+        },
+        {
+          "internalType": "contract CoolerFactory",
+          "name": "f",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ITRSRY",
+          "name": "t",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "BadEscrow",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "DurationMaximum",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyApproved",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyFromFactory",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "dai",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "defund",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "factory",
+      "outputs": [
+        {
+          "internalType": "contract CoolerFactory",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "fund",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gOHM",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "interestRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Cooler",
+          "name": "cooler",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "lend",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "loanToCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maxDuration",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "overseer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingOverseer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pull",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newAddress",
+          "type": "address"
+        }
+      ],
+      "name": "push",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Cooler",
+          "name": "cooler",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "roll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "treasury",
+      "outputs": [
+        {
+          "internalType": "contract ITRSRY",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "defund(address,uint256)": {
+        "params": {
+          "amount": "to transfer",
+          "token": "to transfer"
+        }
+      },
+      "fund(uint256)": {
+        "params": {
+          "amount": "of DAI to fund"
+        }
+      },
+      "lend(address,uint256,uint256)": {
+        "params": {
+          "amount": "of DAI to lend",
+          "cooler": "to lend to",
+          "duration": "of loan"
+        }
+      },
+      "push(address)": {
+        "details": "using a push/pull model for safety"
+      },
+      "roll(address,uint256,uint256)": {
+        "params": {
+          "cooler": "to provide terms",
+          "duration": "of new loan",
+          "id": "of loan in cooler"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "defund(address,uint256)": {
+        "notice": "return funds to treasury"
+      },
+      "fund(uint256)": {
+        "notice": "fund loan liquidity from treasury"
+      },
+      "lend(address,uint256,uint256)": {
+        "notice": "lend to a cooler"
+      },
+      "pull()": {
+        "notice": "new operator or overseer can pull role once pushed"
+      },
+      "push(address)": {
+        "notice": "operator or overseer can set a new address"
+      },
+      "roll(address,uint256,uint256)": {
+        "notice": "provide terms for loan rollover"
+      }
+    },
+    "version": 1
+  }
+}

@@ -1,0 +1,734 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "o",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "c",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "d",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Deactivated",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Default",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoDefault",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotRollable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyApproved",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroCollateralReturned",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "approvals",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimRepaid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "repayDirect",
+          "type": "bool"
+        }
+      ],
+      "name": "clear",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "collateral",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanToCollateral",
+          "type": "uint256"
+        }
+      ],
+      "name": "collateralFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "debt",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "defaulted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "delegate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "factory",
+      "outputs": [
+        {
+          "internalType": "contract CoolerFactory",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "interestFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256"
+        }
+      ],
+      "name": "isActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "isDefaulted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "loans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "interest",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "loanToCollateral",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "active",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct Cooler.Request",
+          "name": "request",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "repaid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "expiry",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "lender",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "repayDirect",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "newCollateralFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanToCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "provideNewTermsForRoll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "repaid",
+          "type": "uint256"
+        }
+      ],
+      "name": "repay",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanToCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "request",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "requests",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanToCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256"
+        }
+      ],
+      "name": "rescind",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "roll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "toggleDirect",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "approve(address,uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]",
+          "to": "address to approve"
+        }
+      },
+      "claimRepaid(uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]"
+        }
+      },
+      "clear(uint256,bool)": {
+        "params": {
+          "repayDirect": "lender should input false if concerned about debt token blacklisting",
+          "reqID": "index of request in requests[]"
+        },
+        "returns": {
+          "loanID": "index of loan in loans[]"
+        }
+      },
+      "collateralFor(uint256,uint256)": {
+        "params": {
+          "amount": "of collateral tokens",
+          "loanToCollateral": "ratio for loan"
+        }
+      },
+      "defaulted(uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]"
+        },
+        "returns": {
+          "_0": "uint256 collateral amount"
+        }
+      },
+      "delegate(address)": {
+        "params": {
+          "to": "address to delegate"
+        }
+      },
+      "interestFor(uint256,uint256,uint256)": {
+        "params": {
+          "amount": "of debt tokens",
+          "duration": "of loan in seconds",
+          "rate": "of interest (annualized)"
+        },
+        "returns": {
+          "_0": "interest as a number of debt tokens"
+        }
+      },
+      "isActive(uint256)": {
+        "params": {
+          "reqID": "index of request in requests[]"
+        },
+        "returns": {
+          "_0": "active status"
+        }
+      },
+      "isDefaulted(uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]"
+        },
+        "returns": {
+          "_0": "defaulted status"
+        }
+      },
+      "newCollateralFor(uint256)": {
+        "params": {
+          "loanID": "of loan to roll"
+        }
+      },
+      "provideNewTermsForRoll(uint256,uint256,uint256,uint256)": {
+        "params": {
+          "duration": "of loan tenure in seconds",
+          "interest": "to pay (annualized % of 'amount')",
+          "loanID": "index of loan in loans[]",
+          "loanToCollateral": "debt tokens per collateral token pledged"
+        }
+      },
+      "repay(uint256,uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]",
+          "repaid": "debt tokens to repay"
+        }
+      },
+      "request(uint256,uint256,uint256,uint256)": {
+        "params": {
+          "amount": "of debt tokens to borrow",
+          "duration": "of loan tenure in seconds",
+          "interest": "to pay (annualized % of 'amount')",
+          "loanToCollateral": "debt tokens per collateral token pledged",
+          "reqID": "index of request in requests[]"
+        }
+      },
+      "rescind(uint256)": {
+        "params": {
+          "reqID": "index of request in requests[]"
+        }
+      },
+      "roll(uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]"
+        }
+      },
+      "toggleDirect(uint256)": {
+        "params": {
+          "loanID": "of lender's loan"
+        }
+      },
+      "transfer(uint256)": {
+        "params": {
+          "loanID": "index of loan in loans[]"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "approve(address,uint256)": {
+        "notice": "approve transfer of loan ownership to new address"
+      },
+      "claimRepaid(uint256)": {
+        "notice": "claim debt tokens for lender if repayDirect was false"
+      },
+      "clear(uint256,bool)": {
+        "notice": "fill a requested loan as a lender"
+      },
+      "collateralFor(uint256,uint256)": {
+        "notice": "compute collateral needed for loan amount at given loan to collateral ratio"
+      },
+      "defaulted(uint256)": {
+        "notice": "send collateral to lender upon default"
+      },
+      "delegate(address)": {
+        "notice": "delegate voting power on collateral"
+      },
+      "interestFor(uint256,uint256,uint256)": {
+        "notice": "compute interest cost on amount for duration at given annualized rate"
+      },
+      "isActive(uint256)": {
+        "notice": "check if given request is active"
+      },
+      "isDefaulted(uint256)": {
+        "notice": "check if given loan is in default"
+      },
+      "newCollateralFor(uint256)": {
+        "notice": "compute collateral needed to roll loan"
+      },
+      "provideNewTermsForRoll(uint256,uint256,uint256,uint256)": {
+        "notice": "provide terms for loan to roll over"
+      },
+      "repay(uint256,uint256)": {
+        "notice": "repay a loan to recoup collateral"
+      },
+      "request(uint256,uint256,uint256,uint256)": {
+        "notice": "request a loan with given parameterscollateral is taken at time of request"
+      },
+      "rescind(uint256)": {
+        "notice": "cancel a loan request and return collateral"
+      },
+      "roll(uint256)": {
+        "notice": "roll a loan overuses terms from request"
+      },
+      "toggleDirect(uint256)": {
+        "notice": "turn direct repayment off or on"
+      },
+      "transfer(uint256)": {
+        "notice": "execute approved transfer of loan ownership"
+      }
+    },
+    "notice": "A Cooler is a smart contract escrow that facilitates fixed-duration loans         for a specific user and debt-collateral pair.",
+    "version": 1
+  }
+}
