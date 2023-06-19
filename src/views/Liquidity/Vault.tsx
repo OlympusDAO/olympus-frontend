@@ -357,6 +357,11 @@ export const Vault = () => {
                   title={`OHM ${isWithdrawal ? "Removed" : "Minted"}`}
                   balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
                 />
+                <DataRow
+                  title="Fee"
+                  balance={`${formatNumber(Number(vault.fee) * 100, 2)}%`}
+                  tooltip="Current fee on rewards"
+                />
                 <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
                 <DataRow
                   title={`Max You Can Deposit ${vault.pairTokenName}-OHM LP)`}

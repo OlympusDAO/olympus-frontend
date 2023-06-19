@@ -78,9 +78,8 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const pairTokenAddress = await contract.pairToken();
   const pairTokenContract = IERC20__factory.connect(pairTokenAddress, provider);
   const pairTokenName = await pairTokenContract.symbol();
-  const fee = formatUnits((await contract.currentFee()).mul(100).mul(10000));
+  const fee = formatUnits((await contract.currentFee()) || "10000", 4);
   const pricePerDepositToken = await contract.callStatic.getExpectedLpAmount("1000000000000000000"); //price per deposit token
-
   const balancerPoolAddress = await contract.balancerData();
   const balancerContract = BalancerV2Pool__factory.connect(balancerPoolAddress.liquidityPool, provider);
 
@@ -94,7 +93,9 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const totalLp = await contract.totalLp();
   const totalBalancerLp = await balancerContract.totalSupply();
 
-  const rewardTokens = (await contract.getRewardTokens()).filter(token => token !== ethers.constants.AddressZero); //temp filter to remove the current vault
+  const rewardTokens = ((await contract.getRewardTokens()) || []).filter(
+    token => token !== ethers.constants.AddressZero,
+  ); //temp filter to remove the current vault
 
   const outstandingRewards = await contract.getOutstandingRewards(walletAddress).catch(() => []);
 
@@ -150,7 +151,9 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
         const rewardsPerSecond = await contract.getRewardRate(token);
         const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
         const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
-        const apy = rewardPerYearUsd
+        const rewardFee = rewardPerYearUsd.mul(fee);
+        const rewardsLessFee = rewardPerYearUsd.sub(rewardFee);
+        const apy = rewardsLessFee
           .div(new DecimalBigNumber(+balancerTvl > 0 ? balancerTvl : "1"))
           .mul(new DecimalBigNumber("100"))
           .toString();
