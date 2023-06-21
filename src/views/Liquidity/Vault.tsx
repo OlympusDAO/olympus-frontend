@@ -314,7 +314,7 @@ export const Vault = () => {
                 <Box mt="12px">
                   <InfoNotification dismissible>
                     <Typography>
-                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>
+                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>?
                     </Typography>
                     <Typography>
                       Please approve Olympus DAO to use your <strong>{vault.pairTokenName}</strong> for depositing.
@@ -356,6 +356,11 @@ export const Vault = () => {
                 <DataRow
                   title={`OHM ${isWithdrawal ? "Removed" : "Minted"}`}
                   balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
+                />
+                <DataRow
+                  title="Fee"
+                  balance={`${formatNumber(Number(vault.fee) * 100, 2)}%`}
+                  tooltip="Current fee on rewards"
                 />
                 <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
                 <DataRow
@@ -404,6 +409,7 @@ export const Vault = () => {
               swapAssetType={swapAssetType}
               slippage={customSlippage}
               zapIntoAddress={isZap ? vault.pairTokenAddress : undefined}
+              vaultPairTokenName={vault.pairTokenName}
             />
           )}
           <LiquidityCTA />
