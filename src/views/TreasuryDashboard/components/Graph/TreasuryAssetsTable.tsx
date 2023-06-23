@@ -1,4 +1,4 @@
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
@@ -152,78 +152,80 @@ export const TreasuryAssetsTable = ({
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}
     >
-      <DataGrid
-        autoHeight
-        loading={currentTokens.length == 0}
-        disableRowSelectionOnClick={true}
-        rows={currentTokens}
-        rowHeight={30}
-        columns={columns}
-        pageSizeOptions={[10]}
-        pagination={true}
-        getRowId={row => row.id}
-        // Sort by value descending
-        initialState={{
-          sorting: {
-            sortModel: [{ field: "value", sort: "desc" }],
-          },
-          columns: {
-            // Hide these columns by default
-            columnVisibilityModel: {
-              isLiquid: false,
-              balance: false,
+      <Box width="99%" overflow="scroll">
+        <DataGrid
+          autoHeight
+          loading={currentTokens.length == 0}
+          disableRowSelectionOnClick={true}
+          rows={currentTokens}
+          rowHeight={30}
+          columns={columns}
+          pageSizeOptions={[10]}
+          pagination={true}
+          getRowId={row => row.id}
+          // Sort by value descending
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "value", sort: "desc" }],
             },
-          },
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-        // Only ascending or descending sort
-        sortingOrder={["desc", "asc"]}
-        sx={{
-          "& .MuiDataGrid-columnHeaders": {
-            fontSize: "16px",
-            height: "40px",
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: 800,
-          },
-          "& .MuiDataGrid-cellContent": {
-            fontSize: "14px",
-          },
-          // "& .MuiDataGrid-root" doesn't work here, for some reason
-          "&.MuiDataGrid-root": {
-            paddingLeft: "12px",
-            paddingRight: "12px",
-            border: "0px",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "0px",
-          },
-          // Disables outline on clicked cells
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
-          // Disables outline on clicked header cells
-          "& .MuiDataGrid-columnHeader:focus": {
-            outline: "none",
-          },
-        }}
-        componentsProps={{
-          // Fixes #2736
-          // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
-          basePopper: {
-            sx: {
-              backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+            columns: {
+              // Hide these columns by default
+              columnVisibilityModel: {
+                isLiquid: false,
+                balance: false,
+              },
             },
-          },
-        }}
-      />
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
+          // Only ascending or descending sort
+          sortingOrder={["desc", "asc"]}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              fontSize: "16px",
+              height: "40px",
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 800,
+            },
+            "& .MuiDataGrid-cellContent": {
+              fontSize: "14px",
+            },
+            // "& .MuiDataGrid-root" doesn't work here, for some reason
+            "&.MuiDataGrid-root": {
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              border: "0px",
+            },
+            "& .MuiDataGrid-columnSeparator": {
+              display: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "0px",
+            },
+            // Disables outline on clicked cells
+            "& .MuiDataGrid-cell:focus": {
+              outline: "none",
+            },
+            // Disables outline on clicked header cells
+            "& .MuiDataGrid-columnHeader:focus": {
+              outline: "none",
+            },
+          }}
+          componentsProps={{
+            // Fixes #2736
+            // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
+            basePopper: {
+              sx: {
+                backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+              },
+            },
+          }}
+        />
+      </Box>
     </ChartCard>
   );
 };
