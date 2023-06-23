@@ -19,8 +19,8 @@ export class Environment {
   public static getWalletConnectProjectId = () =>
     this._get({
       first: true,
-      key: "WALLETCONNECT_PROJECT_ID",
-      err: "Please provide an WALLETCONNECT_PROJECT_ID in your .env file",
+      key: "VITE_WALLETCONNECT_PROJECT_ID",
+      err: "Please provide a VITE_WALLETCONNECT_PROJECT_ID in your .env file",
     });
 
   public static getGoogleAnalyticsApiKey = () =>
