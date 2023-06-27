@@ -6,9 +6,12 @@ import {
   coinbaseWallet,
   injectedWallet,
   metaMaskWallet,
+  okxWallet,
+  rabbyWallet,
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { configureChains, createClient } from "wagmi";
 import { arbitrum, arbitrumGoerli, avalanche, boba, fantom, goerli, mainnet, optimism, polygon } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -65,15 +68,19 @@ export const { chains, provider, webSocketProvider } = configureChains(
 const needsInjectedWalletFallback =
   typeof window !== "undefined" && window.ethereum && !window.ethereum.isMetaMask && !window.ethereum.isCoinbaseWallet;
 
+const walletConnectProjectId = Environment.getWalletConnectProjectId() as string;
+
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      metaMaskWallet({ chains, shimDisconnect: true }),
+      metaMaskWallet({ projectId: walletConnectProjectId, chains, shimDisconnect: true }),
       braveWallet({ chains, shimDisconnect: true }),
-      rainbowWallet({ chains }),
-      walletConnectWallet({ chains }),
+      rainbowWallet({ projectId: walletConnectProjectId, chains }),
+      walletConnectWallet({ projectId: walletConnectProjectId, chains }),
       coinbaseWallet({ appName: "Olympus DAO", chains }),
+      rabbyWallet({ chains, shimDisconnect: true }),
+      okxWallet({ projectId: walletConnectProjectId, chains }),
       ...(needsInjectedWalletFallback ? [injectedWallet({ chains, shimDisconnect: true })] : []),
     ],
   },
