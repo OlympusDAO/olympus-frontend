@@ -16,6 +16,13 @@ export class Environment {
     return args.first ? value : value.split(" ");
   }
 
+  public static getWalletConnectProjectId = () =>
+    this._get({
+      first: true,
+      key: "VITE_WALLETCONNECT_PROJECT_ID",
+      err: "Please provide a VITE_WALLETCONNECT_PROJECT_ID in your .env file",
+    });
+
   public static getGoogleAnalyticsApiKey = () =>
     this._get({
       first: true,
