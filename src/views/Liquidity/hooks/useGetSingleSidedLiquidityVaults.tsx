@@ -108,12 +108,36 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   let apySum = 0;
   let rewards: { tokenName: string; apy: string; userRewards: string }[];
   let apyBreakdown = { baseApy: 0, rewardApy: 0 };
+  console.log("address", address);
 
   //Need to do this because contract method does not account for stETH rewards.
   if (address.toLowerCase() === "0xafe729d57d2CC58978C2e01b4EC39C47FB7C4b23".toLowerCase()) {
     //OHM-WSTETH Defillama
     const apyData = await axios
       .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=10c1698f-bc44-4fbf-8287-2540acf45eff")
+      .then(res => {
+        return res.data.data[0];
+      });
+    const { apyReward = 0, apyBase = 0 } = apyData;
+    apySum = apyReward + apyBase;
+
+    rewards = await Promise.all(
+      rewardTokens.map(async (token, index) => {
+        const tokenContract = IERC20__factory.connect(token, provider);
+        const decimals = await tokenContract.decimals();
+        const tokenName = await tokenContract.symbol();
+        const balance =
+          outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
+
+        const userRewards = formatUnits(balance, decimals);
+        return { tokenName, apy: "0", userRewards };
+      }),
+    );
+    apyBreakdown = { baseApy: apyBase, rewardApy: apyReward };
+  } else if (address.toLowerCase() === "0xF451c45C7a26e2248a0EA02382579Eb4858cAdA1".toLowerCase()) {
+    //LUSD-OHM
+    const apyData = await axios
+      .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=b2ef1e2c-722c-4804-978d-4ce0b7316e8e")
       .then(res => {
         return res.data.data[0];
       });
