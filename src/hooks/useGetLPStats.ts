@@ -43,8 +43,9 @@ const mapProjectToName = (project: string) => {
       return { projectName: "Sushiswap", projectLink: "https://app.sushi.com/pool" };
     case "stakedao":
       return { projectName: "StakeDAO", projectLink: "https://lockers.stakedao.org/" };
+    case "joe-v2.1":
     case "trader-joe-dex":
-      return { projectName: "Trader Joe", projectLink: "https://traderjoexyz.com/avalanche/pool" };
+      return { projectName: "Trader Joe", projectLink: "https://traderjoexyz.com/" };
     case "pickle":
       return { projectName: "Pickle", projectLink: "https://app.pickle.finance/farms" };
     case "beefy":
@@ -62,6 +63,10 @@ const mapProjectToName = (project: string) => {
       };
     case "gamma":
       return { projectName: "Gamma", projectLink: "https://app.gamma.xyz/" };
+    case "ramses-v1":
+      return { projectName: "Ramses", projectLink: "https://app.ramses.exchange/liquidity" };
+    case "chronos":
+      return { projectName: "Chronos", projectLink: "https://app.chronos.exchange/liquidity" };
     default:
       return { projectName: project, projectLink: "" };
   }
@@ -105,4 +110,5 @@ export interface DefiLlamaPool {
   underlyingTokens: string[];
   volumeUsd1d?: number;
   volumeUsd7d?: number;
+  project: string;
 }
