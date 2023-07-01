@@ -3568,10 +3568,10 @@
     protobufjs "^6.11.2"
     ts-proto "^1.112.1"
 
-"@wundergraph/react-query@^0.8.22":
-  version "0.8.22"
-  resolved "https://registry.yarnpkg.com/@wundergraph/react-query/-/react-query-0.8.22.tgz#7b7017202f4c785118e986e181f79ae447490912"
-  integrity sha512-adJY4CqO2s16Fsp7NvGomalY0UsmLu3SgOwQXsATm6fZaIdjST4MLZUQXoDnjjN+Axh9nyv3T5yH9vH9q0Z1Uw==
+"@wundergraph/react-query@^0.8.46":
+  version "0.8.46"
+  resolved "https://registry.yarnpkg.com/@wundergraph/react-query/-/react-query-0.8.46.tgz#317cf0a080ceb9b18b05d7ec87fe12d488c22757"
+  integrity sha512-1UThVjO+kobEweY6DrdelDG/MHzlN+qbxFm/5aLaGHCtL2TCjK7c1e6LjX/L/U5OTeyIbUgC966D0DViJaROrQ==
 
 "@wundergraph/sdk@^0.151.0":
   version "0.151.0"
