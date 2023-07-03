@@ -140,7 +140,7 @@
     "url": "^0.11.0",
     "vite": "^4.2.1",
     "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.7",
+    "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.29.7"
   },
   "scripts": {
