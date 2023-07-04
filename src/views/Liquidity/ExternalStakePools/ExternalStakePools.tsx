@@ -105,16 +105,18 @@ export const ExternalStakePools = () => {
       field: "symbol",
       headerName: "Pool",
       renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => {
-        const symbols = params.row.symbol.split("-").filter(s => s !== "");
+        const symbols =
+          params.row.symbol !== "OHMFRAXBP-F"
+            ? params.row.symbol.split("-").filter(s => s !== "")
+            : ["OHM", "FRAX", "CRV"];
         return (
           <StyledPoolInfo className={classes.poolPair}>
-            {params.row.symbol !== "OHMFRAXBP-F" && (
-              <TokenStack
-                tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
-                style={{ fontSize: "27px" }}
-                network={defiLlamaChainToNetwork(params.row.chain) as OHMTokenProps["name"]}
-              />
-            )}
+            <TokenStack
+              tokens={normalizeSymbol(symbols) as OHMTokenStackProps["tokens"]}
+              style={{ fontSize: "27px" }}
+              network={defiLlamaChainToNetwork(params.row.chain) as OHMTokenProps["name"]}
+            />
+
             <div className={classes.poolName}>
               <Typography fontWeight={700}>{params.row.symbol}</Typography>
             </div>

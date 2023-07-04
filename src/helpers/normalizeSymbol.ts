@@ -11,6 +11,8 @@ export const normalizeSymbol = (symbol: string[]) => {
         return "FTM";
       case "fraxbp":
         return "FRAX";
+      case "usdc.e":
+        return "USDC";
       case "wavax":
         return "AVAX";
       case "crvfrax":
