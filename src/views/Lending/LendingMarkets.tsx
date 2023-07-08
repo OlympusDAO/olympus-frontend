@@ -312,7 +312,7 @@ export const LendingMarkets = () => {
           }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "apy", sort: "desc" }],
+              sortModel: [{ field: "available", sort: "desc" }],
             },
           }}
           disableRowSelectionOnClick
