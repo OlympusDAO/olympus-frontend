@@ -1,30 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetLPStats = () => {
-  const defillamaAPI = "https://yields.llama.fi/pools";
-  const { data, isFetched, isLoading } = useQuery(["GetLPStats"], async () => {
-    return await axios.get<defillamaAPI>(defillamaAPI).then(res => {
-      return res.data.data
-        .filter(
-          pool =>
-            pool.symbol.split("-")[0] === "OHM" ||
-            pool.symbol.split("-")[0] === "GOHM" ||
-            pool.symbol.split("-")[1] === "GOHM" ||
-            pool.symbol.split("-")[1] === "OHM" ||
-            pool.symbol.split("-")[0] === "OHMFRAXBP",
-        )
-        .filter(pool => pool.apy !== 0 && pool.exposure !== "single")
-        .map(pool => {
-          return { ...pool, ...mapProjectToName(pool.project), id: pool.pool };
-        });
-    });
+export const useGetLPStats = (exposure?: string) => {
+  const { data, isFetched, isLoading } = useQuery(["GetLPStats", exposure], async () => {
+    const ohmPools = await getOhmPools();
+
+    const ohmPoolsFilters = ohmPools.filter(pool => pool.exposure === exposure || "multi");
+    return ohmPoolsFilters;
   });
 
   return { data, isFetched, isLoading };
 };
 
-const mapProjectToName = (project: string) => {
+export const getOhmPools = async () => {
+  const defillamaAPI = "https://yields.llama.fi/pools";
+  return await axios.get<defillamaAPI>(defillamaAPI).then(res => {
+    return res.data.data
+      .filter(
+        pool =>
+          pool.symbol.split("-")[0] === "OHM" ||
+          pool.symbol.split("-")[0] === "GOHM" ||
+          pool.symbol.split("-")[1] === "GOHM" ||
+          pool.symbol.split("-")[1] === "OHM" ||
+          pool.symbol.split("-")[0] === "OHMFRAXBP",
+      )
+      .map(pool => {
+        return { ...pool, ...mapProjectToName(pool.project), id: pool.pool };
+      });
+  });
+};
+
+export const mapProjectToName = (project: string) => {
   switch (project) {
     case "balancer-v2":
       return { projectName: "Balancer", projectLink: "https://app.balancer.fi/" };
@@ -67,6 +73,19 @@ const mapProjectToName = (project: string) => {
       return { projectName: "Ramses", projectLink: "https://app.ramses.exchange/liquidity" };
     case "chronos":
       return { projectName: "Chronos", projectLink: "https://app.chronos.exchange/liquidity" };
+    case "sentiment":
+      return { projectName: "Sentiment", projectLink: "https://arbitrum.sentiment.xyz/borrow/OHM?symbol=USDC.e" };
+    case "midas-capital":
+      return { projectName: "Midas Capital", projectLink: "https://app.midascapital.xyz/42161/pool/1" };
+    case "silo-finance":
+      return { projectName: "Silo Finance", projectLink: "https://app.silo.finance/" };
+    case "inverse-finance-firm":
+      return { projectName: "Inverse Finance", projectLink: "https://www.inverse.finance/firm" };
+    case "fraxlend":
+      return {
+        projectName: "Frax",
+        projectLink: "https://app.frax.finance/fraxlend/pair?address=0x66bf36dBa79d4606039f04b32946A260BCd3FF52",
+      };
     default:
       return { projectName: project, projectLink: "" };
   }
