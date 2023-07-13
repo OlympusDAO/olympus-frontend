@@ -15,8 +15,8 @@ export const VaultFAQ = () => {
         variant="scrollable"
       >
         <Tab label="Liquidity Without Compromise" />
-        <Tab label="Hedge stETH volatility" />
-        <Tab label="More LP rewards" />
+        <Tab label="Hedge volatility" />
+        <Tab label="Double your LP rewards" />
         <Tab label="What's in it for Olympus?" />
       </Tabs>
       <Box display="flex" flexWrap="wrap" mt="21px" gap="66px">
@@ -49,26 +49,26 @@ const content: VaultFaqContent = {
     {
       title: "Let Olympus provide the pairing asset",
       content:
-        "Olympus matches your stETH deposit by minting OHM into the Boosted Vault. When you remove your liquidity, the corresponding OHM is returned to Olympus and removed from circulation.",
+        "Olympus matches your deposit by minting OHM into the Boosted Vault. When you remove your liquidity, the corresponding OHM is returned to Olympus and removed from circulation.",
     },
   ],
   1: [
     {
       title: "Soften your exposure to drastic price swings",
       content:
-        "The Boosted Vault is similar to stETH-stablecoin pools, in which depositing positions the LP provider against the full exposure of price movements in either direction.",
+        "The Boosted Vault is similar to asset-stablecoin pools, in which depositing positions the LP provider against the full exposure of price movements in either direction.",
     },
     {
       title: "OHM is volatility resistant",
       content:
-        "OHM's price is loosely compressed by Olympus' Range Bound Stability monetary policy. This allows OHM to appreciate with market adoption, while remaining predictable. This stability provides the perfect pairing asset to stETH to hedge against volatility.",
+        "OHM's price is loosely compressed by Olympus' Range Bound Stability monetary policy. This allows OHM to appreciate with market adoption, while remaining predictable. This stability provides the perfect pairing asset to hedge against volatility.",
     },
   ],
   2: [
     {
-      title: "Make your stETH work twice as hard compared to other LP pools.",
+      title: "Make your asset work twice as hard compared to other LP pools.",
       content:
-        "Olympus matches your stETH deposit with OHM, but refrains from collecting rewards from the pool, instead passing those along to you as the depositor. Earn rewards as if you owned the entire LP position with only half the deposit and no exposure to margin.",
+        "Olympus matches your deposit with OHM, but refrains from collecting rewards from the pool, instead passing those along to you as the depositor. Earn rewards as if you owned the entire LP position with only half the deposit.",
     },
     {
       title: "Share impermanent loss with Olympus, but not the rewards.",
@@ -80,12 +80,12 @@ const content: VaultFaqContent = {
     {
       title: "Liquidity proliferation",
       content:
-        "As more stETH utilizes the Boosted Vaults, the deeper the OHM-stETH becomes, and the lower the slippage is enabled between the pair. This deep liquidity encourages network effects of other protocols looking to incorporate stETH liquidity. It allows them to simply pair with OHM to access broader stETH liquidity via routing instead of attempting build native liquidity with stETH.",
+        "As more native assets utilizes the Boosted Vaults, the deeper the OHM-asset becomes, and the lower the slippage is enabled between the pair. This deep liquidity encourages network effects of other protocols looking to incorporate the particular asset liquidity. It allows them to simply pair with OHM to access broader liquidity via routing instead of attempting build native liquidity.",
     },
     {
-      title: "Further OHM elasticity",
+      title: "Boosted Liquidity Vaults allow you to get more rewards for the same liquidity",
       content:
-        "When stETH depositors exit their LP position, in some cases there will be more OHM in the pool than the initial deposit, which results in a net reduction of OHM in circulating supply. In other cases, the benefit of liquidity proliferation and the accompanied revenue from trading fees should offset excess OHM in circulation.",
+        "When depositors exit their LP position, in some cases there will be more OHM in the pool than the initial deposit, which results in a net reduction of OHM in circulating supply. In other cases, the benefit of liquidity proliferation and the accompanied revenue from trading fees should offset excess OHM in circulation.",
     },
   ],
 };
