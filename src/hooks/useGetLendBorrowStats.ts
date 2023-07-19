@@ -26,10 +26,12 @@ export const useGetLendAndBorrowStats = () => {
     const ohmLendAndBorrowPools = ohmPools.filter(pool =>
       lendAndBorrowPools.some(lendAndBorrowPool => lendAndBorrowPool.pool === pool.id),
     );
-    const poolsAndLendBorrowStats = ohmLendAndBorrowPools.map(pool => {
-      const lendBorrowPool = lendAndBorrowPools.find(lendAndBorrowPool => lendAndBorrowPool.pool === pool.id);
-      return { ...pool, lendAndBorrow: lendBorrowPool };
-    });
+    const poolsAndLendBorrowStats = ohmLendAndBorrowPools
+      .map(pool => {
+        const lendBorrowPool = lendAndBorrowPools.find(lendAndBorrowPool => lendAndBorrowPool.pool === pool.id);
+        return { ...pool, lendAndBorrow: lendBorrowPool };
+      })
+      .filter(pool => pool.id !== "74bc2b6f-0f89-4112-8718-5f4017b25fb1"); //filter out midas capital
     return poolsAndLendBorrowStats;
   });
 

@@ -1,5 +1,5 @@
 import { Check } from "@mui/icons-material";
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
 import {
@@ -109,7 +109,7 @@ export const LendingMarkets = () => {
   const columns: GridColDef<LendAndBorrowPool>[] = [
     {
       field: "symbol",
-      headerName: "Asset",
+      headerName: "Lend",
       renderCell: params => {
         const symbols =
           params.row.symbol !== "OHMFRAXBP-F"
@@ -130,6 +130,38 @@ export const LendingMarkets = () => {
         );
       },
       minWidth: 120,
+    },
+    {
+      field: "mintAsset",
+      headerName: "Borrow",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.mintedCoin || "OHM";
+      },
+      renderCell: params => {
+        const symbol = normalizeSymbol([params.row.lendAndBorrow.mintedCoin || "OHM"]) as OHMTokenStackProps["tokens"];
+        return (
+          <StyledPoolInfo className={classes.poolPair}>
+            {params.row.lendAndBorrow.mintedCoin === "DOLA" ? (
+              <SvgIcon style={{ fontSize: "27px" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 267.65 267.65">
+                  <circle cx="133.83" cy="133.83" r="133.83" fill="#161e53"></circle>
+                  <path
+                    fill="#ffbb51"
+                    d="M179.67 88.16l9.38-24.96h-15.41l-6.19 16.41a56.5 56.5 0 00-10.63-4.27l4.58-12.15h-15.41l-3.74 9.92c-.49 0-.98-.03-1.48-.03h-17.9a35.6 35.6 0 01-6.99-1.6c-.79-.26-1.56-.55-2.32-.86l-5.08 13.48-39.37 104.47h29.65l-5.99 15.89h15.41l6-15.89h12.24l-5.99 15.89h15.41l5.99-15.9c31.87-.54 57.26-26.82 56.72-58.69-.27-15.91-7.1-31-18.87-41.71zm-89.73 85.99l32.66-86.63c1.47.14 2.94.2 4.41.2s3.01-.07 4.48-.21h5.36l-32.66 86.64H89.94zm29.65 0l32.16-85.25c3.71.98 7.27 2.44 10.6 4.35l-30.52 80.89h-12.24zm51.84-12.7a42.916 42.916 0 01-24 12.19l26.61-70.57c14.39 17.2 13.25 42.53-2.61 58.38z"
+                  ></path>
+                </svg>
+              </SvgIcon>
+            ) : (
+              <TokenStack tokens={symbol} style={{ fontSize: "27px" }} />
+            )}
+
+            <div className={classes.poolName}>
+              <Typography fontWeight={700}>{params.row.lendAndBorrow.mintedCoin || "OHM"}</Typography>
+            </div>
+          </StyledPoolInfo>
+        );
+      },
+      minWidth: 110,
     },
     {
       field: "tvlUsd",
@@ -158,11 +190,14 @@ export const LendingMarkets = () => {
           )}
         </>
       ),
-      minWidth: 130,
+      minWidth: 110,
     },
     {
       field: "borrowApy",
       headerName: "Borrow APY",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.apyBaseBorrow - params.row.lendAndBorrow.apyRewardBorrow;
+      },
       renderCell: params => (
         <>
           {params.row.lendAndBorrow.apyBaseBorrow || params.row.lendAndBorrow.apyRewardBorrow ? (
@@ -177,7 +212,7 @@ export const LendingMarkets = () => {
               {formatNumber(params.row.lendAndBorrow.apyBaseBorrow - params.row.lendAndBorrow.apyRewardBorrow || 0, 2)}%
             </Tooltip>
           ) : (
-            <>{formatNumber(params.row.apy || 0, 2)}%</>
+            <>{formatNumber(params.row.lendAndBorrow.apyBaseBorrow || 0, 2)}%</>
           )}
         </>
       ),
@@ -185,14 +220,28 @@ export const LendingMarkets = () => {
     {
       field: "ltv",
       headerName: "LTV",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.ltv;
+      },
       renderCell: params => <>{formatNumber(params.row.lendAndBorrow.ltv * 100)}%</>,
-      minWidth: 40,
+      minWidth: 30,
     },
     {
       field: "available",
       headerName: "Available to Borrow",
+      valueGetter: params => {
+        return (
+          (params.row.lendAndBorrow.debtCeilingUsd || params.row.lendAndBorrow.totalSupplyUsd) -
+          params.row.lendAndBorrow.totalBorrowUsd
+        );
+      },
       renderCell: params => (
-        <>{formatCurrency(params.row.lendAndBorrow.totalSupplyUsd - params.row.lendAndBorrow.totalBorrowUsd)}</>
+        <>
+          {formatCurrency(
+            (params.row.lendAndBorrow.debtCeilingUsd || params.row.lendAndBorrow.totalSupplyUsd) -
+              params.row.lendAndBorrow.totalBorrowUsd,
+          )}
+        </>
       ),
       minWidth: 150,
     },

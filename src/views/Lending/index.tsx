@@ -22,31 +22,8 @@ export const Lending = () => {
         <Box display="flex" flexWrap="wrap" justifyContent="space-between" mt="50px" gap="20px">
           <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
             <Box position="absolute" display="flex" justifyContent="right" mt="-10px" right="33px">
-              <Chip template="success" label={<Typography fontWeight="500">New</Typography>} />
+              <Chip template="success" label={<Typography fontWeight="500">Coming Soon</Typography>} />
             </Box>
-            <Box borderRadius="12px" padding="32px" sx={{ backgroundColor: theme.colors.paper.card }} flexWrap={"wrap"}>
-              <Typography fontSize="32px" fontWeight="500" lineHeight="36px" align="center">
-                Lending Markets
-              </Typography>
-              <Typography align="center" color={theme.colors.gray[40]}>
-                Borrow OHM or leverage OHM holdings
-              </Typography>
-              <Box mt="18px">
-                <Link component={RouterLink} to="/lending/markets">
-                  <PrimaryButton sx={{ width: "100%" }}>
-                    <Box display="flex" gap="6px">
-                      <Typography fontWeight="500">View Lending Markets</Typography>
-                      <ArrowForward sx={{ fontSize: "21px !important" }} />
-                    </Box>
-                  </PrimaryButton>
-                </Link>
-              </Box>
-            </Box>
-          </Box>
-          <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
-            {/* <Box position="absolute" display="flex" justifyContent="right" mt="-10px" right="33px">
-              <Chip template="success" label={<Typography fontWeight="500">New</Typography>} />
-            </Box> */}
             <Box
               borderRadius="12px"
               padding="32px"
@@ -62,10 +39,31 @@ export const Lending = () => {
                 Borrow DAI against your gOHM at a fixed rate
               </Typography>
               <Box mt="18px">
-                <Link component={RouterLink} to="/lending/cooler">
-                  <PrimaryButton sx={{ width: "100%" }} disabled>
+                <PrimaryButton sx={{ width: "100%" }} disabled>
+                  <Box display="flex" gap="6px">
+                    <Typography fontWeight="500">Coming Soon</Typography>
+                  </Box>
+                </PrimaryButton>
+              </Box>
+            </Box>
+          </Box>
+          <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
+            <Box position="absolute" display="flex" justifyContent="right" mt="-10px" right="33px">
+              <Chip template="success" label={<Typography fontWeight="500">New</Typography>} />
+            </Box>
+            <Box borderRadius="12px" padding="32px" sx={{ backgroundColor: theme.colors.paper.card }} flexWrap={"wrap"}>
+              <Typography fontSize="32px" fontWeight="500" lineHeight="36px" align="center">
+                Lending Markets
+              </Typography>
+              <Typography align="center" color={theme.colors.gray[40]}>
+                Borrow OHM or leverage OHM holdings
+              </Typography>
+              <Box mt="18px">
+                <Link component={RouterLink} to="/lending/markets">
+                  <PrimaryButton sx={{ width: "100%" }}>
                     <Box display="flex" gap="6px">
-                      <Typography fontWeight="500">Coming Soon</Typography>
+                      <Typography fontWeight="500">View Lending Markets</Typography>
+                      <ArrowForward sx={{ fontSize: "21px !important" }} />
                     </Box>
                   </PrimaryButton>
                 </Link>
