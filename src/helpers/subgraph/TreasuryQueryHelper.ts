@@ -3,6 +3,7 @@ import {
   CATEGORY_POL,
   CATEGORY_STABLE,
   CATEGORY_VOLATILE,
+  CHAIN_ETHEREUM,
   TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
   TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
   TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
@@ -200,6 +201,33 @@ export const getExternalSupply = (records: TokenSupply[], ohmIndex: number): num
 };
 
 /**
+ * The block from which the inclusion of BLV in floating and circulating supply
+ * was changed for the Ethereum subgraph.
+ */
+const ETHEREUM_BLV_INCLUSION_BLOCK = "17620000";
+
+const isBLVIncluded = (records: TokenSupply[]): boolean => {
+  // Filter for Ethereum records
+  const ethereumRecords = records.filter(record => record.blockchain === CHAIN_ETHEREUM);
+  if (!ethereumRecords.length) {
+    return false;
+  }
+
+  // Get the block number of the first Ethereum record
+  const firstEthereumRecord = ethereumRecords[0];
+  const firstEthereumRecordBlock = firstEthereumRecord.block;
+  console.log("firstEthereumRecordBlock", firstEthereumRecordBlock);
+  console.log("ETHEREUM_BLV_INCLUSION_BLOCK", ETHEREUM_BLV_INCLUSION_BLOCK);
+
+  // If the first Ethereum record is before the BLV inclusion block, then BLV is included in calculations
+  if (Number(firstEthereumRecordBlock) < Number(ETHEREUM_BLV_INCLUSION_BLOCK)) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
  * For a given array of TokenSupply records (assumed to be at the same point in time),
  * this function returns the OHM circulating supply.
  *
@@ -209,6 +237,7 @@ export const getExternalSupply = (records: TokenSupply[], ohmIndex: number): num
  * - minus: migration offset
  * - minus: pre-minted OHM for bonds
  * - minus: OHM user deposits for bonds
+ * - minus: OHM in boosted liquidity vaults (before `BLV_INCLUSION_BLOCK`)
  *
  * @param records TokenSupply records for the given day
  * @param ohmIndex The index of OHM for the given day
@@ -222,8 +251,11 @@ export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
-    TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
   ];
+
+  if (isBLVIncluded(records)) {
+    includedTypes.push(TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT);
+  }
 
   return getSupplyBalanceForTypes(records, includedTypes, ohmIndex);
 };
@@ -239,6 +271,7 @@ export const getOhmCirculatingSupply = (records: TokenSupply[], ohmIndex: number
  * - minus: pre-minted OHM for bonds
  * - minus: OHM user deposits for bonds
  * - minus: protocol-owned OHM in liquidity pools
+ * - minus: OHM in boosted liquidity vaults (before `BLV_INCLUSION_BLOCK`)
  *
  * @param records TokenSupply records for the given day
  * @param ohmIndex The index of OHM for the given day
@@ -252,9 +285,12 @@ export const getOhmFloatingSupply = (records: TokenSupply[], ohmIndex: number): 
     TOKEN_SUPPLY_TYPE_BONDS_PREMINTED,
     TOKEN_SUPPLY_TYPE_BONDS_VESTING_DEPOSITS,
     TOKEN_SUPPLY_TYPE_BONDS_DEPOSITS,
-    TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT,
     TOKEN_SUPPLY_TYPE_LIQUIDITY,
   ];
+
+  if (isBLVIncluded(records)) {
+    includedTypes.push(TOKEN_SUPPLY_TYPE_BOOSTED_LIQUIDITY_VAULT);
+  }
 
   return getSupplyBalanceForTypes(records, includedTypes, ohmIndex);
 };
