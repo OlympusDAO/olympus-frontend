@@ -216,8 +216,6 @@ const isBLVIncluded = (records: TokenSupply[]): boolean => {
   // Get the block number of the first Ethereum record
   const firstEthereumRecord = ethereumRecords[0];
   const firstEthereumRecordBlock = firstEthereumRecord.block;
-  console.log("firstEthereumRecordBlock", firstEthereumRecordBlock);
-  console.log("ETHEREUM_BLV_INCLUSION_BLOCK", ETHEREUM_BLV_INCLUSION_BLOCK);
 
   // If the first Ethereum record is before the BLV inclusion block, then BLV is included in calculations
   if (Number(firstEthereumRecordBlock) < Number(ETHEREUM_BLV_INCLUSION_BLOCK)) {
