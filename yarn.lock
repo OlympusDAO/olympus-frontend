@@ -1607,15 +1607,6 @@
     json-machete "0.18.20"
     openapi-types "12.1.0"
 
-"@omnigraph/soap@^0.93.1":
-  version "0.93.2"
-  resolved "https://registry.yarnpkg.com/@omnigraph/soap/-/soap-0.93.2.tgz#06468340749d256b4dbf163c4405b2d11a3c1640"
-  integrity sha512-m1DXmdNn07VjrZd3WH//hmJkJ6cmvSGpzEB8oNinvrcNaSySLfaicKBIge16rOXQnewUZZ4JilOSvqvbyrFBjw==
-  dependencies:
-    fast-xml-parser "4.2.2"
-    graphql-compose "9.0.10"
-    graphql-scalars "^1.20.4"
-
 "@peculiar/asn1-schema@^2.3.6":
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.3.6.tgz#3dd3c2ade7f702a9a94dfb395c192f5fa5d6b922"
@@ -3504,60 +3495,6 @@
     zod "^3.20.2"
     zod-to-json-schema "^3.20.2"
 
-"@wundergraph/sdk@^0.155.0":
-  version "0.155.0"
-  resolved "https://registry.yarnpkg.com/@wundergraph/sdk/-/sdk-0.155.0.tgz#e1c4a61e044573ad9460fd52e46874d04e7984ca"
-  integrity sha512-jM3QYadcB5nu/SG6fZTQ1MGFkXbSVnb/CtzN7hrBM0KCGiSlotjWRgZuD5pq17pxpmV/RLdECkazPzGuKbumsw==
-  dependencies:
-    "@fastify/formbody" "^7.3.0"
-    "@graphql-mesh/cross-helpers" "^0.3.4"
-    "@graphql-mesh/types" "^0.91.12"
-    "@graphql-mesh/utils" "^0.43.20"
-    "@graphql-tools/schema" "^8.3.10"
-    "@graphql-tools/utils" "^9.2.1"
-    "@omnigraph/json-schema" "^0.38.24"
-    "@omnigraph/openapi" "^0.19.26"
-    "@omnigraph/soap" "^0.93.1"
-    "@prisma/generator-helper" "^3.9.2"
-    "@web-std/fetch" "^4.1.0"
-    "@whatwg-node/fetch" "^0.8.4"
-    "@wundergraph/protobuf" "^0.110.0"
-    "@wundergraph/straightforward" "^4.2.5"
-    "@wundergraph/wunderctl" "^0.149.0"
-    axios "^0.26.1"
-    axios-retry "^3.3.1"
-    close-with-grace "^1.1.0"
-    cross-fetch "^3.1.5"
-    debug "^4.3.4"
-    execa "5.1.1"
-    fast-json-patch "^3.1.1"
-    fastify "^4.10.2"
-    fastify-plugin "^4.4.0"
-    graphql "^16.6.0"
-    graphql-helix "^1.13.0"
-    handlebars "^4.7.7"
-    https-proxy-agent "^5.0.1"
-    js-yaml "^4.1.0"
-    json-schema "^0.4.0"
-    json-schema-to-typescript "^11.0.3"
-    lodash "^4.17.21"
-    long "^5.2.0"
-    object-hash "^2.2.0"
-    openapi-types "^10.0.0"
-    pino "^8.11.0"
-    pino-pretty "^10.0.0"
-    postman-collection "^4.1.1"
-    protobufjs "^6.11.2"
-    raw-body "^2.5.2"
-    swagger2openapi "^7.0.8"
-    terminate "^2.5.0"
-    ts-retry-promise "^0.7.0"
-    tslib "^2.5.0"
-    typescript-json-schema "^0.55.0"
-    write-file-atomic "^5.0.0"
-    zod "^3.20.2"
-    zod-to-json-schema "^3.20.2"
-
 "@wundergraph/straightforward@^4.2.5":
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@wundergraph/straightforward/-/straightforward-4.2.5.tgz#01fa057fc4efc6374e64e20c9e9c0f48d4030782"
@@ -3570,17 +3507,6 @@
   version "0.147.0"
   resolved "https://registry.yarnpkg.com/@wundergraph/wunderctl/-/wunderctl-0.147.0.tgz#76c5d3a3df5d3da8d3fcc47a27462b27226f63da"
   integrity sha512-JE9DYA460ZQSOax1K4x0dvg87agDjKNBufQp8dY0KfqfHmwaWOo83qZmr6NjwZDKx77813up3QqkXKAHgghAcw==
-  dependencies:
-    axios "^0.26.1"
-    debug "^4.3.4"
-    execa "5.1.1"
-    rimraf "^3.0.2"
-    tar "^6.1.13"
-
-"@wundergraph/wunderctl@^0.149.0":
-  version "0.149.0"
-  resolved "https://registry.yarnpkg.com/@wundergraph/wunderctl/-/wunderctl-0.149.0.tgz#9e160b68cabb23eaa6f4d648b9f901f498958d03"
-  integrity sha512-kb1pOGkcws4PqFhCRjqNxjXxgxH5Y2lS6hlbb1UisK6sEAFYJglBC4A7fLCxGaB0Ri1is64tFVDeKFbx4LeeUg==
   dependencies:
     axios "^0.26.1"
     debug "^4.3.4"
@@ -5769,13 +5695,6 @@ fast-url-parser@^1.1.3:
   integrity sha512-5jOCVXADYNuRkKFzNJ0dCCewsZiYo0dz8QNYljkOpFC6r2U4OBmKtvm/Tsuh4w1YYdDqDb31a8TVhBJ2OJKdqQ==
   dependencies:
     punycode "^1.3.2"
-
-fast-xml-parser@4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.2.tgz#cb7310d1e9cf42d22c687b0fae41f3c926629368"
-  integrity sha512-DLzIPtQqmvmdq3VUKR7T6omPK/VCRNqgFlGtbESfyhcH2R4I8EzK1/K6E8PkRCK2EabWrUHK32NjYRbEFnnz0Q==
-  dependencies:
-    strnum "^1.0.5"
 
 fastify-plugin@^4.0.0, fastify-plugin@^4.4.0:
   version "4.5.0"
@@ -9733,11 +9652,6 @@ strip-literal@^1.0.0:
   integrity sha512-5o4LsH1lzBzO9UFH63AJ2ad2/S2AVx6NtjOcaz+VTT2h1RiRvbipW72z8M/lxEhcPHDBQwpDrnTF7sXy/7OwCQ==
   dependencies:
     acorn "^8.8.1"
-
-strnum@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/strnum/-/strnum-1.0.5.tgz#5c4e829fe15ad4ff0d20c3db5ac97b73c9b072db"
-  integrity sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==
 
 style-to-object@^0.4.0:
   version "0.4.1"
