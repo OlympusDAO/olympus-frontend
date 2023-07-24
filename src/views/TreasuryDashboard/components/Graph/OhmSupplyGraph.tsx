@@ -15,25 +15,16 @@ import {
   getExternalSupply,
   getLendingSupply,
   getMigrationOffsetSupply,
-  getOhmBackedSupply,
-  getOhmCirculatingSupply,
-  getOhmFloatingSupply,
-  getOhmTotalSupply,
   getProtocolOwnedLiquiditySupply,
   getTreasurySupply,
 } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery, useTokenSuppliesQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
+import { useMetricsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import {
-  getDateTokenSupplyMap,
-  getLatestTimestamp,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -47,8 +38,7 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
 
   const chartName = "OhmSupplyGraph";
 
-  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
-  const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate });
 
   /**
    * Chart population:
@@ -77,41 +67,30 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
-    if (!tokenSupplyResults || !protocolMetricResults) {
+    // While data is loading, ensure dependent data is empty
+    if (!metricResults) {
       return;
     }
 
-    // Extract into a by-date map
-    const byDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
-    const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
-
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateOhmSupply: OhmSupplyComparison[] = [];
-    byDateTokenSupplyMap.forEach((dateSupplyValues, dateString) => {
+
+    // Iterate over the records, one record per day
+    metricResults.forEach(metricRecord => {
       /**
        * Non-Ethereum mainnet chains do not have the OHM index, so they return
        * TokenSupply results in terms of gOHM. We supply the OHM index from the
        * protocol metrics query to convert the gOHM values to OHM.
        */
-      const dayProtocolMetricsResults = byDateProtocolMetricMap.get(dateString);
-      if (!dayProtocolMetricsResults || dayProtocolMetricsResults.length == 0) {
-        console.log(`${chartName}: No protocol metrics found for ${dateString}. Skipping.`);
-        return;
-      }
-
-      const ohmIndex: number = +dayProtocolMetricsResults[0].currentIndex;
-
-      const earliestTimestamp = getLatestTimestamp(dateSupplyValues);
-      const latestSupplyValue = dateSupplyValues[0];
 
       const dateOhmSupply: OhmSupplyComparison = {
-        date: dateString,
-        timestamp: earliestTimestamp,
-        block: +latestSupplyValue.block,
-        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex)[0],
-        floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex)[0],
-        backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex)[0],
-        totalSupply: getOhmTotalSupply(dateSupplyValues, ohmIndex)[0],
+        date: metricRecord.date,
+        timestamp: metricRecord.timestamps.Ethereum,
+        block: metricRecord.blocks.Ethereum,
+        circulatingSupply: metricRecord.ohmCirculatingSupply,
+        floatingSupply: metricRecord.ohmFloatingSupply,
+        backedSupply: metricRecord.ohmBackedSupply,
+        totalSupply: metricRecord.ohmTotalSupply,
         protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex)[0],
         treasury: getTreasurySupply(dateSupplyValues, ohmIndex)[0],
         migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex)[0],
@@ -127,7 +106,7 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
     });
 
     setByDateOhmSupply(tempByDateOhmSupply);
-  }, [tokenSupplyResults, protocolMetricResults]);
+  }, [metricResults]);
 
   // Handle parameter changes
   useEffect(() => {
