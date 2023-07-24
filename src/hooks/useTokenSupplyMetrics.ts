@@ -10,6 +10,7 @@ import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
 
 export const useOhmCirculatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
@@ -30,6 +31,7 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number | 
 
 export const useOhmFloatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
@@ -50,6 +52,7 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number | und
 
 export const useOhmBackedSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
@@ -70,6 +73,7 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number | undef
 
 export const useOhmTotalSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 

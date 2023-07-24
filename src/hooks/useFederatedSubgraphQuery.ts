@@ -201,6 +201,23 @@ export const useTokenSuppliesQueryLatestCompleteData = (
   return latestData;
 };
 
+export const useMetricsQuery = ({
+  startDate,
+  includeContentRecords,
+}: {
+  startDate?: string | null;
+  includeContentRecords?: boolean;
+}) => {
+  return useFederatedSubgraphQuery({
+    operationName: "paginated/metrics",
+    input: {
+      startDate: startDate || "",
+      includeContentRecords: includeContentRecords || false,
+    },
+    enabled: startDate != null,
+  });
+};
+
 export const useProtocolMetricsQuery = (startDate: string | null | undefined) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/protocolMetrics",

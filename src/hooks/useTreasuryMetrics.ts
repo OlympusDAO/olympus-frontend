@@ -25,6 +25,7 @@ export const useMarketCap = (
 ): [number | undefined, number | undefined, number | undefined] => {
   // Query hooks
   const ohmPriceQuery: number | undefined = useOhmPrice();
+  // TODO replace with calculated metric
   const circulatingSupplyQuery = useOhmCirculatingSupply(earliestDate);
 
   // State variables
@@ -56,6 +57,7 @@ export const useMarketCap = (
 export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [number, number, number] => {
   // Query hooks
   const latestRecordData = useTokenRecordsQueryLatestCompleteData(earliestDate);
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
@@ -94,6 +96,7 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
 export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [number, number, number] => {
   // Query hooks
   const latestRecordData = useTokenRecordsQueryLatestCompleteData(earliestDate);
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
@@ -132,6 +135,7 @@ export const useLiquidBackingPerOhmFloating = (earliestDate?: string | null): [n
 export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number, number] => {
   // Query hooks
   const latestRecordData = useTokenRecordsQueryLatestCompleteData(earliestDate);
+  // TODO replace with calculated metric
   const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
   const latestIndexQuery = useCurrentIndex();
 
