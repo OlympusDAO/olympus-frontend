@@ -211,8 +211,8 @@ export const useProtocolMetricsQuery = (startDate: string | null | undefined) =>
   });
 };
 
-export const useProtocolMetricsLatestQuery = () => {
+export const useMetricsLatestQuery = () => {
   return useFederatedSubgraphQuery({
-    operationName: "latest/protocolMetrics",
+    operationName: "latest/metrics",
   });
 };
