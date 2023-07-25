@@ -80,17 +80,16 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
         floatingSupply: metricRecord.ohmFloatingSupply,
         backedSupply: metricRecord.ohmBackedSupply,
         totalSupply: metricRecord.ohmTotalSupply,
-        protocolOwnedLiquidity: metricRecord.ohmSupplyCategories.Liquidity,
+        protocolOwnedLiquidity: metricRecord.ohmSupplyCategories.ProtocolOwnedLiquidity,
         treasury: metricRecord.ohmSupplyCategories.Treasury,
-        migrationOffset: metricRecord.ohmSupplyCategories["Manual Offset"],
+        migrationOffset: metricRecord.ohmSupplyCategories.MigrationOffset,
         bondDeposits:
-          metricRecord.ohmSupplyCategories["OHM Bonds (Vesting Deposits)"] +
-          metricRecord.ohmSupplyCategories["OHM Bonds (Burnable Deposits)"],
-        bondVestingTokens: metricRecord.ohmSupplyCategories["OHM Bonds (Vesting Tokens)"],
-        bondPreminted: metricRecord.ohmSupplyCategories["OHM Bonds (Pre-minted)"],
+          metricRecord.ohmSupplyCategories.BondsDepositsVesting + metricRecord.ohmSupplyCategories.BondsDeposits,
+        bondVestingTokens: metricRecord.ohmSupplyCategories.BondsTokensVesting,
+        bondPreminted: metricRecord.ohmSupplyCategories.BondsPreminted,
         external: metricRecord.ohmBackedSupply,
-        lending: metricRecord.ohmSupplyCategories.Lending,
-        boostedLiquidityVault: metricRecord.ohmSupplyCategories["Boosted Liquidity Vault"],
+        lending: metricRecord.ohmSupplyCategories.LendingMarkets,
+        boostedLiquidityVault: metricRecord.ohmSupplyCategories.BoostedLiquidityVault,
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
