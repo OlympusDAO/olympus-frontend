@@ -1,7 +1,7 @@
 import { CATEGORY_POL, CATEGORY_STABLE, CATEGORY_VOLATILE } from "src/helpers/subgraph/Constants";
 import { TokenRecord } from "src/hooks/useFederatedSubgraphQuery";
 
-export const filterReduce = (
+const filterReduce = (
   records: TokenRecord[],
   filterPredicate: (value: TokenRecord) => unknown,
   valueExcludingOhm = false,
