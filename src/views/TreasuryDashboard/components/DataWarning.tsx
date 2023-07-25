@@ -19,8 +19,7 @@ const getDateFromTimestamp = (timestamp: string): Date => {
 };
 
 /**
- * React Component that renders the contents of a Markdown file
- * and displays them in a notification banner.
+ * React Component that displays the latest date for each chain's data.
  */
 const DataWarning = (): JSX.Element => {
   const theme = useTheme();
