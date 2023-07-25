@@ -122,7 +122,7 @@ Backed supply is the quantity of outstanding OHM that is backed by assets in the
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const [liquidBackingPerGOhmCirculating, liquidBacking, , latestIndex, ohmFloatingSupply] = useLiquidBackingPerGOhm(
+  const [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmBackedSupply] = useLiquidBackingPerGOhm(
     props.earliestDate,
   );
 
@@ -131,7 +131,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
   )}) multiplied by the latest index (${formatNumberOrLoading(
     latestIndex,
     2,
-  )}) and divided by OHM floating supply (${formatNumberOrLoading(ohmFloatingSupply)}).`;
+  )}) and divided by OHM backed supply (${formatNumberOrLoading(ohmBackedSupply)}).`;
 
   const _props: MetricProps = {
     ...props,
@@ -139,7 +139,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
     tooltip: tooltip,
   };
 
-  if (liquidBackingPerGOhmCirculating) _props.metric = `${formatCurrency(liquidBackingPerGOhmCirculating, 2)}`;
+  if (liquidBackingPerGOhm) _props.metric = `${formatCurrency(liquidBackingPerGOhm, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

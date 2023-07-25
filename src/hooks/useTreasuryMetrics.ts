@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getGOhmSyntheticSupply } from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 /**
@@ -64,18 +63,17 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
 /**
  * Liquid backing value / gOHM synthetic supply
  *
- * @returns [liquidBackingPerGOhm, liquidBacking, gOHMSupply, latestIndex, ohmFloatingSupply]
+ * @returns [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmFloatingSupply]
  */
-export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number, number] => {
+export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number] => {
   // Query hooks
   const { data: metricResult } = useMetricsLatestQuery();
 
   // State variables
   const [liquidBacking, setLiquidBacking] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [floatingSupply, setFloatingSupply] = useState(0);
+  const [backedSupply, setBackedSupply] = useState(0);
   const [liquidBackingPerGOhm, setLiquidBackingPerGOhm] = useState(0);
-  const [gOhmSupply, setGOhmSupply] = useState(0);
 
   useEffect(() => {
     if (!metricResult) {
@@ -84,10 +82,9 @@ export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, 
 
     setLiquidBacking(metricResult.treasuryLiquidBacking);
     setCurrentIndex(metricResult.ohmIndex);
-    setFloatingSupply(metricResult.ohmFloatingSupply);
+    setBackedSupply(metricResult.ohmBackedSupply);
     setLiquidBackingPerGOhm(metricResult.treasuryLiquidBackingPerGOhmBacked);
-    setGOhmSupply(getGOhmSyntheticSupply(metricResult.ohmIndex, metricResult.ohmFloatingSupply));
   }, [metricResult]);
 
-  return [liquidBackingPerGOhm, liquidBacking, gOhmSupply, currentIndex, floatingSupply];
+  return [liquidBackingPerGOhm, liquidBacking, currentIndex, backedSupply];
 };

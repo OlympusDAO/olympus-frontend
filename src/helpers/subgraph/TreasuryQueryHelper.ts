@@ -22,15 +22,3 @@ export const getTreasuryAssetValue = (
 
   return filterReduce(records, record => categories.includes(record.category), false);
 };
-
-/**
- * gOHM circulating supply is synthetically calculated as:
- *
- * OHM floating supply / current index
- *
- * @param currentIndex
- * @param ohmFloatingSupply
- * @returns
- */
-export const getGOhmSyntheticSupply = (currentIndex: number, ohmFloatingSupply: number) =>
-  ohmFloatingSupply / currentIndex;
