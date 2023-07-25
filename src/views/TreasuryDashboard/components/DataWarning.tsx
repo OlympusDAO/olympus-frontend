@@ -138,7 +138,17 @@ const DataWarning = (): JSX.Element => {
                   </TableRow>
                 ))
               ) : (
-                <Skeleton />
+                <TableRow>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>
