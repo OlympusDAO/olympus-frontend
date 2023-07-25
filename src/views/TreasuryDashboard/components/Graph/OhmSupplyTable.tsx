@@ -8,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
 import { TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY } from "src/helpers/subgraph/Constants";
@@ -221,7 +221,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                   const metric = selectedDaySupplyMap.metrics[metricName];
 
                   return (
-                    <>
+                    <Fragment key={metricName}>
                       {
                         // One row per record
                         metric.records.map(record => {
@@ -262,7 +262,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                         })
                       }
                       {/* Display total */}
-                      <TableRow key={metricName}>
+                      <TableRow>
                         <TableCell colSpan={totalColumnSpan} align="left">
                           <strong>{metricName}</strong>
                         </TableCell>
@@ -270,7 +270,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                           <strong>{formatNumber(metric.metric, 0)}</strong>
                         </TableCell>
                       </TableRow>
-                    </>
+                    </Fragment>
                   );
                 })
             }
