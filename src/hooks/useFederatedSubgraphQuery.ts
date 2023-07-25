@@ -212,7 +212,7 @@ export const useMetricsQuery = ({
     operationName: "paginated/metrics",
     input: {
       startDate: startDate || "",
-      includeContentRecords: includeContentRecords || false,
+      includeRecords: includeContentRecords || false,
     },
     enabled: startDate != null,
   });
