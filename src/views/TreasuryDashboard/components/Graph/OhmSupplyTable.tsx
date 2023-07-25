@@ -12,21 +12,9 @@ import { useEffect, useMemo, useState } from "react";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
 import { TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY } from "src/helpers/subgraph/Constants";
-import {
-  getOhmBackedSupply,
-  getOhmCirculatingSupply,
-  getOhmFloatingSupply,
-  getOhmTotalSupply,
-} from "src/helpers/subgraph/TreasuryQueryHelper";
-import {
-  TokenSupply,
-  useProtocolMetricsQuery,
-  useTokenSuppliesQueryComplete,
-} from "src/hooks/useFederatedSubgraphQuery";
+import { TokenSupply, useMetricsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import { AssetsTableProps, GraphProps } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import { getDateTokenSupplyMap } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 enum SupplyMetric {
   TotalSupply = "Total Supply",
@@ -56,8 +44,7 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
 
   const chartName = "OhmSupplyTable";
 
-  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
-  const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, includeContentRecords: true });
 
   /**
    * Chart population:
@@ -67,19 +54,19 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
   const [byDateCategoryTokenSupplyMap, setByDateCategoryTokenSupplyMap] = useState<OhmSupplyDateMap>({});
   const [selectedDaySupplyMap, setSelectedDaySupplyMap] = useState<OhmSupplyMetricMap>();
   useMemo(() => {
-    if (!tokenSupplyResults || !protocolMetricResults) {
+    if (!metricResults) {
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
-    // Group by date
-    const tempDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
-    const tempDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
+    const removeElementsFromArray = (array: TokenSupply[], elements: string[]): TokenSupply[] => {
+      return array.filter(item => !elements.includes(item.id));
+    };
 
-    const removeElementsFromArray = (array: TokenSupply[], elements: TokenSupply[]): TokenSupply[] => {
-      return array.filter(item => !elements.includes(item));
+    const addToProcessedRecords = (array: TokenSupply[], elements: string[]): void => {
+      array.forEach(item => elements.push(item.id));
     };
 
     /**
@@ -98,20 +85,22 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
       );
     };
 
+    const flatten = (chainSupplies: Record<string, TokenSupply[]> | undefined): TokenSupply[] => {
+      if (!chainSupplies) return [];
+
+      return Object.values(chainSupplies).reduce((acc, val) => acc.concat(val), []);
+    };
+
     // Group by date by category
     const tempDateCategoryTokenSupplyMap: OhmSupplyDateMap = {};
-    for (const [date, tokenSupplyRecords] of tempDateTokenSupplyMap) {
-      const dateProtocolMetrics = tempDateProtocolMetricMap.get(date);
-      if (!dateProtocolMetrics || !dateProtocolMetrics.length) {
-        continue;
-      }
-      const dateLatestIndex: number = +dateProtocolMetrics[0].currentIndex;
+    for (const currentMetric of metricResults) {
+      const dateLatestIndex: number = currentMetric.ohmIndex;
 
       const categoryTokenSupplyMap: OhmSupplyMetricMap = {
         currentIndex: dateLatestIndex,
         metrics: {},
       };
-      const processedRecords: TokenSupply[] = [];
+      const processedRecords: string[] = [];
 
       /**
        * For each metric:
@@ -120,42 +109,44 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
        * - Assign the array of records incremental to the metric
        */
 
-      const [totalSupply, totalSupplyRecords] = getOhmTotalSupply(tokenSupplyRecords, dateLatestIndex);
+      const totalSupply: number = currentMetric.ohmTotalSupply;
+      const totalSupplyRecords: TokenSupply[] = flatten(currentMetric.ohmTotalSupplyRecords);
+
       categoryTokenSupplyMap.metrics[SupplyMetric.TotalSupply] = {
         metric: totalSupply,
         records: sortElements(removeElementsFromArray(totalSupplyRecords, processedRecords)),
       };
-      processedRecords.push(...totalSupplyRecords);
+      addToProcessedRecords(totalSupplyRecords, processedRecords);
 
-      const [circulatingSupply, circulatingSupplyRecords] = getOhmCirculatingSupply(
-        tokenSupplyRecords,
-        dateLatestIndex,
-      );
+      const circulatingSupply: number = currentMetric.ohmCirculatingSupply;
+      const circulatingSupplyRecords: TokenSupply[] = flatten(currentMetric.ohmCirculatingSupplyRecords);
       categoryTokenSupplyMap.metrics[SupplyMetric.CirculatingSupply] = {
         metric: circulatingSupply,
         records: sortElements(removeElementsFromArray(circulatingSupplyRecords, processedRecords)),
       };
-      processedRecords.push(...circulatingSupplyRecords);
+      addToProcessedRecords(circulatingSupplyRecords, processedRecords);
 
-      const [floatingSupply, floatingSupplyRecords] = getOhmFloatingSupply(tokenSupplyRecords, dateLatestIndex);
+      const floatingSupply: number = currentMetric.ohmFloatingSupply;
+      const floatingSupplyRecords: TokenSupply[] = flatten(currentMetric.ohmFloatingSupplyRecords);
       categoryTokenSupplyMap.metrics[SupplyMetric.FloatingSupply] = {
         metric: floatingSupply,
         records: sortElements(removeElementsFromArray(floatingSupplyRecords, processedRecords)),
       };
-      processedRecords.push(...floatingSupplyRecords);
+      addToProcessedRecords(floatingSupplyRecords, processedRecords);
 
-      const [backedSupply, backedSupplyRecords] = getOhmBackedSupply(tokenSupplyRecords, dateLatestIndex);
+      const backedSupply: number = currentMetric.ohmBackedSupply;
+      const backedSupplyRecords: TokenSupply[] = flatten(currentMetric.ohmBackedSupplyRecords);
       categoryTokenSupplyMap.metrics[SupplyMetric.BackedSupply] = {
         metric: backedSupply,
         records: sortElements(removeElementsFromArray(backedSupplyRecords, processedRecords)),
       };
-      processedRecords.push(...backedSupplyRecords);
+      addToProcessedRecords(backedSupplyRecords, processedRecords);
 
-      tempDateCategoryTokenSupplyMap[date] = categoryTokenSupplyMap;
+      tempDateCategoryTokenSupplyMap[currentMetric.date] = categoryTokenSupplyMap;
     }
 
     setByDateCategoryTokenSupplyMap(tempDateCategoryTokenSupplyMap);
-  }, [tokenSupplyResults, protocolMetricResults]);
+  }, [metricResults]);
 
   // Handle parameter changes
   useEffect(() => {
