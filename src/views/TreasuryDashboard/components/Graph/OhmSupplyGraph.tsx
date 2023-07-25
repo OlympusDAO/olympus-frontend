@@ -7,17 +7,6 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import {
-  getBondDepositsSupply,
-  getBondPremintedSupply,
-  getBondVestingTokensSupply,
-  getBoostedLiquidityVaultSupply,
-  getExternalSupply,
-  getLendingSupply,
-  getMigrationOffsetSupply,
-  getProtocolOwnedLiquiditySupply,
-  getTreasurySupply,
-} from "src/helpers/subgraph/TreasuryQueryHelper";
 import { useMetricsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
@@ -91,15 +80,17 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
         floatingSupply: metricRecord.ohmFloatingSupply,
         backedSupply: metricRecord.ohmBackedSupply,
         totalSupply: metricRecord.ohmTotalSupply,
-        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex)[0],
-        treasury: getTreasurySupply(dateSupplyValues, ohmIndex)[0],
-        migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex)[0],
-        bondDeposits: getBondDepositsSupply(dateSupplyValues, ohmIndex)[0],
-        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues, ohmIndex)[0],
-        bondPreminted: getBondPremintedSupply(dateSupplyValues, ohmIndex)[0],
-        external: getExternalSupply(dateSupplyValues, ohmIndex),
-        lending: getLendingSupply(dateSupplyValues, ohmIndex)[0],
-        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues, ohmIndex)[0],
+        protocolOwnedLiquidity: metricRecord.ohmSupplyCategories.Liquidity,
+        treasury: metricRecord.ohmSupplyCategories.Treasury,
+        migrationOffset: metricRecord.ohmSupplyCategories["Manual Offset"],
+        bondDeposits:
+          metricRecord.ohmSupplyCategories["OHM Bonds (Vesting Deposits)"] +
+          metricRecord.ohmSupplyCategories["OHM Bonds (Burnable Deposits)"],
+        bondVestingTokens: metricRecord.ohmSupplyCategories["OHM Bonds (Vesting Tokens)"],
+        bondPreminted: metricRecord.ohmSupplyCategories["OHM Bonds (Pre-minted)"],
+        external: metricRecord.ohmBackedSupply,
+        lending: metricRecord.ohmSupplyCategories.Lending,
+        boostedLiquidityVault: metricRecord.ohmSupplyCategories["Boosted Liquidity Vault"],
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
