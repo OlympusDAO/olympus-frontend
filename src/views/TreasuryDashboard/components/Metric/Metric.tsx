@@ -72,23 +72,6 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgra
   return <Metric {..._props} />;
 };
 
-/**
- * uses on-chain price
- */
-export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOhmPrice();
-
-  const _props: MetricProps = {
-    ...props,
-    label: "sOHM " + `Price`,
-  };
-
-  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
 export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const totalSupply = useOhmTotalSupply(props.earliestDate);
   const circSupply = useOhmCirculatingSupply(props.earliestDate);
