@@ -74,7 +74,7 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
 
       const dateOhmSupply: OhmSupplyComparison = {
         date: metricRecord.date,
-        timestamp: metricRecord.timestamps.Ethereum,
+        timestamp: metricRecord.timestamps.Ethereum * 1000, // convert to ms format
         block: metricRecord.blocks.Ethereum,
         circulatingSupply: metricRecord.ohmCirculatingSupply,
         floatingSupply: metricRecord.ohmFloatingSupply,

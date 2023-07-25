@@ -70,7 +70,7 @@ export const LiquidBackingPerOhmComparisonGraph = ({ earliestDate, activeToken, 
     metricResults.forEach(metricRecord => {
       const liquidBackingRecord: LiquidBackingComparison = {
         date: metricRecord.date,
-        timestamp: metricRecord.timestamps.Ethereum,
+        timestamp: metricRecord.timestamps.Ethereum * 1000, // convert to ms format
         block: metricRecord.blocks.Ethereum,
         gOhmPrice: metricRecord.gOhmPrice,
         ohmPrice: metricRecord.ohmPrice,
