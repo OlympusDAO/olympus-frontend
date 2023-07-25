@@ -1,93 +1,78 @@
 import { useEffect, useState } from "react";
-import {
-  getOhmBackedSupply,
-  getOhmCirculatingSupply,
-  getOhmFloatingSupply,
-  getOhmTotalSupply,
-} from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenSuppliesQueryLatestCompleteData } from "src/hooks/useFederatedSubgraphQuery";
-import { useCurrentIndex } from "src/hooks/useProtocolMetrics";
+import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 export const useOhmCirculatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
-  // TODO replace with calculated metric
-  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
-  const latestIndexQuery = useCurrentIndex();
+  const { data: metricResult } = useMetricsLatestQuery();
 
   // State variables
   const [circulatingSupply, setCirculatingSupply] = useState<number>();
 
   useEffect(() => {
-    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+    if (!metricResult) {
       setCirculatingSupply(undefined);
       return;
     }
 
-    setCirculatingSupply(getOhmCirculatingSupply(latestSupplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, latestSupplyData]);
+    setCirculatingSupply(metricResult.ohmCirculatingSupply);
+  }, [metricResult]);
 
   return circulatingSupply;
 };
 
 export const useOhmFloatingSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
-  // TODO replace with calculated metric
-  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
-  const latestIndexQuery = useCurrentIndex();
+  const { data: metricResult } = useMetricsLatestQuery();
 
   // State variables
   const [floatingSupply, setFloatingSupply] = useState<number>();
 
   useEffect(() => {
-    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+    if (!metricResult) {
       setFloatingSupply(undefined);
       return;
     }
 
-    setFloatingSupply(getOhmFloatingSupply(latestSupplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, latestSupplyData]);
+    setFloatingSupply(metricResult.ohmFloatingSupply);
+  }, [metricResult]);
 
   return floatingSupply;
 };
 
 export const useOhmBackedSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
-  // TODO replace with calculated metric
-  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
-  const latestIndexQuery = useCurrentIndex();
+  const { data: metricResult } = useMetricsLatestQuery();
 
   // State variables
   const [backedSupply, setBackedSupply] = useState<number>();
 
   useEffect(() => {
-    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+    if (!metricResult) {
       setBackedSupply(undefined);
       return;
     }
 
-    setBackedSupply(getOhmBackedSupply(latestSupplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, latestSupplyData]);
+    setBackedSupply(metricResult.ohmBackedSupply);
+  }, [metricResult]);
 
   return backedSupply;
 };
 
 export const useOhmTotalSupply = (earliestDate?: string | null): number | undefined => {
   // Query hooks
-  // TODO replace with calculated metric
-  const latestSupplyData = useTokenSuppliesQueryLatestCompleteData(earliestDate);
-  const latestIndexQuery = useCurrentIndex();
+  const { data: metricResult } = useMetricsLatestQuery();
 
   // State variables
   const [totalSupply, setTotalSupply] = useState<number>();
 
   useEffect(() => {
-    if (!latestSupplyData || !latestSupplyData.length || !latestIndexQuery) {
+    if (!metricResult) {
       setTotalSupply(undefined);
       return;
     }
 
-    setTotalSupply(getOhmTotalSupply(latestSupplyData, latestIndexQuery)[0]);
-  }, [latestIndexQuery, latestSupplyData]);
+    setTotalSupply(metricResult.ohmTotalSupply);
+  }, [metricResult]);
 
   return totalSupply;
 };

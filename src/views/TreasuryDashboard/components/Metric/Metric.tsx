@@ -8,7 +8,7 @@ import {
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTreasuryAssetsLatestValue } from "src/hooks/useTokenRecordsMetrics";
+import { useTreasuryMarketValueLatest } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
@@ -249,7 +249,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const marketValueQuery = useTreasuryAssetsLatestValue(false);
+  const marketValueQuery = useTreasuryMarketValueLatest();
 
   const _props: MetricProps = {
     ...props,
