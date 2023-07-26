@@ -104,7 +104,7 @@
     "assert": "^2.0.0",
     "autoprefixer": "^10.4.14",
     "css-mediaquery": "^0.1.2",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "eslint": "^8.43.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
