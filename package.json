@@ -48,7 +48,6 @@
     "@types/recharts": "^1.8.24",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "@wundergraph/react-query": "^0.8.46",
-    "@wundergraph/sdk": "^0.166.1",
     "axios": "^1.4.0",
     "class-validator": "^0.14.0",
     "date-fns": "^2.30.0",
