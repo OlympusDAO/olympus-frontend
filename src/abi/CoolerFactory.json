@@ -1,6 +1,16 @@
 {
   "abi": [
     {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "CreateFail",
+      "type": "error"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -95,27 +105,11 @@
       "type": "event"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "contract ERC20",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "contract ERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "coolerFor",
+      "inputs": [],
+      "name": "coolerImplementation",
       "outputs": [
         {
-          "internalType": "address",
+          "internalType": "contract Cooler",
           "name": "",
           "type": "address"
         }
@@ -175,16 +169,16 @@
       "inputs": [
         {
           "internalType": "contract ERC20",
-          "name": "collateral",
+          "name": "collateral_",
           "type": "address"
         },
         {
           "internalType": "contract ERC20",
-          "name": "debt",
+          "name": "debt_",
           "type": "address"
         }
       ],
-      "name": "generate",
+      "name": "generateCooler",
       "outputs": [
         {
           "internalType": "address",
@@ -199,17 +193,17 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "id",
+          "name": "id_",
           "type": "uint256"
         },
         {
           "internalType": "enum CoolerFactory.Events",
-          "name": "ev",
+          "name": "ev_",
           "type": "uint8"
         },
         {
           "internalType": "uint256",
-          "name": "amount",
+          "name": "amount_",
           "type": "uint256"
         }
       ],
@@ -220,18 +214,33 @@
     }
   ],
   "devdoc": {
+    "details": "This contract uses Clones (https://github.com/wighawag/clones-with-immutable-args)      to save gas on deployment",
     "kind": "dev",
-    "methods": {},
+    "methods": {
+      "generateCooler(address,address)": {
+        "params": {
+          "collateral_": "the token given as collateral.",
+          "debt_": "the token to be lent. Interest is denominated in debt tokens."
+        }
+      },
+      "newEvent(uint256,uint8,uint256)": {
+        "params": {
+          "amount_": "to be logged by the event.",
+          "ev_": "event type.",
+          "id_": "loan or request identifier."
+        }
+      }
+    },
     "version": 1
   },
   "userdoc": {
     "kind": "user",
     "methods": {
-      "generate(address,address)": {
-        "notice": "creates a new Escrow contract for collateral and debt tokens"
+      "generateCooler(address,address)": {
+        "notice": "creates a new Escrow contract for collateral and debt tokens."
       },
       "newEvent(uint256,uint8,uint256)": {
-        "notice": "emit an event each time a request is interacted with on a Cooler"
+        "notice": "emit an event each time a request is interacted with on a Cooler."
       }
     },
     "notice": "the Cooler Factory creates new Cooler escrow contracts",

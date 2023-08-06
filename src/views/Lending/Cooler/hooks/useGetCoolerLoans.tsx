@@ -27,7 +27,7 @@ export const useGetCoolerLoans = ({
       console.log("AAA continue");
 
       console.log(walletAddress, collateralAddress, debtAddress, "cooler");
-      const coolerAddress = await contract.callStatic.generate(collateralAddress, debtAddress);
+      const coolerAddress = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
       console.log("cooler BBB", coolerAddress);
       const coolerContract = Cooler__factory.connect(coolerAddress, Providers.getStaticProvider(networks.MAINNET));
       console.log("cooler CCC", coolerContract);
@@ -38,7 +38,7 @@ export const useGetCoolerLoans = ({
         try {
           const loanData = await coolerContract.loans(loanId);
           console.log("cooler DDD", loanId);
-          loans.push(loanData);
+          loans.push({ ...loanData, loanId });
           loanId++;
         } catch (e) {
           break;

@@ -22,7 +22,7 @@ export const useGetCoolerForWallet = ({
     async () => {
       if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return "";
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);
-      const address = await contract.callStatic.generate(collateralAddress, debtAddress);
+      const address = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
       const isCreated = await contract.callStatic.created(address);
       console.log("cooler cooler", address);
       return isCreated ? address : "";

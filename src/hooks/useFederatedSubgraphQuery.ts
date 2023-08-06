@@ -2,7 +2,6 @@ import { createClient, Operations, Queries } from "@olympusdao/treasury-subgraph
 import { createHooks } from "@wundergraph/react-query";
 import { useEffect, useState } from "react";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { CHAIN_ETHEREUM } from "src/helpers/subgraph/Constants";
 
 const wgNodeUrl: string | undefined = Environment.getWundergraphNodeUrl();
 const client = createClient({
@@ -21,18 +20,20 @@ export type TokenSupply = TokenSupplyArray[0];
 export const { useQuery: useFederatedSubgraphQuery } = createHooks<Operations>(client);
 
 /**
- * Returns TokenRecords objects from the {startDate}.
+ * Returns TokenRecord objects from the {startDate}.
  *
  * The query will only be enabled if the {startDate} is set.
  *
  * @param startDate Date string in YYYY-MM-DD format.
+ * @param crossChainDataComplete If true, returns up (and including) the date with complete cross-chain data.
  * @returns
  */
-export const useTokenRecordsQuery = (startDate: string | null | undefined) => {
+export const useTokenRecordsQuery = (startDate: string | null | undefined, crossChainDataComplete?: boolean) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/tokenRecords",
     input: {
       startDate: startDate || "",
+      crossChainDataComplete: crossChainDataComplete || false,
     },
     enabled: startDate != null,
   });
@@ -50,7 +51,7 @@ export const useTokenRecordsQuery = (startDate: string | null | undefined) => {
  * @returns TokenRecord[] or undefined if there are no results
  */
 export const useTokenRecordsQueryComplete = (startDate: string | null | undefined): TokenRecord[] | undefined => {
-  const { data: tokenRecordResults } = useTokenRecordsQuery(startDate);
+  const { data: tokenRecordResults } = useTokenRecordsQuery(startDate, true);
   const [untilLatestDateResults, setUntilLatestDateResults] = useState<TokenRecord[]>();
 
   useEffect(() => {
@@ -64,20 +65,7 @@ export const useTokenRecordsQueryComplete = (startDate: string | null | undefine
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
 
-    // Get the latest date across all chains
-    const ethereumResults = sortedResults.filter(result => result.blockchain === CHAIN_ETHEREUM);
-    if (ethereumResults.length == 0) {
-      setUntilLatestDateResults(undefined);
-      return;
-    }
-
-    // Restrict to the latest date
-    const latestDateEthereum: Date = new Date(ethereumResults[0].date);
-    const _untilLatestDateResults = sortedResults.filter(
-      result => new Date(result.date).getTime() <= latestDateEthereum.getTime(),
-    );
-
-    setUntilLatestDateResults(_untilLatestDateResults);
+    setUntilLatestDateResults(sortedResults);
   }, [tokenRecordResults]);
 
   return untilLatestDateResults;
@@ -120,29 +108,39 @@ export const useTokenRecordsLatestQuery = () => {
   });
 };
 
-export const useTokenSuppliesQuery = (startDate: string | null | undefined) => {
+/**
+ * Returns TokenSupply objects from the {startDate}.
+ *
+ * The query will only be enabled if the {startDate} is set.
+ *
+ * @param startDate Date string in YYYY-MM-DD format.
+ * @param crossChainDataComplete If true, returns up (and including) the date with complete cross-chain data.
+ * @returns
+ */
+export const useTokenSuppliesQuery = (startDate: string | null | undefined, crossChainDataComplete?: boolean) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/tokenSupplies",
     input: {
       startDate: startDate || "",
+      crossChainDataComplete: crossChainDataComplete || false,
     },
     enabled: startDate != null,
   });
 };
 
 /**
- * Returns TokenRecord records for which the data for a given day is complete.
+ * Returns TokenSupply records for which the data for a given day is complete.
  *
  * For example, if the data for 2023-05-11 is missing Ethereum records,
  * then the latest data returned will be for 2023-05-10.
  *
- * Uses {useTokenRecordsQuery} under the hood.
+ * Uses {useTokenSuppliesQuery} under the hood.
  *
  * @param startDate Date string in YYYY-MM-DD format.
  * @returns TokenSupply[] or undefined if there are no results
  */
 export const useTokenSuppliesQueryComplete = (startDate: string | null | undefined): TokenSupply[] | undefined => {
-  const { data: tokenSupplyResults } = useTokenSuppliesQuery(startDate);
+  const { data: tokenSupplyResults } = useTokenSuppliesQuery(startDate, true);
   const [untilLatestDateResults, setUntilLatestDateResults] = useState<TokenSupply[]>();
 
   useEffect(() => {
@@ -156,20 +154,7 @@ export const useTokenSuppliesQueryComplete = (startDate: string | null | undefin
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
 
-    // Get the latest date across all chains
-    const ethereumResults = sortedResults.filter(result => result.blockchain === CHAIN_ETHEREUM);
-    if (ethereumResults.length == 0) {
-      setUntilLatestDateResults(undefined);
-      return;
-    }
-
-    // Restrict to the latest date
-    const latestDateEthereum: Date = new Date(ethereumResults[0].date);
-    const _untilLatestDateResults = sortedResults.filter(
-      result => new Date(result.date).getTime() <= latestDateEthereum.getTime(),
-    );
-
-    setUntilLatestDateResults(_untilLatestDateResults);
+    setUntilLatestDateResults(sortedResults);
   }, [tokenSupplyResults]);
 
   return untilLatestDateResults;
@@ -201,18 +186,25 @@ export const useTokenSuppliesQueryLatestCompleteData = (
   return latestData;
 };
 
-export const useProtocolMetricsQuery = (startDate: string | null | undefined) => {
+export const useMetricsQuery = ({
+  startDate,
+  includeContentRecords,
+}: {
+  startDate?: string | null;
+  includeContentRecords?: boolean;
+}) => {
   return useFederatedSubgraphQuery({
-    operationName: "paginated/protocolMetrics",
+    operationName: "paginated/metrics",
     input: {
       startDate: startDate || "",
+      includeRecords: includeContentRecords || false,
     },
     enabled: startDate != null,
   });
 };
 
-export const useProtocolMetricsLatestQuery = () => {
+export const useMetricsLatestQuery = () => {
   return useFederatedSubgraphQuery({
-    operationName: "latest/protocolMetrics",
+    operationName: "latest/metrics",
   });
 };

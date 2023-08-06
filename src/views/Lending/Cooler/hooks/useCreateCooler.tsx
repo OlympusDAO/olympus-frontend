@@ -20,7 +20,7 @@ export const useCreateCooler = () => {
     }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);
-      const cooler = await contract.generate(collateralAddress, debtAddress);
+      const cooler = await contract.generateCooler(collateralAddress, debtAddress);
       const receipt = await cooler.wait();
       console.log(receipt, "RECEIPT");
       return receipt;

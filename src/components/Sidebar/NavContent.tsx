@@ -1,9 +1,11 @@
 import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, NavItem } from "@olympusdao/component-library";
+import { Icon } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
+import NavItem from "src/components/library/NavItem";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
@@ -54,7 +56,11 @@ const NavContent: React.VFC = () => {
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>
                   <NavItem to="/stake" icon="stake" label={`Stake`} />
-                  <NavItem icon="settings" label={`Lend & Borrow`} to="/lending" />
+                  <NavItem
+                    customIcon={<SvgIcon component={lendAndBorrowIcon} />}
+                    label={`Lend & Borrow`}
+                    to="/lending"
+                  />
                   <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
                   <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
                     <RangePrice bidOrAsk="ask" />
@@ -63,7 +69,14 @@ const NavContent: React.VFC = () => {
                   <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
                 </>
               ) : (
-                <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                <>
+                  <NavItem
+                    customIcon={<SvgIcon component={lendAndBorrowIcon} />}
+                    label={`Lend & Borrow`}
+                    to="/lending"
+                  />
+                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                </>
               )}
 
               <Box className="menu-divider">

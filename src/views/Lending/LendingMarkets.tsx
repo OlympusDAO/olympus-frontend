@@ -1,5 +1,5 @@
 import { Check } from "@mui/icons-material";
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
 import {
@@ -16,7 +16,8 @@ import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
 import { normalizeSymbol } from "src/helpers/normalizeSymbol";
-import { DefiLlamaPool, useGetLPStats } from "src/hooks/useGetLPStats";
+import { LendAndBorrowPool, useGetLendAndBorrowStats } from "src/hooks/useGetLendBorrowStats";
+import { DefiLlamaPool } from "src/hooks/useGetLPStats";
 
 const PREFIX = "ExternalStakePools";
 
@@ -39,8 +40,9 @@ const StyledPoolInfo = styled("div")(() => ({
   },
 }));
 
-export const ExternalStakePools = () => {
-  const { data: defiLlamaPools } = useGetLPStats();
+export const LendingMarkets = () => {
+  const { data: defiLlamaPools } = useGetLendAndBorrowStats();
+  console.log(defiLlamaPools, "defiLlamaPools");
   const [poolFilter, setPoolFilter] = useState("all");
   const theme = useTheme();
   const networks = [...new Set(defiLlamaPools?.map(pool => pool.chain))];
@@ -77,6 +79,8 @@ export const ExternalStakePools = () => {
       return stable;
     });
 
+  const ohmPools = defiLlamaPools?.filter(pool => pool.symbol === "OHM") || [];
+
   const poolList =
     poolFilter === "stable"
       ? stablePools
@@ -84,6 +88,8 @@ export const ExternalStakePools = () => {
       ? volatilePools
       : poolFilter === "gohm"
       ? gOHMPools
+      : poolFilter === "ohm"
+      ? ohmPools
       : defiLlamaPools;
 
   const poolListByNetwork = networkFilter ? poolList?.filter(pool => pool.chain === networkFilter) : poolList;
@@ -100,11 +106,11 @@ export const ExternalStakePools = () => {
     />
   );
 
-  const columns: GridColDef<DefiLlamaPool>[] = [
+  const columns: GridColDef<LendAndBorrowPool>[] = [
     {
       field: "symbol",
-      headerName: "Pool",
-      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => {
+      headerName: "Lend",
+      renderCell: params => {
         const symbols =
           params.row.symbol !== "OHMFRAXBP-F"
             ? params.row.symbol.split("-").filter(s => s !== "")
@@ -123,18 +129,50 @@ export const ExternalStakePools = () => {
           </StyledPoolInfo>
         );
       },
-      minWidth: 250,
+      minWidth: 120,
+    },
+    {
+      field: "mintAsset",
+      headerName: "Borrow",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.mintedCoin || "OHM";
+      },
+      renderCell: params => {
+        const symbol = normalizeSymbol([params.row.lendAndBorrow.mintedCoin || "OHM"]) as OHMTokenStackProps["tokens"];
+        return (
+          <StyledPoolInfo className={classes.poolPair}>
+            {params.row.lendAndBorrow.mintedCoin === "DOLA" ? (
+              <SvgIcon style={{ fontSize: "27px" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 267.65 267.65">
+                  <circle cx="133.83" cy="133.83" r="133.83" fill="#161e53"></circle>
+                  <path
+                    fill="#ffbb51"
+                    d="M179.67 88.16l9.38-24.96h-15.41l-6.19 16.41a56.5 56.5 0 00-10.63-4.27l4.58-12.15h-15.41l-3.74 9.92c-.49 0-.98-.03-1.48-.03h-17.9a35.6 35.6 0 01-6.99-1.6c-.79-.26-1.56-.55-2.32-.86l-5.08 13.48-39.37 104.47h29.65l-5.99 15.89h15.41l6-15.89h12.24l-5.99 15.89h15.41l5.99-15.9c31.87-.54 57.26-26.82 56.72-58.69-.27-15.91-7.1-31-18.87-41.71zm-89.73 85.99l32.66-86.63c1.47.14 2.94.2 4.41.2s3.01-.07 4.48-.21h5.36l-32.66 86.64H89.94zm29.65 0l32.16-85.25c3.71.98 7.27 2.44 10.6 4.35l-30.52 80.89h-12.24zm51.84-12.7a42.916 42.916 0 01-24 12.19l26.61-70.57c14.39 17.2 13.25 42.53-2.61 58.38z"
+                  ></path>
+                </svg>
+              </SvgIcon>
+            ) : (
+              <TokenStack tokens={symbol} style={{ fontSize: "27px" }} />
+            )}
+
+            <div className={classes.poolName}>
+              <Typography fontWeight={700}>{params.row.lendAndBorrow.mintedCoin || "OHM"}</Typography>
+            </div>
+          </StyledPoolInfo>
+        );
+      },
+      minWidth: 110,
     },
     {
       field: "tvlUsd",
       headerName: "TVL",
       valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 0),
-      minWidth: 200,
+      minWidth: 110,
     },
     {
       field: "apy",
-      headerName: "APY",
-      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
+      headerName: "Supply APY",
+      renderCell: params => (
         <>
           {params.row.apyBase || params.row.apyReward ? (
             <Tooltip
@@ -152,6 +190,60 @@ export const ExternalStakePools = () => {
           )}
         </>
       ),
+      minWidth: 110,
+    },
+    {
+      field: "borrowApy",
+      headerName: "Borrow APY",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.apyBaseBorrow - params.row.lendAndBorrow.apyRewardBorrow;
+      },
+      renderCell: params => (
+        <>
+          {params.row.lendAndBorrow.apyBaseBorrow || params.row.lendAndBorrow.apyRewardBorrow ? (
+            <Tooltip
+              message={
+                <>
+                  <p>Base APY: {formatNumber(params.row.lendAndBorrow.apyBaseBorrow || 0, 2)}%</p>
+                  <p>Reward APY: {formatNumber(params.row.lendAndBorrow.apyRewardBorrow || 0, 2)}%</p>
+                </>
+              }
+            >
+              {formatNumber(params.row.lendAndBorrow.apyBaseBorrow - params.row.lendAndBorrow.apyRewardBorrow || 0, 2)}%
+            </Tooltip>
+          ) : (
+            <>{formatNumber(params.row.lendAndBorrow.apyBaseBorrow || 0, 2)}%</>
+          )}
+        </>
+      ),
+    },
+    {
+      field: "ltv",
+      headerName: "LTV",
+      valueGetter: params => {
+        return params.row.lendAndBorrow.ltv;
+      },
+      renderCell: params => <>{formatNumber(params.row.lendAndBorrow.ltv * 100)}%</>,
+      minWidth: 30,
+    },
+    {
+      field: "available",
+      headerName: "Available to Borrow",
+      valueGetter: params => {
+        return (
+          (params.row.lendAndBorrow.debtCeilingUsd || params.row.lendAndBorrow.totalSupplyUsd) -
+          params.row.lendAndBorrow.totalBorrowUsd
+        );
+      },
+      renderCell: params => (
+        <>
+          {formatCurrency(
+            (params.row.lendAndBorrow.debtCeilingUsd || params.row.lendAndBorrow.totalSupplyUsd) -
+              params.row.lendAndBorrow.totalBorrowUsd,
+          )}
+        </>
+      ),
+      minWidth: 150,
     },
     {
       field: "projectName",
@@ -166,7 +258,7 @@ export const ExternalStakePools = () => {
           {params.row.projectName}
         </TextButton>
       ),
-      minWidth: 200,
+      minWidth: 100,
       flex: 1,
     },
   ];
@@ -178,7 +270,7 @@ export const ExternalStakePools = () => {
           <Box display="flex" flexDirection="row" alignItems="center">
             <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
               <Typography fontSize="32px" fontWeight={500}>
-                Liquidity Pools
+                Lend & Borrow Markets
               </Typography>
             </Box>
           </Box>
@@ -186,15 +278,12 @@ export const ExternalStakePools = () => {
       ></PageTitle>
       <Box width="97%" maxWidth="974px">
         <Box mb="18px" mt="9px">
-          <Typography>
-            Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity
-          </Typography>
+          <Typography>Borrow & Lend against OHM or gOHM with our trusted partners </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
           <Box display="flex" gap="9px">
             <PoolChip label="All" />
-            <PoolChip label="Stable" />
-            <PoolChip label="Volatile" />
+            <PoolChip label="OHM" />
             <PoolChip label="gOHM" />
           </Box>
           <FormControl
@@ -252,7 +341,7 @@ export const ExternalStakePools = () => {
         </Box>
         <DataGrid
           columns={columns}
-          rows={poolListByNetwork || []}
+          rows={(poolListByNetwork as LendAndBorrowPool[]) || []}
           autoHeight
           sx={{
             border: 0,
@@ -272,7 +361,7 @@ export const ExternalStakePools = () => {
           }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "apy", sort: "desc" }],
+              sortModel: [{ field: "available", sort: "desc" }],
             },
           }}
           disableRowSelectionOnClick

@@ -35,6 +35,7 @@ import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModa
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { Lending } from "src/views/Lending";
 import { Cooler } from "src/views/Lending/Cooler";
+import { LendingMarkets } from "src/views/Lending/LendingMarkets";
 import { Liquidity } from "src/views/Liquidity";
 import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
 import { Vault } from "src/views/Liquidity/Vault";
@@ -248,6 +249,8 @@ function App() {
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />
+                  <Route path="/lending" element={<Lending />} />
+                  <Route path="/lending/markets" element={<LendingMarkets />} />
                   <Route path="/liquidity" element={<Liquidity />} />
                   <Route path="/liquidity/pools" element={<ExternalStakePools />} />
                   <Route path="/liquidity/vaults" element={<Vaults />} />
