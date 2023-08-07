@@ -8,7 +8,7 @@ import {
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTreasuryAssetsLatestValue } from "src/hooks/useTokenRecordsMetrics";
+import { useTreasuryMarketValueLatest } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
 
@@ -72,23 +72,6 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgra
   return <Metric {..._props} />;
 };
 
-/**
- * uses on-chain price
- */
-export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
-  const { data: ohmPrice } = useOhmPrice();
-
-  const _props: MetricProps = {
-    ...props,
-    label: "sOHM " + `Price`,
-  };
-
-  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
 export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
   const totalSupply = useOhmTotalSupply(props.earliestDate);
   const circSupply = useOhmCirculatingSupply(props.earliestDate);
@@ -139,7 +122,7 @@ Backed supply is the quantity of outstanding OHM that is backed by assets in the
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const [liquidBackingPerGOhmCirculating, liquidBacking, , latestIndex, ohmFloatingSupply] = useLiquidBackingPerGOhm(
+  const [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmBackedSupply] = useLiquidBackingPerGOhm(
     props.earliestDate,
   );
 
@@ -148,7 +131,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
   )}) multiplied by the latest index (${formatNumberOrLoading(
     latestIndex,
     2,
-  )}) and divided by OHM floating supply (${formatNumberOrLoading(ohmFloatingSupply)}).`;
+  )}) and divided by OHM backed supply (${formatNumberOrLoading(ohmBackedSupply)}).`;
 
   const _props: MetricProps = {
     ...props,
@@ -156,7 +139,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
     tooltip: tooltip,
   };
 
-  if (liquidBackingPerGOhmCirculating) _props.metric = `${formatCurrency(liquidBackingPerGOhmCirculating, 2)}`;
+  if (liquidBackingPerGOhm) _props.metric = `${formatCurrency(liquidBackingPerGOhm, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
@@ -249,7 +232,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const TreasuryBalance: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const marketValueQuery = useTreasuryAssetsLatestValue(false);
+  const marketValueQuery = useTreasuryMarketValueLatest();
 
   const _props: MetricProps = {
     ...props,

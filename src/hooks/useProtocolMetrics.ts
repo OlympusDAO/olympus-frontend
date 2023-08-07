@@ -1,13 +1,13 @@
-import { useProtocolMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
+import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
 export const useTotalValueDeposited = (): number | undefined => {
-  const { data } = useProtocolMetricsLatestQuery();
+  const { data } = useMetricsLatestQuery();
 
-  if (!data || !data.length) {
+  if (!data) {
     return undefined;
   }
 
-  return +data[0].totalValueLocked;
+  return data.sOhmTotalValueLocked;
 };
 
 /**
@@ -20,13 +20,13 @@ export const useTotalValueDeposited = (): number | undefined => {
  * @returns
  */
 export const useOhmPrice = (): number | undefined => {
-  const { data } = useProtocolMetricsLatestQuery();
+  const { data } = useMetricsLatestQuery();
 
-  if (!data || !data.length) {
+  if (!data) {
     return undefined;
   }
 
-  return +data[0].ohmPrice;
+  return data.ohmPrice;
 };
 
 /**
@@ -39,13 +39,13 @@ export const useOhmPrice = (): number | undefined => {
  * @returns
  */
 export const useGOhmPrice = (): number | undefined => {
-  const { data } = useProtocolMetricsLatestQuery();
+  const { data } = useMetricsLatestQuery();
 
-  if (!data || !data.length) {
+  if (!data) {
     return undefined;
   }
 
-  return +data[0].gOhmPrice;
+  return data.gOhmPrice;
 };
 
 /**
@@ -54,11 +54,11 @@ export const useGOhmPrice = (): number | undefined => {
  * @returns
  */
 export const useCurrentIndex = (): number | undefined => {
-  const { data } = useProtocolMetricsLatestQuery();
+  const { data } = useMetricsLatestQuery();
 
-  if (!data || !data.length) {
+  if (!data) {
     return undefined;
   }
 
-  return +data[0].currentIndex;
+  return data.ohmIndex;
 };

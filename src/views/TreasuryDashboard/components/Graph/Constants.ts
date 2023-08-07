@@ -4,8 +4,6 @@ import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalCh
 export const PARAM_DAYS = "days";
 export const DEFAULT_DAYS = 30;
 
-export const DEFAULT_RECORD_COUNT = 1000;
-
 export const PARAM_TOKEN = "token";
 export const PARAM_TOKEN_OHM = "OHM";
 export const PARAM_TOKEN_GOHM = "gOHM";
