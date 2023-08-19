@@ -177,7 +177,8 @@ const AssetSwapCard = ({
   value: number | string;
   onChange: any;
 }) => {
-  const { data: balance } = useBalance({ [1]: assetAddress || "" })[1];
+  const networks = useTestableNetworks();
+  const { data: balance } = useBalance({ [networks.MAINNET]: assetAddress || "" })[networks.MAINNET];
   return (
     <SwapCard
       id={tokenName as string}

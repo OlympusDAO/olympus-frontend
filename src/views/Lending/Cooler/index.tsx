@@ -86,63 +86,68 @@ export const Cooler = () => {
         {coolerAddress && (
           <>
             {loans && loans.length > 0 && (
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
-                      <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                        Interest Rate
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                        Repayment
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                        Maturity Date
-                      </TableCell>
-                      <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right"></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {loans?.map((loan, index) => (
-                      <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                        <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
-                          <Box display="flex" alignItems="center" gap="3px">
-                            {loan.collateral && Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)}{" "}
-                            gOHM <Token name="gOHM" style={{ fontSize: "21px" }} />
-                          </Box>
+              <>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
+                        <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                          Interest Rate
                         </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.request?.interest && (
-                            <Box>{Number(ethers.utils.formatUnits(loan.request.interest.toString())) * 100}%</Box>
-                          )}
+                        <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                          Repayment
                         </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.amount && (
-                            <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
-                              {Number(ethers.utils.formatUnits(loan.amount.toString())).toFixed(2)} DAI{" "}
-                              <Token name="DAI" style={{ fontSize: "21px" }} />
-                            </Box>
-                          )}
+                        <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                          Maturity Date
                         </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.expiry && <Box>{new Date(Number(loan.expiry.toString()) * 1000).toLocaleString()}</Box>}
-                        </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          <Box display="flex">
-                            <SecondaryButton onClick={() => setRepayLoan(loan)}>Repay</SecondaryButton>
-                            <PrimaryButton onClick={() => setExtendLoan(loan)}>Extend</PrimaryButton>
-                          </Box>
-                        </TableCell>
+                        <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right"></TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                      {loans?.map((loan, index) => (
+                        <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                          <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
+                            <Box display="flex" alignItems="center" gap="3px">
+                              {loan.collateral &&
+                                Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)}{" "}
+                              gOHM <Token name="gOHM" style={{ fontSize: "21px" }} />
+                            </Box>
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {loan.request?.interest && (
+                              <Box>{Number(ethers.utils.formatUnits(loan.request.interest.toString())) * 100}%</Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {loan.amount && (
+                              <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
+                                {Number(ethers.utils.formatUnits(loan.amount.toString())).toFixed(2)} DAI{" "}
+                                <Token name="DAI" style={{ fontSize: "21px" }} />
+                              </Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {loan.expiry && (
+                              <Box>{new Date(Number(loan.expiry.toString()) * 1000).toLocaleString()}</Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            <Box display="flex">
+                              <SecondaryButton onClick={() => setRepayLoan(loan)}>Repay</SecondaryButton>
+                              <PrimaryButton onClick={() => setExtendLoan(loan)}>Extend</PrimaryButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <Box display="flex" justifyContent={"center"}>
+                  <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Borrow DAI & Open Position</PrimaryButton>
+                </Box>
+              </>
             )}
-            <Box display="flex" justifyContent={"center"}>
-              <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Borrow DAI & Open Position</PrimaryButton>
-            </Box>
           </>
         )}
         <LiquidityCTA />

@@ -52,10 +52,16 @@ export const Lending = () => {
                   Current Borrow APR
                 </Typography>
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <Typography align="center" fontSize="27px" fontWeight="500">
-                    {clearingHouse?.interestRate}%
-                  </Typography>
-                  <TokenStack tokens={["gOHM", "DAI"]} style={{ fontSize: "27px" }} />
+                  {clearingHouse?.interestRate ? (
+                    <>
+                      <Typography align="center" fontSize="27px" fontWeight="500">
+                        {clearingHouse.interestRate}%
+                      </Typography>
+                      <TokenStack tokens={["gOHM", "DAI"]} style={{ fontSize: "27px" }} />
+                    </>
+                  ) : (
+                    <Skeleton width="100px" />
+                  )}
                 </Box>
               </Box>
               <Typography align="center" color={theme.colors.gray[40]}>
@@ -83,9 +89,13 @@ export const Lending = () => {
                   Current Borrow APR
                 </Typography>
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <Typography align="center" fontSize="27px" fontWeight="500">
-                    {lowestBorrowRate?.lendAndBorrow?.apyBaseBorrow}%
-                  </Typography>
+                  {lowestBorrowRate?.lendAndBorrow?.apyBaseBorrow !== undefined ? (
+                    <Typography align="center" fontSize="27px" fontWeight="500">
+                      {lowestBorrowRate.lendAndBorrow.apyBaseBorrow}%
+                    </Typography>
+                  ) : (
+                    <Skeleton width="100px" />
+                  )}
                 </Box>
               </Box>
               <Typography align="center" color={theme.colors.gray[40]}>
