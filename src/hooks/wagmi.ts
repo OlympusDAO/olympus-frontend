@@ -55,9 +55,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...fantom,
     },
-    {
-      ...goerli,
-    },
+    goerli,
     arbitrumGoerli,
   ],
   [
