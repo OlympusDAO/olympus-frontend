@@ -84,6 +84,18 @@
       "type": "error"
     },
     {
+      "anonymous": false,
+      "inputs": [],
+      "name": "Deactivated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "Reactivated",
+      "type": "event"
+    },
+    {
       "inputs": [],
       "name": "DURATION",
       "outputs": [
@@ -150,6 +162,19 @@
     },
     {
       "inputs": [],
+      "name": "MAX_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "MINTR",
       "outputs": [
         {
@@ -182,6 +207,19 @@
           "internalType": "contract TRSRYv1",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "active",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -277,6 +315,13 @@
         }
       ],
       "name": "defund",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "emergencyShutdown",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -468,6 +513,13 @@
     },
     {
       "inputs": [],
+      "name": "reactivate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "rebalance",
       "outputs": [
         {
@@ -537,7 +589,7 @@
     },
     {
       "inputs": [],
-      "name": "sDai",
+      "name": "sdai",
       "outputs": [
         {
           "internalType": "contract ERC4626",
@@ -570,17 +622,22 @@
     }
   ],
   "devdoc": {
+    "details": "The Olympus Clearinghouse is a lending facility built on top of Cooler Loans. The Clearinghouse         ensures that OHM holders can take loans against their gOHM holdings according to the parameters         approved by the community in OIP-144 and its subsequent RFCs. The Clearinghouse parameters are         immutable, because of that, if backing was to increase substantially, a new governance process         to fork this implementation with upgraded parameters should take place.         Although the Cooler contracts allow lenders to transfer ownership of their repayment rights, the         Clearinghouse doesn't implement any functions to use that feature.",
     "kind": "dev",
     "methods": {
       "claimDefaulted(address[],uint256[])": {
+        "details": "Implements an auction style reward system that linearly increases up to a max reward.",
         "params": {
-          "coolers_": "Contracts where the default must be claimed.",
-          "loans_": "IDs of the defaulted loans."
+          "coolers_": "Array of contracts where the default must be claimed.",
+          "loans_": "Array of defaulted loan ids."
         }
       },
       "debtForCollateral(uint256)": {
         "params": {
           "collateral_": "amount of gOHM."
+        },
+        "returns": {
+          "_0": "debt (amount to be lent + interest) for a given collateral amount."
         }
       },
       "defund(address,uint256)": {
@@ -595,26 +652,38 @@
         }
       },
       "lendToCooler(address,uint256)": {
+        "details": "To simplify the UX and easily ensure that all holders get the same terms,         this function requests a new loan and clears it in the same transaction.",
         "params": {
-          "cooler_": "to lend to.",
-          "amount_": "of DAI to lend."
+          "amount_": "of DAI to lend.",
+          "cooler_": "to lend to."
         },
         "returns": {
-          "_0": "the ID of the new loan."
+          "_0": "the id of the granted loan."
+        }
+      },
+      "rebalance()": {
+        "details": "Exposure is always capped at FUND_AMOUNT and rebalanced at up to FUND_CADANCE.         If several rebalances are available (because some were missed), calling this         function several times won't impact the funds controlled by the contract.         If the emergency shutdown is triggered, a rebalance will send funds back to         the treasury.",
+        "returns": {
+          "_0": "False if too early to rebalance. Otherwise, true."
         }
       },
       "rollLoan(address,uint256)": {
+        "details": "To simplify the UX and easily ensure that all holders get the same terms,         this function provides the governance-approved terms for a rollover and         does the loan rollover in the same transaction.",
         "params": {
           "cooler_": "to provide terms.",
           "loanID_": "of loan in cooler."
         }
       }
     },
+    "title": "Olympus Clearinghouse.",
     "version": 1
   },
   "userdoc": {
     "kind": "user",
     "methods": {
+      "active()": {
+        "notice": "determines whether the contract can be funded or not."
+      },
       "changeKernel(address)": {
         "notice": "Function used by kernel when migrating to a new kernel."
       },
@@ -625,10 +694,16 @@
         "notice": "Default framework setup."
       },
       "debtForCollateral(uint256)": {
-        "notice": "view function to compute the total debt for a given collateral amount."
+        "notice": "view function computing loan for a collateral amount."
       },
       "defund(address,uint256)": {
         "notice": "Return funds to treasury."
+      },
+      "emergencyShutdown()": {
+        "notice": "Deactivate the contract and return funds to treasury."
+      },
+      "fundTime()": {
+        "notice": "timestamp at which the next rebalance can occur."
       },
       "interestFromDebt(uint256)": {
         "notice": "view function to compute the interest for a given debt amount."
@@ -651,19 +726,26 @@
       "onRoll(uint256,uint256,uint256)": {
         "notice": "Callback function that handles rollovers."
       },
+      "reactivate()": {
+        "notice": "Reactivate the contract."
+      },
       "rebalance()": {
-        "notice": "Fund loan liquidity from treasury. Returns false if too early to rebalance.         Exposure is always capped at FUND_AMOUNT and rebalanced at up to FUND_CADANCE.         If several rebalances are available (because some were missed), calling this         function several times won't impact the funds controlled by the contract."
+        "notice": "Fund loan liquidity from treasury."
+      },
+      "receivables()": {
+        "notice": "outstanding loan receivables. Incremented when a loan is made or rolled. Decremented when a loan is repaid or collateral is burned."
       },
       "requestPermissions()": {
         "notice": "Default framework setup."
       },
       "rollLoan(address,uint256)": {
-        "notice": "Provide terms for loan and execute the rollover."
+        "notice": "Rollover an existing loan."
       },
       "sweepIntoDSR()": {
         "notice": "Sweep excess DAI into vault."
       }
     },
+    "notice": "Olympus Clearinghouse (Policy) Contract.",
     "version": 1
   }
 }

@@ -26,7 +26,26 @@
           "type": "uint256"
         }
       ],
-      "name": "Clear",
+      "name": "ClearRequest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "DefaultLoan",
       "type": "event"
     },
     {
@@ -51,7 +70,7 @@
           "type": "uint256"
         }
       ],
-      "name": "Repay",
+      "name": "RepayLoan",
       "type": "event"
     },
     {
@@ -82,7 +101,7 @@
           "type": "uint256"
         }
       ],
-      "name": "Request",
+      "name": "RequestLoan",
       "type": "event"
     },
     {
@@ -101,7 +120,26 @@
           "type": "uint256"
         }
       ],
-      "name": "Rescind",
+      "name": "RescindRequest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256"
+        }
+      ],
+      "name": "RollLoan",
       "type": "event"
     },
     {
@@ -214,13 +252,16 @@
     }
   ],
   "devdoc": {
-    "details": "This contract uses Clones (https://github.com/wighawag/clones-with-immutable-args)      to save gas on deployment",
+    "details": "This contract uses Clones (https://github.com/wighawag/clones-with-immutable-args)         to save gas on deployment.",
     "kind": "dev",
     "methods": {
       "generateCooler(address,address)": {
         "params": {
           "collateral_": "the token given as collateral.",
           "debt_": "the token to be lent. Interest is denominated in debt tokens."
+        },
+        "returns": {
+          "cooler": "address of the contract."
         }
       },
       "newEvent(uint256,uint8,uint256)": {
@@ -231,11 +272,41 @@
         }
       }
     },
+    "title": "Cooler Loans Factory.",
     "version": 1
   },
   "userdoc": {
+    "events": {
+      "ClearRequest(address,uint256)": {
+        "notice": "A global event when a loan request is fulfilled."
+      },
+      "DefaultLoan(address,uint256)": {
+        "notice": "A global event when the collateral of defaulted loan is claimed."
+      },
+      "RepayLoan(address,uint256,uint256)": {
+        "notice": "A global event when a loan is repaid."
+      },
+      "RequestLoan(address,address,address,uint256)": {
+        "notice": "A global event when a new loan request is created."
+      },
+      "RescindRequest(address,uint256)": {
+        "notice": "A global event when a loan request is rescinded."
+      },
+      "RollLoan(address,uint256)": {
+        "notice": "A global event when a loan is rolled over."
+      }
+    },
     "kind": "user",
     "methods": {
+      "coolerImplementation()": {
+        "notice": "Cooler reference implementation (deployed on creation to clone from)."
+      },
+      "coolersFor(address,address,uint256)": {
+        "notice": "Mapping to query Coolers for Collateral-Debt pair."
+      },
+      "created(address)": {
+        "notice": "Mapping to validate deployed coolers."
+      },
       "generateCooler(address,address)": {
         "notice": "creates a new Escrow contract for collateral and debt tokens."
       },
@@ -243,7 +314,7 @@
         "notice": "emit an event each time a request is interacted with on a Cooler."
       }
     },
-    "notice": "the Cooler Factory creates new Cooler escrow contracts",
+    "notice": "The Cooler Factory creates new Cooler escrow contracts.",
     "version": 1
   }
 }

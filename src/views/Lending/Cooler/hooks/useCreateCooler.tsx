@@ -1,8 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { CoolerFactory__factory } from "src/typechain";
-import { useQueryClient, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 
 export const useCreateCooler = () => {
   const { data: signer } = useSigner();
@@ -22,7 +22,6 @@ export const useCreateCooler = () => {
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);
       const cooler = await contract.generateCooler(collateralAddress, debtAddress);
       const receipt = await cooler.wait();
-      console.log(receipt, "RECEIPT");
       return receipt;
     },
     {
@@ -30,7 +29,7 @@ export const useCreateCooler = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
-        queryClient.invalidateQueries({ queryKey: ["getUserVault"] });
+        queryClient.invalidateQueries({ queryKey: ["getCoolerForWallet"] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Cooler",

@@ -1,7 +1,12 @@
 import { Box, SvgIcon, Typography } from "@mui/material";
 import { Icon, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
+import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
+import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { Cooler } from "src/typechain";
 import { useExtendLoan } from "src/views/Lending/Cooler/hooks/useExtendLoan";
 
@@ -12,8 +17,9 @@ export const ExtendLoan = ({
   loanToCollateral,
   duration,
   coolerAddress,
+  collateralAddress,
 }: {
-  loan?: {
+  loan: {
     request: Cooler.RequestStructOutput;
     amount: BigNumber;
     repaid: BigNumber;
@@ -22,16 +28,21 @@ export const ExtendLoan = ({
     lender: string;
     repayDirect: boolean;
     loanId: number;
+    newCollateralAmount: BigNumber;
   };
   setLoan: React.Dispatch<any>;
-  interestRate?: string;
-  loanToCollateral?: string;
+  interestRate: string;
+  loanToCollateral: string;
   duration?: string;
   coolerAddress?: string;
+  collateralAddress: string;
 }) => {
-  const newMaturityDate = new Date();
+  const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
   newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0));
   const extendLoan = useExtendLoan();
+  const networks = useTestableNetworks();
+  const { data: gohmBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
+  const insufficientCollateral = gohmBalance?.lt(new DecimalBigNumber(loan.newCollateralAmount, 18 || "0"));
   return (
     <Modal
       maxWidth="476px"
@@ -44,7 +55,7 @@ export const ExtendLoan = ({
       }
       onClose={() => setLoan(undefined)}
     >
-      {loan && coolerAddress ? (
+      {coolerAddress ? (
         <>
           <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
             <Box display="flex" flexDirection="column">
@@ -81,22 +92,47 @@ export const ExtendLoan = ({
               </Box>
             </Box>
           )}
+          {loanToCollateral && (
+            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
+              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Additional Collateral to Deposit</Typography>
+              <Box display="flex" flexDirection="column" textAlign="right">
+                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                  {Number(ethers.utils.formatUnits(loan?.newCollateralAmount.toString() || "")).toFixed(4)} gOHM
+                </Typography>
+              </Box>
+            </Box>
+          )}
 
-          <PrimaryButton
-            fullWidth
-            onClick={() => {
-              extendLoan.mutate(
-                { loanId: loan.loanId, coolerAddress },
-                {
-                  onSuccess: () => {
-                    setLoan(undefined);
-                  },
-                },
-              );
-            }}
+          <TokenAllowanceGuard
+            tokenAddressMap={{ [networks.MAINNET]: collateralAddress }}
+            spenderAddressMap={COOLER_CLEARING_HOUSE_ADDRESSES}
+            isVertical
+            message={
+              <>
+                First time borrowing with <b>gOHM</b>? <br /> Please approve Olympus DAO to use your <b>gOHM</b> for
+                borrowing.
+              </>
+            }
+            spendAmount={new DecimalBigNumber(loan.newCollateralAmount.toString())}
           >
-            Extend Loan
-          </PrimaryButton>
+            <PrimaryButton
+              fullWidth
+              disabled={extendLoan.isLoading || insufficientCollateral}
+              onClick={() => {
+                extendLoan.mutate(
+                  { loanId: loan.loanId, coolerAddress },
+                  {
+                    onSuccess: () => {
+                      setLoan(undefined);
+                    },
+                  },
+                );
+              }}
+              loading={extendLoan.isLoading}
+            >
+              {insufficientCollateral ? "Insufficient gOHM Balance" : "Extend Loan"}
+            </PrimaryButton>
+          </TokenAllowanceGuard>
         </>
       ) : (
         <></>

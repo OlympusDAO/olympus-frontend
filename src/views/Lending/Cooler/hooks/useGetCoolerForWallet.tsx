@@ -1,6 +1,6 @@
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useQuery } from "@tanstack/react-query";
 import { CoolerFactory__factory } from "src/typechain";
-import { useQuery, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 
 export const useGetCoolerForWallet = ({
   walletAddress,
@@ -13,10 +13,8 @@ export const useGetCoolerForWallet = ({
   collateralAddress?: string;
   debtAddress?: string;
 }) => {
-  const networks = useTestableNetworks();
   const { data: signer } = useSigner();
 
-  console.log(walletAddress, factoryAddress, collateralAddress, debtAddress, "cooler test");
   const { data, isFetched, isLoading } = useQuery(
     ["getCoolerForWallet"],
     async () => {
@@ -24,7 +22,6 @@ export const useGetCoolerForWallet = ({
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);
       const address = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
       const isCreated = await contract.callStatic.created(address);
-      console.log("cooler cooler", address);
       return isCreated ? address : "";
     },
     { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },

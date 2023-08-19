@@ -23,7 +23,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
   [
     {
       ...mainnet,
-      rpcUrls: { default: { http: ["http://127.0.0.1:8545"] }, public: { http: ["http://127.0.0.1:8545"] } },
+      rpcUrls: { default: { http: ["https://rpc.ankr.com/eth"] }, public: { http: ["https://rpc.ankr.com/eth"] } },
     },
     {
       ...polygon,
@@ -57,9 +57,6 @@ export const { chains, provider, webSocketProvider } = configureChains(
     },
     {
       ...goerli,
-      rpcUrls: {
-        default: { http: ["http://127.0.0.1:8545"] },
-      },
     },
     arbitrumGoerli,
   ],
