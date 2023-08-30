@@ -36,7 +36,7 @@
     "@emotion/styled": "^11.10.5",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.7.1",
-    "@mui/icons-material": "^5.11.11",
+    "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.12.3",
     "@mui/system": "^5.11.15",
     "@mui/x-data-grid": "^6.9.0",
