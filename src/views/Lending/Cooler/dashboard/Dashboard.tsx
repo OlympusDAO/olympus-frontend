@@ -21,17 +21,17 @@ export const CoolerDashboard = () => {
   return (
     <div id="cooler-metrics">
       <Grid container spacing={1}>
-        <Grid item xs={8} sm={6} md={5} lg={4} textAlign={"center"}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             <UtilisationGraph />
           </Paper>
         </Grid>
-        <Grid item xs={8} sm={6} md={5} lg={4} textAlign={"center"}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             {/* Revenue */}
           </Paper>
         </Grid>
-        <Grid item xs={8} sm={6} md={5} lg={4} textAlign={"center"}>
+        <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
             {/* Loan Maturity */}
           </Paper>

@@ -6,6 +6,7 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { useCoolerSnapshots } from "src/views/Lending/Cooler/dashboard/DataHelper";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 
@@ -13,6 +14,7 @@ export const UtilisationGraph = () => {
   const theme = useTheme();
 
   // Get loan data
+  const byDateSnapshots = useCoolerSnapshots(new Date("2023-08-01"));
 
   /**
    * Chart inputs
@@ -27,7 +29,7 @@ export const UtilisationGraph = () => {
   return (
     <Chart
       type={ChartType.MultiLine}
-      data={[]}
+      data={byDateSnapshots || []}
       dataFormat={DataFormat.Currency}
       headerText="Utilisation"
       headerSubText={""}
@@ -36,8 +38,10 @@ export const UtilisationGraph = () => {
       dataKeyBulletpointStyles={bulletpointStyles}
       dataKeyLabels={dataKeyLabels}
       infoTooltipMessage={""}
-      isLoading={false}
+      isLoading={byDateSnapshots == null}
       tickStyle={getTickStyle(theme)}
+      itemDecimals={0}
+      margin={{ left: 30 }}
     />
   );
 };
