@@ -87,8 +87,6 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
       collateralIncome: 0,
     };
 
-    console.log("created snapshot for date " + dateString);
-
     // Add the snapshot to the map
     tempSnapshots.set(dateString, coolerSnapshot);
   });
@@ -109,7 +107,6 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
     // If there is an existing snapshot, track it and move on
     if (coolerSnapshot) {
       lastSnapshot = coolerSnapshot;
-      console.log("existing snapshot for date " + dateString);
       currentDate.setDate(currentDate.getDate() + 1);
       continue;
     }
@@ -123,8 +120,6 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
       interestIncome: 0,
       collateralIncome: 0,
     };
-    console.log("created forward-fill snapshot for date " + dateString);
-    console.log("receivables = " + newSnapshot.receivables);
 
     tempSnapshots.set(dateString, newSnapshot);
 
@@ -147,8 +142,9 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
   });
 
   // Order snapshots to be in reverse-chronological order
-  setByDateSnapshot(Array.from(tempSnapshots.values()).sort((a, b) => b.timestamp - a.timestamp));
+  const tempByDateSnapshots = Array.from(tempSnapshots.values()).sort((a, b) => b.timestamp - a.timestamp);
+  // setByDateSnapshot(tempByDateSnapshots);
 
   // Return the CoolerSnapshot
-  return byDateSnapshot;
+  return tempByDateSnapshots;
 };
