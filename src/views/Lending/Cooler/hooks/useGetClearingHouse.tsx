@@ -27,7 +27,18 @@ export const useGetClearingHouse = () => {
 
     const daiBalance = daiBalanceClearingHouse.add(daiBalanceTreasury);
 
-    return { interestRate, duration, loanToCollateral, factory, collateralAddress, debtAddress, capacity: daiBalance };
+    const receivables = contract.receivables();
+
+    return {
+      interestRate,
+      duration,
+      loanToCollateral,
+      factory,
+      collateralAddress,
+      debtAddress,
+      capacity: daiBalance,
+      receivables,
+    };
   });
   return { data, isFetched, isLoading };
 };
