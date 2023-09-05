@@ -4,7 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
-import { CoolerMetrics } from "src/views/Lending/Cooler/Metrics";
+import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
 import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
@@ -70,7 +70,7 @@ export const Cooler = () => {
         </Tabs>
 
         {tabIndex === 0 && <CoolerPositions />}
-        {tabIndex === 1 && <CoolerMetrics />}
+        {tabIndex === 1 && <CoolerDashboard />}
 
         <LiquidityCTA />
       </Box>
