@@ -1,6 +1,7 @@
 import {
   Box,
   Paper,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -47,7 +48,13 @@ export const CoolerPositions = () => {
         <Typography variant="h1">Your Positions</Typography>
         <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
       </Box>
-      {loans && loans.length < 1 && isFetchedLoans && (
+      {!isFetchedLoans && (
+        <Box display="flex" justifyContent="center">
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        </Box>
+      )}
+
+      {isFetchedLoans && (
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
