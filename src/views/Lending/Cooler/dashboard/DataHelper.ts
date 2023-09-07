@@ -61,6 +61,21 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
     },
   ];
 
+  const defaultEvents = [
+    {
+      id: "0",
+      date: "2023-08-10",
+      // etc
+      collateralIncome: 20000,
+    },
+    {
+      id: "0",
+      date: "2023-08-15",
+      // etc
+      collateralIncome: 80050,
+    },
+  ];
+
   // When the data loading is complete, process it into a CoolerSnapshot
   const [byDateSnapshot, setByDateSnapshot] = useState<CoolerSnapshot[] | null>(null);
 
@@ -138,7 +153,21 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
     }
 
     // Update the snapshot
-    coolerSnapshot.interestIncome = element.interestIncome;
+    coolerSnapshot.interestIncome += element.interestIncome;
+  });
+
+  // Iterate through the Default events, created whenever a loan defaults
+  defaultEvents.forEach(element => {
+    const dateString = getISO8601String(new Date(element.date));
+
+    // Get the snapshot
+    const coolerSnapshot = tempSnapshots.get(dateString);
+    if (!coolerSnapshot) {
+      throw new Error("Could not find CoolerSnapshot at date " + dateString);
+    }
+
+    // Update the snapshot
+    coolerSnapshot.collateralIncome += element.collateralIncome;
   });
 
   // Order snapshots to be in reverse-chronological order
