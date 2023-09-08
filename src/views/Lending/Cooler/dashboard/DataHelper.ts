@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { getISO8601String } from "src/helpers/DateHelper";
 
+type CoolerLoan = {
+  id: string;
+  coolerAddress: string;
+  borrowerAddress: string;
+  loanId: number;
+  principal: number;
+  interest: number;
+  expiryTimestamp: number;
+  secondsToExpiry: number;
+};
+
 /**
  * Represents a daily snapshot of all Cooler Loans
  */
@@ -9,13 +20,19 @@ export type CoolerSnapshot = {
   timestamp: number;
   receivables: number;
   capacity: number;
-  // Income
+  loans: Record<string, CoolerLoan>;
+  // === Income ===
+  /**
+   * Interest income earned from all loans in this snapshot
+   */
   interestIncome: number;
+  /**
+   * Collateral income earned from all loans in this snapshot
+   */
   collateralIncome: number;
-  // TODO Maturity
 };
 
-export const useCoolerSnapshots = (earliestDate: Date) => {
+export const useCoolerSnapshots = () => {
   // Get the data from the subgraph hooks: CoolerLoan and ClearinghouseSnapshot
   const clearinghouseSnapshots = [
     {
@@ -48,13 +65,23 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
 
   const repaymentEvents = [
     {
-      id: "0",
+      id: "0x3-0-1223333",
+      loan: {
+        loanId: 0,
+        cooler: "0x3",
+      },
+      blockNumber: 1223333,
       date: "2023-08-08",
       // etc
       interestIncome: 50000.02,
     },
     {
-      id: "0",
+      id: "0x3-0-1223335",
+      loan: {
+        loanId: 0,
+        cooler: "0x3",
+      },
+      blockNumber: 1223335,
       date: "2023-08-15",
       // etc
       interestIncome: 60000.03,
@@ -63,8 +90,13 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
 
   const defaultEvents = [
     {
-      id: "0",
+      id: "0x3-1-1223334",
       date: "2023-08-10",
+      blockNumber: 1223334,
+      loan: {
+        loanId: 1,
+        cooler: "0x3",
+      },
       // etc
       collateralIncome: 20000,
     },
@@ -76,6 +108,18 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
     },
   ];
 
+  const creationEvents = [
+    {
+      id: "0x3-0",
+      date: "2023-08-01",
+      // etc
+    },
+    {
+      id: "0x3-1",
+      date: "2023-08-02",
+    },
+  ];
+
   // When the data loading is complete, process it into a CoolerSnapshot
   const [byDateSnapshot, setByDateSnapshot] = useState<CoolerSnapshot[] | null>(null);
 
@@ -83,6 +127,23 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
   // Check that both sets of results have been received
 
   // Sort the results by date
+
+  // Get the earliest date from the clearinghouse snapshots and loan creation
+  let earliestDate = null;
+  if (clearinghouseSnapshots.length > 0) {
+    earliestDate = clearinghouseSnapshots[0].date;
+  }
+  if (creationEvents.length > 0) {
+    const creationDate = creationEvents[0].date;
+    if (!earliestDate || creationDate < earliestDate) {
+      earliestDate = creationDate;
+    }
+  }
+
+  // If there is no earliest date, we don't have sufficient data
+  if (!earliestDate) {
+    return [];
+  }
 
   const tempSnapshots: Map<string, CoolerSnapshot> = new Map<string, CoolerSnapshot>();
 
@@ -100,6 +161,7 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
       capacity: element.daiBalance + element.sDaiInDaiBalance,
       interestIncome: 0,
       collateralIncome: 0,
+      loans: {},
     };
 
     // Add the snapshot to the map
@@ -134,6 +196,7 @@ export const useCoolerSnapshots = (earliestDate: Date) => {
       capacity: lastSnapshot ? lastSnapshot.capacity : 0,
       interestIncome: 0,
       collateralIncome: 0,
+      loans: {},
     };
 
     tempSnapshots.set(dateString, newSnapshot);
