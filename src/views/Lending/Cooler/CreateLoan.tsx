@@ -143,7 +143,7 @@ export const CreateLoan = ({
                     borrowing.
                   </>
                 }
-                spendAmount={new DecimalBigNumber(collateralAmount.toString())}
+                spendAmount={new DecimalBigNumber(collateralAmount.toString(), 18)}
               >
                 <PrimaryButton
                   onClick={() => {
