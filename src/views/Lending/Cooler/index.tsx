@@ -1,5 +1,7 @@
+import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
+  Link,
   Paper,
   Skeleton,
   Table,
@@ -9,10 +11,13 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Metric, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { CreateLoan } from "src/views/Lending/Cooler/CreateLoan";
@@ -21,7 +26,6 @@ import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetCleari
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { RepayLoan } from "src/views/Lending/Cooler/RepayLoan";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { useAccount } from "wagmi";
 
 export const Cooler = () => {
@@ -44,10 +48,28 @@ export const Cooler = () => {
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div id="stake-view">
-      <PageTitle name="Cooler Loans" />
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center" mt={mobile ? "50px" : "0px"}>
+            <Link component={RouterLink} to="/lending">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px"></Typography>
+              </Box>
+            </Link>
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography fontSize="32px" fontWeight={500}>
+                Cooler Loans
+              </Typography>
+            </Box>
+          </Box>
+        }
+      />
       <Box width="97%" maxWidth="974px">
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Box display="flex" flexDirection="row" width={["100%", "70%"]} mt="24px" flexWrap={"wrap"}>
@@ -93,7 +115,7 @@ export const Cooler = () => {
                       <TableRow>
                         <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
                         <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                          Interest Rate
+                          Annual Interest Rate
                         </TableCell>
                         <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
                           Repayment
@@ -129,7 +151,13 @@ export const Cooler = () => {
                           </TableCell>
                           <TableCell align="right" sx={{ padding: "9px" }}>
                             {loan.expiry && (
-                              <Box>{new Date(Number(loan.expiry.toString()) * 1000).toLocaleString()}</Box>
+                              <Box>
+                                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString([], {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }) || ""}
+                              </Box>
                             )}
                           </TableCell>
                           <TableCell align="right" sx={{ padding: "9px" }}>
@@ -144,13 +172,12 @@ export const Cooler = () => {
                   </Table>
                 </TableContainer>
                 <Box display="flex" justifyContent={"center"}>
-                  <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Borrow DAI & Open Position</PrimaryButton>
+                  <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Open Position & Borrow DAI</PrimaryButton>
                 </Box>
               </>
             )}
           </>
         )}
-        <LiquidityCTA />
       </Box>
 
       {clearingHouse && (

@@ -18,16 +18,23 @@ export const useGetClearingHouse = () => {
     const collateralAddress = await contract.gOHM();
     const debtAddress = await contract.dai();
     const sdai = await contract.sdai();
-    const treasury = await contract.TRSRY();
     const sdaiContract = ERC4626__factory.connect(sdai, provider);
     const sdaiBalanceClearingHouse = await sdaiContract.balanceOf(contract.address); //shares held by clearinghouse
-    const sdaiBalanceTreasury = await sdaiContract.balanceOf(treasury); //shares held by treasury
+    // const sdaiBalanceTreasury = await sdaiContract.balanceOf(treasury); //shares held by treasury
     const daiBalanceClearingHouse = await sdaiContract.convertToAssets(sdaiBalanceClearingHouse);
-    const daiBalanceTreasury = await sdaiContract.convertToAssets(sdaiBalanceTreasury);
+    // const daiBalanceTreasury = await sdaiContract.convertToAssets(sdaiBalanceTreasury);
 
-    const daiBalance = daiBalanceClearingHouse.add(daiBalanceTreasury);
+    // const daiBalance = daiBalanceClearingHouse.add(daiBalanceTreasury);
 
-    return { interestRate, duration, loanToCollateral, factory, collateralAddress, debtAddress, capacity: daiBalance };
+    return {
+      interestRate,
+      duration,
+      loanToCollateral,
+      factory,
+      collateralAddress,
+      debtAddress,
+      capacity: daiBalanceClearingHouse,
+    };
   });
   return { data, isFetched, isLoading };
 };

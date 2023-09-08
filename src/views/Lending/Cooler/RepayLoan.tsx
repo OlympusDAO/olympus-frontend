@@ -79,11 +79,18 @@ export const RepayLoan = ({
             mb={"9px"}
             mt={"21px"}
           >
-            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loan Term</Typography>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Maturity Date</Typography>
             <Box display="flex" flexDirection="column" textAlign="right">
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString() || ""}{" "}
-                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleTimeString() || ""}
+                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString([], {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                }) || ""}{" "}
+                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }) || ""}
               </Typography>
             </Box>
           </Box>
@@ -120,7 +127,8 @@ export const RepayLoan = ({
                 )
               }
               fullWidth
-              disabled={notEnoughDai}
+              loading={repayLoan.isLoading}
+              disabled={notEnoughDai || repayLoan.isLoading}
             >
               {notEnoughDai ? "Insufficient DAI for Repayment" : "Repay & Withdraw"}
             </PrimaryButton>

@@ -5,6 +5,7 @@ import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBor
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
+import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -87,7 +88,7 @@ export const CreateLoan = ({
         />
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Max you Can Borrow</Box>
-          <Box fontWeight="500">{maxYouCanBorrow.toFixed(2)} DAI</Box>
+          <Box fontWeight="500">{formatNumber(maxYouCanBorrow, 2)} DAI</Box>
         </Box>
         <Box mt="18px" mb="21px">
           <Divider />
@@ -97,8 +98,18 @@ export const CreateLoan = ({
           <Box fontWeight="500">{interestRate}%</Box>
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
-          <Box>Loan Term</Box>
-          <Box fontWeight="500">{maturityDate.toLocaleString()}</Box>
+          <Box>Maturity Date</Box>
+          <Box fontWeight="500">
+            {maturityDate.toLocaleDateString([], {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }) || ""}{" "}
+            {maturityDate.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Box>
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Loan To Value per gOHM</Box>
@@ -117,9 +128,9 @@ export const CreateLoan = ({
                   })
                 }
                 loading={createCooler.isLoading}
-                disabled={createCooler.isLoading}
+                disabled={createCooler.isLoading || debtAmount > maxYouCanBorrow || debtAmount === 0}
               >
-                Create Cooler
+                {debtAmount > maxYouCanBorrow ? `Amount requested exceeds max` : `Create Cooler`}
               </PrimaryButton>
             ) : (
               <TokenAllowanceGuard
@@ -155,7 +166,7 @@ export const CreateLoan = ({
                   loading={createLoan.isLoading}
                   fullWidth
                 >
-                  Borrow DAI & Open Position
+                  {debtAmount > maxYouCanBorrow ? `Amount requested exceeds max` : `Borrow DAI & Open Position`}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             )}

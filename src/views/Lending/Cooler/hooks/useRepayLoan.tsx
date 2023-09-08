@@ -24,6 +24,8 @@ export const useRepayLoan = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.invalidateQueries({ queryKey: [["useContractAllowances"]] });
         toast(`Successfully Repaid Loan`);
       },
     },

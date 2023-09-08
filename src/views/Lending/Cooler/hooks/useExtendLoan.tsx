@@ -24,6 +24,8 @@ export const useExtendLoan = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.invalidateQueries({ queryKey: [["useContractAllowances"]] });
         toast(`Successfully Extended Loan`);
       },
     },

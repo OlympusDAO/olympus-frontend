@@ -61,12 +61,27 @@ export const ExtendLoan = ({
             <Box display="flex" flexDirection="column">
               <Metric
                 label="Current Term"
-                metric={new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString() || ""}
+                metric={
+                  new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }) || ""
+                }
               />
             </Box>
             <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
             <Box display="flex" flexDirection="column">
-              <Metric label="New Term" metric={newMaturityDate.toLocaleDateString()} />
+              <Metric
+                label="New Term"
+                metric={
+                  newMaturityDate.toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }) || ""
+                }
+              />
             </Box>
           </Box>
           {interestRate && (
