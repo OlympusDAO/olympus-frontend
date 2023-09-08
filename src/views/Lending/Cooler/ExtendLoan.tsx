@@ -128,7 +128,7 @@ export const ExtendLoan = ({
                 borrowing.
               </>
             }
-            spendAmount={new DecimalBigNumber(loan.newCollateralAmount.toString(), 18)}
+            spendAmount={new DecimalBigNumber(loan.newCollateralAmount.toString())}
           >
             <PrimaryButton
               fullWidth
