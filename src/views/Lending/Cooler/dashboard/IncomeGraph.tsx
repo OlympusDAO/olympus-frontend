@@ -14,7 +14,7 @@ export const IncomeGraph = () => {
   const theme = useTheme();
 
   // Get loan data
-  const byDateSnapshots = useCoolerSnapshots(new Date("2023-08-01"));
+  const byDateSnapshots = useCoolerSnapshots();
 
   /**
    * Chart inputs
