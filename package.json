@@ -23,13 +23,7 @@
         "lines": 50,
         "statements": 50
       }
-    },
-    "coverageReporters": [
-      "text",
-      "json-summary",
-      "text-summary",
-      "lcov"
-    ]
+    }
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
