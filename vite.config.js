@@ -44,7 +44,6 @@ export default ({ mode }) => {
       ],
       coverage: {
         provider: "v8",
-        enabled: true,
         reporter: ["text", "json", "html", "lcov", "json-summary", "text-summary"],
       },
     },
