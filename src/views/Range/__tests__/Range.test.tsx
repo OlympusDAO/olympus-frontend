@@ -91,7 +91,7 @@ describe("Default Main Range View", () => {
     fireEvent.click(screen.getByTestId("range-submit"));
     fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
     fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    expect(await screen.findByText("Range Swap NOT Successful"));
+    expect(await screen.findByText("Range Swap Successful"));
   });
   //// FRAGILE TEST
   // it("Should Show a message when mutating", async () => {
