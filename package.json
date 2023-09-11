@@ -140,7 +140,7 @@
     "build": "yarn vite build",
     "start": "yarn vite dev",
     "test": "vitest --threads=false",
-    "test:unit": "vitest --threads=false --coverage.enabled",
+    "test:unit": "vitest --threads=false --coverage.enabled --coverage.reportOnFailure",
     "test:e2e": "vitest --threads=false --watchAll=false",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
