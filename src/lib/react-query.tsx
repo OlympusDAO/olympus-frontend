@@ -1,6 +1,6 @@
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React from "react";
+import React, { ReactNode } from "react";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export const queryCache = new QueryCache({
@@ -22,7 +22,7 @@ export const queryClient = new QueryClient({
   },
 });
 
-export const ReactQueryProvider: React.FC = ({ children }) => (
+export const ReactQueryProvider: React.FC<{ children: ReactNode }> = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     {Environment.env.MODE === "development" && <ReactQueryDevtools />}
 
