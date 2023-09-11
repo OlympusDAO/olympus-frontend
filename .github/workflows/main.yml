@@ -60,4 +60,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-file: branch-report.json
           base-coverage-file: base-report.json
-          annotations: none
+          annotations: all
