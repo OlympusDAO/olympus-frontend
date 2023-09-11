@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import { CATEGORY_POL, CATEGORY_STABLE, CATEGORY_VOLATILE } from "src/helpers/subgraph/Constants";
 import {
@@ -11,7 +10,7 @@ import {
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { getTreasuryAssetValue } from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -19,8 +18,10 @@ import {
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
+import {
+  getDateTokenRecordMap,
+  getLatestTimestamp,
+} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 type DateTreasuryMetrics = {
   date: string;
@@ -45,24 +46,16 @@ type DateTreasuryMetrics = {
  * specified by the `isLiquidBackingActive` prop.
  */
 export const TreasuryAssetsGraph = ({
-  subgraphUrls,
   earliestDate,
   onMouseMove,
   isLiquidBackingActive,
   subgraphDaysOffset,
 }: GraphProps & LiquidBackingProps) => {
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
-  const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
 
   /**
    * Chart population:
@@ -76,6 +69,9 @@ export const TreasuryAssetsGraph = ({
       return;
     }
 
+    // Extract into a by-date map
+    const byDateTokenRecordMap = getDateTokenRecordMap(tokenRecordResults);
+
     // We need to flatten the tokenRecords from all of the pages arrays
     console.info(`${chartName}: Data loading is done. Rebuilding by date metrics`);
 
@@ -86,7 +82,7 @@ export const TreasuryAssetsGraph = ({
      *
      * The relevant total is calculated by applying certain filters and summing (reducing) the value for the matching records.
      */
-    tokenRecordResults.forEach((value, key) => {
+    byDateTokenRecordMap.forEach((value, key) => {
       const marketStable = getTreasuryAssetValue(value, false, [CATEGORY_STABLE]);
       const marketVolatile = getTreasuryAssetValue(value, false, [CATEGORY_VOLATILE]);
       const marketPol = getTreasuryAssetValue(value, false, [CATEGORY_POL]);
@@ -102,7 +98,7 @@ export const TreasuryAssetsGraph = ({
       const dateMetric: DateTreasuryMetrics = {
         date: key,
         timestamp: earliestTimestamp,
-        block: value[0].block,
+        block: +value[0].block,
         marketStable: marketStable,
         marketVolatile: marketVolatile,
         marketPol: marketPol,

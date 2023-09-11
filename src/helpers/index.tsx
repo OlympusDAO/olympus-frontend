@@ -157,15 +157,18 @@ export const testnetToMainnetContract = (address: string) => {
     //BAL
     case "0xd517A8E45771a40B29eCDa347634bD62051F91B9".toLowerCase():
       return "0xba100000625a3754423978a60c9317c58a424e3d";
+    //LUSD
+    case "0x004136391B304492bE9A1cD7cBc01272159Bf6Ac".toLowerCase():
+      return "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0";
     default:
       return address;
   }
 };
 
-export const formatNumberOrLoading = (value: number | null | undefined): string => {
-  return value ? formatNumber(value) : "Loading...";
+export const formatNumberOrLoading = (value: number | null | undefined, decimals = 0): string => {
+  return value ? formatNumber(value, decimals) : "Loading...";
 };
 
-export const formatCurrencyOrLoading = (value: number | null | undefined): string => {
-  return value ? formatCurrency(value, 2) : "Loading...";
+export const formatCurrencyOrLoading = (value: number | null | undefined, decimals = 0): string => {
+  return value ? formatCurrency(value, decimals) : "Loading...";
 };

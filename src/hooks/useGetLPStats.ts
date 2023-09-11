@@ -1,95 +1,133 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetLPStats = () => {
-  const defillamaAPI = "https://yields.llama.fi/pools";
-  const { data, isFetched, isLoading } = useQuery(["GetLPStats"], async () => {
-    return await axios.get<defillamaAPI>(defillamaAPI).then(res => {
-      return res.data.data
-        .filter(
-          pool =>
-            pool.symbol.split("-")[0] === "OHM" ||
-            pool.symbol.split("-")[0] === "GOHM" ||
-            pool.symbol.split("-")[1] === "GOHM" ||
-            pool.symbol.split("-")[1] === "OHM" ||
-            pool.symbol.split("-")[0] === "OHMFRAXBP",
-        )
-        .filter(pool => pool.apy !== 0 && pool.exposure !== "single")
-        .map(pool => {
-          return { ...pool, project: { ...mapProjectToName(pool.project) } };
-        });
-    });
+export const useGetLPStats = (exposure?: string) => {
+  const { data, isFetched, isLoading } = useQuery(["GetLPStats", exposure], async () => {
+    const ohmPools = await getOhmPools();
+
+    const ohmPoolsFilters = ohmPools.filter(pool => pool.exposure === exposure || "multi");
+    return ohmPoolsFilters;
   });
 
   return { data, isFetched, isLoading };
 };
 
-const mapProjectToName = (project: string) => {
+export const getOhmPools = async () => {
+  const defillamaAPI = "https://yields.llama.fi/pools";
+  return await axios.get<defillamaAPI>(defillamaAPI).then(res => {
+    return res.data.data
+      .filter(
+        pool =>
+          pool.symbol.split("-")[0] === "OHM" ||
+          pool.symbol.split("-")[0] === "GOHM" ||
+          pool.symbol.split("-")[1] === "GOHM" ||
+          pool.symbol.split("-")[1] === "OHM" ||
+          pool.symbol.split("-")[0] === "OHMFRAXBP",
+      )
+      .map(pool => {
+        return { ...pool, ...mapProjectToName(pool.project), id: pool.pool };
+      });
+  });
+};
+
+export const mapProjectToName = (project: string) => {
   switch (project) {
     case "balancer-v2":
-      return { name: "Balancer", icon: "balancer", link: "https://app.balancer.fi/" };
+      return { projectName: "Balancer", projectLink: "https://app.balancer.fi/" };
+    case "curve-dex":
     case "curve":
-      return { name: "Curve", icon: "curve", link: "https://curve.fi/#/ethereum/pools" };
+      return { projectName: "Curve", projectLink: "https://curve.fi/#/ethereum/pools" };
     case "aura":
-      return { name: "Aura", icon: "aura", link: "https://app.aura.finance/" };
+      return { projectName: "Aura", projectLink: "https://app.aura.finance/" };
     case "convex-finance":
-      return { name: "Convex", icon: "convex", link: "https://www.convexfinance.com/stake" };
+      return { projectName: "Convex", projectLink: "https://www.convexfinance.com/stake" };
     case "uniswap-v3":
-      return { name: "Uniswap V3", icon: "uniswap", link: "https://app.uniswap.org/#/pool" };
+      return { projectName: "Uniswap V3", projectLink: "https://app.uniswap.org/#/pool" };
     case "uniswap-v2":
-      return { name: "Uniswap V2", icon: "uniswap", link: "https://app.uniswap.org/#/pool" };
+      return { projectName: "Uniswap V2", projectLink: "https://app.uniswap.org/#/pool" };
     case "sushiswap":
-      return { name: "Sushiswap", icon: "sushiswap", link: "https://app.sushi.com/pool" };
+      return { projectName: "Sushiswap", projectLink: "https://app.sushi.com/pool" };
     case "stakedao":
-      return { name: "StakeDAO", icon: "stakedao", link: "https://lockers.stakedao.org/" };
+      return { projectName: "StakeDAO", projectLink: "https://lockers.stakedao.org/" };
+    case "joe-v2.1":
     case "trader-joe-dex":
-      return { name: "Trader Joe", icon: "traderjoe", link: "https://traderjoexyz.com/avalanche/pool" };
+      return { projectName: "Trader Joe", projectLink: "https://traderjoexyz.com/" };
     case "pickle":
-      return { name: "Pickle", icon: "pickle", link: "https://app.pickle.finance/farms" };
+      return { projectName: "Pickle", projectLink: "https://app.pickle.finance/farms" };
     case "beefy":
-      return { name: "Beefy", icon: "beefy", link: "https://app.beefy.finance/" };
+      return { projectName: "Beefy", projectLink: "https://app.beefy.finance/" };
     case "frax":
-      return { name: "Frax", icon: "frax", link: "https://app.frax.finance/staking/overview" };
+      return { projectName: "Frax", projectLink: "https://app.frax.finance/staking/overview" };
     case "beethoven-x":
-      return { name: "Beethoven X", icon: "beethovenx", link: "https://beets.fi/pools" };
+      return { projectName: "Beethoven X", projectLink: "https://beets.fi/pools" };
     case "yearn-finance":
-      return { name: "Yearn", icon: "yearn", link: "https://yearn.finance/vaults" };
+      return { projectName: "Yearn", projectLink: "https://yearn.finance/vaults" };
+    case "olympus-dao":
+      return {
+        projectName: "Olympus",
+        projectLink: "https://app.olympusdao.finance/#/liquidity/vaults",
+      };
+    case "gamma":
+      return { projectName: "Gamma", projectLink: "https://app.gamma.xyz/" };
+    case "ramses-v1":
+      return { projectName: "Ramses", projectLink: "https://app.ramses.exchange/liquidity" };
+    case "chronos":
+      return { projectName: "Chronos", projectLink: "https://app.chronos.exchange/liquidity" };
+    case "sentiment":
+      return { projectName: "Sentiment", projectLink: "https://arbitrum.sentiment.xyz/borrow/OHM?symbol=USDC.e" };
+    case "midas-capital":
+      return { projectName: "Midas Capital", projectLink: "https://app.midascapital.xyz/42161/pool/1" };
+    case "silo-finance":
+      return { projectName: "Silo Finance", projectLink: "https://app.silo.finance/" };
+    case "inverse-finance-firm":
+      return { projectName: "Inverse Finance", projectLink: "https://www.inverse.finance/firm" };
+    case "fraxlend":
+      return {
+        projectName: "Frax",
+        projectLink: "https://app.frax.finance/fraxlend/pair?address=0x66bf36dBa79d4606039f04b32946A260BCd3FF52",
+      };
+    default:
+      return { projectName: project, projectLink: "" };
   }
 };
 
 export interface defillamaAPI {
-  data: {
-    apy?: number;
-    apyBase?: number;
-    apyBase7d?: number;
-    apyBaseInception?: number;
-    apyMean30d?: number;
-    apyPct1D?: number;
-    apyPct7D?: number;
-    apyPct30D?: number;
-    apyReward?: number;
-    chain: string;
-    count?: number;
-    exposure?: string;
-    il7d?: number;
-    ilRisk?: string;
-    mu?: number;
-    outlier?: boolean;
-    pool: string;
-    poolMeta?: string;
-    predictions?: {
-      predictedClass: string;
-      predictedProbability: number;
-      binnedConfidence: number;
-    };
-    project: string;
-    rewardTokens?: string[];
-    sigma?: number;
-    stablecoin?: boolean;
-    symbol: string;
-    tvlUsd?: number;
-    underlyingTokens: string[];
-    volumeUsd1d?: number;
-    volumeUsd7d?: number;
-  }[];
+  data: DefiLlamaPool[];
+}
+
+export interface DefiLlamaPool {
+  apy?: number;
+  apyBase?: number;
+  apyBase7d?: number;
+  apyBaseInception?: number;
+  apyMean30d?: number;
+  apyPct1D?: number;
+  apyPct7D?: number;
+  apyPct30D?: number;
+  apyReward?: number;
+  chain: string;
+  count?: number;
+  exposure?: string;
+  il7d?: number;
+  ilRisk?: string;
+  mu?: number;
+  outlier?: boolean;
+  pool: string;
+  poolMeta?: string;
+  predictions?: {
+    predictedClass: string;
+    predictedProbability: number;
+    binnedConfidence: number;
+  };
+  projectName: string;
+  projectLink: string;
+  rewardTokens?: string[];
+  sigma?: number;
+  stablecoin?: boolean;
+  symbol: string;
+  tvlUsd?: number;
+  underlyingTokens: string[];
+  volumeUsd1d?: number;
+  volumeUsd7d?: number;
+  project: string;
 }

@@ -2,21 +2,13 @@ import { useTheme } from "@mui/material/styles";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { ProtocolMetricsDocument, TokenRecord_Filter } from "src/generated/graphql";
 import { formatCurrency } from "src/helpers";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import {
-  getLiquidBackingPerGOhmSynthetic,
-  getLiquidBackingPerOhmBacked,
-  getTreasuryAssetValue,
-} from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery } from "src/hooks/useSubgraphProtocolMetrics";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
-import { useTokenSuppliesQueries } from "src/hooks/useSubgraphTokenSupplies";
+import { useMetricsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
@@ -24,48 +16,18 @@ import {
   PARAM_TOKEN_OHM,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
-import { getLatestTimestamp } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
  * OHM price and liquid backing per backed OHM.
  */
-export const LiquidBackingPerOhmComparisonGraph = ({
-  subgraphUrls,
-  earliestDate,
-  activeToken,
-  subgraphDaysOffset,
-}: GraphProps) => {
+export const LiquidBackingPerOhmComparisonGraph = ({ earliestDate, activeToken, subgraphDaysOffset }: GraphProps) => {
   // TODO look at how to combine query documents
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(ProtocolMetricsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
-  const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
-
-  const tokenSupplyResults = useTokenSuppliesQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
-
-  const protocolMetricResults = useProtocolMetricsQuery(
-    chartName,
-    subgraphUrls.Ethereum,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate });
 
   /**
    * Active token:
@@ -96,58 +58,31 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   const [byDateLiquidBacking, setByDateLiquidBacking] = useState<LiquidBackingComparison[]>([]);
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
-    if (!protocolMetricResults || !tokenRecordResults || !tokenSupplyResults) {
+    if (!metricResults) {
       return;
     }
 
     // We need to flatten the records from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
-    tokenRecordResults.forEach((value, key) => {
-      const currentTokenRecords = value;
-      const currentTokenSupplies = tokenSupplyResults.get(key);
-      const currentProtocolMetrics = protocolMetricResults.get(key);
 
-      if (!currentTokenSupplies || !currentProtocolMetrics) {
-        /**
-         * Similar to the other charts (except that it is abstracted into {useTokenRecordsQueries}),
-         * once we reach a date that does not contain TokenSupply or ProtocolMetric records, we abort.
-         *
-         * This will cause the chart to display up to (but not including) that date.
-         */
-        return;
-      }
-
-      // Determine the earliest timestamp for the current date, as we can then guarantee that data is up-to-date as of {earliestTimestamp}
-      const earliestTimestamp = getLatestTimestamp(currentTokenRecords);
-      const latestTokenRecord = currentTokenRecords[0];
-      const latestProtocolMetric = currentProtocolMetrics[0];
-
-      const liquidBacking = getTreasuryAssetValue(currentTokenRecords, true);
-
+    // Iterate over the records, one record per day
+    metricResults.forEach(metricRecord => {
       const liquidBackingRecord: LiquidBackingComparison = {
-        date: key,
-        timestamp: earliestTimestamp,
-        block: latestTokenRecord.block,
-        gOhmPrice: latestProtocolMetric.gOhmPrice,
-        ohmPrice: latestProtocolMetric.ohmPrice,
-        liquidBackingPerBackedOhm: getLiquidBackingPerOhmBacked(
-          liquidBacking,
-          currentTokenSupplies,
-          latestProtocolMetric.currentIndex,
-        ),
-        liquidBackingPerGOhmSynthetic: getLiquidBackingPerGOhmSynthetic(
-          liquidBacking,
-          latestProtocolMetric.currentIndex,
-          currentTokenSupplies,
-        ),
+        date: metricRecord.date,
+        timestamp: metricRecord.timestamps.Ethereum * 1000, // convert to ms format
+        block: metricRecord.blocks.Ethereum,
+        gOhmPrice: metricRecord.gOhmPrice,
+        ohmPrice: metricRecord.ohmPrice,
+        liquidBackingPerBackedOhm: metricRecord.treasuryLiquidBackingPerOhmBacked,
+        liquidBackingPerGOhmSynthetic: metricRecord.treasuryLiquidBackingPerGOhmBacked,
       };
 
       tempByDateLiquidBacking.push(liquidBackingRecord);
     });
 
     setByDateLiquidBacking(tempByDateLiquidBacking);
-  }, [protocolMetricResults, tokenRecordResults, tokenSupplyResults]);
+  }, [metricResults]);
 
   // Handle parameter changes
   useEffect(() => {

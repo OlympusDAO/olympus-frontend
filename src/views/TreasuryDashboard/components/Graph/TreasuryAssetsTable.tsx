@@ -1,20 +1,18 @@
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
-import { TokenRecord_Filter, TokenRecordsDocument } from "src/generated/graphql";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueries } from "src/hooks/useSubgraphTokenRecords";
+import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
   GraphProps,
   LiquidBackingProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
-import { getSubgraphQueryExplorerUrl } from "src/views/TreasuryDashboard/components/Graph/helpers/SubgraphHelper";
 import {
   DateTokenSummary,
-  getDateTokenSummary,
+  getDateTokenRecordSummary,
   TokenRow,
 } from "src/views/TreasuryDashboard/components/Graph/helpers/TokenRecordsQueryHelper";
 
@@ -22,7 +20,6 @@ import {
  * Data grid that displays the details of treasury assets.
  */
 export const TreasuryAssetsTable = ({
-  subgraphUrls,
   earliestDate,
   isLiquidBackingActive,
   selectedIndex,
@@ -30,17 +27,10 @@ export const TreasuryAssetsTable = ({
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
   const theme = useTheme();
 
-  const queryExplorerUrl = getSubgraphQueryExplorerUrl(TokenRecordsDocument, subgraphUrls.Ethereum);
+  const queryExplorerUrl = "";
   const chartName = "TreasuryAssetsTable";
-  const [baseFilter] = useState<TokenRecord_Filter>({});
 
-  const tokenRecordResults = useTokenRecordsQueries(
-    chartName,
-    subgraphUrls,
-    baseFilter,
-    earliestDate,
-    subgraphDaysOffset,
-  );
+  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
 
   /**
    * Chart population:
@@ -57,14 +47,15 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
-    const flatRecords = Array.from(tokenRecordResults.values()).flat();
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
-    const filteredRecords = isLiquidBackingActive ? flatRecords.filter(value => value.isLiquid == true) : flatRecords;
+    const filteredRecords = isLiquidBackingActive
+      ? tokenRecordResults.filter(value => value.isLiquid == true)
+      : tokenRecordResults;
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
-    const newDateTokenSummary = getDateTokenSummary(filteredRecords, false);
+    const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords);
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
 
@@ -161,78 +152,80 @@ export const TreasuryAssetsTable = ({
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}
     >
-      <DataGrid
-        autoHeight
-        loading={currentTokens.length == 0}
-        disableRowSelectionOnClick={true}
-        rows={currentTokens}
-        rowHeight={30}
-        columns={columns}
-        pageSizeOptions={[10]}
-        pagination={true}
-        getRowId={row => row.id}
-        // Sort by value descending
-        initialState={{
-          sorting: {
-            sortModel: [{ field: "value", sort: "desc" }],
-          },
-          columns: {
-            // Hide these columns by default
-            columnVisibilityModel: {
-              isLiquid: false,
-              balance: false,
+      <Box width="99%" overflow="scroll">
+        <DataGrid
+          autoHeight
+          loading={currentTokens.length == 0}
+          disableRowSelectionOnClick={true}
+          rows={currentTokens}
+          rowHeight={30}
+          columns={columns}
+          pageSizeOptions={[10]}
+          pagination={true}
+          getRowId={row => row.id}
+          // Sort by value descending
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "value", sort: "desc" }],
             },
-          },
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-        // Only ascending or descending sort
-        sortingOrder={["desc", "asc"]}
-        sx={{
-          "& .MuiDataGrid-columnHeaders": {
-            fontSize: "16px",
-            height: "40px",
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: 800,
-          },
-          "& .MuiDataGrid-cellContent": {
-            fontSize: "14px",
-          },
-          // "& .MuiDataGrid-root" doesn't work here, for some reason
-          "&.MuiDataGrid-root": {
-            paddingLeft: "12px",
-            paddingRight: "12px",
-            border: "0px",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "0px",
-          },
-          // Disables outline on clicked cells
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
-          // Disables outline on clicked header cells
-          "& .MuiDataGrid-columnHeader:focus": {
-            outline: "none",
-          },
-        }}
-        componentsProps={{
-          // Fixes #2736
-          // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
-          basePopper: {
-            sx: {
-              backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+            columns: {
+              // Hide these columns by default
+              columnVisibilityModel: {
+                isLiquid: false,
+                balance: false,
+              },
             },
-          },
-        }}
-      />
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
+          // Only ascending or descending sort
+          sortingOrder={["desc", "asc"]}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              fontSize: "16px",
+              height: "40px",
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 800,
+            },
+            "& .MuiDataGrid-cellContent": {
+              fontSize: "14px",
+            },
+            // "& .MuiDataGrid-root" doesn't work here, for some reason
+            "&.MuiDataGrid-root": {
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              border: "0px",
+            },
+            "& .MuiDataGrid-columnSeparator": {
+              display: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "0px",
+            },
+            // Disables outline on clicked cells
+            "& .MuiDataGrid-cell:focus": {
+              outline: "none",
+            },
+            // Disables outline on clicked header cells
+            "& .MuiDataGrid-columnHeader:focus": {
+              outline: "none",
+            },
+          }}
+          componentsProps={{
+            // Fixes #2736
+            // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
+            basePopper: {
+              sx: {
+                backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+              },
+            },
+          }}
+        />
+      </Box>
     </ChartCard>
   );
 };

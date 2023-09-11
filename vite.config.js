@@ -43,7 +43,7 @@ export default ({ mode }) => {
         "src/testWagmiUtils.tsx",
       ],
       coverage: {
-        provider: "c8", // or 'c8'
+        provider: "v8",
       },
     },
     optimizeDeps: {

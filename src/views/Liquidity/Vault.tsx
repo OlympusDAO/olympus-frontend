@@ -301,6 +301,10 @@ export const Vault = () => {
       </Box>
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+          <InfoNotification>
+            With the implementation of Cooler Loans, Boosted Liquidity Vaults are being sunset and are no longer
+            available for new deposits.
+          </InfoNotification>
           <SwapCollection
             UpperSwapCard={isWithdrawal ? lpToken() : pairToken()}
             LowerSwapCard={isWithdrawal ? pairToken() : lpToken()}
@@ -314,7 +318,7 @@ export const Vault = () => {
                 <Box mt="12px">
                   <InfoNotification dismissible>
                     <Typography>
-                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>
+                      First time adding Liquidity with <strong>{vault.pairTokenName}</strong>?
                     </Typography>
                     <Typography>
                       Please approve Olympus DAO to use your <strong>{vault.pairTokenName}</strong> for depositing.
@@ -357,6 +361,11 @@ export const Vault = () => {
                   title={`OHM ${isWithdrawal ? "Removed" : "Minted"}`}
                   balance={formatNumber(Number(ohmMinted?.toString() || 0), 2)}
                 />
+                <DataRow
+                  title="Fee"
+                  balance={`${formatNumber(Number(vault.fee) * 100, 2)}%`}
+                  tooltip="Current fee on rewards"
+                />
                 <DataRow title="Your LP Tokens" balance={formatNumber(Number(vault.lpTokenBalance), 2)} />
                 <DataRow
                   title={`Max You Can Deposit ${vault.pairTokenName}-OHM LP)`}
@@ -376,15 +385,13 @@ export const Vault = () => {
                         Number(reserveAmount) > Number(vault.lpTokenBalance) ||
                         withdraw.isLoading ||
                         !vault.canWithdraw
-                      : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
+                      : true
                   }
                   onClick={() => {
                     isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
                   }}
                 >
-                  {isWithdrawal
-                    ? `Withdraw for ${vault.pairTokenName}`
-                    : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
+                  {isWithdrawal ? `Withdraw for ${vault.pairTokenName}` : `Deposits Disabled`}
                 </PrimaryButton>
               ) : (
                 <PrimaryButton onClick={() => switchNetwork?.(NetworkId.MAINNET)}>Switch Network</PrimaryButton>
@@ -404,6 +411,7 @@ export const Vault = () => {
               swapAssetType={swapAssetType}
               slippage={customSlippage}
               zapIntoAddress={isZap ? vault.pairTokenAddress : undefined}
+              vaultPairTokenName={vault.pairTokenName}
             />
           )}
           <LiquidityCTA />

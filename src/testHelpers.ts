@@ -11,15 +11,28 @@ import { Chain, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
 import { hardhat } from "wagmi/chains";
 
-export const createMatchMedia = (width: string) => {
+export const createMatchMedia = (width: string): ((query: string) => MediaQueryList) => {
   return (query: string) => ({
     matches: mediaQuery.match(query, {
       width,
     }),
+    media: "",
+    onchange: () => {
+      return null;
+    },
+    dispatchEvent: () => {
+      return false;
+    },
     addListener: () => {
       undefined;
     },
     removeListener: () => {
+      undefined;
+    },
+    addEventListener: () => {
+      undefined;
+    },
+    removeEventListener: () => {
       undefined;
     },
   });

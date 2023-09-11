@@ -40,19 +40,6 @@ beforeEach(() => {
     Area: vi.fn(),
     AreaChart: vi.fn(),
   }));
-  vi.mock("history", () => ({
-    length: vi.fn(),
-    action: vi.fn(),
-    location: vi.fn(),
-    push: vi.fn(),
-    replace: vi.fn(),
-    go: vi.fn(),
-    goBack: vi.fn(),
-    goForward: vi.fn(),
-    block: vi.fn(),
-    listen: vi.fn(),
-    createHref: vi.fn(),
-  }));
 
   Object.defineProperty(window, "matchMedia", {
     writable: true,

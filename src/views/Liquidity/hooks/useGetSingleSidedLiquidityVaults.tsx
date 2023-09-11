@@ -78,9 +78,8 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const pairTokenAddress = await contract.pairToken();
   const pairTokenContract = IERC20__factory.connect(pairTokenAddress, provider);
   const pairTokenName = await pairTokenContract.symbol();
-  const fee = formatUnits((await contract.currentFee()).mul(100).mul(10000));
+  const fee = formatUnits((await contract.currentFee()) || "0", 4);
   const pricePerDepositToken = await contract.callStatic.getExpectedLpAmount("1000000000000000000"); //price per deposit token
-
   const balancerPoolAddress = await contract.balancerData();
   const balancerContract = BalancerV2Pool__factory.connect(balancerPoolAddress.liquidityPool, provider);
 
@@ -94,7 +93,9 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   const totalLp = await contract.totalLp();
   const totalBalancerLp = await balancerContract.totalSupply();
 
-  const rewardTokens = (await contract.getRewardTokens()).filter(token => token !== ethers.constants.AddressZero); //temp filter to remove the current vault
+  const rewardTokens = ((await contract.getRewardTokens()) || []).filter(
+    token => token !== ethers.constants.AddressZero,
+  ); //temp filter to remove the current vault
 
   const outstandingRewards = await contract.getOutstandingRewards(walletAddress).catch(() => []);
 
@@ -107,16 +108,39 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
   let apySum = 0;
   let rewards: { tokenName: string; apy: string; userRewards: string }[];
   let apyBreakdown = { baseApy: 0, rewardApy: 0 };
+  const apyData = await axios.get<defillamaAPI>("https://yields.llama.fi/pools").then(res => {
+    return res.data;
+  });
 
   //Need to do this because contract method does not account for stETH rewards.
   if (address.toLowerCase() === "0xafe729d57d2CC58978C2e01b4EC39C47FB7C4b23".toLowerCase()) {
-    //OHM-WSTETH Defillama
-    const apyData = await axios
-      .get<defillamaAPI>("https://yields.llama.fi/poolsEnriched?pool=10c1698f-bc44-4fbf-8287-2540acf45eff")
-      .then(res => {
-        return res.data.data[0];
-      });
-    const { apyReward = 0, apyBase = 0 } = apyData;
+    const pool = apyData.data.find(pool => pool.pool === "10c1698f-bc44-4fbf-8287-2540acf45eff") || {
+      apyReward: 0,
+      apyBase: 0,
+    };
+    const { apyReward = 0, apyBase = 0 } = pool;
+    apySum = apyReward + apyBase;
+
+    rewards = await Promise.all(
+      rewardTokens.map(async (token, index) => {
+        const tokenContract = IERC20__factory.connect(token, provider);
+        const decimals = await tokenContract.decimals();
+        const tokenName = await tokenContract.symbol();
+        const balance =
+          outstandingRewards.find(address => address.rewardToken === token)?.outstandingRewards || BigNumber.from("0");
+
+        const userRewards = formatUnits(balance, decimals);
+        return { tokenName, apy: "0", userRewards };
+      }),
+    );
+    apyBreakdown = { baseApy: apyBase, rewardApy: apyReward };
+  } else if (address.toLowerCase() === "0xF451c45C7a26e2248a0EA02382579Eb4858cAdA1".toLowerCase()) {
+    const pool = apyData.data.find(pool => pool.pool === "b2ef1e2c-722c-4804-978d-4ce0b7316e8e") || {
+      apyReward: 0,
+      apyBase: 0,
+    };
+
+    const { apyReward = 0, apyBase = 0 } = pool;
     apySum = apyReward + apyBase;
 
     rewards = await Promise.all(
@@ -150,7 +174,9 @@ export const getVaultInfo = async (address: string, network: number, walletAddre
         const rewardsPerSecond = await contract.getRewardRate(token);
         const rewardPerYear = new DecimalBigNumber(rewardsPerSecond, decimals).mul("31536000");
         const rewardPerYearUsd = rewardPerYear.mul(rewardTokenPrice);
-        const apy = rewardPerYearUsd
+        const rewardFee = rewardPerYearUsd.mul(fee);
+        const rewardsLessFee = rewardPerYearUsd.sub(rewardFee);
+        const apy = rewardsLessFee
           .div(new DecimalBigNumber(+balancerTvl > 0 ? balancerTvl : "1"))
           .mul(new DecimalBigNumber("100"))
           .toString();
