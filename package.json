@@ -23,13 +23,7 @@
         "lines": 50,
         "statements": 50
       }
-    },
-    "coverageReporters": [
-      "text",
-      "json-summary",
-      "text-summary",
-      "lcov"
-    ]
+    }
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -145,9 +139,9 @@
   "scripts": {
     "build": "yarn vite build",
     "start": "yarn vite dev",
-    "test": "vitest --threads false",
-    "test:unit": "vitest --threads false --coverage",
-    "test:e2e": "vitest --threads false --watchAll=false",
+    "test": "vitest --threads=false",
+    "test:unit": "vitest --threads=false --coverage.enabled --coverage.reportOnFailure",
+    "test:e2e": "vitest --threads=false --watchAll=false",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "theme": "npx gulp less",
