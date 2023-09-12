@@ -118,7 +118,7 @@
     "lint-staged": "^13.2.3",
     "node-watch": "^0.7.1",
     "os-browserify": "^0.3.0",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.29",
     "prettier": "^3.0.3",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
