@@ -7,6 +7,7 @@ export type TokenRow = {
   isLiquid: boolean;
   blockchain: string;
   balance: string;
+  rate: string;
   value: string;
   valueExcludingOhm: string;
 };
@@ -76,7 +77,11 @@ export const getDateTokenRecordSummary = (tokenRecords: TokenRecord[]): DateToke
     tokenRecord.category = record.category;
     tokenRecord.isLiquid = record.isLiquid;
     tokenRecord.blockchain = record.blockchain;
-    tokenRecord.balance = record.balance.toString();
+    tokenRecord.rate = record.rate.toString();
+
+    const existingBalance = tokenRecord.balance ? parseFloat(tokenRecord.balance) : 0;
+    // record.balance is typed as a number, but is actually a string
+    tokenRecord.balance = (existingBalance + +record.balance).toString(); // TODO consider shifting to use number
 
     const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
     // record.value is typed as a number, but is actually a string
