@@ -110,7 +110,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "fast-check": "^3.8.0",
-    "happy-dom": "^8.9.0",
+    "happy-dom": "^11.0.6",
     "https-browserify": "^1.0.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
