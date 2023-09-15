@@ -79,8 +79,14 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setDebtAmount(value);
+        console.log(value, loanToCollateral, paybackAmount, interestRepaid, "dai");
+
         setCollateralAmount(
-          value.div(loan && !interestRepaid ? paybackAmount : new DecimalBigNumber(loanToCollateral)),
+          value.div(
+            loan && !interestRepaid
+              ? new DecimalBigNumber(loanToCollateral).add(new DecimalBigNumber(loan.interestDue, 18))
+              : new DecimalBigNumber(loanToCollateral),
+          ),
         );
       }}
       loanBalance={loan?.principal.add(loan?.interestDue)}
@@ -95,7 +101,14 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setCollateralAmount(value);
-        setDebtAmount(value.mul(loan && !interestRepaid ? paybackAmount : new DecimalBigNumber(loanToCollateral)));
+        console.log(value, loanToCollateral, paybackAmount, interestRepaid, "gohm");
+        setDebtAmount(
+          value.mul(
+            loan && !interestRepaid
+              ? new DecimalBigNumber(loanToCollateral).add(new DecimalBigNumber(loan.interestDue, 18))
+              : new DecimalBigNumber(loanToCollateral),
+          ),
+        );
       }}
     />
   );
