@@ -55,13 +55,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...fantom,
     },
-    {
-      ...goerli,
-      rpcUrls: {
-        default: { http: ["https://eth-goerli-rpc.gateway.pokt.network"] },
-        public: { http: ["https://eth-goerli-rpc.gateway.pokt.network"] },
-      },
-    },
+    goerli,
     arbitrumGoerli,
   ],
   [
