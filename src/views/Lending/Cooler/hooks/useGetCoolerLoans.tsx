@@ -40,7 +40,6 @@ export const useGetCoolerLoans = ({
         }
       }
 
-      console.log(loans, "loans");
       return loans.filter(loan => !loan.collateral.isZero() && !loan.principal.isZero());
     },
     { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },

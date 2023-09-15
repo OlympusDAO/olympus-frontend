@@ -50,7 +50,6 @@ export const Cooler = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log("clearingHouse", clearingHouse);
   return (
     <div id="stake-view">
       <PageTitle

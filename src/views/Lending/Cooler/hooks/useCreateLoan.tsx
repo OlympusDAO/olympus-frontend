@@ -14,7 +14,6 @@ export const useCreateLoan = () => {
     async ({ coolerAddress, borrowAmount }: { coolerAddress: string; borrowAmount: DecimalBigNumber }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
 
-      console.log("borrowAmount", borrowAmount.toString());
       const contract = COOLER_CLEARING_HOUSE_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
       //   const contract = CoolerClearingHouse__factory.connect(clearingHouseAddress, signer);
       const loan = await contract.lendToCooler(coolerAddress, borrowAmount.toBigNumber(18));
