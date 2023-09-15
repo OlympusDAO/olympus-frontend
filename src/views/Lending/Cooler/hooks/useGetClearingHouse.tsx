@@ -15,7 +15,7 @@ export const useGetClearingHouse = () => {
 
     const duration = (await contract.DURATION()).div(86400).toString(); // 86400 seconds in a day
     const loanToCollateral = ethers.utils.formatUnits((await contract.LOAN_TO_COLLATERAL()).toString()); // 1.5 = 150% LTV (Loan to Value Ratio
-    const collateralAddress = await contract.gOHM();
+    const collateralAddress = await contract.gohm();
     const debtAddress = await contract.dai();
     const sdai = await contract.sdai();
     const sdaiContract = ERC4626__factory.connect(sdai, provider);
