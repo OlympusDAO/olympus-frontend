@@ -79,8 +79,6 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setDebtAmount(value);
-        console.log(value, loanToCollateral, paybackAmount, interestRepaid, "dai");
-
         setCollateralAmount(
           value.div(
             loan && !interestRepaid
@@ -101,7 +99,6 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setCollateralAmount(value);
-        console.log(value, loanToCollateral, paybackAmount, interestRepaid, "gohm");
         setDebtAmount(
           value.mul(
             loan && !interestRepaid

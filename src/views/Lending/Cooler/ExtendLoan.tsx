@@ -100,10 +100,8 @@ export const ExtendLoan = ({
               value={extensionTerm}
               onChange={e => {
                 if (Number(e.target.value) > 0) {
-                  console.log("e.target.value", e.target.value);
                   setExtensionTerm(e.target.value);
                 } else {
-                  console.log("e.target.value", e.target.value);
                   setExtensionTerm("");
                 }
               }}
