@@ -43,11 +43,12 @@ export const ExtendLoan = ({
   const networks = useTestableNetworks();
   const { data: daiBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
   const insufficientCollateral = false;
-  const [extensionTerm, setExtensionTerm] = useState(1);
+  const [extensionTerm, setExtensionTerm] = useState("1");
   const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
   const paidInterest = Number(ethers.utils.formatUnits(loan.principal)) <= Number(loanToCollateral) ? 1 : 0;
-  newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * extensionTerm);
-  const interestPercent = ((extensionTerm - paidInterest) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
+  newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * Number(extensionTerm));
+  const interestPercent =
+    ((Number(extensionTerm) - paidInterest) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
   const interestDue = interestPercent * Number(ethers.utils.formatUnits(loan.principal));
 
   return (
@@ -97,10 +98,14 @@ export const ExtendLoan = ({
               placeholder="1 Term = 121 days"
               endAdornment="Term"
               value={extensionTerm}
-              type="number"
-              inputProps={{ min: 1 }}
               onChange={e => {
-                setExtensionTerm(Number(e.target.value));
+                if (Number(e.target.value) > 0) {
+                  console.log("e.target.value", e.target.value);
+                  setExtensionTerm(e.target.value);
+                } else {
+                  console.log("e.target.value", e.target.value);
+                  setExtensionTerm("");
+                }
               }}
             />
           </Box>
@@ -152,10 +157,10 @@ export const ExtendLoan = ({
           >
             <PrimaryButton
               fullWidth
-              disabled={extendLoan.isLoading || insufficientCollateral}
+              disabled={extendLoan.isLoading || insufficientCollateral || Number(extensionTerm) < 1}
               onClick={() => {
                 extendLoan.mutate(
-                  { loanId: loan.loanId, coolerAddress, times: extensionTerm },
+                  { loanId: loan.loanId, coolerAddress, times: Number(extensionTerm) },
                   {
                     onSuccess: () => {
                       setLoan(undefined);
