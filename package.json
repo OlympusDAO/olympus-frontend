@@ -71,6 +71,7 @@
     "recharts": "^2.7.2",
     "tinycolor2": "^1.6.0",
     "typescript": "^5.0.4",
+    "utility-types": "^3.10.0",
     "wagmi": "^0.12.16"
   },
   "devDependencies": {
