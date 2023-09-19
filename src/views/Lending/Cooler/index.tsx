@@ -1,20 +1,53 @@
 import { Box, Skeleton, Tab, Tabs } from "@mui/material";
 import { Metric } from "@olympusdao/component-library";
-import { BigNumber, ethers } from "ethers";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
+import { useClearinghouseLatest } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Cooler = () => {
-  // TODO replace with hook
-  const clearingHouse = {
-    interestRate: 0.5,
-    capacity: BigNumber.from(17999999).mul(BigNumber.from(10).pow(18)),
-    receivables: BigNumber.from(10000000).mul(BigNumber.from(10).pow(18)),
-  };
+  const { latestSnapshot } = useClearinghouseLatest();
+
+  const [clearinghouseCapacity, setClearinghouseCapacity] = useState<number>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setClearinghouseCapacity(undefined);
+      return;
+    }
+
+    const daiBalance = latestSnapshot.clearinghouse?.daiBalance || 0;
+    const sDaiInDaiBalance = latestSnapshot.clearinghouse?.sDaiInDaiBalance || 0;
+
+    setClearinghouseCapacity(daiBalance + sDaiInDaiBalance);
+  }, [latestSnapshot]);
+
+  const [clearinghouseReceivables, setClearinghouseReceivables] = useState<number>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setClearinghouseReceivables(undefined);
+      return;
+    }
+
+    const principalReceivables = latestSnapshot.principalReceivables || 0;
+    const interestReceivables = latestSnapshot.interestReceivables || 0;
+
+    setClearinghouseReceivables(principalReceivables + interestReceivables);
+  }, [latestSnapshot]);
+
+  const [interestRate, setInterestRate] = useState<number>();
+  useMemo(() => {
+    if (!latestSnapshot || !latestSnapshot.terms?.interestRate) {
+      setInterestRate(undefined);
+      return;
+    }
+
+    // Stored as 0.005 (0.5%)
+    // Multiply by 100 to get 0.5
+    setInterestRate(latestSnapshot.terms.interestRate * 100);
+  }, [latestSnapshot]);
 
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -29,27 +62,12 @@ export const Cooler = () => {
           <Box display="flex" flexDirection="row" width={["100%", "70%"]} mt="24px" flexWrap={"wrap"}>
             <Metric
               label="Available Borrow Capacity"
-              metric={
-                clearingHouse?.capacity ? (
-                  formatCurrency(Number(ethers.utils.formatUnits(clearingHouse?.capacity || "0")), 0, "DAI")
-                ) : (
-                  <Skeleton />
-                )
-              }
+              metric={clearinghouseCapacity ? formatCurrency(clearinghouseCapacity, 0, "DAI") : <Skeleton />}
             />
-            <Metric
-              label="Borrow Rate"
-              metric={clearingHouse?.interestRate ? `${clearingHouse.interestRate}%` : <Skeleton />}
-            />
+            <Metric label="Borrow Rate" metric={interestRate ? `${interestRate}%` : <Skeleton />} />
             <Metric
               label="Total Borrowed"
-              metric={
-                clearingHouse?.receivables ? (
-                  formatCurrency(Number(ethers.utils.formatUnits(clearingHouse?.receivables || "0")), 0, "DAI")
-                ) : (
-                  <Skeleton />
-                )
-              }
+              metric={clearinghouseReceivables ? formatCurrency(clearinghouseReceivables, 0, "DAI") : <Skeleton />}
             />
           </Box>
         </Box>

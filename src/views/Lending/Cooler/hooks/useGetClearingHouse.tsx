@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { COOLER_CLEARING_HOUSE_CONTRACT } from "src/constants/contracts";
+import { useGetSnapshots } from "src/generated/coolerLoans";
+import { getISO8601String } from "src/helpers/DateHelper";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { ERC4626__factory } from "src/typechain";
 import { useProvider } from "wagmi";
@@ -41,4 +43,21 @@ export const useGetClearingHouse = () => {
     };
   });
   return { data, isFetched, isLoading };
+};
+
+export const useClearinghouseLatest = () => {
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+
+  const { data, isLoading } = useGetSnapshots({
+    startDate: getISO8601String(new Date()),
+    beforeDate: getISO8601String(tomorrowDate),
+  });
+
+  const latestSnapshot = data?.records ? data?.records[data?.records.length - 1] : undefined;
+
+  return {
+    latestSnapshot,
+    isLoading,
+  };
 };

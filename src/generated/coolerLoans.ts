@@ -6,8 +6,7 @@
  */
 import type { QueryFunction, QueryKey, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import axios from "axios";
+import { customHttpClient } from "src/views/Lending/Cooler/hooks/customHttpClient";
 export type GetSnapshotsParams = {
   /**
    * The start date (YYYY-MM-DD) of the loan period
@@ -23,6 +22,35 @@ export type SnapshotTreasury = {
   daiBalance?: number;
   sDaiBalance?: number;
   sDaiInDaiBalance?: number;
+};
+
+export type SnapshotTerms = {
+  duration?: number;
+  interestRate?: number;
+  loanToCollateral?: number;
+};
+
+export interface Snapshot {
+  clearinghouse?: SnapshotClearinghouse;
+  clearinghouseEvents?: ClearinghouseSnapshotOptional[];
+  creationEvents?: ClearLoanRequestEventOptional[];
+  date?: string;
+  defaultedClaimEvents?: ClaimDefaultedLoanEventOptional[];
+  extendEvents?: ExtendLoanEventOptional[];
+  interestReceivables?: number;
+  /** Dictionary of the loans that had been created by this date.
+
+Key: `cooler address`-`loanId`
+Value: Loan record */
+  loans?: SnapshotLoans;
+  principalReceivables?: number;
+  repaymentEvents?: RepayLoanEventOptional[];
+  terms?: SnapshotTerms;
+  treasury?: SnapshotTreasury;
+}
+
+export type GetSnapshots200 = {
+  records?: Snapshot[];
 };
 
 export type SnapshotLoansStatus = (typeof SnapshotLoansStatus)[keyof typeof SnapshotLoansStatus];
@@ -66,30 +94,10 @@ export type SnapshotLoans = {
 
 export type SnapshotClearinghouse = {
   daiBalance?: number;
+  fundAmount?: number;
+  fundCadence?: number;
   sDaiBalance?: number;
   sDaiInDaiBalance?: number;
-};
-
-export interface Snapshot {
-  clearinghouse?: SnapshotClearinghouse;
-  clearinghouseEvents?: ClearinghouseSnapshotOptional[];
-  creationEvents?: ClearLoanRequestEventOptional[];
-  date?: string;
-  defaultedClaimEvents?: ClaimDefaultedLoanEventOptional[];
-  extendEvents?: ExtendLoanEventOptional[];
-  interestReceivables?: number;
-  /** Dictionary of the loans that had been created by this date.
-
-Key: `cooler address`-`loanId`
-Value: Loan record */
-  loans?: SnapshotLoans;
-  principalReceivables?: number;
-  repaymentEvents?: RepayLoanEventOptional[];
-  treasury?: SnapshotTreasury;
-}
-
-export type GetSnapshots200 = {
-  records?: Snapshot[];
 };
 
 export type RepayLoanEventOptionalAllOfLoan = {
@@ -220,50 +228,34 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 /**
  * @summary Retrieves all Cooler Loans snapshots between the given dates.
  */
-export const getSnapshots = (
-  params: GetSnapshotsParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetSnapshots200>> => {
-  return axios.get(`/`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  });
+export const getSnapshots = (params: GetSnapshotsParams, signal?: AbortSignal) => {
+  return customHttpClient<GetSnapshots200>({ url: `/`, method: "get", params, signal });
 };
 
 export const getGetSnapshotsQueryKey = (params: GetSnapshotsParams) => [`/`, ...(params ? [params] : [])] as const;
 
-export const getGetSnapshotsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getSnapshots>>,
-  TError = AxiosError<unknown>,
->(
+export const getGetSnapshotsQueryOptions = <TData = Awaited<ReturnType<typeof getSnapshots>>, TError = unknown>(
   params: GetSnapshotsParams,
-  options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData>;
-    axios?: AxiosRequestConfig;
-  },
+  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData> },
 ): UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData> & { queryKey: QueryKey } => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getGetSnapshotsQueryKey(params);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getSnapshots>>> = ({ signal }) =>
-    getSnapshots(params, { signal, ...axiosOptions });
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getSnapshots>>> = ({ signal }) => getSnapshots(params, signal);
 
   return { queryKey, queryFn, ...queryOptions };
 };
 
 export type GetSnapshotsQueryResult = NonNullable<Awaited<ReturnType<typeof getSnapshots>>>;
-export type GetSnapshotsQueryError = AxiosError<unknown>;
+export type GetSnapshotsQueryError = unknown;
 
 /**
  * @summary Retrieves all Cooler Loans snapshots between the given dates.
  */
-export const useGetSnapshots = <TData = Awaited<ReturnType<typeof getSnapshots>>, TError = AxiosError<unknown>>(
+export const useGetSnapshots = <TData = Awaited<ReturnType<typeof getSnapshots>>, TError = unknown>(
   params: GetSnapshotsParams,
-  options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData>;
-    axios?: AxiosRequestConfig;
-  },
+  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData> },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getGetSnapshotsQueryOptions(params, options);
 
