@@ -196,9 +196,14 @@ export interface ClearinghouseSnapshotOptional {
   clearinghouse?: string;
   daiBalance?: number;
   date?: string;
+  duration?: number;
+  fundAmount?: number;
+  fundCadence?: number;
   id?: string;
+  interestRate?: number;
   interestReceivables?: number;
   isActive?: boolean;
+  loanToCollateral?: number;
   nextRebalanceTimestamp?: number;
   principalReceivables?: number;
   sDaiBalance?: number;
