@@ -15,36 +15,24 @@ import { useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { CreateLoan } from "src/views/Lending/Cooler/CreateLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/ExtendLoan";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
-import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
-import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { SnapshotLoan, useGetCoolerLoansForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { getCapacity, useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { RepayLoan } from "src/views/Lending/Cooler/RepayLoan";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
-  const { address } = useAccount();
-  const { data: clearingHouse } = useGetClearingHouse();
+  const { address: walletAddress } = useAccount();
   const { latestSnapshot } = useSnapshotLatest();
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
-  const { loans } = useGetCoolerLoans({
-    walletAddress: address,
-    factoryAddress: clearingHouse?.factory,
-    collateralAddress: clearingHouse?.collateralAddress,
-    debtAddress: clearingHouse?.debtAddress,
+  const { loans } = useGetCoolerLoansForWallet({
+    walletAddress: walletAddress,
   });
 
-  const { data: coolerAddress } = useGetCoolerForWallet({
-    walletAddress: address,
-    factoryAddress: clearingHouse?.factory,
-    collateralAddress: clearingHouse?.collateralAddress,
-    debtAddress: clearingHouse?.debtAddress,
-  });
-
-  const [extendLoan, setExtendLoan] = useState<any>(null);
-  const [repayLoan, setRepayLoan] = useState<any>(null);
+  const [extendLoan, setExtendLoan] = useState<SnapshotLoan | null>(null);
+  const [repayLoan, setRepayLoan] = useState<SnapshotLoan | null>(null);
 
   // TODO handle wallet not connected
+  // TODO handle values missing
 
   return (
     <div id="cooler-positions">
@@ -53,7 +41,7 @@ export const CoolerPositions = () => {
         <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
       </Box>
 
-      {loans && (
+      {!loans && (
         <Box display="flex" justifyContent="center">
           <Skeleton variant="rectangular" width="100%" height={100} />
         </Box>
@@ -130,7 +118,7 @@ export const CoolerPositions = () => {
         </>
       )}
 
-      {latestSnapshot && clearingHouse && (
+      {latestSnapshot && (
         <>
           {extendLoan && (
             <ExtendLoan
@@ -139,27 +127,27 @@ export const CoolerPositions = () => {
               loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
               interestRate={latestSnapshot?.terms?.interestRate}
               duration={latestSnapshot?.terms?.duration}
-              coolerAddress={coolerAddress}
-              collateralAddress={clearingHouse.collateralAddress}
+              coolerAddress={extendLoan.coolerAddress}
+              collateralAddress={latestSnapshot?.clearinghouse?.collateralAddress}
             />
           )}
           {repayLoan && (
             <RepayLoan
               loan={repayLoan}
               setLoan={setRepayLoan}
-              coolerAddress={coolerAddress}
+              coolerAddress={repayLoan.coolerAddress}
               loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
-              debtAddress={clearingHouse.debtAddress}
+              debtAddress={latestSnapshot?.clearinghouse?.debtAddress}
             />
           )}
           <CreateLoan
-            collateralAddress={clearingHouse.collateralAddress}
-            debtAddress={clearingHouse.debtAddress}
+            collateralAddress={latestSnapshot?.clearinghouse?.collateralAddress}
+            debtAddress={latestSnapshot?.clearinghouse?.debtAddress}
             interestRate={latestSnapshot?.terms?.interestRate}
             loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
             duration={latestSnapshot?.terms?.duration}
-            coolerAddress={coolerAddress}
-            factoryAddress={clearingHouse.factory}
+            coolerAddress={undefined}
+            factoryAddress={latestSnapshot?.clearinghouse?.coolerFactoryAddress}
             capacity={getCapacity(latestSnapshot).toString()}
             setModalOpen={setCreateLoanModalOpen}
             modalOpen={createLoanModalOpen}

@@ -1,6 +1,6 @@
 import { Box, SvgIcon, Typography } from "@mui/material";
 import { Icon, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber, ethers } from "ethers";
+import { useMemo, useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
@@ -8,8 +8,8 @@ import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { Cooler } from "src/typechain";
 import { useExtendLoan } from "src/views/Lending/Cooler/hooks/useExtendLoan";
+import { SnapshotLoan } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 
 export const ExtendLoan = ({
   loan,
@@ -20,30 +20,48 @@ export const ExtendLoan = ({
   coolerAddress,
   collateralAddress,
 }: {
-  loan: {
-    request: Cooler.RequestStructOutput;
-    amount: BigNumber;
-    repaid: BigNumber;
-    collateral: BigNumber;
-    expiry: BigNumber;
-    lender: string;
-    repayDirect: boolean;
-    loanId: number;
-    newCollateralAmount: BigNumber;
-  };
+  loan: SnapshotLoan;
   setLoan: React.Dispatch<any>;
   interestRate?: number;
   loanToCollateral?: number;
   duration?: number;
   coolerAddress?: string;
-  collateralAddress: string;
+  collateralAddress?: string;
 }) => {
-  const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
-  newMaturityDate.setDate(newMaturityDate.getDate() + (duration || 0));
+  const extensionTimes = 1; // TODO migrate to input
+
+  const [currentMaturityDate, setCurrentMaturityDate] = useState<Date | undefined>();
+  useMemo(() => {
+    if (!loan || !loan.expiryTimestamp || !duration) {
+      setCurrentMaturityDate(undefined);
+      return;
+    }
+
+    const _currentMaturityDate = new Date(loan.expiryTimestamp * 1000);
+    setCurrentMaturityDate(_currentMaturityDate);
+  }, [loan]);
+
+  const [newMaturityDate, setNewMaturityDate] = useState<Date | undefined>();
+  const [newCollateralAmount, setNewCollateralAmount] = useState<number | undefined>();
+  useMemo(() => {
+    if (!loan || !duration || !currentMaturityDate) {
+      setNewMaturityDate(undefined);
+      setNewCollateralAmount(undefined);
+      return;
+    }
+
+    const _newMaturityDate = new Date(currentMaturityDate.getTime());
+    _newMaturityDate.setDate(_newMaturityDate.getDate() + duration * extensionTimes);
+    setNewMaturityDate(_newMaturityDate);
+
+    const _newCollateralAmount = (loan.collateralPerPeriod || 0) * extensionTimes;
+    setNewCollateralAmount(_newCollateralAmount);
+  }, [loan, duration, currentMaturityDate]);
+
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
   const { data: gohmBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
-  const insufficientCollateral = gohmBalance?.lt(new DecimalBigNumber(loan.newCollateralAmount, 18 || "0"));
+  const insufficientCollateral = gohmBalance?.lt(new DecimalBigNumber(newCollateralAmount?.toString() || "0"));
   return (
     <Modal
       maxWidth="476px"
@@ -62,12 +80,17 @@ export const ExtendLoan = ({
             <Box display="flex" flexDirection="column">
               <Metric
                 label="Current Term"
-                metric={new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString() || ""}
+                metric={currentMaturityDate ? currentMaturityDate.toLocaleDateString() : ""}
+                isLoading={!currentMaturityDate}
               />
             </Box>
             <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
             <Box display="flex" flexDirection="column">
-              <Metric label="New Term" metric={newMaturityDate.toLocaleDateString()} />
+              <Metric
+                label="New Term"
+                metric={newMaturityDate ? newMaturityDate.toLocaleDateString() : ""}
+                isLoading={!newMaturityDate}
+              />
             </Box>
           </Box>
           {interestRate && (
@@ -101,7 +124,7 @@ export const ExtendLoan = ({
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Additional Collateral to Deposit</Typography>
               <Box display="flex" flexDirection="column" textAlign="right">
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                  {Number(ethers.utils.formatUnits(loan?.newCollateralAmount.toString() || "")).toFixed(4)} gOHM
+                  {formatCurrency(newCollateralAmount || 0, 4, "gOHM")}
                 </Typography>
               </Box>
             </Box>
@@ -117,14 +140,17 @@ export const ExtendLoan = ({
                 borrowing.
               </>
             }
-            spendAmount={new DecimalBigNumber(loan.newCollateralAmount.toString())}
+            spendAmount={new DecimalBigNumber(newCollateralAmount?.toString() || "0")}
           >
             <PrimaryButton
               fullWidth
               disabled={extendLoan.isLoading || insufficientCollateral}
               onClick={() => {
                 extendLoan.mutate(
-                  { loanId: loan.loanId, coolerAddress },
+                  {
+                    loanId: loan.loanId || -1,
+                    coolerAddress,
+                  },
                   {
                     onSuccess: () => {
                       setLoan(undefined);
@@ -132,7 +158,7 @@ export const ExtendLoan = ({
                   },
                 );
               }}
-              loading={extendLoan.isLoading}
+              loading={extendLoan.isLoading || loan.loanId === undefined}
             >
               {insufficientCollateral ? "Insufficient gOHM Balance" : "Extend Loan"}
             </PrimaryButton>
