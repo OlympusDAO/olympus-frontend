@@ -1,10 +1,11 @@
-import { Box, Divider, SvgIcon } from "@mui/material";
+import { Box, Divider, Skeleton, SvgIcon } from "@mui/material";
 import { Modal, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { SetStateAction, useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
+import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -25,9 +26,9 @@ export const CreateLoan = ({
 }: {
   collateralAddress: string;
   debtAddress: string;
-  interestRate: string;
-  duration: string;
-  loanToCollateral: string;
+  interestRate?: number;
+  duration?: number;
+  loanToCollateral?: number;
   capacity: string;
   coolerAddress?: string;
   factoryAddress: string;
@@ -94,7 +95,7 @@ export const CreateLoan = ({
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Interest rate</Box>
-          <Box fontWeight="500">{interestRate}%</Box>
+          <Box fontWeight="500">{interestRate ? `${interestRate * 100}%` : <Skeleton />}</Box>
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Loan Term</Box>
@@ -102,7 +103,7 @@ export const CreateLoan = ({
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Loan To Value per gOHM</Box>
-          <Box fontWeight="500">{loanToCollateral} DAI</Box>
+          <Box fontWeight="500">{loanToCollateral ? formatCurrency(loanToCollateral, 0, "DAI") : <Skeleton />}</Box>
         </Box>
         <Box mt="18px" width="100%">
           <WalletConnectedGuard fullWidth>

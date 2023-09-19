@@ -4,6 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
+import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -31,14 +32,14 @@ export const ExtendLoan = ({
     newCollateralAmount: BigNumber;
   };
   setLoan: React.Dispatch<any>;
-  interestRate: string;
-  loanToCollateral: string;
-  duration?: string;
+  interestRate?: number;
+  loanToCollateral?: number;
+  duration?: number;
   coolerAddress?: string;
   collateralAddress: string;
 }) => {
   const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
-  newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0));
+  newMaturityDate.setDate(newMaturityDate.getDate() + (duration || 0));
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
   const { data: gohmBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
@@ -80,7 +81,7 @@ export const ExtendLoan = ({
             >
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Rate</Typography>
               <Box display="flex" flexDirection="column" textAlign="right">
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}> {interestRate}%</Typography>
+                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}> {interestRate * 100}%</Typography>
               </Box>
             </Box>
           )}
@@ -88,7 +89,10 @@ export const ExtendLoan = ({
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loan To Value per gOHM</Typography>
               <Box display="flex" flexDirection="column" textAlign="right">
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}> {loanToCollateral} DAI</Typography>
+                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                  {" "}
+                  {formatCurrency(loanToCollateral, 0, "DAI")}
+                </Typography>
               </Box>
             </Box>
           )}

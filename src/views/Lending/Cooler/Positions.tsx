@@ -18,12 +18,14 @@ import { ExtendLoan } from "src/views/Lending/Cooler/ExtendLoan";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { getCapacity, useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { RepayLoan } from "src/views/Lending/Cooler/RepayLoan";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
   const { data: clearingHouse } = useGetClearingHouse();
+  const { latestSnapshot } = useSnapshotLatest();
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const { data: loans, isFetched: isFetchedLoans } = useGetCoolerLoans({
     walletAddress: address,
@@ -131,15 +133,15 @@ export const CoolerPositions = () => {
         </>
       )}
 
-      {clearingHouse && (
+      {latestSnapshot && clearingHouse && (
         <>
           {extendLoan && (
             <ExtendLoan
               loan={extendLoan}
               setLoan={setExtendLoan}
-              loanToCollateral={clearingHouse.loanToCollateral}
-              interestRate={clearingHouse.interestRate}
-              duration={clearingHouse.duration}
+              loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
+              interestRate={latestSnapshot?.terms?.interestRate}
+              duration={latestSnapshot?.terms?.duration}
               coolerAddress={coolerAddress}
               collateralAddress={clearingHouse.collateralAddress}
             />
@@ -149,19 +151,19 @@ export const CoolerPositions = () => {
               loan={repayLoan}
               setLoan={setRepayLoan}
               coolerAddress={coolerAddress}
-              loanToCollateral={clearingHouse.loanToCollateral}
+              loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
               debtAddress={clearingHouse.debtAddress}
             />
           )}
           <CreateLoan
             collateralAddress={clearingHouse.collateralAddress}
             debtAddress={clearingHouse.debtAddress}
-            interestRate={clearingHouse.interestRate}
-            loanToCollateral={clearingHouse.loanToCollateral}
-            duration={clearingHouse.duration}
+            interestRate={latestSnapshot?.terms?.interestRate}
+            loanToCollateral={latestSnapshot?.terms?.loanToCollateral}
+            duration={latestSnapshot?.terms?.duration}
             coolerAddress={coolerAddress}
             factoryAddress={clearingHouse.factory}
-            capacity={ethers.utils.formatUnits(clearingHouse?.capacity || "0")}
+            capacity={getCapacity(latestSnapshot).toString()}
             setModalOpen={setCreateLoanModalOpen}
             modalOpen={createLoanModalOpen}
           />

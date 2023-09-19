@@ -3,6 +3,7 @@ import { Icon, Metric, Modal, PrimaryButton } from "@olympusdao/component-librar
 import { BigNumber, ethers } from "ethers";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
+import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -28,7 +29,7 @@ export const RepayLoan = ({
     loanId: number;
   };
   setLoan: React.Dispatch<any>;
-  loanToCollateral: string;
+  loanToCollateral?: number;
   coolerAddress?: string;
   debtAddress: string;
 }) => {
@@ -91,7 +92,10 @@ export const RepayLoan = ({
           <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
             <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loan To Value per gOHM</Typography>
             <Box display="flex" flexDirection="column" textAlign="right">
-              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}> {loanToCollateral} DAI</Typography>
+              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                {" "}
+                {formatCurrency(loanToCollateral || 0, 0, "DAI")}
+              </Typography>
             </Box>
           </Box>
 
