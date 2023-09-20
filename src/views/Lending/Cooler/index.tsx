@@ -4,7 +4,11 @@ import { useMemo, useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
-import { getCapacity, getReceivables, useCoolerSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import {
+  getClearinghouseCapacity,
+  getReceivables,
+  useCoolerSnapshotLatest,
+} from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
@@ -36,7 +40,9 @@ export const Cooler = () => {
           <Box display="flex" flexDirection="row" width={["100%", "70%"]} mt="24px" flexWrap={"wrap"}>
             <Metric
               label="Available Borrow Capacity"
-              metric={latestSnapshot ? formatCurrency(getCapacity(latestSnapshot), 0, "DAI") : <Skeleton />}
+              metric={
+                latestSnapshot ? formatCurrency(getClearinghouseCapacity(latestSnapshot), 0, "DAI") : <Skeleton />
+              }
             />
             <Metric label="Borrow Rate" metric={interestRate ? `${interestRate}%` : <Skeleton />} />
             <Metric

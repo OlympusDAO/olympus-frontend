@@ -1,4 +1,4 @@
-import { useTheme } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
@@ -8,7 +8,16 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { getCapacity, getReceivables, useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import {
+  OutstandingPrincipal,
+  TreasuryCapacityRemaining,
+  WeeklyCapacityRemaining,
+} from "src/views/Lending/Cooler/dashboard/Metrics";
+import {
+  getClearinghouseCapacity,
+  getReceivables,
+  useCoolerSnapshot,
+} from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 
@@ -31,7 +40,7 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
     }
 
     const _coolerSnapshotsWithTotals = data.map(snapshot => {
-      const capacity = getCapacity(snapshot);
+      const capacity = getClearinghouseCapacity(snapshot);
       const receivables = getReceivables(snapshot);
 
       return {
@@ -58,21 +67,41 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
   const dataKeyLabels = getCategoriesMap(itemNames, dataKeys);
 
   return (
-    <Chart
-      type={ChartType.MultiLine}
-      data={coolerSnapshots || []}
-      dataFormat={DataFormat.Currency}
-      headerText="Utilisation"
-      headerSubText={""}
-      dataKeys={dataKeys}
-      dataKeyColors={colorsMap}
-      dataKeyBulletpointStyles={bulletpointStyles}
-      dataKeyLabels={dataKeyLabels}
-      infoTooltipMessage={""}
-      isLoading={!coolerSnapshots}
-      tickStyle={getTickStyle(theme)}
-      itemDecimals={0}
-      margin={{ left: 30 }}
-    />
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography variant="h6" color="textSecondary" display="inline">
+          Utilisation
+        </Typography>
+      </Grid>
+      <Grid item xs={12} container>
+        <Grid item xs={4}>
+          <OutstandingPrincipal />
+        </Grid>
+        <Grid item xs={4}>
+          <WeeklyCapacityRemaining />
+        </Grid>
+        <Grid item xs={4}>
+          <TreasuryCapacityRemaining />
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Chart
+          type={ChartType.MultiLine}
+          data={coolerSnapshots || []}
+          dataFormat={DataFormat.Currency}
+          headerText=""
+          headerSubText={""}
+          dataKeys={dataKeys}
+          dataKeyColors={colorsMap}
+          dataKeyBulletpointStyles={bulletpointStyles}
+          dataKeyLabels={dataKeyLabels}
+          infoTooltipMessage={""}
+          isLoading={!coolerSnapshots}
+          tickStyle={getTickStyle(theme)}
+          itemDecimals={0}
+          margin={{ left: 30 }}
+        />
+      </Grid>
+    </Grid>
   );
 };

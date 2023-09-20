@@ -38,7 +38,7 @@ export const useCoolerSnapshotLatest = () => {
   };
 };
 
-export const getCapacity = (snapshot: Snapshot | undefined): number => {
+export const getClearinghouseCapacity = (snapshot: Snapshot | undefined): number => {
   if (!snapshot) {
     return 0;
   }
@@ -58,4 +58,15 @@ export const getReceivables = (snapshot: Snapshot | undefined): number => {
   const interestReceivables = snapshot.interestReceivables || 0;
 
   return principalReceivables + interestReceivables;
+};
+
+export const getTreasuryCapacity = (snapshot: Snapshot | undefined): number => {
+  if (!snapshot) {
+    return 0;
+  }
+
+  const daiBalance = snapshot.treasury?.daiBalance || 0;
+  const sDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
+
+  return daiBalance + sDaiInDaiBalance;
 };
