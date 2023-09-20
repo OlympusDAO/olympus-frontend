@@ -74,33 +74,17 @@ export type SnapshotLoans = {
     borrowerAddress?: string;
     collateralClaimedQuantity?: number;
     collateralClaimedValue?: number;
-    /** The current quantity of the collateral token that is deposited.
-
-As the loan is repaid, this will decrease. */
     collateralDeposited?: number;
     collateralIncome?: number;
-    /** The amount of collateral required per period.
-
-As this is fixed on the clearinghouse, it does not change. */
-    collateralPerPeriod?: number;
     coolerAddress?: string;
     createdTimestamp?: number;
     expiryTimestamp?: number;
-    /** Loan id unique across the clearinghouse and its coolers
-
-Format: cooler-loanId */
+    /** cooler-loanId */
     id?: string;
-    /** The interest charged on the loan.
-
-When the loan is extended, this number will be incremented. */
     interest?: number;
     interestPaid?: number;
-    /** The amount of interest charged per period. */
-    interestPerPeriod?: number;
     lenderAddress?: string;
-    /** Loan id unique to the cooler */
     loanId?: number;
-    /** The loan principal */
     principal?: number;
     principalPaid?: number;
     secondsToExpiry?: number;
@@ -109,10 +93,7 @@ When the loan is extended, this number will be incremented. */
 };
 
 export type SnapshotClearinghouse = {
-  collateralAddress?: string;
-  coolerFactoryAddress?: string;
   daiBalance?: number;
-  debtAddress?: string;
   fundAmount?: number;
   fundCadence?: number;
   sDaiBalance?: number;
@@ -221,11 +202,8 @@ export interface ClearinghouseSnapshotOptional {
   blockNumber?: number;
   blockTimestamp?: number;
   clearinghouse?: string;
-  collateralAddress?: string;
-  coolerFactoryAddress?: string;
   daiBalance?: number;
   date?: string;
-  debtAddress?: string;
   duration?: number;
   fundAmount?: number;
   fundCadence?: number;

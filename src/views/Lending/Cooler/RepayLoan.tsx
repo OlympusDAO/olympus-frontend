@@ -1,15 +1,15 @@
-import { Box, Skeleton, SvgIcon, Typography } from "@mui/material";
+import { Box, SvgIcon, Typography } from "@mui/material";
 import { Icon, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
-import { useMemo, useState } from "react";
+import { BigNumber, ethers } from "ethers";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { SnapshotLoan } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { Cooler } from "src/typechain";
 import { useRepayLoan } from "src/views/Lending/Cooler/hooks/useRepayLoan";
+// import { useRepayLoan } from "src/views/Lending/Cooler/hooks/useExtendLoan";
 
 export const RepayLoan = ({
   loan,
@@ -18,39 +18,27 @@ export const RepayLoan = ({
   debtAddress,
   coolerAddress,
 }: {
-  loan?: SnapshotLoan;
+  loan?: {
+    request: Cooler.RequestStructOutput;
+    amount: BigNumber;
+    repaid: BigNumber;
+    collateral: BigNumber;
+    expiry: BigNumber;
+    lender: string;
+    repayDirect: boolean;
+    loanId: number;
+  };
   setLoan: React.Dispatch<any>;
   loanToCollateral?: number;
   coolerAddress?: string;
-  debtAddress?: string;
+  debtAddress: string;
 }) => {
+  //   const extendLoan = useRepayLoan();
   const networks = useTestableNetworks();
   const { data: daiBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
   const repayLoan = useRepayLoan();
 
-  const [expiryDate, setExpiryDate] = useState<Date | undefined>();
-  useMemo(() => {
-    if (!loan || !loan.expiryTimestamp) {
-      setExpiryDate(undefined);
-      return;
-    }
-
-    const _expiryDate = new Date(loan.expiryTimestamp * 1000);
-    setExpiryDate(_expiryDate);
-  }, [loan]);
-
-  const [principalRemaining, setPrincipalRemaining] = useState<number | undefined>();
-  useMemo(() => {
-    if (!loan || loan.principal === undefined || loan.principalPaid === undefined) {
-      setPrincipalRemaining(undefined);
-      return;
-    }
-
-    const _principalRemaining = loan.principal - loan.principalPaid;
-    setPrincipalRemaining(_principalRemaining);
-  }, [loan]);
-
-  const notEnoughDai = daiBalance?.toBigNumber().lt(loan?.principal || BigNumber.from("0"));
+  const notEnoughDai = daiBalance?.toBigNumber().lt(loan?.amount || BigNumber.from("0"));
 
   return (
     <Modal
@@ -70,16 +58,16 @@ export const RepayLoan = ({
             <Box display="flex" flexDirection="column">
               <Metric
                 label="Repay"
-                metric={formatCurrency(principalRemaining || 0, 2, "DAI")}
-                isLoading={!principalRemaining}
+                metric={`${loan.amount && Number(ethers.utils.formatUnits(loan.amount.toString())).toFixed(4)} DAI`}
               />
             </Box>
             <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
             <Box display="flex" flexDirection="column">
               <Metric
                 label="Get"
-                metric={formatCurrency(loan.collateralDeposited || 0, 4, "gOHM")}
-                isLoading={!loan.collateralDeposited}
+                metric={`${
+                  loan.collateral && Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)
+                } gOHM`}
               />
             </Box>
           </Box>
@@ -95,13 +83,8 @@ export const RepayLoan = ({
             <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loan Term</Typography>
             <Box display="flex" flexDirection="column" textAlign="right">
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                {!expiryDate ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    {expiryDate.toLocaleDateString() || ""} {expiryDate.toLocaleTimeString() || ""}
-                  </>
-                )}
+                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString() || ""}{" "}
+                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleTimeString() || ""}
               </Typography>
             </Box>
           </Box>
@@ -127,20 +110,19 @@ export const RepayLoan = ({
                 repaying.
               </>
             }
-            spendAmount={new DecimalBigNumber(principalRemaining?.toString() || "0")}
+            spendAmount={new DecimalBigNumber(loan.amount, 18)}
           >
             <PrimaryButton
               onClick={() =>
                 repayLoan.mutate(
                   {
                     coolerAddress: coolerAddress,
-                    loanId: loan.loanId || -1,
-                    amount: principalRemaining, // TODO Convert to correct number format
+                    loanId: loan.loanId,
+                    amount: loan.amount,
                   },
                   { onSuccess: () => setLoan(undefined) },
                 )
               }
-              loading={repayLoan.isLoading || loan.loanId === undefined}
               fullWidth
               disabled={notEnoughDai}
             >

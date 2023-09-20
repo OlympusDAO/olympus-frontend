@@ -24,14 +24,14 @@ export const CreateLoan = ({
   setModalOpen,
   modalOpen,
 }: {
-  collateralAddress?: string;
-  debtAddress?: string;
+  collateralAddress: string;
+  debtAddress: string;
   interestRate?: number;
   duration?: number;
   loanToCollateral?: number;
   capacity: string;
   coolerAddress?: string;
-  factoryAddress?: string;
+  factoryAddress: string;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   modalOpen: boolean;
 }) => {
@@ -49,8 +49,6 @@ export const CreateLoan = ({
   const collateralValue = Number(loanToCollateral) * Number(collateralBalance || 0);
   const maxYouCanBorrow = Math.min(Number(capacity), collateralValue);
 
-  // TODO disable buttons if addresses are missing
-
   return (
     <Modal
       maxWidth="542px"
@@ -67,7 +65,7 @@ export const CreateLoan = ({
         <SwapCollection
           UpperSwapCard={
             <AssetSwapCard
-              assetAddress={collateralAddress || ""}
+              assetAddress={collateralAddress}
               tokenName="gOHM"
               value={collateralAmount}
               onChange={(e: { target: { value: SetStateAction<number> } }) => {
@@ -78,7 +76,7 @@ export const CreateLoan = ({
           }
           LowerSwapCard={
             <AssetSwapCard
-              assetAddress={debtAddress || ""}
+              assetAddress={debtAddress}
               tokenName="DAI"
               value={debtAmount}
               onChange={(e: { target: { value: SetStateAction<number> } }) => {
@@ -114,13 +112,13 @@ export const CreateLoan = ({
                 fullWidth
                 onClick={() =>
                   createCooler.mutate({
-                    collateralAddress: collateralAddress || "",
-                    debtAddress: debtAddress || "",
-                    factoryAddress: factoryAddress || "",
+                    collateralAddress,
+                    debtAddress,
+                    factoryAddress,
                   })
                 }
                 loading={createCooler.isLoading}
-                disabled={createCooler.isLoading || !collateralAddress || !debtAddress || !factoryAddress}
+                disabled={createCooler.isLoading}
               >
                 Create Cooler
               </PrimaryButton>
