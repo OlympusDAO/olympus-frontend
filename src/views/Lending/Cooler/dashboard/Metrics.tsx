@@ -165,3 +165,27 @@ export const PrincipalExpired = () => {
     />
   );
 };
+
+export const BorrowRate = () => {
+  const { latestSnapshot } = useCoolerSnapshotLatest();
+
+  const [borrowRate, setBorrowRate] = useState<number | undefined>();
+  useMemo(() => {
+    if (!latestSnapshot || !latestSnapshot.terms?.interestRate) {
+      setBorrowRate(undefined);
+      return;
+    }
+
+    // Stored as 0.005 (0.5%)
+    // Multiply by 100 to get 0.5
+    setBorrowRate(latestSnapshot.terms.interestRate * 100);
+  }, [latestSnapshot]);
+
+  return (
+    <Metric
+      label="Borrow Rate"
+      metric={borrowRate !== undefined ? `${borrowRate}%` : ""}
+      isLoading={borrowRate === undefined}
+    />
+  );
+};

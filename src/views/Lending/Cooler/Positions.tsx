@@ -1,5 +1,6 @@
 import {
   Box,
+  Grid,
   Paper,
   Skeleton,
   Table,
@@ -14,6 +15,7 @@ import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-lib
 import { ethers } from "ethers";
 import { useState } from "react";
 import { CreateLoan } from "src/views/Lending/Cooler/CreateLoan";
+import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { ExtendLoan } from "src/views/Lending/Cooler/ExtendLoan";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
@@ -46,6 +48,18 @@ export const CoolerPositions = () => {
 
   return (
     <div id="cooler-positions">
+      <Grid container>
+        <Grid item xs={4}>
+          <WeeklyCapacityRemaining />
+        </Grid>
+        <Grid item xs={4}>
+          <BorrowRate />
+        </Grid>
+        <Grid item xs={4}>
+          <OutstandingPrincipal />
+        </Grid>
+      </Grid>
+
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
         <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
