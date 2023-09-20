@@ -11,7 +11,8 @@ export default defineConfig({
         mutator: {
           path: "src/views/Lending/Cooler/hooks/customHttpClient.ts",
           name: "customHttpClient",
-        }
+        },
+        useTypeOverInterfaces: true,
       }
     },
     hooks: {

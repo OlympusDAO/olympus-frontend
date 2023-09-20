@@ -30,7 +30,7 @@ export type SnapshotTerms = {
   loanToCollateral: number;
 };
 
-export interface Snapshot {
+export type Snapshot = {
   clearinghouse: SnapshotClearinghouse;
   clearinghouseEvents: ClearinghouseSnapshotOptional[];
   /** Quantity of collateral deposited across all Coolers */
@@ -54,8 +54,10 @@ Value: Loan record */
   principalReceivables: number;
   repaymentEvents: RepayLoanEventOptional[];
   terms: SnapshotTerms;
+  /** Timestamp of the snapshot, in milliseconds */
+  timestamp: number;
   treasury: SnapshotTreasury;
-}
+};
 
 export type GetSnapshots200 = {
   records?: Snapshot[];
@@ -137,7 +139,7 @@ export type RepayLoanEventOptionalAllOf = {
   loan: RepayLoanEventOptionalAllOfLoan;
 };
 
-export interface OmitRepayLoanEventLoan {
+export type OmitRepayLoanEventLoan = {
   amountPaid: number;
   blockNumber: number;
   blockTimestamp: number;
@@ -148,7 +150,7 @@ export interface OmitRepayLoanEventLoan {
   principalPayable: number;
   secondsToExpiry: number;
   transactionHash: string;
-}
+};
 
 export type RepayLoanEventOptional = OmitRepayLoanEventLoan & RepayLoanEventOptionalAllOf;
 
@@ -160,7 +162,7 @@ export type ExtendLoanEventOptionalAllOf = {
   loan: ExtendLoanEventOptionalAllOfLoan;
 };
 
-export interface OmitExtendLoanEventLoan {
+export type OmitExtendLoanEventLoan = {
   blockNumber: number;
   blockTimestamp: number;
   date: string;
@@ -169,7 +171,7 @@ export interface OmitExtendLoanEventLoan {
   interestDue: number;
   periods: number;
   transactionHash: string;
-}
+};
 
 export type ExtendLoanEventOptional = OmitExtendLoanEventLoan & ExtendLoanEventOptionalAllOf;
 
@@ -181,7 +183,7 @@ export type ClaimDefaultedLoanEventOptionalAllOf = {
   loan: ClaimDefaultedLoanEventOptionalAllOfLoan;
 };
 
-export interface OmitClaimDefaultedLoanEventLoan {
+export type OmitClaimDefaultedLoanEventLoan = {
   blockNumber: number;
   blockTimestamp: number;
   collateralPrice: number;
@@ -191,11 +193,11 @@ export interface OmitClaimDefaultedLoanEventLoan {
   id: string;
   secondsSinceExpiry: number;
   transactionHash: string;
-}
+};
 
 export type ClaimDefaultedLoanEventOptional = OmitClaimDefaultedLoanEventLoan & ClaimDefaultedLoanEventOptionalAllOf;
 
-export interface CoolerLoanOptional {
+export type CoolerLoanOptional = {
   borrower: string;
   collateral: number;
   collateralToken: string;
@@ -211,23 +213,23 @@ export interface CoolerLoanOptional {
   lender: string;
   loanId: number;
   principal: number;
-}
+};
 
 export type ClearLoanRequestEventOptionalAllOf = {
   loan: CoolerLoanOptional;
 };
 
-export interface OmitClearLoanRequestEventLoanRequest {
+export type OmitClearLoanRequestEventLoanRequest = {
   blockNumber: number;
   blockTimestamp: number;
   date: string;
   id: string;
   transactionHash: string;
-}
+};
 
 export type ClearLoanRequestEventOptional = OmitClearLoanRequestEventLoanRequest & ClearLoanRequestEventOptionalAllOf;
 
-export interface ClearinghouseSnapshotOptional {
+export type ClearinghouseSnapshotOptional = {
   blockNumber: number;
   blockTimestamp: number;
   clearinghouse: string;
@@ -251,7 +253,7 @@ export interface ClearinghouseSnapshotOptional {
   treasuryDaiBalance: number;
   treasurySDaiBalance: number;
   treasurySDaiInDaiBalance: number;
-}
+};
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
