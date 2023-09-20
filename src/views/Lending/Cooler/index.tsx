@@ -4,12 +4,12 @@ import { useMemo, useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
-import { getCapacity, getReceivables, useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import { getCapacity, getReceivables, useCoolerSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Cooler = () => {
-  const { latestSnapshot } = useSnapshotLatest();
+  const { latestSnapshot } = useCoolerSnapshotLatest();
 
   const [interestRate, setInterestRate] = useState<number>();
   useMemo(() => {

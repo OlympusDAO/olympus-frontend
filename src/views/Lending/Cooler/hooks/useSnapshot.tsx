@@ -1,7 +1,22 @@
 import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
-export const useSnapshotLatest = () => {
+export const useCoolerSnapshot = (startDate: Date) => {
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+
+  const { data, isLoading } = useGetSnapshots({
+    startDate: getISO8601String(startDate),
+    beforeDate: getISO8601String(tomorrowDate),
+  });
+
+  return {
+    data: data?.records,
+    isLoading,
+  };
+};
+
+export const useCoolerSnapshotLatest = () => {
   const tomorrowDate = new Date();
   tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 

@@ -6,14 +6,14 @@ import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useGetLendAndBorrowStats } from "src/hooks/useGetLendBorrowStats";
 import { useOhmPrice } from "src/hooks/usePrices";
-import { useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import { useCoolerSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Lending = () => {
   const theme = useTheme();
   const { data: ohmPrice } = useOhmPrice();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { latestSnapshot } = useSnapshotLatest();
+  const { latestSnapshot } = useCoolerSnapshotLatest();
   const { data: defiLlamaPools } = useGetLendAndBorrowStats();
 
   const lowestBorrowRate = defiLlamaPools?.reduce((prev, current) => {
