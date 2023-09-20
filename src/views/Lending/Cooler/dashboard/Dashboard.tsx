@@ -1,5 +1,6 @@
 import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 import { IncomeGraph } from "src/views/Lending/Cooler/dashboard/IncomeGraph";
+import { MaturityGraph } from "src/views/Lending/Cooler/dashboard/MaturityGraph";
 import { UtilisationGraph } from "src/views/Lending/Cooler/dashboard/UtilisationGraph";
 
 export const CoolerDashboard = () => {
@@ -34,7 +35,7 @@ export const CoolerDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            {/* Loan Maturity */}
+            <MaturityGraph />
           </Paper>
         </Grid>
       </Grid>

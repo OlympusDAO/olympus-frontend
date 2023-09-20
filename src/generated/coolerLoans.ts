@@ -7,6 +7,10 @@
 import type { QueryFunction, QueryKey, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { customHttpClient } from "src/views/Lending/Cooler/hooks/customHttpClient";
+export type GetSnapshots200 = {
+  records?: Snapshot[];
+};
+
 export type GetSnapshotsParams = {
   /**
    * The start date (YYYY-MM-DD) of the loan period
@@ -28,6 +32,98 @@ export type SnapshotTerms = {
   duration: number;
   interestRate: number;
   loanToCollateral: number;
+};
+
+/**
+ * Status of the loan
+ */
+export type SnapshotLoansStatus = (typeof SnapshotLoansStatus)[keyof typeof SnapshotLoansStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SnapshotLoansStatus = {
+  Active: "Active",
+  Expired: "Expired",
+  Reclaimed: "Reclaimed",
+  Repaid: "Repaid",
+} as const;
+
+/**
+ * Status of the loan, with additional information for loans that are active.
+ */
+export type SnapshotLoansExpiryStatus = (typeof SnapshotLoansExpiryStatus)[keyof typeof SnapshotLoansExpiryStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SnapshotLoansExpiryStatus = {
+  "<_1_Day": "< 1 Day",
+  "<_14_Days": "< 14 Days",
+  "<_7_Days": "< 7 Days",
+  Active: "Active",
+  Expired: "Expired",
+  Reclaimed: "Reclaimed",
+  Repaid: "Repaid",
+} as const;
+
+/**
+ * Dictionary of the loans that had been created by this date.
+
+Key: `cooler address`-`loanId`
+Value: Loan record
+ */
+export type SnapshotLoans = {
+  [key: string]: {
+    borrowerAddress: string;
+    collateralClaimedQuantity: number;
+    collateralClaimedValue: number;
+    /** The current quantity of the collateral token that is deposited.
+
+As the loan is repaid, this will decrease. */
+    collateralDeposited: number;
+    collateralIncome: number;
+    /** The amount of collateral required per period.
+
+As this is fixed on the clearinghouse, it does not change. */
+    collateralPerPeriod: number;
+    coolerAddress: string;
+    /** Timestamp of the loan creation, in seconds */
+    createdTimestamp: number;
+    /** Status of the loan, with additional information for loans that are active. */
+    expiryStatus: SnapshotLoansExpiryStatus;
+    /** Timestamp of the expected loan expiry, in seconds */
+    expiryTimestamp: number;
+    /** Loan id unique across the clearinghouse and its coolers
+
+Format: cooler-loanId */
+    id: string;
+    /** The interest charged on the loan.
+
+When the loan is extended, this number will be incremented. */
+    interest: number;
+    /** Cumulative interest paid on the loan. */
+    interestPaid: number;
+    /** The amount of interest charged per period. */
+    interestPerPeriod: number;
+    lenderAddress: string;
+    /** Loan id unique to the cooler */
+    loanId: number;
+    /** The loan principal */
+    principal: number;
+    /** Cumulative principal paid on the loan. */
+    principalPaid: number;
+    secondsToExpiry: number;
+    /** Status of the loan */
+    status: SnapshotLoansStatus;
+  };
+};
+
+export type SnapshotClearinghouse = {
+  collateralAddress: string;
+  coolerFactoryAddress: string;
+  daiBalance: number;
+  debtAddress: string;
+  fundAmount: number;
+  fundCadence: number;
+  sDaiBalance: number;
+  sDaiInDaiBalance: number;
 };
 
 export type Snapshot = {
@@ -57,78 +153,6 @@ Value: Loan record */
   /** Timestamp of the snapshot, in milliseconds */
   timestamp: number;
   treasury: SnapshotTreasury;
-};
-
-export type GetSnapshots200 = {
-  records?: Snapshot[];
-};
-
-export type SnapshotLoansStatus = (typeof SnapshotLoansStatus)[keyof typeof SnapshotLoansStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SnapshotLoansStatus = {
-  Active: "Active",
-  Expired: "Expired",
-  Reclaimed: "Reclaimed",
-  Repaid: "Repaid",
-} as const;
-
-/**
- * Dictionary of the loans that had been created by this date.
-
-Key: `cooler address`-`loanId`
-Value: Loan record
- */
-export type SnapshotLoans = {
-  [key: string]: {
-    borrowerAddress: string;
-    collateralClaimedQuantity: number;
-    collateralClaimedValue: number;
-    /** The current quantity of the collateral token that is deposited.
-
-As the loan is repaid, this will decrease. */
-    collateralDeposited: number;
-    collateralIncome: number;
-    /** The amount of collateral required per period.
-
-As this is fixed on the clearinghouse, it does not change. */
-    collateralPerPeriod: number;
-    coolerAddress: string;
-    createdTimestamp: number;
-    expiryTimestamp: number;
-    /** Loan id unique across the clearinghouse and its coolers
-
-Format: cooler-loanId */
-    id: string;
-    /** The interest charged on the loan.
-
-When the loan is extended, this number will be incremented. */
-    interest: number;
-    /** Cumulative interest paid on the loan. */
-    interestPaid: number;
-    /** The amount of interest charged per period. */
-    interestPerPeriod: number;
-    lenderAddress: string;
-    /** Loan id unique to the cooler */
-    loanId: number;
-    /** The loan principal */
-    principal: number;
-    /** Cumulative principal paid on the loan. */
-    principalPaid: number;
-    secondsToExpiry: number;
-    status: SnapshotLoansStatus;
-  };
-};
-
-export type SnapshotClearinghouse = {
-  collateralAddress: string;
-  coolerFactoryAddress: string;
-  daiBalance: number;
-  debtAddress: string;
-  fundAmount: number;
-  fundCadence: number;
-  sDaiBalance: number;
-  sDaiInDaiBalance: number;
 };
 
 export type RepayLoanEventOptionalAllOfLoan = {
