@@ -2,9 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { COOLER_CLEARING_HOUSE_CONTRACT } from "src/constants/contracts";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
-/**
- * Gets the Clearinghouse details for mainnet
- */
 export const useGetClearingHouse = () => {
   const networks = useTestableNetworks();
   const contract = COOLER_CLEARING_HOUSE_CONTRACT.getEthersContract(networks.MAINNET);

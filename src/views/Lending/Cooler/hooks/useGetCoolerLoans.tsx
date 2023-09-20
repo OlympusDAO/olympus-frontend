@@ -1,10 +1,8 @@
-import { useMemo, useState } from "react";
-import { SnapshotLoans } from "src/generated/coolerLoans";
-import { useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
-import { ValuesType } from "utility-types";
+import { useQuery } from "@tanstack/react-query";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { Cooler__factory, CoolerFactory__factory } from "src/typechain";
 import { useSigner } from "wagmi";
-
-type SnapshotLoan = ValuesType<SnapshotLoans>;
 
 export const useGetCoolerLoans = ({
   walletAddress,
@@ -17,21 +15,34 @@ export const useGetCoolerLoans = ({
   collateralAddress?: string;
   debtAddress?: string;
 }) => {
+  const networks = useTestableNetworks();
   const { data: signer } = useSigner();
 
-  const { latestSnapshot } = useSnapshotLatest();
+  const { data, isFetched, isLoading } = useQuery(
+    ["getCoolerLoans", networks.MAINNET],
+    async () => {
+      if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return [];
+      const contract = CoolerFactory__factory.connect(factoryAddress, signer);
 
-  const [loans, setLoans] = useState<SnapshotLoan[] | undefined>(undefined);
-  useMemo(() => {
-    if (!latestSnapshot || !factoryAddress || !collateralAddress || !debtAddress || !signer) {
-      setLoans(undefined);
-      return;
-    }
+      const coolerAddress = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
+      const coolerContract = Cooler__factory.connect(coolerAddress, Providers.getStaticProvider(networks.MAINNET));
 
-    const originalLoans = latestSnapshot.loans ? Array.from(Object.values(latestSnapshot.loans)) : [];
-    const tempLoans = originalLoans.filter(loan => loan.collateralDeposited != 0 && loan.principal != 0);
-    setLoans(tempLoans);
-  }, [latestSnapshot, factoryAddress, collateralAddress, debtAddress, signer]);
+      const loans = [];
+      let loanId = 0;
+      while (true) {
+        try {
+          const loanData = await coolerContract.loans(loanId);
+          const newCollateralAmount = await coolerContract.newCollateralFor(loanId);
+          loans.push({ ...loanData, loanId, newCollateralAmount });
+          loanId++;
+        } catch (e) {
+          break;
+        }
+      }
 
-  return { loans };
+      return loans.filter(loan => !loan.collateral.isZero() && !loan.amount.isZero());
+    },
+    { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },
+  );
+  return { data, isFetched, isLoading };
 };
