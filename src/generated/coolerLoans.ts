@@ -19,34 +19,42 @@ export type GetSnapshotsParams = {
 };
 
 export type SnapshotTreasury = {
-  daiBalance?: number;
-  sDaiBalance?: number;
-  sDaiInDaiBalance?: number;
+  daiBalance: number;
+  sDaiBalance: number;
+  sDaiInDaiBalance: number;
 };
 
 export type SnapshotTerms = {
-  duration?: number;
-  interestRate?: number;
-  loanToCollateral?: number;
+  duration: number;
+  interestRate: number;
+  loanToCollateral: number;
 };
 
 export interface Snapshot {
-  clearinghouse?: SnapshotClearinghouse;
-  clearinghouseEvents?: ClearinghouseSnapshotOptional[];
-  creationEvents?: ClearLoanRequestEventOptional[];
-  date?: string;
-  defaultedClaimEvents?: ClaimDefaultedLoanEventOptional[];
-  extendEvents?: ExtendLoanEventOptional[];
-  interestReceivables?: number;
+  clearinghouse: SnapshotClearinghouse;
+  clearinghouseEvents: ClearinghouseSnapshotOptional[];
+  /** Quantity of collateral deposited across all Coolers */
+  collateralDeposited: number;
+  /** Income from collateral reclaimed on this date. */
+  collateralIncome: number;
+  creationEvents: ClearLoanRequestEventOptional[];
+  date: string;
+  defaultedClaimEvents: ClaimDefaultedLoanEventOptional[];
+  extendEvents: ExtendLoanEventOptional[];
+  /** Income from interest payments made on this date. */
+  interestIncome: number;
+  /** Interest receivable across all Coolers */
+  interestReceivables: number;
   /** Dictionary of the loans that had been created by this date.
 
 Key: `cooler address`-`loanId`
 Value: Loan record */
-  loans?: SnapshotLoans;
-  principalReceivables?: number;
-  repaymentEvents?: RepayLoanEventOptional[];
-  terms?: SnapshotTerms;
-  treasury?: SnapshotTreasury;
+  loans: SnapshotLoans;
+  /** Principal receivable across all Coolers */
+  principalReceivables: number;
+  repaymentEvents: RepayLoanEventOptional[];
+  terms: SnapshotTerms;
+  treasury: SnapshotTreasury;
 }
 
 export type GetSnapshots200 = {
@@ -71,154 +79,178 @@ Value: Loan record
  */
 export type SnapshotLoans = {
   [key: string]: {
-    borrowerAddress?: string;
-    collateralClaimedQuantity?: number;
-    collateralClaimedValue?: number;
-    collateralDeposited?: number;
-    collateralIncome?: number;
-    coolerAddress?: string;
-    createdTimestamp?: number;
-    expiryTimestamp?: number;
-    /** cooler-loanId */
-    id?: string;
-    interest?: number;
-    interestPaid?: number;
-    lenderAddress?: string;
-    loanId?: number;
-    principal?: number;
-    principalPaid?: number;
-    secondsToExpiry?: number;
-    status?: SnapshotLoansStatus;
+    borrowerAddress: string;
+    collateralClaimedQuantity: number;
+    collateralClaimedValue: number;
+    /** The current quantity of the collateral token that is deposited.
+
+As the loan is repaid, this will decrease. */
+    collateralDeposited: number;
+    collateralIncome: number;
+    /** The amount of collateral required per period.
+
+As this is fixed on the clearinghouse, it does not change. */
+    collateralPerPeriod: number;
+    coolerAddress: string;
+    createdTimestamp: number;
+    expiryTimestamp: number;
+    /** Loan id unique across the clearinghouse and its coolers
+
+Format: cooler-loanId */
+    id: string;
+    /** The interest charged on the loan.
+
+When the loan is extended, this number will be incremented. */
+    interest: number;
+    /** Cumulative interest paid on the loan. */
+    interestPaid: number;
+    /** The amount of interest charged per period. */
+    interestPerPeriod: number;
+    lenderAddress: string;
+    /** Loan id unique to the cooler */
+    loanId: number;
+    /** The loan principal */
+    principal: number;
+    /** Cumulative principal paid on the loan. */
+    principalPaid: number;
+    secondsToExpiry: number;
+    status: SnapshotLoansStatus;
   };
 };
 
 export type SnapshotClearinghouse = {
-  daiBalance?: number;
-  fundAmount?: number;
-  fundCadence?: number;
-  sDaiBalance?: number;
-  sDaiInDaiBalance?: number;
+  collateralAddress: string;
+  coolerFactoryAddress: string;
+  daiBalance: number;
+  debtAddress: string;
+  fundAmount: number;
+  fundCadence: number;
+  sDaiBalance: number;
+  sDaiInDaiBalance: number;
 };
 
 export type RepayLoanEventOptionalAllOfLoan = {
-  id?: string;
+  id: string;
 };
 
 export type RepayLoanEventOptionalAllOf = {
-  loan?: RepayLoanEventOptionalAllOfLoan;
+  loan: RepayLoanEventOptionalAllOfLoan;
 };
 
 export interface OmitRepayLoanEventLoan {
-  amountPaid?: number;
-  blockNumber?: number;
-  blockTimestamp?: number;
-  collateralDeposited?: number;
-  date?: string;
-  id?: string;
-  interestPayable?: number;
-  principalPayable?: number;
-  secondsToExpiry?: number;
-  transactionHash?: string;
+  amountPaid: number;
+  blockNumber: number;
+  blockTimestamp: number;
+  collateralDeposited: number;
+  date: string;
+  id: string;
+  interestPayable: number;
+  principalPayable: number;
+  secondsToExpiry: number;
+  transactionHash: string;
 }
 
 export type RepayLoanEventOptional = OmitRepayLoanEventLoan & RepayLoanEventOptionalAllOf;
 
 export type ExtendLoanEventOptionalAllOfLoan = {
-  id?: string;
+  id: string;
 };
 
 export type ExtendLoanEventOptionalAllOf = {
-  loan?: ExtendLoanEventOptionalAllOfLoan;
+  loan: ExtendLoanEventOptionalAllOfLoan;
 };
 
 export interface OmitExtendLoanEventLoan {
-  blockNumber?: number;
-  blockTimestamp?: number;
-  date?: string;
-  expiryTimestamp?: number;
-  id?: string;
-  interestDue?: number;
-  periods?: number;
-  transactionHash?: string;
+  blockNumber: number;
+  blockTimestamp: number;
+  date: string;
+  expiryTimestamp: number;
+  id: string;
+  interestDue: number;
+  periods: number;
+  transactionHash: string;
 }
 
 export type ExtendLoanEventOptional = OmitExtendLoanEventLoan & ExtendLoanEventOptionalAllOf;
 
 export type ClaimDefaultedLoanEventOptionalAllOfLoan = {
-  id?: string;
+  id: string;
 };
 
 export type ClaimDefaultedLoanEventOptionalAllOf = {
-  loan?: ClaimDefaultedLoanEventOptionalAllOfLoan;
+  loan: ClaimDefaultedLoanEventOptionalAllOfLoan;
 };
 
 export interface OmitClaimDefaultedLoanEventLoan {
-  blockNumber?: number;
-  blockTimestamp?: number;
-  collateralPrice?: number;
-  collateralQuantityClaimed?: number;
-  collateralValueClaimed?: number;
-  date?: string;
-  id?: string;
-  secondsSinceExpiry?: number;
-  transactionHash?: string;
+  blockNumber: number;
+  blockTimestamp: number;
+  collateralPrice: number;
+  collateralQuantityClaimed: number;
+  collateralValueClaimed: number;
+  date: string;
+  id: string;
+  secondsSinceExpiry: number;
+  transactionHash: string;
 }
 
 export type ClaimDefaultedLoanEventOptional = OmitClaimDefaultedLoanEventLoan & ClaimDefaultedLoanEventOptionalAllOf;
 
 export interface CoolerLoanOptional {
-  borrower?: string;
-  collateral?: number;
-  collateralToken?: string;
-  cooler?: string;
-  createdBlock?: number;
-  createdTimestamp?: number;
-  createdTransaction?: string;
-  debtToken?: string;
-  expiryTimestamp?: number;
-  hasCallback?: boolean;
-  id?: string;
-  interest?: number;
-  lender?: string;
-  loanId?: number;
-  principal?: number;
+  borrower: string;
+  collateral: number;
+  collateralToken: string;
+  cooler: string;
+  createdBlock: number;
+  createdTimestamp: number;
+  createdTransaction: string;
+  debtToken: string;
+  expiryTimestamp: number;
+  hasCallback: boolean;
+  id: string;
+  interest: number;
+  lender: string;
+  loanId: number;
+  principal: number;
 }
 
 export type ClearLoanRequestEventOptionalAllOf = {
-  loan?: CoolerLoanOptional;
+  loan: CoolerLoanOptional;
 };
 
 export interface OmitClearLoanRequestEventLoanRequest {
-  blockNumber?: number;
-  blockTimestamp?: number;
-  date?: string;
-  id?: string;
-  transactionHash?: string;
+  blockNumber: number;
+  blockTimestamp: number;
+  date: string;
+  id: string;
+  transactionHash: string;
 }
 
 export type ClearLoanRequestEventOptional = OmitClearLoanRequestEventLoanRequest & ClearLoanRequestEventOptionalAllOf;
 
 export interface ClearinghouseSnapshotOptional {
-  blockNumber?: number;
-  blockTimestamp?: number;
-  clearinghouse?: string;
-  daiBalance?: number;
-  date?: string;
-  duration?: number;
-  fundAmount?: number;
-  fundCadence?: number;
-  id?: string;
-  interestRate?: number;
-  interestReceivables?: number;
-  isActive?: boolean;
-  loanToCollateral?: number;
-  nextRebalanceTimestamp?: number;
-  principalReceivables?: number;
-  sDaiBalance?: number;
-  sDaiInDaiBalance?: number;
-  treasuryDaiBalance?: number;
-  treasurySDaiBalance?: number;
-  treasurySDaiInDaiBalance?: number;
+  blockNumber: number;
+  blockTimestamp: number;
+  clearinghouse: string;
+  collateralAddress: string;
+  coolerFactoryAddress: string;
+  daiBalance: number;
+  date: string;
+  debtAddress: string;
+  duration: number;
+  fundAmount: number;
+  fundCadence: number;
+  id: string;
+  interestRate: number;
+  interestReceivables: number;
+  isActive: boolean;
+  loanToCollateral: number;
+  nextRebalanceTimestamp: number;
+  principalReceivables: number;
+  sDaiBalance: number;
+  sDaiInDaiBalance: number;
+  treasuryDaiBalance: number;
+  treasurySDaiBalance: number;
+  treasurySDaiInDaiBalance: number;
 }
 
 type AwaitedInput<T> = PromiseLike<T> | T;
