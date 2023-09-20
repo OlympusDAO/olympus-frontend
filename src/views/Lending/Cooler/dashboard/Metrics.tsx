@@ -1,5 +1,6 @@
 import { Metric } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
+import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency } from "src/helpers";
 import {
   getClearinghouseCapacity,
@@ -93,6 +94,73 @@ export const TreasuryCapacityRemaining = () => {
     <Metric
       label="Treasury Capacity Remaining"
       metric={formatCurrency(getTreasuryCapacity(latestSnapshot), 0, "DAI")}
+      isLoading={latestSnapshot === undefined}
+    />
+  );
+};
+
+const SECONDS_PER_DAY = 60 * 60 * 24;
+
+export const PrincipalMaturingInUnder = ({ days }: { days: number }) => {
+  const { latestSnapshot } = useCoolerSnapshotLatest();
+
+  const [principalMaturing, setPrincipalMaturing] = useState<number | undefined>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setPrincipalMaturing(undefined);
+      return;
+    }
+
+    let _principalMaturing = 0;
+    for (const loan of Object.values(latestSnapshot.loans)) {
+      if (loan.status != SnapshotLoansStatus.Active) {
+        continue;
+      }
+
+      const loanDaysToExpiry = loan.secondsToExpiry / SECONDS_PER_DAY;
+      if (loanDaysToExpiry < days) {
+        _principalMaturing += loan.principal;
+      }
+    }
+
+    setPrincipalMaturing(_principalMaturing);
+  }, [latestSnapshot]);
+
+  return (
+    <Metric
+      label={`Principal Maturing in < ${days} ${days == 1 ? "Day" : "Days"}`}
+      metric={formatCurrency(principalMaturing || 0, 0, "DAI")}
+      isLoading={latestSnapshot === undefined}
+    />
+  );
+};
+
+export const PrincipalExpired = () => {
+  const { latestSnapshot } = useCoolerSnapshotLatest();
+
+  const [principalExpired, setPrincipalExpired] = useState<number | undefined>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setPrincipalExpired(undefined);
+      return;
+    }
+
+    let _principalExpired = 0;
+    for (const loan of Object.values(latestSnapshot.loans)) {
+      if (loan.status != SnapshotLoansStatus.Expired) {
+        continue;
+      }
+
+      _principalExpired += loan.principal;
+    }
+
+    setPrincipalExpired(_principalExpired);
+  }, [latestSnapshot]);
+
+  return (
+    <Metric
+      label="Principal Expired"
+      metric={formatCurrency(principalExpired || 0, 0, "DAI")}
       isLoading={latestSnapshot === undefined}
     />
   );
