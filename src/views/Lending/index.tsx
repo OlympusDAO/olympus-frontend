@@ -6,14 +6,14 @@ import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useGetLendAndBorrowStats } from "src/hooks/useGetLendBorrowStats";
 import { useOhmPrice } from "src/hooks/usePrices";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
+import { useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Lending = () => {
   const theme = useTheme();
   const { data: ohmPrice } = useOhmPrice();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { data: clearingHouse } = useGetClearingHouse();
+  const { latestSnapshot } = useSnapshotLatest();
   const { data: defiLlamaPools } = useGetLendAndBorrowStats();
 
   const lowestBorrowRate = defiLlamaPools?.reduce((prev, current) => {
@@ -52,10 +52,10 @@ export const Lending = () => {
                   Current Borrow APR
                 </Typography>
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  {clearingHouse?.interestRate ? (
+                  {latestSnapshot && latestSnapshot.terms?.interestRate ? (
                     <>
                       <Typography align="center" fontSize="27px" fontWeight="500">
-                        {clearingHouse.interestRate}%
+                        {latestSnapshot.terms.interestRate * 100}%
                       </Typography>
                       <TokenStack tokens={["gOHM", "DAI"]} style={{ fontSize: "27px" }} />
                     </>
