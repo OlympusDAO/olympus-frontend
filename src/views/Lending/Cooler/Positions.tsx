@@ -22,8 +22,6 @@ import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCool
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useAccount } from "wagmi";
 
-// TODO handle wallet not connected
-
 export const CoolerPositions = () => {
   const { address } = useAccount();
   const { data: clearingHouse } = useGetClearingHouse();
@@ -63,7 +61,14 @@ export const CoolerPositions = () => {
         <Typography variant="h1">Your Positions</Typography>
         <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
       </Box>
-      {!isFetchedLoans && (
+
+      {!address && (
+        <Box display="flex" justifyContent="center">
+          <Typography variant="h4">Please connect your wallet in order to view your positions</Typography>
+        </Box>
+      )}
+
+      {address && !isFetchedLoans && (
         <Box display="flex" justifyContent="center">
           <Skeleton variant="rectangular" width="100%" height={100} />
         </Box>
