@@ -24,12 +24,8 @@ type SnapshotWithStatusSummary = Snapshot & {
   };
 };
 
-export const MaturityGraph = () => {
+export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
   const theme = useTheme();
-
-  // TODO replace with prop
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 30);
 
   const { data } = useCoolerSnapshot(startDate);
 

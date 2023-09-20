@@ -12,12 +12,8 @@ import { useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 
-export const IncomeGraph = () => {
+export const IncomeGraph = ({ startDate }: { startDate?: Date }) => {
   const theme = useTheme();
-
-  // TODO replace with prop
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 30);
 
   const { data } = useCoolerSnapshot(startDate);
 

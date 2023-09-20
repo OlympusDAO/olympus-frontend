@@ -1,14 +1,21 @@
 import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
-export const useCoolerSnapshot = (startDate: Date) => {
+export const useCoolerSnapshot = (startDate?: Date) => {
   const tomorrowDate = new Date();
   tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 
-  const { data, isLoading } = useGetSnapshots({
-    startDate: getISO8601String(startDate),
-    beforeDate: getISO8601String(tomorrowDate),
-  });
+  const { data, isLoading } = useGetSnapshots(
+    {
+      startDate: startDate ? getISO8601String(startDate) : "", // Will not be set if startDate is undefined
+      beforeDate: getISO8601String(tomorrowDate),
+    },
+    {
+      query: {
+        enabled: !!startDate, // Don't query if the startDate is not set
+      },
+    },
+  );
 
   return {
     data: data?.records,
@@ -17,15 +24,13 @@ export const useCoolerSnapshot = (startDate: Date) => {
 };
 
 export const useCoolerSnapshotLatest = () => {
-  const tomorrowDate = new Date();
-  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+  // Go back 2 days
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 2);
 
-  const { data, isLoading } = useGetSnapshots({
-    startDate: getISO8601String(new Date()),
-    beforeDate: getISO8601String(tomorrowDate),
-  });
+  const { data, isLoading } = useCoolerSnapshot(startDate);
 
-  const latestSnapshot = data?.records ? data?.records[data?.records.length - 1] : undefined;
+  const latestSnapshot = data ? data[data.length - 1] : undefined;
 
   return {
     latestSnapshot,

@@ -17,12 +17,8 @@ type CoolerSnapshotWithTotals = Snapshot & {
   receivables: number;
 };
 
-export const UtilisationGraph = () => {
+export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
   const theme = useTheme();
-
-  // TODO replace with prop
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 30);
 
   const { data } = useCoolerSnapshot(startDate);
 
