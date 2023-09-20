@@ -301,6 +301,10 @@ export const Vault = () => {
       </Box>
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
         <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+          <InfoNotification>
+            With the implementation of Cooler Loans, Boosted Liquidity Vaults are being sunset and are no longer
+            available for new deposits.
+          </InfoNotification>
           <SwapCollection
             UpperSwapCard={isWithdrawal ? lpToken() : pairToken()}
             LowerSwapCard={isWithdrawal ? pairToken() : lpToken()}
@@ -381,15 +385,13 @@ export const Vault = () => {
                         Number(reserveAmount) > Number(vault.lpTokenBalance) ||
                         withdraw.isLoading ||
                         !vault.canWithdraw
-                      : Number(pairAmount) === 0 || Number(pairAmount) > Number(maxBalance)
+                      : true
                   }
                   onClick={() => {
                     isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
                   }}
                 >
-                  {isWithdrawal
-                    ? `Withdraw for ${vault.pairTokenName}`
-                    : `${isZap ? "Zap and" : ""} Deposit ${vault.pairTokenName}`}
+                  {isWithdrawal ? `Withdraw for ${vault.pairTokenName}` : `Deposits Disabled`}
                 </PrimaryButton>
               ) : (
                 <PrimaryButton onClick={() => switchNetwork?.(NetworkId.MAINNET)}>Switch Network</PrimaryButton>

@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridValueFormatterParams, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
@@ -47,10 +47,14 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
+    // Filter out dust
+    const nonDustRecords = tokenRecordResults.filter(value => parseFloat(value.valueExcludingOhm) > 1);
+
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive
-      ? tokenRecordResults.filter(value => value.isLiquid == true)
-      : tokenRecordResults;
+      ? nonDustRecords.filter(value => value.isLiquid == true)
+      : nonDustRecords;
+
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
@@ -118,7 +122,23 @@ export const TreasuryAssetsTable = ({
 
         return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
       },
-      valueGetter: (params: GridValueGetterParams) => formatNumber(parseFloat(params.row.balance)),
+      valueGetter: (params: GridValueGetterParams) => parseFloat(params.row.balance),
+      valueFormatter: (params: GridValueFormatterParams) => formatNumber(params.value),
+    },
+    {
+      field: "rate",
+      headerName: `Rate`,
+      description: `The rate of the token asset`,
+      flex: 0.5,
+      type: "string",
+      sortComparator: (v1, v2) => {
+        // Get rid of all non-number characters
+        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
+
+        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
+      },
+      valueGetter: (params: GridValueGetterParams) => parseFloat(params.row.rate),
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 2),
     },
     {
       field: "value",
@@ -173,6 +193,7 @@ export const TreasuryAssetsTable = ({
               columnVisibilityModel: {
                 isLiquid: false,
                 balance: false,
+                rate: false,
               },
             },
             pagination: { paginationModel: { pageSize: 10 } },

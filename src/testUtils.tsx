@@ -2,7 +2,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 // Rainbowkit
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
-import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
@@ -39,8 +38,8 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
 
 const renderRoute = function (route: string, store = defaultStore) {
   const wagmiClient = setupClient({ autoConnect: true });
-  const history = createMemoryHistory();
-  history.push(route);
+  // const history = createMemoryHistory();
+  // history.push(route);
   return render(
     <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
