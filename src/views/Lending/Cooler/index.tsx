@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
-import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
+import { CoolerPositions } from "src/views/Lending/Cooler/positions/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Cooler = () => {
