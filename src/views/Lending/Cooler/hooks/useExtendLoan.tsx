@@ -10,11 +10,11 @@ export const useExtendLoan = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async ({ coolerAddress, loanId }: { coolerAddress: string; loanId: number }) => {
+    async ({ coolerAddress, loanId, times }: { coolerAddress: string; loanId: number; times: number }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = COOLER_CLEARING_HOUSE_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
       //   const contract = CoolerClearingHouse__factory.connect(clearingHouseAddress, signer);
-      const loan = await contract.rollLoan(coolerAddress, loanId);
+      const loan = await contract.extendLoan(coolerAddress, loanId, times);
       const receipt = await loan.wait();
       return receipt;
     },
@@ -24,6 +24,8 @@ export const useExtendLoan = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
+        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.invalidateQueries({ queryKey: [["useContractAllowances"]] });
         toast(`Successfully Extended Loan`);
       },
     },

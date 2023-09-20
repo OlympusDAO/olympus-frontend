@@ -14,13 +14,12 @@ import {
 import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { CreateLoan } from "src/views/Lending/Cooler/CreateLoan";
+import { CreateOrRepayLoan } from "src/views/Lending/Cooler/CreateOrRepayLoan";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { ExtendLoan } from "src/views/Lending/Cooler/ExtendLoan";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
-import { RepayLoan } from "src/views/Lending/Cooler/RepayLoan";
 import { useAccount } from "wagmi";
 
 // TODO handle wallet not connected
@@ -70,13 +69,20 @@ export const CoolerPositions = () => {
         </Box>
       )}
 
-      {isFetchedLoans && loans && loans.length == 0 && (
+      {loans && loans.length == 0 && isFetchedLoans && (
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
             <Box pt="9px">Borrow DAI against gOHM at a fixed rate and maturity</Box>
             <Box mt="21px">
-              <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Borrow DAI & Open Position</PrimaryButton>
+              <PrimaryButton
+                onClick={() => {
+                  setRepayLoan(undefined);
+                  setCreateLoanModalOpen(true);
+                }}
+              >
+                Borrow DAI & Open Position
+              </PrimaryButton>
             </Box>
           </Box>
         </Box>
@@ -104,43 +110,69 @@ export const CoolerPositions = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {loans?.map((loan, index) => (
-                      <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                        <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
-                          <Box display="flex" alignItems="center" gap="3px">
-                            {loan.collateral && Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)}{" "}
-                            gOHM <Token name="gOHM" style={{ fontSize: "21px" }} />
-                          </Box>
-                        </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.request?.interest && (
-                            <Box>{Number(ethers.utils.formatUnits(loan.request.interest.toString())) * 100}%</Box>
-                          )}
-                        </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.amount && (
-                            <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
-                              {Number(ethers.utils.formatUnits(loan.amount.toString())).toFixed(2)} DAI{" "}
-                              <Token name="DAI" style={{ fontSize: "21px" }} />
+                    {loans?.map((loan, index) => {
+                      const principalAndInterest = loan.principal.add(loan.interestDue || 0) || 0;
+                      return (
+                        <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                          <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
+                            <Box display="flex" alignItems="center" gap="3px">
+                              {loan.collateral &&
+                                Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)}{" "}
+                              gOHM <Token name="gOHM" style={{ fontSize: "21px" }} />
                             </Box>
-                          )}
-                        </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          {loan.expiry && <Box>{new Date(Number(loan.expiry.toString()) * 1000).toLocaleString()}</Box>}
-                        </TableCell>
-                        <TableCell align="right" sx={{ padding: "9px" }}>
-                          <Box display="flex">
-                            <SecondaryButton onClick={() => setRepayLoan(loan)}>Repay</SecondaryButton>
-                            <PrimaryButton onClick={() => setExtendLoan(loan)}>Extend</PrimaryButton>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {loan.request?.interest && (
+                              <Box>{Number(ethers.utils.formatUnits(loan.request.interest.toString())) * 100}%</Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {principalAndInterest && (
+                              <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
+                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)} DAI{" "}
+                                <Token name="DAI" style={{ fontSize: "21px" }} />
+                              </Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            {loan.expiry && (
+                              <Box>
+                                {new Date(Number(loan.expiry.toString()) * 1000).toLocaleString([], {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }) || ""}
+                              </Box>
+                            )}
+                          </TableCell>
+                          <TableCell align="right" sx={{ padding: "9px" }}>
+                            <Box display="flex">
+                              <SecondaryButton
+                                onClick={() => {
+                                  setRepayLoan(loan);
+                                  setCreateLoanModalOpen(true);
+                                }}
+                              >
+                                Repay
+                              </SecondaryButton>
+                              <PrimaryButton onClick={() => setExtendLoan(loan)}>Extend</PrimaryButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
               <Box display="flex" justifyContent={"center"}>
-                <PrimaryButton onClick={() => setCreateLoanModalOpen(true)}>Borrow DAI & Open Position</PrimaryButton>
+                <PrimaryButton
+                  onClick={() => {
+                    setRepayLoan(undefined);
+                    setCreateLoanModalOpen(true);
+                  }}
+                >
+                  Borrow DAI & Open Position
+                </PrimaryButton>
               </Box>
             </>
           )}
@@ -157,19 +189,10 @@ export const CoolerPositions = () => {
               interestRate={clearingHouse.interestRate}
               duration={clearingHouse.duration}
               coolerAddress={coolerAddress}
-              collateralAddress={clearingHouse.collateralAddress}
-            />
-          )}
-          {repayLoan && (
-            <RepayLoan
-              loan={repayLoan}
-              setLoan={setRepayLoan}
-              coolerAddress={coolerAddress}
-              loanToCollateral={clearingHouse.loanToCollateral}
               debtAddress={clearingHouse.debtAddress}
             />
           )}
-          <CreateLoan
+          <CreateOrRepayLoan
             collateralAddress={clearingHouse.collateralAddress}
             debtAddress={clearingHouse.debtAddress}
             interestRate={clearingHouse.interestRate}
@@ -180,6 +203,7 @@ export const CoolerPositions = () => {
             capacity={ethers.utils.formatUnits(clearingHouse?.capacity || "0")}
             setModalOpen={setCreateLoanModalOpen}
             modalOpen={createLoanModalOpen}
+            loan={repayLoan}
           />
         </>
       )}

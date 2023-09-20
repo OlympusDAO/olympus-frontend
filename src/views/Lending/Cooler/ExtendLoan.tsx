@@ -1,9 +1,11 @@
 import { Box, SvgIcon, Typography } from "@mui/material";
-import { Icon, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Input, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
+import { useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
+import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -17,32 +19,38 @@ export const ExtendLoan = ({
   loanToCollateral,
   duration,
   coolerAddress,
-  collateralAddress,
+  debtAddress,
 }: {
   loan: {
     request: Cooler.RequestStructOutput;
-    amount: BigNumber;
-    repaid: BigNumber;
+    principal: BigNumber;
+    interestDue: BigNumber;
     collateral: BigNumber;
     expiry: BigNumber;
     lender: string;
-    repayDirect: boolean;
+    recipient: string;
+    callback: boolean;
     loanId: number;
-    newCollateralAmount: BigNumber;
   };
   setLoan: React.Dispatch<any>;
   interestRate: string;
   loanToCollateral: string;
   duration?: string;
   coolerAddress?: string;
-  collateralAddress: string;
+  debtAddress: string;
 }) => {
-  const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
-  newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0));
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
-  const { data: gohmBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
-  const insufficientCollateral = gohmBalance?.lt(new DecimalBigNumber(loan.newCollateralAmount, 18 || "0"));
+  const { data: daiBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
+  const insufficientCollateral = false;
+  const [extensionTerm, setExtensionTerm] = useState("1");
+  const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
+  const paidInterest = Number(ethers.utils.formatUnits(loan.principal)) <= Number(loanToCollateral) ? 1 : 0;
+  newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * Number(extensionTerm));
+  const interestPercent =
+    ((Number(extensionTerm) - paidInterest) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
+  const interestDue = interestPercent * Number(ethers.utils.formatUnits(loan.principal));
+
   return (
     <Modal
       maxWidth="476px"
@@ -61,13 +69,45 @@ export const ExtendLoan = ({
             <Box display="flex" flexDirection="column">
               <Metric
                 label="Current Term"
-                metric={new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString() || ""}
+                metric={
+                  new Date(Number(loan.expiry.toString()) * 1000).toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }) || ""
+                }
               />
             </Box>
             <Icon sx={{ transform: "rotate(-90deg)" }} name="caret-down" />
             <Box display="flex" flexDirection="column">
-              <Metric label="New Term" metric={newMaturityDate.toLocaleDateString()} />
+              <Metric
+                label="New Term"
+                metric={
+                  newMaturityDate.toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }) || ""
+                }
+              />
             </Box>
+          </Box>
+          <Box mt={"16px"}>
+            <Input
+              id="duration"
+              placeholder="1 Term = 121 days"
+              endAdornment="Term"
+              value={extensionTerm}
+              onChange={e => {
+                if (Number(e.target.value) > 0) {
+                  console.log("e.target.value", e.target.value);
+                  setExtensionTerm(e.target.value);
+                } else {
+                  console.log("e.target.value", e.target.value);
+                  setExtensionTerm("");
+                }
+              }}
+            />
           </Box>
           {interestRate && (
             <Box
@@ -94,17 +134,17 @@ export const ExtendLoan = ({
           )}
           {loanToCollateral && (
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
-              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Additional Collateral to Deposit</Typography>
+              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Due on Extension</Typography>
               <Box display="flex" flexDirection="column" textAlign="right">
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                  {Number(ethers.utils.formatUnits(loan?.newCollateralAmount.toString() || "")).toFixed(4)} gOHM
+                  {formatNumber(interestDue > 0 ? interestDue : 0, 2)} DAI
                 </Typography>
               </Box>
             </Box>
           )}
 
           <TokenAllowanceGuard
-            tokenAddressMap={{ [networks.MAINNET]: collateralAddress }}
+            tokenAddressMap={{ [networks.MAINNET]: debtAddress }}
             spenderAddressMap={COOLER_CLEARING_HOUSE_ADDRESSES}
             isVertical
             message={
@@ -113,14 +153,14 @@ export const ExtendLoan = ({
                 borrowing.
               </>
             }
-            spendAmount={new DecimalBigNumber(loan.newCollateralAmount.toString())}
+            spendAmount={new DecimalBigNumber(interestDue.toString())}
           >
             <PrimaryButton
               fullWidth
-              disabled={extendLoan.isLoading || insufficientCollateral}
+              disabled={extendLoan.isLoading || insufficientCollateral || Number(extensionTerm) < 1}
               onClick={() => {
                 extendLoan.mutate(
-                  { loanId: loan.loanId, coolerAddress },
+                  { loanId: loan.loanId, coolerAddress, times: Number(extensionTerm) },
                   {
                     onSuccess: () => {
                       setLoan(undefined);

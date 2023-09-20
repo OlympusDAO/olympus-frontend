@@ -1,5 +1,7 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { Box, Link, Tab, Tabs, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
 import { useCoolerSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
@@ -25,10 +27,28 @@ export const Cooler = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div id="stake-view">
-      <PageTitle name="Cooler Loans" />
+      <PageTitle
+        name={
+          <Box display="flex" flexDirection="row" alignItems="center" mt={mobile ? "50px" : "0px"}>
+            <Link component={RouterLink} to="/lending">
+              <Box display="flex" flexDirection="row">
+                <ArrowBack />
+                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px"></Typography>
+              </Box>
+            </Link>
+            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+              <Typography fontSize="32px" fontWeight={500}>
+                Cooler Loans
+              </Typography>
+            </Box>
+          </Box>
+        }
+      />
       <Box width="97%" maxWidth="974px">
         <Tabs
           centered

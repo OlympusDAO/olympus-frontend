@@ -32,15 +32,15 @@ export const useGetCoolerLoans = ({
       while (true) {
         try {
           const loanData = await coolerContract.loans(loanId);
-          const newCollateralAmount = await coolerContract.newCollateralFor(loanId);
-          loans.push({ ...loanData, loanId, newCollateralAmount });
+          // const newCollateralAmount = await coolerContract.newCollateralFor(loanId);
+          loans.push({ ...loanData, loanId });
           loanId++;
         } catch (e) {
           break;
         }
       }
 
-      return loans.filter(loan => !loan.collateral.isZero() && !loan.amount.isZero());
+      return loans.filter(loan => !loan.collateral.isZero() && !loan.principal.isZero());
     },
     { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },
   );
