@@ -4,12 +4,38 @@ import { useMemo, useState } from "react";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
-import { getCapacity, getReceivables, useSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import { useClearinghouseLatest } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { CoolerPositions } from "src/views/Lending/Cooler/Positions";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Cooler = () => {
-  const { latestSnapshot } = useSnapshotLatest();
+  const { latestSnapshot } = useClearinghouseLatest();
+
+  const [clearinghouseCapacity, setClearinghouseCapacity] = useState<number>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setClearinghouseCapacity(undefined);
+      return;
+    }
+
+    const daiBalance = latestSnapshot.clearinghouse?.daiBalance || 0;
+    const sDaiInDaiBalance = latestSnapshot.clearinghouse?.sDaiInDaiBalance || 0;
+
+    setClearinghouseCapacity(daiBalance + sDaiInDaiBalance);
+  }, [latestSnapshot]);
+
+  const [clearinghouseReceivables, setClearinghouseReceivables] = useState<number>();
+  useMemo(() => {
+    if (!latestSnapshot) {
+      setClearinghouseReceivables(undefined);
+      return;
+    }
+
+    const principalReceivables = latestSnapshot.principalReceivables || 0;
+    const interestReceivables = latestSnapshot.interestReceivables || 0;
+
+    setClearinghouseReceivables(principalReceivables + interestReceivables);
+  }, [latestSnapshot]);
 
   const [interestRate, setInterestRate] = useState<number>();
   useMemo(() => {
@@ -36,12 +62,12 @@ export const Cooler = () => {
           <Box display="flex" flexDirection="row" width={["100%", "70%"]} mt="24px" flexWrap={"wrap"}>
             <Metric
               label="Available Borrow Capacity"
-              metric={latestSnapshot ? formatCurrency(getCapacity(latestSnapshot), 0, "DAI") : <Skeleton />}
+              metric={clearinghouseCapacity ? formatCurrency(clearinghouseCapacity, 0, "DAI") : <Skeleton />}
             />
             <Metric label="Borrow Rate" metric={interestRate ? `${interestRate}%` : <Skeleton />} />
             <Metric
               label="Total Borrowed"
-              metric={latestSnapshot ? formatCurrency(getReceivables(latestSnapshot), 0, "DAI") : <Skeleton />}
+              metric={clearinghouseReceivables ? formatCurrency(clearinghouseReceivables, 0, "DAI") : <Skeleton />}
             />
           </Box>
         </Box>
