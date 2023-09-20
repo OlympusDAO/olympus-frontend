@@ -21,6 +21,8 @@ import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLo
 import { RepayLoan } from "src/views/Lending/Cooler/RepayLoan";
 import { useAccount } from "wagmi";
 
+// TODO handle wallet not connected
+
 export const CoolerPositions = () => {
   const { address } = useAccount();
   const { data: clearingHouse } = useGetClearingHouse();
@@ -54,7 +56,7 @@ export const CoolerPositions = () => {
         </Box>
       )}
 
-      {isFetchedLoans && (
+      {isFetchedLoans && loans && loans.length == 0 && (
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
