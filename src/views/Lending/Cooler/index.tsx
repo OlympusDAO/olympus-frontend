@@ -1,18 +1,34 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Tab, Tabs, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
+import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
 import { CoolerPositions } from "src/views/Lending/Cooler/positions/Positions";
 
+const PARAM_TAB = "tab";
+
 export const Cooler = () => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [tabIndex, setTabIndex] = useState(0);
+  const [searchParams] = useSearchParams();
+
+  // When the page loads, this causes the tab to be set to the correct value
+  useEffect(() => {
+    const queryTab = searchParams.get(PARAM_TAB);
+    setTabIndex(queryTab ? (queryTab === "metrics" ? 1 : 0) : 0);
+  }, [searchParams]);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const getSearchParamsWithTab = (tabIndex: number) => {
+    return updateSearchParams(searchParams, PARAM_TAB, tabIndex === 0 ? "positions" : "metrics");
+  };
 
   return (
     <div id="stake-view">
@@ -45,8 +61,8 @@ export const Cooler = () => {
           //hides the tab underline sliding animation in while <Zoom> is loading
           TabIndicatorProps={{ style: { display: "none" } }}
         >
-          <Tab label="Positions" />
-          <Tab label="Metrics" />
+          <Tab label="Positions" href={`#/lending/cooler?${getSearchParamsWithTab(0)}`} />
+          <Tab label="Metrics" href={`#/lending/cooler?${getSearchParamsWithTab(1)}`} />
         </Tabs>
 
         {tabIndex === 0 && <CoolerPositions />}
