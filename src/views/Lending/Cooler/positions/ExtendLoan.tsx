@@ -45,6 +45,7 @@ export const ExtendLoan = ({
 
   const [extensionTerm, setExtensionTerm] = useState("1");
 
+  // Loan expiry is extended from the original expiry date, not the current date
   const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
   newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * Number(extensionTerm));
 
