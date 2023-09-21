@@ -29,9 +29,10 @@ export const CumulativeInterestIncome = ({ startDate }: { startDate?: Date }) =>
 
   return (
     <Metric
-      label="Cumulative Interest Income"
+      label="Income From Interest"
       metric={cumulativeInterestIncome !== undefined ? formatCurrency(cumulativeInterestIncome, 0, "DAI") : ""}
       isLoading={cumulativeInterestIncome === undefined}
+      tooltip="The value of interest collected from repayments during the selected time period"
     />
   );
 };
@@ -56,9 +57,10 @@ export const CumulativeCollateralIncome = ({ startDate }: { startDate?: Date }) 
 
   return (
     <Metric
-      label="Cumulative Collateral Income"
-      metric={cumulativeCollateralIncome !== undefined ? formatCurrency(cumulativeCollateralIncome, 0, "DAI") : ""}
+      label="Income From Defaults"
+      metric={cumulativeCollateralIncome !== undefined ? formatCurrency(cumulativeCollateralIncome, 0, "USD") : ""}
       isLoading={cumulativeCollateralIncome === undefined}
+      tooltip="The value of collateral reclaimed due to defaults during the selected time period"
     />
   );
 };

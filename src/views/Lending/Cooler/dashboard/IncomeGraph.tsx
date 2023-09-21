@@ -48,10 +48,10 @@ export const IncomeGraph = ({ startDate }: { startDate?: Date }) => {
         </Typography>
       </Grid>
       <Grid item xs={12} container>
-        <Grid item xs={6}>
+        <Grid item xs>
           <CumulativeInterestIncome startDate={startDate} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs>
           <CumulativeCollateralIncome startDate={startDate} />
         </Grid>
       </Grid>
