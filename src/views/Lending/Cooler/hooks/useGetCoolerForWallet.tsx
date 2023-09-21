@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CoolerFactory__factory } from "src/typechain";
+import { Cooler__factory, CoolerFactory__factory } from "src/typechain";
 import { useSigner } from "wagmi";
 
 /**
@@ -23,10 +23,17 @@ export const useGetCoolerForWallet = ({
     ["getCoolerForWallet", factoryAddress, collateralAddress, debtAddress],
     async () => {
       if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return "";
-      const contract = CoolerFactory__factory.connect(factoryAddress, signer);
-      const address = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
-      const isCreated = await contract.callStatic.created(address);
-      return isCreated ? address : "";
+      try {
+        const contract = CoolerFactory__factory.connect(factoryAddress, signer);
+        const address = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
+        const isCreated = await contract.callStatic.created(address);
+        const cooler = Cooler__factory.connect(address, signer);
+        const coolerOwner = await cooler.owner();
+        const ownerAddress = await signer.getAddress();
+        return isCreated && ownerAddress === coolerOwner ? address : "";
+      } catch {
+        return "";
+      }
     },
     { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },
   );
