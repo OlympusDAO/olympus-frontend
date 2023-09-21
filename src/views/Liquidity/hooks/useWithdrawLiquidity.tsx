@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { balanceQueryKey } from "src/hooks/useBalance";
 import { BLEVaultLido__factory, BLEVaultManagerLido__factory } from "src/typechain";
 import { useMutation, useSigner } from "wagmi";
 
@@ -53,7 +54,7 @@ export const useWithdrawLiquidity = () => {
         toast.error(error.message);
       },
       onSuccess: async tx => {
-        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
+        queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
         queryClient.refetchQueries({ queryKey: ["getSingleSidedLiquidityVaults"] });
         queryClient.refetchQueries({ queryKey: ["getVault"] });
         if (tx.transactionHash) {

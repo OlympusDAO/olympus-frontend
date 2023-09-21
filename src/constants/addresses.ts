@@ -262,3 +262,8 @@ export const BRIDGEABLE_CHAINS = {
     availableChains: [NetworkId.TESTNET_GOERLI],
   },
 };
+
+export const COOLER_CLEARING_HOUSE_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xD6A6E8d9e82534bD65821142fcCd91ec9cF31880",
+  [NetworkId.TESTNET_GOERLI]: "0x075441d52ff9aedcbe9177d70895c0ad4775a50e", // prev: "0x70fF4ceECe06175EC9D536DCD9264185cE7790Ce",
+};
