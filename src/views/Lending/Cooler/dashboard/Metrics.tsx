@@ -4,7 +4,7 @@ import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   getClearinghouseCapacity,
-  getTreasuryCapacity,
+  getTotalCapacity,
   useCoolerSnapshot,
   useCoolerSnapshotLatest,
 } from "src/views/Lending/Cooler/hooks/useSnapshot";
@@ -85,6 +85,7 @@ export const OutstandingPrincipal = () => {
       label="Amount Borrowed"
       metric={latestSnapshot ? formatCurrency(latestSnapshot.principalReceivables, 0, "DAI") : ""}
       isLoading={latestSnapshot === undefined}
+      tooltip="The value of the principal outstanding"
     />
   );
 };
@@ -101,14 +102,15 @@ export const WeeklyCapacityRemaining = () => {
   );
 };
 
-export const TreasuryCapacityRemaining = () => {
+export const TotalCapacityRemaining = () => {
   const { latestSnapshot } = useCoolerSnapshotLatest();
 
   return (
     <Metric
-      label="Treasury Capacity Remaining"
-      metric={formatCurrency(getTreasuryCapacity(latestSnapshot), 0, "DAI")}
+      label="Total Capacity Remaining"
+      metric={formatCurrency(getTotalCapacity(latestSnapshot), 0, "DAI")}
       isLoading={latestSnapshot === undefined}
+      tooltip="The value of the total capacity remaining in the clearinghouse and treasury"
     />
   );
 };

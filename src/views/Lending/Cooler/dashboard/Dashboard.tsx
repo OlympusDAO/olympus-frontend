@@ -63,10 +63,10 @@ export const CoolerDashboard = () => {
 
   return (
     <div id="cooler-metrics">
-      <Grid container spacing={1}>
+      <Grid container spacing={1} paddingTop={2}>
         {/* Line one */}
         <Grid item xs />
-        <Grid item xs={12} sm={6} md={5} lg={4} textAlign="center">
+        <Grid item xs={12} sm={6} md={5} lg={4} textAlign="center" paddingBottom={2}>
           <TabBar
             disableRouting
             items={[
@@ -95,17 +95,17 @@ export const CoolerDashboard = () => {
         </Grid>
         <Grid item xs />
         {/* Each of the following is on lines of their own */}
-        <Grid item xs={12}>
+        <Grid item xs={12} paddingBottom={5}>
           <Paper {...paperProps} style={paperStyles}>
             <UtilisationGraph startDate={startDate} />
           </Paper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} paddingBottom={5}>
           <Paper {...paperProps} style={paperStyles}>
             <IncomeGraph startDate={startDate} />
           </Paper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} paddingBottom={5}>
           <Paper {...paperProps} style={paperStyles}>
             <MaturityGraph startDate={startDate} />
           </Paper>

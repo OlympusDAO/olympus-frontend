@@ -60,13 +60,16 @@ export const getReceivables = (snapshot: Snapshot | undefined): number => {
   return principalReceivables + interestReceivables;
 };
 
-export const getTreasuryCapacity = (snapshot: Snapshot | undefined): number => {
+export const getTotalCapacity = (snapshot: Snapshot | undefined): number => {
   if (!snapshot) {
     return 0;
   }
 
-  const daiBalance = snapshot.treasury?.daiBalance || 0;
-  const sDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
+  const treasuryDaiBalance = snapshot.treasury?.daiBalance || 0;
+  const treasurySDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
 
-  return daiBalance + sDaiInDaiBalance;
+  const clearinghouseDaiBalance = snapshot.clearinghouse?.daiBalance || 0;
+  const clearinghouseSDaiInDaiBalance = snapshot.clearinghouse?.sDaiInDaiBalance || 0;
+
+  return treasuryDaiBalance + treasurySDaiInDaiBalance + clearinghouseDaiBalance + clearinghouseSDaiInDaiBalance;
 };
