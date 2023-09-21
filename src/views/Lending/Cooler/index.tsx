@@ -5,7 +5,6 @@ import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";
 import { CoolerPositions } from "src/views/Lending/Cooler/positions/Positions";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Cooler = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -52,8 +51,6 @@ export const Cooler = () => {
 
         {tabIndex === 0 && <CoolerPositions />}
         {tabIndex === 1 && <CoolerDashboard />}
-
-        <LiquidityCTA />
       </Box>
     </div>
   );
