@@ -49,12 +49,11 @@ export const ExtendLoan = ({
   const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
   newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * Number(extensionTerm));
 
-  const paidInterest = Number(ethers.utils.formatUnits(loan.principal)) <= Number(loanToCollateral) ? 1 : 0;
-
   // Interest is calculated based on the remaining principal amount * interest rate
-  const interestPercent =
-    ((Number(extensionTerm) - paidInterest) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
-  const interestDue = interestPercent * Number(ethers.utils.formatUnits(loan.principal));
+  const interestPercent = (Number(extensionTerm) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
+  const interestDue =
+    interestPercent * Number(ethers.utils.formatUnits(loan.principal)) +
+    Number(ethers.utils.formatUnits(loan.interestDue));
 
   const [insufficientCollateral, setInsufficientCollateral] = useState<boolean | undefined>();
   useMemo(() => {

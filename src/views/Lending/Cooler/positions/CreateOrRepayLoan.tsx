@@ -69,7 +69,7 @@ export const CreateOrRepayLoan = ({
     loan?.principal.add(loan?.interestDue || BigNumber.from("0")) || BigNumber.from("0"),
     18,
   );
-  const interestRepaid = Number(loanPayable) <= Number(loanToCollateral);
+  const interestRepaid = loan?.collateral.isZero() || false;
   //if collateral minus principal is greater than interest... then calculate on collateral amount.
   const daiCard = (
     <AssetSwapCard
