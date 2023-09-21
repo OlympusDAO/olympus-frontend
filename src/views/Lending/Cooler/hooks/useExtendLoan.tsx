@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { COOLER_CLEARING_HOUSE_CONTRACT } from "src/constants/contracts";
+import { balanceQueryKey } from "src/hooks/useBalance";
+import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useSigner } from "wagmi";
 
@@ -23,8 +25,8 @@ export const useExtendLoan = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
-        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
-        queryClient.invalidateQueries({ queryKey: [["useContractAllowances"]] });
+        queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
+        queryClient.invalidateQueries({ queryKey: [contractAllowanceQueryKey()] });
         toast(`Successfully Extended Loan`);
       },
     },

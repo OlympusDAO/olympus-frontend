@@ -19,7 +19,7 @@ export const useGetCoolerLoans = ({
   const { data: signer } = useSigner();
 
   const { data, isFetched, isLoading } = useQuery(
-    ["getCoolerLoans", networks.MAINNET],
+    ["getCoolerLoans", networks.MAINNET, factoryAddress, collateralAddress, debtAddress],
     async () => {
       if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return [];
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { balanceQueryKey } from "src/hooks/useBalance";
+import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { Cooler__factory } from "src/typechain/factories/Cooler__factory";
 import { useSigner } from "wagmi";
 
@@ -23,8 +25,8 @@ export const useRepayLoan = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
-        queryClient.invalidateQueries({ queryKey: [["useBalance"]] });
-        queryClient.invalidateQueries({ queryKey: [["useContractAllowances"]] });
+        queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
+        queryClient.invalidateQueries({ queryKey: [contractAllowanceQueryKey()] });
         toast(`Successfully Repaid Loan`);
       },
     },

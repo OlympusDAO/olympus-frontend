@@ -2,6 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { CoolerFactory__factory } from "src/typechain";
 import { useSigner } from "wagmi";
 
+/**
+ * returns a cooler for a collateral & debt address
+ * - not actually dependent on a wallet address
+ */
 export const useGetCoolerForWallet = ({
   walletAddress,
   factoryAddress,
@@ -16,7 +20,7 @@ export const useGetCoolerForWallet = ({
   const { data: signer } = useSigner();
 
   const { data, isFetched, isLoading } = useQuery(
-    ["getCoolerForWallet"],
+    ["getCoolerForWallet", factoryAddress, collateralAddress, debtAddress],
     async () => {
       if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return "";
       const contract = CoolerFactory__factory.connect(factoryAddress, signer);
