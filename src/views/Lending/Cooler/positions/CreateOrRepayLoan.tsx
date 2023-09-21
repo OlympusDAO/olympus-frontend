@@ -58,27 +58,27 @@ export const CreateOrRepayLoan = ({
   const maturityDate = loan ? new Date(Number(loan.expiry.toString()) * 1000) : new Date();
   maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
 
-  const [debtAmount, setDebtAmount] = useState(new DecimalBigNumber("0"));
+  const [paymentAmount, setPaymentAmount] = useState(new DecimalBigNumber("0"));
   const [collateralAmount, setCollateralAmount] = useState(new DecimalBigNumber("0"));
   const { data: collateralBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
 
   const collateralValue = Number(loanToCollateral) * Number(collateralBalance || 0);
   const maxYouCanBorrow = Math.min(Number(capacity), collateralValue);
 
-  const paybackAmount = new DecimalBigNumber(
+  const loanPayable = new DecimalBigNumber(
     loan?.principal.add(loan?.interestDue || BigNumber.from("0")) || BigNumber.from("0"),
     18,
   );
-  const interestRepaid = Number(paybackAmount) <= Number(loanToCollateral);
+  const interestRepaid = Number(loanPayable) <= Number(loanToCollateral);
   //if collateral minus principal is greater than interest... then calculate on collateral amount.
   const daiCard = (
     <AssetSwapCard
       assetAddress={debtAddress}
       tokenName="DAI"
-      value={debtAmount.toString()}
+      value={paymentAmount.toString()}
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
-        setDebtAmount(value);
+        setPaymentAmount(value);
         setCollateralAmount(
           value.div(
             loan && !interestRepaid
@@ -99,7 +99,7 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setCollateralAmount(value);
-        setDebtAmount(
+        setPaymentAmount(
           value.mul(
             loan && !interestRepaid
               ? new DecimalBigNumber(loanToCollateral).add(new DecimalBigNumber(loan.interestDue, 18))
@@ -125,7 +125,7 @@ export const CreateOrRepayLoan = ({
         <SwapCollection UpperSwapCard={loan ? daiCard : gOHMCard} LowerSwapCard={loan ? gOHMCard : daiCard} />
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Max you Can {loan ? "Repay" : "Borrow"}</Box>
-          <Box fontWeight="500">{formatNumber(loan ? Number(paybackAmount.toString()) : maxYouCanBorrow, 2)} DAI</Box>
+          <Box fontWeight="500">{formatNumber(loan ? Number(loanPayable.toString()) : maxYouCanBorrow, 2)} DAI</Box>
         </Box>
         <Box mt="18px" mb="21px">
           <Divider />
@@ -179,11 +179,11 @@ export const CreateOrRepayLoan = ({
                 loading={createCooler.isLoading}
                 disabled={
                   createCooler.isLoading ||
-                  Number(debtAmount.toString()) > maxYouCanBorrow ||
-                  Number(debtAmount.toString()) === 0
+                  Number(paymentAmount.toString()) > maxYouCanBorrow ||
+                  Number(paymentAmount.toString()) === 0
                 }
               >
-                {Number(debtAmount.toString()) > maxYouCanBorrow
+                {Number(paymentAmount.toString()) > maxYouCanBorrow
                   ? `Amount requested exceeds capacity`
                   : `Create Cooler`}
               </PrimaryButton>
@@ -207,12 +207,12 @@ export const CreateOrRepayLoan = ({
                           {
                             coolerAddress: coolerAddress,
                             loanId: loan.loanId,
-                            amount: debtAmount,
+                            amount: paymentAmount,
                           },
                           {
                             onSuccess: () => {
                               setCollateralAmount(new DecimalBigNumber("0"));
-                              setDebtAmount(new DecimalBigNumber("0"));
+                              setPaymentAmount(new DecimalBigNumber("0"));
                               setModalOpen(false);
                             },
                           },
@@ -221,12 +221,12 @@ export const CreateOrRepayLoan = ({
                         createLoan.mutate(
                           {
                             coolerAddress,
-                            borrowAmount: debtAmount,
+                            borrowAmount: paymentAmount,
                           },
                           {
                             onSuccess: () => {
                               setCollateralAmount(new DecimalBigNumber("0"));
-                              setDebtAmount(new DecimalBigNumber("0"));
+                              setPaymentAmount(new DecimalBigNumber("0"));
                               setModalOpen(false);
                             },
                           },
@@ -234,9 +234,9 @@ export const CreateOrRepayLoan = ({
                   }}
                   disabled={
                     (loan
-                      ? Number(debtAmount) > Number(paybackAmount)
-                      : Number(debtAmount.toString()) > maxYouCanBorrow) ||
-                    Number(debtAmount.toString()) === 0 ||
+                      ? Number(paymentAmount) > Number(loanPayable)
+                      : Number(paymentAmount.toString()) > maxYouCanBorrow) ||
+                    Number(paymentAmount.toString()) === 0 ||
                     createLoan.isLoading ||
                     repayLoan.isLoading
                   }
@@ -244,10 +244,10 @@ export const CreateOrRepayLoan = ({
                   fullWidth
                 >
                   {loan
-                    ? Number(debtAmount) > Number(paybackAmount)
+                    ? Number(paymentAmount) > Number(loanPayable)
                       ? `Payback Amount exceeds Loan`
                       : `Repay Loan`
-                    : Number(debtAmount.toString()) > maxYouCanBorrow
+                    : Number(paymentAmount.toString()) > maxYouCanBorrow
                     ? `Amount requested exceeds capacity`
                     : `Borrow DAI & Open Position`}
                 </PrimaryButton>
