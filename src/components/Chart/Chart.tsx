@@ -646,9 +646,6 @@ const renderBarChart = (
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
 ) => {
-  const dataKey = dataKeys[0];
-  const dataKeyColor = dataKeyColors.get(dataKey);
-
   return (
     <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
       <XAxis
@@ -671,7 +668,7 @@ const renderBarChart = (
         width={33}
         domain={[0, maximumYValue]}
         allowDataOverflow={false}
-        tickFormatter={number => (number !== 0 ? number : "")}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
       />
       <Tooltip
         content={
@@ -684,7 +681,9 @@ const renderBarChart = (
           />
         }
       />
-      <Bar dataKey={dataKey} fill={dataKeyColor} />
+      {dataKeys.map((value: string) => {
+        return <Bar key={value} dataKey={value} fill={dataKeyColors.get(value)} stackId="1" />;
+      })}
     </BarChart>
   );
 };
