@@ -19,6 +19,7 @@ import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetCleari
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
+import { DelegateVoting } from "src/views/Lending/Cooler/positions/DelegateVoting";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { useAccount } from "wagmi";
@@ -43,6 +44,7 @@ export const CoolerPositions = () => {
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
+  const [delegateVoting, setDelegateVoting] = useState<any>(null);
 
   return (
     <div id="cooler-positions">
@@ -182,6 +184,10 @@ export const CoolerPositions = () => {
               </Box>
             </>
           )}
+          <Box display="flex" justifyContent={"center"}>
+            <PrimaryButton onClick={() => setDelegateVoting(true)}>Delegate Voting</PrimaryButton>
+          </Box>
+          <DelegateVoting coolerAddress={coolerAddress} open={delegateVoting} setOpen={setDelegateVoting} />
         </>
       )}
 
