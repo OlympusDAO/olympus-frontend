@@ -233,7 +233,9 @@ export const CreateOrRepayLoan = ({
                         );
                   }}
                   disabled={
-                    (loan ? debtAmount > paybackAmount : Number(debtAmount.toString()) > maxYouCanBorrow) ||
+                    (loan
+                      ? Number(debtAmount) > Number(paybackAmount)
+                      : Number(debtAmount.toString()) > maxYouCanBorrow) ||
                     Number(debtAmount.toString()) === 0 ||
                     createLoan.isLoading ||
                     repayLoan.isLoading
@@ -242,7 +244,7 @@ export const CreateOrRepayLoan = ({
                   fullWidth
                 >
                   {loan
-                    ? debtAmount > paybackAmount
+                    ? Number(debtAmount) > Number(paybackAmount)
                       ? `Payback Amount exceeds Loan`
                       : `Repay Loan`
                     : Number(debtAmount.toString()) > maxYouCanBorrow
