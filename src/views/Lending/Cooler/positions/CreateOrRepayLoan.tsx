@@ -85,7 +85,7 @@ export const CreateOrRepayLoan = ({
         //     : new DecimalBigNumber(loanToCollateral),
         // );
         const collateralToReceive = value
-          .sub(loan && !interestRepaid ? new DecimalBigNumber(loan.interestDue, 18) : new DecimalBigNumber(0))
+          .sub(loan && !interestRepaid ? new DecimalBigNumber(loan.interestDue, 18) : new DecimalBigNumber("0", 18))
           .div(new DecimalBigNumber(loanToCollateral));
 
         setCollateralAmount(collateralToReceive);
