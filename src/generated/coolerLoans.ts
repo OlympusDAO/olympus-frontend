@@ -7,10 +7,6 @@
 import type { QueryFunction, QueryKey, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { customHttpClient } from "src/views/Lending/Cooler/hooks/customHttpClient";
-export type GetSnapshots200 = {
-  records?: Snapshot[];
-};
-
 export type GetSnapshotsParams = {
   /**
    * The start date (YYYY-MM-DD) of the loan period
@@ -34,6 +30,39 @@ export type SnapshotTerms = {
   loanToCollateral: number;
 };
 
+export type Snapshot = {
+  clearinghouse: SnapshotClearinghouse;
+  clearinghouseEvents: ClearinghouseSnapshotOptional[];
+  /** Quantity of collateral deposited across all Coolers */
+  collateralDeposited: number;
+  /** Income from collateral reclaimed on this date. */
+  collateralIncome: number;
+  creationEvents: ClearLoanRequestEventOptional[];
+  date: string;
+  defaultedClaimEvents: ClaimDefaultedLoanEventOptional[];
+  extendEvents: ExtendLoanEventOptional[];
+  /** Income from interest payments made on this date. */
+  interestIncome: number;
+  /** Interest receivable across all Coolers */
+  interestReceivables: number;
+  /** Dictionary of the loans that had been created by this date.
+
+Key: `cooler address`-`loanId`
+Value: Loan record */
+  loans: SnapshotLoans;
+  /** Principal receivable across all Coolers */
+  principalReceivables: number;
+  repaymentEvents: RepayLoanEventOptional[];
+  terms: SnapshotTerms;
+  /** Timestamp of the snapshot, in milliseconds */
+  timestamp: number;
+  treasury: SnapshotTreasury;
+};
+
+export type GetSnapshots200 = {
+  records?: Snapshot[];
+};
+
 /**
  * Status of the loan
  */
@@ -41,22 +70,6 @@ export type SnapshotLoansStatus = (typeof SnapshotLoansStatus)[keyof typeof Snap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SnapshotLoansStatus = {
-  Active: "Active",
-  Expired: "Expired",
-  Reclaimed: "Reclaimed",
-  Repaid: "Repaid",
-} as const;
-
-/**
- * Status of the loan, with additional information for loans that are active.
- */
-export type SnapshotLoansExpiryStatus = (typeof SnapshotLoansExpiryStatus)[keyof typeof SnapshotLoansExpiryStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SnapshotLoansExpiryStatus = {
-  "<_1_Day": "< 1 Day",
-  "<_14_Days": "< 14 Days",
-  "<_7_Days": "< 7 Days",
   Active: "Active",
   Expired: "Expired",
   Reclaimed: "Reclaimed",
@@ -86,8 +99,6 @@ As this is fixed on the clearinghouse, it does not change. */
     coolerAddress: string;
     /** Timestamp of the loan creation, in seconds */
     createdTimestamp: number;
-    /** Status of the loan, with additional information for loans that are active. */
-    expiryStatus: SnapshotLoansExpiryStatus;
     /** Timestamp of the expected loan expiry, in seconds */
     expiryTimestamp: number;
     /** Loan id unique across the clearinghouse and its coolers
@@ -124,35 +135,6 @@ export type SnapshotClearinghouse = {
   fundCadence: number;
   sDaiBalance: number;
   sDaiInDaiBalance: number;
-};
-
-export type Snapshot = {
-  clearinghouse: SnapshotClearinghouse;
-  clearinghouseEvents: ClearinghouseSnapshotOptional[];
-  /** Quantity of collateral deposited across all Coolers */
-  collateralDeposited: number;
-  /** Income from collateral reclaimed on this date. */
-  collateralIncome: number;
-  creationEvents: ClearLoanRequestEventOptional[];
-  date: string;
-  defaultedClaimEvents: ClaimDefaultedLoanEventOptional[];
-  extendEvents: ExtendLoanEventOptional[];
-  /** Income from interest payments made on this date. */
-  interestIncome: number;
-  /** Interest receivable across all Coolers */
-  interestReceivables: number;
-  /** Dictionary of the loans that had been created by this date.
-
-Key: `cooler address`-`loanId`
-Value: Loan record */
-  loans: SnapshotLoans;
-  /** Principal receivable across all Coolers */
-  principalReceivables: number;
-  repaymentEvents: RepayLoanEventOptional[];
-  terms: SnapshotTerms;
-  /** Timestamp of the snapshot, in milliseconds */
-  timestamp: number;
-  treasury: SnapshotTreasury;
 };
 
 export type RepayLoanEventOptionalAllOfLoan = {

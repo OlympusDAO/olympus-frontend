@@ -2,26 +2,26 @@ import { Grid, Typography, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { Snapshot, SnapshotLoansExpiryStatus } from "src/generated/coolerLoans";
+import { Snapshot, SnapshotLoansStatus } from "src/generated/coolerLoans";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { PrincipalExpired, PrincipalMaturingInUnder } from "src/views/Lending/Cooler/dashboard/Metrics";
+import { PrincipalMaturingInUnder } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 
-type SnapshotWithStatusSummary = Snapshot & {
-  statusCount: {
+type SnapshotWithExpiryBuckets = Snapshot & {
+  /**
+   * Values are mutually-exclusive
+   */
+  expiryBuckets: {
     active: number;
-    lessThanOneDay: number;
-    lessThanSevenDays: number;
-    lessThanFourteenDays: number;
+    "30Days": number;
+    "120Days": number;
     expired: number;
-    reclaimed: number;
-    repaid: number;
   };
 };
 
@@ -30,7 +30,7 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
 
   const { data } = useCoolerSnapshot(startDate);
 
-  const [coolerSnapshots, setCoolerSnapshots] = useState<SnapshotWithStatusSummary[] | undefined>();
+  const [coolerSnapshots, setCoolerSnapshots] = useState<SnapshotWithExpiryBuckets[] | undefined>();
   useMemo(() => {
     if (!data) {
       setCoolerSnapshots(undefined);
@@ -38,42 +38,34 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
     }
 
     const _coolerSnapshots = data.map(snapshot => {
-      const _snapshot: SnapshotWithStatusSummary = {
+      const _snapshot: SnapshotWithExpiryBuckets = {
         ...snapshot,
-        statusCount: {
+        expiryBuckets: {
           active: 0,
-          lessThanOneDay: 0,
-          lessThanSevenDays: 0,
-          lessThanFourteenDays: 0,
+          "30Days": 0,
+          "120Days": 0,
           expired: 0,
-          reclaimed: 0,
-          repaid: 0,
         },
       };
 
-      // Iterate over the loans and set the expiry count
+      // Iterate over the loans and set the expiry values
       Object.values(_snapshot.loans).forEach(loan => {
-        switch (loan.expiryStatus) {
-          case SnapshotLoansExpiryStatus.Active:
-            _snapshot.statusCount.active++;
+        const principalDue = Math.max(loan.principal - loan.principalPaid, 0); // If the loan is somehow overpaid, don't count the overpaid amount
+
+        switch (loan.status) {
+          case SnapshotLoansStatus.Expired:
+            _snapshot.expiryBuckets.expired += principalDue;
             break;
-          case SnapshotLoansExpiryStatus["<_1_Day"]:
-            _snapshot.statusCount.lessThanOneDay++;
-            break;
-          case SnapshotLoansExpiryStatus["<_7_Days"]:
-            _snapshot.statusCount.lessThanSevenDays++;
-            break;
-          case SnapshotLoansExpiryStatus["<_14_Days"]:
-            _snapshot.statusCount.lessThanFourteenDays++;
-            break;
-          case SnapshotLoansExpiryStatus.Expired:
-            _snapshot.statusCount.expired++;
-            break;
-          case SnapshotLoansExpiryStatus.Reclaimed:
-            _snapshot.statusCount.reclaimed++;
-            break;
-          case SnapshotLoansExpiryStatus.Repaid:
-            _snapshot.statusCount.repaid++;
+          case SnapshotLoansStatus.Active:
+            const daysToExpiry = loan.secondsToExpiry / 86400;
+
+            if (daysToExpiry < 30) {
+              _snapshot.expiryBuckets["30Days"] += principalDue;
+            } else if (daysToExpiry < 120) {
+              _snapshot.expiryBuckets["120Days"] += principalDue;
+            } else {
+              _snapshot.expiryBuckets.active += principalDue;
+            }
             break;
           default:
             break;
@@ -92,12 +84,12 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
    * Chart inputs
    */
   const dataKeys: string[] = [
-    "statusCount.active",
-    "statusCount.lessThanOneDay",
-    "statusCount.lessThanSevenDays",
-    "statusCount.lessThanFourteenDays",
+    "expiryBuckets.expired",
+    "expiryBuckets.active",
+    "expiryBuckets.30Days",
+    "expiryBuckets.120Days",
   ];
-  const itemNames: string[] = ["Active", "< 1 Day", "< 7 Days", "< 14 Days"];
+  const itemNames: string[] = ["Expired", "Active", "< 30 Days", "< 120 Days"];
 
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
@@ -111,21 +103,18 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
         </Typography>
       </Grid>
       <Grid item xs={12} container>
-        <Grid item xs={4}>
-          <PrincipalExpired />
+        <Grid item xs>
+          <PrincipalMaturingInUnder days={30} previousBucket={0} />
         </Grid>
-        <Grid item xs={4}>
-          <PrincipalMaturingInUnder days={1} />
-        </Grid>
-        <Grid item xs={4}>
-          <PrincipalMaturingInUnder days={7} />
+        <Grid item xs>
+          <PrincipalMaturingInUnder days={120} previousBucket={30} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
         <Chart
           type={ChartType.Bar}
           data={coolerSnapshots || []}
-          dataFormat={DataFormat.Number}
+          dataFormat={DataFormat.Currency}
           headerText=""
           headerSubText={""}
           dataKeys={dataKeys}
@@ -137,6 +126,7 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
           tickStyle={getTickStyle(theme)}
           itemDecimals={0}
           margin={{ left: 30 }}
+          displayTooltipTotal={true}
         />
       </Grid>
     </Grid>

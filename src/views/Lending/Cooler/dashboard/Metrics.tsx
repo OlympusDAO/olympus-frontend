@@ -115,7 +115,7 @@ export const TreasuryCapacityRemaining = () => {
 
 const SECONDS_PER_DAY = 60 * 60 * 24;
 
-export const PrincipalMaturingInUnder = ({ days }: { days: number }) => {
+export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: number; previousBucket: number }) => {
   const { latestSnapshot } = useCoolerSnapshotLatest();
 
   const [principalMaturing, setPrincipalMaturing] = useState<number | undefined>();
@@ -131,9 +131,11 @@ export const PrincipalMaturingInUnder = ({ days }: { days: number }) => {
         continue;
       }
 
+      const principalDue = Math.max(loan.principal - loan.principalPaid, 0); // If the loan is somehow overpaid, don't count the overpaid amount
+
       const loanDaysToExpiry = loan.secondsToExpiry / SECONDS_PER_DAY;
-      if (loanDaysToExpiry < days) {
-        _principalMaturing += loan.principal;
+      if (loanDaysToExpiry >= previousBucket && loanDaysToExpiry < days) {
+        _principalMaturing += principalDue;
       }
     }
 
@@ -145,6 +147,7 @@ export const PrincipalMaturingInUnder = ({ days }: { days: number }) => {
       label={`Principal Maturing in < ${days} ${days == 1 ? "Day" : "Days"}`}
       metric={formatCurrency(principalMaturing || 0, 0, "DAI")}
       isLoading={latestSnapshot === undefined}
+      tooltip={`The value of principal that will mature in more than ${previousBucket} days but less than ${days} days`}
     />
   );
 };
