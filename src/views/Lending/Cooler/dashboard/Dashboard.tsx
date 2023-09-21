@@ -66,7 +66,7 @@ export const CoolerDashboard = () => {
       <Grid container spacing={1}>
         {/* Line one */}
         <Grid item xs />
-        <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
+        <Grid item xs={12} sm={6} md={5} lg={4} textAlign="center">
           <TabBar
             disableRouting
             items={[

@@ -55,14 +55,14 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
           Utilisation
         </Typography>
       </Grid>
-      <Grid item xs={12} container>
-        <Grid item xs>
+      <Grid item xs={12} container spacing={2}>
+        <Grid item xs={12} sm>
           <OutstandingPrincipal />
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12} sm>
           <CollateralDeposited />
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12} sm>
           <TreasuryCapacityRemaining />
         </Grid>
       </Grid>

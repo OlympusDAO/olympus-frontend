@@ -46,14 +46,14 @@ export const CoolerPositions = () => {
 
   return (
     <div id="cooler-positions">
-      <Grid container>
-        <Grid item xs={4}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={4}>
           <WeeklyCapacityRemaining />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <BorrowRate />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <OutstandingPrincipal />
         </Grid>
       </Grid>

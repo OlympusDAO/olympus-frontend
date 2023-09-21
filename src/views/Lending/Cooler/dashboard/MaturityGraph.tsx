@@ -102,11 +102,11 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
           Maturity
         </Typography>
       </Grid>
-      <Grid item xs={12} container>
-        <Grid item xs>
+      <Grid item xs={12} container spacing={2}>
+        <Grid item xs={12} sm>
           <PrincipalMaturingInUnder days={30} previousBucket={0} />
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12} sm>
           <PrincipalMaturingInUnder days={120} previousBucket={30} />
         </Grid>
       </Grid>
