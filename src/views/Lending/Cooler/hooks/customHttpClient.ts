@@ -1,4 +1,4 @@
-const baseURL = "https://olympus-cooler-loans-api-dev.web.app"; // TODO change to prod
+const baseURL = "https://olympus-cooler-loans-api-prod.web.app";
 
 /**
  * We define a custom HTTP client for react-query to use. This is configured
