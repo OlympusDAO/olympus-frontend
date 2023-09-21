@@ -34,6 +34,7 @@ import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
 import { Lending } from "src/views/Lending";
+import { Cooler } from "src/views/Lending/Cooler";
 import { LendingMarkets } from "src/views/Lending/LendingMarkets";
 import { Liquidity } from "src/views/Liquidity";
 import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
@@ -254,6 +255,8 @@ function App() {
                   <Route path="/liquidity/pools" element={<ExternalStakePools />} />
                   <Route path="/liquidity/vaults" element={<Vaults />} />
                   <Route path="/liquidity/vaults/:id" element={<Vault />} />
+                  <Route path="/lending" element={<Lending />} />
+                  <Route path="/lending/cooler" element={<Cooler />} />
 
                   <Route
                     path={"/info/*"}

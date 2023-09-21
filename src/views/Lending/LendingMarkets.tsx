@@ -42,7 +42,6 @@ const StyledPoolInfo = styled("div")(() => ({
 
 export const LendingMarkets = () => {
   const { data: defiLlamaPools } = useGetLendAndBorrowStats();
-  console.log(defiLlamaPools, "defiLlamaPools");
   const [poolFilter, setPoolFilter] = useState("all");
   const theme = useTheme();
   const networks = [...new Set(defiLlamaPools?.map(pool => pool.chain))];

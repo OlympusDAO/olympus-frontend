@@ -15,7 +15,8 @@ type Category =
   | "Wrapping"
   | "Range"
   | "Liquidity"
-  | "0XSwap";
+  | "0XSwap"
+  | "Cooler";
 
 interface TrackGAEventOptions extends ReactGA.EventArgs {
   category: Category;

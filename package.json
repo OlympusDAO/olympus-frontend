@@ -73,6 +73,7 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bytes": "^5.6.1",
+    "@redocly/cli": "^1.2.0",
     "@tanstack/react-query-devtools": "^4.19.1",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/react": "^12.1.5",
@@ -117,6 +118,7 @@
     "less-plugin-npm-import": "^2.1.0",
     "lint-staged": "^13.2.3",
     "node-watch": "^0.7.1",
+    "orval": "^6.17.0",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.29",
     "prettier": "^3.0.3",
@@ -150,7 +152,9 @@
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "postinstall": "yarn typechain:build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/openapi/openapi.yml -o tmp/openapi.yaml",
+    "codegen": "yarn codegen:bundle && orval && yarn lint:fix"
   },
   "resolutions": {
     "**/prompts": "2.4.2",
