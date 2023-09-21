@@ -8,23 +8,10 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import {
-  OutstandingPrincipal,
-  TreasuryCapacityRemaining,
-  WeeklyCapacityRemaining,
-} from "src/views/Lending/Cooler/dashboard/Metrics";
-import {
-  getClearinghouseCapacity,
-  getReceivables,
-  useCoolerSnapshot,
-} from "src/views/Lending/Cooler/hooks/useSnapshot";
+import { OutstandingPrincipal, TreasuryCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
+import { useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-
-type CoolerSnapshotWithTotals = Snapshot & {
-  capacity: number;
-  receivables: number;
-};
 
 export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
   const theme = useTheme();
@@ -32,23 +19,14 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
   const { data } = useCoolerSnapshot(startDate);
 
   // Add calculated data
-  const [coolerSnapshots, setCoolerSnapshots] = useState<CoolerSnapshotWithTotals[] | undefined>(undefined);
+  const [coolerSnapshots, setCoolerSnapshots] = useState<Snapshot[] | undefined>(undefined);
   useMemo(() => {
     if (!data) {
       setCoolerSnapshots(undefined);
       return;
     }
 
-    const _coolerSnapshotsWithTotals = data.map(snapshot => {
-      const capacity = getClearinghouseCapacity(snapshot);
-      const receivables = getReceivables(snapshot);
-
-      return {
-        ...snapshot,
-        capacity,
-        receivables,
-      };
-    });
+    const _coolerSnapshotsWithTotals = data.slice();
 
     // Sort in descending order
     _coolerSnapshotsWithTotals.sort((a, b) => b.timestamp - a.timestamp);
@@ -59,8 +37,8 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
   /**
    * Chart inputs
    */
-  const dataKeys: string[] = ["receivables", "capacity"];
-  const itemNames: string[] = ["Receivables", "Capacity Remaining"];
+  const dataKeys: string[] = ["principalReceivables", "interestReceivables"];
+  const itemNames: string[] = ["Principal Receivables", "Interest Receivables"];
 
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
@@ -74,13 +52,10 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
         </Typography>
       </Grid>
       <Grid item xs={12} container>
-        <Grid item xs={4}>
+        <Grid item xs>
           <OutstandingPrincipal />
         </Grid>
-        <Grid item xs={4}>
-          <WeeklyCapacityRemaining />
-        </Grid>
-        <Grid item xs={4}>
+        <Grid item xs>
           <TreasuryCapacityRemaining />
         </Grid>
       </Grid>
