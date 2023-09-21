@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/styled": "^11.11.0",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/providers": "^5.7.1",
     "@mui/icons-material": "^5.14.9",
