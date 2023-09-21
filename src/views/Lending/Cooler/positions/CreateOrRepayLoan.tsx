@@ -183,7 +183,9 @@ export const CreateOrRepayLoan = ({
                   Number(debtAmount.toString()) === 0
                 }
               >
-                {Number(debtAmount.toString()) > maxYouCanBorrow ? `Amount requested exceeds max` : `Create Cooler`}
+                {Number(debtAmount.toString()) > maxYouCanBorrow
+                  ? `Amount requested exceeds capacity`
+                  : `Create Cooler`}
               </PrimaryButton>
             ) : (
               <TokenAllowanceGuard
@@ -244,7 +246,7 @@ export const CreateOrRepayLoan = ({
                       ? `Payback Amount exceeds Loan`
                       : `Repay Loan`
                     : Number(debtAmount.toString()) > maxYouCanBorrow
-                    ? `Amount requested exceeds max`
+                    ? `Amount requested exceeds capacity`
                     : `Borrow DAI & Open Position`}
                 </PrimaryButton>
               </TokenAllowanceGuard>
