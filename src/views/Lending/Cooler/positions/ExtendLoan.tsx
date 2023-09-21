@@ -1,7 +1,7 @@
-import { Box, SvgIcon, Typography } from "@mui/material";
+import { Box, Skeleton, SvgIcon, Typography } from "@mui/material";
 import { Icon, Input, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
@@ -42,14 +42,29 @@ export const ExtendLoan = ({
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
   const { data: daiBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
-  const insufficientCollateral = false;
+
   const [extensionTerm, setExtensionTerm] = useState("1");
+
   const newMaturityDate = new Date(Number(loan?.expiry.toString()) * 1000);
-  const paidInterest = Number(ethers.utils.formatUnits(loan.principal)) <= Number(loanToCollateral) ? 1 : 0;
   newMaturityDate.setDate(newMaturityDate.getDate() + Number(duration || 0) * Number(extensionTerm));
-  const interestPercent =
-    ((Number(extensionTerm) - paidInterest) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
+
+  // Interest is calculated based on the remaining principal amount * interest rate
+  const interestPercent = (Number(extensionTerm) * 121 * 86400 * Number(interestRate) * 0.01) / (365 * 86400);
   const interestDue = interestPercent * Number(ethers.utils.formatUnits(loan.principal));
+
+  const [insufficientCollateral, setInsufficientCollateral] = useState<boolean | undefined>();
+  useMemo(() => {
+    if (!daiBalance) {
+      setInsufficientCollateral(undefined);
+      return;
+    }
+
+    if (Number(daiBalance) < interestDue) {
+      setInsufficientCollateral(true);
+    } else {
+      setInsufficientCollateral(false);
+    }
+  }, [daiBalance, interestDue]);
 
   return (
     <Modal
@@ -124,14 +139,15 @@ export const ExtendLoan = ({
               </Box>
             </Box>
           )}
-          {loanToCollateral && (
-            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
-              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loan To Value per gOHM</Typography>
-              <Box display="flex" flexDirection="column" textAlign="right">
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}> {loanToCollateral} DAI</Typography>
-              </Box>
+          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>DAI Balance</Typography>
+            <Box display="flex" flexDirection="column" textAlign="right">
+              <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                {" "}
+                {!daiBalance ? <Skeleton /> : daiBalance.toString({ decimals: 2 })} DAI
+              </Typography>
             </Box>
-          )}
+          </Box>
           {loanToCollateral && (
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Due on Extension</Typography>
@@ -149,8 +165,8 @@ export const ExtendLoan = ({
             isVertical
             message={
               <>
-                First time borrowing with <b>gOHM</b>? <br /> Please approve Olympus DAO to use your <b>gOHM</b> for
-                borrowing.
+                First time repaying with <b>DAI</b>? <br /> Please approve Olympus DAO to use your <b>DAI</b> for
+                payment.
               </>
             }
             spendAmount={new DecimalBigNumber(interestDue.toString())}
@@ -170,7 +186,7 @@ export const ExtendLoan = ({
               }}
               loading={extendLoan.isLoading}
             >
-              {insufficientCollateral ? "Insufficient gOHM Balance" : "Extend Loan"}
+              {insufficientCollateral ? "Insufficient DAI Balance" : "Extend Loan"}
             </PrimaryButton>
           </TokenAllowanceGuard>
         </>
