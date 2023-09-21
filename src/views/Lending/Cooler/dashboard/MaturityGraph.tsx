@@ -13,6 +13,9 @@ import { useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
 
+const EXPIRY_BUCKET_30 = 30;
+const EXPIRY_BUCKET_121 = 121;
+
 type SnapshotWithExpiryBuckets = Snapshot & {
   /**
    * Values are mutually-exclusive
@@ -20,7 +23,7 @@ type SnapshotWithExpiryBuckets = Snapshot & {
   expiryBuckets: {
     active: number;
     "30Days": number;
-    "120Days": number;
+    "121Days": number;
     expired: number;
   };
 };
@@ -43,7 +46,7 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
         expiryBuckets: {
           active: 0,
           "30Days": 0,
-          "120Days": 0,
+          "121Days": 0,
           expired: 0,
         },
       };
@@ -59,10 +62,10 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
           case SnapshotLoansStatus.Active:
             const daysToExpiry = loan.secondsToExpiry / 86400;
 
-            if (daysToExpiry < 30) {
+            if (daysToExpiry < EXPIRY_BUCKET_30) {
               _snapshot.expiryBuckets["30Days"] += principalDue;
-            } else if (daysToExpiry < 120) {
-              _snapshot.expiryBuckets["120Days"] += principalDue;
+            } else if (daysToExpiry < EXPIRY_BUCKET_121) {
+              _snapshot.expiryBuckets["121Days"] += principalDue;
             } else {
               _snapshot.expiryBuckets.active += principalDue;
             }
@@ -87,9 +90,9 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
     "expiryBuckets.expired",
     "expiryBuckets.active",
     "expiryBuckets.30Days",
-    "expiryBuckets.120Days",
+    "expiryBuckets.121Days",
   ];
-  const itemNames: string[] = ["Expired", "Active", "< 30 Days", "< 120 Days"];
+  const itemNames: string[] = ["Expired", "Active", "< 30 Days", "< 121 Days"];
 
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
@@ -104,10 +107,10 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
       </Grid>
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={12} sm>
-          <PrincipalMaturingInUnder days={30} previousBucket={0} />
+          <PrincipalMaturingInUnder days={EXPIRY_BUCKET_30} previousBucket={0} />
         </Grid>
         <Grid item xs={12} sm>
-          <PrincipalMaturingInUnder days={120} previousBucket={30} />
+          <PrincipalMaturingInUnder days={EXPIRY_BUCKET_121} previousBucket={EXPIRY_BUCKET_30} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
