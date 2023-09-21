@@ -92,10 +92,6 @@ export type SnapshotLoans = {
 As the loan is repaid, this will decrease. */
     collateralDeposited: number;
     collateralIncome: number;
-    /** The amount of collateral required per period.
-
-As this is fixed on the clearinghouse, it does not change. */
-    collateralPerPeriod: number;
     coolerAddress: string;
     /** Timestamp of the loan creation, in seconds */
     createdTimestamp: number;
@@ -105,18 +101,16 @@ As this is fixed on the clearinghouse, it does not change. */
 
 Format: cooler-loanId */
     id: string;
-    /** The interest charged on the loan.
+    /** The total interest charged on the loan.
 
-When the loan is extended, this number will be incremented. */
+When the loan is extended, this number will be increased. */
     interest: number;
     /** Cumulative interest paid on the loan. */
     interestPaid: number;
-    /** The amount of interest charged per period. */
-    interestPerPeriod: number;
     lenderAddress: string;
     /** Loan id unique to the cooler */
     loanId: number;
-    /** The loan principal */
+    /** The loan principal. Will not change after loan creation. */
     principal: number;
     /** Cumulative principal paid on the loan. */
     principalPaid: number;
