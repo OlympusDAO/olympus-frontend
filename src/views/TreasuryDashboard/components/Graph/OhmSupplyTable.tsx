@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
@@ -255,7 +256,14 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
                                 {record.pool}
                               </TableCell>
                               <TableCell style={{ width: "15%" }} align="right">
-                                {formatNumber(ohmValue, 0)}
+                                {!isGOhm ? (
+                                  formatNumber(ohmValue, 0)
+                                ) : (
+                                  <>
+                                    <InfoTooltip message={`gOHM: ${+record.balance}`} />
+                                    {formatNumber(ohmValue, 0)}
+                                  </>
+                                )}
                               </TableCell>
                             </TableRow>
                           );
