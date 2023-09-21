@@ -8,7 +8,11 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { OutstandingPrincipal, TreasuryCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
+import {
+  CollateralDeposited,
+  OutstandingPrincipal,
+  TreasuryCapacityRemaining,
+} from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useCoolerSnapshot } from "src/views/Lending/Cooler/hooks/useSnapshot";
 import { DEFAULT_BULLETPOINT_COLOURS, DEFAULT_COLORS } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
@@ -54,6 +58,9 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
       <Grid item xs={12} container>
         <Grid item xs>
           <OutstandingPrincipal />
+        </Grid>
+        <Grid item xs>
+          <CollateralDeposited />
         </Grid>
         <Grid item xs>
           <TreasuryCapacityRemaining />

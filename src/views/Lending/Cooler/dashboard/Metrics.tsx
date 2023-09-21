@@ -1,7 +1,7 @@
 import { Metric } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { SnapshotLoansStatus } from "src/generated/coolerLoans";
-import { formatCurrency } from "src/helpers";
+import { formatCurrency, formatNumber } from "src/helpers";
 import {
   getClearinghouseCapacity,
   getTreasuryCapacity,
@@ -63,12 +63,24 @@ export const CumulativeCollateralIncome = ({ startDate }: { startDate?: Date }) 
   );
 };
 
+export const CollateralDeposited = () => {
+  const { latestSnapshot } = useCoolerSnapshotLatest();
+
+  return (
+    <Metric
+      label="gOHM Collateral"
+      metric={latestSnapshot ? formatNumber(latestSnapshot.collateralDeposited, 0) : ""}
+      isLoading={latestSnapshot === undefined}
+    />
+  );
+};
+
 export const OutstandingPrincipal = () => {
   const { latestSnapshot } = useCoolerSnapshotLatest();
 
   return (
     <Metric
-      label="Outstanding Principal"
+      label="Amount Borrowed"
       metric={latestSnapshot ? formatCurrency(latestSnapshot.principalReceivables, 0, "DAI") : ""}
       isLoading={latestSnapshot === undefined}
     />
