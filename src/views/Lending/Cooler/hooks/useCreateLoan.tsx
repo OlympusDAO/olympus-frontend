@@ -15,7 +15,6 @@ export const useCreateLoan = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
 
       const contract = COOLER_CLEARING_HOUSE_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
-      //   const contract = CoolerClearingHouse__factory.connect(clearingHouseAddress, signer);
       const loan = await contract.lendToCooler(coolerAddress, borrowAmount.toBigNumber(18));
       const receipt = await loan.wait();
       return receipt;

@@ -13,7 +13,6 @@ export const useRepayLoan = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
 
       const coolerContract = Cooler__factory.connect(coolerAddress, signer);
-      //   const contract = CoolerClearingHouse__factory.connect(clearingHouseAddress, signer);
       const loan = await coolerContract.repayLoan(loanId, amount.toBigNumber(18));
       const receipt = await loan.wait();
       return receipt;
