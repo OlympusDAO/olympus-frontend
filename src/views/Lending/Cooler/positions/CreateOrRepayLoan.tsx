@@ -79,13 +79,11 @@ export const CreateOrRepayLoan = ({
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
         setPaymentAmount(value);
-        setCollateralAmount(
-          value.div(
-            loan && !interestRepaid
-              ? new DecimalBigNumber(loanToCollateral).add(new DecimalBigNumber(loan.interestDue, 18))
-              : new DecimalBigNumber(loanToCollateral),
-          ),
-        );
+        const collateralToReceive = value
+          .sub(loan && !interestRepaid ? new DecimalBigNumber(loan.interestDue, 18) : new DecimalBigNumber("0", 18))
+          .div(new DecimalBigNumber(loanToCollateral));
+
+        setCollateralAmount(collateralToReceive);
       }}
       loanBalance={loan?.principal.add(loan?.interestDue)}
     />
