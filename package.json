@@ -65,7 +65,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.7.2",
     "tinycolor2": "^1.6.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.2.2",
     "wagmi": "^0.12.16"
   },
   "devDependencies": {
@@ -116,7 +116,7 @@
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^13.2.3",
+    "lint-staged": "^14.0.1",
     "node-watch": "^0.7.1",
     "orval": "^6.17.0",
     "os-browserify": "^0.3.0",
