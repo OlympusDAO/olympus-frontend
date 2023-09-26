@@ -1,5 +1,5 @@
-import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
-import { TabBar } from "@olympusdao/component-library";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Paper, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { adjustDateByDays } from "src/helpers/DateHelper";
