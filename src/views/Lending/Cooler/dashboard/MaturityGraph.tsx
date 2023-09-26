@@ -107,7 +107,7 @@ export const MaturityGraph = () => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" color="textSecondary" display="inline">
-          Maturity
+          Projected Maturity
         </Typography>
       </Grid>
       <Grid item xs={12} container spacing={2}>
