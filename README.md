@@ -191,7 +191,17 @@ Commits to the follow branches are automatically deployed to their respective UR
 **Pull Requests**:
 Each PR into master will get its own custom URL that is visible on the PR page. QA & validate changes on that URL before merging into the develop branch.
 
-## Dashboard
+## Cooler Loans Dashboard
+
+The data in the Cooler Loans Dashboard is served by an API that generates time-series data not possible in a subgraph. See the [cooler-loans-api](https://github.com/OlympusDAO/cooler-loans-api) repository for details.
+
+Different endpoints are used in different circumstances:
+
+- Build (deployed by Fleek): production
+- Local development: dev
+- If `VITE_COOLER_LOANS_API_ENDPOINT` is specified in an environment variable, it will be used regardless
+
+## Treasury Dashboard
 
 The data in the Treasury Dashboard is powered by subgraphs hosted by the Graph Protocol and served using GraphQL. There are a few limitations, however:
 

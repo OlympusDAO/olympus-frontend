@@ -13585,6 +13585,11 @@ vite-plugin-svgr@^3.2.0:
     "@svgr/core" "^7.0.0"
     "@svgr/plugin-jsx" "^7.0.0"
 
+vite-plugin-transform@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vite-plugin-transform/-/vite-plugin-transform-2.0.1.tgz#330e894c9c6c3a8b1c659ed0562b098cf41a4ab0"
+  integrity sha512-sI9SzcuFbCj04YHEmhw9C14kNnVq3QFLWq7eofjNnDWnw/p+i+6pnSvVZSx1GDVpW1ciZglrv794XEU/lGGvyA==
+
 vite-tsconfig-paths@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/vite-tsconfig-paths/-/vite-tsconfig-paths-4.2.1.tgz#e53b89096b91d31a6d1e26f75999ea8c336a89ed"
