@@ -93,11 +93,11 @@ export const MaturityGraph = () => {
    */
   const dataKeys: string[] = [
     "expiryBuckets.expired",
-    "expiryBuckets.active",
     "expiryBuckets.30Days",
     "expiryBuckets.121Days",
+    "expiryBuckets.active",
   ];
-  const itemNames: string[] = ["Expired", "Active", "< 30 Days", "< 121 Days"];
+  const itemNames: string[] = ["Expired", "< 30 Days", "< 121 Days", ">= 121 Days"];
 
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
