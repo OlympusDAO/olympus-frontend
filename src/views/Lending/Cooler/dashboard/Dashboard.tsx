@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { adjustDateByDays } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { IncomeGraph } from "src/views/Lending/Cooler/dashboard/IncomeGraph";
+import { MaturityGraph } from "src/views/Lending/Cooler/dashboard/MaturityGraph";
 import { UtilisationGraph } from "src/views/Lending/Cooler/dashboard/UtilisationGraph";
 
 const PARAM_DAYS = "days";
@@ -104,11 +105,11 @@ export const CoolerDashboard = () => {
             <IncomeGraph startDate={startDate} />
           </Paper>
         </Grid>
-        {/* <Grid item xs={12} paddingBottom={5}>
+        <Grid item xs={12} paddingBottom={5}>
           <Paper {...paperProps} style={paperStyles}>
-            <MaturityGraph startDate={startDate} />
+            <MaturityGraph />
           </Paper>
-        </Grid> */}
+        </Grid>
       </Grid>
     </div>
   );

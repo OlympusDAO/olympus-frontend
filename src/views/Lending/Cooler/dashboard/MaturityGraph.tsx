@@ -28,10 +28,15 @@ type SnapshotWithExpiryBuckets = Snapshot & {
   };
 };
 
-export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
+export const MaturityGraph = () => {
   const theme = useTheme();
 
-  const { data } = useCoolerSnapshot(startDate);
+  // For the maturity chart, we want to show the data for 121 days from now
+  const startDate = new Date();
+  const beforeDate = new Date();
+  beforeDate.setDate(beforeDate.getDate() + 121);
+
+  const { data } = useCoolerSnapshot(startDate, beforeDate);
 
   const [coolerSnapshots, setCoolerSnapshots] = useState<SnapshotWithExpiryBuckets[] | undefined>();
   useMemo(() => {
