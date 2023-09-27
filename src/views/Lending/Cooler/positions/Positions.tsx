@@ -15,6 +15,7 @@ import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-lib
 import { ethers } from "ethers";
 import { useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
+import { useCheckDelegation } from "src/views/Lending/Cooler/hooks/useCheckDelegation";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
@@ -41,6 +42,7 @@ export const CoolerPositions = () => {
     collateralAddress: clearingHouse?.collateralAddress,
     debtAddress: clearingHouse?.debtAddress,
   });
+  const { data: delegationAddress } = useCheckDelegation({ coolerAddress });
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
@@ -184,10 +186,16 @@ export const CoolerPositions = () => {
               </Box>
             </>
           )}
-          <Box display="flex" justifyContent={"center"}>
+          <Box display="flex" justifyContent={"center"} mt="16px">
             <PrimaryButton onClick={() => setDelegateVoting(true)}>Delegate Voting</PrimaryButton>
           </Box>
-          <DelegateVoting coolerAddress={coolerAddress} open={delegateVoting} setOpen={setDelegateVoting} />
+          <Box display="flex" fontSize="12px" justifyContent={"center"}></Box>
+          <DelegateVoting
+            coolerAddress={coolerAddress}
+            open={delegateVoting}
+            setOpen={setDelegateVoting}
+            currentDelegateAddress={delegationAddress}
+          />
         </>
       )}
 
