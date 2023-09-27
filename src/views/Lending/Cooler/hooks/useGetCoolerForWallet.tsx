@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { ethers } from "ethers";
 import { Cooler__factory, CoolerFactory__factory, CoolerFactoryV2__factory } from "src/typechain";
 import { useSigner } from "wagmi";
 
@@ -33,7 +34,7 @@ export const useGetCoolerForWallet = ({
           const contract = CoolerFactoryV2__factory.connect(factoryAddress, signer);
           const address = await contract.getCoolerFor(walletAddress, collateralAddress, debtAddress);
           const isCreated = await contract.created(address);
-          return isCreated && address ? address : "";
+          return isCreated && address && address !== ethers.constants.AddressZero ? address : "";
         }
       } catch {
         return "";
