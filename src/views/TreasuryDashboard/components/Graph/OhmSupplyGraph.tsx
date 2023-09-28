@@ -21,13 +21,13 @@ import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpe
  *
  * @returns
  */
-export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }: GraphProps) => {
+export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset, ignoreCache }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
 
   const chartName = "OhmSupplyGraph";
 
-  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate });
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:

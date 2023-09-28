@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
-export const useOhmCirculatingSupply = (earliestDate?: string | null): number | undefined => {
+export const useOhmCirculatingSupply = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [circulatingSupply, setCirculatingSupply] = useState<number>();
@@ -20,9 +20,9 @@ export const useOhmCirculatingSupply = (earliestDate?: string | null): number | 
   return circulatingSupply;
 };
 
-export const useOhmFloatingSupply = (earliestDate?: string | null): number | undefined => {
+export const useOhmFloatingSupply = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [floatingSupply, setFloatingSupply] = useState<number>();
@@ -39,9 +39,9 @@ export const useOhmFloatingSupply = (earliestDate?: string | null): number | und
   return floatingSupply;
 };
 
-export const useOhmBackedSupply = (earliestDate?: string | null): number | undefined => {
+export const useOhmBackedSupply = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [backedSupply, setBackedSupply] = useState<number>();
@@ -58,9 +58,9 @@ export const useOhmBackedSupply = (earliestDate?: string | null): number | undef
   return backedSupply;
 };
 
-export const useOhmTotalSupply = (earliestDate?: string | null): number | undefined => {
+export const useOhmTotalSupply = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [totalSupply, setTotalSupply] = useState<number>();

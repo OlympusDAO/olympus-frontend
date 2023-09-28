@@ -28,12 +28,21 @@ export const { useQuery: useFederatedSubgraphQuery } = createHooks<Operations>(c
  * @param crossChainDataComplete If true, returns up (and including) the date with complete cross-chain data.
  * @returns
  */
-export const useTokenRecordsQuery = (startDate: string | null | undefined, crossChainDataComplete?: boolean) => {
+export const useTokenRecordsQuery = ({
+  startDate,
+  crossChainDataComplete,
+  ignoreCache,
+}: {
+  startDate: string | null | undefined;
+  crossChainDataComplete?: boolean;
+  ignoreCache?: boolean;
+}) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/tokenRecords",
     input: {
       startDate: startDate || "",
       crossChainDataComplete: crossChainDataComplete || false,
+      ignoreCache: ignoreCache || false,
     },
     enabled: startDate != null,
   });
@@ -50,8 +59,14 @@ export const useTokenRecordsQuery = (startDate: string | null | undefined, cross
  * @param startDate Date string in YYYY-MM-DD format.
  * @returns TokenRecord[] or undefined if there are no results
  */
-export const useTokenRecordsQueryComplete = (startDate: string | null | undefined): TokenRecord[] | undefined => {
-  const { data: tokenRecordResults } = useTokenRecordsQuery(startDate, true);
+export const useTokenRecordsQueryComplete = ({
+  startDate,
+  ignoreCache,
+}: {
+  startDate: string | null | undefined;
+  ignoreCache?: boolean;
+}): TokenRecord[] | undefined => {
+  const { data: tokenRecordResults } = useTokenRecordsQuery({ startDate, crossChainDataComplete: true, ignoreCache });
   const [untilLatestDateResults, setUntilLatestDateResults] = useState<TokenRecord[]>();
 
   useEffect(() => {
@@ -77,10 +92,14 @@ export const useTokenRecordsQueryComplete = (startDate: string | null | undefine
  * @param startDate
  * @returns TokenRecord[] or undefined if there are no results
  */
-export const useTokenRecordsQueryLatestCompleteData = (
-  startDate: string | null | undefined,
-): TokenRecord[] | undefined => {
-  const tokenRecordResults = useTokenRecordsQueryComplete(startDate);
+export const useTokenRecordsQueryLatestCompleteData = ({
+  startDate,
+  ignoreCache,
+}: {
+  startDate: string | null | undefined;
+  ignoreCache?: boolean;
+}): TokenRecord[] | undefined => {
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate, ignoreCache });
   const [latestData, setLatestData] = useState<TokenRecord[]>();
 
   useEffect(() => {
@@ -102,9 +121,12 @@ export const useTokenRecordsQueryLatestCompleteData = (
  *
  * This is useful for determining the latest block that has been indexed.
  */
-export const useTokenRecordsLatestQuery = () => {
+export const useTokenRecordsLatestQuery = ({ ignoreCache }: { ignoreCache?: boolean }) => {
   return useFederatedSubgraphQuery({
     operationName: "latest/tokenRecords",
+    input: {
+      ignoreCache: ignoreCache || false,
+    },
   });
 };
 
@@ -117,12 +139,21 @@ export const useTokenRecordsLatestQuery = () => {
  * @param crossChainDataComplete If true, returns up (and including) the date with complete cross-chain data.
  * @returns
  */
-export const useTokenSuppliesQuery = (startDate: string | null | undefined, crossChainDataComplete?: boolean) => {
+export const useTokenSuppliesQuery = ({
+  startDate,
+  crossChainDataComplete,
+  ignoreCache,
+}: {
+  startDate: string | null | undefined;
+  crossChainDataComplete?: boolean;
+  ignoreCache?: boolean;
+}) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/tokenSupplies",
     input: {
       startDate: startDate || "",
       crossChainDataComplete: crossChainDataComplete || false,
+      ignoreCache: ignoreCache || false,
     },
     enabled: startDate != null,
   });
@@ -139,8 +170,14 @@ export const useTokenSuppliesQuery = (startDate: string | null | undefined, cros
  * @param startDate Date string in YYYY-MM-DD format.
  * @returns TokenSupply[] or undefined if there are no results
  */
-export const useTokenSuppliesQueryComplete = (startDate: string | null | undefined): TokenSupply[] | undefined => {
-  const { data: tokenSupplyResults } = useTokenSuppliesQuery(startDate, true);
+export const useTokenSuppliesQueryComplete = ({
+  startDate,
+  ignoreCache,
+}: {
+  startDate: string | null | undefined;
+  ignoreCache?: boolean;
+}): TokenSupply[] | undefined => {
+  const { data: tokenSupplyResults } = useTokenSuppliesQuery({ startDate, crossChainDataComplete: true, ignoreCache });
   const [untilLatestDateResults, setUntilLatestDateResults] = useState<TokenSupply[]>();
 
   useEffect(() => {
@@ -166,10 +203,14 @@ export const useTokenSuppliesQueryComplete = (startDate: string | null | undefin
  * @param startDate
  * @returns TokenSupply[] or undefined if there are no results
  */
-export const useTokenSuppliesQueryLatestCompleteData = (
-  startDate: string | null | undefined,
-): TokenSupply[] | undefined => {
-  const tokenSupplyResults = useTokenSuppliesQueryComplete(startDate);
+export const useTokenSuppliesQueryLatestCompleteData = ({
+  startDate,
+  ignoreCache,
+}: {
+  startDate?: string | null;
+  ignoreCache?: boolean;
+}): TokenSupply[] | undefined => {
+  const tokenSupplyResults = useTokenSuppliesQueryComplete({ startDate, ignoreCache });
   const [latestData, setLatestData] = useState<TokenSupply[]>();
 
   useEffect(() => {
@@ -189,22 +230,30 @@ export const useTokenSuppliesQueryLatestCompleteData = (
 export const useMetricsQuery = ({
   startDate,
   includeContentRecords,
+  ignoreCache,
 }: {
   startDate?: string | null;
   includeContentRecords?: boolean;
+  ignoreCache?: boolean;
 }) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/metrics",
     input: {
       startDate: startDate || "",
       includeRecords: includeContentRecords || false,
+      ignoreCache: ignoreCache || false,
     },
     enabled: startDate != null,
+    retry: 3, // Queries with long periods and with includeRecords = true will take a while if not cached, leading to a timeout
+    retryDelay: 5000,
   });
 };
 
-export const useMetricsLatestQuery = () => {
+export const useMetricsLatestQuery = ({ ignoreCache }: { ignoreCache?: boolean }) => {
   return useFederatedSubgraphQuery({
     operationName: "latest/metrics",
+    input: {
+      ignoreCache: ignoreCache || false,
+    },
   });
 };

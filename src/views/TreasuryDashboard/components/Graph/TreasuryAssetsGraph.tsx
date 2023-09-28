@@ -50,12 +50,13 @@ export const TreasuryAssetsGraph = ({
   onMouseMove,
   isLiquidBackingActive,
   subgraphDaysOffset,
+  ignoreCache,
 }: GraphProps & LiquidBackingProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
 
-  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:

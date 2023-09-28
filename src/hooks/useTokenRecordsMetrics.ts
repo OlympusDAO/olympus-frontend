@@ -6,12 +6,12 @@ import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
  *
  * @returns
  */
-export const useTreasuryMarketValueLatest = (): number | undefined => {
+export const useTreasuryMarketValueLatest = (ignoreCache?: boolean): number | undefined => {
   // State variables
   const [assetValue, setAssetValue] = useState<number>();
 
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   useEffect(() => {
     if (!metricResult) {

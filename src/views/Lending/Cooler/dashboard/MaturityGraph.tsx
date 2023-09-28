@@ -28,10 +28,15 @@ type SnapshotWithExpiryBuckets = Snapshot & {
   };
 };
 
-export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
+export const MaturityGraph = () => {
   const theme = useTheme();
 
-  const { data } = useCoolerSnapshot(startDate);
+  // For the maturity chart, we want to show the data for 121 days from now
+  const startDate = new Date();
+  const beforeDate = new Date();
+  beforeDate.setDate(beforeDate.getDate() + 121);
+
+  const { data } = useCoolerSnapshot(startDate, beforeDate);
 
   const [coolerSnapshots, setCoolerSnapshots] = useState<SnapshotWithExpiryBuckets[] | undefined>();
   useMemo(() => {
@@ -88,11 +93,11 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
    */
   const dataKeys: string[] = [
     "expiryBuckets.expired",
-    "expiryBuckets.active",
     "expiryBuckets.30Days",
     "expiryBuckets.121Days",
+    "expiryBuckets.active",
   ];
-  const itemNames: string[] = ["Expired", "Active", "< 30 Days", "< 121 Days"];
+  const itemNames: string[] = ["Expired", "< 30 Days", "< 121 Days", ">= 121 Days"];
 
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
@@ -102,7 +107,7 @@ export const MaturityGraph = ({ startDate }: { startDate?: Date }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" color="textSecondary" display="inline">
-          Maturity
+          Projected Maturity
         </Typography>
       </Grid>
       <Grid item xs={12} container spacing={2}>
