@@ -5,7 +5,6 @@ import { useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -27,6 +26,7 @@ export const CreateOrRepayLoan = ({
   setModalOpen,
   modalOpen,
   loan,
+  clearingHouseAddress,
 }: {
   collateralAddress: string;
   debtAddress: string;
@@ -49,6 +49,7 @@ export const CreateOrRepayLoan = ({
     callback: boolean;
     loanId: number;
   };
+  clearingHouseAddress: string;
 }) => {
   const createCooler = useCreateCooler();
   const createLoan = useCreateLoan();
@@ -188,7 +189,7 @@ export const CreateOrRepayLoan = ({
             ) : (
               <TokenAllowanceGuard
                 tokenAddressMap={{ [networks.MAINNET]: loan ? debtAddress : collateralAddress }}
-                spenderAddressMap={loan ? { [networks.MAINNET]: coolerAddress } : COOLER_CLEARING_HOUSE_ADDRESSES}
+                spenderAddressMap={{ [networks.MAINNET]: loan ? coolerAddress : clearingHouseAddress }}
                 isVertical
                 message={
                   <>
@@ -220,6 +221,7 @@ export const CreateOrRepayLoan = ({
                           {
                             coolerAddress,
                             borrowAmount: paymentAmount,
+                            clearingHouseAddress,
                           },
                           {
                             onSuccess: () => {

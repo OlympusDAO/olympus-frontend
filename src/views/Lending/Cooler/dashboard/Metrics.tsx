@@ -1,10 +1,9 @@
 import { Skeleton } from "@mui/material";
 import { Metric } from "@olympusdao/component-library";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
 import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import {
   getTotalCapacity,
   useCoolerSnapshot,
@@ -92,20 +91,12 @@ export const OutstandingPrincipal = () => {
   );
 };
 
-export const WeeklyCapacityRemaining = () => {
-  const { data } = useGetClearingHouse();
-
+export const WeeklyCapacityRemaining = ({ capacity }: { capacity?: BigNumber }) => {
   return (
     <Metric
       label="Weekly Capacity Remaining"
-      metric={
-        data?.capacity ? (
-          formatCurrency(Number(ethers.utils.formatUnits(data?.capacity.toString())), 0, "DAI")
-        ) : (
-          <Skeleton />
-        )
-      }
-      isLoading={data === undefined}
+      metric={capacity ? formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, "DAI") : <Skeleton />}
+      isLoading={capacity === undefined}
     />
   );
 };
