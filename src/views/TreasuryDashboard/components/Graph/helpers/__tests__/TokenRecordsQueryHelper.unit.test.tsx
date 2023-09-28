@@ -69,8 +69,8 @@ describe("getDateTokenSummary", () => {
     expect(dateTwo.block).toEqual(2);
     expect(dateTwo.tokens[tokenId].id).toEqual(tokenId);
     expect(dateTwo.tokens[tokenId].category).toEqual("POL");
-    expect(dateTwo.tokens[tokenId].value).toEqual("1");
-    expect(dateTwo.tokens[tokenId].valueExcludingOhm).toEqual("0.5");
+    expect(dateTwo.tokens[tokenId].value).toEqual(1);
+    expect(dateTwo.tokens[tokenId].valueExcludingOhm).toEqual(0.5);
     expect(Object.keys(dateTwo.tokens).length).toEqual(1);
 
     const dateOne = byDateRecords[1];
@@ -79,10 +79,33 @@ describe("getDateTokenSummary", () => {
     expect(dateOne.block).toEqual(1);
     expect(dateOne.tokens[tokenId].id).toEqual(tokenId);
     expect(dateOne.tokens[tokenId].category).toEqual("Foo");
-    expect(dateOne.tokens[tokenId].value).toEqual("2");
-    expect(dateOne.tokens[tokenId].valueExcludingOhm).toEqual("1.5");
+    expect(dateOne.tokens[tokenId].value).toEqual(2);
+    expect(dateOne.tokens[tokenId].valueExcludingOhm).toEqual(1.5);
     expect(Object.keys(dateOne.tokens).length).toEqual(1);
 
     expect(byDateRecords.length).toEqual(2);
+  });
+
+  it("adds values on each day", () => {
+    const records: TokenRecord[] = [
+      createTokenRecord("2022-06-06", "2", "token", "POL", "1", "0.5"),
+      createTokenRecord("2022-06-06", "2", "token", "POL", "1", "0.5"),
+    ];
+
+    const byDateRecords = getDateTokenRecordSummary(records);
+
+    const tokenId = "token/Ethereum";
+
+    const dateTwo = byDateRecords[0];
+    expect(dateTwo).toBeDefined();
+    expect(dateTwo.date).toEqual("2022-06-06");
+    expect(dateTwo.block).toEqual(2);
+    expect(dateTwo.tokens[tokenId].id).toEqual(tokenId);
+    expect(dateTwo.tokens[tokenId].category).toEqual("POL");
+    expect(dateTwo.tokens[tokenId].value).toEqual(2);
+    expect(dateTwo.tokens[tokenId].valueExcludingOhm).toEqual(1);
+    expect(Object.keys(dateTwo.tokens).length).toEqual(1);
+
+    expect(byDateRecords.length).toEqual(1);
   });
 });

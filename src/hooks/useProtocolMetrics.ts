@@ -1,7 +1,7 @@
 import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
-export const useTotalValueDeposited = (): number | undefined => {
-  const { data } = useMetricsLatestQuery();
+export const useTotalValueDeposited = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
+  const { data } = useMetricsLatestQuery({ ignoreCache });
 
   if (!data) {
     return undefined;
@@ -19,8 +19,8 @@ export const useTotalValueDeposited = (): number | undefined => {
  *
  * @returns
  */
-export const useOhmPrice = (): number | undefined => {
-  const { data } = useMetricsLatestQuery();
+export const useOhmPrice = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
+  const { data } = useMetricsLatestQuery({ ignoreCache });
 
   if (!data) {
     return undefined;
@@ -38,8 +38,8 @@ export const useOhmPrice = (): number | undefined => {
  *
  * @returns
  */
-export const useGOhmPrice = (): number | undefined => {
-  const { data } = useMetricsLatestQuery();
+export const useGOhmPrice = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
+  const { data } = useMetricsLatestQuery({ ignoreCache });
 
   if (!data) {
     return undefined;
@@ -53,8 +53,8 @@ export const useGOhmPrice = (): number | undefined => {
  *
  * @returns
  */
-export const useCurrentIndex = (): number | undefined => {
-  const { data } = useMetricsLatestQuery();
+export const useCurrentIndex = ({ ignoreCache }: { ignoreCache?: boolean }): number | undefined => {
+  const { data } = useMetricsLatestQuery({ ignoreCache });
 
   if (!data) {
     return undefined;

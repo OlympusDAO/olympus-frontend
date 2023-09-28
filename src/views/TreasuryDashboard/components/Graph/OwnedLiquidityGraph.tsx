@@ -26,12 +26,12 @@ import {
 /**
  * Stacked area chart that displays protocol-owned liquidity.
  */
-export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
+export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset, ignoreCache }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "ProtocolOwnedLiquidityGraph";
 
-  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -114,7 +114,7 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }
     const tempTotal =
       byDateTokenSummary.length > 0
         ? Object.values(byDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
-            return +previousValue + parseFloat(token.value);
+            return previousValue + token.value;
           }, 0)
         : 0;
     setTotal(formatCurrency(tempTotal, 0));

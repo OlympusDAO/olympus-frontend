@@ -49,6 +49,10 @@ const MetricsDashboard = () => {
    * and not load data until earliestDate is a valid value.
    */
   const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+
+  // State variable for ignoring the API cache
+  const [ignoreCache, setIgnoreCache] = useState<boolean | undefined>();
+
   /**
    * State variable for the number of days to offset each subgraph query with.
    *
@@ -68,6 +72,13 @@ const MetricsDashboard = () => {
     const queryDays = searchParams.get(PARAM_DAYS) || DEFAULT_DAYS.toString();
     setDaysPrior(queryDays);
 
+    // Get the ignoreCache parameter
+    const queryIgnoreCache = searchParams.get("ignoreCache");
+    if (queryIgnoreCache && queryIgnoreCache.toLowerCase() == "true") {
+      console.info("Setting ignoreCache to true");
+      setIgnoreCache(true);
+    }
+
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
@@ -85,6 +96,7 @@ const MetricsDashboard = () => {
   const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
     ...baseMetricProps,
     earliestDate: earliestDate,
+    ignoreCache: ignoreCache,
   };
 
   /**
@@ -212,27 +224,32 @@ const MetricsDashboard = () => {
               activeToken={token}
               earliestDate={earliestDate}
               subgraphDaysOffset={daysOffset}
+              ignoreCache={ignoreCache}
             />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <ProtocolOwnedLiquidityGraph
+              earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
+              ignoreCache={ignoreCache}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <DataWarning />
+            <DataWarning ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

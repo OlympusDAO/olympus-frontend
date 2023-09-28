@@ -14,12 +14,13 @@ import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } f
 
 export type MetricSubgraphProps = {
   earliestDate?: string | null;
+  ignoreCache?: boolean;
 };
 type MetricProps = PropsOf<typeof Metric>;
 export type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
 
 export const MarketCap: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const [marketCap, ohmPrice, ohmCirculatingSupply] = useMarketCap(props.earliestDate);
+  const [marketCap, ohmPrice, ohmCirculatingSupply] = useMarketCap({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: `OHM Market Cap`,
@@ -59,7 +60,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
  * same as OHMPrice but uses Subgraph price
  */
 export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const ohmPrice = useOhmPriceFromSubgraph();
+  const ohmPrice = useOhmPriceFromSubgraph({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: "OHM " + `Price`,
@@ -73,8 +74,8 @@ export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgra
 };
 
 export const OhmCirculatingSupply: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const totalSupply = useOhmTotalSupply(props.earliestDate);
-  const circSupply = useOhmCirculatingSupply(props.earliestDate);
+  const totalSupply = useOhmTotalSupply({ ignoreCache: props.ignoreCache });
+  const circSupply = useOhmCirculatingSupply({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: `OHM Circulating Supply / Total`,
@@ -100,7 +101,9 @@ export const GOhmCirculatingSupply: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const [liquidBackingPerOhmBacked, liquidBacking, backedSupply] = useLiquidBackingPerOhmBacked(props.earliestDate);
+  const [liquidBackingPerOhmBacked, liquidBacking, backedSupply] = useLiquidBackingPerOhmBacked({
+    ignoreCache: props.ignoreCache,
+  });
 
   // We include floating supply in the tooltip, as it is not displayed as a separate metric anywhere else
   const tooltip = `Liquid backing (${formatCurrencyOrLoading(
@@ -122,9 +125,9 @@ Backed supply is the quantity of outstanding OHM that is backed by assets in the
 };
 
 export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmBackedSupply] = useLiquidBackingPerGOhm(
-    props.earliestDate,
-  );
+  const [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmBackedSupply] = useLiquidBackingPerGOhm({
+    ignoreCache: props.ignoreCache,
+  });
 
   const tooltip = `Liquid backing per gOHM is calculated as liquid backing (${formatCurrencyOrLoading(
     liquidBacking,
@@ -152,7 +155,7 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
  * @returns
  */
 export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const currentIndex = useCurrentIndex();
+  const currentIndex = useCurrentIndex({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: `Current Index`,
@@ -185,7 +188,7 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const gOhmPrice = useGOhmPriceFromSubgraph();
+  const gOhmPrice = useGOhmPriceFromSubgraph({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: "gOHM " + `Price`,
@@ -202,7 +205,7 @@ export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgr
 };
 
 export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const totalValueDeposited = useTotalValueDeposited();
+  const totalValueDeposited = useTotalValueDeposited({ ignoreCache: props.ignoreCache });
   const _props: MetricProps = {
     ...props,
     label: `Total Value Deposited`,

@@ -9,7 +9,7 @@ import { OhmSupplyTable } from "src/views/TreasuryDashboard/components/Graph/Ohm
  *
  * The table will update according to the focus in the chart.
  */
-export const OhmSupply = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
+export const OhmSupply = ({ earliestDate, subgraphDaysOffset, ignoreCache }: GraphProps) => {
   // State variable for the selected index in the chart
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -33,11 +33,17 @@ export const OhmSupply = ({ earliestDate, subgraphDaysOffset }: GraphProps) => {
 
   return (
     <>
-      <OhmSupplyGraph onMouseMove={onMouseMove} earliestDate={earliestDate} subgraphDaysOffset={subgraphDaysOffset} />
+      <OhmSupplyGraph
+        onMouseMove={onMouseMove}
+        earliestDate={earliestDate}
+        subgraphDaysOffset={subgraphDaysOffset}
+        ignoreCache={ignoreCache}
+      />
       <OhmSupplyTable
         earliestDate={earliestDate}
         selectedIndex={selectedIndex}
         subgraphDaysOffset={subgraphDaysOffset}
+        ignoreCache={ignoreCache}
       />
     </>
   );
