@@ -6,11 +6,13 @@ import { useMetricsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
  *
  * @returns [marketCap, ohmPrice, circulatingSupply]
  */
-export const useMarketCap = (
-  earliestDate?: string | null,
-): [number | undefined, number | undefined, number | undefined] => {
+export const useMarketCap = ({
+  ignoreCache,
+}: {
+  ignoreCache?: boolean;
+}): [number | undefined, number | undefined, number | undefined] => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [ohmPrice, setOhmPrice] = useState<number>();
@@ -38,9 +40,9 @@ export const useMarketCap = (
  *
  * @returns [liquidBackingPerBackedOhm, liquidBacking, backedOhm]
  */
-export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [number, number, number] => {
+export const useLiquidBackingPerOhmBacked = ({ ignoreCache }: { ignoreCache?: boolean }): [number, number, number] => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [liquidBackingPerOhmBacked, setLiquidBackingPerOhmBacked] = useState(0);
@@ -65,9 +67,13 @@ export const useLiquidBackingPerOhmBacked = (earliestDate?: string | null): [num
  *
  * @returns [liquidBackingPerGOhm, liquidBacking, latestIndex, ohmFloatingSupply]
  */
-export const useLiquidBackingPerGOhm = (earliestDate?: string | null): [number, number, number, number] => {
+export const useLiquidBackingPerGOhm = ({
+  ignoreCache,
+}: {
+  ignoreCache?: boolean;
+}): [number, number, number, number] => {
   // Query hooks
-  const { data: metricResult } = useMetricsLatestQuery();
+  const { data: metricResult } = useMetricsLatestQuery({ ignoreCache });
 
   // State variables
   const [liquidBacking, setLiquidBacking] = useState(0);

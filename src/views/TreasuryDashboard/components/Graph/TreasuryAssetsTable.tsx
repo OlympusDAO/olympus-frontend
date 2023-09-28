@@ -24,13 +24,14 @@ export const TreasuryAssetsTable = ({
   isLiquidBackingActive,
   selectedIndex,
   subgraphDaysOffset,
+  ignoreCache,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
   const theme = useTheme();
 
   const queryExplorerUrl = "";
   const chartName = "TreasuryAssetsTable";
 
-  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:

@@ -38,14 +38,23 @@ type OhmSupplyDateMap = {
   [date: string]: OhmSupplyMetricMap;
 };
 
-export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset }: GraphProps & AssetsTableProps) => {
+export const OhmSupplyTable = ({
+  earliestDate,
+  selectedIndex,
+  subgraphDaysOffset,
+  ignoreCache,
+}: GraphProps & AssetsTableProps) => {
   const theme = useTheme();
   const isBreakpointSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const columnHeaderColor = theme.palette.text.primary;
 
   const chartName = "OhmSupplyTable";
 
-  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, includeContentRecords: true });
+  const { data: metricResults } = useMetricsQuery({
+    startDate: earliestDate,
+    includeContentRecords: true,
+    ignoreCache,
+  });
 
   /**
    * Chart population:
