@@ -1,14 +1,18 @@
 import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
-export const useCoolerSnapshot = (startDate?: Date) => {
-  const tomorrowDate = new Date();
-  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
+  let _beforeDate = beforeDate;
+  // If there is no beforeDate, set it to tomorrow
+  if (!_beforeDate) {
+    _beforeDate = new Date();
+    _beforeDate.setDate(_beforeDate.getDate() + 1);
+  }
 
   const { data, isLoading } = useGetSnapshots(
     {
       startDate: startDate ? getISO8601String(startDate) : "", // Will not be set if startDate is undefined
-      beforeDate: getISO8601String(tomorrowDate),
+      beforeDate: getISO8601String(_beforeDate),
     },
     {
       query: {

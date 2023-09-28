@@ -1,4 +1,4 @@
-const baseURL = "https://olympus-cooler-loans-api-prod.web.app";
+const baseURL = "%{COOLER_LOANS_API_ENDPOINT}%";
 
 /**
  * We define a custom HTTP client for react-query to use. This is configured
