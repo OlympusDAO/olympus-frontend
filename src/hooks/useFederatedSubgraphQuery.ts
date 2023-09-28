@@ -244,6 +244,8 @@ export const useMetricsQuery = ({
       ignoreCache: ignoreCache || false,
     },
     enabled: startDate != null,
+    retry: 3, // Queries with long periods and with includeRecords = true will take a while if not cached, leading to a timeout
+    retryDelay: 5000,
   });
 };
 
