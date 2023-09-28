@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridValueFormatterParams, GridValueGetterParams }
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
+import { useMetricsQuery, useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -32,6 +32,7 @@ export const TreasuryAssetsTable = ({
   const chartName = "TreasuryAssetsTable";
 
   const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
+  const metricResults = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -41,7 +42,7 @@ export const TreasuryAssetsTable = ({
   const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
   const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
   useMemo(() => {
-    if (!tokenRecordResults) {
+    if (!tokenRecordResults || !metricResults || !metricResults.data) {
       return;
     }
 
@@ -61,6 +62,20 @@ export const TreasuryAssetsTable = ({
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
     const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords);
+
+    // We want the liquid backing contribution to be shown as liquid backing contribution / backed OHM
+    newDateTokenSummary.forEach(dateTokenSummary => {
+      // Get the metric for the date
+      const currentMetric = metricResults.data?.find(value => value.date == dateTokenSummary.date);
+      if (!currentMetric || currentMetric.ohmBackedSupply == 0) {
+        return;
+      }
+
+      Object.values(dateTokenSummary.tokens).forEach(token => {
+        token.liquidBackingContribution = token.valueExcludingOhm / currentMetric.ohmBackedSupply;
+      });
+    });
+
     setByDateTokenSummary(newDateTokenSummary);
   }, [isLiquidBackingActive, tokenRecordResults]);
 
@@ -116,29 +131,17 @@ export const TreasuryAssetsTable = ({
       headerName: `Balance`,
       description: `The total balance of the token asset`,
       flex: 0.5,
-      type: "string",
-      sortComparator: (v1, v2) => {
-        // Get rid of all non-number characters
-        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-      },
-      valueGetter: (params: GridValueGetterParams) => parseFloat(params.row.balance),
-      valueFormatter: (params: GridValueFormatterParams) => formatNumber(params.value),
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueFormatter: (params: GridValueFormatterParams) => formatNumber(params.value, 0),
     },
     {
       field: "rate",
       headerName: `Rate`,
       description: `The rate of the token asset`,
       flex: 0.5,
-      type: "string",
-      sortComparator: (v1, v2) => {
-        // Get rid of all non-number characters
-        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-      },
-      valueGetter: (params: GridValueGetterParams) => parseFloat(params.row.rate),
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
       valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 2),
     },
     {
@@ -146,15 +149,21 @@ export const TreasuryAssetsTable = ({
       headerName: `Value`,
       description: `The total value of the token asset in USD`,
       flex: 0.5,
-      type: "string",
-      sortComparator: (v1, v2) => {
-        // Get rid of all non-number characters
-        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-      },
-      valueGetter: (params: GridValueGetterParams) =>
-        formatCurrency(parseFloat(isLiquidBackingActive ? params.row.valueExcludingOhm : params.row.value)),
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueGetter: (params: GridValueGetterParams<TokenRow>) =>
+        isLiquidBackingActive ? params.row.valueExcludingOhm : params.row.value,
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value),
+      minWidth: 120,
+    },
+    {
+      field: "liquidBackingContribution",
+      headerName: `Backing Contribution`,
+      description: `The contribution to liquid backing/OHM in USD`,
+      flex: 0.5,
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 2),
       minWidth: 120,
     },
   ];
@@ -195,6 +204,7 @@ export const TreasuryAssetsTable = ({
                 isLiquid: false,
                 balance: false,
                 rate: false,
+                liquidBackingContribution: false,
               },
             },
             pagination: { paginationModel: { pageSize: 10 } },

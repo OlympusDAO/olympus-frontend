@@ -114,7 +114,7 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset, 
     const tempTotal =
       byDateTokenSummary.length > 0
         ? Object.values(byDateTokenSummary[0].tokens).reduce((previousValue: number, token: TokenRow) => {
-            return +previousValue + parseFloat(token.value);
+            return previousValue + token.value;
           }, 0)
         : 0;
     setTotal(formatCurrency(tempTotal, 0));
