@@ -4,7 +4,6 @@ import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
 import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { COOLER_CLEARING_HOUSE_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -20,6 +19,7 @@ export const ExtendLoan = ({
   duration,
   coolerAddress,
   debtAddress,
+  clearingHouseAddress,
 }: {
   loan: {
     request: Cooler.RequestStructOutput;
@@ -38,6 +38,7 @@ export const ExtendLoan = ({
   duration?: string;
   coolerAddress?: string;
   debtAddress: string;
+  clearingHouseAddress: string;
 }) => {
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
@@ -160,7 +161,7 @@ export const ExtendLoan = ({
 
           <TokenAllowanceGuard
             tokenAddressMap={{ [networks.MAINNET]: debtAddress }}
-            spenderAddressMap={COOLER_CLEARING_HOUSE_ADDRESSES}
+            spenderAddressMap={{ [networks.MAINNET]: clearingHouseAddress }}
             isVertical
             message={
               <>
@@ -175,7 +176,7 @@ export const ExtendLoan = ({
               disabled={extendLoan.isLoading || insufficientCollateral || Number(extensionTerm) < 1}
               onClick={() => {
                 extendLoan.mutate(
-                  { loanId: loan.loanId, coolerAddress, times: Number(extensionTerm) },
+                  { loanId: loan.loanId, coolerAddress, times: Number(extensionTerm), clearingHouseAddress },
                   {
                     onSuccess: () => {
                       setLoan(undefined);

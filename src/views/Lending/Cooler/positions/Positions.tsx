@@ -1,7 +1,9 @@
 import {
   Box,
   Grid,
+  MenuItem,
   Paper,
+  Select,
   Skeleton,
   Table,
   TableBody,
@@ -10,11 +12,13 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
+import { useCheckDelegation } from "src/views/Lending/Cooler/hooks/useCheckDelegation";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
@@ -26,7 +30,10 @@ import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
-  const { data: clearingHouse } = useGetClearingHouse();
+  const [currentClearingHouse, setCurrentClearingHouse] = useState<"clearingHouseV1" | "clearingHouseV2">(
+    "clearingHouseV2",
+  );
+  const { data: clearingHouse } = useGetClearingHouse({ clearingHouse: currentClearingHouse });
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const { data: loans, isFetched: isFetchedLoans } = useGetCoolerLoans({
     walletAddress: address,
@@ -40,17 +47,20 @@ export const CoolerPositions = () => {
     factoryAddress: clearingHouse?.factory,
     collateralAddress: clearingHouse?.collateralAddress,
     debtAddress: clearingHouse?.debtAddress,
+    clearingHouseVersion: currentClearingHouse,
   });
+  const { data: delegationAddress } = useCheckDelegation({ coolerAddress });
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
   const [delegateVoting, setDelegateVoting] = useState<any>(null);
+  const theme = useTheme();
 
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
-          <WeeklyCapacityRemaining />
+          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <BorrowRate />
@@ -59,6 +69,37 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
+      <Box display="flex" mt="16px" justifyContent="right">
+        <Select
+          value={currentClearingHouse}
+          label="ClearingHouse"
+          onChange={e => {
+            setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
+          }}
+          sx={{
+            width: "200px",
+            height: "44px",
+            backgroundColor: theme.colors.gray[700],
+            border: "none",
+            ".MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "& .MuiSelect-select": {
+              display: "flex",
+              alignItems: "center",
+            },
+          }}
+        >
+          <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
+          <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
+        </Select>
+      </Box>
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
@@ -184,10 +225,16 @@ export const CoolerPositions = () => {
               </Box>
             </>
           )}
-          <Box display="flex" justifyContent={"center"}>
+          <Box display="flex" justifyContent={"center"} mt="16px">
             <PrimaryButton onClick={() => setDelegateVoting(true)}>Delegate Voting</PrimaryButton>
           </Box>
-          <DelegateVoting coolerAddress={coolerAddress} open={delegateVoting} setOpen={setDelegateVoting} />
+          <Box display="flex" fontSize="12px" justifyContent={"center"}></Box>
+          <DelegateVoting
+            coolerAddress={coolerAddress}
+            open={delegateVoting}
+            setOpen={setDelegateVoting}
+            currentDelegateAddress={delegationAddress}
+          />
         </>
       )}
 
@@ -202,6 +249,7 @@ export const CoolerPositions = () => {
               duration={clearingHouse.duration}
               coolerAddress={coolerAddress}
               debtAddress={clearingHouse.debtAddress}
+              clearingHouseAddress={clearingHouse.clearingHouseAddress}
             />
           )}
           <CreateOrRepayLoan
@@ -216,6 +264,7 @@ export const CoolerPositions = () => {
             setModalOpen={setCreateLoanModalOpen}
             modalOpen={createLoanModalOpen}
             loan={repayLoan}
+            clearingHouseAddress={clearingHouse.clearingHouseAddress}
           />
         </>
       )}
