@@ -42,7 +42,7 @@
     "@types/recharts": "^1.8.24",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "@vitest/coverage-v8": "^0.34.4",
-    "@wundergraph/react-query": "^0.8.46",
+    "@wundergraph/react-query": "^0.9.0",
     "axios": "^1.4.0",
     "class-validator": "^0.14.0",
     "date-fns": "^2.30.0",
