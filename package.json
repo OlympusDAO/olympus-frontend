@@ -120,7 +120,7 @@
     "node-watch": "^0.7.1",
     "orval": "^6.17.0",
     "os-browserify": "^0.3.0",
-    "postcss": "^8.4.29",
+    "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
