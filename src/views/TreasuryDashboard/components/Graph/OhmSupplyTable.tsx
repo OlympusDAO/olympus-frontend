@@ -246,7 +246,12 @@ export const OhmSupplyTable = ({
 
                           return (
                             <TableRow key={record.id}>
-                              <TableCell style={{ width: "15%" }}>
+                              <TableCell
+                                style={{
+                                  width: "15%",
+                                  ...styleOverflowEllipsis,
+                                }}
+                              >
                                 {record.type == TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY ? "Supply" : record.type}
                               </TableCell>
                               {isBreakpointSmall ? (
