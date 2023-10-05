@@ -193,3 +193,64 @@ export const getMaximumValue = (
     }),
   );
 };
+
+/**
+ * Returns the minimum value found in any of the {keys} properties across all elements of
+ * {data}.
+ *
+ * This supports using nested keys ("records.DAI.value"), using the `get-value` library.
+ *
+ * If {type} is stacked, the maximum value of the sum of the values corresponding to
+ * {keys} will be returned.
+ *
+ * If {type} is ChartType.Composed and {composedLineDataKeys} is specified, the maximum
+ * value corresponding to {composedLineDataKeys} and the sum of the stacked values will
+ * be returned.
+ *
+ * @param data
+ * @param keys
+ * @param stacked
+ * @returns
+ */
+export const getMinimumValue = (
+  data: Record<string, unknown>[],
+  keys: string[],
+  type: ChartType,
+  composedLineDataKeys?: string[],
+): number => {
+  const stacked = type === ChartType.StackedArea || type === ChartType.Composed;
+
+  return Math.min(
+    ...data.map(value => {
+      if (!stacked) {
+        return Math.min(
+          ...keys.map(key => {
+            return getFloat(get(value, key));
+          }),
+        );
+      }
+
+      // If we are stacking values, then we want to add the values for the keys,
+      // but only if they are not within composedLineDataKeys
+      const stackedTotal = keys.reduce((previousValue, key) => {
+        if (composedLineDataKeys && composedLineDataKeys.includes(key)) {
+          return previousValue;
+        }
+
+        return previousValue + getFloat(get(value, key));
+      }, 0);
+      // Grab the minimum value corresponding to the keys specified in composedLineDataKeys
+      const maxComposedLineDataKeyValue = Math.min(
+        ...keys.map(key => {
+          if (!composedLineDataKeys || type !== ChartType.Composed) return 0;
+
+          if (!composedLineDataKeys.includes(key)) return 0;
+
+          return getFloat(get(value, key));
+        }),
+      );
+
+      return Math.min(maxComposedLineDataKeyValue, stackedTotal);
+    }),
+  );
+};

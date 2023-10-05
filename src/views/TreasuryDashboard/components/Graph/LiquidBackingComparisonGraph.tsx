@@ -176,6 +176,7 @@ As data is sourced from multiple chains that may have different snapshot times, 
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
       tickStyle={getTickStyle(theme)}
+      minimumYValue={"dataMin"}
     />
   );
 };
