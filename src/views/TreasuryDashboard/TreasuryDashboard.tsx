@@ -178,8 +178,8 @@ const MetricsDashboard = () => {
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
-          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
-          <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
+          {hideToggleSidePadding ? <></> : <Grid item xs={1} sm={3} />}
+          <Grid item xs={10} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -206,7 +206,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={2} sm={3} md={1} />
+          <Grid item xs={1} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
           <Grid item xs={3} sm={4} md={3} lg={5} />
           <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
