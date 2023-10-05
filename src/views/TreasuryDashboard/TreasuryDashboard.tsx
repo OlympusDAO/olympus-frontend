@@ -1,6 +1,6 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
@@ -48,7 +48,17 @@ const MetricsDashboard = () => {
    * asynchronously, so we set the initial value of daysPrior and earliestDate to null. Child components are designed to recognise this
    * and not load data until earliestDate is a valid value.
    */
-  const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+  const [earliestDate, setEarliestDate] = useState<string | null>(null);
+  useMemo(() => {
+    if (!daysPrior) {
+      setEarliestDate(null);
+      return;
+    }
+
+    const tempEarliestDate = getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+    console.log(`Setting earliestDate to ${tempEarliestDate}`);
+    setEarliestDate(tempEarliestDate);
+  }, [daysPrior]);
 
   // State variable for ignoring the API cache
   const [ignoreCache, setIgnoreCache] = useState<boolean | undefined>();
