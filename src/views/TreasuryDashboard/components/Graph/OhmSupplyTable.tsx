@@ -235,6 +235,7 @@ export const OhmSupplyTable = ({
                       {
                         // One row per record
                         metric.records.map(record => {
+                          // There are some gOHM records that do not have the tokenAddress set to the gOHM address. The subgraph will need to be changed to capture them.
                           const isGOhm = gOhmAddresses.includes(record.tokenAddress.toLowerCase());
                           const ohmValue: number = (isGOhm ? currentIndex : 1) * +record.supplyBalance;
 
