@@ -24,7 +24,6 @@ import {
   AbstractedMetricProps,
   BackingPerGOHM,
   BackingPerOHM,
-  CurrentIndex,
   GOhmCirculatingSupply,
   GOHMPriceFromSubgraph,
   MarketCap,
@@ -161,7 +160,6 @@ const MetricsDashboard = () => {
                 <GOhmCirculatingSupply {...sharedMetricProps} />
               )}
               {isTokenOHM() ? <BackingPerOHM {...sharedMetricProps} /> : <BackingPerGOHM {...sharedMetricProps} />}
-              <CurrentIndex {...sharedMetricProps} />
             </MetricCollection>
           </Paper>
         </Grid>

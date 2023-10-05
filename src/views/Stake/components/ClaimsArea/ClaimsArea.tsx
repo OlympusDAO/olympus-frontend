@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { prettifySeconds } from "src/helpers/timeUtil";
-import { IWarmupBalances, useWarmupClaim, useWarmupDate } from "src/hooks/useWarmupInfo";
+import { IWarmupBalances, useWarmupClaim } from "src/hooks/useWarmupInfo";
 import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { useClaimToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useClaimToken";
 import { useForfeitToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useForfeitToken";
@@ -43,7 +43,7 @@ export const ClaimsArea = () => {
   const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: claim } = useWarmupClaim();
-  const { data: warmupDate, isClaimable } = useWarmupDate();
+  // const { data: warmupDate, isClaimable } = useWarmupDate();
 
   if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
   const warmupTooltip = `Your claim earns rebases during warmup. You can emergency withdraw, but this forfeits the rebases`;
@@ -60,7 +60,7 @@ export const ClaimsArea = () => {
               <InfoTooltip message={warmupTooltip} />
             </Box>
           </Box>
-          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} isClaimable={isClaimable} />
+          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={undefined} isClaimable={true} />
         </Table>
       ) : (
         <Paper headerText={`Your active gOHM claim`} tooltip={warmupTooltip}>
@@ -75,12 +75,7 @@ export const ClaimsArea = () => {
                 <TableCell></TableCell>
               </TableRow>
             </StyledTableHeader>
-            <ActiveClaims
-              isSmallScreen={isSmallScreen}
-              claim={claim}
-              warmupDate={warmupDate}
-              isClaimable={isClaimable}
-            />
+            <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={undefined} isClaimable={true} />
           </Table>
         </Paper>
       )}

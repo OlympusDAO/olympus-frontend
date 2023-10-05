@@ -34,11 +34,10 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
-import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
 import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
 import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
-import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
+import { TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 
 function V1Stake({ setMigrationModalOpen }) {
@@ -165,13 +164,11 @@ function V1Stake({ setMigrationModalOpen }) {
 
   return (
     <div id="v1-stake-view">
-      <Paper headerText={`${`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
+      <Paper headerText={`${`Single Stake`} (3, 3)`}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
             <MetricCollection>
-              <StakingAPY className="stake-apy" />
               <TotalValueDeposited className="stake-tvl" />
-              <CurrentIndex className="stake-index" />
             </MetricCollection>
           </Grid>
 

@@ -15,7 +15,7 @@ import { ModalHandleSelectProps } from "src/views/Stake/components/StakeArea/com
 const StakeConfirmationModal = (props: {
   open: boolean;
   onClose: () => void;
-  contractRouting: "Stake" | "Wrap" | "Zap";
+  contractRouting: "Stake" | "Wrap";
   addresses: any;
   chain: { id: number };
   swapAssetType: ModalHandleSelectProps;
@@ -25,16 +25,11 @@ const StakeConfirmationModal = (props: {
   amount: string;
   receiveAmount: string;
   amountExceedsBalance: boolean;
-  zapOutputAmount: string;
-  zapSlippageAmount: string;
-  zapMinAmount: string;
   stakeMutation: any;
   unstakeMutation: any;
   isMutating: boolean;
-  onZap: any;
   wrapMutation: any;
-  zapExecuteIsLoading: boolean;
-  humanReadableRouting: "Stake" | "Wrap" | "Zap" | "Unstake" | "Unwrap" | "Zap out";
+  humanReadableRouting: "Stake" | "Wrap" | "Unstake" | "Unwrap";
 }) => {
   const { data: warmupLength } = useWarmupPeriod();
   const needsWarmup = warmupLength?.gt("0") || false;
@@ -107,12 +102,11 @@ const StakeConfirmationModal = (props: {
       minHeight={"100px"}
     >
       <Box display="flex" flexDirection="column">
-        {props.isMutating ||
-          (props.zapExecuteIsLoading && (
-            <InfoNotification>
-              Please don't close this modal until all wallet transactions are confirmed.
-            </InfoNotification>
-          ))}
+        {props.isMutating && (
+          <InfoNotification>
+            Please don't close this modal until all wallet transactions are confirmed.
+          </InfoNotification>
+        )}
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
           <Box display="flex" flexDirection="column">
@@ -149,13 +143,7 @@ const StakeConfirmationModal = (props: {
                   : { [props.chain.id]: props.swapAssetType.address }
               }
               spenderAddressMap={props.contractAddress}
-              approvalText={
-                props.currentAction === "STAKE"
-                  ? props.contractRouting === "Stake" || props.contractRouting === "Wrap"
-                    ? "Approve Staking"
-                    : `Approve Zap from ${props.swapAssetType.name}`
-                  : "Approve Unstaking"
-              }
+              approvalText={props.currentAction === "STAKE" ? "Approve Wrapping" : "Approve Unwrapping"}
               approvalPendingText={"Confirming Approval in your wallet"}
               isVertical
             >
@@ -216,32 +204,6 @@ const StakeConfirmationModal = (props: {
                     ? "Confirming Unstaking in your wallet "
                     : "Unstake"}
                 </PrimaryButton>
-              )}
-              {props.contractRouting === "Zap" && (
-                <>
-                  <NeedsWarmupDetails />
-                  <PrimaryButton
-                    data-testid="submit-modal-button"
-                    fullWidth
-                    disabled={
-                      props.zapExecuteIsLoading ||
-                      props.zapOutputAmount === "" ||
-                      (+props.zapOutputAmount < 0.5 && props.stakedAssetType.name !== "gOHM") ||
-                      import.meta.env.VITE_DISABLE_ZAPS ||
-                      parseFloat(props.amount) === 0 ||
-                      (props.currentAction === "STAKE" && !acknowledgedWarmup)
-                    }
-                    onClick={props.onZap}
-                  >
-                    <Box display="flex" flexDirection="row" alignItems="center">
-                      {props.zapOutputAmount === ""
-                        ? "Enter an amount"
-                        : +props.zapOutputAmount >= 0.5 || props.stakedAssetType.name == "gOHM"
-                        ? "Zap-Stake"
-                        : "Minimum Output Amount: 0.5 sOHM"}
-                    </Box>
-                  </PrimaryButton>
-                </>
               )}
             </TokenAllowanceGuard>
           </WalletConnectedGuard>

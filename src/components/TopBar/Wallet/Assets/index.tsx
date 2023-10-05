@@ -10,7 +10,7 @@ import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
 import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency, formatNumber, isTestnet, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
+import { prettifySecondsInDays } from "src/helpers/timeUtil";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
@@ -28,7 +28,6 @@ import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
-import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "AssetsIndex";
@@ -90,7 +89,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
-  const { data: nextRebaseDate } = useNextRebaseDate();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
@@ -161,8 +159,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
-      timeRemaining:
-        nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
       assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
@@ -172,8 +168,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1SohmBalance,
       label: "(v1)",
-      timeRemaining:
-        nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
       assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
     {

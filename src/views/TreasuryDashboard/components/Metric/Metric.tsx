@@ -7,7 +7,6 @@ import {
   useOhmPrice as useOhmPriceFromSubgraph,
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
-import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTreasuryMarketValueLatest } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
@@ -213,23 +212,6 @@ export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgrap
 
   if (totalValueDeposited) _props.metric = formatCurrency(totalValueDeposited, 0);
   else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
-  const { data: rebaseRate } = useStakingRebaseRate();
-  const _props: MetricProps = {
-    ...props,
-    label: `Annualized Rebases`,
-  };
-
-  if (rebaseRate) {
-    const apy = (Math.pow(1 + rebaseRate, 365 * 3) - 1) * 100;
-    const formatted = formatNumber(apy, 1);
-
-    _props.metric = `${formatted}%`;
-  } else _props.isLoading = true;
 
   return <Metric {..._props} />;
 };
