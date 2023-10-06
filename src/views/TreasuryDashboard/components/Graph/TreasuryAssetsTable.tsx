@@ -32,7 +32,7 @@ export const TreasuryAssetsTable = ({
   const chartName = "TreasuryAssetsTable";
 
   const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
-  const metricResults = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -42,7 +42,8 @@ export const TreasuryAssetsTable = ({
   const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
   const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
   useMemo(() => {
-    if (!tokenRecordResults || !metricResults || !metricResults.data) {
+    if (!tokenRecordResults || !metricResults) {
+      setByDateTokenSummary([]);
       return;
     }
 
@@ -66,7 +67,7 @@ export const TreasuryAssetsTable = ({
     // We want the liquid backing contribution to be shown as liquid backing contribution / backed OHM
     newDateTokenSummary.forEach(dateTokenSummary => {
       // Get the metric for the date
-      const currentMetric = metricResults.data?.find(value => value.date == dateTokenSummary.date);
+      const currentMetric = metricResults.find(value => value.date == dateTokenSummary.date);
       if (!currentMetric || currentMetric.ohmBackedSupply == 0) {
         return;
       }
@@ -77,12 +78,17 @@ export const TreasuryAssetsTable = ({
     });
 
     setByDateTokenSummary(newDateTokenSummary);
-  }, [isLiquidBackingActive, tokenRecordResults]);
+  }, [isLiquidBackingActive, tokenRecordResults, metricResults]);
 
   // Handle parameter changes
   useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
     setByDateTokenSummary([]);
   }, [earliestDate, subgraphDaysOffset]);
 
@@ -91,6 +97,12 @@ export const TreasuryAssetsTable = ({
    */
   const [headerSubtext, setHeaderSubtext] = useState("");
   useMemo(() => {
+    if (byDateTokenSummary.length == 0) {
+      setCurrentTokens([]);
+      setHeaderSubtext("");
+      return;
+    }
+
     console.debug(`${chartName}: rebuilding current tokens`);
     const currentTokenSummary = byDateTokenSummary[selectedIndex];
     setCurrentTokens(currentTokenSummary ? Object.values(currentTokenSummary.tokens) : []);

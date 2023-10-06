@@ -100,8 +100,13 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset, 
 
   // Handle parameter changes
   useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
     setByDateOhmSupply([]);
   }, [earliestDate, subgraphDaysOffset]);
 
