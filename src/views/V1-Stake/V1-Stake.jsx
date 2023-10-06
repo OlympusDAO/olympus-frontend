@@ -34,9 +34,6 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
-import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
-import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
-import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
 import { TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 
@@ -355,12 +352,6 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-
-                  <StakeNextRebaseAmount />
-
-                  <StakeRebaseYield />
-
-                  <StakeFiveDayYield />
                 </div>
               </>
             )}

@@ -1,11 +1,9 @@
-import { Box, Fade, FormControl, Link, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Fade, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/component-library";
 import { FC, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Balances from "src/components/TopBar/Wallet/Assets/Balances";
-import { TransactionHistory } from "src/components/TopBar/Wallet/Assets/TransactionHistory";
 import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
 import { GetTokenPrice } from "src/components/TopBar/Wallet/queries";
 import { formatCurrency, formatNumber, isTestnet, trim } from "src/helpers";
@@ -28,7 +26,10 @@ import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
-import { useNetwork } from "wagmi";
+import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
+import { useGetCoolerBalance } from "src/views/Lending/Cooler/hooks/useGetCoolerBalance";
+import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
+import { useAccount, useNetwork } from "wagmi";
 
 const PREFIX = "AssetsIndex";
 
@@ -83,6 +84,7 @@ export interface OHMAssetsProps {
   path?: string;
 }
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
+  const { address } = useAccount();
   const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
@@ -99,6 +101,25 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
   const [faucetToken, setFaucetToken] = useState("OHM V2");
+  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
+  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: coolerAddressV1 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV1?.factory,
+    collateralAddress: clearingHouseV1?.collateralAddress,
+    debtAddress: clearingHouseV1?.debtAddress,
+    clearingHouseVersion: "clearingHouseV1",
+  });
+  const { data: coolerAddressV2 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV2?.factory,
+    collateralAddress: clearingHouseV2?.collateralAddress,
+    debtAddress: clearingHouseV2?.debtAddress,
+    clearingHouseVersion: "clearingHouseV2",
+  });
+
+  const { data: coolerV1Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV1 });
+  const { data: coolerV2Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV2 });
 
   const ohmTokens = isTestnet(chain.id)
     ? [ohmBalances[NetworkId.TESTNET_GOERLI].data, ohmBalances[NetworkId.ARBITRUM_GOERLI].data]
@@ -120,6 +141,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     wsohmBalances[NetworkId.AVALANCHE].data,
   ];
 
+  const coolerTokens = [coolerV1Balance, coolerV2Balance];
+
   const totalOhmBalance = ohmTokens
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
@@ -129,6 +152,10 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const totalWsohmBalance = wsohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+
+  const totalCoolerBalance = coolerTokens
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
@@ -142,6 +169,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
+  const coolerBalance = totalCoolerBalance.toString({ decimals: 4, trim: false, format: true });
 
   const tokenArray = [
     {
@@ -160,8 +188,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
       assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
-      alwaysShow: true,
-      lineThreeLabel: "Rebases per day",
       lineThreeValue: Number(formattedSOhmBalance) > 0 ? `${trim(rebaseAmountPerDay, 3)} sOHM ` : undefined,
     },
     {
@@ -183,6 +209,15 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       pnl: formattedgOhmBalance ? 0 : formatCurrency(totalGohmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
       geckoTicker: "governance-ohm",
+    },
+    {
+      symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
+      balance: coolerBalance,
+      assetValue: gOhmPrice * totalCoolerBalance.toApproxNumber(),
+      pnl: coolerBalance ? 0 : formatCurrency(totalCoolerBalance.toApproxNumber() * gOhmPriceChange, 2),
+      alwaysShow: true,
+      geckoTicker: "governance-ohm",
+      lineThreeLabel: "Cooler Loans Collateral",
     },
   ];
 
@@ -218,28 +253,13 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
             underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
           />
         </Box>
-        <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
-          <Link component={NavLink} to="/wallet" end>
-            <Typography>My Wallet</Typography>
-          </Link>
-          <Link component={NavLink} to="/wallet/history">
-            <Typography>History</Typography>
-          </Link>
-        </Box>
-        {(() => {
-          switch (props.path) {
-            case "history":
-              return <TransactionHistory />;
-            default:
-              return (
-                <>
-                  {assets.map((asset, index) => (
-                    <Balances key={index} token={asset} />
-                  ))}
-                </>
-              );
-          }
-        })()}
+
+        <>
+          {assets.map((asset, index) => (
+            <Balances key={index} token={asset} />
+          ))}
+        </>
+
         {chain.id === NetworkId.TESTNET_GOERLI && (
           <>
             <Typography variant="h5">Dev Faucet</Typography>

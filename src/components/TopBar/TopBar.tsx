@@ -4,6 +4,7 @@ import { AppBar, Box, Button, SvgIcon, useMediaQuery, useTheme } from "@mui/mate
 import { styled } from "@mui/material/styles";
 import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
 
 const PREFIX = "TopBar";
 
@@ -43,9 +44,9 @@ interface TopBarProps {
   handleDrawerToggle: () => void;
 }
 
-function TopBar({ handleDrawerToggle }: TopBarProps) {
-  const theme = useTheme();
-  const desktop = useMediaQuery(theme.breakpoints.up(1048));
+function TopBar({ handleDrawerToggle, theme, toggleTheme }: TopBarProps) {
+  const themeColor = useTheme();
+  const desktop = useMediaQuery(themeColor.breakpoints.up(1048));
   return (
     <Box
       display="flex"
@@ -57,6 +58,7 @@ function TopBar({ handleDrawerToggle }: TopBarProps) {
       <Box display="flex" alignItems="center">
         <Box display="flex" alignItems="center">
           <ConnectButton />
+          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         </Box>
         {!desktop && (
           <Button

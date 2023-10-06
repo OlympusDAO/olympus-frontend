@@ -22,10 +22,9 @@ interface TokenArray {
  */
 const Balances = (props: { token: TokenArray }) => {
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice(props.token.geckoTicker);
-  const lineThree =
-    props.token.lineThreeLabel && props.token.lineThreeValue
-      ? { lineThreeLabel: props.token.lineThreeLabel, lineThreeValue: props.token.lineThreeValue }
-      : {};
+  const lineThree = props.token.lineThreeLabel
+    ? { lineThreeLabel: props.token.lineThreeLabel, lineThreeValue: props.token.lineThreeValue }
+    : {};
   const extraProps =
     props.token.ctaText && props.token.ctaOnClick
       ? { ctaText: props.token.ctaText, ctaOnClick: props.token.ctaOnClick }

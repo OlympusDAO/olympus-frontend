@@ -55,7 +55,7 @@ const NavContent: React.VFC = () => {
                   <Box className="menu-divider">
                     <Divider sx={{ borderColor: theme.colors.gray[600] }} />
                   </Box>
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
+                  <NavItem to="/stake" icon="stake" label={`Wrap`} />
                   <NavItem customIcon={<SvgIcon component={lendAndBorrowIcon} />} label={`Lend & Borrow`} to="/lending">
                     <Link component={NavLink} to={"/lending/cooler"}>
                       <Box ml="26px" mt="12px" mb="12px" mr="18px">

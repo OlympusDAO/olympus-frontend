@@ -1,7 +1,7 @@
-import { Box, Button, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Icon, OHMButtonProps, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 
@@ -61,9 +61,6 @@ export const ConnectButton = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const walletDrawerOpen =
-    location.pathname === "/wallet" || location.pathname === "/utility" || location.pathname === "/info" ? true : false;
-
   return (
     <RainbowConnectButton.Custom>
       {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
@@ -80,70 +77,29 @@ export const ConnectButton = () => {
           >
             {(() => {
               if (!mounted || !account || !chain) {
-                if (walletDrawerOpen) {
-                  return (
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      sx={{
-                        height: "39px",
-                        borderRadius: "6px",
-                        padding: "9px 18px",
-                        cursor: "pointer",
-                        background: theme.colors.paper.card,
-                        "&:hover": { background: theme.colors.paper.cardHover },
-                      }}
-                      onClick={() => {
-                        fireAnalyticsEvent();
-                        openConnectModal();
-                      }}
-                    >
-                      <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                      <Typography>{`Connect`}</Typography>
-                    </Box>
-                  );
-                } else {
-                  return (
-                    <Link
-                      component={RouterLink}
-                      to={"/wallet"}
-                      state={{ prevPath: location.pathname }}
-                      style={{ marginRight: "0px" }}
-                      sx={{ zIndex: 18 }}
-                    >
-                      {!mobile ? (
-                        <PrimaryButton>
-                          <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                          {`Connect Wallet`}
-                        </PrimaryButton>
-                      ) : (
-                        <Button
-                          sx={{
-                            fontSize: "0.875rem",
-                            height: "39px",
-                            minWidth: "39px",
-                            borderRadius: "6px",
-                            background:
-                              theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.card,
-                            color: theme.colors.gray[10],
-                            "&:hover": {
-                              background:
-                                theme.palette.mode === "dark" ? theme.colors.gray[90] : theme.colors.paper.cardHover,
-                              color: theme.colors.gray[10],
-                            },
-                          }}
-                        >
-                          <SvgIcon component={WalletIcon} />
-                        </Button>
-                      )}
-                    </Link>
-                  );
-                }
-              }
-              return (
-                <Box display="flex" alignItems="center">
-                  {walletDrawerOpen ? (
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                  sx={{
+                    height: "39px",
+                    borderRadius: "6px",
+                    padding: "9px 18px",
+                    cursor: "pointer",
+                    background: theme.colors.paper.card,
+                    "&:hover": { background: theme.colors.paper.cardHover },
+                  }}
+                  onClick={() => {
+                    fireAnalyticsEvent();
+                    openConnectModal();
+                  }}
+                >
+                  <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+                  <Typography>{`Connect`}</Typography>
+                </Box>;
+              } else {
+                return (
+                  <Box display="flex" alignItems="center">
                     <>
                       <Box
                         display="flex"
@@ -203,53 +159,9 @@ export const ConnectButton = () => {
                         )}
                       </Box>
                     </>
-                  ) : (
-                    <Link
-                      component={RouterLink}
-                      to={"/wallet"}
-                      state={{ prevPath: location.pathname }}
-                      style={{ marginRight: "0px" }}
-                    >
-                      {mobile ? (
-                        <Button
-                          sx={{
-                            fontSize: "0.875rem",
-                            height: "39px",
-                            minWidth: "39px",
-                            borderRadius: "6px",
-                            background:
-                              theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.card,
-                            color: theme.colors.gray[10],
-                            "&:hover": {
-                              background:
-                                theme.palette.mode === "dark" ? theme.colors.gray[90] : theme.colors.paper.cardHover,
-                              color: theme.colors.gray[10],
-                            },
-                          }}
-                        >
-                          <SvgIcon component={WalletIcon} />
-                        </Button>
-                      ) : (
-                        <Button
-                          sx={{
-                            borderRadius: "6px",
-                            padding: "9px 18px",
-                            marginLeft: "9px",
-                            fontSize: "0.875rem",
-                            height: "39px",
-                            background: theme.colors.gray[500],
-                            color: theme.colors.gray[10],
-                            "&:hover": { background: theme.colors.gray[90], color: theme.colors.gray[10] },
-                          }}
-                        >
-                          <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                          {chain.unsupported ? "Unsupported Network" : account.displayName}
-                        </Button>
-                      )}
-                    </Link>
-                  )}
-                </Box>
-              );
+                  </Box>
+                );
+              }
             })()}
           </div>
         );

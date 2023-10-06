@@ -5,7 +5,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Paper, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { IWarmupBalances, useWarmupClaim } from "src/hooks/useWarmupInfo";
-import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { useClaimToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useClaimToken";
 import { useForfeitToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useForfeitToken";
 import { useAccount } from "wagmi";
