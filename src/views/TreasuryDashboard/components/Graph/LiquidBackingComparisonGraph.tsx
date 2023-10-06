@@ -27,7 +27,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
   subgraphDaysOffset,
   ignoreCache,
 }: GraphProps) => {
-  // TODO look at how to combine query documents
   const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "LiquidBackingComparison";
@@ -61,9 +60,25 @@ export const LiquidBackingPerOhmComparisonGraph = ({
     ohmPrice: number;
   };
   const [byDateLiquidBacking, setByDateLiquidBacking] = useState<LiquidBackingComparison[]>([]);
+
+  // Handle parameter changes
+  useEffect(() => {
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
+    setByDateLiquidBacking([]);
+  }, [earliestDate, subgraphDaysOffset]);
+
+  // Chart population
   useMemo(() => {
     // While data is loading, ensure dependent data is empty
     if (!metricResults) {
+      console.debug(`${chartName}: data is loading. Clearing by date metrics.`);
+      setByDateLiquidBacking([]);
       return;
     }
 
@@ -88,13 +103,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({
 
     setByDateLiquidBacking(tempByDateLiquidBacking);
   }, [metricResults]);
-
-  // Handle parameter changes
-  useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
-    setByDateLiquidBacking([]);
-  }, [earliestDate, subgraphDaysOffset]);
 
   /**
    * Header subtext
@@ -176,6 +184,7 @@ As data is sourced from multiple chains that may have different snapshot times, 
       itemDecimals={2}
       subgraphQueryUrl={queryExplorerUrl}
       tickStyle={getTickStyle(theme)}
+      minimumYValue={"dataMin"}
     />
   );
 };

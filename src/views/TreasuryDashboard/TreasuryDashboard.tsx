@@ -1,6 +1,6 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { SafariFooter } from "src/components/SafariFooter";
@@ -48,7 +48,17 @@ const MetricsDashboard = () => {
    * asynchronously, so we set the initial value of daysPrior and earliestDate to null. Child components are designed to recognise this
    * and not load data until earliestDate is a valid value.
    */
-  const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+  const [earliestDate, setEarliestDate] = useState<string | null>(null);
+  useMemo(() => {
+    if (!daysPrior) {
+      setEarliestDate(null);
+      return;
+    }
+
+    const tempEarliestDate = getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+    console.log(`Setting earliestDate to ${tempEarliestDate}`);
+    setEarliestDate(tempEarliestDate);
+  }, [daysPrior]);
 
   // State variable for ignoring the API cache
   const [ignoreCache, setIgnoreCache] = useState<boolean | undefined>();
@@ -168,8 +178,8 @@ const MetricsDashboard = () => {
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
-          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
-          <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
+          {hideToggleSidePadding ? <></> : <Grid item xs={1} sm={3} />}
+          <Grid item xs={10} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -196,7 +206,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={2} sm={3} md={1} />
+          <Grid item xs={1} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
           <Grid item xs={3} sm={4} md={3} lg={5} />
           <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
