@@ -2,12 +2,10 @@ import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
-  useCurrentIndex,
   useGOhmPrice as useGOhmPriceFromSubgraph,
   useOhmPrice as useOhmPriceFromSubgraph,
   useTotalValueDeposited,
 } from "src/hooks/useProtocolMetrics";
-import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTreasuryMarketValueLatest } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
@@ -149,26 +147,6 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
 };
 
 /**
- * React Component that displays the most recent OHM index.
- *
- * @param props
- * @returns
- */
-export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const currentIndex = useCurrentIndex({ ignoreCache: props.ignoreCache });
-  const _props: MetricProps = {
-    ...props,
-    label: `Current Index`,
-    tooltip: `The current index tracks the amount of OHM accumulated since the beginning of staking. Basically, how much OHM one would have if they staked and held 1 OHM from launch.`,
-  };
-
-  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} OHM`;
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-/**
  * uses contract price
  */
 export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
@@ -213,23 +191,6 @@ export const TotalValueDeposited: React.FC<AbstractedMetricProps & MetricSubgrap
 
   if (totalValueDeposited) _props.metric = formatCurrency(totalValueDeposited, 0);
   else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
-  const { data: rebaseRate } = useStakingRebaseRate();
-  const _props: MetricProps = {
-    ...props,
-    label: `Annualized Rebases`,
-  };
-
-  if (rebaseRate) {
-    const apy = (Math.pow(1 + rebaseRate, 365 * 3) - 1) * 100;
-    const formatted = formatNumber(apy, 1);
-
-    _props.metric = `${formatted}%`;
-  } else _props.isLoading = true;
 
   return <Metric {..._props} />;
 };
