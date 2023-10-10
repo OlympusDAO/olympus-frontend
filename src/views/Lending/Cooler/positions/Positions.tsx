@@ -25,7 +25,6 @@ import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLo
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { DelegateVoting } from "src/views/Lending/Cooler/positions/DelegateVoting";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
@@ -268,8 +267,6 @@ export const CoolerPositions = () => {
           />
         </>
       )}
-
-      <LiquidityCTA />
     </div>
   );
 };
