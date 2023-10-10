@@ -12,7 +12,6 @@ export const Liquidity = () => {
   const { data: ohmPrice } = useOhmPrice();
   const { data: vaults, isLoading: vaultsLoading } = useGetSingleSidedLiquidityVaults();
   const vaultsWithDeposits = (vaults && vaults.filter(vault => Number(vault.lpTokenBalance) > 0)) || [];
-  console.log(vaultsWithDeposits);
   return (
     <div id="stake-view">
       <PageTitle name="Provide Liquidity" />
