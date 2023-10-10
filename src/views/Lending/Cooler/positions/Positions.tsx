@@ -33,45 +33,22 @@ export const CoolerPositions = () => {
   const [currentClearingHouse, setCurrentClearingHouse] = useState<"clearingHouseV1" | "clearingHouseV2">(
     "clearingHouseV2",
   );
-  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
-  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
-
+  const { data: clearingHouse } = useGetClearingHouse({ clearingHouse: currentClearingHouse });
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
-  const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
+  const { data: loans, isFetched: isFetchedLoans } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
+    factoryAddress: clearingHouse?.factory,
+    collateralAddress: clearingHouse?.collateralAddress,
+    debtAddress: clearingHouse?.debtAddress,
   });
 
-  const { data: coolerAddressV1 } = useGetCoolerForWallet({
+  const { data: coolerAddress } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
-    clearingHouseVersion: "clearingHouseV1",
+    factoryAddress: clearingHouse?.factory,
+    collateralAddress: clearingHouse?.collateralAddress,
+    debtAddress: clearingHouse?.debtAddress,
+    clearingHouseVersion: currentClearingHouse,
   });
-
-  const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
-    walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
-  });
-
-  const { data: coolerAddressV2 } = useGetCoolerForWallet({
-    walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
-    clearingHouseVersion: "clearingHouseV2",
-  });
-
-  const coolerAddress = currentClearingHouse === "clearingHouseV1" ? coolerAddressV1 : coolerAddressV2;
-  const clearingHouse = currentClearingHouse === "clearingHouseV1" ? clearingHouseV1 : clearingHouseV2;
-  const loans = currentClearingHouse === "clearingHouseV1" ? loansV1 : loansV2;
-  const isFetchedLoans = currentClearingHouse === "clearingHouseV1" ? isFetchedLoansV1 : isFetchedLoansV2;
-
   const { data: delegationAddress } = useCheckDelegation({ coolerAddress });
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
@@ -92,39 +69,37 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
-        <Box display="flex" mt="16px" justifyContent="right">
-          <Select
-            value={currentClearingHouse}
-            label="ClearingHouse"
-            onChange={e => {
-              setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
-            }}
-            sx={{
-              width: "200px",
-              height: "44px",
-              backgroundColor: theme.colors.gray[700],
+      <Box display="flex" mt="16px" justifyContent="right">
+        <Select
+          value={currentClearingHouse}
+          label="ClearingHouse"
+          onChange={e => {
+            setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
+          }}
+          sx={{
+            width: "200px",
+            height: "44px",
+            backgroundColor: theme.colors.gray[700],
+            border: "none",
+            ".MuiOutlinedInput-notchedOutline": {
               border: "none",
-              ".MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "& .MuiSelect-select": {
-                display: "flex",
-                alignItems: "center",
-              },
-            }}
-          >
-            <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
-            <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
-          </Select>
-        </Box>
-      )}
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "& .MuiSelect-select": {
+              display: "flex",
+              alignItems: "center",
+            },
+          }}
+        >
+          <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
+          <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
+        </Select>
+      </Box>
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
