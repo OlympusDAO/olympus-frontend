@@ -371,7 +371,7 @@ export const Vault = () => {
                         Number(reserveAmount) > Number(vault.lpTokenBalance) ||
                         withdraw.isLoading ||
                         !vault.canWithdraw
-                      : false
+                      : true
                   }
                   onClick={() => {
                     isWithdrawal ? setIsWithdrawConfirmOpen(true) : setIsDepositModalOpen(true);
