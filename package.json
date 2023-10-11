@@ -32,7 +32,7 @@
     "@ethersproject/providers": "^5.7.1",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.9",
-    "@mui/system": "^5.14.9",
+    "@mui/system": "^5.14.13",
     "@mui/x-data-grid": "^6.9.0",
     "@olympusdao/component-library": "3.1.7",
     "@olympusdao/treasury-subgraph-client": "^1.1.0",
