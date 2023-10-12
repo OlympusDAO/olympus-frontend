@@ -231,10 +231,12 @@ export const useMetricsQuery = ({
   startDate,
   includeContentRecords,
   ignoreCache,
+  crossChainDataComplete,
 }: {
   startDate?: string | null;
   includeContentRecords?: boolean;
   ignoreCache?: boolean;
+  crossChainDataComplete?: boolean;
 }) => {
   return useFederatedSubgraphQuery({
     operationName: "paginated/metrics",
@@ -242,6 +244,7 @@ export const useMetricsQuery = ({
       startDate: startDate || "",
       includeRecords: includeContentRecords || false,
       ignoreCache: ignoreCache || false,
+      crossChainDataComplete: crossChainDataComplete || true,
     },
     enabled: startDate != null,
     retry: 3, // Queries with long periods and with includeRecords = true will take a while if not cached, leading to a timeout
