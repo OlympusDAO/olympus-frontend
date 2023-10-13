@@ -102,11 +102,14 @@ export const MaturityGraph = () => {
   const bulletpointStyles = getBulletpointStylesMap(DEFAULT_BULLETPOINT_COLOURS, dataKeys);
   const colorsMap = getDataKeyColorsMap(DEFAULT_COLORS, dataKeys);
   const dataKeyLabels = getCategoriesMap(itemNames, dataKeys);
+  const tickStyle = getTickStyle(theme);
+  tickStyle.stroke = "#8A8B90";
+  tickStyle.fill = "#8A8B90";
 
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="h6" color="textSecondary" display="inline">
+      <Grid item xs={12} paddingBottom={1}>
+        <Typography variant="h6" color="rgb(238, 233, 226)" display="inline">
           Projected Maturity
         </Typography>
       </Grid>
@@ -131,7 +134,7 @@ export const MaturityGraph = () => {
           dataKeyLabels={dataKeyLabels}
           infoTooltipMessage={""}
           isLoading={!coolerSnapshots}
-          tickStyle={getTickStyle(theme)}
+          tickStyle={tickStyle}
           itemDecimals={0}
           margin={{ left: 30 }}
           displayTooltipTotal={true}

@@ -109,7 +109,15 @@ export const TotalCapacityRemaining = () => {
       label="Total Capacity Remaining"
       metric={formatCurrency(getTotalCapacity(latestSnapshot), 0, "DAI")}
       isLoading={latestSnapshot === undefined}
-      tooltip="The value of the total capacity remaining in the clearinghouse and treasury"
+      tooltip={`The capacity remaining is the sum of the DAI and sDAI in the clearinghouse and treasury. As of the latest snapshot, the values (in DAI) are:
+
+Clearinghouse:
+DAI: ${formatCurrency(latestSnapshot?.clearinghouse?.daiBalance || 0, 0, "DAI")}
+sDAI: ${formatCurrency(latestSnapshot?.clearinghouse?.sDaiInDaiBalance || 0, 0, "DAI")}
+
+Treasury:
+DAI: ${formatCurrency(latestSnapshot?.treasury?.daiBalance || 0, 0, "DAI")}
+sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI")}`}
     />
   );
 };
