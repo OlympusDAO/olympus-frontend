@@ -49,6 +49,10 @@ export const formatCurrencyTick = (value: unknown): string => {
     return `${formatCurrency(valueNum / 1000)}k`;
   }
 
+  if (valueNum > 100) {
+    return `${formatCurrency(valueNum)}`;
+  }
+
   return formatCurrency(valueNum, 2);
 };
 
