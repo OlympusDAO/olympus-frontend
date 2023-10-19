@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BigNumber } from "ethers";
 import toast from "react-hot-toast";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey } from "src/hooks/useBalance";
@@ -15,7 +16,9 @@ export const useRepayLoan = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
 
       const coolerContract = Cooler__factory.connect(coolerAddress, signer);
-      const loan = await coolerContract.repayLoan(loanId, amount.toBigNumber(18));
+      const loan = await coolerContract.repayLoan(loanId, amount.toBigNumber(18), {
+        gasLimit: BigNumber.from("1000000"),
+      });
       const receipt = await loan.wait();
       return receipt;
     },
