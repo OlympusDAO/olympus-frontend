@@ -3,7 +3,7 @@ import { DataRow } from "@olympusdao/component-library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useEstimateSendFee } from "src/hooks/useBridging";
-import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
+import { formatBalance } from "src/views/Stake/components/StakeArea/StakeBalances";
 import { useAccount, useNetwork } from "wagmi";
 
 const StyledDataRow = styled(DataRow)({

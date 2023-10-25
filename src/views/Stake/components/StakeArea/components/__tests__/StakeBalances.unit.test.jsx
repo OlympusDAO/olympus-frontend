@@ -11,7 +11,7 @@ import {
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { NetworkId } from "src/networkDetails";
 import { render, screen } from "src/testUtils";
-import { StakeBalances } from "src/views/Stake/components/StakeArea/components/StakeBalances";
+import { StakeBalances } from "src/views/Stake/components/StakeArea/StakeBalances";
 import { describe, expect, it, test, vi } from "vitest";
 
 vi.mock("src/hooks/useBalance");

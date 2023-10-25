@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { DataRow, MetricCollection, Paper } from "@olympusdao/component-library";
+import { DataRow, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
@@ -34,7 +34,6 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
-import { TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 
 function V1Stake({ setMigrationModalOpen }) {
@@ -163,12 +162,6 @@ function V1Stake({ setMigrationModalOpen }) {
     <div id="v1-stake-view">
       <Paper headerText={`${`Single Stake`} (3, 3)`}>
         <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <MetricCollection>
-              <TotalValueDeposited className="stake-tvl" />
-            </MetricCollection>
-          </Grid>
-
           <div className="staking-area">
             {!isConnected ? (
               <div className="stake-wallet-notification">

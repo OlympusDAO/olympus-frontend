@@ -2,7 +2,6 @@ import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
-  useCurrentIndex,
   useGOhmPrice as useGOhmPriceFromSubgraph,
   useOhmPrice as useOhmPriceFromSubgraph,
   useTotalValueDeposited,
@@ -142,26 +141,6 @@ export const BackingPerGOHM: React.FC<AbstractedMetricProps & MetricSubgraphProp
   };
 
   if (liquidBackingPerGOhm) _props.metric = `${formatCurrency(liquidBackingPerGOhm, 2)}`;
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-/**
- * React Component that displays the most recent OHM index.
- *
- * @param props
- * @returns
- */
-export const CurrentIndex: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const currentIndex = useCurrentIndex({ ignoreCache: props.ignoreCache });
-  const _props: MetricProps = {
-    ...props,
-    label: `Current Index`,
-    tooltip: `The current index tracks the amount of OHM accumulated since the beginning of staking. Basically, how much OHM one would have if they staked and held 1 OHM from launch.`,
-  };
-
-  if (currentIndex) _props.metric = `${formatNumber(currentIndex, 2)} OHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

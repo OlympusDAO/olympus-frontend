@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BigNumber } from "ethers";
 import toast from "react-hot-toast";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
@@ -23,7 +24,9 @@ export const useExtendLoan = () => {
     }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contract = CoolerClearingHouse__factory.connect(clearingHouseAddress, signer);
-      const loan = await contract.extendLoan(coolerAddress, loanId, times);
+      const loan = await contract.extendLoan(coolerAddress, loanId, times, {
+        gasLimit: BigNumber.from("1000000"),
+      });
       const receipt = await loan.wait();
       return receipt;
     },
