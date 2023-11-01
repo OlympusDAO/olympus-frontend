@@ -30,10 +30,10 @@ import { ConfirmationModal } from "src/views/Liquidity/ConfirmationModal";
 import { DepositSteps } from "src/views/Liquidity/DepositStepsModal";
 import { useGetExpectedPairTokenAmount } from "src/views/Liquidity/hooks/useGetExpectedPairTokenAmount";
 import { useGetLastDeposit } from "src/views/Liquidity/hooks/useGetLastDeposit";
+import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
 import { useGetUserVault } from "src/views/Liquidity/hooks/useGetUserVault";
 import { useGetVault } from "src/views/Liquidity/hooks/useGetVault";
 import { useWithdrawLiquidity } from "src/views/Liquidity/hooks/useWithdrawLiquidity";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { WithdrawModal } from "src/views/Liquidity/WithdrawModal";
 import TokenModal, {
   ModalHandleSelectProps,
@@ -86,6 +86,9 @@ export const Vault = () => {
   const isWithdrawal = searchParams.get("withdraw") ? true : false;
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { data: vaults, isLoading: vaultsLoading } = useGetSingleSidedLiquidityVaults();
+  const vaultsWithDeposits = vaults && vaults.filter(vault => vault.lpTokenBalance !== "0");
   useEffect(() => {
     if (vault) {
       setSwapAssetType({ name: vault?.pairTokenName });
@@ -308,9 +311,6 @@ export const Vault = () => {
           <SwapCollection
             UpperSwapCard={isWithdrawal ? lpToken() : pairToken()}
             LowerSwapCard={isWithdrawal ? pairToken() : lpToken()}
-            arrowOnClick={() => {
-              isWithdrawal ? setSearchParams(undefined) : setSearchParams({ withdraw: "true" });
-            }}
           />
           {noAllowance && !isWithdrawal && (
             <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
@@ -331,20 +331,6 @@ export const Vault = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center">
             <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
               <Box mt="12px">
-                {isWithdrawal && !vault.canWithdraw && (
-                  <InfoNotification dismissible>
-                    <Typography>
-                      There is a 24 hour withdraw period from time of last deposit {date}. Learn more{" "}
-                      <Link
-                        href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults#for-users-1"
-                        target="_blank"
-                      >
-                        here
-                      </Link>
-                      .
-                    </Typography>
-                  </InfoNotification>
-                )}
                 <DataRow
                   title="Slippage Tolerance"
                   balance={
@@ -414,7 +400,6 @@ export const Vault = () => {
               vaultPairTokenName={vault.pairTokenName}
             />
           )}
-          <LiquidityCTA />
           <ConfirmationModal
             isOpen={isDepositModalOpen}
             setIsOpen={setIsDepositModalOpen}

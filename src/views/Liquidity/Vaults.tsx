@@ -1,11 +1,10 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Box, Link, Skeleton, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Metric, TextButton } from "@olympusdao/component-library";
+import { Box, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Metric } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency } from "src/helpers";
 import { useGetSingleSidedLiquidityVaults } from "src/views/Liquidity/hooks/useGetSingleSidedLiquidityVaults";
-import { SingleSidedFarms } from "src/views/Liquidity/SingleSidedFarms";
 import { VaultFAQ } from "src/views/Liquidity/VaultFAQ";
 import { YourAmoDeposits } from "src/views/Liquidity/YourAMODeposits";
 
@@ -43,33 +42,6 @@ export const Vaults = () => {
             <Metric label="TVL in Vaults" metric={totalTVL ? formatCurrency(totalTVL) : "$0"} isLoading={isLoading} />
           </Box>
         </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
-          <Box>
-            <Typography variant="h1">Boosted Liquidity Vaults</Typography>
-            <Box mb="18px" mt="9px">
-              <Typography>Single-asset deposits with double the rewards compared to traditional LP.</Typography>
-            </Box>
-          </Box>
-          <TextButton href="https://docs.olympusdao.finance/main/overview/boosted-liq-vaults" target="_blank">
-            What is Boosted Liquidity?
-          </TextButton>
-        </Box>
-        {isLoading ? (
-          <Skeleton height="64px" />
-        ) : (
-          <>
-            {vaults && vaults.length > 0 ? (
-              <>
-                <SingleSidedFarms vaults={vaults} />
-                <Box mb="33px" />
-              </>
-            ) : (
-              <Box display="flex" justifyContent="center" mt="100px">
-                <Typography variant="h1">No Active Vaults</Typography>
-              </Box>
-            )}
-          </>
-        )}
         {vaultsWithDeposits && vaultsWithDeposits.length > 0 && (
           <>
             <YourAmoDeposits vaults={vaultsWithDeposits} />
