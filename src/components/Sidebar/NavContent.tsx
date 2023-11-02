@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
@@ -49,22 +49,24 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
+              <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
+              <NavItem to="/dashboard" icon="dashboard" label={`Treasury Dashboard`} />
               {chain.id === networks.MAINNET ? (
                 <>
-                  <Box className="menu-divider">
-                    <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-                  </Box>
-                  <NavItem to="/stake" icon="stake" label={`Wrap`} />
+                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
                   <NavItem customIcon={<SvgIcon component={lendAndBorrowIcon} />} label={`Lend & Borrow`} to="/lending">
                     <Link component={NavLink} to={"/lending/cooler"}>
                       <Box ml="26px" mt="12px" mb="12px" mr="18px">
                         <Typography variant="body1">Cooler Loans</Typography>
                       </Box>
                     </Link>
+                    <Link component={NavLink} to={"/lending/markets"}>
+                      <Box ml="26px" mt="12px" mb="12px" mr="18px">
+                        <Typography variant="body1">External Lending Markets</Typography>
+                      </Box>
+                    </Link>
                   </NavItem>
-                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
-                  <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
+                  <NavItem to="/range" icon="range" label={`RBS`} defaultExpanded={false}>
                     <RangePrice bidOrAsk="ask" />
                     <RangePrice bidOrAsk="bid" />
                   </NavItem>
@@ -80,15 +82,7 @@ const NavContent: React.VFC = () => {
                   <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
                 </>
               )}
-
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
               <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
-              <NavItem icon="transparency" label={`Transparency`} href="https://www.olympusdao.finance/transparency" />
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
             </div>
           </div>
         </div>

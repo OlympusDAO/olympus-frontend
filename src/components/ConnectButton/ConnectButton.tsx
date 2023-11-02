@@ -1,7 +1,6 @@
-import { Box, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, SvgIcon, useMediaQuery, useTheme } from "@mui/material";
 import { Icon, OHMButtonProps, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 
@@ -57,7 +56,6 @@ export const InPageConnectButton = ({
   );
 };
 export const ConnectButton = () => {
-  const location = useLocation();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -77,35 +75,54 @@ export const ConnectButton = () => {
           >
             {(() => {
               if (!mounted || !account || !chain) {
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                  sx={{
-                    height: "39px",
-                    borderRadius: "6px",
-                    padding: "9px 18px",
-                    cursor: "pointer",
-                    background: theme.colors.paper.card,
-                    "&:hover": { background: theme.colors.paper.cardHover },
-                  }}
-                  onClick={() => {
-                    fireAnalyticsEvent();
-                    openConnectModal();
-                  }}
-                >
-                  <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                  <Typography>{`Connect`}</Typography>
-                </Box>;
+                return (
+                  <>
+                    {!mobile ? (
+                      <PrimaryButton
+                        onClick={() => {
+                          fireAnalyticsEvent();
+                          openConnectModal();
+                        }}
+                      >
+                        <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+                        {`Connect Wallet`}
+                      </PrimaryButton>
+                    ) : (
+                      <Button
+                        sx={{
+                          fontSize: "0.875rem",
+                          height: "39px",
+                          minWidth: "39px",
+                          borderRadius: "6px",
+                          background: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.card,
+                          color: theme.colors.gray[10],
+                          "&:hover": {
+                            background:
+                              theme.palette.mode === "dark" ? theme.colors.gray[90] : theme.colors.paper.cardHover,
+                            color: theme.colors.gray[10],
+                          },
+                        }}
+                        onClick={() => {
+                          fireAnalyticsEvent();
+                          openConnectModal();
+                        }}
+                      >
+                        <SvgIcon component={WalletIcon} />
+                      </Button>
+                    )}
+                  </>
+                );
               } else {
                 return (
-                  <Box display="flex" alignItems="center">
-                    <>
+                  <Box display="flex" alignItems={"center"}>
+                    <Button
+                      onClick={chain.unsupported ? openChainModal : openAccountModal}
+                      sx={{ paddingLeft: "0px", paddingRight: "0px", minWidth: "initial" }}
+                    >
                       <Box
                         display="flex"
                         alignItems="center"
                         sx={{
-                          marginRight: "9px",
                           fontSize: "0.875rem",
                           height: "39px",
                           borderRadius: "6px",
@@ -114,11 +131,15 @@ export const ConnectButton = () => {
                           fontWeight: 500,
                           background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
                         }}
-                        onClick={chain.unsupported ? openChainModal : openAccountModal}
                       >
                         <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
                         {chain.unsupported ? "Unsupported Network" : account.displayName}
                       </Box>
+                    </Button>
+                    <Button
+                      onClick={openChainModal}
+                      sx={{ paddingLeft: "0px", paddingRight: "0px", minWidth: "initial" }}
+                    >
                       <Box
                         display="flex"
                         alignItems="center"
@@ -133,7 +154,6 @@ export const ConnectButton = () => {
                               theme.palette.mode === "light" ? theme.colors.paper.cardHover : theme.colors.gray[500],
                           },
                         }}
-                        onClick={openChainModal}
                       >
                         {chain.unsupported && (
                           <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />
@@ -158,7 +178,7 @@ export const ConnectButton = () => {
                           </div>
                         )}
                       </Box>
-                    </>
+                    </Button>
                   </Box>
                 );
               }

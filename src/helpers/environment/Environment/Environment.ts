@@ -111,11 +111,6 @@ export class Environment {
           key: `VITE_ARBITRUM_NODE_URL`,
           fallback: "https://rpc.ankr.com/arbitrum",
         });
-      case NetworkId.ARBITRUM_TESTNET:
-        return this._get({
-          key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
-          fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-        });
       case NetworkId.ARBITRUM_GOERLI:
         return this._get({
           key: `VITE_ARBITRUM_GOERLI_NODE_URL`,

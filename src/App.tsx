@@ -20,7 +20,6 @@ import Sidebar from "src/components/Sidebar/Sidebar";
 import StagingNotification from "src/components/StagingNotification";
 import { StakeVersionContainer } from "src/components/StakeVersionContainer";
 import TopBar from "src/components/TopBar/TopBar";
-import Wallet from "src/components/TopBar/Wallet";
 import { shouldTriggerSafetyCheck } from "src/helpers";
 import { useGoogleAnalytics } from "src/hooks/useGoogleAnalytics";
 import useTheme from "src/hooks/useTheme";
@@ -40,6 +39,7 @@ import { Liquidity } from "src/views/Liquidity";
 import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/ExternalStakePools";
 import { Vault } from "src/views/Liquidity/Vault";
 import { Vaults } from "src/views/Liquidity/Vaults";
+import { MyBalances } from "src/views/MyBalances";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -234,6 +234,7 @@ function App() {
               <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
               <Suspense fallback={<div></div>}>
                 <Routes>
+                  <Route path="my-balances" element={<MyBalances />} />
                   <Route path="/" element={<Navigate to="/dashboard" />} />
                   <Route
                     path="/stake"
@@ -258,22 +259,6 @@ function App() {
                   <Route path="/lending" element={<Lending />} />
                   <Route path="/lending/cooler" element={<Cooler />} />
 
-                  <Route
-                    path={"/info/*"}
-                    element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
-                  />
-                  <Route
-                    path={"/utility"}
-                    element={<Wallet open={true} component="utility" theme={theme} toggleTheme={toggleTheme} />}
-                  />
-                  <Route
-                    path={"/wallet/history"}
-                    element={<Wallet open={true} component="wallet/history" theme={theme} toggleTheme={toggleTheme} />}
-                  />
-                  <Route
-                    path="/wallet"
-                    element={<Wallet open={true} component="wallet" theme={theme} toggleTheme={toggleTheme} />}
-                  ></Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
