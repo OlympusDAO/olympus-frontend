@@ -1,7 +1,8 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Token, WalletBalance } from "@olympusdao/component-library";
+import { Metric, Token, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { DevFaucet } from "src/components/DevFaucet";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber, isTestnet } from "src/helpers";
@@ -134,14 +135,12 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     {
       assetValue: gOhmPrice * totalGohmBalance.toApproxNumber(),
     },
-    {
-      assetValue: gOhmPrice * totalCoolerBalance.toApproxNumber(),
-    },
   ];
 
   const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const theme = useTheme();
+  const { isConnected } = useAccount();
 
   return (
     <div id="stake-view">
@@ -151,13 +150,30 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
             <Box display="flex" flexDirection="column" width="100%">
               <Box>
-                <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  <WalletBalance
-                    title="All Balances"
-                    usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-                    underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
-                  />
-                </Box>
+                <Grid container spacing={2} justifyContent={"center"}>
+                  <Grid item xs={12} sm={4}>
+                    <WalletBalance
+                      title="All Balances"
+                      usdBalance={formatCurrency(walletTotalValueUSD, 2)}
+                      underlyingBalance={`${formatNumber(
+                        walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1),
+                        2,
+                      )} OHM`}
+                    />{" "}
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Metric label="OHM Price" metric={ohmPrice ? formatCurrency(ohmPrice, 2) : <Skeleton />} />
+                  </Grid>
+                </Grid>
+                {!isConnected && (
+                  <div className="stake-wallet-notification">
+                    <div className="wallet-menu" id="wallet-menu">
+                      <InPageConnectButton />
+                    </div>
+                  </div>
+                )}
+
+                <Box display="flex" flexDirection="row" justifyContent="space-between"></Box>
                 <Box display="flex" flexWrap="wrap" justifyContent="space-between" mt="50px" gap="20px">
                   <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
                     <Box
@@ -214,7 +230,9 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                       </Box>
                       {Number(totalGohmBalance.toString()) > 0 ? (
                         <>
-                          <MyGohmBalances walletBalance={gOhmWalletBalance} />
+                          {Number(Number(gOhmWalletBalance.toString()).toFixed(4)) > 0 && (
+                            <MyGohmBalances walletBalance={gOhmWalletBalance} />
+                          )}
                           <MyCoolerLoans
                             balance={coolerBalance}
                             balanceUSD={formatCurrency(gOhmPrice * Number(totalCoolerBalance.toString()), 2)}

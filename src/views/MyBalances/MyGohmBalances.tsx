@@ -81,7 +81,7 @@ export const MyGohmBalances = ({ walletBalance }: { walletBalance?: DecimalBigNu
             {Number(gohmBalances[networks.MAINNET].data?.toString()).toFixed(4) || "0.00"}
           </Typography>
         </Box>
-        <Link component={RouterLink} to="/stake">
+        <Link component={RouterLink} to="/stake?unstake=true">
           <PrimaryButton>Unwrap</PrimaryButton>
         </Link>
       </Box>

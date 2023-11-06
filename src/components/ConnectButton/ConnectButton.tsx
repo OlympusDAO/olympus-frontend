@@ -130,6 +130,10 @@ export const ConnectButton = () => {
                           cursor: "pointer",
                           fontWeight: 500,
                           background: theme.palette.mode === "light" ? theme.colors.paper.card : theme.colors.gray[600],
+                          "&:hover": {
+                            background:
+                              theme.palette.mode === "light" ? theme.colors.paper.cardHover : theme.colors.gray[500],
+                          },
                         }}
                       >
                         <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
@@ -138,7 +142,7 @@ export const ConnectButton = () => {
                     </Button>
                     <Button
                       onClick={openChainModal}
-                      sx={{ paddingLeft: "0px", paddingRight: "0px", minWidth: "initial" }}
+                      sx={{ paddingLeft: "15px", paddingRight: "0px", minWidth: "initial" }}
                     >
                       <Box
                         display="flex"
