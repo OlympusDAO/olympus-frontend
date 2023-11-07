@@ -78,7 +78,7 @@ export const MyGohmBalances = ({ walletBalance }: { walletBalance?: DecimalBigNu
             <Token name="gOHM" style={{ fontSize: "33px" }} />
           </Box>
           <Typography fontSize="15px" fontWeight="500" lineHeight="24px">
-            {Number(gohmBalances[networks.MAINNET].data?.toString()).toFixed(4) || "0.00"}
+            {Number(gohmBalances[networks.MAINNET].data?.toString()).toFixed(4) || "0.00"} gOHM
           </Typography>
         </Box>
         <Link component={RouterLink} to="/stake?unstake=true">
