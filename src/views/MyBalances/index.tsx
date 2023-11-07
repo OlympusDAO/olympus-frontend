@@ -151,17 +151,24 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
             <Box display="flex" flexDirection="column" width="100%">
               <Box>
                 <Grid container spacing={2} justifyContent={"center"}>
-                  <Grid item xs={12} sm={4}>
-                    <WalletBalance
-                      title="All Balances"
-                      usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-                      underlyingBalance={`${formatNumber(
-                        walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1),
-                        2,
-                      )} OHM`}
-                    />{" "}
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" flexDirection="column" alignItems="center" gap="3px">
+                      <Typography fontSize="18px" lineHeight="28px" color={theme.colors.gray["40"]}>
+                        All Balances
+                      </Typography>
+                      <Box mt="-12px">
+                        <WalletBalance
+                          title=""
+                          usdBalance={formatCurrency(walletTotalValueUSD, 2)}
+                          underlyingBalance={`${formatNumber(
+                            walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1),
+                            2,
+                          )} OHM`}
+                        />
+                      </Box>
+                    </Box>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={6} sm={4}>
                     <Metric label="OHM Price" metric={ohmPrice ? formatCurrency(ohmPrice, 2) : <Skeleton />} />
                   </Grid>
                 </Grid>

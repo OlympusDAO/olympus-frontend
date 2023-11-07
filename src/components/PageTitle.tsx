@@ -22,6 +22,7 @@ const PageTitle: FC<OHMPageTitleProps> = ({ name }) => {
       justifyContent="flex-start"
       alignContent="center"
       marginLeft={mobile ? "9px" : "33px"}
+      marginTop={mobile ? "33px" : "0px"}
     >
       <Typography variant="h1">{name}</Typography>
     </Box>
