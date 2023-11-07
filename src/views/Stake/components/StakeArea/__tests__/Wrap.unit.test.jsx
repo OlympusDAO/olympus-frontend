@@ -79,7 +79,7 @@ describe("Wrap to gOHM", () => {
     fireEvent.click(await screen.findByText("Wrap to gOHM"));
     // expect modal
     expect(await screen.findByTestId("stake-confirmation-modal"));
-    expect(await screen.findByText("Approve Staking"));
+    expect(await screen.findByText("Approve Wrapping"));
   });
 });
 

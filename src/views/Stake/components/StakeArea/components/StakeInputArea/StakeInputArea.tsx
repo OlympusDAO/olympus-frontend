@@ -240,7 +240,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             {tokenModalOpen && (
               <TokenModal
                 open={tokenModalOpen}
-                handleSelect={name => setStakedAssetType(name)}
+                handleSelect={name => (isStake ? setSwapAssetType(name) : setStakedAssetType(name))}
                 handleClose={() => setTokenModalOpen(false)}
                 ohmBalance={ohmBalance && ohmBalance.toString({ decimals: 2 })}
                 sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
