@@ -170,13 +170,12 @@ export const ExternalStakePools = () => {
   ];
 
   return (
-    <Box>
-      <Box ml="-30px">
-        <PageTitle
-          name="Liqudity Pools"
-          subtitle="Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity"
-        />
-      </Box>
+    <>
+      <PageTitle
+        name="Liquidity Pools"
+        subtitle="Increase OHM's use in DeFi by pairing your OHM with other ERC-20 tokens and provide liquidity"
+        noMargin
+      />
 
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
         <Box display="flex" gap="9px">
@@ -226,6 +225,6 @@ export const ExternalStakePools = () => {
           Explore More on DefiLlama
         </SecondaryButton>
       </Box>
-    </Box>
+    </>
   );
 };

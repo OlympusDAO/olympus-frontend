@@ -11,12 +11,12 @@ export const Vaults = () => {
     <Box width="97%" maxWidth="974px">
       {activeVaults && activeVaults.length > 0 && (
         <>
-          <Box ml="-30px">
-            <PageTitle
-              name="Boosted Liquidity Vaults"
-              subtitle="Claim rewards or withdraw from your Single Sided Vault deposits."
-            />
-          </Box>
+          <PageTitle
+            name="Boosted Liquidity Vaults"
+            subtitle="Claim rewards or withdraw from your Single Sided Vault deposits."
+            noMargin
+          />
+
           <YourAmoDeposits vaults={activeVaults} />
           <Box mb="33px" />
         </>

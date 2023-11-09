@@ -261,9 +261,11 @@ export const LendingMarkets = () => {
 
   return (
     <div>
-      <Box ml="-33px">
-        <PageTitle name={"Lending Markets"} subtitle="Borrow & Lend against OHM or gOHM with our trusted partners" />
-      </Box>
+      <PageTitle
+        name={"Lending Markets"}
+        subtitle="Borrow & Lend against OHM or gOHM with our trusted partners"
+        noMargin
+      />
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
         <Box display="flex" gap="9px">
           <PoolChip label="All" />
