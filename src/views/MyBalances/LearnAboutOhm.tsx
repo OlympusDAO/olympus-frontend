@@ -1,8 +1,11 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { SecondaryButton } from "@olympusdao/component-library";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { useAccount } from "wagmi";
 
 export const LearnAboutOhm = () => {
   const theme = useTheme();
+  const { isConnected } = useAccount();
   return (
     <>
       <Box my="18px">
@@ -20,6 +23,13 @@ export const LearnAboutOhm = () => {
           Get OHM
         </SecondaryButton>
       </Box>
+      {!isConnected && (
+        <Box>
+          <div className="stake-wallet-notification">
+            <InPageConnectButton fullWidth />
+          </div>
+        </Box>
+      )}
     </>
   );
 };

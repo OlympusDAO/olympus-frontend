@@ -1,8 +1,11 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { SecondaryButton } from "@olympusdao/component-library";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { useAccount } from "wagmi";
 
 export const LearnAboutGohm = () => {
   const theme = useTheme();
+  const { isConnected } = useAccount();
   return (
     <>
       <Box my="18px">
@@ -14,10 +17,17 @@ export const LearnAboutGohm = () => {
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center">
-        <SecondaryButton fullWidth href="https://docs.olympusdao.finance/main/overview/intro/">
+        <SecondaryButton fullWidth href="https://docs.olympusdao.finance/main/overview/tokens">
           Learn More
         </SecondaryButton>
       </Box>
+      {!isConnected && (
+        <Box>
+          <div className="stake-wallet-notification">
+            <InPageConnectButton fullWidth />
+          </div>
+        </Box>
+      )}
     </>
   );
 };

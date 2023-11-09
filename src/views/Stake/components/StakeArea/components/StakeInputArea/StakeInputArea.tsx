@@ -92,13 +92,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   const contractAddress = STAKING_ADDRESSES;
 
-  const humanReadableRouting = isStake
-    ? contractRouting
-    : !isStake && contractRouting === "Stake"
-    ? "Unstake"
-    : !isStake && contractRouting === "Wrap"
-    ? "Unwrap"
-    : contractRouting;
+  const humanReadableRouting = isStake ? "Wrap" : "Unwrap";
 
   // Staking/unstaking mutation stuff
   const stakeMutation = useStakeToken();

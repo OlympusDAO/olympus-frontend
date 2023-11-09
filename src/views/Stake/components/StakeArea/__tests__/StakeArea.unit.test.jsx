@@ -75,7 +75,7 @@ describe("<StakeInputArea/> Connected no Approval", () => {
     });
     expect(await screen.findByTestId("acknowledge-warmup"));
     fireEvent.click(await screen.findByTestId("acknowledge-warmup"));
-    expect(screen.getAllByText("Stake"));
+    expect(screen.getAllByText("Wrap"));
   });
 });
 

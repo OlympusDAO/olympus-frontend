@@ -173,11 +173,11 @@ const StakeConfirmationModal = (props: {
                       ? "Enter an amount"
                       : props.currentAction === "STAKE"
                       ? props.isMutating
-                        ? "Confirming Staking in your wallet"
-                        : "Stake"
+                        ? "Confirming Wrapping in your wallet"
+                        : "Wrap"
                       : props.isMutating
-                      ? "Confirming Unstaking in your wallet "
-                      : "Unstake"}
+                      ? "Confirming Unwrapping in your wallet "
+                      : "Unwrap"}
                   </PrimaryButton>
                 </>
               )}
@@ -201,8 +201,8 @@ const StakeConfirmationModal = (props: {
                       ? "Confirming Wrapping in your wallet"
                       : "Wrap to gOHM"
                     : props.isMutating
-                    ? "Confirming Unstaking in your wallet "
-                    : "Unstake"}
+                    ? "Confirming Unwrapping in your wallet "
+                    : "Unwrap"}
                 </PrimaryButton>
               )}
             </TokenAllowanceGuard>

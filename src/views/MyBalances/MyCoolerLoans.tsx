@@ -37,7 +37,20 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
 
   const loans = [...(v1Loans || []), ...(v2Loans || [])];
 
-  if (loans.length === 0) {
+  const sortedLoans = loans
+    .slice()
+    .sort((a, b) => {
+      const expiryDateA = new Date(Number(a.expiry.toString()) * 1000);
+      const expiryDateB = new Date(Number(b.expiry.toString()) * 1000);
+      const currentDate = new Date();
+      const daysLeftA = Math.floor((expiryDateA.getTime() - currentDate.getTime()) / (1000 * 3600 * 24));
+      const daysLeftB = Math.floor((expiryDateB.getTime() - currentDate.getTime()) / (1000 * 3600 * 24));
+
+      return daysLeftA - daysLeftB;
+    })
+    .slice(0, 3);
+
+  if (sortedLoans.length === 0) {
     return <> </>;
   }
 
@@ -71,7 +84,7 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
             Term
           </Box>
         </Box>
-        {loans.map(loan => {
+        {sortedLoans.map(loan => {
           const requestDays = Number(ethers.utils.formatUnits(loan.request.duration.toString(), 0)) / 86400;
           const expiryDate = new Date(Number(loan.expiry.toString()) * 1000);
           const currentDate = new Date();
