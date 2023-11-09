@@ -13,14 +13,12 @@ export const LearnAboutOhm = () => {
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center" width="100%">
-        <a
+        <SecondaryButton
+          fullWidth
           href="https://swap.defillama.com/?chain=ethereum&from=0x0000000000000000000000000000000000000000&to=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ width: "100%" }}
         >
-          <SecondaryButton fullWidth>Get OHM</SecondaryButton>
-        </a>
+          Get OHM
+        </SecondaryButton>
       </Box>
     </>
   );
