@@ -1,10 +1,11 @@
 import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Metric, Token, WalletBalance } from "@olympusdao/component-library";
+import { Metric, Token } from "@olympusdao/component-library";
 import { FC } from "react";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { DevFaucet } from "src/components/DevFaucet";
 import PageTitle from "src/components/PageTitle";
+import WalletBalance from "src/components/WalletBalance/WalletBalance";
 import { formatCurrency, formatNumber, isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -144,7 +145,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
 
   return (
     <div id="stake-view">
-      <PageTitle name="My Balances" />
+      <PageTitle name="My Balances" subtitle="Manage your OHM and gOHM balances" />
       <Box width="97%" maxWidth="974px">
         <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
           <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -154,7 +155,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                   <Grid item xs={6} sm={4}>
                     <Box display="flex" flexDirection="column" alignItems="center" gap="3px">
                       <Typography fontSize="18px" lineHeight="28px" color={theme.colors.gray["40"]}>
-                        All Balances
+                        My Balances
                       </Typography>
                       <Box mt="-12px">
                         <WalletBalance
@@ -172,14 +173,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                     <Metric label="OHM Price" metric={ohmPrice ? formatCurrency(ohmPrice, 2) : <Skeleton />} />
                   </Grid>
                 </Grid>
-                {!isConnected && (
-                  <div className="stake-wallet-notification">
-                    <div className="wallet-menu" id="wallet-menu">
-                      <InPageConnectButton />
-                    </div>
-                  </div>
-                )}
-
                 <Box display="flex" flexDirection="row" justifyContent="space-between"></Box>
                 <Box display="flex" flexWrap="wrap" justifyContent="space-between" mt="50px" gap="20px">
                   <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
@@ -251,6 +244,15 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                     </Box>
                   </Box>
                 </Box>
+                {!isConnected && (
+                  <Box mt="20px">
+                    <div className="stake-wallet-notification">
+                      <div className="wallet-menu" id="wallet-menu">
+                        <InPageConnectButton />
+                      </div>
+                    </div>
+                  </Box>
+                )}
                 {chain.id === NetworkId.TESTNET_GOERLI && <DevFaucet />}
               </Box>
             </Box>

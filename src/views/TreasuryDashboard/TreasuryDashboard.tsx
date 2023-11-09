@@ -277,7 +277,7 @@ const PageWrapper = () => {
 
   return (
     <>
-      <PageTitle name="Dashboard" />
+      <PageTitle name="Protocol Metrics" subtitle="Confirm protocol health by auditing supply and reserves" />
 
       <Container
         style={{

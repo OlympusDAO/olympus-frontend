@@ -1,4 +1,4 @@
-import { Avatar, Box, Link, Tab, Tabs } from "@mui/material";
+import { Avatar, Box, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import {
   InfoNotification,
@@ -209,32 +209,12 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   return (
     <>
       <StyledBox mb={3}>
-        <Tabs
-          centered
-          textColor="primary"
-          aria-label="stake tabs"
-          indicatorColor="primary"
-          key={String(props.isZoomed)}
-          className="stake-tab-buttons"
-          value={isStake ? 0 : 1}
-          //hides the tab underline sliding animation in while <Zoom> is loading
-          TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
-          onChange={(_, view: number) =>
-            view === 0 ? setSearchParams(undefined) : setSearchParams({ unstake: "true" })
-          }
-        >
-          <Tab aria-label="stake-button" label="Wrap" />
-
-          <Tab aria-label="unstake-button" label={`Unwrap`} />
-        </Tabs>
-
         <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
           <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
             <Box mb="21px">
               <SwapCollection
                 UpperSwapCard={isStake ? OhmSwapCard() : GohmSwapCard()}
                 LowerSwapCard={isStake ? GohmSwapCard() : OhmSwapCard()}
-                arrowOnClick={() => (isStake ? setSearchParams({ unstake: "true" }) : setSearchParams(undefined))}
               />
             </Box>
             {tokenModalOpen && (
@@ -277,11 +257,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                         ? "Enter an amount"
                         : isStake
                         ? isMutating
-                          ? "Confirming Staking in your wallet"
-                          : "Stake"
+                          ? "Confirming Wrapping in your wallet"
+                          : "Wrap"
                         : isMutating
-                        ? "Confirming Unstaking in your wallet "
-                        : "Unstake"}
+                        ? "Confirming Unwrapping in your wallet "
+                        : "Unwrap"}
                     </PrimaryButton>
                   </>
                 )}
@@ -303,8 +283,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                         ? "Confirming Wrapping in your wallet"
                         : "Wrap to gOHM"
                       : isMutating
-                      ? "Confirming Unstaking in your wallet "
-                      : "Unstake"}
+                      ? "Confirming Unwrapping in your wallet "
+                      : "Unwrap"}
                   </PrimaryButton>
                 )}
               </WalletConnectedGuard>

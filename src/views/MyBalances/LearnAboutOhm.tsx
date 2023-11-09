@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 export const LearnAboutOhm = () => {
   const theme = useTheme();
@@ -19,7 +19,7 @@ export const LearnAboutOhm = () => {
           rel="noopener noreferrer"
           style={{ width: "100%" }}
         >
-          <PrimaryButton fullWidth>Get OHM</PrimaryButton>
+          <SecondaryButton fullWidth>Get OHM</SecondaryButton>
         </a>
       </Box>
     </>

@@ -1,5 +1,5 @@
 import { Check } from "@mui/icons-material";
-import { Box, FormControl, InputLabel, MenuItem, Select, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
 import {
@@ -7,7 +7,6 @@ import {
   OHMTokenProps,
   OHMTokenStackProps,
   TextButton,
-  Token,
   TokenStack,
   Tooltip,
 } from "@olympusdao/component-library";
@@ -43,8 +42,6 @@ const StyledPoolInfo = styled("div")(() => ({
 export const LendingMarkets = () => {
   const { data: defiLlamaPools } = useGetLendAndBorrowStats();
   const [poolFilter, setPoolFilter] = useState("all");
-  const theme = useTheme();
-  const networks = [...new Set(defiLlamaPools?.map(pool => pool.chain))];
   const [networkFilter, setNetworkFilter] = useState<undefined | string>(undefined);
   const stablePools =
     defiLlamaPools &&
@@ -249,7 +246,7 @@ export const LendingMarkets = () => {
       headerName: "",
       renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
         <TextButton
-          href={params.row.projectLink}
+          href={`https://defillama.com/yields/pool/${params.row.id}`}
           size="small"
           fullWidth
           style={{ justifyContent: "left", fontWeight: "700" }}
@@ -263,112 +260,47 @@ export const LendingMarkets = () => {
   ];
 
   return (
-    <div id="stake-view">
-      <PageTitle
-        name={
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-              <Typography fontSize="32px" fontWeight={500}>
-                Lend & Borrow Markets
-              </Typography>
-            </Box>
-          </Box>
-        }
-      ></PageTitle>
-      <Box width="97%" maxWidth="974px">
-        <Box mb="18px" mt="9px">
-          <Typography>Borrow & Lend against OHM or gOHM with our trusted partners </Typography>
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-          <Box display="flex" gap="9px">
-            <PoolChip label="All" />
-            <PoolChip label="OHM" />
-            <PoolChip label="gOHM" />
-          </Box>
-          <FormControl
-            sx={{
-              m: 1,
-              minWidth: 210,
-              "& .MuiFormLabel-filled": {
-                display: "none",
-              },
-            }}
-          >
-            <InputLabel id="demo-select-small">Filter by Network</InputLabel>
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              value={networkFilter}
-              label="Age"
-              onChange={e => {
-                setNetworkFilter(e.target.value as string);
-              }}
-              fullWidth
-              sx={{
-                height: "44px",
-                backgroundColor: theme.colors.gray[700],
-                border: "none",
-                ".MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "& .MuiSelect-select": {
-                  display: "flex",
-                  alignItems: "center",
-                },
-              }}
-            >
-              {networks.map(network => (
-                <MenuItem value={network} key={network}>
-                  <Token
-                    name={defiLlamaChainToNetwork(network) as OHMTokenProps["name"]}
-                    style={{ fontSize: "27px", marginRight: "9px" }}
-                  />
-                  <Typography fontWeight={700}>{network}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem value={undefined} key="1">
-                All Networks
-              </MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <DataGrid
-          columns={columns}
-          rows={(poolListByNetwork as LendAndBorrowPool[]) || []}
-          autoHeight
-          sx={{
-            border: 0,
-            fontSize: "15px",
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-withBorderColor": {
-              border: "none",
-            },
-            "& .MuiDataGrid-iconSeparator": {
-              display: "none",
-            },
-            "& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within": {
-              outline: "none",
-            },
-          }}
-          initialState={{
-            sorting: {
-              sortModel: [{ field: "available", sort: "desc" }],
-            },
-          }}
-          disableRowSelectionOnClick
-          rowHeight={58}
-          disableColumnMenu
-          hideFooter
-        />
+    <div>
+      <Box ml="-33px">
+        <PageTitle name={"Lending Markets"} subtitle="Borrow & Lend against OHM or gOHM with our trusted partners" />
       </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
+        <Box display="flex" gap="9px">
+          <PoolChip label="All" />
+          <PoolChip label="OHM" />
+          <PoolChip label="gOHM" />
+        </Box>
+      </Box>
+      <DataGrid
+        columns={columns}
+        rows={(poolListByNetwork as LendAndBorrowPool[]) || []}
+        autoHeight
+        sx={{
+          border: 0,
+          fontSize: "15px",
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-withBorderColor": {
+            border: "none",
+          },
+          "& .MuiDataGrid-iconSeparator": {
+            display: "none",
+          },
+          "& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within": {
+            outline: "none",
+          },
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "available", sort: "desc" }],
+          },
+        }}
+        disableRowSelectionOnClick
+        rowHeight={58}
+        disableColumnMenu
+        hideFooter
+      />
     </div>
   );
 };

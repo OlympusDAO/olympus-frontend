@@ -40,6 +40,7 @@ import { ExternalStakePools } from "src/views/Liquidity/ExternalStakePools/Exter
 import { Vault } from "src/views/Liquidity/Vault";
 import { Vaults } from "src/views/Liquidity/Vaults";
 import { MyBalances } from "src/views/MyBalances";
+import { Utility } from "src/views/Utility";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 // Dynamic Imports for code splitting
@@ -258,6 +259,7 @@ function App() {
                   <Route path="/liquidity/vaults/:id" element={<Vault />} />
                   <Route path="/lending" element={<Lending />} />
                   <Route path="/lending/cooler" element={<Cooler />} />
+                  <Route path="/utility" element={<Utility />} />
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>
