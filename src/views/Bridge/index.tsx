@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
@@ -86,15 +86,20 @@ const Bridge = () => {
         name="Bridge"
         subtitle={
           <>
-            Use OHM on other chains.{" "}
-            <Link
-              component={RouterLink}
-              to="https://docs.olympusdao.finance/main/overview/cross-chain"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn More
-            </Link>
+            <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+              Use OHM on other chains.{" "}
+              <Link
+                component={RouterLink}
+                to="https://docs.olympusdao.finance/main/overview/cross-chain"
+                target="_blank"
+                rel="noopener noreferrer"
+                alignItems="center"
+                display="flex"
+                gap="4px"
+              >
+                Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
+              </Link>
+            </Box>
           </>
         }
       />

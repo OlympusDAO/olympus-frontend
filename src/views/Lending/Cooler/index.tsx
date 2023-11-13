@@ -1,4 +1,5 @@
 import { Box, Link, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
+import { Icon } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -34,17 +35,20 @@ export const Cooler = () => {
       <PageTitle
         name="Cooler Loans"
         subtitle={
-          <>
+          <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
             Borrow DAI against your gOHM collateral.{" "}
             <Link
               component={RouterLink}
               to="https://docs.olympusdao.finance/main/overview/cooler-loans"
               target="_blank"
               rel="noopener noreferrer"
+              alignItems="center"
+              display="flex"
+              gap="4px"
             >
-              Learn More
+              Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
             </Link>
-          </>
+          </Box>
         }
       />
       <Box width="97%" maxWidth="974px">

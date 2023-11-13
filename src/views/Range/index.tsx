@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Grid, Link, Paper, Typography, useTheme } from "@mui/material";
-import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
+import { DataRow, Icon, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -126,17 +126,20 @@ export const Range = () => {
       <PageTitle
         name="Range Bound Stability"
         subtitle={
-          <>
+          <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
             Swap DAI or OHM directly with the treasury.{" "}
             <Link
               component={RouterLink}
               to="https://docs.olympusdao.finance/main/overview/range-bound"
               target="_blank"
               rel="noopener noreferrer"
+              alignItems="center"
+              display="flex"
+              gap="4px"
             >
-              Learn More
+              Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
             </Link>
-          </>
+          </Box>
         }
       />
       <Paper sx={{ width: "98%" }}>
