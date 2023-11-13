@@ -7,7 +7,6 @@ import { formatCurrency } from "src/helpers";
 import { useGetLendAndBorrowStats } from "src/hooks/useGetLendBorrowStats";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useCoolerSnapshotLatest } from "src/views/Lending/Cooler/hooks/useSnapshot";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 
 export const Lending = () => {
   const theme = useTheme();
@@ -114,8 +113,6 @@ export const Lending = () => {
             </Box>
           </Box>
         </Box>
-
-        <LiquidityCTA />
       </Box>
     </div>
   );

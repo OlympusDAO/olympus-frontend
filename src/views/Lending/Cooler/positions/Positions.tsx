@@ -25,7 +25,6 @@ import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLo
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { DelegateVoting } from "src/views/Lending/Cooler/positions/DelegateVoting";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
-import { LiquidityCTA } from "src/views/Liquidity/LiquidityCTA";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
@@ -33,22 +32,45 @@ export const CoolerPositions = () => {
   const [currentClearingHouse, setCurrentClearingHouse] = useState<"clearingHouseV1" | "clearingHouseV2">(
     "clearingHouseV2",
   );
-  const { data: clearingHouse } = useGetClearingHouse({ clearingHouse: currentClearingHouse });
+  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
+  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
-  const { data: loans, isFetched: isFetchedLoans } = useGetCoolerLoans({
+  const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouse?.factory,
-    collateralAddress: clearingHouse?.collateralAddress,
-    debtAddress: clearingHouse?.debtAddress,
+    factoryAddress: clearingHouseV1?.factory,
+    collateralAddress: clearingHouseV1?.collateralAddress,
+    debtAddress: clearingHouseV1?.debtAddress,
   });
 
-  const { data: coolerAddress } = useGetCoolerForWallet({
+  const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouse?.factory,
-    collateralAddress: clearingHouse?.collateralAddress,
-    debtAddress: clearingHouse?.debtAddress,
-    clearingHouseVersion: currentClearingHouse,
+    factoryAddress: clearingHouseV1?.factory,
+    collateralAddress: clearingHouseV1?.collateralAddress,
+    debtAddress: clearingHouseV1?.debtAddress,
+    clearingHouseVersion: "clearingHouseV1",
   });
+
+  const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
+    walletAddress: address,
+    factoryAddress: clearingHouseV2?.factory,
+    collateralAddress: clearingHouseV2?.collateralAddress,
+    debtAddress: clearingHouseV2?.debtAddress,
+  });
+
+  const { data: coolerAddressV2 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV2?.factory,
+    collateralAddress: clearingHouseV2?.collateralAddress,
+    debtAddress: clearingHouseV2?.debtAddress,
+    clearingHouseVersion: "clearingHouseV2",
+  });
+
+  const coolerAddress = currentClearingHouse === "clearingHouseV1" ? coolerAddressV1 : coolerAddressV2;
+  const clearingHouse = currentClearingHouse === "clearingHouseV1" ? clearingHouseV1 : clearingHouseV2;
+  const loans = currentClearingHouse === "clearingHouseV1" ? loansV1 : loansV2;
+  const isFetchedLoans = currentClearingHouse === "clearingHouseV1" ? isFetchedLoansV1 : isFetchedLoansV2;
+
   const { data: delegationAddress } = useCheckDelegation({ coolerAddress });
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
@@ -69,37 +91,39 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      <Box display="flex" mt="16px" justifyContent="right">
-        <Select
-          value={currentClearingHouse}
-          label="ClearingHouse"
-          onChange={e => {
-            setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
-          }}
-          sx={{
-            width: "200px",
-            height: "44px",
-            backgroundColor: theme.colors.gray[700],
-            border: "none",
-            ".MuiOutlinedInput-notchedOutline": {
+      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
+        <Box display="flex" mt="16px" justifyContent="right">
+          <Select
+            value={currentClearingHouse}
+            label="ClearingHouse"
+            onChange={e => {
+              setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
+            }}
+            sx={{
+              width: "200px",
+              height: "44px",
+              backgroundColor: theme.colors.gray[700],
               border: "none",
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              border: "none",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              border: "none",
-            },
-            "& .MuiSelect-select": {
-              display: "flex",
-              alignItems: "center",
-            },
-          }}
-        >
-          <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
-          <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
-        </Select>
-      </Box>
+              ".MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+              "& .MuiSelect-select": {
+                display: "flex",
+                alignItems: "center",
+              },
+            }}
+          >
+            <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
+            <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
+          </Select>
+        </Box>
+      )}
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
@@ -268,8 +292,6 @@ export const CoolerPositions = () => {
           />
         </>
       )}
-
-      <LiquidityCTA />
     </div>
   );
 };

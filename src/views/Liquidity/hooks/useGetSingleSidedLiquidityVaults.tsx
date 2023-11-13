@@ -34,8 +34,8 @@ export interface VaultInfo {
   totalApy: string;
   usdPricePerToken: string;
   apyBreakdown: {
-    baseApy: string;
-    rewardApy: string;
+    baseApy: number;
+    rewardApy: number;
   };
 }
 
