@@ -169,7 +169,7 @@ export const ExtendLoan = ({
                 payment.
               </>
             }
-            spendAmount={new DecimalBigNumber(interestDue.toString())}
+            spendAmount={new DecimalBigNumber(interestDue.toString(), 18)}
           >
             <PrimaryButton
               fullWidth
