@@ -6,7 +6,7 @@ import {
   Chip,
   OHMTokenProps,
   OHMTokenStackProps,
-  TextButton,
+  TertiaryButton,
   TokenStack,
   Tooltip,
 } from "@olympusdao/component-library";
@@ -214,15 +214,6 @@ export const LendingMarkets = () => {
       ),
     },
     {
-      field: "ltv",
-      headerName: "LTV",
-      valueGetter: params => {
-        return params.row.lendAndBorrow.ltv;
-      },
-      renderCell: params => <>{formatNumber(params.row.lendAndBorrow.ltv * 100)}%</>,
-      minWidth: 30,
-    },
-    {
       field: "available",
       headerName: "Available to Borrow",
       valueGetter: params => {
@@ -243,19 +234,21 @@ export const LendingMarkets = () => {
     },
     {
       field: "projectName",
-      headerName: "",
-      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
-        <TextButton
-          href={`https://defillama.com/yields/pool/${params.row.id}`}
-          size="small"
-          fullWidth
-          style={{ justifyContent: "left", fontWeight: "700" }}
-        >
-          {params.row.projectName}
-        </TextButton>
-      ),
+      headerName: "Project",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => params.row.projectName,
       minWidth: 100,
       flex: 1,
+    },
+    {
+      field: "id",
+      headerName: "",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
+        <TertiaryButton href={`https://defillama.com/yields/pool/${params.row.id}`} size="small">
+          View Details
+        </TertiaryButton>
+      ),
+      sortable: false,
+      minWidth: 200,
     },
   ];
 
@@ -282,6 +275,9 @@ export const LendingMarkets = () => {
           fontSize: "15px",
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
           },
           "& .MuiDataGrid-withBorderColor": {
             border: "none",

@@ -1,5 +1,5 @@
 import { Box, Divider, Link, SvgIcon, Typography, useTheme } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { PrimaryButton, SecondaryButton, TextButton, Token } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { formatCurrency } from "src/helpers";
@@ -106,6 +106,9 @@ export const MyGohmBalances = ({ walletBalance }: { walletBalance?: DecimalBigNu
           </Box>
         );
       })}
+      <Box display="flex " justifyContent="center">
+        <TextButton href="https://vote.olympusdao.finance/">Vote with gOHM</TextButton>
+      </Box>
     </Box>
   );
 };

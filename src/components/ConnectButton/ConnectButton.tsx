@@ -14,9 +14,11 @@ const fireAnalyticsEvent = () => {
 export const InPageConnectButton = ({
   fullWidth = false,
   size = "medium",
+  buttonText = "Connect Wallet",
 }: {
   fullWidth?: boolean;
   size?: OHMButtonProps["size"];
+  buttonText?: string;
 }) => {
   return (
     <RainbowConnectButton.Custom>
@@ -44,7 +46,7 @@ export const InPageConnectButton = ({
                     size={size}
                   >
                     <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                    Connect Wallet
+                    {buttonText}
                   </PrimaryButton>
                 );
               }

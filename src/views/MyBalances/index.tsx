@@ -2,6 +2,7 @@ import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Metric, Token } from "@olympusdao/component-library";
 import { FC } from "react";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { DevFaucet } from "src/components/DevFaucet";
 import PageTitle from "src/components/PageTitle";
 import WalletBalance from "src/components/WalletBalance/WalletBalance";
@@ -243,6 +244,13 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                     </Box>
                   </Box>
                 </Box>
+                {!isConnected && (
+                  <Box mt="48px">
+                    <div className="stake-wallet-notification">
+                      <InPageConnectButton buttonText="Connect to view your balances" />
+                    </div>
+                  </Box>
+                )}
                 {chain.id === NetworkId.TESTNET_GOERLI && <DevFaucet />}
               </Box>
             </Box>

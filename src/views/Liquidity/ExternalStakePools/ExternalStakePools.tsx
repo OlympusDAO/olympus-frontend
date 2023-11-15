@@ -7,7 +7,7 @@ import {
   OHMTokenProps,
   OHMTokenStackProps,
   SecondaryButton,
-  TextButton,
+  TertiaryButton,
   TokenStack,
   Tooltip,
 } from "@olympusdao/component-library";
@@ -121,7 +121,7 @@ export const ExternalStakePools = () => {
           </StyledPoolInfo>
         );
       },
-      minWidth: 450,
+      minWidth: 250,
       flex: 1,
     },
     {
@@ -154,17 +154,19 @@ export const ExternalStakePools = () => {
     },
     {
       field: "projectName",
+      headerName: "Project Name",
+      renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => params.row.projectName,
+      minWidth: 200,
+    },
+    {
+      field: "id",
       headerName: "",
       renderCell: (params: GridRenderCellParams<DefiLlamaPool>) => (
-        <TextButton
-          href={`https://defillama.com/yields/pool/${params.row.id}`}
-          size="small"
-          fullWidth
-          style={{ justifyContent: "left", fontWeight: "700" }}
-        >
-          {params.row.projectName}
-        </TextButton>
+        <TertiaryButton href={`https://defillama.com/yields/pool/${params.row.id}`} size="small">
+          View Details
+        </TertiaryButton>
       ),
+      sortable: false,
       minWidth: 200,
     },
   ];
@@ -197,6 +199,9 @@ export const ExternalStakePools = () => {
           },
           "& .MuiDataGrid-withBorderColor": {
             border: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
           },
           "& .MuiDataGrid-iconSeparator": {
             display: "none",

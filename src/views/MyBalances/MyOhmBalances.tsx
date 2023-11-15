@@ -1,5 +1,5 @@
 import { Box, Divider, Link, SvgIcon, Typography } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { PrimaryButton, SecondaryButton, TextButton, Token } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
@@ -160,6 +160,11 @@ export const MyOhmBalances = ({ walletBalance }: { walletBalance?: DecimalBigNum
         </Box>
       )}
       <MigrationNotification isModalOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <Box display="flex " justifyContent="center">
+        <TextButton href="https://swap.defillama.com/?chain=ethereum&from=0x0000000000000000000000000000000000000000&to=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5">
+          Get OHM
+        </TextButton>
+      </Box>
     </Box>
   );
 };
