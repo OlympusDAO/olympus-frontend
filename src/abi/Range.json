@@ -89,13 +89,7 @@
       "name": "WallUp",
       "type": "event"
     },
-    {
-      "inputs": [],
-      "name": "INIT",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+    { "inputs": [], "name": "INIT", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
       "name": "KEYCODE",
