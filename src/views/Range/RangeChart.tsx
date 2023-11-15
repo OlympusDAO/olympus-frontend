@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { formatCurrency, parseBigNumber, trim } from "src/helpers";
+import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 import { OperatorMovingAverage, OperatorTargetPrice, PriceHistory } from "src/views/Range/hooks";
 
 const PREFIX = "RangeChart";
@@ -39,7 +40,7 @@ const StyledResponsiveContainer = styled(ResponsiveContainer)(({ theme }) => ({
  * Component for Displaying RangeChart
  */
 const RangeChart = (props: {
-  rangeData: any;
+  rangeData: OlympusRange.RangeStructOutput;
   currentPrice: number;
   bidPrice: number;
   askPrice: number;
@@ -47,16 +48,18 @@ const RangeChart = (props: {
   reserveSymbol: string;
 }) => {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
+
+  console.log();
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory({ reserveSymbol });
 
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
 
-  const formattedWallHigh = trim(parseBigNumber(rangeData.wall.high.price, 18), 2);
-  const formattedWallLow = trim(parseBigNumber(rangeData.wall.low.price, 18), 2);
-  const formattedCushionHigh = trim(parseBigNumber(rangeData.cushion.high.price, 18), 2);
-  const formattedCushionLow = trim(parseBigNumber(rangeData.cushion.low.price, 18), 2);
+  const formattedWallHigh = trim(parseBigNumber(rangeData.high.wall.price, 18), 2);
+  const formattedWallLow = trim(parseBigNumber(rangeData.low.wall.price, 18), 2);
+  const formattedCushionHigh = trim(parseBigNumber(rangeData.high.cushion.price, 18), 2);
+  const formattedCushionLow = trim(parseBigNumber(rangeData.low.cushion.price, 18), 2);
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
@@ -128,19 +131,19 @@ const RangeChart = (props: {
           <>
             <DataRow
               title="Upper Wall"
-              balance={formatCurrency(parseBigNumber(rangeData.wall.high.price, 18), 2, reserveSymbol)}
+              balance={formatCurrency(parseBigNumber(rangeData.high.wall.price, 18), 2, reserveSymbol)}
             />
             <DataRow
               title="Upper Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.cushion.high.price, 18), 2, reserveSymbol)}
+              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
             />
             <DataRow
               title="Lower Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.cushion.low.price, 18), 2, reserveSymbol)}
+              balance={formatCurrency(parseBigNumber(rangeData.low.cushion.price, 18), 2, reserveSymbol)}
             />
             <DataRow
               title="Lower Wall"
-              balance={formatCurrency(parseBigNumber(rangeData.wall.low.price, 18), 2, reserveSymbol)}
+              balance={formatCurrency(parseBigNumber(rangeData.low.wall.price, 18), 2, reserveSymbol)}
             />
             <DataRow
               title="Upper Capacity"
@@ -188,9 +191,9 @@ const RangeChart = (props: {
             type="number"
             domain={[
               (dataMin: number) =>
-                Math.min(dataMin, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 0.95,
+                Math.min(dataMin, askPrice, bidPrice, parseBigNumber(rangeData.low.wall.price, 18)) * 0.95,
               (dataMax: number) =>
-                Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.wall.low.price, 18)) * 1.05,
+                Math.max(dataMax, askPrice, bidPrice, parseBigNumber(rangeData.low.wall.price, 18)) * 1.05,
             ]}
             padding={{ top: 20, bottom: 20 }}
             tick={false}
