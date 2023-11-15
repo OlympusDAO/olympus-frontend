@@ -252,10 +252,10 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                         : isStake
                         ? isMutating
                           ? "Confirming Wrapping in your wallet"
-                          : `Wrap ${swapAssetType.name} to gOHM`
+                          : `Wrap ${swapAssetType.name} to get gOHM`
                         : isMutating
                         ? "Confirming Unwrapping in your wallet "
-                        : `Unwrap ${stakedAssetType.name} to OHM`}
+                        : `Unwrap ${stakedAssetType.name} to get OHM`}
                     </PrimaryButton>
                   </>
                 )}
