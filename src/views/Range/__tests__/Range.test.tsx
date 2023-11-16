@@ -9,6 +9,7 @@ import { connectWallet, invalidAddress } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
+import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 import { RangeData } from "src/views/Range/__mocks__/mockRangeCalls";
 import { Range } from "src/views/Range/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -18,7 +19,7 @@ global.ResizeObserver = require("resize-observer-polyfill");
 vi.mock("src/hooks/useContractAllowance");
 vi.mock("src/views/Range/RangeChart", () => ({
   default: (props: {
-    rangeData: any;
+    rangeData: OlympusRange.RangeStructOutput;
     currentPrice: number;
     bidPrice: number;
     askPrice: number;
