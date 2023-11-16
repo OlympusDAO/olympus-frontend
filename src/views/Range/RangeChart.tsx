@@ -48,8 +48,6 @@ const RangeChart = (props: {
   reserveSymbol: string;
 }) => {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
-
-  console.log();
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory({ reserveSymbol });
 
