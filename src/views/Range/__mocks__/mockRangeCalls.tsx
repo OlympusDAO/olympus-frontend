@@ -1,22 +1,21 @@
 import { BigNumber } from "ethers";
-import { RANGEv1 as OlympusRange } from "src/typechain/Range";
+import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 
 export const RangeData: OlympusRange.RangeStruct = {
-  cushion: {
-    high: {
-      price: BigNumber.from("22161077252064087762"),
-    },
-    low: {
-      price: BigNumber.from("18131790478961526351"),
-    },
-    spread: BigNumber.from("1000"),
-  },
   high: {
     active: true,
     lastActive: 1656528651,
     capacity: BigNumber.from("605396958336933"), //9 decimals for OHM
     market: BigNumber.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
     threshold: BigNumber.from("6054147227010"),
+    wall: {
+      price: BigNumber.from("24175720638615368468"),
+      spread: BigNumber.from(2000),
+    },
+    cushion: {
+      price: BigNumber.from("22161077252064087762"),
+      spread: BigNumber.from(1000),
+    },
   },
   low: {
     active: true,
@@ -24,11 +23,14 @@ export const RangeData: OlympusRange.RangeStruct = {
     capacity: BigNumber.from("10000000000000000000000000"), //18 decimals for Reserve
     market: BigNumber.from("115792089237316195423570985008687907853269984665640564039457584007913129639935"),
     threshold: BigNumber.from("100000000000000000000000"),
-  },
-  wall: {
-    low: { price: BigNumber.from("13117147092410245645") },
-    high: { price: BigNumber.from("24175720638615368468") },
-    spread: BigNumber.from(2000),
+    wall: {
+      price: BigNumber.from("13117147092410245645"),
+      spread: BigNumber.from(2000),
+    },
+    cushion: {
+      price: BigNumber.from("18131790478961526351"),
+      spread: BigNumber.from(1000),
+    },
   },
 };
 
