@@ -112,7 +112,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const formattedohmBalance = totalOhmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedgOhmBalance = totalGohmBalance.toString({ decimals: 4, trim: false, format: true });
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const coolerBalance = totalCoolerBalance.toString({ decimals: 4, trim: false, format: true });
@@ -142,7 +141,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     },
   ];
 
-  console.log(tokenArray, "tokenArray");
   const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
   const myOhmBalancesTotalValueUSD = Object.values(myOhmBalances).reduce(
     (totalValue, token) => totalValue + token.assetValue,
