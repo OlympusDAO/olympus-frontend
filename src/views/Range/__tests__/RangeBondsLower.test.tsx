@@ -3,7 +3,7 @@ import * as Contract from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import * as Prices from "src/hooks/usePrices";
+import * as Prices from "src/hooks/useProtocolMetrics";
 import { connectWallet } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as BondTellerContract from "src/typechain/factories/BondTeller__factory";
@@ -26,7 +26,7 @@ const setupTest = () => {
     symbol: vi.fn().mockReturnValue("DAI"),
   });
   //@ts-expect-error
-  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "13.209363085" });
+  vi.spyOn(Prices, "useOhmPrice").mockReturnValue("13.209363085");
 
   BondTellerContract.BondTeller__factory.connect = vi.fn().mockReturnValue({
     purchase: vi.fn().mockReturnValue({
