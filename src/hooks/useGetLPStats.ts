@@ -33,61 +33,57 @@ export const getOhmPools = async () => {
 export const mapProjectToName = (project: string) => {
   switch (project) {
     case "balancer-v2":
-      return { projectName: "Balancer", projectLink: "https://app.balancer.fi/" };
+      return { projectName: "Balancer" };
     case "curve-dex":
     case "curve":
-      return { projectName: "Curve", projectLink: "https://curve.fi/#/ethereum/pools" };
+      return { projectName: "Curve" };
     case "aura":
-      return { projectName: "Aura", projectLink: "https://app.aura.finance/" };
+      return { projectName: "Aura" };
     case "convex-finance":
-      return { projectName: "Convex", projectLink: "https://www.convexfinance.com/stake" };
+      return { projectName: "Convex" };
     case "uniswap-v3":
-      return { projectName: "Uniswap V3", projectLink: "https://app.uniswap.org/#/pool" };
+      return { projectName: "Uniswap V3" };
     case "uniswap-v2":
-      return { projectName: "Uniswap V2", projectLink: "https://app.uniswap.org/#/pool" };
+      return { projectName: "Uniswap V2" };
     case "sushiswap":
-      return { projectName: "Sushiswap", projectLink: "https://app.sushi.com/pool" };
+      return { projectName: "Sushiswap" };
     case "stakedao":
-      return { projectName: "StakeDAO", projectLink: "https://lockers.stakedao.org/" };
+      return { projectName: "StakeDAO" };
     case "joe-v2.1":
     case "trader-joe-dex":
-      return { projectName: "Trader Joe", projectLink: "https://traderjoexyz.com/" };
+      return { projectName: "Trader Joe" };
     case "pickle":
-      return { projectName: "Pickle", projectLink: "https://app.pickle.finance/farms" };
+      return { projectName: "Pickle" };
     case "beefy":
-      return { projectName: "Beefy", projectLink: "https://app.beefy.finance/" };
+      return { projectName: "Beefy" };
     case "frax":
-      return { projectName: "Frax", projectLink: "https://app.frax.finance/staking/overview" };
+      return { projectName: "Frax" };
     case "beethoven-x":
-      return { projectName: "Beethoven X", projectLink: "https://beets.fi/pools" };
+      return { projectName: "Beethoven X" };
     case "yearn-finance":
-      return { projectName: "Yearn", projectLink: "https://yearn.finance/vaults" };
+      return { projectName: "Yearn" };
     case "olympus-dao":
-      return {
-        projectName: "Olympus",
-        projectLink: "https://app.olympusdao.finance/#/liquidity/vaults",
-      };
+      return { projectName: "Olympus" };
     case "gamma":
-      return { projectName: "Gamma", projectLink: "https://app.gamma.xyz/" };
+      return { projectName: "Gamma" };
     case "ramses-v1":
-      return { projectName: "Ramses", projectLink: "https://app.ramses.exchange/liquidity" };
+      return { projectName: "Ramses" };
     case "chronos":
-      return { projectName: "Chronos", projectLink: "https://app.chronos.exchange/liquidity" };
+      return { projectName: "Chronos" };
     case "sentiment":
-      return { projectName: "Sentiment", projectLink: "https://arbitrum.sentiment.xyz/borrow/OHM?symbol=USDC.e" };
+      return { projectName: "Sentiment" };
     case "midas-capital":
-      return { projectName: "Midas Capital", projectLink: "https://app.midascapital.xyz/42161/pool/1" };
+      return { projectName: "Midas Capital" };
     case "silo-finance":
-      return { projectName: "Silo Finance", projectLink: "https://app.silo.finance/" };
+      return { projectName: "Silo Finance" };
     case "inverse-finance-firm":
-      return { projectName: "Inverse Finance", projectLink: "https://www.inverse.finance/firm" };
+      return { projectName: "Inverse Finance" };
     case "fraxlend":
       return {
         projectName: "Frax",
-        projectLink: "https://app.frax.finance/fraxlend/pair?address=0x66bf36dBa79d4606039f04b32946A260BCd3FF52",
       };
     default:
-      return { projectName: project, projectLink: "" };
+      return { projectName: project };
   }
 };
 
@@ -96,6 +92,7 @@ export interface defillamaAPI {
 }
 
 export interface DefiLlamaPool {
+  id: string;
   apy?: number;
   apyBase?: number;
   apyBase7d?: number;
@@ -120,7 +117,6 @@ export interface DefiLlamaPool {
     binnedConfidence: number;
   };
   projectName: string;
-  projectLink: string;
   rewardTokens?: string[];
   sigma?: number;
   stablecoin?: boolean;

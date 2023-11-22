@@ -55,9 +55,9 @@ describe("Check Stake to gOHM Error Messages", () => {
   });
 });
 
-describe("Check Unstake gOHM Error Messages", () => {
+describe("Check Unwrap gOHM Error Messages", () => {
   beforeEach(() => {
-    fireEvent.click(screen.getByText("Unstake"));
+    fireEvent.click(screen.getByText("Unwrap"));
   });
   it("Error message with no amount", async () => {
     expect(await screen.findByText("Enter an amount"));
@@ -75,20 +75,20 @@ describe("Check Unstake gOHM Error Messages", () => {
 
   it("Error message amount > balance gOHM", async () => {
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "11" } });
-    fireEvent.click(screen.getByText("Unstake"));
+    fireEvent.click(screen.getByText("Unwrap"));
     expect(await screen.findByText("Amount exceeds balance"));
   });
 
   it("Error message amount > 0 but no wallet balance", async () => {
     Balance.useBalance = vi.fn().mockReturnValue({ 1: { data: undefined } });
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "100" } });
-    fireEvent.click(screen.getAllByText("Unstake")[1]);
+    fireEvent.click(screen.getAllByText("Unwrap")[1]);
     expect(screen.getAllByText("Please refresh your page and try again")[0]);
   });
 
   it("Error message no address", async () => {
     fireEvent.input(await screen.findByTestId("staked-input"), { target: { value: "1" } });
-    fireEvent.click(await screen.getAllByText("Unstake")[1]);
+    fireEvent.click(await screen.getAllByText("Unwrap")[1]);
     expect(screen.getAllByText("Please refresh your page and try again")[0]);
   });
 });

@@ -2,6 +2,7 @@ import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
 import {
   Box,
+  Link,
   SvgIcon,
   Table,
   TableBody,
@@ -12,7 +13,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";
@@ -80,7 +82,27 @@ const Bridge = () => {
 
   return (
     <>
-      <PageTitle name="Bridge" />
+      <PageTitle
+        name="Bridge"
+        subtitle={
+          <>
+            <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+              Use OHM on other chains.{" "}
+              <Link
+                component={RouterLink}
+                to="https://docs.olympusdao.finance/main/overview/cross-chain"
+                target="_blank"
+                rel="noopener noreferrer"
+                alignItems="center"
+                display="flex"
+                gap="4px"
+              >
+                Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
+              </Link>
+            </Box>
+          </>
+        }
+      />
       <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
         <Box width="100%" mt="24px">
           <BridgeInputArea />

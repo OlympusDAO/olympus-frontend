@@ -1,5 +1,5 @@
-import { ArrowBack } from "@mui/icons-material";
-import { Box, Link, Tab, Tabs, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Link, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
+import { Icon } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -33,19 +33,21 @@ export const Cooler = () => {
   return (
     <div id="stake-view">
       <PageTitle
-        name={
-          <Box display="flex" flexDirection="row" alignItems="center" mt={mobile ? "50px" : "0px"}>
-            <Link component={RouterLink} to="/lending">
-              <Box display="flex" flexDirection="row">
-                <ArrowBack />
-                <Typography fontWeight="500" marginLeft="9.5px" marginRight="18px"></Typography>
-              </Box>
+        name="Cooler Loans"
+        subtitle={
+          <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+            Borrow DAI against your gOHM collateral.{" "}
+            <Link
+              component={RouterLink}
+              to="https://docs.olympusdao.finance/main/overview/cooler-loans"
+              target="_blank"
+              rel="noopener noreferrer"
+              alignItems="center"
+              display="flex"
+              gap="4px"
+            >
+              Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
             </Link>
-            <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-              <Typography fontSize="32px" fontWeight={500}>
-                Cooler Loans
-              </Typography>
-            </Box>
           </Box>
         }
       />
