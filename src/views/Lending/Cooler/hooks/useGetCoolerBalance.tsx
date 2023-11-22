@@ -15,10 +15,7 @@ export const useGetCoolerBalance = ({ coolerAddress }: { coolerAddress?: string 
       try {
         if (!coolerAddress) return new DecimalBigNumber("0", 18);
         const contract = IERC20__factory.connect(GOHM_ADDRESSES[networks.MAINNET], provider);
-        console.log("beforeBalanceOf");
         const balance = await contract.balanceOf(coolerAddress);
-        console.log("balance", balance.toString());
-
         return new DecimalBigNumber(balance, 18);
       } catch {
         return new DecimalBigNumber("0", 18);
