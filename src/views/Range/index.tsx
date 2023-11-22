@@ -78,10 +78,10 @@ export const Range = () => {
   }, [sellActive]);
 
   useEffect(() => {
-    if (currentPrice < parseBigNumber(rangeData.cushion.low.price, 18)) {
+    if (currentPrice < parseBigNumber(rangeData.low.cushion.price, 18)) {
       setSellActive(true);
     }
-  }, [rangeData.cushion.low.price, currentPrice]);
+  }, [rangeData.low.cushion.price, currentPrice]);
 
   const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
     sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
