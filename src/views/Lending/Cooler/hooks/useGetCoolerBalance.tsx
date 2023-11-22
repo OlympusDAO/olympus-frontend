@@ -13,7 +13,6 @@ export const useGetCoolerBalance = ({ coolerAddress }: { coolerAddress?: string 
     ["useGetCoolerBalance", coolerAddress],
     async () => {
       try {
-        console.log("coolerAddress", coolerAddress);
         if (!coolerAddress) return new DecimalBigNumber("0", 18);
         const contract = IERC20__factory.connect(GOHM_ADDRESSES[networks.MAINNET], provider);
         console.log("beforeBalanceOf");
