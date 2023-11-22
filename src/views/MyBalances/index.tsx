@@ -117,7 +117,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const coolerBalance = totalCoolerBalance.toString({ decimals: 4, trim: false, format: true });
 
-  const tokenArray = [
+  const myOhmBalances = [
     {
       assetValue: totalOhmBalance.toApproxNumber() * ohmPrice,
     },
@@ -130,6 +130,10 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     {
       assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
+  ];
+
+  const tokenArray = [
+    ...myOhmBalances,
     {
       assetValue: gOhmPrice * totalWsohmBalance.toApproxNumber(),
     },
@@ -138,7 +142,13 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     },
   ];
 
+  console.log(tokenArray, "tokenArray");
   const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
+  const myOhmBalancesTotalValueUSD = Object.values(myOhmBalances).reduce(
+    (totalValue, token) => totalValue + token.assetValue,
+    0,
+  );
+
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const theme = useTheme();
   const { isConnected } = useAccount();
@@ -193,14 +203,14 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                         </Box>
                         <Box display="flex" flexDirection="column" alignItems="end" gap="3px">
                           <Typography fontSize="24px" fontWeight="500" lineHeight="33px">
-                            {formattedohmBalance} OHM
+                            {(myOhmBalancesTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1)).toFixed(4)} OHM
                           </Typography>
                           <Typography fontSize="12px" fontWeight="450" lineHeight="12px" color={theme.colors.gray[40]}>
-                            {formatCurrency(ohmPrice * Number(totalOhmBalance.toString()), 2)}
+                            {formatCurrency(myOhmBalancesTotalValueUSD, 2)}
                           </Typography>
                         </Box>
                       </Box>
-                      {Number(totalOhmBalance.toString()) > 0 ? <MyOhmBalances /> : <LearnAboutOhm />}
+                      {Number(myOhmBalancesTotalValueUSD.toString()) > 0 ? <MyOhmBalances /> : <LearnAboutOhm />}
                     </Box>
                   </Box>
                   <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
