@@ -91,7 +91,7 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
           const daysLeft = Math.floor((expiryDate.getTime() - currentDate.getTime()) / (1000 * 3600 * 24));
           const percentComplete = ((requestDays - daysLeft) / requestDays) * 100;
           return (
-            <Box display="flex" justifyContent="space-between" mt="18px">
+            <Box display="flex" justifyContent="space-between" mt="18px" key={loan.loanId}>
               <Box width="50%">
                 <Box display="flex" gap="3px">
                   <Token name="gOHM" style={{ fontSize: "21px" }} />

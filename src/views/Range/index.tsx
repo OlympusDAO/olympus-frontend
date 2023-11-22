@@ -10,7 +10,7 @@ import { formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { DetermineRangePrice, OperatorReserveSymbol, RangeBondMaxPayout, RangeData } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
@@ -44,7 +44,7 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice = 0 } = useOhmPrice();
+  const currentPrice = useOhmPrice({}) || 0;
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 

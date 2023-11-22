@@ -18,7 +18,7 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
@@ -42,7 +42,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const { address } = useAccount();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
-  const { data: ohmPrice = 0 } = useOhmPrice();
+  const ohmPrice = useOhmPrice({}) || 0;
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
@@ -112,12 +112,11 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const formattedohmBalance = totalOhmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedgOhmBalance = totalGohmBalance.toString({ decimals: 4, trim: false, format: true });
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const coolerBalance = totalCoolerBalance.toString({ decimals: 4, trim: false, format: true });
 
-  const tokenArray = [
+  const myOhmBalances = [
     {
       assetValue: totalOhmBalance.toApproxNumber() * ohmPrice,
     },
@@ -130,6 +129,10 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     {
       assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
+  ];
+
+  const tokenArray = [
+    ...myOhmBalances,
     {
       assetValue: gOhmPrice * totalWsohmBalance.toApproxNumber(),
     },
@@ -139,6 +142,11 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   ];
 
   const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
+  const myOhmBalancesTotalValueUSD = Object.values(myOhmBalances).reduce(
+    (totalValue, token) => totalValue + token.assetValue,
+    0,
+  );
+
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const theme = useTheme();
   const { isConnected } = useAccount();
@@ -193,14 +201,14 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                         </Box>
                         <Box display="flex" flexDirection="column" alignItems="end" gap="3px">
                           <Typography fontSize="24px" fontWeight="500" lineHeight="33px">
-                            {formattedohmBalance} OHM
+                            {(myOhmBalancesTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1)).toFixed(4)} OHM
                           </Typography>
                           <Typography fontSize="12px" fontWeight="450" lineHeight="12px" color={theme.colors.gray[40]}>
-                            {formatCurrency(ohmPrice * Number(totalOhmBalance.toString()), 2)}
+                            {formatCurrency(myOhmBalancesTotalValueUSD, 2)}
                           </Typography>
                         </Box>
                       </Box>
-                      {Number(totalOhmBalance.toString()) > 0 ? <MyOhmBalances /> : <LearnAboutOhm />}
+                      {Number(myOhmBalancesTotalValueUSD.toString()) > 0 ? <MyOhmBalances /> : <LearnAboutOhm />}
                     </Box>
                   </Box>
                   <Box position="relative" width={`${isMobileScreen ? "100%" : "48%"}`}>
