@@ -4,7 +4,7 @@ import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import * as Prices from "src/hooks/usePrices";
+import * as Prices from "src/hooks/useProtocolMetrics";
 import { connectWallet, invalidAddress } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
@@ -45,7 +45,7 @@ const defaultStatesWithApproval = () => {
     symbol: vi.fn().mockReturnValue("DAI"),
   });
   //@ts-expect-error
-  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "18.209363085" });
+  vi.spyOn(Prices, "useOhmPrice").mockReturnValue("18.209363085");
 
   //@ts-ignore
   rangeOperator.mockReturnValue({
