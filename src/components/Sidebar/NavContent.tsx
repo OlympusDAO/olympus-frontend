@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
@@ -49,46 +49,26 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
+              <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
+              <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />
               {chain.id === networks.MAINNET ? (
                 <>
-                  <Box className="menu-divider">
-                    <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-                  </Box>
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
-                  <NavItem customIcon={<SvgIcon component={lendAndBorrowIcon} />} label={`Lend & Borrow`} to="/lending">
-                    <Link component={NavLink} to={"/lending/cooler"}>
-                      <Box ml="26px" mt="12px" mb="12px" mr="18px">
-                        <Typography variant="body1">Cooler Loans</Typography>
-                      </Box>
-                    </Link>
-                  </NavItem>
-                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
-                  <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
-                    <RangePrice bidOrAsk="ask" />
-                    <RangePrice bidOrAsk="bid" />
-                  </NavItem>
-                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
+                  <NavItem
+                    customIcon={<SvgIcon component={lendAndBorrowIcon} viewBox="0 0 21 21" />}
+                    label={`Cooler Loans`}
+                    to="/lending/cooler"
+                  />
+                  <NavItem to="/range" icon="range" label={`RBS`} />
+                  <NavItem icon="settings" label={`Utility`} to="/utility" />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Govern`} />
                 </>
               ) : (
                 <>
-                  <NavItem
-                    customIcon={<SvgIcon component={lendAndBorrowIcon} />}
-                    label={`Lend & Borrow`}
-                    to="/lending"
-                  />
-                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                  <NavItem icon="settings" label={`Utility`} to="/utility" />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Govern`} />
                 </>
               )}
-
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
               <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
-              <NavItem icon="transparency" label={`Transparency`} href="https://www.olympusdao.finance/transparency" />
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
             </div>
           </div>
         </div>
@@ -100,15 +80,9 @@ const NavContent: React.VFC = () => {
             <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="github" className={classes.gray} />
             </Link>
-
-            <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
-              <Icon name="medium" className={classes.gray} />
-            </Link>
-
             <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="twitter" className={classes.gray} />
             </Link>
-
             <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer">
               <Icon name="discord" className={classes.gray} />
             </Link>

@@ -93,7 +93,6 @@ describe("Environment", () => {
       expect(Environment.getNodeUrls(NetworkId.MAINNET)).not.toBeUndefined();
       expect(Environment.getNodeUrls(NetworkId.TESTNET_GOERLI)).not.toBeUndefined();
       expect(Environment.getNodeUrls(NetworkId.ARBITRUM)).not.toBeUndefined();
-      expect(Environment.getNodeUrls(NetworkId.ARBITRUM_TESTNET)).not.toBeUndefined();
       expect(Environment.getNodeUrls(NetworkId.AVALANCHE)).not.toBeUndefined();
       expect(Environment.getNodeUrls(NetworkId.AVALANCHE_TESTNET)).not.toBeUndefined();
       expect(Environment.getNodeUrls(NetworkId.POLYGON)).not.toBeUndefined();

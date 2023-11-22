@@ -123,17 +123,27 @@ const RangeChart = (props: {
     const timestamp = payload && payload.length > 4 ? payload[4].payload.timestamp : "";
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
-        <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
         <DataRow title="Time" balance={timestamp}></DataRow>
+        <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
         {label === "now" && (
           <>
+            <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />
+            <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2, reserveSymbol)}`} />
+            <DataRow
+              title="Upper Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
+            />
+            <DataRow
+              title="Upper Cushion"
+              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
+            />
             <DataRow
               title="Upper Wall"
               balance={formatCurrency(parseBigNumber(rangeData.high.wall.price, 18), 2, reserveSymbol)}
             />
             <DataRow
-              title="Upper Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
+              title="Lower Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
             />
             <DataRow
               title="Lower Cushion"
@@ -143,16 +153,6 @@ const RangeChart = (props: {
               title="Lower Wall"
               balance={formatCurrency(parseBigNumber(rangeData.low.wall.price, 18), 2, reserveSymbol)}
             />
-            <DataRow
-              title="Upper Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
-            />
-            <DataRow
-              title="Lower Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
-            />
-            <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />
-            <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2, reserveSymbol)}`} />
           </>
         )}
       </Paper>
