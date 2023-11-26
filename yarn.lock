@@ -11656,13 +11656,6 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-uid@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/react-uid/-/react-uid-2.3.2.tgz"
-  integrity sha512-oeaoT4YOjsqHdrEJoO8SONNNBsoGh7AJPbsNqRK6Dv8UMdctWxA4ncj9gAA/Odki5g0GZaDSR7HydBJ8HxwgNg==
-  dependencies:
-    tslib "^2.0.0"
-
 react@17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
