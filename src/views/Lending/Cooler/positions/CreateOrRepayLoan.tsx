@@ -197,7 +197,11 @@ export const CreateOrRepayLoan = ({
                     approve Olympus DAO to use your <b>{loan ? "DAI" : "gOHM"}</b> for borrowing.
                   </>
                 }
-                spendAmount={new DecimalBigNumber(collateralAmount.toString(), 18)}
+                spendAmount={
+                  loan
+                    ? new DecimalBigNumber(paymentAmount.toString(), 18)
+                    : new DecimalBigNumber(collateralAmount.toString(), 18)
+                }
               >
                 <PrimaryButton
                   onClick={() => {
