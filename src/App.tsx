@@ -247,6 +247,7 @@ function App() {
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
                   <Route path="/range/*" element={<Range />} />
                   <Route path="/liquidity/vaults/:id" element={<Vault />} />
+                  <Route path="/lending" element={<Navigate to="/lending/cooler" />} />
                   <Route path="/lending/cooler" element={<Cooler />} />
                   <Route path="/utility" element={<Utility />} />
 
