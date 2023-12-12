@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { DataRow, Paper } from "@olympusdao/component-library";
 import {
@@ -124,34 +124,43 @@ const RangeChart = (props: {
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
         <DataRow title="Time" balance={timestamp}></DataRow>
-        <DataRow title="Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
+        <Typography fontSize="15px" fontWeight={600} mt="33px">
+          Price
+        </Typography>
+        <DataRow title="Market Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
         {label === "now" && (
           <>
             <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />
             <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2, reserveSymbol)}`} />
+            <Typography fontSize="15px" fontWeight={600} mt="33px">
+              Lower Range
+            </Typography>
             <DataRow
-              title="Upper Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
-            />
-            <DataRow
-              title="Upper Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Upper Wall"
-              balance={formatCurrency(parseBigNumber(rangeData.high.wall.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Lower Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
-            />
-            <DataRow
-              title="Lower Cushion"
+              title="Cushion"
               balance={formatCurrency(parseBigNumber(rangeData.low.cushion.price, 18), 2, reserveSymbol)}
             />
             <DataRow
-              title="Lower Wall"
+              title="Wall"
               balance={formatCurrency(parseBigNumber(rangeData.low.wall.price, 18), 2, reserveSymbol)}
+            />
+            <DataRow
+              title="Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+            />
+            <Typography fontSize="15px" fontWeight={600} mt="33px">
+              Upper Range
+            </Typography>
+            <DataRow
+              title="Cushion"
+              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
+            />
+            <DataRow
+              title="Wall"
+              balance={formatCurrency(parseBigNumber(rangeData.high.wall.price, 18), 2, reserveSymbol)}
+            />
+            <DataRow
+              title="Capacity"
+              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
             />
           </>
         )}
