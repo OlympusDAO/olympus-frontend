@@ -62,14 +62,18 @@ export const CreateOrRepayLoan = ({
   const [paymentAmount, setPaymentAmount] = useState(new DecimalBigNumber("0"));
   const [collateralAmount, setCollateralAmount] = useState(new DecimalBigNumber("0"));
   const { data: collateralBalance } = useBalance({ [networks.MAINNET]: collateralAddress || "" })[networks.MAINNET];
+  const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
 
   const collateralValue = Number(loanToCollateral) * Number(collateralBalance || 0);
-  const maxYouCanBorrow = Math.min(Number(capacity), collateralValue);
 
   const loanPayable = new DecimalBigNumber(
     loan?.principal.add(loan?.interestDue || BigNumber.from("0")) || BigNumber.from("0"),
     18,
   );
+
+  const maxYouCanBorrow = loan
+    ? Math.min(Number(loanPayable), Number(debtBalance))
+    : Math.min(Number(capacity), collateralValue);
   const interestRepaid = loan?.collateral.isZero() || false;
   //if collateral minus principal is greater than interest... then calculate on collateral amount.
   const daiCard = (
@@ -124,7 +128,7 @@ export const CreateOrRepayLoan = ({
         <SwapCollection UpperSwapCard={loan ? daiCard : gOHMCard} LowerSwapCard={loan ? gOHMCard : daiCard} />
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Max you Can {loan ? "Repay" : "Borrow"}</Box>
-          <Box fontWeight="500">{formatNumber(loan ? Number(loanPayable.toString()) : maxYouCanBorrow, 2)} DAI</Box>
+          <Box fontWeight="500">{formatNumber(maxYouCanBorrow, 2)} DAI</Box>
         </Box>
         <Box mt="18px" mb="21px">
           <Divider />
@@ -197,7 +201,11 @@ export const CreateOrRepayLoan = ({
                     approve Olympus DAO to use your <b>{loan ? "DAI" : "gOHM"}</b> for borrowing.
                   </>
                 }
-                spendAmount={new DecimalBigNumber(collateralAmount.toString(), 18)}
+                spendAmount={
+                  loan
+                    ? new DecimalBigNumber(paymentAmount.toString(), 18)
+                    : new DecimalBigNumber(collateralAmount.toString(), 18)
+                }
               >
                 <PrimaryButton
                   onClick={() => {
@@ -233,9 +241,7 @@ export const CreateOrRepayLoan = ({
                         );
                   }}
                   disabled={
-                    (loan
-                      ? Number(paymentAmount) > Number(loanPayable)
-                      : Number(paymentAmount.toString()) > maxYouCanBorrow) ||
+                    Number(paymentAmount.toString()) > maxYouCanBorrow ||
                     Number(paymentAmount.toString()) === 0 ||
                     createLoan.isLoading ||
                     repayLoan.isLoading
@@ -246,6 +252,8 @@ export const CreateOrRepayLoan = ({
                   {loan
                     ? Number(paymentAmount) > Number(loanPayable)
                       ? `Payback Amount exceeds Loan`
+                      : Number(paymentAmount.toString()) > Number(maxYouCanBorrow)
+                      ? `Insufficient Funds for Repayment`
                       : `Repay Loan`
                     : Number(paymentAmount.toString()) > maxYouCanBorrow
                     ? `Amount requested exceeds capacity`
