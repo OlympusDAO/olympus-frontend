@@ -3,8 +3,7 @@ import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Paper, PrimaryButton, SecondaryButton, Token } from "src/components/library";
-import { prettifySeconds } from "src/helpers/timeUtil";
-import { IWarmupBalances, useWarmupClaim, useWarmupDate } from "src/hooks/useWarmupInfo";
+import { IWarmupBalances, useWarmupClaim } from "src/hooks/useWarmupInfo";
 import { formatBalance } from "src/views/Stake/components/StakeArea/components/StakeBalances";
 import { useClaimToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useClaimToken";
 import { useForfeitToken } from "src/views/Stake/components/StakeArea/components/StakeInputArea/hooks/useForfeitToken";
@@ -26,24 +25,12 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
   },
 }));
 
-const StyledPoolInfo = styled("div")(() => ({
-  [`&.${classes.poolPair}`]: {
-    display: "flex !important",
-    alignItems: "center",
-    justifyContent: "left",
-    marginBottom: "15px",
-  },
-
-  [`& .${classes.poolName}`]: {
-    marginLeft: "10px",
-  },
-}));
-
 export const ClaimsArea = () => {
   const { isConnected } = useAccount();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { data: claim } = useWarmupClaim();
-  const { data: warmupDate, isClaimable } = useWarmupDate();
+
+  console.log(claim, "claim");
 
   if (!isConnected || !claim || claim?.gohm.eq("0")) return <></>;
   const warmupTooltip = `Your claim earns rebases during warmup. You can emergency withdraw, but this forfeits the rebases`;
@@ -60,7 +47,7 @@ export const ClaimsArea = () => {
               <InfoTooltip message={warmupTooltip} />
             </Box>
           </Box>
-          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} warmupDate={warmupDate} isClaimable={isClaimable} />
+          <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} isClaimable={true} />
         </Table>
       ) : (
         <Paper headerText={`Your active gOHM claim`} tooltip={warmupTooltip}>
@@ -75,12 +62,7 @@ export const ClaimsArea = () => {
                 <TableCell></TableCell>
               </TableRow>
             </StyledTableHeader>
-            <ActiveClaims
-              isSmallScreen={isSmallScreen}
-              claim={claim}
-              warmupDate={warmupDate}
-              isClaimable={isClaimable}
-            />
+            <ActiveClaims isSmallScreen={isSmallScreen} claim={claim} isClaimable={true} />
           </Table>
         </Paper>
       )}
@@ -91,32 +73,22 @@ export const ClaimsArea = () => {
 const ActiveClaims = ({
   isSmallScreen,
   claim,
-  warmupDate,
   isClaimable,
 }: {
   isSmallScreen: boolean;
   claim?: IWarmupBalances;
-  warmupDate?: Date;
   isClaimable?: boolean;
 }) => (
   <TableBody>
     {isSmallScreen ? (
-      <MobileClaimInfo claim={claim} warmupDate={warmupDate} isClaimable={isClaimable} />
+      <MobileClaimInfo claim={claim} isClaimable={isClaimable} />
     ) : (
-      <ClaimInfo claim={claim} warmupDate={warmupDate} isClaimable={isClaimable} />
+      <ClaimInfo claim={claim} isClaimable={isClaimable} />
     )}
   </TableBody>
 );
 
-const ClaimInfo = ({
-  claim,
-  warmupDate,
-  isClaimable,
-}: {
-  claim?: IWarmupBalances;
-  warmupDate?: Date;
-  isClaimable?: boolean;
-}) => {
+const ClaimInfo = ({ claim, isClaimable }: { claim?: IWarmupBalances; isClaimable?: boolean }) => {
   return (
     <TableRow>
       <TableCell style={{ padding: "8px 8px 8px 0" }}>
@@ -133,17 +105,7 @@ const ClaimInfo = ({
           {!claim?.gohm ? <Skeleton width={60} /> : `${formatBalance(claim?.gohm)} gOHM`}
         </Typography>
       </TableCell>
-      <TableCell style={{ padding: "8px 8px 8px 0" }}>
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!warmupDate ? (
-            <Skeleton width={60} />
-          ) : isClaimable ? (
-            "0 seconds"
-          ) : (
-            prettifySeconds((warmupDate.getTime() - new Date().getTime()) / 1000)
-          )}
-        </Typography>
-      </TableCell>
+      <TableCell style={{ padding: "8px 8px 8px 0" }}></TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
         <ActionButtons isClaimable={isClaimable} />
@@ -152,15 +114,7 @@ const ClaimInfo = ({
   );
 };
 
-const MobileClaimInfo = ({
-  claim,
-  warmupDate,
-  isClaimable,
-}: {
-  claim?: IWarmupBalances;
-  warmupDate?: Date;
-  isClaimable?: boolean;
-}) => {
+const MobileClaimInfo = ({ claim, isClaimable }: { claim?: IWarmupBalances; isClaimable?: boolean }) => {
   // const userBalances = useStakePoolBalance(props.pool);
   // const userBalance = userBalances[props.pool.networkID].data;
 
@@ -179,17 +133,6 @@ const MobileClaimInfo = ({
         title={`Amount`}
         isLoading={!claim?.gohm}
         balance={claim?.gohm ? formatBalance(claim?.gohm) : undefined}
-      />
-      <DataRow
-        title={`Claimable In`}
-        isLoading={!warmupDate}
-        balance={
-          !warmupDate
-            ? undefined
-            : isClaimable
-            ? "0 seconds"
-            : prettifySeconds((warmupDate.getTime() - new Date().getTime()) / 1000)
-        }
       />
 
       <ActionButtons isClaimable={isClaimable} />

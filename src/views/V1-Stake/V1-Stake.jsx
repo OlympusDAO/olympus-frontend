@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
-import { DataRow, MetricCollection, Paper, Tab, TabPanel, Tabs } from "src/components/library";
+import { DataRow, Paper, Tab, TabPanel, Tabs } from "src/components/library";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
@@ -33,11 +33,6 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, changeStake } from "src/slices/StakeThunk";
 import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
-import RebaseTimer from "src/views/Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
-import { StakeFiveDayYield } from "src/views/Stake/components/StakeArea/components/StakeFiveDayYield";
-import { StakeNextRebaseAmount } from "src/views/Stake/components/StakeArea/components/StakeNextRebaseAmount";
-import { StakeRebaseYield } from "src/views/Stake/components/StakeArea/components/StakeRebaseYield";
-import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 import { useAccount, useNetwork, useProvider } from "wagmi";
 
 function V1Stake({ setMigrationModalOpen }) {
@@ -164,16 +159,8 @@ function V1Stake({ setMigrationModalOpen }) {
 
   return (
     <div id="v1-stake-view">
-      <Paper headerText={`${`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
+      <Paper headerText={`${`Single Stake`} (3, 3)`}>
         <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <MetricCollection>
-              <StakingAPY className="stake-apy" />
-              <TotalValueDeposited className="stake-tvl" />
-              <CurrentIndex className="stake-index" />
-            </MetricCollection>
-          </Grid>
-
           <div className="staking-area">
             {!isConnected ? (
               <div className="stake-wallet-notification">
@@ -357,12 +344,6 @@ function V1Stake({ setMigrationModalOpen }) {
                     </AccordionDetails>
                   </Accordion>
                   <Divider />
-
-                  <StakeNextRebaseAmount />
-
-                  <StakeRebaseYield />
-
-                  <StakeFiveDayYield />
                 </div>
               </>
             )}

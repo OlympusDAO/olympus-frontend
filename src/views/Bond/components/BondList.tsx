@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import ArrowUp from "src/assets/icons/arrow-up.svg?react";
 import { TertiaryButton, TokenStack } from "src/components/library";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";

@@ -98,6 +98,7 @@ interface MatchProps {
 
 export interface OHMNavItemProps extends LinkProps {
   label: string;
+  customIcon?: ReactNode;
   icon?: IconName;
   chip?: string | ReactNode;
   className?: string;
@@ -115,6 +116,7 @@ export interface OHMNavItemProps extends LinkProps {
 const NavItem: FC<OHMNavItemProps> = ({
   chip,
   className = "",
+  customIcon,
   icon,
   label,
   to,
@@ -148,7 +150,7 @@ const NavItem: FC<OHMNavItemProps> = ({
         className="link-container"
       >
         <Box display="flex" width={"100%"} alignItems="center" className={`${classes.title} title`}>
-          {icon && <Icon name={icon} style={{ fontSize: "21px" }} />}
+          {customIcon ? customIcon : icon && <Icon name={icon} style={{ fontSize: "21px" }} />}
           {label}
           {props.href && <Icon className="external-site-link-icon" name="arrow-up" />}
         </Box>

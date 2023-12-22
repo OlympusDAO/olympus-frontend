@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, Grid, Link, Paper, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DataRow, InfoNotification, OHMTokenProps, PrimaryButton } from "src/components/library";
+import { Link as RouterLink } from "react-router-dom";
+import { DataRow, Icon, InfoNotification, OHMTokenProps, PrimaryButton } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
@@ -9,7 +10,7 @@ import { formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { DetermineRangePrice, OperatorReserveSymbol, RangeBondMaxPayout, RangeData } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
@@ -43,7 +44,7 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice = 0 } = useOhmPrice();
+  const currentPrice = useOhmPrice({}) || 0;
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
@@ -77,10 +78,10 @@ export const Range = () => {
   }, [sellActive]);
 
   useEffect(() => {
-    if (currentPrice < parseBigNumber(rangeData.cushion.low.price, 18)) {
+    if (currentPrice < parseBigNumber(rangeData.low.cushion.price, 18)) {
       setSellActive(true);
     }
-  }, [rangeData.cushion.low.price, currentPrice]);
+  }, [rangeData.low.cushion.price, currentPrice]);
 
   const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
     sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
@@ -122,7 +123,25 @@ export const Range = () => {
 
   return (
     <div id="stake-view">
-      <PageTitle name="Range Swap" />
+      <PageTitle
+        name="Range Bound Stability"
+        subtitle={
+          <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+            Swap DAI or OHM directly with the treasury.{" "}
+            <Link
+              component={RouterLink}
+              to="https://docs.olympusdao.finance/main/overview/range-bound"
+              target="_blank"
+              rel="noopener noreferrer"
+              alignItems="center"
+              display="flex"
+              gap="4px"
+            >
+              Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
+            </Link>
+          </Box>
+        }
+      />
       <Paper sx={{ width: "98%" }}>
         {currentPrice ? (
           <>
@@ -178,8 +197,8 @@ export const Range = () => {
                                 ? "discount"
                                 : "premium"
                               : discount < 0
-                              ? "premium"
-                              : "discount"}{" "}
+                                ? "premium"
+                                : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
                             {formatNumber(currentPrice, 2)} {reserveSymbol}
                           </InfoNotification>
@@ -195,8 +214,8 @@ export const Range = () => {
                                   ? "Discount"
                                   : "Premium"
                                 : discount < 0
-                                ? "Premium"
-                                : "Discount"
+                                  ? "Premium"
+                                  : "Discount"
                             }
                             balance={
                               <Typography
@@ -230,8 +249,8 @@ export const Range = () => {
                               {amountAboveCapacity
                                 ? `Amount exceeds capacity`
                                 : amountAboveBalance
-                                ? `Amount exceeds balance`
-                                : swapButtonText}
+                                  ? `Amount exceeds balance`
+                                  : swapButtonText}
                             </PrimaryButton>
                           </WalletConnectedGuard>
                         </Box>

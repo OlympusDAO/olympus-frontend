@@ -94,13 +94,16 @@ const createDynamicContract = <TContract extends Contract = Contract>(ABI: Contr
 export const createMultipleStaticContracts = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
   return <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
     return useMemo(() => {
-      return Object.entries(addressMap).reduce((res, [networkId, address]) => {
-        const _networkId = Number(networkId) as NetworkId;
-        const provider = Providers.getStaticProvider(_networkId);
-        const contract = new Contract(address, ABI, provider) as TContract;
+      return Object.entries(addressMap).reduce(
+        (res, [networkId, address]) => {
+          const _networkId = Number(networkId) as NetworkId;
+          const provider = Providers.getStaticProvider(_networkId);
+          const contract = new Contract(address, ABI, provider) as TContract;
 
-        return Object.assign(res, { [networkId]: contract });
-      }, {} as Record<keyof typeof addressMap, TContract>);
+          return Object.assign(res, { [networkId]: contract });
+        },
+        {} as Record<keyof typeof addressMap, TContract>,
+      );
     }, [addressMap]);
   };
 };

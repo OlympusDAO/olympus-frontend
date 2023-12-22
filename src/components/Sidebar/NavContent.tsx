@@ -1,8 +1,9 @@
-import { Box, Divider, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
+import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
+import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import { Icon, NavItem } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -47,32 +48,26 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
+              <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
+              <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />
               {chain.id === networks.MAINNET ? (
                 <>
-                  <Box className="menu-divider">
-                    <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-                  </Box>
-                  <NavItem to="/stake" icon="stake" label={`Stake`} />
-                  <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
-                  <NavItem to="/range" icon="range" label={`Range`} defaultExpanded={false}>
-                    <RangePrice bidOrAsk="ask" />
-                    <RangePrice bidOrAsk="bid" />
-                  </NavItem>
-                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Governance`} />
+                  <NavItem
+                    customIcon={<SvgIcon component={lendAndBorrowIcon} viewBox="0 0 21 21" />}
+                    label={`Cooler Loans`}
+                    to="/lending/cooler"
+                  />
+                  <NavItem to="/range" icon="range" label={`RBS`} />
+                  <NavItem icon="settings" label={`Utility`} to="/utility" />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Govern`} />
                 </>
               ) : (
-                <NavItem icon="settings" label={`Provide Liquidity`} to="/liquidity" />
+                <>
+                  <NavItem icon="settings" label={`Utility`} to="/utility" />
+                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Govern`} />
+                </>
               )}
-
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
               <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
-              <NavItem icon="transparency" label={`Transparency`} href="https://www.olympusdao.finance/transparency" />
-              <Box className="menu-divider">
-                <Divider sx={{ borderColor: theme.colors.gray[600] }} />
-              </Box>
             </div>
           </div>
         </div>
@@ -84,15 +79,9 @@ const NavContent: React.VFC = () => {
             <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="github" className={classes.gray} />
             </Link>
-
-            <Link href="https://olympusdao.medium.com/" target="_blank" rel="noopener noreferrer">
-              <Icon name="medium" className={classes.gray} />
-            </Link>
-
             <Link href="https://twitter.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="twitter" className={classes.gray} />
             </Link>
-
             <Link href="https://discord-invite.olympusdao.finance" target="_blank" rel="noopener noreferrer">
               <Icon name="discord" className={classes.gray} />
             </Link>

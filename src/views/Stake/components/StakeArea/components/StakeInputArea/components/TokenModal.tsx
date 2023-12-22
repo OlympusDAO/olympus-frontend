@@ -1,9 +1,7 @@
-import { Avatar, Box, CircularProgress, Dialog, Link, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Avatar, Box, Dialog, Link, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FC } from "react";
 import { Icon, OHMTokenProps, Token } from "src/components/library";
-import { trim } from "src/helpers";
-import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 
 export interface ModalHandleSelectProps {
   name: string;
@@ -30,8 +28,7 @@ type OHMTokenModalProps = {
   ohmBalance?: string;
   sOhmBalance?: string;
   gOhmBalance?: string;
-  showZapAssets?: boolean;
-  alwaysShowTokens?: { name: OHMTokenProps["name"]; balance: string; address: string; price: number }[];
+  currentAction?: string;
 };
 /**
  * Component for Displaying TokenModal
@@ -43,14 +40,9 @@ const TokenModal: FC<OHMTokenModalProps> = ({
   ohmBalance = "0.00",
   sOhmBalance = "0.00",
   gOhmBalance = "0.00",
-  showZapAssets = false,
-  alwaysShowTokens,
+  currentAction,
 }) => {
   const theme = useTheme();
-  const { data: zapTokenBalances = { balances: {} }, isLoading } = useZapTokenBalances();
-  const tokensBalance = zapTokenBalances.balances;
-  console.log(tokensBalance, "tokensBalance");
-  const showZap = showZapAssets && tokensBalance;
 
   const TokenItem: FC<TokenItem> = ({ name, balance = "0", icon, address = "", price, decimals, ...props }) => {
     return (
@@ -97,50 +89,9 @@ const TokenModal: FC<OHMTokenModalProps> = ({
           </Link>
         </Box>
         <List>
-          {showZap ? (
-            isLoading ? (
-              <Box display="flex" justifyContent="center">
-                <CircularProgress />
-              </Box>
-            ) : (
-              <>
-                {alwaysShowTokens && (
-                  <>
-                    {alwaysShowTokens.map(token => (
-                      <TokenItem
-                        name={token.name}
-                        balance={token.balance}
-                        address={token.address}
-                        price={token.price}
-                      />
-                    ))}
-                  </>
-                )}
-                <TokenItem name="OHM" balance={ohmBalance} />
-                {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
-                {Object.entries(tokensBalance)
-                  .filter(token => !token[1].hide)
-                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-                  .map(token => (
-                    <TokenItem
-                      key={token[1].symbol}
-                      icon={token[1].displayProps.images[0]}
-                      name={token[1].symbol}
-                      balance={trim(token[1].balance, 4)}
-                      usdValue={`${trim(token[1].balanceUSD, 2)}`}
-                      address={token[1].address}
-                      price={token[1].price}
-                      decimals={token[1].decimals}
-                    />
-                  ))}
-              </>
-            )
-          ) : (
-            <>
-              {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
-              <TokenItem name="gOHM" balance={gOhmBalance} data-testid="gOHM-select" />
-            </>
-          )}
+          {currentAction === "STAKE" && <TokenItem name="OHM" balance={ohmBalance} />}
+          {parseInt(sOhmBalance) > 0 && <TokenItem name="sOHM" balance={sOhmBalance} />}
+          {currentAction === "UNSTAKE" && <TokenItem name="gOHM" balance={gOhmBalance} data-testid="gOHM-select" />}
         </List>
       </Box>
     </Dialog>

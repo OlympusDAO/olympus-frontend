@@ -271,7 +271,6 @@ export const mockGohmBalance = (
     | NetworkId.MAINNET
     | NetworkId.TESTNET_GOERLI
     | NetworkId.ARBITRUM
-    | NetworkId.ARBITRUM_TESTNET
     | NetworkId.AVALANCHE
     | NetworkId.AVALANCHE_TESTNET
     | NetworkId.POLYGON
@@ -283,7 +282,6 @@ export const mockGohmBalance = (
   | NetworkId.MAINNET
   | NetworkId.TESTNET_GOERLI
   | NetworkId.ARBITRUM
-  | NetworkId.ARBITRUM_TESTNET
   | NetworkId.AVALANCHE
   | NetworkId.AVALANCHE_TESTNET
   | NetworkId.POLYGON
@@ -360,39 +358,6 @@ export const mockGohmBalance = (
     },
     [NetworkId.ARBITRUM]: {
       data: data[NetworkId.ARBITRUM],
-      error: null,
-      isError: false,
-      isSuccess: true,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      fetchStatus: "idle",
-      isRefetchError: false,
-      failureCount: 0,
-      isFetched: true,
-      isFetchedAfterMount: true,
-      isFetching: false,
-      isPlaceholderData: false,
-      isPreviousData: false,
-      isRefetching: false,
-      isStale: false,
-      status: "success",
-      dataUpdatedAt: 0,
-      errorUpdatedAt: 0,
-      errorUpdateCount: 0,
-      refetch: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
-      remove: () => {
-        return new Promise(() => {
-          return true;
-        });
-      },
-    },
-    [NetworkId.ARBITRUM_TESTNET]: {
-      data: data[NetworkId.ARBITRUM_TESTNET],
       error: null,
       isError: false,
       isSuccess: true,

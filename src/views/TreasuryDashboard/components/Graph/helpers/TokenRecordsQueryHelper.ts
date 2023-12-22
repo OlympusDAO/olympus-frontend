@@ -1,3 +1,4 @@
+import { getFloat } from "src/helpers/NumberHelper";
 import { TokenRecord } from "src/hooks/useFederatedSubgraphQuery";
 
 export type TokenRow = {
@@ -6,9 +7,14 @@ export type TokenRow = {
   category: string;
   isLiquid: boolean;
   blockchain: string;
-  balance: string;
-  value: string;
-  valueExcludingOhm: string;
+  balance: number;
+  rate: number;
+  value: number;
+  valueExcludingOhm: number;
+  /**
+   * Percentage of liquid backing that this token represents.
+   */
+  liquidBackingContribution: number;
 };
 
 type TokenMap = {
@@ -20,6 +26,7 @@ export type DateTokenSummary = {
   timestamp: number;
   block: number;
   tokens: TokenMap;
+  liquidBackingTotal: number;
 };
 
 /**
@@ -60,6 +67,7 @@ export const getDateTokenRecordSummary = (tokenRecords: TokenRecord[]): DateToke
       timestamp: recordTimestamp,
       block: +record.block,
       tokens: {} as TokenMap,
+      liquidBackingTotal: 0,
     };
 
     // Ensure the timestamp is the latest for the date
@@ -70,23 +78,37 @@ export const getDateTokenRecordSummary = (tokenRecords: TokenRecord[]): DateToke
     dateSummaryMap.set(record.date, dateSummary);
 
     const tokenId = `${record.token}/${record.blockchain}`;
-    const tokenRecord = dateSummary.tokens[tokenId] || ({} as TokenRow);
+    const tokenRecord =
+      dateSummary.tokens[tokenId] ||
+      ({
+        id: "",
+        token: "",
+        category: "",
+        isLiquid: false,
+        blockchain: "",
+        balance: 0,
+        rate: 0,
+        value: 0,
+        valueExcludingOhm: 0,
+      } as TokenRow);
     tokenRecord.id = tokenId;
     tokenRecord.token = record.token;
     tokenRecord.category = record.category;
     tokenRecord.isLiquid = record.isLiquid;
     tokenRecord.blockchain = record.blockchain;
-    tokenRecord.balance = record.balance.toString();
-
-    const existingValue = tokenRecord.value ? parseFloat(tokenRecord.value) : 0;
-    // record.value is typed as a number, but is actually a string
-    tokenRecord.value = (existingValue + +record.value).toString(); // TODO consider shifting to use number
-
-    const existingValueExcludingOhm = tokenRecord.valueExcludingOhm ? parseFloat(tokenRecord.valueExcludingOhm) : 0;
-    // record.valueExcludingOhm is typed as a number, but is actually a string
-    tokenRecord.valueExcludingOhm = (existingValueExcludingOhm + +record.valueExcludingOhm).toString(); // TODO consider shifting to use number
+    tokenRecord.rate = getFloat(record.rate);
+    tokenRecord.balance += getFloat(record.balance);
+    tokenRecord.value += getFloat(record.value);
+    tokenRecord.valueExcludingOhm += getFloat(record.valueExcludingOhm);
 
     dateSummary.tokens[tokenId] = tokenRecord;
+  });
+
+  // With the total, set the liquid backing contribution
+  dateSummaryMap.forEach(dateSummary => {
+    Object.values(dateSummary.tokens).forEach(tokenRecord => {
+      tokenRecord.liquidBackingContribution = tokenRecord.valueExcludingOhm / dateSummary.liquidBackingTotal;
+    });
   });
 
   return Array.from(dateSummaryMap.values()).sort((a, b) => {

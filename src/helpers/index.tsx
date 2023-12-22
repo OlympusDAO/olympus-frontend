@@ -119,7 +119,6 @@ export const formatNumber = (number: number, precision = 0) => {
 
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
-    NetworkId.ARBITRUM_TESTNET,
     NetworkId.ARBITRUM_GOERLI,
     NetworkId.AVALANCHE_TESTNET,
     NetworkId.FANTOM_TESTNET,
@@ -157,6 +156,9 @@ export const testnetToMainnetContract = (address: string) => {
     //BAL
     case "0xd517A8E45771a40B29eCDa347634bD62051F91B9".toLowerCase():
       return "0xba100000625a3754423978a60c9317c58a424e3d";
+    //LUSD
+    case "0x004136391B304492bE9A1cD7cBc01272159Bf6Ac".toLowerCase():
+      return "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0";
     default:
       return address;
   }

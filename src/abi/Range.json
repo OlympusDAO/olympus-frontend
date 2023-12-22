@@ -6,8 +6,8 @@
         { "internalType": "contract ERC20", "name": "ohm_", "type": "address" },
         { "internalType": "contract ERC20", "name": "reserve_", "type": "address" },
         { "internalType": "uint256", "name": "thresholdFactor_", "type": "uint256" },
-        { "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
-        { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
+        { "internalType": "uint256[2]", "name": "lowSpreads_", "type": "uint256[2]" },
+        { "internalType": "uint256[2]", "name": "highSpreads_", "type": "uint256[2]" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
@@ -56,6 +56,7 @@
     {
       "anonymous": false,
       "inputs": [
+        { "indexed": false, "internalType": "bool", "name": "high_", "type": "bool" },
         { "indexed": false, "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
         { "indexed": false, "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
       ],
@@ -171,8 +172,8 @@
     },
     {
       "inputs": [
-        { "internalType": "bool", "name": "wall_", "type": "bool" },
-        { "internalType": "bool", "name": "high_", "type": "bool" }
+        { "internalType": "bool", "name": "high_", "type": "bool" },
+        { "internalType": "bool", "name": "wall_", "type": "bool" }
       ],
       "name": "price",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -191,9 +192,27 @@
                 { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
                 { "internalType": "uint256", "name": "capacity", "type": "uint256" },
                 { "internalType": "uint256", "name": "threshold", "type": "uint256" },
-                { "internalType": "uint256", "name": "market", "type": "uint256" }
+                { "internalType": "uint256", "name": "market", "type": "uint256" },
+                {
+                  "components": [
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "spread", "type": "uint256" }
+                  ],
+                  "internalType": "struct RANGEv2.Line",
+                  "name": "cushion",
+                  "type": "tuple"
+                },
+                {
+                  "components": [
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "spread", "type": "uint256" }
+                  ],
+                  "internalType": "struct RANGEv2.Line",
+                  "name": "wall",
+                  "type": "tuple"
+                }
               ],
-              "internalType": "struct RANGEv1.Side",
+              "internalType": "struct RANGEv2.Side",
               "name": "low",
               "type": "tuple"
             },
@@ -203,54 +222,32 @@
                 { "internalType": "uint48", "name": "lastActive", "type": "uint48" },
                 { "internalType": "uint256", "name": "capacity", "type": "uint256" },
                 { "internalType": "uint256", "name": "threshold", "type": "uint256" },
-                { "internalType": "uint256", "name": "market", "type": "uint256" }
+                { "internalType": "uint256", "name": "market", "type": "uint256" },
+                {
+                  "components": [
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "spread", "type": "uint256" }
+                  ],
+                  "internalType": "struct RANGEv2.Line",
+                  "name": "cushion",
+                  "type": "tuple"
+                },
+                {
+                  "components": [
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "spread", "type": "uint256" }
+                  ],
+                  "internalType": "struct RANGEv2.Line",
+                  "name": "wall",
+                  "type": "tuple"
+                }
               ],
-              "internalType": "struct RANGEv1.Side",
+              "internalType": "struct RANGEv2.Side",
               "name": "high",
-              "type": "tuple"
-            },
-            {
-              "components": [
-                {
-                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
-                  "internalType": "struct RANGEv1.Line",
-                  "name": "high",
-                  "type": "tuple"
-                },
-                {
-                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
-                  "internalType": "struct RANGEv1.Line",
-                  "name": "low",
-                  "type": "tuple"
-                },
-                { "internalType": "uint256", "name": "spread", "type": "uint256" }
-              ],
-              "internalType": "struct RANGEv1.Band",
-              "name": "cushion",
-              "type": "tuple"
-            },
-            {
-              "components": [
-                {
-                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
-                  "internalType": "struct RANGEv1.Line",
-                  "name": "high",
-                  "type": "tuple"
-                },
-                {
-                  "components": [{ "internalType": "uint256", "name": "price", "type": "uint256" }],
-                  "internalType": "struct RANGEv1.Line",
-                  "name": "low",
-                  "type": "tuple"
-                },
-                { "internalType": "uint256", "name": "spread", "type": "uint256" }
-              ],
-              "internalType": "struct RANGEv1.Band",
-              "name": "wall",
               "type": "tuple"
             }
           ],
-          "internalType": "struct RANGEv1.Range",
+          "internalType": "struct RANGEv2.Range",
           "name": "",
           "type": "tuple"
         }
@@ -277,6 +274,7 @@
     },
     {
       "inputs": [
+        { "internalType": "bool", "name": "high_", "type": "bool" },
         { "internalType": "uint256", "name": "cushionSpread_", "type": "uint256" },
         { "internalType": "uint256", "name": "wallSpread_", "type": "uint256" }
       ],
@@ -293,7 +291,10 @@
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "bool", "name": "wall_", "type": "bool" }],
+      "inputs": [
+        { "internalType": "bool", "name": "high_", "type": "bool" },
+        { "internalType": "bool", "name": "wall_", "type": "bool" }
+      ],
       "name": "spread",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
@@ -328,7 +329,7 @@
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "movingAverage_", "type": "uint256" }],
+      "inputs": [{ "internalType": "uint256", "name": "target_", "type": "uint256" }],
       "name": "updatePrices",
       "outputs": [],
       "stateMutability": "nonpayable",

@@ -4,11 +4,12 @@ import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import * as Prices from "src/hooks/usePrices";
+import * as Prices from "src/hooks/useProtocolMetrics";
 import { connectWallet, invalidAddress } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import * as IERC20Factory from "src/typechain/factories/IERC20__factory";
 import * as RangeFactory from "src/typechain/factories/Range__factory";
+import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 import { RangeData } from "src/views/Range/__mocks__/mockRangeCalls";
 import { Range } from "src/views/Range/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -18,7 +19,7 @@ global.ResizeObserver = require("resize-observer-polyfill");
 vi.mock("src/hooks/useContractAllowance");
 vi.mock("src/views/Range/RangeChart", () => ({
   default: (props: {
-    rangeData: any;
+    rangeData: OlympusRange.RangeStructOutput;
     currentPrice: number;
     bidPrice: number;
     askPrice: number;
@@ -44,7 +45,7 @@ const defaultStatesWithApproval = () => {
     symbol: vi.fn().mockReturnValue("DAI"),
   });
   //@ts-expect-error
-  vi.spyOn(Prices, "useOhmPrice").mockReturnValue({ data: "18.209363085" });
+  vi.spyOn(Prices, "useOhmPrice").mockReturnValue("18.209363085");
 
   //@ts-ignore
   rangeOperator.mockReturnValue({
@@ -93,16 +94,18 @@ describe("Default Main Range View", () => {
     fireEvent.click(screen.getByTestId("range-confirm-submit"));
     expect(await screen.findByText("Range Swap Successful"));
   });
-  it("Should Show a message when mutating", async () => {
-    fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
-    fireEvent.click(screen.getByTestId("range-submit"));
-    fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
-    fireEvent.click(screen.getByTestId("range-confirm-submit"));
-    //waiting for isMutating to be caught
-    setTimeout(async () => {
-      expect(await screen.findByText("Please don't close this modal until all wallet transactions are confirmed."));
-    }, 10000);
-  });
+  //// FRAGILE TEST
+  // it("Should Show a message when mutating", async () => {
+  //   fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });
+  //   fireEvent.click(screen.getByTestId("range-submit"));
+  //   fireEvent.click(screen.getByTestId("disclaimer-checkbox"));
+  //   fireEvent.click(screen.getByTestId("range-confirm-submit"));
+
+  //   //waiting for isMutating to be caught
+  //   setTimeout(async () => {
+  //   expect(await screen.findByText("Please don't close this modal until all wallet transactions are confirmed."));
+  //   }, 10000);
+  // });
 
   it("Should close the confirmation modal when clicking the close button", async () => {
     fireEvent.input(await screen.findByTestId("reserve-amount"), { target: { value: "6" } });

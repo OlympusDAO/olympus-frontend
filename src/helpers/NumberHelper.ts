@@ -6,6 +6,8 @@
 export const getFloat = (input: unknown): number => {
   if (typeof input === "undefined") return 0;
 
+  if (input == null) return 0;
+
   if (typeof input === "number") return input;
 
   if (typeof input === "string") return parseFloat(input);

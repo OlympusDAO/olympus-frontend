@@ -1,5 +1,5 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import { Metric, MetricCollection, Paper, TabBar } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
@@ -48,7 +48,21 @@ const MetricsDashboard = () => {
    * asynchronously, so we set the initial value of daysPrior and earliestDate to null. Child components are designed to recognise this
    * and not load data until earliestDate is a valid value.
    */
-  const earliestDate = !daysPrior ? null : getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+  const [earliestDate, setEarliestDate] = useState<string | null>(null);
+  useMemo(() => {
+    if (!daysPrior) {
+      setEarliestDate(null);
+      return;
+    }
+
+    const tempEarliestDate = getISO8601String(adjustDateByDays(new Date(), -1 * parseInt(daysPrior)));
+    console.log(`Setting earliestDate to ${tempEarliestDate}`);
+    setEarliestDate(tempEarliestDate);
+  }, [daysPrior]);
+
+  // State variable for ignoring the API cache
+  const [ignoreCache, setIgnoreCache] = useState<boolean | undefined>();
+
   /**
    * State variable for the number of days to offset each subgraph query with.
    *
@@ -68,6 +82,13 @@ const MetricsDashboard = () => {
     const queryDays = searchParams.get(PARAM_DAYS) || DEFAULT_DAYS.toString();
     setDaysPrior(queryDays);
 
+    // Get the ignoreCache parameter
+    const queryIgnoreCache = searchParams.get("ignoreCache");
+    if (queryIgnoreCache && queryIgnoreCache.toLowerCase() == "true") {
+      console.info("Setting ignoreCache to true");
+      setIgnoreCache(true);
+    }
+
     // Get the token or use the default
     const queryToken = searchParams.get(PARAM_TOKEN) || PARAM_TOKEN_OHM;
     setToken(queryToken);
@@ -85,6 +106,7 @@ const MetricsDashboard = () => {
   const sharedMetricProps: AbstractedMetricProps & MetricSubgraphProps = {
     ...baseMetricProps,
     earliestDate: earliestDate,
+    ignoreCache: ignoreCache,
   };
 
   /**
@@ -156,8 +178,8 @@ const MetricsDashboard = () => {
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and
         treasury assets (below). */}
         <Grid item xs={12} container spacing={1} paddingBottom={"29px"}>
-          {hideToggleSidePadding ? <></> : <Grid item xs={2} sm={3} />}
-          <Grid item xs={8} sm={6} md={5} lg={4} textAlign="center">
+          {hideToggleSidePadding ? <></> : <Grid item xs={1} sm={3} />}
+          <Grid item xs={10} sm={6} md={5} lg={4} textAlign="center">
             <TabBar
               disableRouting
               items={[
@@ -184,7 +206,7 @@ const MetricsDashboard = () => {
               ]}
             />
           </Grid>
-          <Grid item xs={2} sm={3} md={1} />
+          <Grid item xs={1} sm={3} md={1} />
           {/* From here onwards will break onto a new line at the "sm" breakpoint or smaller. */}
           <Grid item xs={3} sm={4} md={3} lg={5} />
           <Grid item xs={6} sm={4} md={3} lg={2} textAlign="center">
@@ -212,27 +234,32 @@ const MetricsDashboard = () => {
               activeToken={token}
               earliestDate={earliestDate}
               subgraphDaysOffset={daysOffset}
+              ignoreCache={ignoreCache}
             />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <TreasuryAssets earliestDate={earliestDate} subgraphDaysOffset={daysOffset} ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <ProtocolOwnedLiquidityGraph earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <ProtocolOwnedLiquidityGraph
+              earliestDate={earliestDate}
+              subgraphDaysOffset={daysOffset}
+              ignoreCache={ignoreCache}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} />
+            <OhmSupply earliestDate={earliestDate} subgraphDaysOffset={daysOffset} ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper {...paperProps} style={paperStyles}>
-            <DataWarning />
+            <DataWarning ignoreCache={ignoreCache} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
@@ -252,7 +279,7 @@ const PageWrapper = () => {
 
   return (
     <>
-      <PageTitle name="Dashboard" />
+      <PageTitle name="Protocol Metrics" subtitle="Confirm protocol health by auditing supply and reserves" />
 
       <Container
         style={{

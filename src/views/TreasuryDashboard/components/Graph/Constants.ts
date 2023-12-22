@@ -4,7 +4,7 @@ import { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalCh
 export const PARAM_DAYS = "days";
 export const DEFAULT_DAYS = 30;
 
-export const DEFAULT_RECORD_COUNT = 1000;
+export const PARAM_IGNORE_CACHE = "ignoreCache";
 
 export const PARAM_TOKEN = "token";
 export const PARAM_TOKEN_OHM = "OHM";
@@ -20,6 +20,7 @@ export type GraphProps = {
   earliestDate: string | null;
   subgraphDaysOffset: number | undefined;
   activeToken?: string;
+  ignoreCache?: boolean;
   onMouseMove?: CategoricalChartFunc;
 };
 

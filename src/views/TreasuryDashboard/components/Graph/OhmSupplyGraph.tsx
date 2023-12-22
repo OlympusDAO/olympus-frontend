@@ -7,33 +7,13 @@ import {
   getCategoriesMap,
   getDataKeyColorsMap,
 } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import {
-  getBondDepositsSupply,
-  getBondPremintedSupply,
-  getBondVestingTokensSupply,
-  getBoostedLiquidityVaultSupply,
-  getExternalSupply,
-  getLendingSupply,
-  getMigrationOffsetSupply,
-  getOhmBackedSupply,
-  getOhmCirculatingSupply,
-  getOhmFloatingSupply,
-  getOhmTotalSupply,
-  getProtocolOwnedLiquiditySupply,
-  getTreasurySupply,
-} from "src/helpers/subgraph/TreasuryQueryHelper";
-import { useProtocolMetricsQuery, useTokenSuppliesQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
+import { useMetricsQuery } from "src/hooks/useFederatedSubgraphQuery";
 import {
   DEFAULT_BULLETPOINT_COLOURS,
   DEFAULT_COLORS,
   GraphProps,
 } from "src/views/TreasuryDashboard/components/Graph/Constants";
 import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpers/ChartHelper";
-import { getDateProtocolMetricMap } from "src/views/TreasuryDashboard/components/Graph/helpers/ProtocolMetricsQueryHelper";
-import {
-  getDateTokenSupplyMap,
-  getLatestTimestamp,
-} from "src/views/TreasuryDashboard/components/Graph/helpers/TokenSupplyQueryHelper";
 
 /**
  * React Component that displays a line graph comparing the
@@ -41,14 +21,13 @@ import {
  *
  * @returns
  */
-export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }: GraphProps) => {
+export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset, ignoreCache }: GraphProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
 
   const chartName = "OhmSupplyGraph";
 
-  const tokenSupplyResults = useTokenSuppliesQueryComplete(earliestDate);
-  const { data: protocolMetricResults } = useProtocolMetricsQuery(earliestDate);
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -77,62 +56,57 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
   };
   const [byDateOhmSupply, setByDateOhmSupply] = useState<OhmSupplyComparison[]>([]);
   useMemo(() => {
-    if (!tokenSupplyResults || !protocolMetricResults) {
+    // While data is loading, ensure dependent data is empty
+    if (!metricResults) {
       return;
     }
 
-    // Extract into a by-date map
-    const byDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
-    const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
-
     console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateOhmSupply: OhmSupplyComparison[] = [];
-    byDateTokenSupplyMap.forEach((dateSupplyValues, dateString) => {
+
+    // Iterate over the records, one record per day
+    metricResults.forEach(metricRecord => {
       /**
        * Non-Ethereum mainnet chains do not have the OHM index, so they return
        * TokenSupply results in terms of gOHM. We supply the OHM index from the
        * protocol metrics query to convert the gOHM values to OHM.
        */
-      const dayProtocolMetricsResults = byDateProtocolMetricMap.get(dateString);
-      if (!dayProtocolMetricsResults || dayProtocolMetricsResults.length == 0) {
-        console.log(`${chartName}: No protocol metrics found for ${dateString}. Skipping.`);
-        return;
-      }
-
-      const ohmIndex: number = +dayProtocolMetricsResults[0].currentIndex;
-
-      const earliestTimestamp = getLatestTimestamp(dateSupplyValues);
-      const latestSupplyValue = dateSupplyValues[0];
 
       const dateOhmSupply: OhmSupplyComparison = {
-        date: dateString,
-        timestamp: earliestTimestamp,
-        block: +latestSupplyValue.block,
-        circulatingSupply: getOhmCirculatingSupply(dateSupplyValues, ohmIndex)[0],
-        floatingSupply: getOhmFloatingSupply(dateSupplyValues, ohmIndex)[0],
-        backedSupply: getOhmBackedSupply(dateSupplyValues, ohmIndex)[0],
-        totalSupply: getOhmTotalSupply(dateSupplyValues, ohmIndex)[0],
-        protocolOwnedLiquidity: getProtocolOwnedLiquiditySupply(dateSupplyValues, ohmIndex)[0],
-        treasury: getTreasurySupply(dateSupplyValues, ohmIndex)[0],
-        migrationOffset: getMigrationOffsetSupply(dateSupplyValues, ohmIndex)[0],
-        bondDeposits: getBondDepositsSupply(dateSupplyValues, ohmIndex)[0],
-        bondVestingTokens: getBondVestingTokensSupply(dateSupplyValues, ohmIndex)[0],
-        bondPreminted: getBondPremintedSupply(dateSupplyValues, ohmIndex)[0],
-        external: getExternalSupply(dateSupplyValues, ohmIndex),
-        lending: getLendingSupply(dateSupplyValues, ohmIndex)[0],
-        boostedLiquidityVault: getBoostedLiquidityVaultSupply(dateSupplyValues, ohmIndex)[0],
+        date: metricRecord.date,
+        timestamp: metricRecord.timestamps.Ethereum * 1000, // convert to ms format
+        block: metricRecord.blocks.Ethereum,
+        circulatingSupply: metricRecord.ohmCirculatingSupply,
+        floatingSupply: metricRecord.ohmFloatingSupply,
+        backedSupply: metricRecord.ohmBackedSupply,
+        totalSupply: metricRecord.ohmTotalSupply,
+        protocolOwnedLiquidity: metricRecord.ohmSupplyCategories.ProtocolOwnedLiquidity,
+        treasury: metricRecord.ohmSupplyCategories.Treasury,
+        migrationOffset: metricRecord.ohmSupplyCategories.MigrationOffset,
+        bondDeposits:
+          metricRecord.ohmSupplyCategories.BondsDepositsVesting + metricRecord.ohmSupplyCategories.BondsDeposits,
+        bondVestingTokens: metricRecord.ohmSupplyCategories.BondsTokensVesting,
+        bondPreminted: metricRecord.ohmSupplyCategories.BondsPreminted,
+        external: metricRecord.ohmBackedSupply,
+        lending: metricRecord.ohmSupplyCategories.LendingMarkets,
+        boostedLiquidityVault: metricRecord.ohmSupplyCategories.BoostedLiquidityVault,
       };
 
       tempByDateOhmSupply.push(dateOhmSupply);
     });
 
     setByDateOhmSupply(tempByDateOhmSupply);
-  }, [tokenSupplyResults, protocolMetricResults]);
+  }, [metricResults]);
 
   // Handle parameter changes
   useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
     setByDateOhmSupply([]);
   }, [earliestDate, subgraphDaysOffset]);
 

@@ -24,6 +24,7 @@ interface ZapSteps {
   swapAmount: string;
   swapAssetType: ModalHandleSelectProps;
   setDepositAmountFromZap: (amount: string) => void;
+  vaultPairTokenName: string;
 }
 export const ZapSteps = ({
   zapIntoAddress,
@@ -33,6 +34,7 @@ export const ZapSteps = ({
   swapAmount,
   swapAssetType,
   setDepositAmountFromZap,
+  vaultPairTokenName,
 }: ZapSteps) => {
   const networks = useTestableNetworks();
   const zeroExSwap = useZeroExSwap();
@@ -165,7 +167,7 @@ export const ZapSteps = ({
               depositIntoVault();
             }}
           >
-            Zap Into wstETH
+            Zap Into {swapAssetType}
           </PrimaryButton>
         </Box>
       ) : (
@@ -177,7 +179,8 @@ export const ZapSteps = ({
           color={theme.colors.gray[40]}
           mt="18px"
         >
-          {currentStep > 4 && <CheckCircleOutline style={{ fontSize: "18px" }} viewBox="0 0 24 24" />} Zap into wstETH
+          {currentStep > 4 && <CheckCircleOutline style={{ fontSize: "18px" }} viewBox="0 0 24 24" />} Zap into
+          {vaultPairTokenName}
         </Box>
       )}
     </>

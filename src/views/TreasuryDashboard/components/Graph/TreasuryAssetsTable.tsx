@@ -1,9 +1,9 @@
-import { useTheme } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { Box, useTheme } from "@mui/material";
+import { DataGrid, GridColDef, GridValueFormatterParams, GridValueGetterParams } from "@mui/x-data-grid";
 import { useEffect, useMemo, useState } from "react";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { renameToken } from "src/helpers/subgraph/ProtocolMetricsHelper";
-import { useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
+import { useMetricsQuery, useTokenRecordsQueryComplete } from "src/hooks/useFederatedSubgraphQuery";
 import { ChartCard } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 import {
   AssetsTableProps,
@@ -24,13 +24,15 @@ export const TreasuryAssetsTable = ({
   isLiquidBackingActive,
   selectedIndex,
   subgraphDaysOffset,
+  ignoreCache,
 }: GraphProps & LiquidBackingProps & AssetsTableProps) => {
   const theme = useTheme();
 
   const queryExplorerUrl = "";
   const chartName = "TreasuryAssetsTable";
 
-  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
+  const { data: metricResults } = useMetricsQuery({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -40,29 +42,53 @@ export const TreasuryAssetsTable = ({
   const [byDateTokenSummary, setByDateTokenSummary] = useState<DateTokenSummary[]>([]);
   const [currentTokens, setCurrentTokens] = useState<TokenRow[]>([]);
   useMemo(() => {
-    if (!tokenRecordResults) {
+    if (!tokenRecordResults || !metricResults) {
+      setByDateTokenSummary([]);
       return;
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
+    // Filter out dust
+    const nonDustRecords = tokenRecordResults.filter(value => parseFloat(value.valueExcludingOhm) > 1);
+
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive
-      ? tokenRecordResults.filter(value => value.isLiquid == true)
-      : tokenRecordResults;
+      ? nonDustRecords.filter(value => value.isLiquid == true)
+      : nonDustRecords;
+
     /**
      * latestOnly is false as the "latest" block is different on each blockchain.
      * They are already filtered by latest block per chain in the useTokenRecordsQueries hook.
      */
     const newDateTokenSummary = getDateTokenRecordSummary(filteredRecords);
+
+    // We want the liquid backing contribution to be shown as liquid backing contribution / backed OHM
+    newDateTokenSummary.forEach(dateTokenSummary => {
+      // Get the metric for the date
+      const currentMetric = metricResults.find(value => value.date == dateTokenSummary.date);
+      if (!currentMetric || currentMetric.ohmBackedSupply == 0) {
+        return;
+      }
+
+      Object.values(dateTokenSummary.tokens).forEach(token => {
+        token.liquidBackingContribution = token.valueExcludingOhm / currentMetric.ohmBackedSupply;
+      });
+    });
+
     setByDateTokenSummary(newDateTokenSummary);
-  }, [isLiquidBackingActive, tokenRecordResults]);
+  }, [isLiquidBackingActive, tokenRecordResults, metricResults]);
 
   // Handle parameter changes
   useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
     setByDateTokenSummary([]);
   }, [earliestDate, subgraphDaysOffset]);
 
@@ -71,6 +97,12 @@ export const TreasuryAssetsTable = ({
    */
   const [headerSubtext, setHeaderSubtext] = useState("");
   useMemo(() => {
+    if (byDateTokenSummary.length == 0) {
+      setCurrentTokens([]);
+      setHeaderSubtext("");
+      return;
+    }
+
     console.debug(`${chartName}: rebuilding current tokens`);
     const currentTokenSummary = byDateTokenSummary[selectedIndex];
     setCurrentTokens(currentTokenSummary ? Object.values(currentTokenSummary.tokens) : []);
@@ -111,29 +143,39 @@ export const TreasuryAssetsTable = ({
       headerName: `Balance`,
       description: `The total balance of the token asset`,
       flex: 0.5,
-      type: "string",
-      sortComparator: (v1, v2) => {
-        // Get rid of all non-number characters
-        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-      },
-      valueGetter: (params: GridValueGetterParams) => formatNumber(parseFloat(params.row.balance)),
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueFormatter: (params: GridValueFormatterParams) => formatNumber(params.value, 0),
+    },
+    {
+      field: "rate",
+      headerName: `Rate`,
+      description: `The rate of the token asset`,
+      flex: 0.5,
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 2),
     },
     {
       field: "value",
       headerName: `Value`,
       description: `The total value of the token asset in USD`,
       flex: 0.5,
-      type: "string",
-      sortComparator: (v1, v2) => {
-        // Get rid of all non-number characters
-        const stripCurrency = (currencyString: string) => currencyString.replaceAll(/[$,]/g, "");
-
-        return parseFloat(stripCurrency(v1)) - parseFloat(stripCurrency(v2));
-      },
-      valueGetter: (params: GridValueGetterParams) =>
-        formatCurrency(parseFloat(isLiquidBackingActive ? params.row.valueExcludingOhm : params.row.value)),
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueGetter: (params: GridValueGetterParams<TokenRow>) =>
+        isLiquidBackingActive ? params.row.valueExcludingOhm : params.row.value,
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value),
+      minWidth: 120,
+    },
+    {
+      field: "liquidBackingContribution",
+      headerName: `Backing Contribution`,
+      description: `The contribution to liquid backing/OHM in USD`,
+      flex: 0.5,
+      type: "number",
+      sortComparator: (v1, v2) => v1 - v2,
+      valueFormatter: (params: GridValueFormatterParams) => formatCurrency(params.value, 2),
       minWidth: 120,
     },
   ];
@@ -152,78 +194,82 @@ export const TreasuryAssetsTable = ({
       subgraphQueryUrl={queryExplorerUrl}
       isLoading={false}
     >
-      <DataGrid
-        autoHeight
-        loading={currentTokens.length == 0}
-        disableRowSelectionOnClick={true}
-        rows={currentTokens}
-        rowHeight={30}
-        columns={columns}
-        pageSizeOptions={[10]}
-        pagination={true}
-        getRowId={row => row.id}
-        // Sort by value descending
-        initialState={{
-          sorting: {
-            sortModel: [{ field: "value", sort: "desc" }],
-          },
-          columns: {
-            // Hide these columns by default
-            columnVisibilityModel: {
-              isLiquid: false,
-              balance: false,
+      <Box width="99%" overflow="scroll">
+        <DataGrid
+          autoHeight
+          loading={currentTokens.length == 0}
+          disableRowSelectionOnClick={true}
+          rows={currentTokens}
+          rowHeight={30}
+          columns={columns}
+          pageSizeOptions={[10]}
+          pagination={true}
+          getRowId={row => row.id}
+          // Sort by value descending
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "value", sort: "desc" }],
             },
-          },
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-        // Only ascending or descending sort
-        sortingOrder={["desc", "asc"]}
-        sx={{
-          "& .MuiDataGrid-columnHeaders": {
-            fontSize: "16px",
-            height: "40px",
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: 800,
-          },
-          "& .MuiDataGrid-cellContent": {
-            fontSize: "14px",
-          },
-          // "& .MuiDataGrid-root" doesn't work here, for some reason
-          "&.MuiDataGrid-root": {
-            paddingLeft: "12px",
-            paddingRight: "12px",
-            border: "0px",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "0px",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "0px",
-          },
-          // Disables outline on clicked cells
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
-          // Disables outline on clicked header cells
-          "& .MuiDataGrid-columnHeader:focus": {
-            outline: "none",
-          },
-        }}
-        componentsProps={{
-          // Fixes #2736
-          // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
-          basePopper: {
-            sx: {
-              backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+            columns: {
+              // Hide these columns by default
+              columnVisibilityModel: {
+                isLiquid: false,
+                balance: false,
+                rate: false,
+                liquidBackingContribution: false,
+              },
             },
-          },
-        }}
-      />
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
+          // Only ascending or descending sort
+          sortingOrder={["desc", "asc"]}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              fontSize: "16px",
+              height: "40px",
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 800,
+            },
+            "& .MuiDataGrid-cellContent": {
+              fontSize: "14px",
+            },
+            // "& .MuiDataGrid-root" doesn't work here, for some reason
+            "&.MuiDataGrid-root": {
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              border: "0px",
+            },
+            "& .MuiDataGrid-columnSeparator": {
+              display: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "0px",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "0px",
+            },
+            // Disables outline on clicked cells
+            "& .MuiDataGrid-cell:focus": {
+              outline: "none",
+            },
+            // Disables outline on clicked header cells
+            "& .MuiDataGrid-columnHeader:focus": {
+              outline: "none",
+            },
+          }}
+          componentsProps={{
+            // Fixes #2736
+            // Hacky workaround for a transparent menu thanks to: https://github.com/mui/mui-x/issues/3686#issuecomment-1019855001
+            basePopper: {
+              sx: {
+                backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.paper.cardHover,
+              },
+            },
+          }}
+        />
+      </Box>
     </ChartCard>
   );
 };

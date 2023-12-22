@@ -1,0 +1,871 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "ohm_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "gohm_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "staking_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "sdai_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerFactory_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "kernel_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "BadEscrow"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "DurationMaximum"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
+        }
+      ],
+      "type": "error",
+      "name": "KernelAdapter_OnlyKernel"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "LengthDiscrepancy"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "NotLender"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "OnlyBorrower"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "OnlyBurnable"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "OnlyFromFactory"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Keycode",
+          "name": "keycode_",
+          "type": "bytes5"
+        }
+      ],
+      "type": "error",
+      "name": "Policy_ModuleDoesNotExist"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "TooEarlyToFund"
+    },
+    {
+      "inputs": [],
+      "type": "event",
+      "name": "Deactivate",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address",
+          "indexed": false
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "Defund",
+      "anonymous": false
+    },
+    {
+      "inputs": [],
+      "type": "event",
+      "name": "Reactivate",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "defund",
+          "type": "bool",
+          "indexed": false
+        },
+        {
+          "internalType": "uint256",
+          "name": "daiAmount",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "Rebalance",
+      "anonymous": false
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "DURATION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "FUND_AMOUNT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "FUND_CADENCE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "INTEREST_RATE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "LOAN_TO_COLLATERAL",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "MAX_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "MINTR",
+      "outputs": [
+        {
+          "internalType": "contract MINTRv1",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "ROLES",
+      "outputs": [
+        {
+          "internalType": "contract ROLESv1",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "TRSRY",
+      "outputs": [
+        {
+          "internalType": "contract TRSRYv1",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "active",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "burn"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "newKernel_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "changeKernel"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "coolers_",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "loans_",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "claimDefaulted"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "configureDependencies",
+      "outputs": [
+        {
+          "internalType": "Keycode[]",
+          "name": "dependencies",
+          "type": "bytes5[]"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "dai",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "token_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "defund"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "emergencyShutdown"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Cooler",
+          "name": "cooler_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "times_",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "extendLoan"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "factory",
+      "outputs": [
+        {
+          "internalType": "contract CoolerFactory",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "fundTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "principal_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function",
+      "name": "getCollateralForLoan",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "collateral_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function",
+      "name": "getLoanForCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "getTotalReceivables",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "gohm",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "principal_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function",
+      "name": "interestForLoan",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "interestReceivables",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "isActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "pure",
+      "type": "function",
+      "name": "isCoolerCallback",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "kernel",
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Cooler",
+          "name": "cooler_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "lendToCooler",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "ohm",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "principle",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "onDefault"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "principlePaid_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interestPaid_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "onRepay"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "principalReceivables",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "reactivate"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "rebalance",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "internalType": "struct Permissions[]",
+          "name": "requests",
+          "type": "tuple[]",
+          "components": [
+            {
+              "internalType": "Keycode",
+              "name": "keycode",
+              "type": "bytes5"
+            },
+            {
+              "internalType": "bytes4",
+              "name": "funcSelector",
+              "type": "bytes4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "sdai",
+      "outputs": [
+        {
+          "internalType": "contract ERC4626",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "staking",
+      "outputs": [
+        {
+          "internalType": "contract IStaking",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "sweepIntoDSR"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "claimDefaulted(address[],uint256[])": {
+        "details": "Implements an auction style reward system that linearly increases up to a max reward.",
+        "params": {
+          "coolers_": "Array of contracts where the default must be claimed.",
+          "loans_": "Array of defaulted loan ids."
+        }
+      },
+      "configureDependencies()": {
+        "details": "This function will be called when the `executor` installs the Clearinghouse         policy in the olympus-v3 `Kernel`."
+      },
+      "defund(address,uint256)": {
+        "params": {
+          "amount_": "to transfer.",
+          "token_": "to transfer."
+        }
+      },
+      "extendLoan(address,uint256,uint8)": {
+        "params": {
+          "cooler_": "holding the loan to be extended.",
+          "loanID_": "index of loan in loans[].",
+          "times_": "Amount of times that the fixed-term loan duration is extended."
+        }
+      },
+      "getLoanForCollateral(uint256)": {
+        "params": {
+          "collateral_": "amount of gOHM."
+        },
+        "returns": {
+          "_0": "debt (amount to be lent + interest) for a given collateral amount."
+        }
+      },
+      "interestForLoan(uint256,uint256)": {
+        "params": {
+          "duration_": "elapsed time in seconds.",
+          "principal_": "amount of DAI being lent."
+        }
+      },
+      "lendToCooler(address,uint256)": {
+        "details": "To simplify the UX and easily ensure that all holders get the same terms,         this function requests a new loan and clears it in the same transaction.",
+        "params": {
+          "amount_": "of DAI to lend.",
+          "cooler_": "to lend to."
+        },
+        "returns": {
+          "_0": "the id of the granted loan."
+        }
+      },
+      "rebalance()": {
+        "details": "Exposure is always capped at FUND_AMOUNT and rebalanced at up to FUND_CADANCE.         If several rebalances are available (because some were missed), calling this         function several times won't impact the funds controlled by the contract.         If the emergency shutdown is triggered, a rebalance will send funds back to         the treasury.",
+        "returns": {
+          "_0": "False if too early to rebalance. Otherwise, true."
+        }
+      },
+      "requestPermissions()": {
+        "details": "This function will be called when the `executor` installs the Clearinghouse         policy in the olympus-v3 `Kernel`."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "active()": {
+        "notice": "determines whether the contract can be funded or not."
+      },
+      "burn()": {
+        "notice": "Burn any gOHM defaulted using the Cooler instead of the Clearinghouse."
+      },
+      "changeKernel(address)": {
+        "notice": "Function used by kernel when migrating to a new kernel."
+      },
+      "claimDefaulted(address[],uint256[])": {
+        "notice": "Batch several default claims to save gas.         The elements on both arrays must be paired based on their index."
+      },
+      "configureDependencies()": {
+        "notice": "Default framework setup. Configure dependencies for olympus-v3 modules."
+      },
+      "defund(address,uint256)": {
+        "notice": "Return funds to treasury."
+      },
+      "emergencyShutdown()": {
+        "notice": "Deactivate the contract and return funds to treasury."
+      },
+      "extendLoan(address,uint256,uint8)": {
+        "notice": "Extend the loan expiry by repaying the extension interest in advance."
+      },
+      "fundTime()": {
+        "notice": "timestamp at which the next rebalance can occur."
+      },
+      "getCollateralForLoan(uint256)": {
+        "notice": "view function computing collateral for a loan amount."
+      },
+      "getLoanForCollateral(uint256)": {
+        "notice": "view function computing loan for a collateral amount."
+      },
+      "getTotalReceivables()": {
+        "notice": "Get total receivable DAI for the treasury.         Includes both principal and interest."
+      },
+      "interestForLoan(uint256,uint256)": {
+        "notice": "view function to compute the interest for given principal amount."
+      },
+      "interestReceivables()": {
+        "notice": "Outstanding receivables. Incremented when a loan is taken or rolled. Decremented when a loan is repaid or collateral is burned."
+      },
+      "isActive()": {
+        "notice": "Easily accessible indicator for if a policy is activated or not."
+      },
+      "isCoolerCallback()": {
+        "notice": "Informs to Cooler that this contract can handle its callbacks."
+      },
+      "lendToCooler(address,uint256)": {
+        "notice": "Lend to a cooler."
+      },
+      "onDefault(uint256,uint256,uint256,uint256)": {
+        "notice": "Callback function that handles defaults."
+      },
+      "onRepay(uint256,uint256,uint256)": {
+        "notice": "Callback function that handles repayments."
+      },
+      "reactivate()": {
+        "notice": "Reactivate the contract."
+      },
+      "rebalance()": {
+        "notice": "Fund loan liquidity from treasury."
+      },
+      "requestPermissions()": {
+        "notice": "Default framework setup. Request permissions for interacting with olympus-v3 modules."
+      },
+      "sweepIntoDSR()": {
+        "notice": "Sweep excess DAI into vault."
+      }
+    },
+    "version": 1
+  }
+}

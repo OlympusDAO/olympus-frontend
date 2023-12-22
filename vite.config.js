@@ -5,6 +5,7 @@ import polyfillNode from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
+import transformPlugin from "vite-plugin-transform";
 
 export default ({ mode }) => {
   return defineConfig({
@@ -15,6 +16,18 @@ export default ({ mode }) => {
       viteTsconfigPaths(),
       svgrPlugin(),
       { ...polyfillNode({ fs: true }), enforce: "post" },
+      transformPlugin({
+        tStart: "%{",
+        tEnd: "}%",
+        replace: {
+          "COOLER_LOANS_API_ENDPOINT":
+            process.env.VITE_COOLER_LOANS_API_ENDPOINT ?
+              process.env.VITE_COOLER_LOANS_API_ENDPOINT :
+              mode === "development" ?
+                "https://olympus-cooler-loans-api-dev.web.app" : // Avoids CORS errors during local development
+                "https://olympus-cooler-loans-api-prod.web.app", // Used in production builds
+        },
+      }),
     ],
     resolve: {
       alias: {
@@ -43,7 +56,8 @@ export default ({ mode }) => {
         "src/testWagmiUtils.tsx",
       ],
       coverage: {
-        provider: "c8", // or 'c8'
+        provider: "v8",
+        reporter: ["text", "json", "html", "lcov", "json-summary", "text-summary"],
       },
     },
     optimizeDeps: {

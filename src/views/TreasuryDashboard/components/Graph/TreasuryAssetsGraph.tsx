@@ -50,12 +50,13 @@ export const TreasuryAssetsGraph = ({
   onMouseMove,
   isLiquidBackingActive,
   subgraphDaysOffset,
+  ignoreCache,
 }: GraphProps & LiquidBackingProps) => {
   const queryExplorerUrl = "";
   const theme = useTheme();
   const chartName = "TreasuryAssetsGraph";
 
-  const tokenRecordResults = useTokenRecordsQueryComplete(earliestDate);
+  const tokenRecordResults = useTokenRecordsQueryComplete({ startDate: earliestDate, ignoreCache: ignoreCache });
 
   /**
    * Chart population:
@@ -117,8 +118,13 @@ export const TreasuryAssetsGraph = ({
 
   // Handle parameter changes
   useEffect(() => {
-    // useSubgraphTokenRecords will handle the re-fetching
-    console.info(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
+    if (!earliestDate || !subgraphDaysOffset) {
+      return;
+    }
+
+    console.debug(
+      `${chartName}: earliestDate or subgraphDaysOffset was changed to ${earliestDate}, ${subgraphDaysOffset}. Removing cached data.`,
+    );
     setByDateMetrics([]);
   }, [earliestDate, subgraphDaysOffset]);
 

@@ -26,7 +26,7 @@ import {
 } from "src/components/Chart/IntersectionHelper";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { getFloat } from "src/helpers/NumberHelper";
-import { getMaximumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
+import { getMaximumValue, getMinimumValue, objectHasProperty } from "src/helpers/subgraph/ProtocolMetricsHelper";
 import { ChartCard, DEFAULT_HEIGHT } from "src/views/TreasuryDashboard/components/Graph/ChartCard";
 
 const TICK_COUNT = 5;
@@ -47,6 +47,10 @@ export const formatCurrencyTick = (value: unknown): string => {
 
   if (valueNum > 1000) {
     return `${formatCurrency(valueNum / 1000)}k`;
+  }
+
+  if (valueNum > 100) {
+    return `${formatCurrency(valueNum)}`;
   }
 
   return formatCurrency(valueNum, 2);
@@ -109,6 +113,7 @@ const renderAreaChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
@@ -143,7 +148,7 @@ const renderAreaChart = (
         tick={tickStyle}
         width={dataFormat == DataFormat.Percentage ? 33 : 55}
         tickFormatter={number => getTickFormatter(dataFormat, number)}
-        domain={[0, maximumYValue]}
+        domain={[minimumYValue, maximumYValue]}
         dx={3}
         allowDataOverflow={false}
       />
@@ -191,6 +196,7 @@ const renderStackedAreaChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
@@ -225,7 +231,7 @@ const renderStackedAreaChart = (
       tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, maximumYValue]}
+      domain={[minimumYValue, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -268,6 +274,7 @@ const renderComposedChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   composedLineDataKeys?: string[],
@@ -303,7 +310,7 @@ const renderComposedChart = (
       tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
       tickLine={false}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, maximumYValue]}
+      domain={[minimumYValue, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -362,6 +369,7 @@ const renderLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   scale?: string,
   displayTooltipTotal?: boolean,
@@ -388,7 +396,7 @@ const renderLineChart = (
         width={32}
         scale={() => scale}
         axisLine={false}
-        domain={[scale == "log" ? "dataMin" : 0, maximumYValue]}
+        domain={[scale == "log" ? "dataMin" : minimumYValue, maximumYValue]}
         allowDataOverflow={false}
         // Ticks
         tick={tickStyle}
@@ -448,6 +456,7 @@ const renderAreaDifferenceChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
@@ -536,7 +545,7 @@ const renderAreaDifferenceChart = (
         tickLine={false}
         width={25}
         tickFormatter={number => getTickFormatter(dataFormat, number)}
-        domain={[0, maximumYValue]}
+        domain={[minimumYValue, maximumYValue]}
         allowDataOverflow={false}
       />
       <Tooltip
@@ -577,6 +586,7 @@ const renderMultiLineChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   itemDecimals?: number,
   displayTooltipTotal?: boolean,
@@ -602,7 +612,7 @@ const renderMultiLineChart = (
       tick={tickStyle}
       width={25}
       tickFormatter={number => getTickFormatter(dataFormat, number)}
-      domain={[0, maximumYValue]}
+      domain={[minimumYValue, maximumYValue]}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -642,13 +652,11 @@ const renderBarChart = (
   isExpanded: boolean,
   margin: CategoricalChartProps["margin"],
   tickStyle: Record<string, string | number>,
+  minimumYValue: number,
   maximumYValue: number,
   displayTooltipTotal?: boolean,
   onMouseMove?: CategoricalChartFunc,
 ) => {
-  const dataKey = dataKeys[0];
-  const dataKeyColor = dataKeyColors.get(dataKey);
-
   return (
     <BarChart data={data} margin={margin} onMouseMove={onMouseMove}>
       <XAxis
@@ -669,9 +677,9 @@ const renderBarChart = (
         tickLine={false}
         tickCount={isExpanded ? TICK_COUNT_EXPANDED : TICK_COUNT}
         width={33}
-        domain={[0, maximumYValue]}
+        domain={[minimumYValue, maximumYValue]}
         allowDataOverflow={false}
-        tickFormatter={number => (number !== 0 ? number : "")}
+        tickFormatter={number => getTickFormatter(dataFormat, number)}
       />
       <Tooltip
         content={
@@ -684,7 +692,9 @@ const renderBarChart = (
           />
         }
       />
-      <Bar dataKey={dataKey} fill={dataKeyColor} />
+      {dataKeys.map((value: string) => {
+        return <Bar key={value} dataKey={value} fill={dataKeyColors.get(value)} stackId="1" />;
+      })}
     </BarChart>
   );
 };
@@ -699,6 +709,7 @@ function Chart({
   type,
   data,
   scale,
+  minimumYValue = 0,
   dataKeys,
   dataKeyColors,
   headerText,
@@ -724,6 +735,7 @@ function Chart({
   type: ChartType;
   data: Record<string, unknown>[];
   scale?: string;
+  minimumYValue?: number | "dataMin";
   /** string array with all of the dataKeys that should be rendered */
   dataKeys: string[];
   /** mapping of data keys to colors used for stroke/fill */
@@ -748,6 +760,7 @@ function Chart({
 }) {
   const [open, setOpen] = useState(false);
   const [maximumYValue, setMaximumYValue] = useState(0.0);
+  const [calculatedMinimumYValue, setCalculatedMinimumYValue] = useState(0.0);
 
   /**
    * Recharts has a bug where using "auto" or "dataMax" as the
@@ -764,10 +777,31 @@ function Chart({
       return;
     }
 
-    const tempMaxValue = getMaximumValue(data, dataKeys, type, composedLineDataKeys);
-    // Give a bit of a buffer
-    setMaximumYValue(tempMaxValue * 1.1);
+    // Get the maximum value, apply a buffer and get the nearest whole number above it
+    const maxValue = getMaximumValue(data, dataKeys, type, composedLineDataKeys);
+    const tempMaxValue = Math.ceil(maxValue * 1.1);
+    setMaximumYValue(tempMaxValue);
   }, [data, dataKeys, type, composedLineDataKeys]);
+
+  /**
+   * Calculate a minimum value for the Y-Axis.
+   */
+  useMemo(() => {
+    if (!data || !data.length) {
+      setCalculatedMinimumYValue(0.0);
+      return;
+    }
+
+    if (minimumYValue !== "dataMin") {
+      setCalculatedMinimumYValue(minimumYValue);
+      return;
+    }
+
+    // Get the minimum value, apply a buffer and get the nearest whole number below it
+    const minValue = getMinimumValue(data, dataKeys, type, composedLineDataKeys);
+    const tempMinValue = Math.floor(minValue * 0.9);
+    setCalculatedMinimumYValue(tempMinValue);
+  }, [data, dataKeys, type, composedLineDataKeys, minimumYValue]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -790,6 +824,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           scale,
           displayTooltipTotal,
@@ -807,6 +842,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           displayTooltipTotal,
           onMouseMove,
@@ -823,6 +859,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           displayTooltipTotal,
           onMouseMove,
@@ -839,6 +876,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           itemDecimals,
           displayTooltipTotal,
@@ -856,6 +894,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           itemDecimals,
           displayTooltipTotal,
@@ -873,6 +912,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           displayTooltipTotal,
           onMouseMove,
@@ -889,6 +929,7 @@ function Chart({
           isExpanded,
           margin,
           tickStyle,
+          calculatedMinimumYValue,
           maximumYValue,
           displayTooltipTotal,
           composedLineDataKeys,

@@ -16,6 +16,13 @@ export class Environment {
     return args.first ? value : value.split(" ");
   }
 
+  public static getWalletConnectProjectId = () =>
+    this._get({
+      first: true,
+      key: "VITE_WALLETCONNECT_PROJECT_ID",
+      err: "Please provide a VITE_WALLETCONNECT_PROJECT_ID in your .env file",
+    });
+
   public static getGoogleAnalyticsApiKey = () =>
     this._get({
       first: true,
@@ -103,11 +110,6 @@ export class Environment {
         return this._get({
           key: `VITE_ARBITRUM_NODE_URL`,
           fallback: "https://rpc.ankr.com/arbitrum",
-        });
-      case NetworkId.ARBITRUM_TESTNET:
-        return this._get({
-          key: `VITE_ARBITRUM_TESTNET_NODE_URL`,
-          fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
         });
       case NetworkId.ARBITRUM_GOERLI:
         return this._get({

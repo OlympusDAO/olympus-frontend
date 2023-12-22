@@ -14,15 +14,14 @@ import { useEffect, useState } from "react";
 import { getISO8601String } from "src/helpers/DateHelper";
 import { TokenRecord, useTokenRecordsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
 
-const getDateFromTimestamp = (timestamp: string): Date => {
+const getDateFromTimestamp = (timestamp: string | number): Date => {
   return new Date(+timestamp * 1000);
 };
 
 /**
- * React Component that renders the contents of a Markdown file
- * and displays them in a notification banner.
+ * React Component that displays the latest date for each chain's data.
  */
-const DataWarning = (): JSX.Element => {
+const DataWarning = ({ ignoreCache }: { ignoreCache?: boolean }): JSX.Element => {
   const theme = useTheme();
   const columnHeaderColor = theme.palette.text.primary;
 
@@ -30,7 +29,7 @@ const DataWarning = (): JSX.Element => {
 
   // Query hooks
   // This will get the absolute latest records from each blockchain, without any filtering
-  const { data: latestRecordsQuery } = useTokenRecordsLatestQuery();
+  const { data: latestRecordsQuery } = useTokenRecordsLatestQuery({ ignoreCache });
 
   // State variables
   const [isWarningEnabled, setIsWarningEnabled] = useState(false);
@@ -139,7 +138,17 @@ const DataWarning = (): JSX.Element => {
                   </TableRow>
                 ))
               ) : (
-                <Skeleton />
+                <TableRow>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>

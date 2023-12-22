@@ -97,10 +97,6 @@ export const YourAmoDeposits = ({ vaults }: { vaults: VaultInfo[] }) => {
 
   return (
     <>
-      <Box mb="21px" mt="9px">
-        <Typography variant="h1">Your Positions</Typography>
-        <p>Claim rewards or withdraw from your Single Sided Vault deposits.</p>
-      </Box>
       {activeVaults.length === 0 ? (
         <>
           <Box mb="18px" pt="18px" display="flex" justifyContent="center" flexDirection="column" alignItems="center">
