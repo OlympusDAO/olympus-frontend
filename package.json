@@ -73,7 +73,7 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bytes": "^5.6.1",
-    "@redocly/cli": "^1.2.0",
+    "@redocly/cli": "^1.6.0",
     "@tanstack/react-query-devtools": "^4.19.1",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/react": "^12.1.5",
