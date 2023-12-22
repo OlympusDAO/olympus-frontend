@@ -1,8 +1,8 @@
 import { Grid, Link, Skeleton, SvgIcon, Typography } from "@mui/material";
 import { InfoTooltip, Tooltip } from "@olympusdao/component-library";
 import { ReactElement } from "react";
-import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
-import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
+import Fullscreen from "src/assets/icons/fullscreen.svg?react";
+import GraphLogo from "src/assets/icons/graph-grt-logo.svg?react";
 
 type ChartCardProps = {
   headerText: string;

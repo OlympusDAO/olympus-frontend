@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import ArrowUp from "src/assets/icons/arrow-up.svg?react";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";
 import { useScreenSize } from "src/hooks/useScreenSize";

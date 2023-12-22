@@ -1,7 +1,7 @@
 // import "src/components/TopBar/TopBar.scss";
 
 import { Box, Button, SvgIcon, useMediaQuery, useTheme } from "@mui/material";
-import { ReactComponent as MenuIcon } from "src/assets/icons/hamburger.svg";
+import MenuIcon from "src/assets/icons/hamburger.svg?react";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import ThemeSwitcher from "src/components/TopBar/ThemeSwitch";
 
