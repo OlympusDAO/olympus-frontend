@@ -65,7 +65,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.10.3",
     "tinycolor2": "^1.6.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.3",
     "wagmi": "^0.12.19"
   },
   "devDependencies": {
