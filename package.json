@@ -66,7 +66,7 @@
     "recharts": "^2.7.2",
     "tinycolor2": "^1.6.0",
     "typescript": "^5.2.2",
-    "wagmi": "^0.12.16"
+    "wagmi": "^0.12.19"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
