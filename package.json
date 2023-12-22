@@ -96,7 +96,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/ui": "^0.34.7",
     "assert": "^2.1.0",
-    "autoprefixer": "^10.4.15",
+    "autoprefixer": "^10.4.16",
     "css-mediaquery": "^0.1.2",
     "dotenv": "^16.3.1",
     "eslint": "^8.43.0",
