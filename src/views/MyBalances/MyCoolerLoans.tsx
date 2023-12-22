@@ -2,7 +2,7 @@ import { Box, Divider, LinearProgress, Link, SvgIcon, Typography, useTheme } fro
 import { Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { Link as RouterLink } from "react-router-dom";
-import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
+import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";

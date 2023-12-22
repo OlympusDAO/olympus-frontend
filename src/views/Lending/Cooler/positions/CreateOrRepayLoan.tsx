@@ -2,7 +2,7 @@ import { Box, Divider, SvgIcon } from "@mui/material";
 import { Modal, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
-import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
+import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatNumber } from "src/helpers";
@@ -253,11 +253,11 @@ export const CreateOrRepayLoan = ({
                     ? Number(paymentAmount) > Number(loanPayable)
                       ? `Payback Amount exceeds Loan`
                       : Number(paymentAmount.toString()) > Number(maxYouCanBorrow)
-                      ? `Insufficient Funds for Repayment`
-                      : `Repay Loan`
+                        ? `Insufficient Funds for Repayment`
+                        : `Repay Loan`
                     : Number(paymentAmount.toString()) > maxYouCanBorrow
-                    ? `Amount requested exceeds capacity`
-                    : `Borrow DAI & Open Position`}
+                      ? `Amount requested exceeds capacity`
+                      : `Borrow DAI & Open Position`}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             )}

@@ -2,7 +2,7 @@ import { Box, Link, SvgIcon } from "@mui/material";
 import { Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBorrow.svg";
+import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { useDelegateVoting } from "src/views/Lending/Cooler/hooks/useDelegateVoting";
 import { useNetwork } from "wagmi";
