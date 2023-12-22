@@ -126,7 +126,7 @@
     "prop-types": "^15.8.1",
     "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
-    "sass": "^1.60.0",
+    "sass": "^1.69.5",
     "shelljs": "^0.8.5",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
