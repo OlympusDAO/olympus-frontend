@@ -37,13 +37,6 @@ export class Environment {
       err: "Please provide an Google Analytics 4 API key in your .env file",
     });
 
-  public static getCovalentApiKey = () =>
-    this._get({
-      first: true,
-      key: "VITE_COVALENT_API_KEY",
-      err: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
-    });
-
   public static getZapperApiKey = () =>
     this._get({
       first: true,
@@ -68,31 +61,6 @@ export class Environment {
       key: "VITE_STAGING_ENV",
       fallback: "false",
     });
-
-  public static getArchiveNodeUrl = (networkId: number) => {
-    switch (networkId) {
-      case NetworkId.MAINNET:
-        return this._get({
-          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ETHEREUM_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.TESTNET_GOERLI:
-        return this._get({
-          key: `VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.ARBITRUM_GOERLI:
-        return this._get({
-          key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.ARBITRUM:
-        return this._get({
-          key: `VITE_ARBITRUM_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ARBITRUM_ARCHIVE_NODE_URL for governance to function properly",
-        });
-    }
-  };
 
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {

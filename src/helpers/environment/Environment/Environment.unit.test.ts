@@ -61,16 +61,6 @@ describe("Environment", () => {
     });
   });
 
-  describe("WalletNewsDisabled", () => {
-    it("should return WalletNewsDisabled", () => {
-      import.meta.env.VITE_DISABLE_NEWS = "true";
-      expect(Environment.isWalletNewsEnabled()).toEqual(false);
-
-      import.meta.env.VITE_DISABLE_NEWS = "false";
-      expect(Environment.isWalletNewsEnabled()).toEqual(true);
-    });
-  });
-
   describe("Node URLs", () => {
     it("should return appropriate NodeURLs by default", () => {
       expect(Environment.getNodeUrls(NetworkId.MAINNET)).not.toBeUndefined();
