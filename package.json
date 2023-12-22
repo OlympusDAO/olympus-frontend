@@ -50,7 +50,7 @@
     "ethers": "^5.7.2",
     "get-value": "^3.0.1",
     "graphql": "^15.8.0",
-    "graphql-request": "^5.2.0",
+    "graphql-request": "^6.1.0",
     "graphql-tag": "^2.0.0",
     "luxon": "^3.3.0",
     "react": "17.0.2",
