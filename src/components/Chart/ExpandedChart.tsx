@@ -2,7 +2,7 @@ import { Grid, Link, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/m
 import { Modal, Tooltip } from "@olympusdao/component-library";
 import React, { useEffect } from "react";
 import { ResponsiveContainer } from "recharts";
-import { ReactComponent as GraphLogo } from "src/assets/icons/graph-grt-logo.svg";
+import GraphLogo from "src/assets/icons/graph-grt-logo.svg?react";
 
 const ExpandedChart = ({
   open,
