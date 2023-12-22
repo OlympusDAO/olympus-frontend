@@ -88,7 +88,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.2.18",
     "@types/react-router-dom": "^5.3.3",
-    "@types/shelljs": "^0.8.12",
+    "@types/shelljs": "^0.8.15",
     "@types/tinycolor2": "^1.4.6",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
