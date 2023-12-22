@@ -37,7 +37,7 @@
     "@olympusdao/component-library": "3.1.7",
     "@olympusdao/treasury-subgraph-client": "^1.1.0",
     "@rainbow-me/rainbowkit": "^0.12.18",
-    "@reduxjs/toolkit": "^1.9.3",
+    "@reduxjs/toolkit": "^2.0.1",
     "@tanstack/react-query": "^4.2.3",
     "@types/recharts": "^1.8.24",
     "@vitejs/plugin-react-swc": "^3.3.2",
