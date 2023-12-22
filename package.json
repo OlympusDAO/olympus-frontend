@@ -114,7 +114,7 @@
     "happy-dom": "^12.10.3",
     "https-browserify": "^1.0.0",
     "husky": "^8.0.3",
-    "jsdom": "^21.1.1",
+    "jsdom": "^23.0.1",
     "less-plugin-npm-import": "^2.1.0",
     "lint-staged": "^14.0.1",
     "node-watch": "^0.7.4",
