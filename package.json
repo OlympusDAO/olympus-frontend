@@ -76,7 +76,7 @@
     "@redocly/cli": "^1.6.0",
     "@tanstack/react-query-devtools": "^4.19.1",
     "@testing-library/dom": "^9.3.3",
-    "@testing-library/react": "^12.1.5",
+    "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
     "@typechain/ethers-v5": "^11.1.2",
     "@types/css-mediaquery": "^0.1.4",
