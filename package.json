@@ -80,7 +80,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@typechain/ethers-v5": "^10.2.1",
     "@types/css-mediaquery": "^0.1.1",
-    "@types/get-value": "^3.0.3",
+    "@types/get-value": "^3.0.5",
     "@types/graphql": "^14.5.0",
     "@types/luxon": "^3.3.7",
     "@types/markdown-it": "^12.2.3",
