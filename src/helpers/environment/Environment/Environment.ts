@@ -37,14 +37,6 @@ export class Environment {
       err: "Please provide an Google Analytics 4 API key in your .env file",
     });
 
-  public static getZapperApiKey = () =>
-    this._get({
-      first: true,
-      key: "VITE_ZAPPER_API",
-      // NOTE: default Zapper API key. Won't work in production with any real volume of usage.
-      fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
-    });
-
   public static getWundergraphNodeUrl = (): string | undefined =>
     this._get({
       first: true,
@@ -136,8 +128,4 @@ export class Environment {
         });
     }
   };
-
-  public static isWalletNewsEnabled() {
-    return this.env.VITE_DISABLE_NEWS !== "true";
-  }
 }

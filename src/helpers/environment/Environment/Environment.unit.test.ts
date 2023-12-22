@@ -44,13 +44,6 @@ describe("Environment", () => {
     });
   });
 
-  describe("Zapper", () => {
-    it("should return a Zapper API key", () => {
-      import.meta.env.VITE_ZAPPER_API = "somekey";
-      expect(Environment.getZapperApiKey()).toEqual("somekey");
-    });
-  });
-
   describe("StagingEnv", () => {
     it("should return a StagingEnv", () => {
       import.meta.env.VITE_STAGING_ENV = "false";
