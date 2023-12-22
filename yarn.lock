@@ -4477,10 +4477,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/recharts@^1.8.24":
-  version "1.8.24"
-  resolved "https://registry.npmjs.org/@types/recharts/-/recharts-1.8.24.tgz"
-  integrity sha512-PGugStujgxjMOUUJuGIrw71MIhTtl/FeNzuWZVDTS7Kq8NdiQfMrlC6GXJIvlQcrsUIn9IcXbi6sZJjK+6kfLQ==
+"@types/recharts@^1.8.29":
+  version "1.8.29"
+  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.8.29.tgz#5e117521a65bf015b808350b45b65553ff5011f3"
+  integrity sha512-ulKklaVsnFIIhTQsQw226TnOibrddW1qUQNFVhoQEyY1Z7FRQrNecFCGt7msRuJseudzE9czVawZb17dK/aPXw==
   dependencies:
     "@types/d3-shape" "^1"
     "@types/react" "*"
