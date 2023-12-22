@@ -124,7 +124,7 @@
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^15.2.0",
+    "lint-staged": "^14.0.1",
     "node-watch": "^0.7.4",
     "orval": "^6.23.0",
     "os-browserify": "^0.3.0",
