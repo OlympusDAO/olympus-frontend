@@ -7,6 +7,7 @@ import { ReactComponent as lendAndBorrowIcon } from "src/assets/icons/lendAndBor
 import { ReactComponent as OlympusIcon } from "src/assets/icons/olympus-nav-header.svg";
 import NavItem from "src/components/library/NavItem";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { DetermineRangeDiscount } from "src/views/Range/hooks";
@@ -29,6 +30,7 @@ const NavContent: React.VFC = () => {
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
 
+  const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -50,7 +52,7 @@ const NavContent: React.VFC = () => {
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
               <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
-              <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />
+              {protocolMetricsEnabled && <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />}
               {chain.id === networks.MAINNET ? (
                 <>
                   <NavItem
