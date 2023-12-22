@@ -91,7 +91,7 @@
     "@types/shelljs": "^0.8.12",
     "@types/tinycolor2": "^1.4.6",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react": "^4.0.4",
     "@vitest/ui": "^0.34.7",
