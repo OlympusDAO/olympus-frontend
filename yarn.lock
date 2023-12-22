@@ -4112,10 +4112,10 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.0.tgz"
   integrity sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==
 
-"@types/get-value@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/@types/get-value/-/get-value-3.0.3.tgz"
-  integrity sha512-jsTl/XtZumQfYgn50a0fPkpIyF2xvpsyzZmSLrrwXR8NWiDlw4N5XJiGQYrLckZGGUvbIr920Hz2wqmH1ZfjlQ==
+"@types/get-value@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/get-value/-/get-value-3.0.5.tgz#4ea0e0b0a31c256636b3e7e0026c2ad38baea6f6"
+  integrity sha512-+o8nw0TId5cDwtdVrhlc8rvzaxbCU+JksFeu8ZunY9vUaODxngXiNceTFj2gkSwGWNRpe3PtaSWt1y0VB71PvA==
 
 "@types/glob@^7.1.3", "@types/glob@~7.2.0":
   version "7.2.0"
