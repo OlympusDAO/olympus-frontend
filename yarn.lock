@@ -7489,10 +7489,10 @@ eslint-plugin-no-relative-import-paths@^1.5.3:
   resolved "https://registry.yarnpkg.com/eslint-plugin-no-relative-import-paths/-/eslint-plugin-no-relative-import-paths-1.5.3.tgz#8c7fa79aa5ba10da0d8d79ce973c6db37385cb0d"
   integrity sha512-z7c7Km1U0zdLyPziWeRKSsN2mPaGaBHDjfXn98B8XjRIhFi2bPqduRYcxWih1kI5al5tQtiChXVmspLkB0wNsQ==
 
-eslint-plugin-prettier@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.0.0.tgz#6887780ed95f7708340ec79acfdf60c35b9be57a"
-  integrity sha512-AgaZCVuYDXHUGxj/ZGu1u8H8CYgDY3iG6w5kUFw4AzMVXzB7VvbKgYR4nATIN+OvUrghMbiDLeimVjVY5ilq3w==
+eslint-plugin-prettier@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.1.1.tgz#ab7d9823788b557ff7ccdd50a5849d7760cb8bef"
+  integrity sha512-WQpV3mSmIobb77s4qiCZu3dBrZZ0rj8ckSfBtRrgNK9Wnh2s3eiaxNTWloz1LJ1WtvqZES/PAI7PLvsrGt/CEA==
   dependencies:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.5"
