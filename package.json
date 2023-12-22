@@ -47,7 +47,7 @@
     "date-fns-tz": "^2.0.0",
     "ethers": "^5.7.2",
     "get-value": "^3.0.1",
-"graphql-request": "^6.1.0",
+    "graphql-request": "^6.1.0",
     "luxon": "^3.4.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
