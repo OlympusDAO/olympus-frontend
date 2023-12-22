@@ -32,7 +32,7 @@
     "@ethersproject/providers": "^5.7.1",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.9",
-    "@mui/system": "^5.14.9",
+    "@mui/system": "^5.15.1",
     "@mui/x-data-grid": "^6.9.0",
     "@olympusdao/component-library": "3.1.7",
     "@olympusdao/treasury-subgraph-client": "^1.1.0",
@@ -47,8 +47,8 @@
     "date-fns-tz": "^2.0.0",
     "ethers": "^5.7.2",
     "get-value": "^3.0.1",
-    "graphql-request": "^5.2.0",
-    "luxon": "^3.3.0",
+"graphql-request": "^6.1.0",
+    "luxon": "^3.4.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-ga": "^3.3.1",
@@ -59,7 +59,7 @@
     "recharts": "^2.7.2",
     "tinycolor2": "^1.6.0",
     "typescript": "^5.2.2",
-    "wagmi": "^0.12.16"
+    "wagmi": "^0.12.19"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -72,7 +72,7 @@
     "@typechain/ethers-v5": "^10.2.1",
     "@types/css-mediaquery": "^0.1.1",
     "@types/get-value": "^3.0.3",
-    "@types/luxon": "^3.3.0",
+    "@types/luxon": "^3.3.2",
     "@types/node": "^20.6.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.3",
