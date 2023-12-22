@@ -45,7 +45,7 @@
     "@wundergraph/react-query": "^0.9.27",
     "axios": "^1.6.2",
     "class-validator": "^0.14.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.6",
     "date-fns-tz": "^2.0.0",
     "ethers": "^5.7.2",
     "get-value": "^3.0.1",
