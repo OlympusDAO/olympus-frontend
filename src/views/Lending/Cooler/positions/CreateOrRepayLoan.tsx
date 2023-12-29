@@ -57,7 +57,7 @@ export const CreateOrRepayLoan = ({
   const repayLoan = useRepayLoan();
 
   const maturityDate = loan ? new Date(Number(loan.expiry.toString()) * 1000) : new Date();
-  maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
+  !loan && maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
 
   const [paymentAmount, setPaymentAmount] = useState(new DecimalBigNumber("0"));
   const [collateralAmount, setCollateralAmount] = useState(new DecimalBigNumber("0"));
