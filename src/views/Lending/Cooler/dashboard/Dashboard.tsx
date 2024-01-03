@@ -1,7 +1,7 @@
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
-import { Paper, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Paper, TabBar } from "src/components/library";
 import { adjustDateByDays } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { IncomeGraph } from "src/views/Lending/Cooler/dashboard/IncomeGraph";

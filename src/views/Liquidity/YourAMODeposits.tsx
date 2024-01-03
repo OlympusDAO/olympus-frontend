@@ -11,6 +11,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   DataRow,
   OHMTokenProps,
@@ -20,9 +22,7 @@ import {
   TertiaryButton,
   Token,
   TokenStack,
-} from "@olympusdao/component-library";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+} from "src/components/library";
 import { formatNumber } from "src/helpers";
 import { ClaimModal } from "src/views/Liquidity/ClaimModal";
 import { useClaimRewards } from "src/views/Liquidity/hooks/useClaimRewards";

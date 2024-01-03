@@ -1,5 +1,5 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { Paper, TertiaryButton, TokenStack } from "@olympusdao/component-library";
+import { Paper, TertiaryButton, TokenStack } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useScreenSize } from "src/hooks/useScreenSize";
 import { BondDuration } from "src/views/Bond/components/BondDuration";

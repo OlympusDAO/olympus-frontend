@@ -1,8 +1,8 @@
 import { Box, Divider, LinearProgress, Link, SvgIcon, Typography, useTheme } from "@mui/material";
-import { Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { Link as RouterLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
+import { Token } from "src/components/library";
 import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";

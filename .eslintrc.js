@@ -2,22 +2,17 @@ module.exports = {
   env: {
     node: true,
     jest: true,
-    browser: true,
+    browser: true
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
-  extends: [
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-  ],
+  extends: ["plugin:prettier/recommended", "plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:storybook/recommended"],
   plugins: ["@typescript-eslint", "simple-import-sort", "unused-imports", "no-relative-import-paths"],
   rules: {
     "prettier/prettier": ["error"],
@@ -40,19 +35,17 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-    "no-relative-import-paths/no-relative-import-paths": ["warn"],
+    "no-relative-import-paths/no-relative-import-paths": ["warn"]
   },
   ignorePatterns: ["build", "node_modules"],
   globals: {
     React: true,
-    JSX: true,
+    JSX: true
   },
-  overrides: [
-    {
-      files: ["**/*.js", "**/*.jsx"],
-      rules: {
-        "no-undef": "error",
-      },
-    },
-  ],
+  overrides: [{
+    files: ["**/*.js", "**/*.jsx"],
+    rules: {
+      "no-undef": "error"
+    }
+  }]
 };

@@ -247,10 +247,10 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
         bidOrAsk === "ask"
           ? upperBondMarket?.price.inBaseToken.gt(new DecimalBigNumber(rangeData.high.wall.price, 18))
           : lowerBondMarket
-          ? new DecimalBigNumber("1")
-              .div(lowerBondMarket?.price.inBaseToken)
-              .lt(new DecimalBigNumber(rangeData.low.wall.price, 18))
-          : false;
+            ? new DecimalBigNumber("1")
+                .div(lowerBondMarket?.price.inBaseToken)
+                .lt(new DecimalBigNumber(rangeData.low.wall.price, 18))
+            : false;
       if (sideActive && activeBondMarket && !bondOutsideWall) {
         return {
           price:
@@ -259,8 +259,8 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
                 ? Number(upperBondMarket?.price.inBaseToken.toString())
                 : 0
               : lowerBondMarket
-              ? 1 / Number(lowerBondMarket?.price.inBaseToken.toString())
-              : 0,
+                ? 1 / Number(lowerBondMarket?.price.inBaseToken.toString())
+                : 0,
           contract: "bond" as RangeContracts,
           discount:
             bidOrAsk === "ask"
@@ -307,8 +307,8 @@ export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
           ? parseBigNumber(rangeData.low.wall.price, 18)
           : parseBigNumber(rangeData.high.wall.price, 18)
         : sellActive
-        ? bidOrAskPrice.price
-        : bidOrAskPrice.price;
+          ? bidOrAskPrice.price
+          : bidOrAskPrice.price;
       const discount =
         bondDiscount && !swapWithOperator
           ? bondDiscount

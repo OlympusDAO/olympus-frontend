@@ -1,0 +1,24 @@
+.info-icon {
+    cursor: pointer;
+  }
+  
+  .tooltip {
+    border-radius: 10px;
+    padding: 0 !important;
+    height: unset;
+    height: min-content;
+    max-height: min-content;
+    width: fit-content;
+    margin: 5px !important;
+  }
+  
+  .info-tooltip {
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 0px !important;
+    white-space: pre-wrap !important;
+    .info-tooltip-text {
+      line-height: 20px;
+    }
+  }
+  

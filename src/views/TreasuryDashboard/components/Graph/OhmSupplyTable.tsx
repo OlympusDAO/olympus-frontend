@@ -8,8 +8,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { Fragment, useEffect, useMemo, useState } from "react";
+import { InfoTooltip } from "src/components/library";
 import { GOHM_TOKEN } from "src/constants/tokens";
 import { formatNumber } from "src/helpers";
 import { TOKEN_SUPPLY_TYPE_TOTAL_SUPPLY } from "src/helpers/subgraph/Constants";

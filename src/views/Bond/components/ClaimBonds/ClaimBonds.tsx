@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { Paper, PrimaryButton, Tab, Tabs, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
+import { Paper, PrimaryButton, Tab, Tabs, TertiaryButton, TokenStack } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useScreenSize } from "src/hooks/useScreenSize";

@@ -1,7 +1,7 @@
 import { Box, Link, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import { Icon } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Icon } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { CoolerDashboard } from "src/views/Lending/Cooler/dashboard/Dashboard";

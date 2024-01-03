@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogTitle, FormControl, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { FC, SetStateAction, useEffect, useState } from "react";
+import { Icon, Input, PrimaryButton, SecondaryButton } from "src/components/library";
 import { trim } from "src/helpers";
 
 const PREFIX = "SlippageModal";

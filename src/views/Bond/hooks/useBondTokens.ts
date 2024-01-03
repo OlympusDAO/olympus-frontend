@@ -1,6 +1,6 @@
-import { OHMTokenProps } from "@olympusdao/component-library";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
+import { OHMTokenProps } from "src/components/library";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";

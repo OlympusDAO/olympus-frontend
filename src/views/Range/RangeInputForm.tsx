@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import { SwapCollection } from "@olympusdao/component-library";
-import { OHMTokenProps, SwapCard } from "@olympusdao/component-library";
 import React from "react";
+import { SwapCollection } from "src/components/library";
+import { OHMTokenProps, SwapCard } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 /**

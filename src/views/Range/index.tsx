@@ -1,8 +1,8 @@
 import { Box, CircularProgress, Grid, Link, Paper, Typography, useTheme } from "@mui/material";
-import { DataRow, Icon, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
+import { DataRow, Icon, InfoNotification, OHMTokenProps, PrimaryButton } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
@@ -197,8 +197,8 @@ export const Range = () => {
                                 ? "discount"
                                 : "premium"
                               : discount < 0
-                              ? "premium"
-                              : "discount"}{" "}
+                                ? "premium"
+                                : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
                             {formatNumber(currentPrice, 2)} {reserveSymbol}
                           </InfoNotification>
@@ -214,8 +214,8 @@ export const Range = () => {
                                   ? "Discount"
                                   : "Premium"
                                 : discount < 0
-                                ? "Premium"
-                                : "Discount"
+                                  ? "Premium"
+                                  : "Discount"
                             }
                             balance={
                               <Typography
@@ -249,8 +249,8 @@ export const Range = () => {
                               {amountAboveCapacity
                                 ? `Amount exceeds capacity`
                                 : amountAboveBalance
-                                ? `Amount exceeds balance`
-                                : swapButtonText}
+                                  ? `Amount exceeds balance`
+                                  : swapButtonText}
                             </PrimaryButton>
                           </WalletConnectedGuard>
                         </Box>

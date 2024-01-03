@@ -1,6 +1,6 @@
 import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
-import { SecondaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
+import { SecondaryButton } from "src/components/library";
 import { useFaucet } from "src/components/TopBar/Wallet/hooks/useFaucet";
 
 export const DevFaucet = () => {

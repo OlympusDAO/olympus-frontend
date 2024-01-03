@@ -1,9 +1,10 @@
 import { Box, Link, LinkProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Accordion, Chip, Icon, OHMChipProps } from "@olympusdao/component-library";
-import { IconName } from "@olympusdao/component-library/lib/components/Icon";
 import { FC, ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import Accordion from "src/components/library/Accordion";
+import Chip, { OHMChipProps } from "src/components/library/Chip";
+import Icon, { IconName } from "src/components/library/Icon";
 
 const PREFIX = "NavItem";
 

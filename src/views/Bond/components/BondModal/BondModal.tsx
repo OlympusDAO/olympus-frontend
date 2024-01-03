@@ -1,9 +1,9 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Link, Skeleton, Typography } from "@mui/material";
-import { Metric, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
+import { Metric, TokenStack } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { NetworkId } from "src/constants";
 import { formatNumber } from "src/helpers";

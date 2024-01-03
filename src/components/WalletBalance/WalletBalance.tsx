@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon } from "@olympusdao/component-library";
 import { FC, useState } from "react";
+import { Icon } from "src/components/library";
 
 const PREFIX = "WalletBalance";
 

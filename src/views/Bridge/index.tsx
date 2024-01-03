@@ -13,8 +13,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
+import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { shorten } from "src/helpers";

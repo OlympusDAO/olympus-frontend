@@ -14,9 +14,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
+import { PrimaryButton, SecondaryButton, Token } from "src/components/library";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useCheckDelegation } from "src/views/Lending/Cooler/hooks/useCheckDelegation";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";

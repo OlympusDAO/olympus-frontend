@@ -2,15 +2,8 @@ import { Check } from "@mui/icons-material";
 import { Box, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from "@mui/x-data-grid";
-import {
-  Chip,
-  OHMTokenProps,
-  OHMTokenStackProps,
-  TertiaryButton,
-  TokenStack,
-  Tooltip,
-} from "@olympusdao/component-library";
 import { useState } from "react";
+import { Chip, OHMTokenProps, OHMTokenStackProps, TertiaryButton, TokenStack, Tooltip } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { defiLlamaChainToNetwork } from "src/helpers/defiLlamaChainToNetwork";
@@ -81,12 +74,12 @@ export const LendingMarkets = () => {
     poolFilter === "stable"
       ? stablePools
       : poolFilter === "volatile"
-      ? volatilePools
-      : poolFilter === "gohm"
-      ? gOHMPools
-      : poolFilter === "ohm"
-      ? ohmPools
-      : defiLlamaPools;
+        ? volatilePools
+        : poolFilter === "gohm"
+          ? gOHMPools
+          : poolFilter === "ohm"
+            ? ohmPools
+            : defiLlamaPools;
 
   const poolListByNetwork = networkFilter ? poolList?.filter(pool => pool.chain === networkFilter) : poolList;
   const PoolChip = ({ label }: { label: string }) => (

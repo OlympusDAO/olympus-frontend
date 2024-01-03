@@ -1,7 +1,7 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
+import { Icon, InfoNotification, Metric, Modal, PrimaryButton, SecondaryButton } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { AddressMap } from "src/constants/addresses";
@@ -170,14 +170,14 @@ const StakeConfirmationModal = (props: {
                     {props.amountExceedsBalance
                       ? "Amount exceeds balance"
                       : !props.amount || parseFloat(props.amount) === 0
-                      ? "Enter an amount"
-                      : props.currentAction === "STAKE"
-                      ? props.isMutating
-                        ? "Confirming Wrapping in your wallet"
-                        : "Wrap"
-                      : props.isMutating
-                      ? "Confirming Unwrapping in your wallet "
-                      : "Unwrap"}
+                        ? "Enter an amount"
+                        : props.currentAction === "STAKE"
+                          ? props.isMutating
+                            ? "Confirming Wrapping in your wallet"
+                            : "Wrap"
+                          : props.isMutating
+                            ? "Confirming Unwrapping in your wallet "
+                            : "Unwrap"}
                   </PrimaryButton>
                 </>
               )}
@@ -195,14 +195,14 @@ const StakeConfirmationModal = (props: {
                   {props.amountExceedsBalance
                     ? "Amount exceeds balance"
                     : !props.amount || parseFloat(props.amount) === 0
-                    ? "Enter an amount"
-                    : props.currentAction === "STAKE"
-                    ? props.isMutating
-                      ? "Confirming Wrapping in your wallet"
-                      : "Wrap to gOHM"
-                    : props.isMutating
-                    ? "Confirming Unwrapping in your wallet "
-                    : "Unwrap"}
+                      ? "Enter an amount"
+                      : props.currentAction === "STAKE"
+                        ? props.isMutating
+                          ? "Confirming Wrapping in your wallet"
+                          : "Wrap to gOHM"
+                        : props.isMutating
+                          ? "Confirming Unwrapping in your wallet "
+                          : "Unwrap"}
                 </PrimaryButton>
               )}
             </TokenAllowanceGuard>

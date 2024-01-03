@@ -1,14 +1,8 @@
 import { Avatar, Box, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import {
-  InfoNotification,
-  OHMSwapCardProps,
-  PrimaryButton,
-  SwapCard,
-  SwapCollection,
-} from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { InfoNotification, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "src/components/library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -146,10 +140,10 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           ? sOhmBalance.toString({ decimals: 2 })
           : "0.00"
         : swapAssetType.name === "OHM"
-        ? ohmBalance
-          ? ohmBalance.toString({ decimals: 2 })
-          : "0.00"
-        : swapAssetType.balance;
+          ? ohmBalance
+            ? ohmBalance.toString({ decimals: 2 })
+            : "0.00"
+          : swapAssetType.balance;
 
     return (
       <SwapCard
@@ -248,14 +242,14 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                       {amountExceedsBalance
                         ? "Amount exceeds balance"
                         : !amount || parseFloat(amount) === 0
-                        ? "Enter an amount"
-                        : isStake
-                        ? isMutating
-                          ? "Confirming Wrapping in your wallet"
-                          : `Wrap ${swapAssetType.name} to get gOHM`
-                        : isMutating
-                        ? "Confirming Unwrapping in your wallet "
-                        : `Unwrap ${stakedAssetType.name} to get OHM`}
+                          ? "Enter an amount"
+                          : isStake
+                            ? isMutating
+                              ? "Confirming Wrapping in your wallet"
+                              : `Wrap ${swapAssetType.name} to get gOHM`
+                            : isMutating
+                              ? "Confirming Unwrapping in your wallet "
+                              : `Unwrap ${stakedAssetType.name} to get OHM`}
                     </PrimaryButton>
                   </>
                 )}
@@ -271,14 +265,14 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                     {amountExceedsBalance
                       ? "Amount exceeds balance"
                       : !amount || parseFloat(amount) === 0
-                      ? "Enter an amount"
-                      : isStake
-                      ? isMutating
-                        ? "Confirming Wrapping in your wallet"
-                        : "Wrap to gOHM"
-                      : isMutating
-                      ? "Confirming Unwrapping in your wallet "
-                      : "Unwrap"}
+                        ? "Enter an amount"
+                        : isStake
+                          ? isMutating
+                            ? "Confirming Wrapping in your wallet"
+                            : "Wrap to gOHM"
+                          : isMutating
+                            ? "Confirming Unwrapping in your wallet "
+                            : "Unwrap"}
                   </PrimaryButton>
                 )}
               </WalletConnectedGuard>

@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material";
-import { Metric } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
+import { Metric } from "src/components/library";
 import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {

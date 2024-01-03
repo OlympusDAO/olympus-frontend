@@ -1,7 +1,7 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Link, Typography, useTheme } from "@mui/material";
-import { Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "@olympusdao/component-library";
 import { ReactElement } from "react";
+import { Icon, Metric, Modal, OHMTokenStackProps, TokenStack } from "src/components/library";
 
 export const ConfirmationModal = ({
   isOpen,

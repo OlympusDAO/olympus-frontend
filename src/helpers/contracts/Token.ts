@@ -1,4 +1,4 @@
-import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { OHMTokenStackProps } from "src/components/library";
 import { AddressMap } from "src/constants/addresses";
 import { Contract, ContractConfig, Factory } from "src/helpers/contracts/Contract";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

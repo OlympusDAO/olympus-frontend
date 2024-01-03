@@ -1,9 +1,9 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { ReactNode } from "react";
+import { PrimaryButton } from "src/components/library";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { AddressMap } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

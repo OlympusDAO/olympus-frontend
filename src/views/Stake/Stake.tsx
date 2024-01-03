@@ -1,9 +1,9 @@
 import "src/views/Stake/Stake.scss";
 
 import { Box, Typography } from "@mui/material";
-import { Icon, Modal } from "@olympusdao/component-library";
 import { memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Icon, Modal } from "src/components/library";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { ClaimsArea } from "src/views/Stake/components/ClaimsArea/ClaimsArea";
 import { StakeArea } from "src/views/Stake/components/StakeArea/StakeArea";

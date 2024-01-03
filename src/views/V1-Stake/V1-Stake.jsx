@@ -17,8 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { DataRow, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
@@ -26,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { DataRow, Paper, Tab, TabPanel, Tabs } from "src/components/library";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";

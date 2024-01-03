@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { SecondaryButton } from "@olympusdao/component-library";
+import { SecondaryButton } from "src/components/library";
 import { useAccount } from "wagmi";
 
 export const LearnAboutOhm = () => {

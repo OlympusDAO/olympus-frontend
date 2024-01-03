@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import { DataRow, Paper } from "@olympusdao/component-library";
 import {
   Area,
   ComposedChart,
@@ -15,6 +14,7 @@ import {
   YAxis,
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
+import { DataRow, Paper } from "src/components/library";
 import { formatCurrency, parseBigNumber, trim } from "src/helpers";
 import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 import { OperatorMovingAverage, OperatorTargetPrice, PriceHistory } from "src/views/Range/hooks";

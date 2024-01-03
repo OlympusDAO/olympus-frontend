@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { Icon, InfoNotification, Modal, OHMTokenProps, PrimaryButton, Token } from "@olympusdao/component-library";
 import { UseMutationResult } from "@tanstack/react-query";
 import { ContractReceipt, utils } from "ethers";
+import { Icon, InfoNotification, Modal, OHMTokenProps, PrimaryButton, Token } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { BRIDGE_CHAINS, MINTER_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";

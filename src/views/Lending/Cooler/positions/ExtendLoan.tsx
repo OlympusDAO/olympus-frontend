@@ -1,8 +1,8 @@
 import { Box, Skeleton, SvgIcon, Typography } from "@mui/material";
-import { Icon, Input, Metric, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
+import { Icon, Input, Metric, Modal, PrimaryButton } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

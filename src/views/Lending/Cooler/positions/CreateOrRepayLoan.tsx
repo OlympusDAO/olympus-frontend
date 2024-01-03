@@ -1,8 +1,8 @@
 import { Box, Divider, SvgIcon } from "@mui/material";
-import { Modal, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
+import { Modal, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatNumber } from "src/helpers";

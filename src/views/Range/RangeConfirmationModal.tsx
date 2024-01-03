@@ -1,9 +1,9 @@
 import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
-import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useIsMutating } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
+import { Icon, InfoNotification, Modal, PrimaryButton } from "src/components/library";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { OHM_ADDRESSES, RANGE_OPERATOR_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";

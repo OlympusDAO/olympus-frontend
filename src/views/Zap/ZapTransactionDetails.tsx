@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from "@mui/material";
-import { DataRow, Icon } from "@olympusdao/component-library";
 import { FC, useMemo, useState } from "react";
+import { DataRow, Icon } from "src/components/library";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";

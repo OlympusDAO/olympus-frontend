@@ -1,8 +1,8 @@
 import { Box, Divider, Link, SvgIcon, Typography } from "@mui/material";
-import { PrimaryButton, SecondaryButton, TextButton, Token } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import WalletIcon from "src/assets/icons/wallet.svg?react";
+import { PrimaryButton, SecondaryButton, TextButton, Token } from "src/components/library";
 import { MigrationNotification } from "src/components/MigrationNotification";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance, useSohmBalance, useV1OhmBalance, useV1SohmBalance } from "src/hooks/useBalance";

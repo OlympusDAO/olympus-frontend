@@ -1,4 +1,4 @@
-import { Metric } from "@olympusdao/component-library";
+import { Metric } from "src/components/library";
 import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {

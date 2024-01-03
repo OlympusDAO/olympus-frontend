@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
-import { Icon } from "@olympusdao/component-library";
+import { Icon } from "src/components/library";
 
 interface IThemeSwitcherProps {
   theme: string;

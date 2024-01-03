@@ -1,11 +1,10 @@
 import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
-import NavItem from "src/components/library/NavItem";
+import { Icon, NavItem } from "src/components/library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";

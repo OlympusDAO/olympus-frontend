@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MetricCollection, Paper } from "src/components/library";
 import PageTitle from "src/components/PageTitle";
 import { BondList } from "src/views/Bond/components/BondList";
 import { ClaimBonds } from "src/views/Bond/components/ClaimBonds/ClaimBonds";
