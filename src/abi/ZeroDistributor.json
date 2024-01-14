@@ -1,0 +1,28 @@
+{
+  "abi": [
+    {
+      "inputs": [{ "internalType": "address", "name": "staking_", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "name": "Distributor_NoRebaseOccurred", "type": "error" },
+    { "inputs": [], "name": "Distributor_NotUnlocked", "type": "error" },
+    { "inputs": [], "name": "Distributor_OnlyStaking", "type": "error" },
+    { "inputs": [], "name": "distribute", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "retrieveBounty",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "staking",
+      "outputs": [{ "internalType": "contract IStaking", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "triggerRebase", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+  ]
+}
