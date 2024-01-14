@@ -13,8 +13,10 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
+import { useCheckSecondsToNextEpoch } from "src/hooks/useCheckSecondsToNextEpoch";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useTriggerZeroDistributorRebase } from "src/hooks/useTriggerRebase";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import StakeConfirmationModal from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/StakeConfirmationModal";
 import TokenModal, {
@@ -74,6 +76,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const wrapMutation = useWrapSohm();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { data: needsRebase } = useCheckSecondsToNextEpoch();
+  const triggerRebase = useTriggerZeroDistributorRebase();
   const isStake = searchParams.get("unstake") ? false : true;
   const fromToken = isStake ? swapAssetType.name : stakedAssetType.name;
 
@@ -146,10 +151,10 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           ? sOhmBalance.toString({ decimals: 2 })
           : "0.00"
         : swapAssetType.name === "OHM"
-        ? ohmBalance
-          ? ohmBalance.toString({ decimals: 2 })
-          : "0.00"
-        : swapAssetType.balance;
+          ? ohmBalance
+            ? ohmBalance.toString({ decimals: 2 })
+            : "0.00"
+          : swapAssetType.balance;
 
     return (
       <SwapCard
@@ -238,25 +243,38 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                 {contractRouting === "Stake" && (
                   <>
                     {/* <AcknowledgeWarmupCheckbox /> */}
-                    <PrimaryButton
-                      data-testid="submit-button"
-                      loading={isMutating}
-                      fullWidth
-                      disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
-                      onClick={() => setConfirmationModalOpen(true)}
-                    >
-                      {amountExceedsBalance
-                        ? "Amount exceeds balance"
-                        : !amount || parseFloat(amount) === 0
-                        ? "Enter an amount"
-                        : isStake
-                        ? isMutating
-                          ? "Confirming Wrapping in your wallet"
-                          : `Wrap ${swapAssetType.name} to get gOHM`
-                        : isMutating
-                        ? "Confirming Unwrapping in your wallet "
-                        : `Unwrap ${stakedAssetType.name} to get OHM`}
-                    </PrimaryButton>
+                    {humanReadableRouting === "Wrap" && needsRebase ? (
+                      <PrimaryButton
+                        fullWidth
+                        onClick={() => {
+                          triggerRebase.mutate();
+                        }}
+                        loading={triggerRebase.isLoading}
+                        disabled={triggerRebase.isLoading}
+                      >
+                        Trigger Rebase before Wrapping
+                      </PrimaryButton>
+                    ) : (
+                      <PrimaryButton
+                        data-testid="submit-button"
+                        loading={isMutating}
+                        fullWidth
+                        disabled={isMutating || !amount || amountExceedsBalance || parseFloat(amount) === 0}
+                        onClick={() => setConfirmationModalOpen(true)}
+                      >
+                        {amountExceedsBalance
+                          ? "Amount exceeds balance"
+                          : !amount || parseFloat(amount) === 0
+                            ? "Enter an amount"
+                            : isStake
+                              ? isMutating
+                                ? "Confirming Wrapping in your wallet"
+                                : `Wrap ${swapAssetType.name} to get gOHM`
+                              : isMutating
+                                ? "Confirming Unwrapping in your wallet "
+                                : `Unwrap ${stakedAssetType.name} to get OHM`}
+                      </PrimaryButton>
+                    )}
                   </>
                 )}
 
@@ -271,14 +289,14 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                     {amountExceedsBalance
                       ? "Amount exceeds balance"
                       : !amount || parseFloat(amount) === 0
-                      ? "Enter an amount"
-                      : isStake
-                      ? isMutating
-                        ? "Confirming Wrapping in your wallet"
-                        : "Wrap to gOHM"
-                      : isMutating
-                      ? "Confirming Unwrapping in your wallet "
-                      : "Unwrap"}
+                        ? "Enter an amount"
+                        : isStake
+                          ? isMutating
+                            ? "Confirming Wrapping in your wallet"
+                            : "Wrap to gOHM"
+                          : isMutating
+                            ? "Confirming Unwrapping in your wallet "
+                            : "Unwrap"}
                   </PrimaryButton>
                 )}
               </WalletConnectedGuard>
