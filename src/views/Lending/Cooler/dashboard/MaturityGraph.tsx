@@ -2,7 +2,7 @@ import { Grid, Typography, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
 import Chart from "src/components/Chart/Chart";
 import { ChartType, DataFormat } from "src/components/Chart/Constants";
-import { Snapshot, SnapshotLoansStatus } from "src/generated/coolerLoans";
+import { Snapshot } from "src/generated/coolerLoans";
 import {
   getBulletpointStylesMap,
   getCategoriesMap,
@@ -16,18 +16,6 @@ import { getTickStyle } from "src/views/TreasuryDashboard/components/Graph/helpe
 const EXPIRY_BUCKET_30 = 30;
 const EXPIRY_BUCKET_121 = 121;
 
-type SnapshotWithExpiryBuckets = Snapshot & {
-  /**
-   * Values are mutually-exclusive
-   */
-  expiryBuckets: {
-    active: number;
-    "30Days": number;
-    "121Days": number;
-    expired: number;
-  };
-};
-
 export const MaturityGraph = () => {
   const theme = useTheme();
 
@@ -38,52 +26,15 @@ export const MaturityGraph = () => {
 
   const { data } = useCoolerSnapshot(startDate, beforeDate);
 
-  const [coolerSnapshots, setCoolerSnapshots] = useState<SnapshotWithExpiryBuckets[] | undefined>();
+  const [coolerSnapshots, setCoolerSnapshots] = useState<Snapshot[] | undefined>();
   useMemo(() => {
     if (!data) {
       setCoolerSnapshots(undefined);
       return;
     }
 
-    const _coolerSnapshots = data.map(snapshot => {
-      const _snapshot: SnapshotWithExpiryBuckets = {
-        ...snapshot,
-        expiryBuckets: {
-          active: 0,
-          "30Days": 0,
-          "121Days": 0,
-          expired: 0,
-        },
-      };
-
-      // Iterate over the loans and set the expiry values
-      Object.values(_snapshot.loans).forEach(loan => {
-        const principalDue = Math.max(loan.principal - loan.principalPaid, 0); // If the loan is somehow overpaid, don't count the overpaid amount
-
-        switch (loan.status) {
-          case SnapshotLoansStatus.Expired:
-            _snapshot.expiryBuckets.expired += principalDue;
-            break;
-          case SnapshotLoansStatus.Active:
-            const daysToExpiry = loan.secondsToExpiry / 86400;
-
-            if (daysToExpiry < EXPIRY_BUCKET_30) {
-              _snapshot.expiryBuckets["30Days"] += principalDue;
-            } else if (daysToExpiry < EXPIRY_BUCKET_121) {
-              _snapshot.expiryBuckets["121Days"] += principalDue;
-            } else {
-              _snapshot.expiryBuckets.active += principalDue;
-            }
-            break;
-          default:
-            break;
-        }
-      });
-
-      return _snapshot;
-    });
-
     // Sort in descending order
+    const _coolerSnapshots = data.slice();
     _coolerSnapshots.sort((a, b) => b.timestamp - a.timestamp);
     setCoolerSnapshots(_coolerSnapshots);
   }, [data]);

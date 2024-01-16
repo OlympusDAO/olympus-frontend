@@ -125,6 +125,10 @@ sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI"
 const SECONDS_PER_DAY = 60 * 60 * 24;
 
 export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: number; previousBucket: number }) => {
+  if (days != 30 && days != 121) {
+    throw new Error("Invalid days");
+  }
+
   const { latestSnapshot } = useCoolerSnapshotLatest();
 
   const [principalMaturing, setPrincipalMaturing] = useState<number | undefined>();
@@ -134,21 +138,17 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
       return;
     }
 
-    let _principalMaturing = 0;
-    for (const loan of Object.values(latestSnapshot.loans)) {
-      if (loan.status != SnapshotLoansStatus.Active) {
-        continue;
-      }
-
-      const principalDue = Math.max(loan.principal - loan.principalPaid, 0); // If the loan is somehow overpaid, don't count the overpaid amount
-
-      const loanDaysToExpiry = loan.secondsToExpiry / SECONDS_PER_DAY;
-      if (loanDaysToExpiry >= previousBucket && loanDaysToExpiry < days) {
-        _principalMaturing += principalDue;
-      }
+    if (days == 30) {
+      setPrincipalMaturing(latestSnapshot.expiryBuckets["30Days"]);
+      return;
     }
 
-    setPrincipalMaturing(_principalMaturing);
+    if (days == 121) {
+      setPrincipalMaturing(latestSnapshot.expiryBuckets["121Days"]);
+      return;
+    }
+
+    setPrincipalMaturing(undefined);
   }, [latestSnapshot]);
 
   return (
