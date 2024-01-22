@@ -19,7 +19,7 @@ import { truncateEthereumAddress } from "src/helpers/truncateAddress";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { DelegateVoting } from "src/views/Governance/DelegateVoting";
 import { GovernanceTableRow } from "src/views/Governance/GovernanceTableRow";
-import { useCheckDelegation } from "src/views/Lending/Cooler/hooks/useCheckDelegation";
+import { useCheckDelegation } from "src/views/Governance/hooks/useCheckDelegation";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useAccount } from "wagmi";
