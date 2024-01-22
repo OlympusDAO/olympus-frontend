@@ -18,7 +18,6 @@ import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-lib
 import { ethers } from "ethers";
 import { useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
-import { useCheckDelegation } from "src/views/Lending/Cooler/hooks/useCheckDelegation";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
@@ -70,11 +69,8 @@ export const CoolerPositions = () => {
   const loans = currentClearingHouse === "clearingHouseV1" ? loansV1 : loansV2;
   const isFetchedLoans = currentClearingHouse === "clearingHouseV1" ? isFetchedLoansV1 : isFetchedLoansV2;
 
-  const { data: delegationAddress } = useCheckDelegation({ address: coolerAddress });
-
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
-  const [delegateVoting, setDelegateVoting] = useState<any>(null);
   const theme = useTheme();
 
   return (
