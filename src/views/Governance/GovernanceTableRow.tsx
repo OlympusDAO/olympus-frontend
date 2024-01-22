@@ -2,7 +2,7 @@ import { Box, TableCell, TableRow } from "@mui/material";
 import { PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { truncateEthereumAddress } from "src/helpers/truncateAddress";
-import { useDelegateVoting } from "src/views/Lending/Cooler/hooks/useDelegateVoting";
+import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
 
 export const GovernanceTableRow = ({
   tokenName,

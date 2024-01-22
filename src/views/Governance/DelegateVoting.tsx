@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { useDelegateVoting } from "src/views/Lending/Cooler/hooks/useDelegateVoting";
+import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
 import { useNetwork } from "wagmi";
 
 export const DelegateVoting = ({
