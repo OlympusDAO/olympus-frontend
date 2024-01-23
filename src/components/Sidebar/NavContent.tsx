@@ -60,7 +60,7 @@ const NavContent: React.VFC = () => {
                   />
                   <NavItem to="/range" icon="range" label={`RBS`} />
                   <NavItem icon="settings" label={`Utility`} to="/utility" />
-                  <NavItem href="https://vote.olympusdao.finance/" icon="voting" label={`Govern`} />
+                  <NavItem to="/governance" icon="voting" label={`Govern`} />
                 </>
               ) : (
                 <>

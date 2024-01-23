@@ -4,18 +4,26 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { useDelegateVoting } from "src/views/Lending/Cooler/hooks/useDelegateVoting";
+import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
 import { useNetwork } from "wagmi";
 
 export const DelegateVoting = ({
-  coolerAddress,
+  address,
   open,
   setOpen,
   currentDelegateAddress,
 }: {
-  coolerAddress?: string;
+  address?: string;
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpen: React.Dispatch<
+    React.SetStateAction<
+      | {
+          delegatorAddress: string;
+          currentDelegatedToAddress?: string;
+        }
+      | undefined
+    >
+  >;
   currentDelegateAddress?: string;
 }) => {
   const [delegationAddress, setDelegationAddress] = useState("");
@@ -34,10 +42,10 @@ export const DelegateVoting = ({
       }
       onClose={() => {
         setDelegationAddress("");
-        setOpen(false);
+        setOpen(undefined);
       }}
     >
-      {coolerAddress ? (
+      {address ? (
         <>
           <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center"></Box>
           {currentDelegateAddress && (
@@ -68,11 +76,11 @@ export const DelegateVoting = ({
               disabled={delegateVoting.isLoading || !delegationAddress}
               onClick={() => {
                 delegateVoting.mutate(
-                  { coolerAddress, delegationAddress },
+                  { address, delegationAddress },
                   {
                     onSuccess: () => {
                       setDelegationAddress("");
-                      setOpen(false);
+                      setOpen(undefined);
                     },
                   },
                 );
@@ -87,10 +95,10 @@ export const DelegateVoting = ({
                 disabled={delegateVoting.isLoading || delegationAddress}
                 onClick={() => {
                   delegateVoting.mutate(
-                    { coolerAddress, delegationAddress: ethers.constants.AddressZero },
+                    { address, delegationAddress: ethers.constants.AddressZero },
                     {
                       onSuccess: () => {
-                        setOpen(false);
+                        setOpen(undefined);
                       },
                     },
                   );
