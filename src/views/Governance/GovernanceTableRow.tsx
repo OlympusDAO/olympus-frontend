@@ -9,6 +9,7 @@ export const GovernanceTableRow = ({
   delegationAddress,
   delegatorAddress,
   setDelegateVoting,
+  balance,
 }: {
   tokenName: string;
   delegationAddress?: string;
@@ -22,6 +23,7 @@ export const GovernanceTableRow = ({
       | undefined
     >
   >;
+  balance?: string;
 }) => {
   const delegateVoting = useDelegateVoting();
 
@@ -31,8 +33,12 @@ export const GovernanceTableRow = ({
         {tokenName}
       </TableCell>
       <TableCell align="right" sx={{ padding: "9px" }}>
+        {Number(balance || 0).toFixed(2)} gOHM
+      </TableCell>
+      <TableCell align="right" sx={{ padding: "9px" }}>
         {delegationAddress ? `Delegated to ${truncateEthereumAddress(delegationAddress)} ` : "Undelegated"}
       </TableCell>
+
       <TableCell align="right" sx={{ padding: "9px" }}>
         <Box display="flex" flexDirection="row" justifyContent="flex-end" gap="8px">
           <Box flexGrow={1}>
