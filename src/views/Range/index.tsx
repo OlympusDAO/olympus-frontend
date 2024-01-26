@@ -69,8 +69,6 @@ export const Range = () => {
       ? parseBigNumber(upperMaxPayout, 9)
       : parseBigNumber(rangeData.high.capacity, 9);
 
-  console.log(upperMaxCapacity, "upper max");
-
   const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
 
   useEffect(() => {
