@@ -66,7 +66,7 @@ export const Range = () => {
 
   const upperMaxCapacity =
     upperMaxPayout && contractType === "bond"
-      ? parseBigNumber(upperMaxPayout, 18)
+      ? parseBigNumber(upperMaxPayout, 9)
       : parseBigNumber(rangeData.high.capacity, 9);
 
   const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
@@ -197,8 +197,8 @@ export const Range = () => {
                                 ? "discount"
                                 : "premium"
                               : discount < 0
-                              ? "premium"
-                              : "discount"}{" "}
+                                ? "premium"
+                                : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
                             {formatNumber(currentPrice, 2)} {reserveSymbol}
                           </InfoNotification>
@@ -214,8 +214,8 @@ export const Range = () => {
                                   ? "Discount"
                                   : "Premium"
                                 : discount < 0
-                                ? "Premium"
-                                : "Discount"
+                                  ? "Premium"
+                                  : "Discount"
                             }
                             balance={
                               <Typography
@@ -249,8 +249,8 @@ export const Range = () => {
                               {amountAboveCapacity
                                 ? `Amount exceeds capacity`
                                 : amountAboveBalance
-                                ? `Amount exceeds balance`
-                                : swapButtonText}
+                                  ? `Amount exceeds balance`
+                                  : swapButtonText}
                             </PrimaryButton>
                           </WalletConnectedGuard>
                         </Box>
