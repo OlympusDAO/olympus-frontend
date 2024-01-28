@@ -127,7 +127,7 @@ const RangeChart = (props: {
         <Typography fontSize="15px" fontWeight={600} mt="33px">
           Price
         </Typography>
-        <DataRow title="Market Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
+        <DataRow title="Snapshot Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
         {label === "now" && (
           <>
             <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />

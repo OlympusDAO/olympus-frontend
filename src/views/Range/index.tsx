@@ -1,5 +1,12 @@
 import { Box, CircularProgress, Grid, Link, Paper, Typography, useTheme } from "@mui/material";
-import { DataRow, Icon, InfoNotification, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
+import {
+  DataRow,
+  Icon,
+  InfoNotification,
+  InfoTooltip,
+  OHMTokenProps,
+  PrimaryButton,
+} from "@olympusdao/component-library";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -8,11 +15,18 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber, parseBigNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGetDefillamaPrice } from "src/helpers/pricing/useGetDefillamaPrice";
 import { useBalance } from "src/hooks/useBalance";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { DetermineRangePrice, OperatorReserveSymbol, RangeBondMaxPayout, RangeData } from "src/views/Range/hooks";
+import {
+  DetermineRangePrice,
+  OperatorPrice,
+  OperatorReserveSymbol,
+  RangeBondMaxPayout,
+  RangeData,
+  RangeNextBeat,
+} from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
 import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
 import RangeInputForm from "src/views/Range/RangeInputForm";
@@ -44,7 +58,17 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const currentPrice = useOhmPrice({}) || 0;
+  const { data: currentPrice } = OperatorPrice();
+  const { data: currentMarketPrices } = useGetDefillamaPrice({
+    addresses: [DAI_ADDRESSES[1], OHM_ADDRESSES[1]],
+  });
+  const { data: nextBeat } = RangeNextBeat();
+  //format date for display in local time
+  const nextBeatDateString = nextBeat && nextBeat.toLocaleString();
+
+  const daiPriceUSD = currentMarketPrices?.[`ethereum:${DAI_ADDRESSES[1]}`].price;
+  const ohmPriceUSD = currentMarketPrices?.[`ethereum:${OHM_ADDRESSES[1]}`].price;
+  const marketOhmPriceDAI = daiPriceUSD && ohmPriceUSD ? ohmPriceUSD / daiPriceUSD : 0;
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
@@ -78,10 +102,10 @@ export const Range = () => {
   }, [sellActive]);
 
   useEffect(() => {
-    if (currentPrice < parseBigNumber(rangeData.low.cushion.price, 18)) {
+    if (marketOhmPriceDAI < parseBigNumber(rangeData.low.cushion.price, 18)) {
       setSellActive(true);
     }
-  }, [rangeData.low.cushion.price, currentPrice]);
+  }, [rangeData.low.cushion.price, marketOhmPriceDAI]);
 
   const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
     sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
@@ -109,7 +133,7 @@ export const Range = () => {
 
   const swapPriceFormatted = formatNumber(swapPrice, 2);
 
-  const discount = (currentPrice - swapPrice) / (sellActive ? -currentPrice : currentPrice);
+  const discount = (marketOhmPriceDAI - swapPrice) / (sellActive ? -marketOhmPriceDAI : marketOhmPriceDAI);
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 
@@ -157,6 +181,24 @@ export const Range = () => {
                       askPrice={askPrice.price}
                       sellActive={sellActive}
                     />
+                    <Typography fontSize="18px" fontWeight="500" mt="12px">
+                      Snapshot
+                    </Typography>
+                    <DataRow
+                      title="Last Snapshot Price"
+                      balance={
+                        <Box display="flex" alignItems="center">
+                          {formatNumber(currentPrice, 2)} {reserveSymbol}
+                          <Box display="flex" fontSize="12px" alignItems="center">
+                            <InfoTooltip
+                              message={`This price is returned from the RBS Operator Contract from its connected price feed`}
+                            />
+                          </Box>
+                        </Box>
+                      }
+                    />
+                    <DataRow title="Estimated Next Heartbeat" balance={nextBeatDateString} />
+                    <DataRow title="Current Market Price" balance={`${formatNumber(marketOhmPriceDAI, 2)} DAI`} />
                   </Box>
                 )}
               </Grid>
@@ -200,7 +242,7 @@ export const Range = () => {
                                 ? "premium"
                                 : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
-                            {formatNumber(currentPrice, 2)} {reserveSymbol}
+                            {formatNumber(marketOhmPriceDAI, 2)} {reserveSymbol}
                           </InfoNotification>
                         </Box>
                         <div data-testid="max-row">
@@ -218,18 +260,23 @@ export const Range = () => {
                                   : "Discount"
                             }
                             balance={
-                              <Typography
-                                sx={{
-                                  color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error,
-                                }}
-                              >
-                                {formatNumber(Math.abs(discount) * 100, 2)}%
-                              </Typography>
+                              <Box display="flex" alignItems="center" style={{ fontSize: "12px" }}>
+                                <Typography
+                                  sx={{
+                                    color: discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error,
+                                  }}
+                                >
+                                  {formatNumber(Math.abs(discount) * 100, 2)}%
+                                </Typography>
+                                <InfoTooltip
+                                  message={`Current market price: ${formatNumber(marketOhmPriceDAI, 2)} DAI`}
+                                />
+                              </Box>
                             }
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow title={`Swap Price per OHM`} balance={swapPriceFormatted} />
+                          <DataRow title={`Swap Price per OHM`} balance={`${swapPriceFormatted} ${reserveSymbol}`} />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>
