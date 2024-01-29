@@ -4,6 +4,7 @@ import {
   Icon,
   InfoNotification,
   InfoTooltip,
+  Metric,
   OHMTokenProps,
   PrimaryButton,
 } from "@olympusdao/component-library";
@@ -14,6 +15,7 @@ import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber, parseBigNumber } from "src/helpers";
+import CountdownTimer from "src/helpers/CountdownTimer";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGetDefillamaPrice } from "src/helpers/pricing/useGetDefillamaPrice";
 import { useBalance } from "src/hooks/useBalance";
@@ -169,6 +171,11 @@ export const Range = () => {
       <Paper sx={{ width: "98%" }}>
         {currentPrice ? (
           <>
+            <Metric
+              label="Market Price"
+              metric={`${formatNumber(marketOhmPriceDAI, 2)} DAI`}
+              tooltip="Market Price uses DefiLlama API, and is also used when calculating premium/discount on RBS"
+            />
             <Grid container>
               <Grid item xs={12} lg={6}>
                 {!rangeDataLoading && (
@@ -191,14 +198,16 @@ export const Range = () => {
                           {formatNumber(currentPrice, 2)} {reserveSymbol}
                           <Box display="flex" fontSize="12px" alignItems="center">
                             <InfoTooltip
-                              message={`This price is returned from the RBS Operator Contract from its connected price feed`}
+                              message={`Snapshot Price is returned from price feed connected to RBS Operator. The current price feed is Chainlink, which updates price if there's a 2% deviation or 24 hours, whichever comes first. The Snapshot Price is used by RBS Operator to turn on/off bond markets.`}
                             />
                           </Box>
                         </Box>
                       }
                     />
-                    <DataRow title="Estimated Next Heartbeat" balance={nextBeatDateString} />
-                    <DataRow title="Current Market Price" balance={`${formatNumber(marketOhmPriceDAI, 2)} DAI`} />
+                    <DataRow
+                      title="Estimated Next Snapshot"
+                      balance={<>{nextBeat && <CountdownTimer targetDate={nextBeat} />}</>}
+                    />
                   </Box>
                 )}
               </Grid>
@@ -268,15 +277,15 @@ export const Range = () => {
                                 >
                                   {formatNumber(Math.abs(discount) * 100, 2)}%
                                 </Typography>
-                                <InfoTooltip
-                                  message={`Current market price: ${formatNumber(marketOhmPriceDAI, 2)} DAI`}
-                                />
                               </Box>
                             }
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow title={`Swap Price per OHM`} balance={`${swapPriceFormatted} ${reserveSymbol}`} />
+                          <DataRow
+                            title={`RBS price quote per OHM`}
+                            balance={`${swapPriceFormatted} ${reserveSymbol}`}
+                          />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>
