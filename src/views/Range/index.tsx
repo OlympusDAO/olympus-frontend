@@ -72,6 +72,8 @@ export const Range = () => {
   const ohmPriceUSD = currentMarketPrices?.[`ethereum:${OHM_ADDRESSES[1]}`].price;
   const marketOhmPriceDAI = daiPriceUSD && ohmPriceUSD ? ohmPriceUSD / daiPriceUSD : 0;
 
+  console;
+
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
   const { data: upperMaxPayout } = RangeBondMaxPayout(rangeData.high.market);
@@ -282,10 +284,7 @@ export const Range = () => {
                           />
                         </div>
                         <div data-testid="swap-price">
-                          <DataRow
-                            title={`RBS price quote per OHM`}
-                            balance={`${swapPriceFormatted} ${reserveSymbol}`}
-                          />
+                          <DataRow title={`RBS quote per OHM`} balance={`${swapPriceFormatted} ${reserveSymbol}`} />
                         </div>
                         <Box mt="8px">
                           <WalletConnectedGuard fullWidth>
