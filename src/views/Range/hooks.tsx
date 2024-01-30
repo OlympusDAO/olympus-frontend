@@ -233,7 +233,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
 
   const {
-    data = { price: 0, contract: "swap" },
+    data = { price: 0, contract: "swap", activeBondMarket: false },
     isFetched,
     isLoading,
   } = useQuery(
@@ -266,6 +266,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
             bidOrAsk === "ask"
               ? Number(upperBondMarket?.discount.toString())
               : Number(lowerBondMarket?.discount.toString()),
+          activeBondMarket,
         };
       } else {
         return {
