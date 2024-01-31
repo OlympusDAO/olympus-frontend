@@ -65,14 +65,10 @@ export const Range = () => {
     addresses: [DAI_ADDRESSES[1], OHM_ADDRESSES[1]],
   });
   const { data: nextBeat } = RangeNextBeat();
-  //format date for display in local time
-  const nextBeatDateString = nextBeat && nextBeat.toLocaleString();
 
   const daiPriceUSD = currentMarketPrices?.[`ethereum:${DAI_ADDRESSES[1]}`].price;
   const ohmPriceUSD = currentMarketPrices?.[`ethereum:${OHM_ADDRESSES[1]}`].price;
-  const marketOhmPriceDAI = daiPriceUSD && ohmPriceUSD ? ohmPriceUSD / daiPriceUSD : 0;
-
-  console;
+  const marketOhmPriceDAI = daiPriceUSD && ohmPriceUSD ? ohmPriceUSD / daiPriceUSD : undefined;
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
@@ -105,8 +101,12 @@ export const Range = () => {
     }
   }, [sellActive]);
 
+  // Set sell active if market price is defined and is below lower cushion OR if there is a active lower bond market.
   useEffect(() => {
-    if (marketOhmPriceDAI < parseBigNumber(rangeData.low.cushion.price, 18)) {
+    if (
+      (marketOhmPriceDAI && marketOhmPriceDAI < parseBigNumber(rangeData.low.cushion.price, 18)) ||
+      bidPrice.activeBondMarket
+    ) {
       setSellActive(true);
     }
   }, [rangeData.low.cushion.price, marketOhmPriceDAI]);
@@ -137,7 +137,8 @@ export const Range = () => {
 
   const swapPriceFormatted = formatNumber(swapPrice, 2);
 
-  const discount = (marketOhmPriceDAI - swapPrice) / (sellActive ? -marketOhmPriceDAI : marketOhmPriceDAI);
+  const discount =
+    (marketOhmPriceDAI && (marketOhmPriceDAI - swapPrice) / (sellActive ? -marketOhmPriceDAI : marketOhmPriceDAI)) || 0;
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 
@@ -175,8 +176,9 @@ export const Range = () => {
           <>
             <Metric
               label="Market Price"
-              metric={`${formatNumber(marketOhmPriceDAI, 2)} DAI`}
+              metric={`${formatNumber(marketOhmPriceDAI || 0, 2)} DAI`}
               tooltip="Market Price uses DefiLlama API, and is also used when calculating premium/discount on RBS"
+              isLoading={!marketOhmPriceDAI}
             />
             <Grid container>
               <Grid item xs={12} lg={6}>
@@ -253,7 +255,7 @@ export const Range = () => {
                                 ? "premium"
                                 : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
-                            {formatNumber(marketOhmPriceDAI, 2)} {reserveSymbol}
+                            {formatNumber(marketOhmPriceDAI || 0, 2)} {reserveSymbol}
                           </InfoNotification>
                         </Box>
                         <div data-testid="max-row">
