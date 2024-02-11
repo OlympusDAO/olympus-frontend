@@ -5,16 +5,13 @@ import WalletIcon from "src/assets/icons/wallet.svg?react";
 import { formatCurrency } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance } from "src/hooks/useBalance";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useGohmPriceDefiLlama } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 
 export const MyGohmBalances = ({ walletBalance }: { walletBalance?: DecimalBigNumber }) => {
   const gohmBalances = useGohmBalance();
-  const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
-  const { data: ohmPrice = 0 } = useOhmPrice();
-  const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
+  const { data: gOhmPrice = 0 } = useGohmPriceDefiLlama();
 
   const networks = useTestableNetworks();
 
