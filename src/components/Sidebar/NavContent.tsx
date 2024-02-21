@@ -6,6 +6,7 @@ import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import NavItem from "src/components/library/NavItem";
 import { formatCurrency } from "src/helpers";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useGohmPriceDefiLlama, useOhmPriceDefillama } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useNetwork } from "wagmi";
@@ -29,6 +30,7 @@ const NavContent: React.VFC = () => {
   const { data: ohmPrice } = useOhmPriceDefillama();
   const { data: gohmPrice } = useGohmPriceDefiLlama();
 
+  const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -58,7 +60,7 @@ const NavContent: React.VFC = () => {
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
               <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
-              <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />
+              {protocolMetricsEnabled && <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />}
               {chain.id === networks.MAINNET ? (
                 <>
                   <NavItem

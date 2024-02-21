@@ -44,30 +44,6 @@ describe("Environment", () => {
     });
   });
 
-  describe("Covalent", () => {
-    it("should return a Covalent API key", () => {
-      import.meta.env.VITE_COVALENT_API_KEY = "ckey_442d47723592868l8764adf15bf";
-      expect(Environment.getCovalentApiKey()).toEqual("ckey_442d47723592868l8764adf15bf");
-    });
-
-    it("should return a Warning when Covalent API key is not present", () => {
-      expect(Environment.getCovalentApiKey()).toBeUndefined();
-      // assert the expected warning
-      expect(console.warn).toHaveBeenCalledWith(
-        expect.stringContaining(
-          "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
-        ),
-      );
-    });
-  });
-
-  describe("Zapper", () => {
-    it("should return a Zapper API key", () => {
-      import.meta.env.VITE_ZAPPER_API = "somekey";
-      expect(Environment.getZapperApiKey()).toEqual("somekey");
-    });
-  });
-
   describe("StagingEnv", () => {
     it("should return a StagingEnv", () => {
       import.meta.env.VITE_STAGING_ENV = "false";
@@ -75,16 +51,6 @@ describe("Environment", () => {
 
       import.meta.env.VITE_STAGING_ENV = "true";
       expect(Environment.getStagingFlag()).toEqual("true");
-    });
-  });
-
-  describe("WalletNewsDisabled", () => {
-    it("should return WalletNewsDisabled", () => {
-      import.meta.env.VITE_DISABLE_NEWS = "true";
-      expect(Environment.isWalletNewsEnabled()).toEqual(false);
-
-      import.meta.env.VITE_DISABLE_NEWS = "false";
-      expect(Environment.isWalletNewsEnabled()).toEqual(true);
     });
   });
 

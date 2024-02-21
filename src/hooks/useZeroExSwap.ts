@@ -6,7 +6,6 @@ import { DAO_TREASURY_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses"
 import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { zapTokenBalancesKey } from "src/hooks/useZapTokenBalances";
 import { EthersError } from "src/lib/EthersTypes";
 import { useAccount, useSigner } from "wagmi";
 
@@ -41,7 +40,7 @@ export const useZeroExSwap = () => {
   const client = useQueryClient();
   const { data: signer } = useSigner();
   const { address = "" } = useAccount();
-
+  const zapTokenBalancesKey = (address: string) => ["zapTokenBalances", address];
   return useMutation<ContractReceipt, EthersError, ZapExecuteOptions>(
     /**
      * Ideally the parameters to this async function should be the slippage, etc.
