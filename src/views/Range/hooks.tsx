@@ -14,8 +14,6 @@ import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
 import { RANGEv2 as OlympusRange } from "src/typechain/Range";
@@ -233,7 +231,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
 
   const {
-    data = { price: 0, contract: "swap", activeBondMarket: false },
+    data = { price: 0, contract: "swap", activeBondMarket: false, discount: undefined },
     isFetched,
     isLoading,
   } = useQuery(
@@ -279,45 +277,6 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
       }
     },
     { enabled: !!rangeData },
-  );
-
-  return { data, isFetched, isLoading };
-};
-
-export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
-  const { data: currentOhmPrice } = useOhmPrice();
-  const { data: reserveSymbol } = OperatorReserveSymbol();
-  const { data: rangeData } = RangeData();
-  const { data: bidOrAskPrice } = DetermineRangePrice(bidOrAsk);
-  const {
-    data = { discount: 0, quoteToken: "" },
-    isFetched,
-    isLoading,
-  } = useQuery(
-    ["getDetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
-    () => {
-      queryAssertion(currentOhmPrice);
-      const bondDiscount = bidOrAskPrice.discount ? bidOrAskPrice.discount : undefined;
-      const sellActive = bidOrAsk === "bid";
-      const swapWithOperator = sellActive
-        ? bidOrAskPrice.price < parseBigNumber(rangeData.low.wall.price, 18)
-        : bidOrAskPrice.price > parseBigNumber(rangeData.high.wall.price, 18);
-
-      const swapPrice = swapWithOperator
-        ? sellActive
-          ? parseBigNumber(rangeData.low.wall.price, 18)
-          : parseBigNumber(rangeData.high.wall.price, 18)
-        : sellActive
-          ? bidOrAskPrice.price
-          : bidOrAskPrice.price;
-      const discount =
-        bondDiscount && !swapWithOperator
-          ? bondDiscount
-          : (currentOhmPrice - swapPrice) / (sellActive ? -currentOhmPrice : currentOhmPrice);
-
-      return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
-    },
-    { enabled: !!currentOhmPrice && !!bidOrAskPrice.price && !!reserveSymbol.symbol },
   );
 
   return { data, isFetched, isLoading };

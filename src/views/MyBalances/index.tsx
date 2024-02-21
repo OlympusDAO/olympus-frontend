@@ -1,6 +1,6 @@
-import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Metric, Token } from "@olympusdao/component-library";
+import { Token } from "@olympusdao/component-library";
 import { FC } from "react";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { DevFaucet } from "src/components/DevFaucet";
@@ -18,7 +18,7 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/useProtocolMetrics";
+import { useOhmPriceDefillama } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
@@ -42,7 +42,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const { address } = useAccount();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
-  const ohmPrice = useOhmPrice({}) || 0;
+  const { data: ohmPrice = 0 } = useOhmPriceDefillama();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
@@ -176,9 +176,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                         />
                       </Box>
                     </Box>
-                  </Grid>
-                  <Grid item xs={6} sm={4}>
-                    <Metric label="OHM Price" metric={ohmPrice ? formatCurrency(ohmPrice, 2) : <Skeleton />} />
                   </Grid>
                 </Grid>
                 <Box display="flex" flexDirection="row" justifyContent="space-between"></Box>
