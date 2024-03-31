@@ -91,6 +91,12 @@ export const light = createTheme(
             barColorPrimary: {
               backgroundColor: colors.primary[300],
             },
+            colorError: {
+              backgroundColor: colors.gray[500],
+            },
+            colorSuccess: {
+              backgroundColor: colors.gray[500],
+            },
           },
         },
         MuiPaper: {
