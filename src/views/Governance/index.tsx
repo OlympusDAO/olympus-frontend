@@ -35,9 +35,9 @@ export const Governance = () => {
     <div id="stake-view">
       <PageTitle name="Governance" />
       <Box width="97%" maxWidth="974px">
-        <GovernanceDevTools />
+        {import.meta.env.VITE_GOVERNANCE_DEV && <GovernanceDevTools />}
         <DelegationMessage />
-        <Metric label="Current Voting Power" metric={`${Number(currentVotingWeight).toFixed(2)} gOHM`} />
+        <Metric label="Current Voting Power" metric={`${Number(currentVotingWeight || 0).toFixed(2)} gOHM`} />
         <Box display="flex" justifyContent="right">
           <Link component={RouterLink} to="/governance/delegate">
             <PrimaryButton>Manage Voting Delegation</PrimaryButton>
@@ -118,7 +118,7 @@ export const Governance = () => {
                       createdAt={item?.createdAtBlock}
                       setProposals={setPastProposals}
                       proposals={pastProposals}
-                      setIsLoading={setActiveProposalsLoading}
+                      setIsLoading={setPastProposalsLoading}
                       proposalsCount={proposals.length}
                     />
                   );
@@ -126,7 +126,7 @@ export const Governance = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {pastProposals.length === 0 && !activeProposalsLoading ? (
+          {pastProposals.length === 0 && !pastProposalsLoading ? (
             <Typography fontSize="21px" fontWeight="600" mt="21px" mb="21px" textAlign="center">
               No Past Proposals
             </Typography>
