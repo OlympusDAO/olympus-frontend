@@ -38,7 +38,7 @@ This behavior is intended to prevent users from changing the outcome of a vote i
           />
         </Box>
         <Typography fontSize="32px" mt={"6px"}>
-          {Number(votingWeight).toFixed(2)} gOHM
+          {Number(votingWeight || 0).toFixed(2)} gOHM
         </Typography>
       </Box>
 
