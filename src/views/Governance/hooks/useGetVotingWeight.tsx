@@ -5,7 +5,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { GOHM__factory } from "src/typechain";
 import { useAccount, useProvider, useQuery } from "wagmi";
 
-export const useGetVotingWeight = ({ startBlock }: { startBlock: number }) => {
+export const useGetVotingWeight = ({ startBlock }: { startBlock?: number }) => {
   const archiveProvider = useProvider();
   const { address } = useAccount();
   const networks = useTestableNetworks();
@@ -20,7 +20,7 @@ export const useGetVotingWeight = ({ startBlock }: { startBlock: number }) => {
       const currentVotes = await contract.getCurrentVotes(address);
 
       //if we're not activated yet
-      if (currentBlock.number < startBlock) {
+      if ((startBlock && currentBlock.number < startBlock) || !startBlock) {
         return formatEther(currentVotes);
       } else {
         //we're activated and need to return how contract determines weight. votes at activation or current votes, whichever is less

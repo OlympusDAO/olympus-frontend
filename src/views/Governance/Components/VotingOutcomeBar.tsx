@@ -1,14 +1,16 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import React from "react";
 
 export const VotingOutcomeBar = ({
   forVotes = 0,
   againstVotes = 0,
   abstainVotes = 0,
+  threshold,
 }: {
   forVotes?: number;
   againstVotes?: number;
   abstainVotes?: number;
+  threshold?: string;
 }) => {
   const totalVotes = forVotes + againstVotes + abstainVotes;
   const forPercentage = totalVotes > 0 ? (forVotes / totalVotes) * 100 : 0;
@@ -34,37 +36,55 @@ export const VotingOutcomeBar = ({
 
   const theme = useTheme();
   return (
-    <Box display="flex" alignItems="center" width="100%" height="7px" borderRadius={8} bgcolor={theme.colors.gray[500]}>
-      {/* For votes */}
+    <Box position="relative" mt={threshold ? "-6px" : "0px"}>
       <Box
-        width={`${forPercentage}%`}
-        sx={{
-          ...getBorderRadius("forVotes"),
-          transition: "width 0.3s ease",
-        }}
-        bgcolor={theme.colors.feedback.success} // Consider "success.main" for "for" votes
-        height="100%"
-      />
-      {/* Against votes */}
-      <Box
-        width={`${againstPercentage}%`}
-        bgcolor={theme.colors.feedback.error} // Consider "error.main" for "against" votes
-        height="100%"
-        sx={{
-          ...getBorderRadius("againstVotes"),
-          transition: "width 0.3s ease",
-        }}
-      />
-      {/* Abstain votes */}
-      <Box
-        width={`${abstainPercentage}%`}
-        bgcolor={theme.colors.gray[500]} // Consider "warning.main" for "abstain" votes
-        height="100%"
-        sx={{
-          ...getBorderRadius("abstainVotes"),
-          transition: "width 0.3s ease",
-        }}
-      />
+        display="flex"
+        alignItems="center"
+        width="100%"
+        height="8px"
+        borderRadius={8}
+        bgcolor={theme.colors.gray[500]}
+      >
+        {/* For votes */}
+        <Box
+          width={`${forPercentage}%`}
+          sx={{
+            ...getBorderRadius("forVotes"),
+            transition: "width 0.3s ease",
+          }}
+          bgcolor={theme.colors.feedback.success} // Consider "success.main" for "for" votes
+          height="100%"
+        />
+        {/* Against votes */}
+        <Box
+          width={`${againstPercentage}%`}
+          bgcolor={theme.colors.feedback.error} // Consider "error.main" for "against" votes
+          height="100%"
+          sx={{
+            ...getBorderRadius("againstVotes"),
+            transition: "width 0.3s ease",
+          }}
+        />
+        {/* Abstain votes */}
+        <Box
+          width={`${abstainPercentage}%`}
+          bgcolor={theme.colors.gray[500]} // Consider "warning.main" for "abstain" votes
+          height="100%"
+          sx={{
+            ...getBorderRadius("abstainVotes"),
+            transition: "width 0.3s ease",
+          }}
+        />
+      </Box>
+      {threshold && (
+        <Box position="absolute" width={"100%"} top={0} mt="-6px">
+          <Box marginLeft={threshold}>
+            <Typography fontSize="10px" fontWeight={500} lineHeight="18px">
+              |
+            </Typography>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

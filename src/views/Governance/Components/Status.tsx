@@ -22,7 +22,7 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
   return (
     <Paper enableBackground>
       <Typography fontSize="21px" fontWeight={600} mb="15px">
-        Status
+        Timeline
       </Typography>
       <Box display="flex" flexDirection="column" gap="15px">
         <div>

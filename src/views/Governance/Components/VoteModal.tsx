@@ -12,12 +12,10 @@ const StyledTextField = styled(TextField)(({}) => ({
 
 export const VoteModal = ({
   startBlock,
-  title,
   proposalId,
   onClose,
 }: {
   startBlock: number;
-  title: string;
   proposalId: number;
   onClose: () => void;
 }) => {
@@ -28,9 +26,9 @@ export const VoteModal = ({
   const castVote = useVoteForProposal();
   return (
     <>
-      <Box border="1px solid #E0E0E0" borderRadius="9px" padding="18px" marginBottom="24px">
+      <Box marginBottom="24px">
         <Box display="flex" alignItems={"center"}>
-          <Typography>Voting Power</Typography>
+          <Typography>Your Voting Power</Typography>
           <InfoTooltip
             message="Your voting power is calculated as the number of tokens (votes) that have been delegated to you before the proposal became active. You can delegate your votes to yourself, or to someone else. Others can also delegate their votes to you. 
           
@@ -40,15 +38,10 @@ This behavior is intended to prevent users from changing the outcome of a vote i
           />
         </Box>
         <Typography fontSize="32px" mt={"6px"}>
-          {votingWeight}
+          {Number(votingWeight).toFixed(2)} gOHM
         </Typography>
       </Box>
-      <Typography variant="h6" gutterBottom>
-        {title}
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom>
-        Proposal ID: {proposalId}
-      </Typography>
+
       <Typography mt="27px" fontWeight={"600"} mb="9px">
         Vote
       </Typography>
@@ -67,9 +60,10 @@ This behavior is intended to prevent users from changing the outcome of a vote i
           </Box>
         </RadioGroup>
       </Box>
-      <Typography mt="27px" fontWeight={"600"}>
-        Add Comment
-      </Typography>
+      <Box display={"flex"} alignItems="center" gap="3px" mt="27px">
+        <Typography fontWeight={"600"}>Add Comment</Typography>
+        <InfoTooltip message="This comment is published on chain as part of the transaction" />
+      </Box>
       <StyledTextField
         placeholder="Optional comment"
         multiline
@@ -83,7 +77,7 @@ This behavior is intended to prevent users from changing the outcome of a vote i
       />
       <PrimaryButton
         fullWidth
-        disabled={!vote || castVote.isLoading}
+        disabled={!vote || castVote.isLoading || Number(votingWeight) === 0}
         onClick={() =>
           castVote.mutate(
             { proposalId, vote: Number(vote), comment },
@@ -97,8 +91,11 @@ This behavior is intended to prevent users from changing the outcome of a vote i
           )
         }
       >
-        Submit
+        {Number(votingWeight) > 0 ? "Cast Vote" : "No Voting Power"}
       </PrimaryButton>
+      <Typography fontSize="12px" textAlign="center" fontWeight="600">
+        All voting is final. You cannot change your vote once it has been cast.
+      </Typography>
     </>
   );
 };

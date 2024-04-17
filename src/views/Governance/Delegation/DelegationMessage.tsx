@@ -15,10 +15,11 @@ export const DelegationMessage = () => {
   } = useGovernanceDelegationCheck();
 
   const undelegatedV1Cooler =
-    !coolerV1DelegationAddress && gohmCoolerV1Balance && gohmCoolerV1Balance.value.gt(BigNumber.from("0"));
+    !coolerV1DelegationAddress && gohmCoolerV1Balance && gohmCoolerV1Balance.value.gt(BigNumber.from("1000000000000"));
   const undelegatedV2Cooler =
-    !coolerV2DelegationAddress && gohmCoolerV2Balance && gohmCoolerV2Balance.value.gt(BigNumber.from("0"));
-  const undelegatedGohm = !gOHMDelegationAddress && gohmBalance && gohmBalance.value.gt(BigNumber.from("0"));
+    !coolerV2DelegationAddress && gohmCoolerV2Balance && gohmCoolerV2Balance.value.gt(BigNumber.from("1000000000000"));
+  const undelegatedGohm =
+    !gOHMDelegationAddress && gohmBalance && gohmBalance.value.gt(BigNumber.from("1000000000000"));
 
   if (undelegatedV1Cooler || undelegatedV2Cooler || undelegatedGohm) {
     return (

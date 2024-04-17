@@ -12,6 +12,7 @@ export const DelegateVotingModal = ({
   open,
   setOpen,
   currentDelegateAddress,
+  currentWalletAddress,
 }: {
   address?: string;
   open: boolean;
@@ -25,6 +26,7 @@ export const DelegateVotingModal = ({
     >
   >;
   currentDelegateAddress?: string;
+  currentWalletAddress?: string;
 }) => {
   const [delegationAddress, setDelegationAddress] = useState("");
   const delegateVoting = useDelegateVoting();
@@ -74,7 +76,7 @@ export const DelegateVotingModal = ({
             <SecondaryButton
               fullWidth
               onClick={() => {
-                setDelegationAddress(address);
+                currentWalletAddress && setDelegationAddress(currentWalletAddress);
               }}
             >
               Set to My Wallet

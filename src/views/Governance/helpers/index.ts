@@ -11,7 +11,6 @@ export function getDateFromBlock(
   currentTimestamp?: number,
 ): Date | undefined {
   if (targetBlock && currentBlock && averageBlockTimeInSeconds && currentTimestamp) {
-    console.log(targetBlock, currentBlock, averageBlockTimeInSeconds, currentTimestamp, "the details");
     const date = new Date();
     date.setTime((currentTimestamp + averageBlockTimeInSeconds * (targetBlock - currentBlock)) * 1000);
     return date;

@@ -13,11 +13,13 @@ export const CallData = ({
   target,
   value,
   index,
+  signature,
 }: {
   calldata: string;
   target: string;
   value: string;
   index: number;
+  signature: string;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fnDescription, setFnDescription] = useState<TransactionDescription>();
@@ -192,6 +194,10 @@ export const CallData = ({
           </Box>
         </>
       )}
+      <Typography fontWeight={600} mt="12px">
+        Signature:
+      </Typography>
+      <Typography fontFamily="monospace">{signature}</Typography>
       <Typography fontWeight={600} mt="12px">
         Target:
       </Typography>

@@ -1,5 +1,5 @@
-import { Box, TableCell, TableRow } from "@mui/material";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { Box, Tooltip, Typography, useTheme } from "@mui/material";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { truncateEthereumAddress } from "src/helpers/truncateAddress";
 import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
@@ -10,6 +10,7 @@ export const GovernanceTableRow = ({
   delegatorAddress,
   setDelegateVoting,
   balance,
+  address,
 }: {
   tokenName: string;
   delegationAddress?: string;
@@ -24,44 +25,51 @@ export const GovernanceTableRow = ({
     >
   >;
   balance?: string;
+  address: string;
 }) => {
   const delegateVoting = useDelegateVoting();
+  const theme = useTheme();
 
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-      <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
+    <Box display="flex" flexDirection="column" bgcolor={theme.colors.paper.card} padding="20px" borderRadius={"10px"}>
+      <Typography fontWeight="600" fontSize="18px">
         {tokenName}
-      </TableCell>
-      <TableCell align="right" sx={{ padding: "9px" }}>
+      </Typography>{" "}
+      <Tooltip title={address}>
+        <Typography sx={{ color: theme.colors.gray["40"] }}>
+          <>{truncateEthereumAddress(address, 9)}</>
+        </Typography>
+      </Tooltip>
+      <Box display="flex" gap="3px">
+        <Typography fontWeight="600">Balance: </Typography>
         {Number(balance || 0).toFixed(2)} gOHM
-      </TableCell>
-      <TableCell align="right" sx={{ padding: "9px" }}>
-        {delegationAddress ? `Delegated to ${truncateEthereumAddress(delegationAddress)} ` : "Undelegated"}
-      </TableCell>
-
-      <TableCell align="right" sx={{ padding: "9px" }}>
-        <Box display="flex" flexDirection="row" justifyContent="flex-end" gap="8px">
-          <Box flexGrow={1}>
-            <PrimaryButton
-              onClick={() => setDelegateVoting({ currentDelegatedToAddress: delegationAddress, delegatorAddress })}
-            >
-              Delegate
-            </PrimaryButton>
-          </Box>
-          {delegationAddress && (
-            <PrimaryButton
-              fullWidth
-              disabled={delegateVoting.isLoading}
-              onClick={() => {
-                delegateVoting.mutate({ address: delegatorAddress, delegationAddress: ethers.constants.AddressZero });
-              }}
-              loading={delegateVoting.isLoading && !delegationAddress}
-            >
-              Revoke
-            </PrimaryButton>
-          )}
+      </Box>
+      <Tooltip title={delegationAddress ? `Delegated to ${delegationAddress} ` : "Undelegated"}>
+        <Box display="flex" gap="3px">
+          <Typography fontWeight="600">Status:</Typography>
+          {delegationAddress ? "Delegated" : "Undelegated"}
         </Box>
-      </TableCell>
-    </TableRow>
+      </Tooltip>
+      <Box display="flex" gap="3px" mt="18px">
+        <Box>
+          <PrimaryButton
+            onClick={() => setDelegateVoting({ currentDelegatedToAddress: delegationAddress, delegatorAddress })}
+          >
+            Delegate
+          </PrimaryButton>
+        </Box>
+        {delegationAddress && (
+          <SecondaryButton
+            disabled={delegateVoting.isLoading}
+            onClick={() => {
+              delegateVoting.mutate({ address: delegatorAddress, delegationAddress: ethers.constants.AddressZero });
+            }}
+            loading={delegateVoting.isLoading && !delegationAddress}
+          >
+            Revoke
+          </SecondaryButton>
+        )}
+      </Box>
+    </Box>
   );
 };

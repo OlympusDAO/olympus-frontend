@@ -28,8 +28,10 @@ export const useGetContractParameters = () => {
 
     return {
       proposalThreshold: formatUnits(totalSupply.mul(proposalThreshold).div(precisionFactor), 18),
+      proposalThresholdPercent: parseBigNumber(proposalThreshold, 8),
       proposalApprovalThreshold: parseBigNumber(proposalApprovalThreshold, 8) * 100,
       proposalQuorum: formatUnits(totalSupply.mul(proposalQuorum).div(precisionFactor)),
+      proposalQuorumPercent: parseBigNumber(proposalQuorum, 8) * 100,
       votingDelay: `${votingDelay.div(BigNumber.from(7200)).toString()} Days`,
       votingPeriod: `${votingPeriod.div(BigNumber.from(7200)).toString()} Days`,
       executionDelay: `${timelockDelay.div(BigNumber.from(86400)).toString()} Day `,
