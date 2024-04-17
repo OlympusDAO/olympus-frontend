@@ -74,14 +74,14 @@ export const ProposalContainer = ({
   }
 
   const totalVotes = proposal.forCount + proposal.abstainCount + proposal.againstCount;
-  const approvalPercentage = (proposal.forCount / (proposal.forCount + proposal.againstCount)) * 100;
+  const approvalPercentage = (proposal.forCount / (proposal.forCount + proposal.againstCount)) * 100 || 0;
   const aboveQuorum = Boolean(proposal.forCount > proposal.quorumVotes);
 
   const totalSupply =
     proposal?.quorumVotes && parameters?.proposalQuorumPercent
       ? proposal?.quorumVotes / (parameters?.proposalQuorumPercent / 100)
       : 0;
-  const quorumPercentage = (proposal.forCount / totalSupply) * 100;
+  const quorumPercentage = (proposal.forCount / totalSupply) * 100 || 0;
   const approvalThresholdDenominator =
     (proposal.forCount + proposal.againstCount) * (parameters?.proposalApprovalThreshold / 100);
   const aboveThreshold = Boolean(approvalThresholdDenominator && proposal.forCount > approvalThresholdDenominator);

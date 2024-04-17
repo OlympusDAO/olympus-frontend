@@ -82,7 +82,7 @@ export const ProposalPage = () => {
                       Activate Proposal
                     </PrimaryButton>
                   )}
-                  <Typography fontSize={"15px"}>
+                  <Typography fontSize={"18px"} fontWeight={600}>
                     {pending && proposalDetails.startDate ? (
                       `Voting Starts in ${DateTime.fromJSDate(proposalDetails.startDate).toRelative({
                         base: DateTime.fromJSDate(currentBlockTime),

@@ -54,18 +54,16 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
             )}
             <Typography fontWeight="500">Approval</Typography>
           </Box>
-          {parameters?.proposalThresholdPercent && proposalDetails?.forCount && proposalDetails.quorumVotes && (
-            <Tooltip title={`${approvalPercentage.toFixed(0)}% of voting gOHM voted FOR`}>
-              <Box flexGrow={1}>
-                <VotingOutcomeBar
-                  forVotes={aboveThreshold ? proposalDetails?.forCount : 0}
-                  againstVotes={aboveThreshold ? 0 : proposalDetails?.forCount}
-                  abstainVotes={proposalDetails?.againstCount}
-                  threshold={`${parameters?.proposalApprovalThreshold.toString()}%`}
-                />
-              </Box>
-            </Tooltip>
-          )}
+          <Tooltip title={`${(approvalPercentage || 0).toFixed(0)}% of voting gOHM voted FOR`}>
+            <Box flexGrow={1}>
+              <VotingOutcomeBar
+                forVotes={aboveThreshold ? proposalDetails?.forCount : 0}
+                againstVotes={aboveThreshold ? 0 : proposalDetails?.forCount}
+                abstainVotes={proposalDetails?.againstCount}
+                threshold={`${parameters?.proposalApprovalThreshold.toString()}%`}
+              />
+            </Box>
+          </Tooltip>
         </Box>
         <Box display="flex" justifyContent={"space-between"} alignItems="baseline" gap="12px">
           <Box display="flex" alignItems="center" gap={"3px"}>
@@ -76,20 +74,19 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
             )}
             <Typography fontWeight="500">Quorum</Typography>
           </Box>
-          {parameters?.proposalQuorumPercent && proposalDetails?.forCount && proposalDetails.quorumVotes && (
-            <Tooltip
-              title={`${quorumPercentage.toFixed(0)}% of total gOHM Supply (${totalSupply.toFixed(2)} gOHM) voted FOR`}
-            >
-              <Box flexGrow={1}>
-                <VotingOutcomeBar
-                  forVotes={aboveQuorum ? proposalDetails?.forCount : 0}
-                  againstVotes={aboveQuorum ? 0 : proposalDetails.forCount}
-                  abstainVotes={totalSupply - proposalDetails?.forCount}
-                  threshold={`${parameters?.proposalQuorumPercent.toString()}%`}
-                />
-              </Box>
-            </Tooltip>
-          )}
+
+          <Tooltip
+            title={`${quorumPercentage.toFixed(0)}% of total gOHM Supply (${totalSupply.toFixed(2)} gOHM) voted FOR`}
+          >
+            <Box flexGrow={1}>
+              <VotingOutcomeBar
+                forVotes={aboveQuorum ? proposalDetails?.forCount : 0}
+                againstVotes={aboveQuorum ? 0 : proposalDetails?.forCount}
+                abstainVotes={totalSupply - (proposalDetails?.forCount || 0)}
+                threshold={`${parameters?.proposalQuorumPercent.toString()}%`}
+              />
+            </Box>
+          </Tooltip>
         </Box>
 
         <Box display="flex" justifyContent={"space-between"}>
