@@ -50,10 +50,15 @@ export const ProposalContainer = ({
         setProposals(prev => [...prev, proposalId]);
       }
     }
-    if (proposals.length === proposalId) {
-      setIsLoading(false);
-    }
   }, [proposal]);
+
+  useEffect(() => {
+    if (proposal && parameters && !isLoading) {
+      if (proposalsCount === proposalId) {
+        setIsLoading(false);
+      }
+    }
+  }, [isLoading, proposal, parameters, proposalsCount, proposalId]);
   if (isLoading || !proposal || !parameters) {
     return (
       <TableRow>
