@@ -107,11 +107,21 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
             )}
           </>
         )}
+        {proposalDetails?.status === "Defeated" && (
+          <>
+            {(proposalDetails?.endDate || placeholderEndDate) && (
+              <div>
+                <Typography fontSize="12px">
+                  {proposalDetails.endDate
+                    ? proposalDetails?.endDate?.toLocaleString()
+                    : placeholderEndDate?.toLocaleString()}
+                </Typography>
+                <Typography fontWeight="500">Proposal Defeated</Typography>
+              </div>
+            )}
+          </>
+        )}
       </Box>
-      {/* <p>if active or not defeated show the below</p>
-      <p>Queue Proposal: </p>
-      <p>Execute Proposal: </p>
-      <p> if defeated then show status why</p> */}
     </Paper>
   );
 };

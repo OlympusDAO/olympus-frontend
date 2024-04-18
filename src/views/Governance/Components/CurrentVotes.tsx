@@ -13,7 +13,7 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
   const { data: parameters } = useGetContractParameters();
   const { data: getReceipt } = useGetReceipt({ proposalId });
   const hasVoted = getReceipt?.hasVoted;
-  const support = getReceipt?.support === 0 ? "Against" : getReceipt?.support === 1 ? "For" : "Abstain";
+  const support = getReceipt?.support === 0 ? "Against" : getReceipt?.support === 1 ? "For" : " to Abstain";
 
   const theme = useTheme();
 
@@ -75,9 +75,7 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
             <Typography fontWeight="500">Quorum</Typography>
           </Box>
 
-          <Tooltip
-            title={`${quorumPercentage.toFixed(0)}% of total gOHM Supply (${totalSupply.toFixed(2)} gOHM) voted FOR`}
-          >
+          <Tooltip title={`${quorumPercentage.toFixed(0)}% of total gOHM Supply voted FOR`}>
             <Box flexGrow={1}>
               <VotingOutcomeBar
                 forVotes={aboveQuorum ? proposalDetails?.forCount : 0}
@@ -93,21 +91,29 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
           <Typography fontWeight="500" color={theme.colors.feedback.success}>
             For
           </Typography>
-          <Typography>{abbreviatedNumber.format(proposalDetails?.forCount || 0)}</Typography>
+          <Tooltip title={(proposalDetails?.forCount || 0).toFixed(2)}>
+            <Typography>{abbreviatedNumber.format(proposalDetails?.forCount || 0)}</Typography>
+          </Tooltip>
         </Box>
         <Box display="flex" justifyContent={"space-between"}>
           <Typography fontWeight="500" color={theme.colors.feedback.error}>
             Against
           </Typography>
-          <Typography>{abbreviatedNumber.format(proposalDetails?.againstCount || 0)}</Typography>
+          <Tooltip title={(proposalDetails?.againstCount || 0).toFixed(2)}>
+            <Typography>{abbreviatedNumber.format(proposalDetails?.againstCount || 0)}</Typography>
+          </Tooltip>
         </Box>
         <Box display="flex" justifyContent={"space-between"}>
           <Typography fontWeight="500">Abstain</Typography>
-          <Typography>{abbreviatedNumber.format(proposalDetails?.abstainCount || 0)}</Typography>
+          <Tooltip title={proposalDetails?.abstainCount.toFixed(2) || 0}>
+            <Typography>{abbreviatedNumber.format(proposalDetails?.abstainCount || 0)}</Typography>
+          </Tooltip>
         </Box>
         <Box display="flex" justifyContent={"space-between"}>
           <Typography fontWeight="500">Total Votes</Typography>
-          <Typography>{abbreviatedNumber.format(totalVotes || 0)}</Typography>
+          <Tooltip title={totalVotes.toFixed(2) || 0}>
+            <Typography>{abbreviatedNumber.format(totalVotes || 0)}</Typography>
+          </Tooltip>
         </Box>
         <VotingOutcomeBar
           forVotes={proposalDetails?.forCount}
@@ -116,7 +122,7 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
         />
         <WalletConnectedGuard fullWidth buttonText="Connect to Vote">
           <PrimaryButton onClick={onVoteClick} disabled={hasVoted || proposalDetails?.status !== "Active"}>
-            {hasVoted ? `Already Voted (${support})` : "Vote"}
+            {hasVoted ? `Voted (${support})` : "Vote"}
           </PrimaryButton>
         </WalletConnectedGuard>
       </Box>
