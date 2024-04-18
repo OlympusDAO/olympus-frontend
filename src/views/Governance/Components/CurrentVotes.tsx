@@ -120,11 +120,15 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
           againstVotes={proposalDetails?.againstCount}
           abstainVotes={proposalDetails?.abstainCount}
         />
-        <WalletConnectedGuard fullWidth buttonText="Connect to Vote">
-          <PrimaryButton onClick={onVoteClick} disabled={hasVoted || proposalDetails?.status !== "Active"}>
-            {hasVoted ? `Voted (${support})` : "Vote"}
-          </PrimaryButton>
-        </WalletConnectedGuard>
+        {(proposalDetails?.status == "Active" ||
+          proposalDetails?.status == "Pending" ||
+          proposalDetails?.status == "Emergency") && (
+          <WalletConnectedGuard fullWidth buttonText="Connect to Vote">
+            <PrimaryButton onClick={onVoteClick} disabled={hasVoted || proposalDetails?.status !== "Active"}>
+              {hasVoted ? `Voted (${support})` : "Vote"}
+            </PrimaryButton>
+          </WalletConnectedGuard>
+        )}
       </Box>
     </Paper>
   );
