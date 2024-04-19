@@ -137,4 +137,18 @@ export class Environment {
         });
     }
   };
+  public static getArchiveNodeUrls = (networkId: NetworkId) => {
+    switch (networkId) {
+      case NetworkId.MAINNET:
+        return this._get({
+          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/eth",
+        });
+      default:
+        return this._get({
+          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/eth",
+        });
+    }
+  };
 }

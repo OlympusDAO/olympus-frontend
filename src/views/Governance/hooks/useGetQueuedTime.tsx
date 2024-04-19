@@ -6,7 +6,7 @@ import { ProposalQueuedEventObject } from "src/typechain/OlympusGovernorBravo";
 import { useQuery } from "wagmi";
 
 export const useGetQueuedTime = ({ proposalId }: { proposalId: number }) => {
-  const archiveProvider = Providers.getStaticProvider(NetworkId.MAINNET);
+  const archiveProvider = Providers.getArchiveStaticProvider(NetworkId.MAINNET);
   const contract = GOVERNANCE_CONTRACT.getEthersContract(NetworkId.MAINNET);
   return useQuery(
     ["getQueuedTime", NetworkId.MAINNET, proposalId],

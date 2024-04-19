@@ -6,7 +6,7 @@ import { NetworkId } from "src/networkDetails";
 import { ProposalCanceledEventObject } from "src/typechain/OlympusGovernorBravo";
 
 export const useGetCanceledTime = ({ proposalId, status }: { proposalId: number; status?: string }) => {
-  const archiveProvider = Providers.getStaticProvider(NetworkId.MAINNET);
+  const archiveProvider = Providers.getArchiveStaticProvider(NetworkId.MAINNET);
   const contract = GOVERNANCE_CONTRACT.getEthersContract(NetworkId.MAINNET);
   return useQuery(
     ["getCanceledTime", NetworkId.MAINNET, proposalId, status],

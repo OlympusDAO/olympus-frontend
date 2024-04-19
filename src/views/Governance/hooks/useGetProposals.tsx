@@ -6,7 +6,7 @@ import { NetworkId } from "src/networkDetails";
 import { ProposalCreatedEventObject } from "src/typechain/OlympusGovernorBravo";
 
 export const useGetProposals = () => {
-  const archiveProvider = Providers.getStaticProvider(NetworkId.MAINNET);
+  const archiveProvider = Providers.getArchiveStaticProvider(NetworkId.MAINNET);
   const contract = GOVERNANCE_CONTRACT.getEthersContract(NetworkId.MAINNET);
   return useQuery(
     ["getProposals", NetworkId.MAINNET],
