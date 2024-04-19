@@ -3,15 +3,22 @@ import { Box, Tooltip, Typography, useTheme } from "@mui/material";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { abbreviatedNumber } from "src/helpers";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { VotingOutcomeBar } from "src/views/Governance/Components/VotingOutcomeBar";
 import { useGetContractParameters } from "src/views/Governance/hooks/useGetContractParameters";
 import { useGetProposalDetails } from "src/views/Governance/hooks/useGetProposalDetails";
 import { useGetReceipt } from "src/views/Governance/hooks/useGetReceipt";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 
 export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; onVoteClick: () => void }) => {
   const { data: proposalDetails } = useGetProposalDetails({ proposalId });
   const { data: parameters } = useGetContractParameters();
   const { data: getReceipt } = useGetReceipt({ proposalId });
+  const { chain } = useNetwork();
+  const networks = useTestableNetworks();
+  const { switchNetwork } = useSwitchNetwork();
+
   const hasVoted = getReceipt?.hasVoted;
   const support = getReceipt?.support === 0 ? "Against" : getReceipt?.support === 1 ? "For" : " to Abstain";
 
@@ -124,9 +131,13 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
           proposalDetails?.status == "Pending" ||
           proposalDetails?.status == "Emergency") && (
           <WalletConnectedGuard fullWidth buttonText="Connect to Vote">
-            <PrimaryButton onClick={onVoteClick} disabled={hasVoted || proposalDetails?.status !== "Active"}>
-              {hasVoted ? `Voted (${support})` : "Vote"}
-            </PrimaryButton>
+            {networks.MAINNET === chain?.id ? (
+              <PrimaryButton onClick={onVoteClick} disabled={hasVoted || proposalDetails?.status !== "Active"}>
+                {hasVoted ? `Voted (${support})` : "Vote"}
+              </PrimaryButton>
+            ) : (
+              <PrimaryButton onClick={() => switchNetwork?.(NetworkId.MAINNET)}>Switch Network</PrimaryButton>
+            )}
           </WalletConnectedGuard>
         )}
       </Box>

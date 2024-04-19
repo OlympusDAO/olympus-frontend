@@ -54,10 +54,22 @@ export class Environment {
       fallback: "false",
     });
 
+  public static getGovernanceStartBlock = (): number =>
+    parseInt(
+      this._get({
+        first: true,
+        key: "VITE_GOVERNANCE_START_BLOCK",
+        fallback: "0",
+      }),
+    );
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
-        return ["https://rpc.tenderly.co/fork/f7571dd4-342e-457a-a83b-670b6a84e4c4"]; //TODO: revert this after testing. this is like this so we dont have to mess w/ fleek environments for fork testing
+        return this._get({
+          key: `VITE_ETHEREUM_NODE_URL`,
+          fallback: "https://rpc.ankr.com/eth",
+        });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_NODE_URL`,

@@ -1,17 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { GOVERNANCE_CONTRACT } from "src/constants/contracts";
+import { Environment } from "src/helpers/environment/Environment/Environment";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import { ProposalCreatedEventObject } from "src/typechain/OlympusGovernorBravo";
-import { useProvider } from "wagmi";
 
 export const useGetProposals = () => {
-  const archiveProvider = useProvider();
+  const archiveProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   const contract = GOVERNANCE_CONTRACT.getEthersContract(NetworkId.MAINNET);
   return useQuery(
     ["getProposals", NetworkId.MAINNET],
     async () => {
       // using EVENTS
-      const proposalCreatedEvents = await contract.queryFilter(contract.filters.ProposalCreated(), 19520392);
+      const proposalCreatedEvents = await contract.queryFilter(
+        contract.filters.ProposalCreated(),
+        Environment.getGovernanceStartBlock(),
+      );
+
+      console.log(proposalCreatedEvents);
 
       const proposals = Promise.all(
         proposalCreatedEvents.map(async item => {

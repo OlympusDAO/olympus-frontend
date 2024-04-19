@@ -37,7 +37,7 @@ For votes that come from tokens that you own, if you delegated to yourself after
 This behavior is intended to prevent users from changing the outcome of a vote in progress by buying or borrowing additional votes."
           />
         </Box>
-        <Typography fontSize="32px" mt={"6px"}>
+        <Typography fontSize="32px" mt={"6px"} fontWeight={"600"}>
           {Number(votingWeight || 0).toFixed(2)} gOHM
         </Typography>
       </Box>
@@ -70,29 +70,30 @@ This behavior is intended to prevent users from changing the outcome of a vote i
         rows={4}
         variant="outlined"
         fullWidth
-        margin="normal"
         value={comment}
         onChange={e => setComment(e.target.value)}
         InputProps={{ notched: false }}
       />
-      <PrimaryButton
-        fullWidth
-        disabled={!vote || castVote.isLoading || Number(votingWeight) === 0}
-        onClick={() =>
-          castVote.mutate(
-            { proposalId, vote: Number(vote), comment },
-            {
-              onSuccess: () => {
-                setVote("");
-                setComment("");
-                onClose();
+      <Box mt="7px">
+        <PrimaryButton
+          fullWidth
+          disabled={!vote || castVote.isLoading || Number(votingWeight) === 0}
+          onClick={() =>
+            castVote.mutate(
+              { proposalId, vote: Number(vote), comment },
+              {
+                onSuccess: () => {
+                  setVote("");
+                  setComment("");
+                  onClose();
+                },
               },
-            },
-          )
-        }
-      >
-        {Number(votingWeight) > 0 ? "Cast Vote" : "No Voting Power"}
-      </PrimaryButton>
+            )
+          }
+        >
+          {Number(votingWeight) > 0 ? "Cast Vote" : "No Voting Power"}
+        </PrimaryButton>
+      </Box>
       <Typography fontSize="12px" textAlign="center" fontWeight="600">
         All voting is final. You cannot change your vote once it has been cast.
       </Typography>

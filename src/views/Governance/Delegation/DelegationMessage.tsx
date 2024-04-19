@@ -1,4 +1,4 @@
-import { Link, Typography } from "@mui/material";
+import { Link } from "@mui/material";
 import { InfoNotification } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { Link as RouterLink } from "react-router-dom";
@@ -24,12 +24,10 @@ export const DelegationMessage = () => {
   if (undelegatedV1Cooler || undelegatedV2Cooler || undelegatedGohm) {
     return (
       <InfoNotification>
-        <Typography>
-          To participate on on-chain governance you must delegate your gOHM{" "}
-          <Link component={RouterLink} to="/governance/delegate">
-            Learn More
-          </Link>
-        </Typography>
+        To participate on on-chain governance you must delegate your gOHM{" "}
+        <Link component={RouterLink} to="/governance/delegate">
+          Learn More
+        </Link>
       </InfoNotification>
     );
   }

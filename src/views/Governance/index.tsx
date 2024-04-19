@@ -23,7 +23,7 @@ import { useGetProposals } from "src/views/Governance/hooks/useGetProposals";
 import { useGetVotingWeight } from "src/views/Governance/hooks/useGetVotingWeight";
 
 export const Governance = () => {
-  const { data: proposals } = useGetProposals();
+  const { data: proposals, isFetching } = useGetProposals();
   const { data: currentVotingWeight } = useGetVotingWeight({});
   const theme = useTheme();
   const [activeProposals, setActiveProposals] = useState<number[]>([]);
@@ -44,7 +44,7 @@ export const Governance = () => {
           </Link>
         </Box>
         <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="33px">
-          <Typography fontSize="21px" fontWeight="600">
+          <Typography fontSize="24px" fontWeight="600">
             Upcoming & Active Proposals
           </Typography>
           <TableContainer component={Paper}>
@@ -82,14 +82,14 @@ export const Governance = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {activeProposals.length === 0 && !activeProposalsLoading ? (
+          {(activeProposals.length === 0 && !activeProposalsLoading) || (proposals?.length === 0 && !isFetching) ? (
             <Typography fontSize="21px" fontWeight="600" mt="21px" mb="21px" textAlign="center">
               No Upcoming or Active Proposals
             </Typography>
           ) : null}
         </Box>
         <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="66px">
-          <Typography fontSize="21px" fontWeight="600">
+          <Typography fontSize="24px" fontWeight="600">
             Past Proposals
           </Typography>
           <TableContainer component={Paper}>
@@ -126,13 +126,15 @@ export const Governance = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {pastProposals.length === 0 && !pastProposalsLoading ? (
+          {(pastProposals.length === 0 && !pastProposalsLoading) || (proposals?.length === 0 && !isFetching) ? (
             <Typography fontSize="21px" fontWeight="600" mt="21px" mb="21px" textAlign="center">
               No Past Proposals
             </Typography>
           ) : null}
         </Box>
-        <ContractParameters />
+        <Box mt="15px">
+          <ContractParameters />
+        </Box>
       </Box>
     </div>
   );
