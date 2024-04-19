@@ -17,8 +17,6 @@ export const useGetProposals = () => {
         Environment.getGovernanceStartBlock(),
       );
 
-      console.log(proposalCreatedEvents);
-
       const proposals = Promise.all(
         proposalCreatedEvents.map(async item => {
           const timestamp = (await archiveProvider.getBlock(item.blockNumber)).timestamp;

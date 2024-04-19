@@ -141,8 +141,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     },
   ];
 
-  console.log(totalWsohmBalance);
-
   const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
   const myOhmBalancesTotalValueUSD = Object.values(myOhmBalances).reduce(
     (totalValue, token) => totalValue + token.assetValue,
