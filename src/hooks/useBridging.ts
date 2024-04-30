@@ -38,7 +38,10 @@ export interface IBridgeFee {
 }
 
 const normalizedBridgeContract = ({ chainId }: { chainId: number }): CrossChainBridge | CrossChainBridgeTestnet => {
+  console.log("chainId", chainId);
   const contractConstant = isTestnet(chainId) ? CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET : CROSS_CHAIN_BRIDGE_CONTRACT;
+
+  console.log("contractConstant", contractConstant, chainId);
   return contractConstant.getEthersContract(chainId);
 };
 

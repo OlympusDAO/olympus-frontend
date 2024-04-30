@@ -80,6 +80,8 @@ export const OHM_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0x0595328847AF962F951a4f8F8eE9A3Bf261e4f6b",
   [NetworkId.MAINNET]: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
   [NetworkId.ARBITRUM]: "0xf0cb2dc0db5e6c66B9a70Ac27B06b878da017028",
+  [NetworkId.BASE]: "0x060cb087a9730E13aa191f31A6d86bFF8DfcdCC0",
+  [NetworkId.BASE_TESTNET]: "",
   [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
 };
 
@@ -202,6 +204,7 @@ export const ZERO_EX_EXCHANGE_PROXY_ADDRESSES = {
 export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
   [NetworkId.MAINNET]: "0x45e563c39cddba8699a90078f42353a57509543a",
   [NetworkId.ARBITRUM]: "0x20B3834091f038Ce04D8686FAC99CA44A0FB285c",
+  [NetworkId.BASE]: "0x6CA1a916e883c7ce2BFBcF59dc70F2c1EF9dac6e",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };
@@ -209,6 +212,7 @@ export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
 export const CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET = {
   [NetworkId.MAINNET]: "",
   [NetworkId.ARBITRUM]: "",
+  [NetworkId.BASE]: "",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };
@@ -219,6 +223,7 @@ export const MINTER_ADDRESSES = {
   [NetworkId.ARBITRUM]: "0x8f6406eDbFA393e327822D4A08BcF15503570D87",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0x78f84998c73655ac2da0aa1e1270f6cb985a343e",
+  [NetworkId.BASE]: "0x623164A9Ee2556D524b08f34F1d2389d7B4e1A1C",
 };
 
 /** for display purposes */
@@ -230,6 +235,10 @@ export const BRIDGE_CHAINS = {
   [NetworkId.ARBITRUM]: {
     name: "Arbitrum",
     token: "ARBITRUM",
+  },
+  [NetworkId.BASE]: {
+    name: "Base",
+    token: "BASE",
   },
   [NetworkId.TESTNET_GOERLI]: {
     name: "Goerli",
@@ -244,9 +253,13 @@ export const BRIDGE_CHAINS = {
 export const BRIDGEABLE_CHAINS = {
   [NetworkId.MAINNET]: {
     defaultRecChain: NetworkId.ARBITRUM,
-    availableChains: [NetworkId.ARBITRUM],
+    availableChains: [NetworkId.ARBITRUM, NetworkId.BASE],
   },
   [NetworkId.ARBITRUM]: {
+    defaultRecChain: NetworkId.MAINNET,
+    availableChains: [NetworkId.MAINNET],
+  },
+  [NetworkId.BASE]: {
     defaultRecChain: NetworkId.MAINNET,
     availableChains: [NetworkId.MAINNET],
   },

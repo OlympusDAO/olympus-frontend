@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Typography, useTheme } from "@mui/material";
 import { Icon, Modal, OHMTokenProps, Token } from "@olympusdao/component-library";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
@@ -77,7 +77,11 @@ export const ChainPickerModal = ({
                 }}
               >
                 <Box display="flex" gap={1} alignItems="center">
-                  <Token name={chain.token as OHMTokenProps["name"]} />
+                  {chain.token === "BASE" ? (
+                    <Avatar src="/assets/images/base.svg" sx={{ width: "36px", height: "36px" }} />
+                  ) : (
+                    <Token name={chain.token as OHMTokenProps["name"]} />
+                  )}
                   <Typography variant="body1" sx={{ fontWeight: "400" }}>
                     {chain.name && chain.name}
                   </Typography>

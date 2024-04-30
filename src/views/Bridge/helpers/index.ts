@@ -23,6 +23,9 @@ export const useBridgeableTestableNetwork = () => {
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
   switch (chain.id) {
+    case NetworkId.BASE:
+    case NetworkId.BASE_TESTNET:
+      return networks.BASE;
     case NetworkId.ARBITRUM_GOERLI:
     case NetworkId.ARBITRUM:
       return networks.ARBITRUM;
@@ -47,6 +50,8 @@ export const layerZeroChainIdsFromEVM = ({ evmChainId }: { evmChainId: number })
       return 110;
     case NetworkId.OPTIMISM:
       return 111;
+    case NetworkId.BASE:
+      return 184;
     case NetworkId.MAINNET:
     default:
       return 101;
