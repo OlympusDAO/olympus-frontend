@@ -64,12 +64,8 @@ const StyledMiniCard = styled(MiniCard)(({ theme }) => ({
 const Bridge = () => {
   const networks = useTestableNetworks();
 
-  console.log("the networks", networks);
-
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  console.log("isSmallScreen", isSmallScreen);
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
-  console.log("after use network", chain);
 
   const { data: transferEvents } = useGetBridgeTransferredEvents(chain.id);
 
@@ -86,7 +82,6 @@ const Bridge = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  console.log("gohmBalances", gohmBalances);
   return (
     <>
       <PageTitle

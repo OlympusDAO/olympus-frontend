@@ -13,8 +13,6 @@ const getTestnet = <TTargetNetwork extends NetworkId, TTestNetwork extends Netwo
 export const useTestableNetworks = () => {
   const { chain = { id: 1 } } = useNetwork();
 
-  console.log("chain", chain);
-
   return {
     MAINNET: getTestnet(NetworkId.MAINNET, NetworkId.TESTNET_GOERLI, chain.id),
     AVALANCHE: getTestnet(NetworkId.AVALANCHE, NetworkId.AVALANCHE_TESTNET, chain.id),
