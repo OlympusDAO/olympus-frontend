@@ -40,6 +40,10 @@ export const BridgeInputArea = () => {
     if (bridgeMutation.isSuccess) setConfirmOpen(false);
   }, [bridgeMutation.isSuccess]);
 
+  useEffect(() => {
+    setReceivingChain(chainDefaults?.defaultRecChain || 1);
+  }, [chain.id]);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
