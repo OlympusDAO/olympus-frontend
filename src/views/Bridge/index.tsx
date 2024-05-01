@@ -66,7 +66,9 @@ const Bridge = () => {
 
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { chain = { id: 1, name: "Mainnet" } } = useNetwork();
+
   const { data: transferEvents } = useGetBridgeTransferredEvents(chain.id);
+
   const gohmBalances = useGohmBalance();
   const gohmTokens = [
     // gohmBalances[networks.MAINNET].data,

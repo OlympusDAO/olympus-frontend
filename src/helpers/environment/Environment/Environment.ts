@@ -126,6 +126,16 @@ export class Environment {
           key: `VITE_BOBA_TESTNET_NODE_URL`,
           fallback: "https://rinkeby.boba.network/",
         });
+      case NetworkId.BASE:
+        return this._get({
+          key: `VITE_BASE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/base",
+        });
+      case NetworkId.BASE_TESTNET:
+        return this._get({
+          key: `VITE_BASE_TESTNET_NODE_URL`,
+          fallback: "https://sepolia.base.org",
+        });
     }
   };
 }
