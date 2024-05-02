@@ -1,4 +1,4 @@
-import { Typography, useTheme } from "@mui/material";
+import { Avatar, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { Icon, OHMTokenProps, PrimaryButton, SwapCard, SwapCollection, Token } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
@@ -40,6 +40,10 @@ export const BridgeInputArea = () => {
     if (bridgeMutation.isSuccess) setConfirmOpen(false);
   }, [bridgeMutation.isSuccess]);
 
+  useEffect(() => {
+    setReceivingChain(chainDefaults?.defaultRecChain || 1);
+  }, [chain.id]);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -50,10 +54,14 @@ export const BridgeInputArea = () => {
                 <SwapCard
                   id="from"
                   token={
-                    <Token
-                      name={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
-                      sx={{ width: "21px", height: "21px" }}
-                    />
+                    BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token === "BASE" ? (
+                      <Avatar src="/assets/images/base.svg" sx={{ width: "20px", height: "20px" }} />
+                    ) : (
+                      <Token
+                        name={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
+                        sx={{ width: "21px", height: "21px" }}
+                      />
+                    )
                   }
                   tokenName={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].name}
                   tokenOnClick={() => setSendChainOpen(true)}
@@ -70,10 +78,16 @@ export const BridgeInputArea = () => {
                 <SwapCard
                   id="to"
                   token={
-                    <Token
-                      name={BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
-                      sx={{ width: "21px", height: "21px" }}
-                    />
+                    BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token === "BASE" ? (
+                      <Avatar src="/assets/images/base.svg" sx={{ width: "20px", height: "20px" }} />
+                    ) : (
+                      <Token
+                        name={
+                          BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]
+                        }
+                        sx={{ width: "21px", height: "21px" }}
+                      />
+                    )
                   }
                   tokenName={BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].name}
                   tokenOnClick={() => setRecChainOpen(true)}
@@ -109,8 +123,8 @@ export const BridgeInputArea = () => {
                   {bridgeMutation.isLoading
                     ? "Bridging..."
                     : Number(amount) > 0
-                    ? "Bridge"
-                    : "Enter an amount to bridge"}
+                      ? "Bridge"
+                      : "Enter an amount to bridge"}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>

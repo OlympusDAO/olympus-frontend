@@ -21,6 +21,7 @@ import StagingNotification from "src/components/StagingNotification";
 import { StakeVersionContainer } from "src/components/StakeVersionContainer";
 import TopBar from "src/components/TopBar/TopBar";
 import { shouldTriggerSafetyCheck } from "src/helpers";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useGoogleAnalytics } from "src/hooks/useGoogleAnalytics";
 import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
@@ -203,6 +204,8 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+  const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
+  const defaultRoute = protocolMetricsEnabled ? "/dashboard" : "/my-balances";
   return (
     <StyledDiv>
       <RainbowKitProvider
@@ -232,7 +235,7 @@ function App() {
               <Suspense fallback={<div></div>}>
                 <Routes>
                   <Route path="my-balances" element={<MyBalances />} />
-                  <Route path="/" element={<Navigate to="/dashboard" />} />
+                  <Route path="/" element={<Navigate to={defaultRoute} />} />
                   <Route
                     path="/stake"
                     element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}

@@ -37,21 +37,6 @@ export class Environment {
       err: "Please provide an Google Analytics 4 API key in your .env file",
     });
 
-  public static getCovalentApiKey = () =>
-    this._get({
-      first: true,
-      key: "VITE_COVALENT_API_KEY",
-      err: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
-    });
-
-  public static getZapperApiKey = () =>
-    this._get({
-      first: true,
-      key: "VITE_ZAPPER_API",
-      // NOTE: default Zapper API key. Won't work in production with any real volume of usage.
-      fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
-    });
-
   public static getWundergraphNodeUrl = (): string | undefined =>
     this._get({
       first: true,
@@ -68,31 +53,6 @@ export class Environment {
       key: "VITE_STAGING_ENV",
       fallback: "false",
     });
-
-  public static getArchiveNodeUrl = (networkId: number) => {
-    switch (networkId) {
-      case NetworkId.MAINNET:
-        return this._get({
-          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ETHEREUM_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.TESTNET_GOERLI:
-        return this._get({
-          key: `VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ETHEREUM_TESTNET_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.ARBITRUM_GOERLI:
-        return this._get({
-          key: `VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ARBITRUM_GOERLI_ARCHIVE_NODE_URL for governance to function properly",
-        });
-      case NetworkId.ARBITRUM:
-        return this._get({
-          key: `VITE_ARBITRUM_ARCHIVE_NODE_URL`,
-          err: "Please provide a VITE_ARBITRUM_ARCHIVE_NODE_URL for governance to function properly",
-        });
-    }
-  };
 
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
@@ -166,10 +126,16 @@ export class Environment {
           key: `VITE_BOBA_TESTNET_NODE_URL`,
           fallback: "https://rinkeby.boba.network/",
         });
+      case NetworkId.BASE:
+        return this._get({
+          key: `VITE_BASE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/base",
+        });
+      case NetworkId.BASE_TESTNET:
+        return this._get({
+          key: `VITE_BASE_TESTNET_NODE_URL`,
+          fallback: "https://sepolia.base.org",
+        });
     }
   };
-
-  public static isWalletNewsEnabled() {
-    return this.env.VITE_DISABLE_NEWS !== "true";
-  }
 }

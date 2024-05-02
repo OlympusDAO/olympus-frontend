@@ -55,6 +55,50 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...fantom,
     },
+    {
+      id: 8453,
+      name: "Base",
+      network: "base",
+      iconUrl: "/assets/images/base.svg",
+      nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+      rpcUrls: {
+        default: {
+          http: ["https://rpc.ankr.com/base"],
+        },
+        public: {
+          http: ["https://rpc.ankr.com/base"],
+        },
+      },
+      blockExplorers: {
+        default: {
+          name: "Basescan",
+          url: "https://basescan.org",
+        },
+      },
+      contracts: {
+        l2OutputOracle: {
+          [1]: {
+            address: "0x56315b90c40730925ec5485cf004d835058518A0",
+          },
+        },
+        multicall3: {
+          address: "0xca11bde05977b3631167028862be2a173976ca11",
+          blockCreated: 5022,
+        },
+        portal: {
+          [1]: {
+            address: "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
+            blockCreated: 17482143,
+          },
+        },
+        l1StandardBridge: {
+          [1]: {
+            address: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+            blockCreated: 17482143,
+          },
+        },
+      },
+    },
     goerli,
     arbitrumGoerli,
   ],
