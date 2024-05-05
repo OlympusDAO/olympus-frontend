@@ -12,6 +12,7 @@ import {
   DISTRIBUTOR_ADDRESSES,
   LIQUIDITY_REGISTRY_ADDRESSES,
   MIGRATOR_ADDRESSES,
+  OLYMPUS_GOVERNANCE_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   RANGE_ADDRESSES,
   RANGE_OPERATOR_ADDRESSES,
@@ -30,6 +31,7 @@ import {
   CrossChainBridge__factory,
   CrossChainBridgeTestnet__factory,
   CrossChainMigrator__factory,
+  OlympusGovernorBravo__factory,
   OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
@@ -161,4 +163,10 @@ export const COOLER_CLEARING_HOUSE_CONTRACT_V2 = new Contract({
   factory: CoolerClearingHouse__factory,
   name: "Cooler Clearing House Contract V2",
   addresses: COOLER_CLEARING_HOUSE_V2_ADDRESSES,
+});
+
+export const GOVERNANCE_CONTRACT = new Contract({
+  factory: OlympusGovernorBravo__factory,
+  name: "Governance Contract",
+  addresses: OLYMPUS_GOVERNANCE_ADDRESSES,
 });

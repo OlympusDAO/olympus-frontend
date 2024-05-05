@@ -33,6 +33,7 @@ export const useDelegateVoting = () => {
       },
       onSuccess: async tx => {
         queryClient.invalidateQueries({ queryKey: ["checkDelegation"] });
+        queryClient.invalidateQueries({ queryKey: ["votingWeight"] });
         toast(`Successfully Delegated Voting`);
       },
     },
