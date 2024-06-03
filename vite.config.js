@@ -4,8 +4,8 @@ import react from "@vitejs/plugin-react";
 import polyfillNode from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
-import viteTsconfigPaths from "vite-tsconfig-paths";
 import transformPlugin from "vite-plugin-transform";
+import viteTsconfigPaths from "vite-tsconfig-paths";
 
 export default ({ mode }) => {
   return defineConfig({
@@ -20,12 +20,11 @@ export default ({ mode }) => {
         tStart: "%{",
         tEnd: "}%",
         replace: {
-          "COOLER_LOANS_API_ENDPOINT":
-            process.env.VITE_COOLER_LOANS_API_ENDPOINT ?
-              process.env.VITE_COOLER_LOANS_API_ENDPOINT :
-              mode === "development" ?
-                "https://olympus-cooler-loans-api-dev.web.app" : // Avoids CORS errors during local development
-                "https://olympus-cooler-loans-api-prod.web.app", // Used in production builds
+          COOLER_LOANS_API_ENDPOINT: process.env.VITE_COOLER_LOANS_API_ENDPOINT
+            ? process.env.VITE_COOLER_LOANS_API_ENDPOINT
+            : mode === "development"
+            ? "https://olympus-cooler-loans-api-dev.web.app" // Avoids CORS errors during local development
+            : "https://olympus-cooler-loans-api-prod.web.app", // Used in production builds
         },
       }),
     ],
