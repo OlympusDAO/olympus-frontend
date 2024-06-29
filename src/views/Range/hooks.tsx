@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
-import { gql, request } from "graphql-request";
+import { formatEther } from "ethers/lib/utils.js";
 import toast from "react-hot-toast";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
@@ -23,46 +23,38 @@ import { useBondV3 } from "src/views/Bond/hooks/useBondV3";
 import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
-export const PriceHistory = ({ assetPair = "OHMv2/ETH", reserveSymbol = "" }) => {
-  const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
+export const PriceHistory = () => {
+  const networks = useTestableNetworks();
   const {
     data = [],
     isFetched,
     isLoading,
-  } = useQuery(["getPriceHistory", assetPair, reserveSymbol], async () => {
-    const data = await request(
-      graphURL,
-      gql`
-        {
-          prices(where: { assetPair: "${assetPair}" }, orderBy: timestamp, first: 8, orderDirection: desc) {
-            price
-            timestamp
-          }
-        }
-      `,
-    );
+  } = useQuery(["getPriceHistory"], async () => {
+    const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
+    const lastObservationIndex = await contract.nextObsIndex();
+    const secondsToSubtract = await contract.observationFrequency();
+    const totalObservations = 10;
+    let currentDate = new Date(); // Start with the current date
+    const resultsArray: {
+      price: number;
+      timestamp: string;
+    }[] = [];
 
-    const prices = await Promise.all(
-      data.prices.flatMap(async (ohmData: { price: number; timestamp: number }) => {
-        const reservePrice = await request(
-          graphURL,
-          gql`
-            {
-              prices(where: { assetPair: "${reserveSymbol}/ETH" timestamp_lte: ${ohmData.timestamp}}, orderBy: timestamp, first: 1, orderDirection: desc) {
-                price
-                timestamp
-              }
-            }
-          `,
-        );
+    for (let i = 0; i < totalObservations; i++) {
+      const observation = lastObservationIndex - i;
+      if (i > 0) {
+        currentDate = new Date(currentDate.getTime() - secondsToSubtract * 1000);
+      }
+      const datapoint = await contract.observations(observation);
+      const resultObject = {
+        price: parseFloat(formatEther(datapoint)),
+        timestamp: i === 0 ? "now" : currentDate.toLocaleString(),
+      };
+      resultsArray.push(resultObject);
+    }
 
-        return {
-          price: ohmData.price / 1e18 / (reservePrice.prices[0].price / 1e18),
-          timestamp: new Date(ohmData.timestamp * 1000).toLocaleString(),
-        };
-      }),
-    );
-    return prices;
+    console.log(resultsArray, "results array");
+    return resultsArray;
   });
 
   return { data, isFetched, isLoading };
