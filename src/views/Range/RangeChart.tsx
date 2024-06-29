@@ -49,7 +49,7 @@ const RangeChart = (props: {
 }) => {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
-  const { data: priceData, isFetched } = PriceHistory({ reserveSymbol });
+  const { data: priceData, isFetched } = PriceHistory();
 
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
@@ -71,20 +71,11 @@ const RangeChart = (props: {
   /* We load an object at the front of the chartData array
    * with no price data to shift the chart line left and add an extra element with current market price
    */
-  chartData.unshift(
-    {
-      uv: [formattedWallHigh, formattedCushionHigh],
-      lv: [formattedWallLow, formattedCushionLow],
-      ma: targetPrice,
-    },
-    {
-      price: currentPrice,
-      timestamp: "now",
-      uv: [formattedWallHigh, formattedCushionHigh],
-      lv: [formattedWallLow, formattedCushionLow],
-      ma: targetPrice,
-    },
-  );
+  chartData.unshift({
+    uv: [formattedWallHigh, formattedCushionHigh],
+    lv: [formattedWallLow, formattedCushionLow],
+    ma: targetPrice,
+  });
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
@@ -113,10 +104,10 @@ const RangeChart = (props: {
 
   //adjust chart layout labels if dots are too close
 
-  const askPriceDelta = chartData[1].price - askPrice; //if negative ask is above price
-  const bidPriceDelta = chartData[1].price - bidPrice; // if negative bid is above price
-  const isSquishyAsk = askPriceDelta < 1.25 && askPriceDelta > -1.25;
-  const isSquishyBid = bidPriceDelta < 1.25 && bidPriceDelta > -1.25;
+  const askPriceDelta = chartData.length > 1 ? chartData[1].price - askPrice : undefined; //if negative ask is above price
+  const bidPriceDelta = chartData.length > 1 ? chartData[1].price - bidPrice : undefined; // if negative bid is above price
+  const isSquishyAsk = askPriceDelta && askPriceDelta < 1.25 && askPriceDelta > -1.25;
+  const isSquishyBid = bidPriceDelta && bidPriceDelta < 1.25 && bidPriceDelta > -1.25;
 
   const TooltipContent = ({ payload, label }: TooltipProps<number, NameType>) => {
     const price = payload && payload.length > 4 ? payload[4].value : currentPrice;
