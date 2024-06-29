@@ -53,7 +53,6 @@ export const PriceHistory = () => {
       resultsArray.push(resultObject);
     }
 
-    console.log(resultsArray, "results array");
     return resultsArray;
   });
 
