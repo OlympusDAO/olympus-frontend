@@ -33,7 +33,7 @@ export const PriceHistory = () => {
     const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
     const lastObservationIndex = await contract.nextObsIndex();
     const secondsToSubtract = await contract.observationFrequency();
-    const totalObservations = 10;
+    const totalObservations = lastObservationIndex < 10 ? lastObservationIndex : 10;
     let currentDate = new Date(); // Start with the current date
     const resultsArray: {
       price: number;
