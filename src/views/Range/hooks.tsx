@@ -33,22 +33,21 @@ export const PriceHistory = () => {
     const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
     const lastObservationIndex = await contract.nextObsIndex();
     const secondsToSubtract = await contract.observationFrequency();
-    const totalObservations = lastObservationIndex < 10 ? lastObservationIndex : 10;
     let currentDate = new Date(); // Start with the current date
     const resultsArray: {
       price: number;
       timestamp: string;
     }[] = [];
 
-    for (let i = 0; i < totalObservations; i++) {
-      const observation = lastObservationIndex - i;
+    for (let i = 1; i < 10; i++) {
+      const observation = (lastObservationIndex - i + 90) % 90;
       if (i > 0) {
         currentDate = new Date(currentDate.getTime() - secondsToSubtract * 1000);
       }
       const datapoint = await contract.observations(observation);
       const resultObject = {
         price: parseFloat(formatEther(datapoint)),
-        timestamp: i === 0 ? "now" : currentDate.toLocaleString(),
+        timestamp: currentDate.toLocaleString(),
       };
       resultsArray.push(resultObject);
     }
@@ -68,6 +67,16 @@ export const OperatorPrice = () => {
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
   const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", networks.MAINNET], async () => {
     return parseBigNumber(await contract.getCurrentPrice(), 18);
+  });
+  return { data, isFetched, isLoading };
+};
+
+export const LastSnapshotPrice = () => {
+  const networks = useTestableNetworks();
+
+  const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
+  const { data, isFetched, isLoading } = useQuery(["getLastSnapshotPrice", networks.MAINNET], async () => {
+    return parseBigNumber(await contract.getLastPrice(), 18);
   });
   return { data, isFetched, isLoading };
 };

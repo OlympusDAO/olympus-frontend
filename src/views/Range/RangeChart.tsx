@@ -71,11 +71,20 @@ const RangeChart = (props: {
   /* We load an object at the front of the chartData array
    * with no price data to shift the chart line left and add an extra element with current market price
    */
-  chartData.unshift({
-    uv: [formattedWallHigh, formattedCushionHigh],
-    lv: [formattedWallLow, formattedCushionLow],
-    ma: targetPrice,
-  });
+  chartData.unshift(
+    {
+      uv: [formattedWallHigh, formattedCushionHigh],
+      lv: [formattedWallLow, formattedCushionLow],
+      ma: targetPrice,
+    },
+    {
+      price: currentPrice,
+      timestamp: "now",
+      uv: [formattedWallHigh, formattedCushionHigh],
+      lv: [formattedWallLow, formattedCushionLow],
+      ma: targetPrice,
+    },
+  );
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
