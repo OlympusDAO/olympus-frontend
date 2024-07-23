@@ -33,16 +33,14 @@ export const PriceHistory = () => {
     const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
     const lastObservationIndex = await contract.nextObsIndex();
     const secondsToSubtract = await contract.observationFrequency();
-    const totalObservations = lastObservationIndex < 9 ? lastObservationIndex : 9;
     let currentDate = new Date(); // Start with the current date
     const resultsArray: {
       price: number;
       timestamp: string;
     }[] = [];
 
-    for (let i = 0; i < totalObservations; i++) {
-      const observation = lastObservationIndex - 1 - i;
-      console.log(observation, "observation");
+    for (let i = 1; i < 10; i++) {
+      const observation = (lastObservationIndex - i + 90) % 90;
       if (i > 0) {
         currentDate = new Date(currentDate.getTime() - secondsToSubtract * 1000);
       }
@@ -59,6 +57,14 @@ export const PriceHistory = () => {
 
   return { data, isFetched, isLoading };
 };
+
+function getLastTenIndices(currentIndex: number): number[] {
+  const result: number[] = [];
+  for (let i = 0; i < 10; i++) {
+    result.unshift((currentIndex - i + 100) % 100);
+  }
+  return result;
+}
 
 /**
  * Returns the current price of the Operator at the given address
