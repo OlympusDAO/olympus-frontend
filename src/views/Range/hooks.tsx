@@ -58,14 +58,6 @@ export const PriceHistory = () => {
   return { data, isFetched, isLoading };
 };
 
-function getLastTenIndices(currentIndex: number): number[] {
-  const result: number[] = [];
-  for (let i = 0; i < 10; i++) {
-    result.unshift((currentIndex - i + 100) % 100);
-  }
-  return result;
-}
-
 /**
  * Returns the current price of the Operator at the given address
  */
