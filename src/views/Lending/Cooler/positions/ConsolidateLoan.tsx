@@ -8,7 +8,6 @@ import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAll
 import { COOLER_CONSOLIDATION_ADDRESSES, DAI_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 
@@ -23,7 +22,6 @@ export const ConsolidateLoans = ({
   loans: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
   duration: string;
 }) => {
-  const networks = useTestableNetworks();
   const coolerMutation = useConsolidateCooler();
   const [open, setOpen] = useState(false);
   const loanIds = loans.map(loan => loan.loanId);

@@ -242,7 +242,7 @@ export const CoolerPositions = () => {
                 >
                   Borrow DAI & Open Position
                 </PrimaryButton>
-                {clearingHouse && (
+                {clearingHouse && loans.length > 1 && (
                   <ConsolidateLoans
                     coolerAddress={coolerAddress}
                     clearingHouseAddress={clearingHouse.clearingHouseAddress}
