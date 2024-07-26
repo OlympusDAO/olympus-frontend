@@ -81,6 +81,8 @@ export const TokenAllowanceGuard: React.FC<{
   const approveMutation = useApproveToken(tokenAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
+  console.log(allowance, "allowance", tokenAddressMap);
+
   if (!allowance && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height={isVertical ? "84px" : "40px"}>

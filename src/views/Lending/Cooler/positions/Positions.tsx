@@ -21,6 +21,7 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
@@ -86,8 +87,8 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
-        <Box display="flex" mt="16px" justifyContent="right">
+      <Box display="flex" mt="16px" justifyContent="right" gap="4px">
+        {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
           <Select
             value={currentClearingHouse}
             label="ClearingHouse"
@@ -117,8 +118,8 @@ export const CoolerPositions = () => {
             <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
             <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
           </Select>
-        </Box>
-      )}
+        )}
+      </Box>
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
@@ -232,7 +233,7 @@ export const CoolerPositions = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box display="flex" justifyContent={"center"}>
+              <Box display="flex" justifyContent={"center"} gap="4px">
                 <PrimaryButton
                   onClick={() => {
                     setRepayLoan(undefined);
@@ -241,6 +242,14 @@ export const CoolerPositions = () => {
                 >
                   Borrow DAI & Open Position
                 </PrimaryButton>
+                {clearingHouse && (
+                  <ConsolidateLoans
+                    coolerAddress={coolerAddress}
+                    clearingHouseAddress={clearingHouse.clearingHouseAddress}
+                    loans={loans}
+                    duration={clearingHouse.duration}
+                  />
+                )}
               </Box>
             </>
           )}
