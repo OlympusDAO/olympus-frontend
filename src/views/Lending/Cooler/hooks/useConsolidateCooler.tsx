@@ -26,21 +26,9 @@ export const useConsolidateCooler = () => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contractAddress = COOLER_CONSOLIDATION_CONTRACT.addresses[networks.MAINNET];
       const contract = CoolerConsolidation__factory.connect(contractAddress, signer);
-      const cooler = await contract.consolidateWithFlashLoan(
-        coolerAddress,
-        clearingHouseAddress,
-        [
-          {
-            cooler: coolerAddress,
-            ids: loanIds,
-          },
-        ],
-        0,
-        false,
-        {
-          gasLimit: loanIds.length <= 30 ? loanIds.length * 1000000 : 30000000,
-        },
-      );
+      const cooler = await contract.consolidateWithFlashLoan(clearingHouseAddress, coolerAddress, loanIds, 0, false, {
+        gasLimit: loanIds.length <= 30 ? loanIds.length * 1000000 : 30000000,
+      });
       const receipt = await cooler.wait();
       return receipt;
     },
