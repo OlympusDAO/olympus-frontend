@@ -58,7 +58,7 @@ export class Environment {
     switch (networkId) {
       case NetworkId.MAINNET:
         return this._get({
-          key: `VITE_ETHEREUM_NODE_URL`,
+          key: `AAA`,
           fallback: "https://virtual.mainnet.rpc.tenderly.co/31652316-ab0d-4eea-bbd1-0c6bb5cf4702",
         });
       case NetworkId.TESTNET_GOERLI:
