@@ -87,8 +87,8 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      <Box display="flex" mt="16px" justifyContent="right" gap="4px">
-        {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
+      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
+        <Box display="flex" mt="16px" justifyContent="right" gap="4px">
           <Select
             value={currentClearingHouse}
             label="ClearingHouse"
@@ -118,8 +118,8 @@ export const CoolerPositions = () => {
             <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
             <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
           </Select>
-        )}
-      </Box>
+        </Box>
+      )}
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
