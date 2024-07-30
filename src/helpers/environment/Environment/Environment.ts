@@ -59,7 +59,7 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `AAA`,
-          fallback: "https://virtual.mainnet.rpc.tenderly.co/31652316-ab0d-4eea-bbd1-0c6bb5cf4702",
+          fallback: "https://virtual.mainnet.rpc.tenderly.co/56079ef4-4ef1-4423-b102-241a673a9310",
         });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
