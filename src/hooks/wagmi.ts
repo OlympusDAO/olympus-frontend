@@ -23,7 +23,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
   [
     {
       ...mainnet,
-      rpcUrls: { default: { http: ["https://rpc.ankr.com/eth"] }, public: { http: ["https://rpc.ankr.com/eth"] } },
+      rpcUrls: {
+        default: { http: ["https://virtual.mainnet.rpc.tenderly.co/56079ef4-4ef1-4423-b102-241a673a9310"] },
+        public: { http: ["https://virtual.mainnet.rpc.tenderly.co/56079ef4-4ef1-4423-b102-241a673a9310"] },
+      },
     },
     {
       ...polygon,
