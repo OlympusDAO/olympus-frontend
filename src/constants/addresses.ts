@@ -257,11 +257,11 @@ export const BRIDGEABLE_CHAINS = {
   },
   [NetworkId.ARBITRUM]: {
     defaultRecChain: NetworkId.MAINNET,
-    availableChains: [NetworkId.MAINNET, NetworkId.BASE],
+    availableChains: [NetworkId.MAINNET],
   },
   [NetworkId.BASE]: {
     defaultRecChain: NetworkId.MAINNET,
-    availableChains: [NetworkId.MAINNET, NetworkId.ARBITRUM],
+    availableChains: [NetworkId.MAINNET],
   },
   [NetworkId.TESTNET_GOERLI]: {
     defaultRecChain: NetworkId.ARBITRUM_GOERLI,
