@@ -15,6 +15,13 @@
     },
     {
       "type": "function",
+      "name": "ONE_HUNDRED_PERCENT",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
       "name": "collector",
       "inputs": [],
       "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
@@ -49,6 +56,13 @@
     },
     {
       "type": "function",
+      "name": "getProtocolFee",
+      "inputs": [{ "name": "totalDebt_", "type": "uint256", "internalType": "uint256" }],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
       "name": "gohm",
       "inputs": [],
       "outputs": [{ "name": "", "type": "address", "internalType": "contract IERC20" }],
@@ -66,9 +80,9 @@
       "name": "onFlashLoan",
       "inputs": [
         { "name": "initiator_", "type": "address", "internalType": "address" },
-        { "name": "token_", "type": "address", "internalType": "address" },
+        { "name": "", "type": "address", "internalType": "address" },
         { "name": "amount_", "type": "uint256", "internalType": "uint256" },
-        { "name": "fee_", "type": "uint256", "internalType": "uint256" },
+        { "name": "lenderFee_", "type": "uint256", "internalType": "uint256" },
         { "name": "params_", "type": "bytes", "internalType": "bytes" }
       ],
       "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
@@ -90,6 +104,7 @@
       ],
       "outputs": [
         { "name": "", "type": "address", "internalType": "address" },
+        { "name": "", "type": "uint256", "internalType": "uint256" },
         { "name": "", "type": "uint256", "internalType": "uint256" },
         { "name": "", "type": "uint256", "internalType": "uint256" },
         { "name": "", "type": "uint256", "internalType": "uint256" }
@@ -117,9 +132,28 @@
       "outputs": [],
       "stateMutability": "nonpayable"
     },
+    {
+      "type": "function",
+      "name": "transferOwnership",
+      "inputs": [{ "name": "newOwner", "type": "address", "internalType": "address" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "OwnershipTransferred",
+      "inputs": [
+        { "name": "user", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "newOwner", "type": "address", "indexed": true, "internalType": "address" }
+      ],
+      "anonymous": false
+    },
+    { "type": "error", "name": "InsufficientCoolerCount", "inputs": [] },
     { "type": "error", "name": "OnlyCoolerOwner", "inputs": [] },
     { "type": "error", "name": "OnlyLender", "inputs": [] },
-    { "type": "error", "name": "OnlyOwner", "inputs": [] },
-    { "type": "error", "name": "OnlyThis", "inputs": [] }
+    { "type": "error", "name": "OnlyThis", "inputs": [] },
+    { "type": "error", "name": "Params_FeePercentageOutOfRange", "inputs": [] },
+    { "type": "error", "name": "Params_InvalidAddress", "inputs": [] },
+    { "type": "error", "name": "Params_UseFundsOutOfBounds", "inputs": [] }
   ]
 }
