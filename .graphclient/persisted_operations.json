@@ -1,0 +1,3 @@
+{
+  "2d4e39851c171ceacd519d068adbe508c454205b51aed97f0b7029844b22c410": "query RBSPriceEvents($startDate: String!) {\n  priceEvents(orderBy: date, orderDirection: desc, where: {date_gte: $startDate}) {\n    date\n    block\n    type\n    isHigh\n    snapshot {\n      ohmPrice\n      ohmMovingAveragePrice\n      highCushionPrice\n      highWallPrice\n      lowCushionPrice\n      lowWallPrice\n      highActive\n      lowActive\n      highMarketId\n      lowMarketId\n      highCapacityOhm\n      lowCapacityReserve\n    }\n  }\n}"
+}

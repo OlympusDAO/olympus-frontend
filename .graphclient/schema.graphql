@@ -1,0 +1,2756 @@
+schema {
+  query: Query
+  subscription: Subscription
+}
+
+"""
+Marks the GraphQL type as indexable entity.  Each type that should be an entity is required to be annotated with this directive.
+"""
+directive @entity on OBJECT
+
+"""
+Defined a Subgraph ID for an object type
+"""
+directive @subgraphId(id: String!) on OBJECT
+
+"""
+creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API.
+"""
+directive @derivedFrom(field: String!) on FIELD_DEFINITION
+
+enum Aggregation_interval {
+  hour
+  day
+}
+
+type Beat {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+}
+
+type BeatRewardIssued {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  to: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+}
+
+input BeatRewardIssued_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  to: Bytes
+  to_not: Bytes
+  to_gt: Bytes
+  to_lt: Bytes
+  to_gte: Bytes
+  to_lte: Bytes
+  to_in: [Bytes!]
+  to_not_in: [Bytes!]
+  to_contains: Bytes
+  to_not_contains: Bytes
+  rewardToken: Bytes
+  rewardToken_not: Bytes
+  rewardToken_gt: Bytes
+  rewardToken_lt: Bytes
+  rewardToken_gte: Bytes
+  rewardToken_lte: Bytes
+  rewardToken_in: [Bytes!]
+  rewardToken_not_in: [Bytes!]
+  rewardToken_contains: Bytes
+  rewardToken_not_contains: Bytes
+  rewardAmount: BigDecimal
+  rewardAmount_not: BigDecimal
+  rewardAmount_gt: BigDecimal
+  rewardAmount_lt: BigDecimal
+  rewardAmount_gte: BigDecimal
+  rewardAmount_lte: BigDecimal
+  rewardAmount_in: [BigDecimal!]
+  rewardAmount_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [BeatRewardIssued_filter]
+  or: [BeatRewardIssued_filter]
+}
+
+enum BeatRewardIssued_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  to
+  rewardToken
+  rewardAmount
+}
+
+type BeatRewardUpdated {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  token: Bytes!
+  rewardToken: Bytes!
+  rewardAmount: BigDecimal!
+  auctionDuration: BigInt
+}
+
+input BeatRewardUpdated_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  token: Bytes
+  token_not: Bytes
+  token_gt: Bytes
+  token_lt: Bytes
+  token_gte: Bytes
+  token_lte: Bytes
+  token_in: [Bytes!]
+  token_not_in: [Bytes!]
+  token_contains: Bytes
+  token_not_contains: Bytes
+  rewardToken: Bytes
+  rewardToken_not: Bytes
+  rewardToken_gt: Bytes
+  rewardToken_lt: Bytes
+  rewardToken_gte: Bytes
+  rewardToken_lte: Bytes
+  rewardToken_in: [Bytes!]
+  rewardToken_not_in: [Bytes!]
+  rewardToken_contains: Bytes
+  rewardToken_not_contains: Bytes
+  rewardAmount: BigDecimal
+  rewardAmount_not: BigDecimal
+  rewardAmount_gt: BigDecimal
+  rewardAmount_lt: BigDecimal
+  rewardAmount_gte: BigDecimal
+  rewardAmount_lte: BigDecimal
+  rewardAmount_in: [BigDecimal!]
+  rewardAmount_not_in: [BigDecimal!]
+  auctionDuration: BigInt
+  auctionDuration_not: BigInt
+  auctionDuration_gt: BigInt
+  auctionDuration_lt: BigInt
+  auctionDuration_gte: BigInt
+  auctionDuration_lte: BigInt
+  auctionDuration_in: [BigInt!]
+  auctionDuration_not_in: [BigInt!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [BeatRewardUpdated_filter]
+  or: [BeatRewardUpdated_filter]
+}
+
+enum BeatRewardUpdated_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  token
+  rewardToken
+  rewardAmount
+  auctionDuration
+}
+
+input Beat_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [Beat_filter]
+  or: [Beat_filter]
+}
+
+enum Beat_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+}
+
+scalar BigDecimal
+
+scalar BigInt
+
+input BlockChangedFilter {
+  number_gte: Int!
+}
+
+input Block_height {
+  hash: Bytes
+  number: Int
+  number_gte: Int
+}
+
+scalar Bytes
+
+"""
+8 bytes signed integer
+"""
+scalar Int8
+
+type MinimumTargetPriceChanged {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  minimumTargetPrice: BigDecimal!
+}
+
+input MinimumTargetPriceChanged_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  minimumTargetPrice: BigDecimal
+  minimumTargetPrice_not: BigDecimal
+  minimumTargetPrice_gt: BigDecimal
+  minimumTargetPrice_lt: BigDecimal
+  minimumTargetPrice_gte: BigDecimal
+  minimumTargetPrice_lte: BigDecimal
+  minimumTargetPrice_in: [BigDecimal!]
+  minimumTargetPrice_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [MinimumTargetPriceChanged_filter]
+  or: [MinimumTargetPriceChanged_filter]
+}
+
+enum MinimumTargetPriceChanged_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  minimumTargetPrice
+}
+
+type MovingAverageDurationChanged {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  movingAverageDuration: BigInt!
+}
+
+input MovingAverageDurationChanged_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  movingAverageDuration: BigInt
+  movingAverageDuration_not: BigInt
+  movingAverageDuration_gt: BigInt
+  movingAverageDuration_lt: BigInt
+  movingAverageDuration_gte: BigInt
+  movingAverageDuration_lte: BigInt
+  movingAverageDuration_in: [BigInt!]
+  movingAverageDuration_not_in: [BigInt!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [MovingAverageDurationChanged_filter]
+  or: [MovingAverageDurationChanged_filter]
+}
+
+enum MovingAverageDurationChanged_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  movingAverageDuration
+}
+
+type NewObservation {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  snapshot: RangeSnapshot!
+}
+
+input NewObservation_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  snapshot: String
+  snapshot_not: String
+  snapshot_gt: String
+  snapshot_lt: String
+  snapshot_gte: String
+  snapshot_lte: String
+  snapshot_in: [String!]
+  snapshot_not_in: [String!]
+  snapshot_contains: String
+  snapshot_contains_nocase: String
+  snapshot_not_contains: String
+  snapshot_not_contains_nocase: String
+  snapshot_starts_with: String
+  snapshot_starts_with_nocase: String
+  snapshot_not_starts_with: String
+  snapshot_not_starts_with_nocase: String
+  snapshot_ends_with: String
+  snapshot_ends_with_nocase: String
+  snapshot_not_ends_with: String
+  snapshot_not_ends_with_nocase: String
+  snapshot_: RangeSnapshot_filter
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [NewObservation_filter]
+  or: [NewObservation_filter]
+}
+
+enum NewObservation_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  snapshot
+  snapshot__id
+  snapshot__blockchain
+  snapshot__block
+  snapshot__date
+  snapshot__timestamp
+  snapshot__ohmPrice
+  snapshot__ohmMovingAveragePrice
+  snapshot__thresholdFactor
+  snapshot__cushionSpread
+  snapshot__wallSpread
+  snapshot__highCushionSpread
+  snapshot__highWallSpread
+  snapshot__lowCushionSpread
+  snapshot__lowWallSpread
+  snapshot__highActive
+  snapshot__lowActive
+  snapshot__highLastActiveTimestamp
+  snapshot__lowLastActiveTimestamp
+  snapshot__highCapacityOhm
+  snapshot__lowCapacityReserve
+  snapshot__highCushionPrice
+  snapshot__lowCushionPrice
+  snapshot__highMarketId
+  snapshot__lowMarketId
+  snapshot__highWallPrice
+  snapshot__lowWallPrice
+  snapshot__treasuryReserveAddress
+  snapshot__treasuryReserveBalance
+  snapshot__treasuryDebtBalance
+  snapshot__operatorReserveFactor
+  snapshot__operatorCushionFactor
+}
+
+type ObservationFrequencyChanged {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  observationFrequencySeconds: BigInt!
+}
+
+input ObservationFrequencyChanged_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  observationFrequencySeconds: BigInt
+  observationFrequencySeconds_not: BigInt
+  observationFrequencySeconds_gt: BigInt
+  observationFrequencySeconds_lt: BigInt
+  observationFrequencySeconds_gte: BigInt
+  observationFrequencySeconds_lte: BigInt
+  observationFrequencySeconds_in: [BigInt!]
+  observationFrequencySeconds_not_in: [BigInt!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [ObservationFrequencyChanged_filter]
+  or: [ObservationFrequencyChanged_filter]
+}
+
+enum ObservationFrequencyChanged_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  observationFrequencySeconds
+}
+
+type OperatorVersion {
+  id: ID!
+  version: BigDecimal!
+}
+
+input OperatorVersion_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  version: BigDecimal
+  version_not: BigDecimal
+  version_gt: BigDecimal
+  version_lt: BigDecimal
+  version_gte: BigDecimal
+  version_lte: BigDecimal
+  version_in: [BigDecimal!]
+  version_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [OperatorVersion_filter]
+  or: [OperatorVersion_filter]
+}
+
+enum OperatorVersion_orderBy {
+  id
+  version
+}
+
+"""
+Defines the order direction, either ascending or descending
+"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+type PriceEvent {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  type: PriceEventType!
+  isHigh: Boolean!
+  timestamp: BigInt!
+  snapshot: RangeSnapshot!
+}
+
+enum PriceEventType {
+  CushionDown
+  CushionUp
+  WallDown
+  WallUp
+}
+
+input PriceEvent_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  type: PriceEventType
+  type_not: PriceEventType
+  type_in: [PriceEventType!]
+  type_not_in: [PriceEventType!]
+  isHigh: Boolean
+  isHigh_not: Boolean
+  isHigh_in: [Boolean!]
+  isHigh_not_in: [Boolean!]
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  snapshot: String
+  snapshot_not: String
+  snapshot_gt: String
+  snapshot_lt: String
+  snapshot_gte: String
+  snapshot_lte: String
+  snapshot_in: [String!]
+  snapshot_not_in: [String!]
+  snapshot_contains: String
+  snapshot_contains_nocase: String
+  snapshot_not_contains: String
+  snapshot_not_contains_nocase: String
+  snapshot_starts_with: String
+  snapshot_starts_with_nocase: String
+  snapshot_not_starts_with: String
+  snapshot_not_starts_with_nocase: String
+  snapshot_ends_with: String
+  snapshot_ends_with_nocase: String
+  snapshot_not_ends_with: String
+  snapshot_not_ends_with_nocase: String
+  snapshot_: RangeSnapshot_filter
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [PriceEvent_filter]
+  or: [PriceEvent_filter]
+}
+
+enum PriceEvent_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  type
+  isHigh
+  timestamp
+  snapshot
+  snapshot__id
+  snapshot__blockchain
+  snapshot__block
+  snapshot__date
+  snapshot__timestamp
+  snapshot__ohmPrice
+  snapshot__ohmMovingAveragePrice
+  snapshot__thresholdFactor
+  snapshot__cushionSpread
+  snapshot__wallSpread
+  snapshot__highCushionSpread
+  snapshot__highWallSpread
+  snapshot__lowCushionSpread
+  snapshot__lowWallSpread
+  snapshot__highActive
+  snapshot__lowActive
+  snapshot__highLastActiveTimestamp
+  snapshot__lowLastActiveTimestamp
+  snapshot__highCapacityOhm
+  snapshot__lowCapacityReserve
+  snapshot__highCushionPrice
+  snapshot__lowCushionPrice
+  snapshot__highMarketId
+  snapshot__lowMarketId
+  snapshot__highWallPrice
+  snapshot__lowWallPrice
+  snapshot__treasuryReserveAddress
+  snapshot__treasuryReserveBalance
+  snapshot__treasuryDebtBalance
+  snapshot__operatorReserveFactor
+  snapshot__operatorCushionFactor
+}
+
+type PricesChangedEvent {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  snapshot: RangeSnapshot!
+}
+
+input PricesChangedEvent_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  snapshot: String
+  snapshot_not: String
+  snapshot_gt: String
+  snapshot_lt: String
+  snapshot_gte: String
+  snapshot_lte: String
+  snapshot_in: [String!]
+  snapshot_not_in: [String!]
+  snapshot_contains: String
+  snapshot_contains_nocase: String
+  snapshot_not_contains: String
+  snapshot_not_contains_nocase: String
+  snapshot_starts_with: String
+  snapshot_starts_with_nocase: String
+  snapshot_not_starts_with: String
+  snapshot_not_starts_with_nocase: String
+  snapshot_ends_with: String
+  snapshot_ends_with_nocase: String
+  snapshot_not_ends_with: String
+  snapshot_not_ends_with_nocase: String
+  snapshot_: RangeSnapshot_filter
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [PricesChangedEvent_filter]
+  or: [PricesChangedEvent_filter]
+}
+
+enum PricesChangedEvent_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  snapshot
+  snapshot__id
+  snapshot__blockchain
+  snapshot__block
+  snapshot__date
+  snapshot__timestamp
+  snapshot__ohmPrice
+  snapshot__ohmMovingAveragePrice
+  snapshot__thresholdFactor
+  snapshot__cushionSpread
+  snapshot__wallSpread
+  snapshot__highCushionSpread
+  snapshot__highWallSpread
+  snapshot__lowCushionSpread
+  snapshot__lowWallSpread
+  snapshot__highActive
+  snapshot__lowActive
+  snapshot__highLastActiveTimestamp
+  snapshot__lowLastActiveTimestamp
+  snapshot__highCapacityOhm
+  snapshot__lowCapacityReserve
+  snapshot__highCushionPrice
+  snapshot__lowCushionPrice
+  snapshot__highMarketId
+  snapshot__lowMarketId
+  snapshot__highWallPrice
+  snapshot__lowWallPrice
+  snapshot__treasuryReserveAddress
+  snapshot__treasuryReserveBalance
+  snapshot__treasuryDebtBalance
+  snapshot__operatorReserveFactor
+  snapshot__operatorCushionFactor
+}
+
+type Query {
+  rangeSnapshot(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): RangeSnapshot
+  rangeSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: RangeSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: RangeSnapshot_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [RangeSnapshot!]!
+  priceEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PriceEvent
+  priceEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PriceEvent_orderBy
+    orderDirection: OrderDirection
+    where: PriceEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PriceEvent!]!
+  pricesChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PricesChangedEvent
+  pricesChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PricesChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: PricesChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PricesChangedEvent!]!
+  spreadsChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): SpreadsChangedEvent
+  spreadsChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: SpreadsChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: SpreadsChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [SpreadsChangedEvent!]!
+  thresholdFactorChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ThresholdFactorChangedEvent
+  thresholdFactorChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: ThresholdFactorChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: ThresholdFactorChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [ThresholdFactorChangedEvent!]!
+  movingAverageDurationChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MovingAverageDurationChanged
+  movingAverageDurationChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MovingAverageDurationChanged_orderBy
+    orderDirection: OrderDirection
+    where: MovingAverageDurationChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MovingAverageDurationChanged!]!
+  newObservation(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): NewObservation
+  newObservations(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: NewObservation_orderBy
+    orderDirection: OrderDirection
+    where: NewObservation_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [NewObservation!]!
+  observationFrequencyChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ObservationFrequencyChanged
+  observationFrequencyChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: ObservationFrequencyChanged_orderBy
+    orderDirection: OrderDirection
+    where: ObservationFrequencyChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [ObservationFrequencyChanged!]!
+  updateThresholdsChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UpdateThresholdsChanged
+  updateThresholdsChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UpdateThresholdsChanged_orderBy
+    orderDirection: OrderDirection
+    where: UpdateThresholdsChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UpdateThresholdsChanged!]!
+  minimumTargetPriceChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MinimumTargetPriceChanged
+  minimumTargetPriceChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MinimumTargetPriceChanged_orderBy
+    orderDirection: OrderDirection
+    where: MinimumTargetPriceChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MinimumTargetPriceChanged!]!
+  beat(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Beat
+  beats(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Beat_orderBy
+    orderDirection: OrderDirection
+    where: Beat_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Beat!]!
+  beatRewardIssued(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BeatRewardIssued
+  beatRewardIssueds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BeatRewardIssued_orderBy
+    orderDirection: OrderDirection
+    where: BeatRewardIssued_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BeatRewardIssued!]!
+  beatRewardUpdated(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BeatRewardUpdated
+  beatRewardUpdateds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BeatRewardUpdated_orderBy
+    orderDirection: OrderDirection
+    where: BeatRewardUpdated_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BeatRewardUpdated!]!
+  operatorVersion(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): OperatorVersion
+  operatorVersions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: OperatorVersion_orderBy
+    orderDirection: OrderDirection
+    where: OperatorVersion_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [OperatorVersion!]!
+  """
+  Access to subgraph metadata
+  """
+  _meta(block: Block_height): _Meta_
+}
+
+type RangeSnapshot {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  date: String!
+  timestamp: BigInt!
+  ohmPrice: BigDecimal
+  ohmMovingAveragePrice: BigDecimal
+  thresholdFactor: BigDecimal!
+  cushionSpread: BigDecimal!
+  wallSpread: BigDecimal!
+  highCushionSpread: BigDecimal
+  highWallSpread: BigDecimal
+  lowCushionSpread: BigDecimal
+  lowWallSpread: BigDecimal
+  highActive: Boolean!
+  lowActive: Boolean!
+  highLastActiveTimestamp: BigInt!
+  lowLastActiveTimestamp: BigInt!
+  highCapacityOhm: BigDecimal!
+  lowCapacityReserve: BigDecimal!
+  highCushionPrice: BigDecimal!
+  lowCushionPrice: BigDecimal!
+  highMarketId: BigInt
+  lowMarketId: BigInt
+  highWallPrice: BigDecimal!
+  lowWallPrice: BigDecimal!
+  treasuryReserveAddress: Bytes
+  treasuryReserveBalance: BigDecimal
+  treasuryDebtBalance: BigDecimal
+  operatorReserveFactor: BigDecimal
+  operatorCushionFactor: BigDecimal
+}
+
+input RangeSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  ohmPrice: BigDecimal
+  ohmPrice_not: BigDecimal
+  ohmPrice_gt: BigDecimal
+  ohmPrice_lt: BigDecimal
+  ohmPrice_gte: BigDecimal
+  ohmPrice_lte: BigDecimal
+  ohmPrice_in: [BigDecimal!]
+  ohmPrice_not_in: [BigDecimal!]
+  ohmMovingAveragePrice: BigDecimal
+  ohmMovingAveragePrice_not: BigDecimal
+  ohmMovingAveragePrice_gt: BigDecimal
+  ohmMovingAveragePrice_lt: BigDecimal
+  ohmMovingAveragePrice_gte: BigDecimal
+  ohmMovingAveragePrice_lte: BigDecimal
+  ohmMovingAveragePrice_in: [BigDecimal!]
+  ohmMovingAveragePrice_not_in: [BigDecimal!]
+  thresholdFactor: BigDecimal
+  thresholdFactor_not: BigDecimal
+  thresholdFactor_gt: BigDecimal
+  thresholdFactor_lt: BigDecimal
+  thresholdFactor_gte: BigDecimal
+  thresholdFactor_lte: BigDecimal
+  thresholdFactor_in: [BigDecimal!]
+  thresholdFactor_not_in: [BigDecimal!]
+  cushionSpread: BigDecimal
+  cushionSpread_not: BigDecimal
+  cushionSpread_gt: BigDecimal
+  cushionSpread_lt: BigDecimal
+  cushionSpread_gte: BigDecimal
+  cushionSpread_lte: BigDecimal
+  cushionSpread_in: [BigDecimal!]
+  cushionSpread_not_in: [BigDecimal!]
+  wallSpread: BigDecimal
+  wallSpread_not: BigDecimal
+  wallSpread_gt: BigDecimal
+  wallSpread_lt: BigDecimal
+  wallSpread_gte: BigDecimal
+  wallSpread_lte: BigDecimal
+  wallSpread_in: [BigDecimal!]
+  wallSpread_not_in: [BigDecimal!]
+  highCushionSpread: BigDecimal
+  highCushionSpread_not: BigDecimal
+  highCushionSpread_gt: BigDecimal
+  highCushionSpread_lt: BigDecimal
+  highCushionSpread_gte: BigDecimal
+  highCushionSpread_lte: BigDecimal
+  highCushionSpread_in: [BigDecimal!]
+  highCushionSpread_not_in: [BigDecimal!]
+  highWallSpread: BigDecimal
+  highWallSpread_not: BigDecimal
+  highWallSpread_gt: BigDecimal
+  highWallSpread_lt: BigDecimal
+  highWallSpread_gte: BigDecimal
+  highWallSpread_lte: BigDecimal
+  highWallSpread_in: [BigDecimal!]
+  highWallSpread_not_in: [BigDecimal!]
+  lowCushionSpread: BigDecimal
+  lowCushionSpread_not: BigDecimal
+  lowCushionSpread_gt: BigDecimal
+  lowCushionSpread_lt: BigDecimal
+  lowCushionSpread_gte: BigDecimal
+  lowCushionSpread_lte: BigDecimal
+  lowCushionSpread_in: [BigDecimal!]
+  lowCushionSpread_not_in: [BigDecimal!]
+  lowWallSpread: BigDecimal
+  lowWallSpread_not: BigDecimal
+  lowWallSpread_gt: BigDecimal
+  lowWallSpread_lt: BigDecimal
+  lowWallSpread_gte: BigDecimal
+  lowWallSpread_lte: BigDecimal
+  lowWallSpread_in: [BigDecimal!]
+  lowWallSpread_not_in: [BigDecimal!]
+  highActive: Boolean
+  highActive_not: Boolean
+  highActive_in: [Boolean!]
+  highActive_not_in: [Boolean!]
+  lowActive: Boolean
+  lowActive_not: Boolean
+  lowActive_in: [Boolean!]
+  lowActive_not_in: [Boolean!]
+  highLastActiveTimestamp: BigInt
+  highLastActiveTimestamp_not: BigInt
+  highLastActiveTimestamp_gt: BigInt
+  highLastActiveTimestamp_lt: BigInt
+  highLastActiveTimestamp_gte: BigInt
+  highLastActiveTimestamp_lte: BigInt
+  highLastActiveTimestamp_in: [BigInt!]
+  highLastActiveTimestamp_not_in: [BigInt!]
+  lowLastActiveTimestamp: BigInt
+  lowLastActiveTimestamp_not: BigInt
+  lowLastActiveTimestamp_gt: BigInt
+  lowLastActiveTimestamp_lt: BigInt
+  lowLastActiveTimestamp_gte: BigInt
+  lowLastActiveTimestamp_lte: BigInt
+  lowLastActiveTimestamp_in: [BigInt!]
+  lowLastActiveTimestamp_not_in: [BigInt!]
+  highCapacityOhm: BigDecimal
+  highCapacityOhm_not: BigDecimal
+  highCapacityOhm_gt: BigDecimal
+  highCapacityOhm_lt: BigDecimal
+  highCapacityOhm_gte: BigDecimal
+  highCapacityOhm_lte: BigDecimal
+  highCapacityOhm_in: [BigDecimal!]
+  highCapacityOhm_not_in: [BigDecimal!]
+  lowCapacityReserve: BigDecimal
+  lowCapacityReserve_not: BigDecimal
+  lowCapacityReserve_gt: BigDecimal
+  lowCapacityReserve_lt: BigDecimal
+  lowCapacityReserve_gte: BigDecimal
+  lowCapacityReserve_lte: BigDecimal
+  lowCapacityReserve_in: [BigDecimal!]
+  lowCapacityReserve_not_in: [BigDecimal!]
+  highCushionPrice: BigDecimal
+  highCushionPrice_not: BigDecimal
+  highCushionPrice_gt: BigDecimal
+  highCushionPrice_lt: BigDecimal
+  highCushionPrice_gte: BigDecimal
+  highCushionPrice_lte: BigDecimal
+  highCushionPrice_in: [BigDecimal!]
+  highCushionPrice_not_in: [BigDecimal!]
+  lowCushionPrice: BigDecimal
+  lowCushionPrice_not: BigDecimal
+  lowCushionPrice_gt: BigDecimal
+  lowCushionPrice_lt: BigDecimal
+  lowCushionPrice_gte: BigDecimal
+  lowCushionPrice_lte: BigDecimal
+  lowCushionPrice_in: [BigDecimal!]
+  lowCushionPrice_not_in: [BigDecimal!]
+  highMarketId: BigInt
+  highMarketId_not: BigInt
+  highMarketId_gt: BigInt
+  highMarketId_lt: BigInt
+  highMarketId_gte: BigInt
+  highMarketId_lte: BigInt
+  highMarketId_in: [BigInt!]
+  highMarketId_not_in: [BigInt!]
+  lowMarketId: BigInt
+  lowMarketId_not: BigInt
+  lowMarketId_gt: BigInt
+  lowMarketId_lt: BigInt
+  lowMarketId_gte: BigInt
+  lowMarketId_lte: BigInt
+  lowMarketId_in: [BigInt!]
+  lowMarketId_not_in: [BigInt!]
+  highWallPrice: BigDecimal
+  highWallPrice_not: BigDecimal
+  highWallPrice_gt: BigDecimal
+  highWallPrice_lt: BigDecimal
+  highWallPrice_gte: BigDecimal
+  highWallPrice_lte: BigDecimal
+  highWallPrice_in: [BigDecimal!]
+  highWallPrice_not_in: [BigDecimal!]
+  lowWallPrice: BigDecimal
+  lowWallPrice_not: BigDecimal
+  lowWallPrice_gt: BigDecimal
+  lowWallPrice_lt: BigDecimal
+  lowWallPrice_gte: BigDecimal
+  lowWallPrice_lte: BigDecimal
+  lowWallPrice_in: [BigDecimal!]
+  lowWallPrice_not_in: [BigDecimal!]
+  treasuryReserveAddress: Bytes
+  treasuryReserveAddress_not: Bytes
+  treasuryReserveAddress_gt: Bytes
+  treasuryReserveAddress_lt: Bytes
+  treasuryReserveAddress_gte: Bytes
+  treasuryReserveAddress_lte: Bytes
+  treasuryReserveAddress_in: [Bytes!]
+  treasuryReserveAddress_not_in: [Bytes!]
+  treasuryReserveAddress_contains: Bytes
+  treasuryReserveAddress_not_contains: Bytes
+  treasuryReserveBalance: BigDecimal
+  treasuryReserveBalance_not: BigDecimal
+  treasuryReserveBalance_gt: BigDecimal
+  treasuryReserveBalance_lt: BigDecimal
+  treasuryReserveBalance_gte: BigDecimal
+  treasuryReserveBalance_lte: BigDecimal
+  treasuryReserveBalance_in: [BigDecimal!]
+  treasuryReserveBalance_not_in: [BigDecimal!]
+  treasuryDebtBalance: BigDecimal
+  treasuryDebtBalance_not: BigDecimal
+  treasuryDebtBalance_gt: BigDecimal
+  treasuryDebtBalance_lt: BigDecimal
+  treasuryDebtBalance_gte: BigDecimal
+  treasuryDebtBalance_lte: BigDecimal
+  treasuryDebtBalance_in: [BigDecimal!]
+  treasuryDebtBalance_not_in: [BigDecimal!]
+  operatorReserveFactor: BigDecimal
+  operatorReserveFactor_not: BigDecimal
+  operatorReserveFactor_gt: BigDecimal
+  operatorReserveFactor_lt: BigDecimal
+  operatorReserveFactor_gte: BigDecimal
+  operatorReserveFactor_lte: BigDecimal
+  operatorReserveFactor_in: [BigDecimal!]
+  operatorReserveFactor_not_in: [BigDecimal!]
+  operatorCushionFactor: BigDecimal
+  operatorCushionFactor_not: BigDecimal
+  operatorCushionFactor_gt: BigDecimal
+  operatorCushionFactor_lt: BigDecimal
+  operatorCushionFactor_gte: BigDecimal
+  operatorCushionFactor_lte: BigDecimal
+  operatorCushionFactor_in: [BigDecimal!]
+  operatorCushionFactor_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [RangeSnapshot_filter]
+  or: [RangeSnapshot_filter]
+}
+
+enum RangeSnapshot_orderBy {
+  id
+  blockchain
+  block
+  date
+  timestamp
+  ohmPrice
+  ohmMovingAveragePrice
+  thresholdFactor
+  cushionSpread
+  wallSpread
+  highCushionSpread
+  highWallSpread
+  lowCushionSpread
+  lowWallSpread
+  highActive
+  lowActive
+  highLastActiveTimestamp
+  lowLastActiveTimestamp
+  highCapacityOhm
+  lowCapacityReserve
+  highCushionPrice
+  lowCushionPrice
+  highMarketId
+  lowMarketId
+  highWallPrice
+  lowWallPrice
+  treasuryReserveAddress
+  treasuryReserveBalance
+  treasuryDebtBalance
+  operatorReserveFactor
+  operatorCushionFactor
+}
+
+type SpreadsChangedEvent {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  high: Boolean
+  cushionSpread: BigDecimal!
+  wallSpread: BigDecimal!
+}
+
+input SpreadsChangedEvent_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  high: Boolean
+  high_not: Boolean
+  high_in: [Boolean!]
+  high_not_in: [Boolean!]
+  cushionSpread: BigDecimal
+  cushionSpread_not: BigDecimal
+  cushionSpread_gt: BigDecimal
+  cushionSpread_lt: BigDecimal
+  cushionSpread_gte: BigDecimal
+  cushionSpread_lte: BigDecimal
+  cushionSpread_in: [BigDecimal!]
+  cushionSpread_not_in: [BigDecimal!]
+  wallSpread: BigDecimal
+  wallSpread_not: BigDecimal
+  wallSpread_gt: BigDecimal
+  wallSpread_lt: BigDecimal
+  wallSpread_gte: BigDecimal
+  wallSpread_lte: BigDecimal
+  wallSpread_in: [BigDecimal!]
+  wallSpread_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [SpreadsChangedEvent_filter]
+  or: [SpreadsChangedEvent_filter]
+}
+
+enum SpreadsChangedEvent_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  high
+  cushionSpread
+  wallSpread
+}
+
+type Subscription {
+  rangeSnapshot(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): RangeSnapshot
+  rangeSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: RangeSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: RangeSnapshot_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [RangeSnapshot!]!
+  priceEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PriceEvent
+  priceEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PriceEvent_orderBy
+    orderDirection: OrderDirection
+    where: PriceEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PriceEvent!]!
+  pricesChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PricesChangedEvent
+  pricesChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PricesChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: PricesChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PricesChangedEvent!]!
+  spreadsChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): SpreadsChangedEvent
+  spreadsChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: SpreadsChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: SpreadsChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [SpreadsChangedEvent!]!
+  thresholdFactorChangedEvent(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ThresholdFactorChangedEvent
+  thresholdFactorChangedEvents(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: ThresholdFactorChangedEvent_orderBy
+    orderDirection: OrderDirection
+    where: ThresholdFactorChangedEvent_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [ThresholdFactorChangedEvent!]!
+  movingAverageDurationChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MovingAverageDurationChanged
+  movingAverageDurationChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MovingAverageDurationChanged_orderBy
+    orderDirection: OrderDirection
+    where: MovingAverageDurationChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MovingAverageDurationChanged!]!
+  newObservation(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): NewObservation
+  newObservations(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: NewObservation_orderBy
+    orderDirection: OrderDirection
+    where: NewObservation_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [NewObservation!]!
+  observationFrequencyChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ObservationFrequencyChanged
+  observationFrequencyChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: ObservationFrequencyChanged_orderBy
+    orderDirection: OrderDirection
+    where: ObservationFrequencyChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [ObservationFrequencyChanged!]!
+  updateThresholdsChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UpdateThresholdsChanged
+  updateThresholdsChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UpdateThresholdsChanged_orderBy
+    orderDirection: OrderDirection
+    where: UpdateThresholdsChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UpdateThresholdsChanged!]!
+  minimumTargetPriceChanged(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MinimumTargetPriceChanged
+  minimumTargetPriceChangeds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MinimumTargetPriceChanged_orderBy
+    orderDirection: OrderDirection
+    where: MinimumTargetPriceChanged_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MinimumTargetPriceChanged!]!
+  beat(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Beat
+  beats(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Beat_orderBy
+    orderDirection: OrderDirection
+    where: Beat_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Beat!]!
+  beatRewardIssued(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BeatRewardIssued
+  beatRewardIssueds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BeatRewardIssued_orderBy
+    orderDirection: OrderDirection
+    where: BeatRewardIssued_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BeatRewardIssued!]!
+  beatRewardUpdated(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BeatRewardUpdated
+  beatRewardUpdateds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: BeatRewardUpdated_orderBy
+    orderDirection: OrderDirection
+    where: BeatRewardUpdated_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [BeatRewardUpdated!]!
+  operatorVersion(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): OperatorVersion
+  operatorVersions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: OperatorVersion_orderBy
+    orderDirection: OrderDirection
+    where: OperatorVersion_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [OperatorVersion!]!
+  """
+  Access to subgraph metadata
+  """
+  _meta(block: Block_height): _Meta_
+}
+
+type ThresholdFactorChangedEvent {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  thresholdFactor: BigDecimal!
+}
+
+input ThresholdFactorChangedEvent_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  thresholdFactor: BigDecimal
+  thresholdFactor_not: BigDecimal
+  thresholdFactor_gt: BigDecimal
+  thresholdFactor_lt: BigDecimal
+  thresholdFactor_gte: BigDecimal
+  thresholdFactor_lte: BigDecimal
+  thresholdFactor_in: [BigDecimal!]
+  thresholdFactor_not_in: [BigDecimal!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [ThresholdFactorChangedEvent_filter]
+  or: [ThresholdFactorChangedEvent_filter]
+}
+
+enum ThresholdFactorChangedEvent_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  thresholdFactor
+}
+
+"""
+A string representation of microseconds UNIX timestamp (16 digits)
+"""
+scalar Timestamp
+
+type UpdateThresholdsChanged {
+  id: ID!
+  blockchain: String!
+  block: BigInt!
+  transaction: Bytes!
+  date: String!
+  timestamp: BigInt!
+  ohmEthUpdateThresholdSeconds: BigInt!
+  reserveEthUpdateThresholdSeconds: BigInt!
+}
+
+input UpdateThresholdsChanged_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockchain: String
+  blockchain_not: String
+  blockchain_gt: String
+  blockchain_lt: String
+  blockchain_gte: String
+  blockchain_lte: String
+  blockchain_in: [String!]
+  blockchain_not_in: [String!]
+  blockchain_contains: String
+  blockchain_contains_nocase: String
+  blockchain_not_contains: String
+  blockchain_not_contains_nocase: String
+  blockchain_starts_with: String
+  blockchain_starts_with_nocase: String
+  blockchain_not_starts_with: String
+  blockchain_not_starts_with_nocase: String
+  blockchain_ends_with: String
+  blockchain_ends_with_nocase: String
+  blockchain_not_ends_with: String
+  blockchain_not_ends_with_nocase: String
+  block: BigInt
+  block_not: BigInt
+  block_gt: BigInt
+  block_lt: BigInt
+  block_gte: BigInt
+  block_lte: BigInt
+  block_in: [BigInt!]
+  block_not_in: [BigInt!]
+  transaction: Bytes
+  transaction_not: Bytes
+  transaction_gt: Bytes
+  transaction_lt: Bytes
+  transaction_gte: Bytes
+  transaction_lte: Bytes
+  transaction_in: [Bytes!]
+  transaction_not_in: [Bytes!]
+  transaction_contains: Bytes
+  transaction_not_contains: Bytes
+  date: String
+  date_not: String
+  date_gt: String
+  date_lt: String
+  date_gte: String
+  date_lte: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_contains: String
+  date_contains_nocase: String
+  date_not_contains: String
+  date_not_contains_nocase: String
+  date_starts_with: String
+  date_starts_with_nocase: String
+  date_not_starts_with: String
+  date_not_starts_with_nocase: String
+  date_ends_with: String
+  date_ends_with_nocase: String
+  date_not_ends_with: String
+  date_not_ends_with_nocase: String
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  ohmEthUpdateThresholdSeconds: BigInt
+  ohmEthUpdateThresholdSeconds_not: BigInt
+  ohmEthUpdateThresholdSeconds_gt: BigInt
+  ohmEthUpdateThresholdSeconds_lt: BigInt
+  ohmEthUpdateThresholdSeconds_gte: BigInt
+  ohmEthUpdateThresholdSeconds_lte: BigInt
+  ohmEthUpdateThresholdSeconds_in: [BigInt!]
+  ohmEthUpdateThresholdSeconds_not_in: [BigInt!]
+  reserveEthUpdateThresholdSeconds: BigInt
+  reserveEthUpdateThresholdSeconds_not: BigInt
+  reserveEthUpdateThresholdSeconds_gt: BigInt
+  reserveEthUpdateThresholdSeconds_lt: BigInt
+  reserveEthUpdateThresholdSeconds_gte: BigInt
+  reserveEthUpdateThresholdSeconds_lte: BigInt
+  reserveEthUpdateThresholdSeconds_in: [BigInt!]
+  reserveEthUpdateThresholdSeconds_not_in: [BigInt!]
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  and: [UpdateThresholdsChanged_filter]
+  or: [UpdateThresholdsChanged_filter]
+}
+
+enum UpdateThresholdsChanged_orderBy {
+  id
+  blockchain
+  block
+  transaction
+  date
+  timestamp
+  ohmEthUpdateThresholdSeconds
+  reserveEthUpdateThresholdSeconds
+}
+
+type _Block_ {
+  """
+  The hash of the block
+  """
+  hash: Bytes
+  """
+  The block number
+  """
+  number: Int!
+  """
+  Integer representation of the timestamp stored in blocks for the chain
+  """
+  timestamp: Int
+  """
+  The hash of the parent block
+  """
+  parentHash: Bytes
+}
+
+"""
+The type for the top-level _meta field
+"""
+type _Meta_ {
+  """
+  Information about a specific subgraph block. The hash of the block
+  will be null if the _meta field has a block constraint that asks for
+  a block number. It will be filled if the _meta field has no block constraint
+  and therefore asks for the latest  block
+  """
+  block: _Block_!
+  """
+  The deployment ID
+  """
+  deployment: String!
+  """
+  If `true`, the subgraph encountered indexing errors at some past block
+  """
+  hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+  """
+  Data will be returned even if the subgraph has indexing errors
+  """
+  allow
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}
