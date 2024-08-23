@@ -1,5 +1,5 @@
-query RBSPriceEvents {
-  priceEvents(orderBy: date, orderDirection: desc) {
+query RBSPriceEvents($startDate: String!) {
+  priceEvents(orderBy: date, orderDirection: desc, where:{date_gte: $startDate}) {
     date
     block
     type
