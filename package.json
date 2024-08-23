@@ -163,7 +163,8 @@
     "postinstall": "yarn typechain:build",
     "prepare": "husky install",
     "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/openapi/openapi.yml -o tmp/openapi.yaml",
-    "codegen": "yarn codegen:bundle && orval && yarn lint:fix"
+    "codegen": "yarn codegen:bundle && orval && yarn lint:fix",
+    "codegen:graphclient": "rm -rf .graphclient && graphclient build && prettier --write .graphclient"
   },
   "resolutions": {
     "**/prompts": "2.4.2",
