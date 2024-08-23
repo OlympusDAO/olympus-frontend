@@ -1,0 +1,12 @@
+sources:
+  - name: rbs
+    handler:
+      graphql:
+        # TODO shift to production subgraph URL
+        endpoint: https://api.studio.thegraph.com/query/46563/olympus-rbs/1.5.3
+    transforms:
+      - autoPagination:
+          validateSchema: true
+
+documents:
+  - src/views/Range/hooks/rbs.graphql

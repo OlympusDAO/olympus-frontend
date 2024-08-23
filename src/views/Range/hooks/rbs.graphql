@@ -1,0 +1,22 @@
+query RBSPriceEvents {
+  priceEvents(orderBy: date, orderDirection: desc) {
+    date
+    block
+    type
+    isHigh
+    snapshot {
+      ohmPrice
+      ohmMovingAveragePrice
+      highCushionPrice
+      highWallPrice
+      lowCushionPrice
+      lowWallPrice
+      highActive
+      lowActive
+      highMarketId
+      lowMarketId
+      highCapacityOhm
+      lowCapacityReserve
+    }
+  }
+}
