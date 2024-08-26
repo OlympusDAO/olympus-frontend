@@ -51,7 +51,7 @@ export const TreasuryAssetsTable = ({
     console.debug(`${chartName}: rebuilding by date token summary`);
 
     // Filter out dust
-    const nonDustRecords = tokenRecordResults.filter(value => parseFloat(value.valueExcludingOhm) > 1);
+    const nonDustRecords = tokenRecordResults.filter(value => parseFloat(value.value) > 1);
 
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive
