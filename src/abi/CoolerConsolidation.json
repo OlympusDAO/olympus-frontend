@@ -99,6 +99,7 @@
       "type": "function",
       "name": "requiredApprovals",
       "inputs": [
+        { "name": "clearinghouse_", "type": "address", "internalType": "address" },
         { "name": "cooler_", "type": "address", "internalType": "address" },
         { "name": "ids_", "type": "uint256[]", "internalType": "uint256[]" }
       ],
