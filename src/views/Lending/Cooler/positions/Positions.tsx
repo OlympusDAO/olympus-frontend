@@ -248,6 +248,7 @@ export const CoolerPositions = () => {
                     clearingHouseAddress={clearingHouse.clearingHouseAddress}
                     loans={loans}
                     duration={clearingHouse.duration}
+                    collateralAddress={clearingHouse.collateralAddress}
                   />
                 )}
               </Box>
