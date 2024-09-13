@@ -1,5 +1,5 @@
 import { Box, SvgIcon, Typography } from "@mui/material";
-import { ErrorNotification, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
@@ -8,10 +8,7 @@ import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAll
 import { COOLER_CONSOLIDATION_ADDRESSES, DAI_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useBalance } from "src/hooks/useBalance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
-import { useGetCollateralRequired } from "src/views/Lending/Cooler/hooks/useGetCollateralRequired";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 
 export const ConsolidateLoans = ({
@@ -19,26 +16,15 @@ export const ConsolidateLoans = ({
   clearingHouseAddress,
   loans,
   duration,
-  collateralAddress,
 }: {
   coolerAddress: string;
   clearingHouseAddress: string;
   loans: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
   duration: string;
-  collateralAddress: string;
 }) => {
   const coolerMutation = useConsolidateCooler();
   const [open, setOpen] = useState(false);
   const loanIds = loans.map(loan => loan.loanId);
-  const networks = useTestableNetworks();
-  const { data: collateralBalance, isFetched: balanceFetched } = useBalance({
-    [networks.MAINNET]: collateralAddress || "",
-  })[networks.MAINNET];
-  const { data: requiredCollateral, isFetched: requiredCollateralFetched } = useGetCollateralRequired({
-    coolerAddress,
-    clearingHouseAddress,
-    loanIds,
-  });
   const totals = loans.reduce(
     (acc, loan) => {
       acc.principal = acc.principal.add(loan.principal);
@@ -51,10 +37,6 @@ export const ConsolidateLoans = ({
   const maturityDate = new Date();
   maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
 
-  const collateralNeeded = collateralBalance && requiredCollateral && requiredCollateral.gt(collateralBalance);
-  const collateralAmount = collateralNeeded ? requiredCollateral.toString() : "0";
-
-  console.log(requiredCollateral, collateralBalance, collateralNeeded, collateralAmount);
   return (
     <>
       <PrimaryButton onClick={() => setOpen(!open)}>Consolidate Loans</PrimaryButton>
@@ -140,60 +122,45 @@ export const ConsolidateLoans = ({
               </Typography>
             </Box>
           </Box>
-          {balanceFetched && requiredCollateralFetched && (
-            <>
-              {collateralNeeded ? (
-                <>
-                  <ErrorNotification>
-                    You need {collateralAmount} more gOHM in your wallet to consolidate these loans
-                  </ErrorNotification>
-                  <PrimaryButton disabled fullWidth>
-                    Insufficent Collateral Balance
-                  </PrimaryButton>
-                </>
-              ) : (
-                <TokenAllowanceGuard
-                  tokenAddressMap={DAI_ADDRESSES}
-                  spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
-                  isVertical
-                  message={<>Approve DAI for Spending on the Consolidation Contract</>}
-                  spendAmount={new DecimalBigNumber(ethers.constants.MaxUint256, 18)}
-                  approvalText="Approve DAI for Spending"
-                >
-                  <TokenAllowanceGuard
-                    tokenAddressMap={GOHM_ADDRESSES}
-                    spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
-                    isVertical
-                    message={<>Approve gOHM for Spending on the Consolidation Contract</>}
-                    spendAmount={new DecimalBigNumber(totals.collateral, 18)}
-                    approvalText="Approve gOHM for Spending"
-                  >
-                    <PrimaryButton
-                      onClick={() => {
-                        coolerMutation.mutate(
-                          {
-                            coolerAddress,
-                            clearingHouseAddress,
-                            loanIds,
-                          },
-                          {
-                            onSuccess: () => {
-                              setOpen(false);
-                            },
-                          },
-                        );
-                      }}
-                      loading={coolerMutation.isLoading}
-                      disabled={coolerMutation.isLoading}
-                      fullWidth
-                    >
-                      Consolidate Loans
-                    </PrimaryButton>
-                  </TokenAllowanceGuard>
-                </TokenAllowanceGuard>
-              )}
-            </>
-          )}
+          <TokenAllowanceGuard
+            tokenAddressMap={DAI_ADDRESSES}
+            spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
+            isVertical
+            message={<>Approve DAI for Spending on the Consolidation Contract</>}
+            spendAmount={new DecimalBigNumber(ethers.constants.MaxUint256, 18)}
+            approvalText="Approve DAI for Spending"
+          >
+            <TokenAllowanceGuard
+              tokenAddressMap={GOHM_ADDRESSES}
+              spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
+              isVertical
+              message={<>Approve gOHM for Spending on the Consolidation Contract</>}
+              spendAmount={new DecimalBigNumber(totals.collateral, 18)}
+              approvalText="Approve gOHM for Spending"
+            >
+              <PrimaryButton
+                onClick={() => {
+                  coolerMutation.mutate(
+                    {
+                      coolerAddress,
+                      clearingHouseAddress,
+                      loanIds,
+                    },
+                    {
+                      onSuccess: () => {
+                        setOpen(false);
+                      },
+                    },
+                  );
+                }}
+                loading={coolerMutation.isLoading}
+                disabled={coolerMutation.isLoading}
+                fullWidth
+              >
+                Consolidate Loans
+              </PrimaryButton>
+            </TokenAllowanceGuard>
+          </TokenAllowanceGuard>
         </>
       </Modal>
     </>
