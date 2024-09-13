@@ -21,6 +21,7 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
@@ -87,7 +88,7 @@ export const CoolerPositions = () => {
         </Grid>
       </Grid>
       {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
-        <Box display="flex" mt="16px" justifyContent="right">
+        <Box display="flex" mt="16px" justifyContent="right" gap="4px">
           <Select
             value={currentClearingHouse}
             label="ClearingHouse"
@@ -232,7 +233,7 @@ export const CoolerPositions = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box display="flex" justifyContent={"center"}>
+              <Box display="flex" justifyContent={"center"} gap="4px">
                 <PrimaryButton
                   onClick={() => {
                     setRepayLoan(undefined);
@@ -241,6 +242,15 @@ export const CoolerPositions = () => {
                 >
                   Borrow DAI & Open Position
                 </PrimaryButton>
+                {clearingHouse && loans.length > 1 && (
+                  <ConsolidateLoans
+                    coolerAddress={coolerAddress}
+                    clearingHouseAddress={clearingHouse.clearingHouseAddress}
+                    loans={loans}
+                    duration={clearingHouse.duration}
+                    debtAddress={clearingHouse.debtAddress}
+                  />
+                )}
               </Box>
             </>
           )}
