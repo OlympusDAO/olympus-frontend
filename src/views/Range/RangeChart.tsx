@@ -50,6 +50,7 @@ const RangeChart = (props: {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory();
+  console.log(priceData, "test");
 
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
@@ -58,13 +59,13 @@ const RangeChart = (props: {
   const formattedWallLow = trim(parseBigNumber(rangeData.low.wall.price, 18), 2);
   const formattedCushionHigh = trim(parseBigNumber(rangeData.high.cushion.price, 18), 2);
   const formattedCushionLow = trim(parseBigNumber(rangeData.low.cushion.price, 18), 2);
-  const chartData = priceData.map((item: any) => {
+  const chartData = priceData.map(item => {
     return {
-      ...item,
-      timestamp: item.timestamp,
-      uv: [formattedWallHigh, formattedCushionHigh],
-      lv: [formattedWallLow, formattedCushionLow],
-      ma: targetPrice,
+      price: parseFloat(item.snapshot.ohmPrice),
+      timestamp: item.snapshot.timestamp,
+      uv: [item.snapshot.highWallPrice, item.snapshot.highCushionPrice],
+      lv: [item.snapshot.lowWallPrice, item.snapshot.lowCushionPrice],
+      ma: parseFloat(item.snapshot.ohmMovingAveragePrice),
     };
   });
 
@@ -85,6 +86,8 @@ const RangeChart = (props: {
       ma: targetPrice,
     },
   );
+
+  console.log(chartData, "chartData");
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
@@ -121,47 +124,41 @@ const RangeChart = (props: {
   const TooltipContent = ({ payload, label }: TooltipProps<number, NameType>) => {
     const price = payload && payload.length > 4 ? payload[4].value : currentPrice;
     const timestamp = payload && payload.length > 4 ? payload[4].payload.timestamp : "";
+    const lowerCushion = payload && payload.length > 4 ? payload[4].payload.lv[1] : "";
+    const lowerWall = payload && payload.length > 4 ? payload[4].payload.lv[0] : "";
+    const upperCushion = payload && payload.length > 4 ? payload[4].payload.uv[1] : "";
+    const upperWall = payload && payload.length > 4 ? payload[4].payload.uv[0] : "";
+
+    console.log(payload, "payload");
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
-        <DataRow title="Time" balance={timestamp}></DataRow>
+        <DataRow title="Time" balance={timestamp && new Date(Number(timestamp)).toLocaleString()}></DataRow>
         <Typography fontSize="15px" fontWeight={600} mt="33px">
           Price
         </Typography>
         <DataRow title="Snapshot Price" balance={formatCurrency(price ? price : currentPrice, 2, reserveSymbol)} />
+        <Typography fontSize="15px" fontWeight={600} mt="33px">
+          Lower Range
+        </Typography>
+        <DataRow title="Cushion" balance={formatCurrency(lowerCushion, 2, reserveSymbol)} />
+        <DataRow title="Wall" balance={formatCurrency(lowerWall, 2, reserveSymbol)} />
+        <DataRow
+          title="Capacity"
+          balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+        />
+        <Typography fontSize="15px" fontWeight={600} mt="33px">
+          Upper Range
+        </Typography>
+        <DataRow title="Cushion" balance={formatCurrency(upperCushion, 2, reserveSymbol)} />
+        <DataRow title="Wall" balance={formatCurrency(upperWall, 2, reserveSymbol)} />
+        <DataRow
+          title="Capacity"
+          balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
+        />
         {label === "now" && (
           <>
             <DataRow title="Target Price" balance={`${formatCurrency(targetPrice, 2, reserveSymbol)}`} />
             <DataRow title="30 Day MA" balance={`${formatCurrency(movingAverage.movingAverage, 2, reserveSymbol)}`} />
-            <Typography fontSize="15px" fontWeight={600} mt="33px">
-              Lower Range
-            </Typography>
-            <DataRow
-              title="Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.low.cushion.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Wall"
-              balance={formatCurrency(parseBigNumber(rangeData.low.wall.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
-            />
-            <Typography fontSize="15px" fontWeight={600} mt="33px">
-              Upper Range
-            </Typography>
-            <DataRow
-              title="Cushion"
-              balance={formatCurrency(parseBigNumber(rangeData.high.cushion.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Wall"
-              balance={formatCurrency(parseBigNumber(rangeData.high.wall.price, 18), 2, reserveSymbol)}
-            />
-            <DataRow
-              title="Capacity"
-              balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
-            />
           </>
         )}
       </Paper>
