@@ -15,7 +15,7 @@ import {
   YAxis,
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
-import { formatCurrency, parseBigNumber, trim } from "src/helpers";
+import { formatCurrency, parseBigNumber } from "src/helpers";
 import { RANGEv2 as OlympusRange } from "src/typechain/Range";
 import { OperatorMovingAverage, OperatorTargetPrice, PriceHistory } from "src/views/Range/hooks";
 
@@ -54,29 +54,16 @@ const RangeChart = (props: {
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
 
-  const formattedWallHigh = trim(parseBigNumber(rangeData.high.wall.price, 18), 2);
-  const formattedWallLow = trim(parseBigNumber(rangeData.low.wall.price, 18), 2);
-  const formattedCushionHigh = trim(parseBigNumber(rangeData.high.cushion.price, 18), 2);
-  const formattedCushionLow = trim(parseBigNumber(rangeData.low.cushion.price, 18), 2);
-  const chartData = priceData.map(item => {
+  const chartData = priceData.map((item, index) => {
+    const isFirstItem = index === 0;
+
     return {
       price: parseFloat(item.snapshot.ohmPrice),
-      timestamp: item.snapshot.timestamp,
+      timestamp: isFirstItem ? "now" : item.snapshot.timestamp,
       uv: [item.snapshot.highWallPrice, item.snapshot.highCushionPrice],
       lv: [item.snapshot.lowWallPrice, item.snapshot.lowCushionPrice],
       ma: parseFloat(item.snapshot.ohmMovingAveragePrice),
     };
-  });
-
-  /* We load an object at the front of the chartData array
-   * with no price data to shift the chart line left and add an extra element with current market price
-   */
-  chartData.unshift({
-    price: currentPrice,
-    timestamp: "now",
-    uv: [formattedWallHigh, formattedCushionHigh],
-    lv: [formattedWallLow, formattedCushionLow],
-    ma: targetPrice,
   });
 
   const CustomReferenceDot = (props: {
@@ -238,7 +225,7 @@ const RangeChart = (props: {
 
           <ReferenceDot
             x={"now"}
-            y={chartData.length > 1 ? chartData[1].price : 0}
+            y={chartData.length > 1 ? chartData[0].price : 0}
             shape={CustomReferenceDot}
             fill={theme.colors.gray[10]}
           >
@@ -246,7 +233,7 @@ const RangeChart = (props: {
               className={classes.currentPrice}
               position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
             >
-              {formatCurrency(chartData.length > 1 ? chartData[1].price : 0, 2, reserveSymbol)}
+              {formatCurrency(chartData.length > 1 ? chartData[0].price : 0, 2, reserveSymbol)}
             </Label>
           </ReferenceDot>
           <ReferenceDot x={"now"} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">
