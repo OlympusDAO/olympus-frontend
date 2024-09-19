@@ -2,6 +2,9 @@ export enum NetworkId {
   MAINNET = 1,
   TESTNET_GOERLI = 5,
 
+  BASE = 8453,
+  BASE_TESTNET = 84532,
+
   ARBITRUM = 42161,
   ARBITRUM_GOERLI = 421613,
 

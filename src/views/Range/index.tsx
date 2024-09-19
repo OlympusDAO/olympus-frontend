@@ -23,6 +23,7 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import {
   DetermineRangePrice,
+  LastSnapshotPrice,
   OperatorPrice,
   OperatorReserveSymbol,
   RangeBondMaxPayout,
@@ -61,6 +62,7 @@ export const Range = () => {
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
   const { data: currentPrice } = OperatorPrice();
+  const { data: lastPrice } = LastSnapshotPrice();
   const { data: currentMarketPrices } = useGetDefillamaPrice({
     addresses: [DAI_ADDRESSES[1], OHM_ADDRESSES[1]],
   });
@@ -172,7 +174,7 @@ export const Range = () => {
         }
       />
       <Paper sx={{ width: "98%" }}>
-        {currentPrice ? (
+        {currentPrice && lastPrice ? (
           <>
             <Metric
               label="Market Price"
@@ -199,7 +201,7 @@ export const Range = () => {
                       title="Last Snapshot Price"
                       balance={
                         <Box display="flex" alignItems="center">
-                          {formatNumber(currentPrice, 2)} {reserveSymbol}
+                          {formatNumber(lastPrice, 2)} {reserveSymbol}
                           <Box display="flex" fontSize="12px" alignItems="center">
                             <InfoTooltip
                               message={`Snapshot Price is returned from price feed connected to RBS Operator. The current price feed is Chainlink, which updates price if there's a 2% deviation or 24 hours, whichever comes first. The Snapshot Price is used by RBS Operator to turn on/off bond markets.`}
