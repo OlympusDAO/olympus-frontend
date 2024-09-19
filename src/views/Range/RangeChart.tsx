@@ -50,7 +50,6 @@ const RangeChart = (props: {
   const { rangeData, currentPrice, bidPrice, askPrice, reserveSymbol } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData, isFetched } = PriceHistory();
-  console.log(priceData, "test");
 
   const { data: targetPrice } = OperatorTargetPrice();
   const { data: movingAverage } = OperatorMovingAverage();
@@ -72,22 +71,13 @@ const RangeChart = (props: {
   /* We load an object at the front of the chartData array
    * with no price data to shift the chart line left and add an extra element with current market price
    */
-  chartData.unshift(
-    {
-      uv: [formattedWallHigh, formattedCushionHigh],
-      lv: [formattedWallLow, formattedCushionLow],
-      ma: targetPrice,
-    },
-    {
-      price: currentPrice,
-      timestamp: "now",
-      uv: [formattedWallHigh, formattedCushionHigh],
-      lv: [formattedWallLow, formattedCushionLow],
-      ma: targetPrice,
-    },
-  );
-
-  console.log(chartData, "chartData");
+  chartData.unshift({
+    price: currentPrice,
+    timestamp: "now",
+    uv: [formattedWallHigh, formattedCushionHigh],
+    lv: [formattedWallLow, formattedCushionLow],
+    ma: targetPrice,
+  });
 
   const CustomReferenceDot = (props: {
     cx: string | number | undefined;
@@ -129,10 +119,12 @@ const RangeChart = (props: {
     const upperCushion = payload && payload.length > 4 ? payload[4].payload.uv[1] : "";
     const upperWall = payload && payload.length > 4 ? payload[4].payload.uv[0] : "";
 
-    console.log(payload, "payload");
     return (
       <Paper className={`ohm-card tooltip-container`} sx={{ minWidth: "250px" }}>
-        <DataRow title="Time" balance={timestamp && new Date(Number(timestamp)).toLocaleString()}></DataRow>
+        <DataRow
+          title="Time"
+          balance={timestamp && timestamp === "now" ? "Now" : new Date(Number(timestamp)).toLocaleString()}
+        ></DataRow>
         <Typography fontSize="15px" fontWeight={600} mt="33px">
           Price
         </Typography>
@@ -169,7 +161,7 @@ const RangeChart = (props: {
   return isFetched ? (
     <Box bgcolor={theme.colors.gray[700]} borderRadius="12px" px={2}>
       <StyledResponsiveContainer width="100%" height={400}>
-        <ComposedChart data={chartData}>
+        <ComposedChart data={chartData} margin={{ right: 50 }}>
           <defs>
             <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
               <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#8B5559" strokeWidth="1" />
@@ -246,7 +238,7 @@ const RangeChart = (props: {
 
           <ReferenceDot
             x={"now"}
-            y={chartData.length > 1 && chartData[1].price}
+            y={chartData.length > 1 ? chartData[1].price : 0}
             shape={CustomReferenceDot}
             fill={theme.colors.gray[10]}
           >
@@ -254,7 +246,7 @@ const RangeChart = (props: {
               className={classes.currentPrice}
               position={(isSquishyBid && bidPriceDelta < 0) || (isSquishyAsk && askPriceDelta < 0) ? "bottom" : "top"}
             >
-              {formatCurrency(chartData.length > 1 && chartData[1].price, 2, reserveSymbol)}
+              {formatCurrency(chartData.length > 1 ? chartData[1].price : 0, 2, reserveSymbol)}
             </Label>
           </ReferenceDot>
           <ReferenceDot x={"now"} y={askPrice} shape={CustomReferenceDot} fill="#F8CC82">

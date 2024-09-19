@@ -12,6 +12,7 @@ import {
 import { parseBigNumber } from "src/helpers";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -24,7 +25,6 @@ import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
 export const PriceHistory = () => {
-  const networks = useTestableNetworks();
   const {
     data = [],
     isFetched,
@@ -32,7 +32,7 @@ export const PriceHistory = () => {
   } = useQuery(["getPriceHistory"], async () => {
     const query = gql`
       query {
-        newObservations(first: 50, orderBy: block, orderDirection: desc) {
+        newObservations(first: 150, orderBy: block, orderDirection: desc) {
           snapshot {
             block
             date
@@ -63,38 +63,13 @@ export const PriceHistory = () => {
         };
       }[];
     };
-    const test = await request<snapshot>(
-      "https://gateway.thegraph.com/api/acd1771af8d14e22d4c8308a5750eb96/subgraphs/id/8L8ZJ5hqCZguKk2QyBRWWdsp2thmzHF2Egyj4TqC9NHc",
+    const subgraphApiKey = Environment.getSubgraphApiKey();
+    const response = await request<snapshot>(
+      `https://gateway.thegraph.com/api/${subgraphApiKey}/subgraphs/id/8L8ZJ5hqCZguKk2QyBRWWdsp2thmzHF2Egyj4TqC9NHc`,
       query,
     );
 
-    console.log(test.newObservations, "aaa");
-
-    return test.newObservations;
-
-    // const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
-    // const lastObservationIndex = await contract.nextObsIndex();
-    // const secondsToSubtract = await contract.observationFrequency();
-    // let currentDate = new Date(); // Start with the current date
-    // const resultsArray: {
-    //   price: number;
-    //   timestamp: string;
-    // }[] = [];
-
-    // for (let i = 1; i < 10; i++) {
-    //   const observation = (lastObservationIndex - i + 90) % 90;
-    //   if (i > 0) {
-    //     currentDate = new Date(currentDate.getTime() - secondsToSubtract * 1000);
-    //   }
-    //   const datapoint = await contract.observations(observation);
-    //   const resultObject = {
-    //     price: parseFloat(formatEther(datapoint)),
-    //     timestamp: currentDate.toLocaleString(),
-    //   };
-    //   resultsArray.push(resultObject);
-    // }
-
-    // return resultsArray;
+    return response.newObservations;
   });
 
   return { data, isFetched, isLoading };
