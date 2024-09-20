@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
-import { formatEther } from "ethers/lib/utils.js";
+import request, { gql } from "graphql-request";
 import toast from "react-hot-toast";
 import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
@@ -12,6 +12,7 @@ import {
 import { parseBigNumber } from "src/helpers";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -24,35 +25,51 @@ import { useSigner } from "wagmi";
 
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
 export const PriceHistory = () => {
-  const networks = useTestableNetworks();
   const {
     data = [],
     isFetched,
     isLoading,
   } = useQuery(["getPriceHistory"], async () => {
-    const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
-    const lastObservationIndex = await contract.nextObsIndex();
-    const secondsToSubtract = await contract.observationFrequency();
-    let currentDate = new Date(); // Start with the current date
-    const resultsArray: {
-      price: number;
-      timestamp: string;
-    }[] = [];
-
-    for (let i = 1; i < 10; i++) {
-      const observation = (lastObservationIndex - i + 90) % 90;
-      if (i > 0) {
-        currentDate = new Date(currentDate.getTime() - secondsToSubtract * 1000);
+    const query = gql`
+      query {
+        newObservations(first: 150, orderBy: block, orderDirection: desc) {
+          snapshot {
+            block
+            date
+            highCushionPrice
+            highWallPrice
+            lowCushionPrice
+            lowWallPrice
+            ohmPrice
+            timestamp
+            ohmMovingAveragePrice
+          }
+        }
       }
-      const datapoint = await contract.observations(observation);
-      const resultObject = {
-        price: parseFloat(formatEther(datapoint)),
-        timestamp: currentDate.toLocaleString(),
-      };
-      resultsArray.push(resultObject);
-    }
+    `;
 
-    return resultsArray;
+    type snapshot = {
+      newObservations: {
+        snapshot: {
+          block: number;
+          date: string;
+          highCushionPrice: string;
+          highWallPrice: string;
+          lowCushionPrice: string;
+          lowWallPrice: string;
+          ohmPrice: string;
+          timestamp: string;
+          ohmMovingAveragePrice: string;
+        };
+      }[];
+    };
+    const subgraphApiKey = Environment.getSubgraphApiKey();
+    const response = await request<snapshot>(
+      `https://gateway.thegraph.com/api/${subgraphApiKey}/subgraphs/id/8L8ZJ5hqCZguKk2QyBRWWdsp2thmzHF2Egyj4TqC9NHc`,
+      query,
+    );
+
+    return response.newObservations;
   });
 
   return { data, isFetched, isLoading };
