@@ -43,6 +43,11 @@ export class Environment {
       key: "VITE_WG_PUBLIC_NODE_URL",
     });
 
+  public static getSubgraphApiKey = (): string | undefined =>
+    this._get({
+      first: true,
+      key: "VITE_SUBGRAPH_API_KEY",
+    });
   /**
    * a feature flag for denoting when we are on the staging server
    * @returns {string} true or false
