@@ -59,7 +59,7 @@ export const ConsolidateLoans = ({
   console.log("consolidate loans");
   return (
     <>
-      <PrimaryButton onClick={() => setOpen(!open)}>Consolidate Loans</PrimaryButton>
+      <PrimaryButton disabled onClick={() => setOpen(!open)}>Consolidate Loans</PrimaryButton>
       <Modal
         maxWidth="476px"
         minHeight="200px"
