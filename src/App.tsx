@@ -33,7 +33,9 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
-import { Governance } from "src/views/Governance/Governance";
+import { Governance } from "src/views/Governance";
+import { Delegate } from "src/views/Governance/Delegation";
+import { ProposalPage } from "src/views/Governance/Proposals";
 import { Cooler } from "src/views/Lending/Cooler";
 import { Vault } from "src/views/Liquidity/Vault";
 import { MyBalances } from "src/views/MyBalances";
@@ -255,6 +257,8 @@ function App() {
                   <Route path="/lending/cooler" element={<Cooler />} />
                   <Route path="/utility" element={<Utility />} />
                   <Route path="/governance" element={<Governance />} />
+                  <Route path="/governance/delegate" element={<Delegate />} />
+                  <Route path="/governance/proposals/:id" element={<ProposalPage />} />
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>

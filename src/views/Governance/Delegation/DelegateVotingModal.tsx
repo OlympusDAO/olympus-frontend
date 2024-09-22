@@ -1,5 +1,5 @@
 import { Box, Link, SvgIcon } from "@mui/material";
-import { Input, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { Input, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
@@ -7,11 +7,12 @@ import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
 import { useNetwork } from "wagmi";
 
-export const DelegateVoting = ({
+export const DelegateVotingModal = ({
   address,
   open,
   setOpen,
   currentDelegateAddress,
+  currentWalletAddress,
 }: {
   address?: string;
   open: boolean;
@@ -25,6 +26,7 @@ export const DelegateVoting = ({
     >
   >;
   currentDelegateAddress?: string;
+  currentWalletAddress?: string;
 }) => {
   const [delegationAddress, setDelegationAddress] = useState("");
   const delegateVoting = useDelegateVoting();
@@ -71,6 +73,14 @@ export const DelegateVoting = ({
           </Box>
 
           <WalletConnectedGuard fullWidth>
+            <SecondaryButton
+              fullWidth
+              onClick={() => {
+                currentWalletAddress && setDelegationAddress(currentWalletAddress);
+              }}
+            >
+              Set to My Wallet
+            </SecondaryButton>
             <PrimaryButton
               fullWidth
               disabled={delegateVoting.isLoading || !delegationAddress}

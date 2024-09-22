@@ -59,6 +59,15 @@ export class Environment {
       fallback: "false",
     });
 
+  public static getGovernanceStartBlock = (): number =>
+    parseInt(
+      this._get({
+        first: true,
+        key: "VITE_GOVERNANCE_START_BLOCK",
+        fallback: "0",
+      }),
+    );
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
@@ -140,6 +149,20 @@ export class Environment {
         return this._get({
           key: `VITE_BASE_TESTNET_NODE_URL`,
           fallback: "https://sepolia.base.org",
+        });
+    }
+  };
+  public static getArchiveNodeUrls = (networkId: NetworkId) => {
+    switch (networkId) {
+      case NetworkId.MAINNET:
+        return this._get({
+          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/eth",
+        });
+      default:
+        return this._get({
+          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
+          fallback: "https://rpc.ankr.com/eth",
         });
     }
   };
