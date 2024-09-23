@@ -54,14 +54,7 @@ export class Environment {
       fallback: "false",
     });
 
-  public static getGovernanceStartBlock = (): number =>
-    parseInt(
-      this._get({
-        first: true,
-        key: "VITE_GOVERNANCE_START_BLOCK",
-        fallback: "20815338",
-      }),
-    );
+  public static getGovernanceStartBlock = (): number => parseInt("20815338");
 
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
