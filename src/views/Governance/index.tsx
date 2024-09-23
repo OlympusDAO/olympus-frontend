@@ -35,7 +35,7 @@ export const Governance = () => {
     <div id="stake-view">
       <PageTitle name="Governance" />
       <Box width="97%" maxWidth="974px">
-        {import.meta.env.VITE_GOVERNANCE_DEV && <GovernanceDevTools />}
+        <GovernanceDevTools />
         <DelegationMessage />
         <Metric label="Current Voting Power" metric={`${Number(currentVotingWeight || 0).toFixed(2)} gOHM`} />
         <Box display="flex" justifyContent="right">
