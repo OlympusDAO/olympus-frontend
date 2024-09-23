@@ -12,7 +12,7 @@ export async function addToNetwork() {
           symbol: "ETH",
           decimals: 18,
         },
-        rpcUrls: ["https://rpc.tenderly.co/fork/f7571dd4-342e-457a-a83b-670b6a84e4c4"],
+        rpcUrls: ["https://rpc.tenderly.co/fork/bc145689-8a7d-4a9a-872c-b54c670a762a"],
       };
 
       const result = await window.ethereum.request({

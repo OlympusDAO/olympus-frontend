@@ -59,17 +59,14 @@ export class Environment {
       this._get({
         first: true,
         key: "VITE_GOVERNANCE_START_BLOCK",
-        fallback: "0",
+        fallback: "20815338",
       }),
     );
 
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
-        return this._get({
-          key: `VITE_ETHEREUM_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
-        });
+        return ["https://rpc.tenderly.co/fork/bc145689-8a7d-4a9a-872c-b54c670a762a"]; //TODO: revert this after testing. this is like this so we dont have to mess w/ fleek environments for fork testing
       case NetworkId.TESTNET_GOERLI:
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_NODE_URL`,
@@ -150,15 +147,9 @@ export class Environment {
   public static getArchiveNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
-        return this._get({
-          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
-        });
+        return ["https://rpc.tenderly.co/fork/bc145689-8a7d-4a9a-872c-b54c670a762a"];
       default:
-        return this._get({
-          key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
-        });
+        return ["https://rpc.tenderly.co/fork/bc145689-8a7d-4a9a-872c-b54c670a762a"];
     }
   };
 }

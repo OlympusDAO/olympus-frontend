@@ -31,6 +31,8 @@ export const useGetProposals = () => {
           }
         }),
       );
+
+      console.log("the proposals", proposals);
       return proposals;
     },
     { enabled: !!archiveProvider && !!contract },
