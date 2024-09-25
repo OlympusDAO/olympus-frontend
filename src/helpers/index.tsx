@@ -117,6 +117,11 @@ export const formatNumber = (number: number, precision = 0) => {
   }).format(number);
 };
 
+export const abbreviatedNumber = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 2,
+});
+
 export const isTestnet = (networkId: NetworkId) => {
   const testnets = [
     NetworkId.ARBITRUM_GOERLI,
