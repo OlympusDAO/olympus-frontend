@@ -157,12 +157,12 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
+          fallback: "https://eth.merkle.io",
         });
       default:
         return this._get({
           key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
+          fallback: "https://eth.merkle.io",
         });
     }
   };
