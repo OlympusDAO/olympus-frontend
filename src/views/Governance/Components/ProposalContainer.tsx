@@ -30,7 +30,7 @@ export const ProposalContainer = ({
   const { data: proposal, isLoading } = useGetProposalDetails({ proposalId });
   const { data: parameters } = useGetContractParameters();
 
-  const formattedTitle = title?.split(/#+\s|\n/g)[1];
+  const formattedTitle = title;
 
   const dateFormat = new Intl.DateTimeFormat([], {
     month: "short",
