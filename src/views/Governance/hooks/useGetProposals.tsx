@@ -39,6 +39,8 @@ export const useGetProposals = () => {
           blockNumber,
         );
 
+        console.log("ProposalCreated events found:", proposalCreatedEvents.length);
+
         // Process each event
         for (const item of proposalCreatedEvents) {
           const timestamp = (await archiveProvider.getBlock(item.blockNumber)).timestamp;
@@ -46,18 +48,18 @@ export const useGetProposals = () => {
           if (item.decode) {
             const details = { ...item.decode(item.data), values: item.args[3] } as ProposalCreatedEventObject;
 
-            // Stop if we hit proposal ID 1
-            if (Number(details.id) === 1) {
-              foundProposalId1 = true;
-              break;
-            }
-
             proposals.push({
               createdAtBlock: new Date(timestamp * 1000),
               details,
               title: details.description.split(/#+\s|\n/g)[1] || `${details.description.slice(0, 20)}...`,
               txHash: item.transactionHash,
             });
+
+            // Stop if we hit proposal ID 1
+            if (Number(details.id) === 1) {
+              foundProposalId1 = true;
+              break;
+            }
           }
         }
 
