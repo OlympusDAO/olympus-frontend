@@ -20,12 +20,15 @@ import { VoteRow } from "src/views/Governance/Proposals/VoteRow";
 const tablesData = [
   {
     id: "For",
+    contractValue: 1,
   },
   {
     id: "Against",
+    contractValue: 0,
   },
   {
     id: "Abstain",
+    contractValue: 2,
   },
 ];
 
@@ -41,9 +44,11 @@ const TabPanel = (props: { children: React.ReactNode; value: number; index: numb
 export default function GovernanceTable() {
   const { id } = useParams();
   const [tabIndex, setTabIndex] = useState(0);
-  const { data: voteData } = useGetVotes({ proposalId: id, support: tabIndex + 1 });
+  const [supportValue, setSupportValue] = useState(1);
+  const { data: voteData } = useGetVotes({ proposalId: id, support: supportValue });
 
   const handleTabChange = (event: React.SyntheticEvent, newIndex: number) => {
+    setSupportValue(tablesData[newIndex].contractValue);
     setTabIndex(newIndex);
   };
 
