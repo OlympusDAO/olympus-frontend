@@ -37,7 +37,6 @@ export const useGetVotes = ({ proposalId, support }: { proposalId?: string; supp
         query,
       );
 
-      console.log(response, "response");
       return response.voteCasts || [];
     },
     { enabled: !!proposalId && !!support },
