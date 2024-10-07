@@ -68,6 +68,15 @@ export class Environment {
       }),
     );
 
+  public static getGovernanceSubgraphUrl = (): string => {
+    const subgraphApiKey = this.getSubgraphApiKey();
+    return this._get({
+      first: true,
+      key: "VITE_GOVERNANCE_SUBGRAPH_URL",
+      fallback: `https://gateway.thegraph.com/api/${subgraphApiKey}/subgraphs/id/AQoLCXebY1Ga7DrqVaVQ85KMwS7iFof73tv9XMVGRtyJ`,
+    });
+  };
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:

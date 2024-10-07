@@ -47,8 +47,6 @@ export default function GovernanceTable() {
     setTabIndex(newIndex);
   };
 
-  console.log(voteData, "voteData");
-
   return (
     <Box sx={{ width: "100%" }}>
       <Tabs
