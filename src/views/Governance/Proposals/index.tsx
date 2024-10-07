@@ -20,13 +20,14 @@ import { useActivateProposal } from "src/views/Governance/hooks/useActivatePropo
 import { useExecuteProposal } from "src/views/Governance/hooks/useExecuteProposal";
 import { useGetCurrentBlockTime } from "src/views/Governance/hooks/useGetCurrentBlockTime";
 import { useGetProposalDetails } from "src/views/Governance/hooks/useGetProposalDetails";
-import { useGetProposal } from "src/views/Governance/hooks/useGetProposals";
+import { useGetProposalFromSubgraph } from "src/views/Governance/hooks/useGetProposalFromSubgraph";
 import { useQueueProposal } from "src/views/Governance/hooks/useQueueProposal";
+import VoteDetails from "src/views/Governance/Proposals/VoteDetails";
 import { useEnsName, useNetwork, useSwitchNetwork } from "wagmi";
 
 export const ProposalPage = () => {
   const { id } = useParams();
-  const { data: proposal } = useGetProposal({ proposalId: Number(id) });
+  const { data: proposal } = useGetProposalFromSubgraph({ proposalId: id });
   const { data: proposalDetails } = useGetProposalDetails({ proposalId: Number(id) });
   const { data: ensAddress } = useEnsName({ address: proposalDetails?.proposer as `0x${string}` });
   const [voteModalOpen, setVoteModalOpen] = useState(false);
@@ -160,7 +161,7 @@ export const ProposalPage = () => {
           >
             <Tab label="Description" />
             <Tab label="Executable Code" />
-            {/* <Tab label="Comments" /> */}
+            <Tab label="Participation" />
           </Tabs>
         </Box>
         <Grid container spacing={"24px"}>
@@ -197,11 +198,8 @@ export const ProposalPage = () => {
               )}
               {tabIndex === 2 && (
                 <>
-                  <Typography fontSize="21px" fontWeight={600} mb="15px">
-                    Comments
-                  </Typography>
                   <Box display="flex" flexDirection="column" gap="15px">
-                    <Typography>No comments yet</Typography>
+                    <VoteDetails />
                   </Box>
                 </>
               )}
