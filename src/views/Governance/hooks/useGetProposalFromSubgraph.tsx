@@ -50,8 +50,6 @@ export const useGetProposalFromSubgraph = ({ proposalId }: { proposalId?: string
         query,
       );
 
-      console.log("response", response);
-
       return normalizeProposal(response.proposalCreated);
     },
     { enabled: !!proposalId },
