@@ -3,7 +3,6 @@ import request, { gql } from "graphql-request";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export const useGetVotes = ({ proposalId, support }: { proposalId?: string; support: number }) => {
-  console.log(proposalId, support);
   return useQuery(
     ["getVotes", proposalId, support],
     async () => {
@@ -29,13 +28,8 @@ export const useGetVotes = ({ proposalId, support }: { proposalId?: string; supp
         }[];
       };
 
-      const subgraphApiKey = Environment.getSubgraphApiKey();
-
-      // `https://gateway.thegraph.com/api/${subgraphApiKey}/subgraphs/id/AQoLCXebY1Ga7DrqVaVQ85KMwS7iFof73tv9XMVGRtyJ`,
-      const response = await request<votesResponse>(
-        `https://api.studio.thegraph.com/query/46563/olympus-governor/version/latest/`,
-        query,
-      );
+      const subgraphUrl = Environment.getGovernanceSubgraphUrl();
+      const response = await request<votesResponse>(subgraphUrl, query);
 
       return response.voteCasts || [];
     },
