@@ -1,5 +1,5 @@
 import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { Metric, MetricCollection, Paper, TabBar } from "@olympusdao/component-library";
+import { Metric, Paper, TabBar } from "@olympusdao/component-library";
 import { memo, useEffect, useMemo, useState } from "react";
 import { Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -26,11 +26,8 @@ import {
   BackingPerOHM,
   CurrentIndex,
   GOhmCirculatingSupply,
-  GOHMPriceFromSubgraph,
-  MarketCap,
   MetricSubgraphProps,
   OhmCirculatingSupply,
-  OHMPriceFromSubgraph,
 } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 const baseMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
@@ -161,18 +158,21 @@ const MetricsDashboard = () => {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Paper {...paperProps}>
-            <MetricCollection>
-              <MarketCap {...sharedMetricProps} />
-              <OHMPriceFromSubgraph {...sharedMetricProps} />
-              <GOHMPriceFromSubgraph {...sharedMetricProps} className="wsoprice" />
-              {isTokenOHM() ? (
-                <OhmCirculatingSupply {...sharedMetricProps} />
-              ) : (
-                <GOhmCirculatingSupply {...sharedMetricProps} />
-              )}
-              {isTokenOHM() ? <BackingPerOHM {...sharedMetricProps} /> : <BackingPerGOHM {...sharedMetricProps} />}
-              <CurrentIndex {...sharedMetricProps} />
-            </MetricCollection>
+            <Box display="flex" justifyContent="space-around" flexWrap="wrap" gap="12px">
+              <div>
+                {isTokenOHM() ? (
+                  <OhmCirculatingSupply {...sharedMetricProps} />
+                ) : (
+                  <GOhmCirculatingSupply {...sharedMetricProps} />
+                )}
+              </div>
+              <div>
+                {isTokenOHM() ? <BackingPerOHM {...sharedMetricProps} /> : <BackingPerGOHM {...sharedMetricProps} />}
+              </div>
+              <div>
+                <CurrentIndex {...sharedMetricProps} />
+              </div>
+            </Box>
           </Paper>
         </Grid>
         {/* Custom paddingBottom to make the filter row(s) equidistant from the metrics (above) and

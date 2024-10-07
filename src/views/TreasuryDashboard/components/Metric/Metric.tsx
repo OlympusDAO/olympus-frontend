@@ -1,12 +1,7 @@
 import { Metric } from "@olympusdao/component-library";
 import { formatCurrency, formatCurrencyOrLoading, formatNumber, formatNumberOrLoading } from "src/helpers";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
-import {
-  useCurrentIndex,
-  useGOhmPrice as useGOhmPriceFromSubgraph,
-  useOhmPrice as useOhmPriceFromSubgraph,
-  useTotalValueDeposited,
-} from "src/hooks/useProtocolMetrics";
+import { useCurrentIndex, useTotalValueDeposited } from "src/hooks/useProtocolMetrics";
 import { useTreasuryMarketValueLatest } from "src/hooks/useTokenRecordsMetrics";
 import { useOhmCirculatingSupply, useOhmTotalSupply } from "src/hooks/useTokenSupplyMetrics";
 import { useLiquidBackingPerGOhm, useLiquidBackingPerOhmBacked, useMarketCap } from "src/hooks/useTreasuryMetrics";
@@ -47,23 +42,6 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
     ...props,
     label: "OHM " + `Price`,
     tooltip: `This price is sourced from the liquidity pools, so will show the real-time market rate.`,
-  };
-
-  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-/**
- * same as OHMPrice but uses Subgraph price
- */
-export const OHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const ohmPrice = useOhmPriceFromSubgraph({ ignoreCache: props.ignoreCache });
-  const _props: MetricProps = {
-    ...props,
-    label: "OHM " + `Price`,
-    tooltip: `This price is determined at the time a snapshot is recorded (every 8 hours). As a result, it will lag the real-time market rate.`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -178,23 +156,6 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
     label: "gOHM " + `Price`,
     tooltip:
       "gOHM = sOHM * index" + "\n\n" + `The price of gOHM is equal to the price of OHM multiplied by the current index`,
-  };
-
-  if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
-  else _props.isLoading = true;
-
-  return <Metric {..._props} />;
-};
-
-export const GOHMPriceFromSubgraph: React.FC<AbstractedMetricProps & MetricSubgraphProps> = props => {
-  const gOhmPrice = useGOhmPriceFromSubgraph({ ignoreCache: props.ignoreCache });
-  const _props: MetricProps = {
-    ...props,
-    label: "gOHM " + `Price`,
-    tooltip:
-      "gOHM = sOHM * index" +
-      "\n\n" +
-      `The price of gOHM is equal to the price of OHM multiplied by the current index.`,
   };
 
   if (gOhmPrice) _props.metric = formatCurrency(gOhmPrice, 2);
