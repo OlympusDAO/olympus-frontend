@@ -3,12 +3,12 @@ import { Paper } from "@olympusdao/component-library";
 import { useGetCanceledTime } from "src/views/Governance/hooks/useGetCanceledTime";
 import { useGetExecutedTime } from "src/views/Governance/hooks/useGetExecutedTime";
 import { useGetProposalDetails } from "src/views/Governance/hooks/useGetProposalDetails";
-import { useGetProposal } from "src/views/Governance/hooks/useGetProposals";
+import { useGetProposalFromSubgraph } from "src/views/Governance/hooks/useGetProposalFromSubgraph";
 import { useGetQueuedTime } from "src/views/Governance/hooks/useGetQueuedTime";
 import { useGetVetoedTime } from "src/views/Governance/hooks/useGetVetoedTime";
 
 export const Status = ({ proposalId }: { proposalId: number }) => {
-  const { data: proposal } = useGetProposal({ proposalId });
+  const { data: proposal } = useGetProposalFromSubgraph({ proposalId: proposalId.toString() });
   const { data: proposalDetails } = useGetProposalDetails({ proposalId });
   const { data: queueTime } = useGetQueuedTime({ proposalId });
   const { data: executedTime } = useGetExecutedTime({ proposalId, status: proposalDetails?.status });
