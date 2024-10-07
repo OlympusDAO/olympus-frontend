@@ -28,12 +28,14 @@ export const useGetProposalsFromSubgraph = () => {
   };
 
   return useQuery(["getProposals"], async () => {
-    const subgraphApiKey = Environment.getSubgraphApiKey();
-    const response = await request<Proposals>(
-      `https://api.studio.thegraph.com/query/46563/olympus-governor/version/latest/`,
-      query,
-    );
+    try {
+      const subgraphUrl = Environment.getGovernanceSubgraphUrl();
+      const response = await request<Proposals>(subgraphUrl, query);
 
-    return response.proposalCreateds.map(normalizeProposal);
+      return response.proposalCreateds.map(normalizeProposal);
+    } catch (error) {
+      console.error("useGetProposalsFromSubgraph", error);
+      return [];
+    }
   });
 };

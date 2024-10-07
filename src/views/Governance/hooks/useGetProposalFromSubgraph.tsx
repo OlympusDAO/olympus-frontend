@@ -22,10 +22,9 @@ type ProposalResponse = {
 };
 
 export const useGetProposalFromSubgraph = ({ proposalId }: { proposalId?: string }) => {
-  const tempProposalId = "0x01000000";
   const query = gql`
     query {
-        proposalCreated(id: "${tempProposalId}") {
+        proposalCreated(id: ${proposalId}) {
             proposalId
             proposer
             targets
@@ -44,13 +43,17 @@ export const useGetProposalFromSubgraph = ({ proposalId }: { proposalId?: string
   return useQuery(
     ["getProposal", proposalId],
     async () => {
-      const subgraphApiKey = Environment.getSubgraphApiKey();
-      const response = await request<ProposalResponse>(
-        `https://api.studio.thegraph.com/query/46563/olympus-governor/version/latest/`,
-        query,
-      );
-
-      return normalizeProposal(response.proposalCreated);
+      try {
+        const subgraphUrl = Environment.getGovernanceSubgraphUrl();
+        const response = await request<ProposalResponse>(subgraphUrl, query);
+        if (!response.proposalCreated) {
+          return null;
+        }
+        return normalizeProposal(response.proposalCreated);
+      } catch (error) {
+        console.error("useGetProposalFromSubgraph", error);
+        return null;
+      }
     },
     { enabled: !!proposalId },
   );
