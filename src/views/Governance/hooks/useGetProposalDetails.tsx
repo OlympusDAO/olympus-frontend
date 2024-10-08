@@ -15,8 +15,8 @@ export const useGetProposalDetails = ({ proposalId }: { proposalId: number }) =>
       const blockTime = await archiveProvider.getBlock("latest");
       const endDateBlockTimestamp = await archiveProvider.getBlock(Number(proposalDetails.endBlock));
       const startDateBlockTimestamp = await archiveProvider.getBlock(Number(proposalDetails.startBlock));
-      const startDate = getDateFromBlock(Number(proposalDetails.startBlock), blockTime.number, 15, blockTime.timestamp);
-      const endDate = getDateFromBlock(Number(proposalDetails.endBlock), blockTime.number, 15, blockTime.timestamp);
+      const startDate = getDateFromBlock(Number(proposalDetails.startBlock), blockTime.number, 12, blockTime.timestamp);
+      const endDate = getDateFromBlock(Number(proposalDetails.endBlock), blockTime.number, 12, blockTime.timestamp);
 
       return {
         id: proposalDetails.id.toNumber(),
