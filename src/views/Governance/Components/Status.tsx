@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { Paper } from "@olympusdao/component-library";
 import { useGetCanceledTime } from "src/views/Governance/hooks/useGetCanceledTime";
 import { useGetExecutedTime } from "src/views/Governance/hooks/useGetExecutedTime";
@@ -29,19 +29,23 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
           <Typography fontSize="12px">{proposal?.createdAtBlock?.toLocaleString()}</Typography>
           <Typography fontWeight="500">Published Onchain</Typography>
         </div>
-        <div>
-          <Typography fontSize="12px">{proposalDetails?.startDate?.toLocaleString()}</Typography>
-          <Typography fontWeight="500">Voting Period Starts</Typography>
-        </div>
-        {(proposalDetails?.endDate || placeholderEndDate) && (
+        <Tooltip title={`Block ${proposalDetails?.startBlock}`}>
           <div>
-            <Typography fontSize="12px">
-              {proposalDetails.endDate
-                ? proposalDetails?.endDate?.toLocaleString()
-                : placeholderEndDate?.toLocaleString()}
-            </Typography>
-            <Typography fontWeight="500">Voting Period Ends</Typography>
+            <Typography fontSize="12px">{proposalDetails?.startDate?.toLocaleString()}</Typography>
+            <Typography fontWeight="500">Voting Period Starts</Typography>
           </div>
+        </Tooltip>
+        {(proposalDetails?.endDate || placeholderEndDate) && (
+          <Tooltip title={`Block ${proposalDetails.endBlock}`}>
+            <div>
+              <Typography fontSize="12px">
+                {proposalDetails.endDate
+                  ? proposalDetails?.endDate?.toLocaleString()
+                  : placeholderEndDate?.toLocaleString()}
+              </Typography>
+              <Typography fontWeight="500">Voting Period Ends </Typography>
+            </div>
+          </Tooltip>
         )}
         {proposalDetails?.status === "Queued" && (
           <>
