@@ -42,9 +42,10 @@ export function shorten(str: string) {
 }
 
 export function formatCurrency(c: number, precision = 0, currency = "USD") {
+  console.log(c, precision, currency);
   const formatted = new Intl.NumberFormat("en-US", {
-    style: currency === "USD" ? "currency" : undefined,
-    currency,
+    style: currency === "USD" || currency === "" ? "currency" : undefined,
+    currency: "USD",
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   }).format(c);
