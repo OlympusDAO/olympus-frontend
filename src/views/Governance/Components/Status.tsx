@@ -56,7 +56,7 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
               </div>
             )}
             <div>
-              <Typography fontSize="12px">{proposalDetails.eta.toLocaleString()}</Typography>
+              <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
               <Typography fontWeight="500">Estimated Execution Time</Typography>
             </div>
           </>
