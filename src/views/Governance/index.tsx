@@ -114,7 +114,7 @@ export const Governance = () => {
                     <ProposalContainer
                       key={index}
                       proposalId={Number(item?.details.id)}
-                      title={item?.details.description}
+                      title={item?.title}
                       createdAt={item?.createdAtBlock}
                       setProposals={setPastProposals}
                       proposals={pastProposals}
