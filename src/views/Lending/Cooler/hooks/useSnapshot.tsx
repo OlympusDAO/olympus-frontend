@@ -43,9 +43,10 @@ export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
 };
 
 export const useCoolerSnapshotLatest = () => {
-  // Go back 2 days
+  // Go back 1 day
+  // In case there is no snapshot (yet) for today, use yesterday's snapshot
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 2);
+  startDate.setDate(startDate.getDate() - 1);
 
   const { data, isLoading } = useCoolerSnapshot(startDate);
 
