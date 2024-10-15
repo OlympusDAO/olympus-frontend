@@ -56,58 +56,6 @@
     },
     {
       "type": "function",
-      "name": "VERSION",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "pure"
-    },
-    {
-      "type": "function",
-      "name": "collateralRequired",
-      "inputs": [
-        {
-          "name": "clearinghouse_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "cooler_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "ids_",
-          "type": "uint256[]",
-          "internalType": "uint256[]"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "consolidatedLoanCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "existingLoanCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "additionalCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
       "name": "collector",
       "inputs": [],
       "outputs": [
