@@ -2,7 +2,6 @@ import { Skeleton } from "@mui/material";
 import { Metric } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
-import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   getTotalCapacity,
@@ -112,8 +111,8 @@ export const TotalCapacityRemaining = () => {
       tooltip={`The capacity remaining is the sum of the DAI and sDAI in the clearinghouse and treasury. As of the latest snapshot, the values (in DAI) are:
 
 Clearinghouse:
-DAI: ${formatCurrency(latestSnapshot?.clearinghouse?.daiBalance || 0, 0, "DAI")}
-sDAI: ${formatCurrency(latestSnapshot?.clearinghouse?.sDaiInDaiBalance || 0, 0, "DAI")}
+DAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.daiBalance || 0, 0, "DAI")}
+sDAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.sDaiInDaiBalance || 0, 0, "DAI")}
 
 Treasury:
 DAI: ${formatCurrency(latestSnapshot?.treasury?.daiBalance || 0, 0, "DAI")}
@@ -139,12 +138,12 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
     }
 
     if (days == 30) {
-      setPrincipalMaturing(latestSnapshot.expiryBuckets["30Days"]);
+      setPrincipalMaturing(latestSnapshot.expiryBuckets.days30);
       return;
     }
 
     if (days == 121) {
-      setPrincipalMaturing(latestSnapshot.expiryBuckets["121Days"]);
+      setPrincipalMaturing(latestSnapshot.expiryBuckets.days121);
       return;
     }
 
@@ -153,41 +152,10 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
 
   return (
     <Metric
-      label={`Principal Maturing in < ${days} ${days == 1 ? "Day" : "Days"}`}
+      label={`Principal Maturing in < ${days} Days`}
       metric={formatCurrency(principalMaturing || 0, 0, "DAI")}
       isLoading={latestSnapshot === undefined}
       tooltip={`The value of principal that will mature in more than ${previousBucket} days but less than ${days} days`}
-    />
-  );
-};
-
-export const PrincipalExpired = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
-
-  const [principalExpired, setPrincipalExpired] = useState<number | undefined>();
-  useMemo(() => {
-    if (!latestSnapshot) {
-      setPrincipalExpired(undefined);
-      return;
-    }
-
-    let _principalExpired = 0;
-    for (const loan of Object.values(latestSnapshot.loans)) {
-      if (loan.status != SnapshotLoansStatus.Expired) {
-        continue;
-      }
-
-      _principalExpired += loan.principal;
-    }
-
-    setPrincipalExpired(_principalExpired);
-  }, [latestSnapshot]);
-
-  return (
-    <Metric
-      label="Principal Expired"
-      metric={formatCurrency(principalExpired || 0, 0, "DAI")}
-      isLoading={latestSnapshot === undefined}
     />
   );
 };

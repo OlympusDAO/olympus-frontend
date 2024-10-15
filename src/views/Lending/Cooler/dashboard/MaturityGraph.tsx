@@ -35,7 +35,7 @@ export const MaturityGraph = () => {
 
     // Sort in descending order
     const _coolerSnapshots = data.slice();
-    _coolerSnapshots.sort((a, b) => b.timestamp - a.timestamp);
+    _coolerSnapshots.sort((a, b) => new Date(b.snapshotDate).getTime() - new Date(a.snapshotDate).getTime());
     setCoolerSnapshots(_coolerSnapshots);
   }, [data]);
 
@@ -44,8 +44,8 @@ export const MaturityGraph = () => {
    */
   const dataKeys: string[] = [
     "expiryBuckets.expired",
-    "expiryBuckets.30Days",
-    "expiryBuckets.121Days",
+    "expiryBuckets.days30",
+    "expiryBuckets.days121",
     "expiryBuckets.active",
   ];
   const itemNames: string[] = ["Expired", "< 30 Days", "< 121 Days", ">= 121 Days"];

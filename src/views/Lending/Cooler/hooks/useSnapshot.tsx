@@ -47,8 +47,8 @@ export const getClearinghouseCapacity = (snapshot: Snapshot | undefined): number
     return 0;
   }
 
-  const daiBalance = snapshot.clearinghouse?.daiBalance || 0;
-  const sDaiInDaiBalance = snapshot.clearinghouse?.sDaiInDaiBalance || 0;
+  const daiBalance = snapshot.clearinghouseTotals.daiBalance || 0;
+  const sDaiInDaiBalance = snapshot.clearinghouseTotals.sDaiInDaiBalance || 0;
 
   return daiBalance + sDaiInDaiBalance;
 };
@@ -72,8 +72,8 @@ export const getTotalCapacity = (snapshot: Snapshot | undefined): number => {
   const treasuryDaiBalance = snapshot.treasury?.daiBalance || 0;
   const treasurySDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
 
-  const clearinghouseDaiBalance = snapshot.clearinghouse?.daiBalance || 0;
-  const clearinghouseSDaiInDaiBalance = snapshot.clearinghouse?.sDaiInDaiBalance || 0;
+  const clearinghouseDaiBalance = snapshot.clearinghouseTotals.daiBalance || 0;
+  const clearinghouseSDaiInDaiBalance = snapshot.clearinghouseTotals.sDaiInDaiBalance || 0;
 
   return treasuryDaiBalance + treasurySDaiInDaiBalance + clearinghouseDaiBalance + clearinghouseSDaiInDaiBalance;
 };
