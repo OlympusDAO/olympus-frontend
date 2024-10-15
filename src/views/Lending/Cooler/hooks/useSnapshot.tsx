@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
@@ -21,8 +22,22 @@ export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
     },
   );
 
+  // Add a timestamp field to each snapshot, and cache the result
+  const cachedData = useMemo(() => {
+    if (!data || !data.records) {
+      return undefined;
+    }
+
+    return data.records.map(snapshot => {
+      return {
+        ...snapshot,
+        timestamp: new Date(snapshot.snapshotDate).getTime(),
+      };
+    });
+  }, [data]);
+
   return {
-    data: data?.records,
+    data: cachedData,
     isLoading,
   };
 };
