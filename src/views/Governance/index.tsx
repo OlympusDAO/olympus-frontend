@@ -19,11 +19,11 @@ import { ContractParameters } from "src/views/Governance/Components/ContractPara
 import { ProposalContainer } from "src/views/Governance/Components/ProposalContainer";
 import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
 import { GovernanceDevTools } from "src/views/Governance/hooks/dev/GovernanceDevTools";
-import { useGetProposals } from "src/views/Governance/hooks/useGetProposals";
+import { useGetProposalsFromSubgraph } from "src/views/Governance/hooks/useGetProposalsFromSubgraph";
 import { useGetVotingWeight } from "src/views/Governance/hooks/useGetVotingWeight";
 
 export const Governance = () => {
-  const { data: proposals, isFetching } = useGetProposals();
+  const { data: proposals, isFetching } = useGetProposalsFromSubgraph();
   const { data: currentVotingWeight } = useGetVotingWeight({});
   const theme = useTheme();
   const [activeProposals, setActiveProposals] = useState<number[]>([]);
@@ -114,7 +114,7 @@ export const Governance = () => {
                     <ProposalContainer
                       key={index}
                       proposalId={Number(item?.details.id)}
-                      title={item?.details.description}
+                      title={item?.title}
                       createdAt={item?.createdAtBlock}
                       setProposals={setPastProposals}
                       proposals={pastProposals}

@@ -1,14 +1,14 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { Paper } from "@olympusdao/component-library";
 import { useGetCanceledTime } from "src/views/Governance/hooks/useGetCanceledTime";
 import { useGetExecutedTime } from "src/views/Governance/hooks/useGetExecutedTime";
 import { useGetProposalDetails } from "src/views/Governance/hooks/useGetProposalDetails";
-import { useGetProposal } from "src/views/Governance/hooks/useGetProposals";
+import { useGetProposalFromSubgraph } from "src/views/Governance/hooks/useGetProposalFromSubgraph";
 import { useGetQueuedTime } from "src/views/Governance/hooks/useGetQueuedTime";
 import { useGetVetoedTime } from "src/views/Governance/hooks/useGetVetoedTime";
 
 export const Status = ({ proposalId }: { proposalId: number }) => {
-  const { data: proposal } = useGetProposal({ proposalId });
+  const { data: proposal } = useGetProposalFromSubgraph({ proposalId: proposalId.toString() });
   const { data: proposalDetails } = useGetProposalDetails({ proposalId });
   const { data: queueTime } = useGetQueuedTime({ proposalId });
   const { data: executedTime } = useGetExecutedTime({ proposalId, status: proposalDetails?.status });
@@ -29,19 +29,23 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
           <Typography fontSize="12px">{proposal?.createdAtBlock?.toLocaleString()}</Typography>
           <Typography fontWeight="500">Published Onchain</Typography>
         </div>
-        <div>
-          <Typography fontSize="12px">{proposalDetails?.startDate?.toLocaleString()}</Typography>
-          <Typography fontWeight="500">Voting Period Starts</Typography>
-        </div>
-        {(proposalDetails?.endDate || placeholderEndDate) && (
+        <Tooltip title={`Block ${proposalDetails?.startBlock}`}>
           <div>
-            <Typography fontSize="12px">
-              {proposalDetails.endDate
-                ? proposalDetails?.endDate?.toLocaleString()
-                : placeholderEndDate?.toLocaleString()}
-            </Typography>
-            <Typography fontWeight="500">Voting Period Ends</Typography>
+            <Typography fontSize="12px">{proposalDetails?.startDate?.toLocaleString()}</Typography>
+            <Typography fontWeight="500">Voting Period Starts</Typography>
           </div>
+        </Tooltip>
+        {(proposalDetails?.endDate || placeholderEndDate) && (
+          <Tooltip title={`Block ${proposalDetails.endBlock}`}>
+            <div>
+              <Typography fontSize="12px">
+                {proposalDetails.endDate
+                  ? proposalDetails?.endDate?.toLocaleString()
+                  : placeholderEndDate?.toLocaleString()}
+              </Typography>
+              <Typography fontWeight="500">Voting Period Ends </Typography>
+            </div>
+          </Tooltip>
         )}
         {proposalDetails?.status === "Queued" && (
           <>
@@ -52,7 +56,7 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
               </div>
             )}
             <div>
-              <Typography fontSize="12px">{proposalDetails.eta.toLocaleString()}</Typography>
+              <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
               <Typography fontWeight="500">Estimated Execution Time</Typography>
             </div>
           </>
