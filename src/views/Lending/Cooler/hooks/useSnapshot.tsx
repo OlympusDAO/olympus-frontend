@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
@@ -21,16 +22,31 @@ export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
     },
   );
 
+  // Add a timestamp field to each snapshot, and cache the result
+  const cachedData = useMemo(() => {
+    if (!data || !data.records) {
+      return undefined;
+    }
+
+    return data.records.map(snapshot => {
+      return {
+        ...snapshot,
+        timestamp: new Date(snapshot.snapshotDate).getTime(),
+      };
+    });
+  }, [data]);
+
   return {
-    data: data?.records,
+    data: cachedData,
     isLoading,
   };
 };
 
 export const useCoolerSnapshotLatest = () => {
-  // Go back 2 days
+  // Go back 1 day
+  // In case there is no snapshot (yet) for today, use yesterday's snapshot
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 2);
+  startDate.setDate(startDate.getDate() - 1);
 
   const { data, isLoading } = useCoolerSnapshot(startDate);
 
@@ -47,8 +63,8 @@ export const getClearinghouseCapacity = (snapshot: Snapshot | undefined): number
     return 0;
   }
 
-  const daiBalance = snapshot.clearinghouse?.daiBalance || 0;
-  const sDaiInDaiBalance = snapshot.clearinghouse?.sDaiInDaiBalance || 0;
+  const daiBalance = snapshot.clearinghouseTotals.daiBalance || 0;
+  const sDaiInDaiBalance = snapshot.clearinghouseTotals.sDaiInDaiBalance || 0;
 
   return daiBalance + sDaiInDaiBalance;
 };
@@ -72,8 +88,8 @@ export const getTotalCapacity = (snapshot: Snapshot | undefined): number => {
   const treasuryDaiBalance = snapshot.treasury?.daiBalance || 0;
   const treasurySDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
 
-  const clearinghouseDaiBalance = snapshot.clearinghouse?.daiBalance || 0;
-  const clearinghouseSDaiInDaiBalance = snapshot.clearinghouse?.sDaiInDaiBalance || 0;
+  const clearinghouseDaiBalance = snapshot.clearinghouseTotals.daiBalance || 0;
+  const clearinghouseSDaiInDaiBalance = snapshot.clearinghouseTotals.sDaiInDaiBalance || 0;
 
   return treasuryDaiBalance + treasurySDaiInDaiBalance + clearinghouseDaiBalance + clearinghouseSDaiInDaiBalance;
 };

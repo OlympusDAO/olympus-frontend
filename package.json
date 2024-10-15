@@ -156,7 +156,7 @@
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "postinstall": "yarn typechain:build",
     "prepare": "husky install",
-    "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/openapi/openapi.yml -o tmp/openapi.yaml",
+    "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/apps/get/openapi/openapi.yml -o tmp/openapi.yaml",
     "codegen": "yarn codegen:bundle && orval && yarn lint:fix"
   },
   "resolutions": {

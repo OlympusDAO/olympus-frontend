@@ -29,7 +29,7 @@ export const UtilisationGraph = ({ startDate }: { startDate?: Date }) => {
     const _coolerSnapshotsWithTotals = data.slice();
 
     // Sort in descending order
-    _coolerSnapshotsWithTotals.sort((a, b) => b.timestamp - a.timestamp);
+    _coolerSnapshotsWithTotals.sort((a, b) => new Date(b.snapshotDate).getTime() - new Date(a.snapshotDate).getTime());
 
     setCoolerSnapshots(_coolerSnapshotsWithTotals);
   }, [data]);
