@@ -1,7 +1,14 @@
 import { useMemo } from "react";
-import { Snapshot, useGetSnapshots } from "src/generated/coolerLoans";
+import { Snapshot, useGetCurrentSnapshot, useGetSnapshots } from "src/generated/coolerLoans";
 import { getISO8601String } from "src/helpers/DateHelper";
 
+/**
+ * Get the Cooler Loans snapshots for a given date range
+ *
+ * @param startDate - The start date of the range
+ * @param beforeDate - The end date of the range
+ * @returns The snapshots for the given date range, sorted in descending order
+ */
 export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
   let _beforeDate = beforeDate;
   // If there is no beforeDate, set it to tomorrow
@@ -42,18 +49,28 @@ export const useCoolerSnapshot = (startDate?: Date, beforeDate?: Date) => {
   };
 };
 
-export const useCoolerSnapshotLatest = () => {
-  // Go back 1 day
-  // In case there is no snapshot (yet) for today, use yesterday's snapshot
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 1);
+/**
+ * Get the latest Cooler Loans snapshot
+ *
+ * @returns The latest snapshot, or undefined if there is no snapshot
+ */
+export const useCurrentCoolerSnapshot = () => {
+  const { data, isLoading } = useGetCurrentSnapshot();
 
-  const { data, isLoading } = useCoolerSnapshot(startDate);
+  // Add a timestamp field to the snapshot, and cache the result
+  const cachedData: Snapshot | undefined = useMemo(() => {
+    if (!data || !data.record) {
+      return undefined;
+    }
 
-  const latestSnapshot = data ? data[data.length - 1] : undefined;
+    return {
+      ...data.record,
+      timestamp: new Date(data.record.snapshotDate).getTime(),
+    };
+  }, [data]);
 
   return {
-    latestSnapshot,
+    latestSnapshot: cachedData,
     isLoading,
   };
 };

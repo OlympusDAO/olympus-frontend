@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber } from "src/helpers";
 import {
   getTotalCapacity,
   useCoolerSnapshot,
-  useCoolerSnapshotLatest,
+  useCurrentCoolerSnapshot,
 } from "src/views/Lending/Cooler/hooks/useSnapshot";
 
 export const CumulativeInterestIncome = ({ startDate }: { startDate?: Date }) => {
@@ -66,7 +66,7 @@ export const CumulativeCollateralIncome = ({ startDate }: { startDate?: Date }) 
 };
 
 export const CollateralDeposited = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
@@ -78,7 +78,7 @@ export const CollateralDeposited = () => {
 };
 
 export const OutstandingPrincipal = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
@@ -101,7 +101,7 @@ export const WeeklyCapacityRemaining = ({ capacity }: { capacity?: BigNumber }) 
 };
 
 export const TotalCapacityRemaining = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
@@ -128,7 +128,7 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
     throw new Error("Invalid days");
   }
 
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   const [principalMaturing, setPrincipalMaturing] = useState<number | undefined>();
   useMemo(() => {
@@ -161,7 +161,7 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
 };
 
 export const BorrowRate = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   const [borrowRate, setBorrowRate] = useState<number | undefined>();
   useMemo(() => {

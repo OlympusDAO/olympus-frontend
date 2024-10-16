@@ -7,6 +7,10 @@
 import type { QueryFunction, QueryKey, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { customHttpClient } from "src/views/Lending/Cooler/hooks/customHttpClient";
+export type GetCurrentSnapshot200 = {
+  record?: Snapshot;
+};
+
 export type GetSnapshots200 = {
   records?: Snapshot[];
 };
@@ -20,6 +24,10 @@ export type GetSnapshotsParams = {
    * The date (YYYY-MM-DD) up to (but not including) which records should be retrieved
    */
   beforeDate: string;
+  /**
+   * The order in which to return the snapshots. ASC or DESC
+   */
+  orderBy?: string;
 };
 
 /**
@@ -126,11 +134,11 @@ Times are stored at UTC. */
  * @summary Retrieves all Cooler Loans snapshots between the given dates.
  */
 export const getSnapshots = (params: GetSnapshotsParams, signal?: AbortSignal) => {
-  return customHttpClient<GetSnapshots200>({ url: `/`, method: "GET", params, signal });
+  return customHttpClient<GetSnapshots200>({ url: `/snapshots`, method: "GET", params, signal });
 };
 
 export const getGetSnapshotsQueryKey = (params: GetSnapshotsParams) => {
-  return [`/`, ...(params ? [params] : [])] as const;
+  return [`/snapshots`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetSnapshotsQueryOptions = <TData = Awaited<ReturnType<typeof getSnapshots>>, TError = unknown>(
@@ -161,6 +169,59 @@ export const useGetSnapshots = <TData = Awaited<ReturnType<typeof getSnapshots>>
   options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof getSnapshots>>, TError, TData> },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getGetSnapshotsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * The current snapshot is the most recent one up to the current date.
+ * @summary Retrieves the current Cooler Loans snapshot
+ */
+export const getCurrentSnapshot = (signal?: AbortSignal) => {
+  return customHttpClient<GetCurrentSnapshot200>({ url: `/snapshots/current`, method: "GET", signal });
+};
+
+export const getGetCurrentSnapshotQueryKey = () => {
+  return [`/snapshots/current`] as const;
+};
+
+export const getGetCurrentSnapshotQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCurrentSnapshot>>,
+  TError = unknown,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getCurrentSnapshot>>, TError, TData>;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCurrentSnapshotQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCurrentSnapshot>>> = ({ signal }) =>
+    getCurrentSnapshot(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentSnapshot>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCurrentSnapshotQueryResult = NonNullable<Awaited<ReturnType<typeof getCurrentSnapshot>>>;
+export type GetCurrentSnapshotQueryError = unknown;
+
+/**
+ * @summary Retrieves the current Cooler Loans snapshot
+ */
+export const useGetCurrentSnapshot = <
+  TData = Awaited<ReturnType<typeof getCurrentSnapshot>>,
+  TError = unknown,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getCurrentSnapshot>>, TError, TData>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetCurrentSnapshotQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

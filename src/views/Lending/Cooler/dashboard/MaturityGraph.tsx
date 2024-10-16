@@ -33,10 +33,8 @@ export const MaturityGraph = () => {
       return;
     }
 
-    // Sort in descending order
-    const _coolerSnapshots = data.slice();
-    _coolerSnapshots.sort((a, b) => new Date(b.snapshotDate).getTime() - new Date(a.snapshotDate).getTime());
-    setCoolerSnapshots(_coolerSnapshots);
+    // Cache. Already sorted in descending order.
+    setCoolerSnapshots(data);
   }, [data]);
 
   /**
