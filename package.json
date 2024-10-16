@@ -33,7 +33,7 @@
     "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.15.1",
     "@mui/system": "^5.15.1",
-    "@mui/x-data-grid": "^6.18.5",
+    "@mui/x-data-grid": "^6.19.8",
     "@olympusdao/component-library": "3.1.7",
     "@olympusdao/treasury-subgraph-client": "^1.1.0",
     "@openchainxyz/abi-guesser": "^1.0.2",
