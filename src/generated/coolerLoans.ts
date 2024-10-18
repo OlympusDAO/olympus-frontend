@@ -7,6 +7,10 @@
 import type { QueryFunction, QueryKey, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { customHttpClient } from "src/views/Lending/Cooler/hooks/customHttpClient";
+export type GetEarliestSnapshot200 = {
+  record?: Snapshot;
+};
+
 export type GetCurrentSnapshot200 = {
   record?: Snapshot;
 };
@@ -240,6 +244,58 @@ export const useGetCurrentSnapshot = <
   query?: UseQueryOptions<Awaited<ReturnType<typeof getCurrentSnapshot>>, TError, TData>;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getGetCurrentSnapshotQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * @summary Retrieves the earliest Cooler Loans snapshot
+ */
+export const getEarliestSnapshot = (signal?: AbortSignal) => {
+  return customHttpClient<GetEarliestSnapshot200>({ url: `/snapshots/earliest`, method: "GET", signal });
+};
+
+export const getGetEarliestSnapshotQueryKey = () => {
+  return [`/snapshots/earliest`] as const;
+};
+
+export const getGetEarliestSnapshotQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEarliestSnapshot>>,
+  TError = unknown,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getEarliestSnapshot>>, TError, TData>;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetEarliestSnapshotQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getEarliestSnapshot>>> = ({ signal }) =>
+    getEarliestSnapshot(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEarliestSnapshot>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetEarliestSnapshotQueryResult = NonNullable<Awaited<ReturnType<typeof getEarliestSnapshot>>>;
+export type GetEarliestSnapshotQueryError = unknown;
+
+/**
+ * @summary Retrieves the earliest Cooler Loans snapshot
+ */
+export const useGetEarliestSnapshot = <
+  TData = Awaited<ReturnType<typeof getEarliestSnapshot>>,
+  TError = unknown,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getEarliestSnapshot>>, TError, TData>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetEarliestSnapshotQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
