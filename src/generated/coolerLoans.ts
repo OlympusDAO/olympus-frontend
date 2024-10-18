@@ -15,6 +15,14 @@ export type GetSnapshots200 = {
   records?: Snapshot[];
 };
 
+export type GetSnapshotsOrderBy = (typeof GetSnapshotsOrderBy)[keyof typeof GetSnapshotsOrderBy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSnapshotsOrderBy = {
+  ASC: "ASC",
+  DESC: "DESC",
+} as const;
+
 export type GetSnapshotsParams = {
   /**
    * The start date (YYYY-MM-DD) of the loan period
@@ -27,7 +35,7 @@ export type GetSnapshotsParams = {
   /**
    * The order in which to return the snapshots. ASC or DESC
    */
-  orderBy?: string;
+  orderBy?: GetSnapshotsOrderBy;
 };
 
 /**
@@ -108,9 +116,19 @@ export type Snapshot = {
   clearinghouses: SnapshotClearinghousesItem[];
   /** Totals for the Clearinghouses at the time of the snapshot. */
   clearinghouseTotals: SnapshotClearinghouseTotals;
+  /** Quantity of collateral reclaimed on this date. */
+  collateralClaimedQuantity: number;
+  /** USD value of collateral claimed on this date. */
+  collateralClaimedValue: number;
   /** Quantity of collateral deposited across all Coolers */
   collateralDeposited: number;
-  /** Income from collateral reclaimed on this date. */
+  /** USD value of the income recognised from claiming the loan's collateral.
+
+As collateral is returned to the borrower as they repay the loan principal, the collateral at any point in time covers the principal outstanding.
+
+The income is therefore calculated as:
+
+collateralValueAtClaim - principalOutstanding */
   collateralIncome: number;
   /** Principal due for each expiry bucket. */
   expiryBuckets: SnapshotExpiryBuckets;
