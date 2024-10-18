@@ -60,7 +60,7 @@ export const CumulativeCollateralIncome = ({ startDate }: { startDate?: Date }) 
       label="Income From Defaults"
       metric={cumulativeCollateralIncome !== undefined ? formatCurrency(cumulativeCollateralIncome, 0, "USD") : ""}
       isLoading={cumulativeCollateralIncome === undefined}
-      tooltip="The value of collateral reclaimed due to defaults during the selected time period"
+      tooltip="The residual value of collateral (collateral value - outstanding principal) reclaimed due to defaults during the selected time period"
     />
   );
 };
