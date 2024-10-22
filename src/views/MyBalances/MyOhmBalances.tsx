@@ -46,11 +46,9 @@ export const MyOhmBalances = () => {
               {Number(ohmBalances[networks.MAINNET].data?.toString()).toFixed(4) || "0.00"} OHM
             </Typography>
           </Box>
-          <Box>
-            <Link component={RouterLink} to="/stake">
-              <PrimaryButton>Wrap</PrimaryButton>
-            </Link>
-          </Box>
+          <Link component={RouterLink} to="/stake">
+            <PrimaryButton>Wrap</PrimaryButton>
+          </Link>
         </Box>
       )}
       {ohmBalances[networks.ARBITRUM].data?.gt(dust) && (
