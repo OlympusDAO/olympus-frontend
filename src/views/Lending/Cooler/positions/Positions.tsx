@@ -14,14 +14,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { OHMTokenProps, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
-import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
@@ -123,7 +122,7 @@ export const CoolerPositions = () => {
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
-        <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
+        <div>Borrow from the Olympus Treasury against your gOHM</div>
       </Box>
 
       {!address && (
@@ -142,7 +141,7 @@ export const CoolerPositions = () => {
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
-            <Box pt="9px">Borrow DAI against gOHM at a fixed rate and maturity</Box>
+            <Box pt="9px">Borrow against gOHM at a fixed rate and maturity</Box>
             <Box mt="21px">
               <PrimaryButton
                 onClick={() => {
@@ -150,7 +149,7 @@ export const CoolerPositions = () => {
                   setCreateLoanModalOpen(true);
                 }}
               >
-                Borrow DAI & Open Position
+                Borrow & Open Position
               </PrimaryButton>
             </Box>
           </Box>
@@ -198,8 +197,12 @@ export const CoolerPositions = () => {
                           <TableCell align="right" sx={{ padding: "9px" }}>
                             {principalAndInterest && (
                               <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
-                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)} DAI{" "}
-                                <Token name="DAI" style={{ fontSize: "21px" }} />
+                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)}{" "}
+                                {loan.debtAssetName}{" "}
+                                <Token
+                                  name={loan.debtAssetName as OHMTokenProps["name"]}
+                                  style={{ fontSize: "21px" }}
+                                />
                               </Box>
                             )}
                           </TableCell>
@@ -240,7 +243,7 @@ export const CoolerPositions = () => {
                     setCreateLoanModalOpen(true);
                   }}
                 >
-                  Borrow DAI & Open Position
+                  Borrow & Open Position
                 </PrimaryButton>
               </Box>
             </>
@@ -260,6 +263,7 @@ export const CoolerPositions = () => {
               coolerAddress={coolerAddress}
               debtAddress={clearingHouse.debtAddress}
               clearingHouseAddress={clearingHouse.clearingHouseAddress}
+              debtAssetName={clearingHouse.debtAssetName}
             />
           )}
           <CreateOrRepayLoan
@@ -275,6 +279,7 @@ export const CoolerPositions = () => {
             modalOpen={createLoanModalOpen}
             loan={repayLoan}
             clearingHouseAddress={clearingHouse.clearingHouseAddress}
+            debtAssetName={clearingHouse.debtAssetName}
           />
         </>
       )}

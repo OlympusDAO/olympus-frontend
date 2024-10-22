@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { COOLER_CLEARING_HOUSE_CONTRACT_V1, COOLER_CLEARING_HOUSE_CONTRACT_V2 } from "src/constants/contracts";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { ERC4626__factory } from "src/typechain";
+import { ERC4626__factory, IERC20__factory } from "src/typechain";
 import { useProvider } from "wagmi";
 
 export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearingHouseV1" | "clearingHouseV2" }) => {
@@ -18,6 +18,8 @@ export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearin
     const loanToCollateral = ethers.utils.formatUnits((await contract.LOAN_TO_COLLATERAL()).toString()); // 1.5 = 150% LTV (Loan to Value Ratio
     const collateralAddress = await contract.gohm();
     const debtAddress = await contract.dai();
+    const debtContract = IERC20__factory.connect(debtAddress, provider);
+    const debtAssetName = await debtContract.symbol();
     const sdai = await contract.sdai();
     const sdaiContract = ERC4626__factory.connect(sdai, provider);
     const sdaiBalanceClearingHouse = await sdaiContract.balanceOf(contract.address); //shares held by clearinghouse
@@ -35,6 +37,7 @@ export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearin
       factory,
       collateralAddress,
       debtAddress,
+      debtAssetName,
       capacity: daiBalanceClearingHouse,
       clearingHouseAddress,
     };
