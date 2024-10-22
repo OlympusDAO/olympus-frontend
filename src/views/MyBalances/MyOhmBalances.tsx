@@ -46,9 +46,11 @@ export const MyOhmBalances = () => {
               {Number(ohmBalances[networks.MAINNET].data?.toString()).toFixed(4) || "0.00"} OHM
             </Typography>
           </Box>
-          <Link component={RouterLink} to="/stake">
-            <PrimaryButton>Wrap</PrimaryButton>
-          </Link>
+          <Box>
+            <Link component={RouterLink} to="/stake">
+              <PrimaryButton>Wrap</PrimaryButton>
+            </Link>
+          </Box>
         </Box>
       )}
       {ohmBalances[networks.ARBITRUM].data?.gt(dust) && (
@@ -84,9 +86,14 @@ export const MyOhmBalances = () => {
               {Number(sOhmBalance.toString()).toFixed(4) || "0.00"} sOHM
             </Typography>
           </Box>
-          <Link component={RouterLink} to="/stake">
-            <SecondaryButton>Wrap</SecondaryButton>
-          </Link>
+          <div>
+            <Link component={RouterLink} to="/stake">
+              <SecondaryButton>Wrap</SecondaryButton>
+            </Link>
+            <Link component={RouterLink} to="/stake?unstake=true&token=sOHM">
+              <SecondaryButton>Unwrap</SecondaryButton>
+            </Link>
+          </div>
         </Box>
       )}
       {v1OhmBalance.gt(dust) && (
