@@ -2,6 +2,7 @@ import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Paper, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useGetEarliestSnapshot } from "src/generated/coolerLoans";
 import { adjustDateByDays } from "src/helpers/DateHelper";
 import { updateSearchParams } from "src/helpers/SearchParamsHelper";
 import { IncomeGraph } from "src/views/Lending/Cooler/dashboard/IncomeGraph";
@@ -10,10 +11,28 @@ import { UtilisationGraph } from "src/views/Lending/Cooler/dashboard/Utilisation
 
 const PARAM_DAYS = "days";
 const DEFAULT_DAYS = 30;
+// Needs to be different from other values, otherwise two tabs will be active
+const MAX_DAYS_UNSET = 181;
 
 export const CoolerDashboard = () => {
   const theme = useTheme();
   const hidePaperSidePadding = useMediaQuery(theme.breakpoints.down("md"));
+
+  // Fetch the date of the earliest snapshot
+  const { data: earliestSnapshot } = useGetEarliestSnapshot();
+  const [daysPriorMax, setDaysPriorMax] = useState<number>(MAX_DAYS_UNSET);
+  useEffect(() => {
+    if (!earliestSnapshot || !earliestSnapshot.record) {
+      console.log(`No earliest snapshot found, setting max days prior to ${MAX_DAYS_UNSET}`);
+      setDaysPriorMax(MAX_DAYS_UNSET);
+      return;
+    }
+
+    const earliestDate = new Date(earliestSnapshot.record.snapshotDate);
+    // Get the difference in days between the earliest date and today
+    const diffInDays = Math.floor((Date.now() - earliestDate.getTime()) / (1000 * 60 * 60 * 24));
+    setDaysPriorMax(diffInDays);
+  }, [earliestSnapshot]);
 
   /**
    * Date selection
@@ -66,7 +85,7 @@ export const CoolerDashboard = () => {
       <Grid container spacing={1} paddingTop={2}>
         {/* Line one */}
         <Grid item xs />
-        <Grid item xs={12} sm={6} md={5} lg={4} textAlign="center" paddingBottom={2}>
+        <Grid item xs={12} sm={8} md={6} lg={6} textAlign="center" paddingBottom={2}>
           <TabBar
             disableRouting
             items={[
@@ -89,6 +108,11 @@ export const CoolerDashboard = () => {
                 label: "180d",
                 to: `/lending/cooler?${getSearchParamsWithUpdatedRecordCount(180)}`,
                 isActive: isActiveRecordCount(180),
+              },
+              {
+                label: "Max",
+                to: `/lending/cooler?${getSearchParamsWithUpdatedRecordCount(daysPriorMax)}`,
+                isActive: isActiveRecordCount(daysPriorMax),
               },
             ]}
           />
