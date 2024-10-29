@@ -69,13 +69,15 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const networks = useTestableNetworks();
-  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({ name: "gOHM" });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [stakedAssetType, setStakedAssetType] = useState<ModalHandleSelectProps>({
+    name: searchParams.get("token") || "gOHM",
+  });
   const [swapAssetType, setSwapAssetType] = useState<ModalHandleSelectProps>({ name: "OHM" });
   const { chain = { id: 1 } } = useNetwork();
   const [tokenModalOpen, setTokenModalOpen] = useState(false);
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const wrapMutation = useWrapSohm();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const { data: needsRebase } = useCheckSecondsToNextEpoch();
   const triggerRebase = useTriggerZeroDistributorRebase();
@@ -85,6 +87,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   // Max balance stuff
   const [amount, setAmount] = useState("");
   const [receiveAmount, setReceiveAmount] = useState("");
+  const [targetToAsset, setTargetToAsset] = useState(false);
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
 
   const balance = useBalance(addresses)[networks.MAINNET].data;
@@ -183,6 +186,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   };
 
   const GohmSwapCard = () => {
+    const dust = new DecimalBigNumber("0.000001", 9);
+
     const balance = stakedAssetType.name === "sOHM" ? sOhmBalance : gOhmBalance;
     const tokenOnClick = sOhmBalance && !isStake ? { tokenOnClick: () => setTokenModalOpen(true) } : {};
 
@@ -192,6 +197,14 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         inputProps={{ "data-testid": "staked-input", min: "0" }}
         token={stakedAssetType.name as OHMSwapCardProps["token"]}
         value={isStake ? receiveAmount : amount}
+        tokenOnClick={
+          !isStake && sOhmBalance?.gt(dust)
+            ? () => {
+                setTargetToAsset(true);
+                setTokenModalOpen(true);
+              }
+            : undefined
+        }
         onChange={event => +event.target.value >= 0 && ohmOnChange(event.target.value, !isStake)}
         info={`Balance: ${balance ? balance.toString({ decimals: 2 }) : "0.00"} ${stakedAssetType.name}`}
         endString={!isStake ? "Max" : ""}
@@ -219,8 +232,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             {tokenModalOpen && (
               <TokenModal
                 open={tokenModalOpen}
-                handleSelect={name => (isStake ? setSwapAssetType(name) : setStakedAssetType(name))}
-                handleClose={() => setTokenModalOpen(false)}
+                handleSelect={name => (isStake && !targetToAsset ? setSwapAssetType(name) : setStakedAssetType(name))}
+                handleClose={() => {
+                  setTokenModalOpen(false);
+                  setTargetToAsset(false);
+                }}
                 ohmBalance={ohmBalance && ohmBalance.toString({ decimals: 2 })}
                 sOhmBalance={sOhmBalance && sOhmBalance.toString({ decimals: 2 })}
                 gOhmBalance={gOhmBalance && gOhmBalance.toString({ decimals: 2 })}
