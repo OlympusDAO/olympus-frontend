@@ -3,6 +3,7 @@ import { ContractReceipt } from "@ethersproject/contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AddressMap } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useDynamicTokenContract } from "src/hooks/useContract";
 import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { EthersError } from "src/lib/EthersTypes";
@@ -15,14 +16,14 @@ export const useApproveToken = (tokenAddressMap: AddressMap) => {
   const { chain = { id: 1 } } = useNetwork();
   const token = useDynamicTokenContract(tokenAddressMap, true);
 
-  return useMutation<ContractReceipt, EthersError, { spenderAddressMap: AddressMap }>(
-    async ({ spenderAddressMap }) => {
+  return useMutation<ContractReceipt, EthersError, { spenderAddressMap: AddressMap; spendAmount?: DecimalBigNumber }>(
+    async ({ spenderAddressMap, spendAmount }) => {
       const contractAddress = spenderAddressMap[chain.id as keyof typeof spenderAddressMap];
 
       if (!token) throw new Error("Token doesn't exist on current network. Please switch networks.");
       if (!contractAddress) throw new Error("Contract doesn't exist on current network. Please switch networks.");
 
-      const transaction = await token.approve(contractAddress, MaxUint256);
+      const transaction = await token.approve(contractAddress, spendAmount?.toBigNumber() || MaxUint256);
 
       return transaction.wait();
     },
