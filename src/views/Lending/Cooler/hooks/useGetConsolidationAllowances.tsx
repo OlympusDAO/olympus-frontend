@@ -24,9 +24,10 @@ export const useGetConsolidationAllowances = ({
         const contractAddress = COOLER_CONSOLIDATION_CONTRACT.addresses[networks.MAINNET];
         const contract = CoolerConsolidation__factory.connect(contractAddress, provider);
         const requiredApprovals = await contract.requiredApprovals(clearingHouseAddress, coolerAddress, loanIds);
+        const totalDebtWithFee = requiredApprovals[3].add(requiredApprovals[4]);
         return {
           consolidatedLoanCollateral: new DecimalBigNumber(requiredApprovals[1], 18),
-          totalDebtWithFee: new DecimalBigNumber(requiredApprovals[2], 18),
+          totalDebtWithFee: new DecimalBigNumber(totalDebtWithFee, 18),
         };
       } catch {
         return {
