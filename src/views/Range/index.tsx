@@ -95,7 +95,13 @@ export const Range = () => {
       ? parseBigNumber(upperMaxPayout, 9)
       : parseBigNumber(rangeData.high.capacity, 9);
 
-  const maxCapacity = sellActive ? lowerMaxCapacity : upperMaxCapacity;
+  const maxCapacity = sellActive
+    ? rangeData.low.active
+      ? lowerMaxCapacity
+      : 0
+    : rangeData.high.active
+      ? upperMaxCapacity
+      : 0;
 
   useEffect(() => {
     if (reserveAmount && ohmAmount) {
