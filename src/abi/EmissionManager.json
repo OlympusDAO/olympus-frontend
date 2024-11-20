@@ -1,0 +1,422 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract Kernel", "name": "kernel_", "type": "address" },
+        { "internalType": "address", "name": "ohm_", "type": "address" },
+        { "internalType": "address", "name": "gohm_", "type": "address" },
+        { "internalType": "address", "name": "reserve_", "type": "address" },
+        { "internalType": "address", "name": "sReserve_", "type": "address" },
+        { "internalType": "address", "name": "auctioneer_", "type": "address" },
+        { "internalType": "address", "name": "teller_", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "name": "AlreadyActive", "type": "error" },
+    {
+      "inputs": [{ "internalType": "uint48", "name": "availableAt", "type": "uint48" }],
+      "name": "CannotRestartYet",
+      "type": "error"
+    },
+    { "inputs": [], "name": "InvalidCallback", "type": "error" },
+    { "inputs": [], "name": "InvalidMarket", "type": "error" },
+    {
+      "inputs": [{ "internalType": "string", "name": "parameter", "type": "string" }],
+      "name": "InvalidParam",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "caller_", "type": "address" }],
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
+    },
+    { "inputs": [], "name": "NotActive", "type": "error" },
+    { "inputs": [], "name": "OnlyTeller", "type": "error" },
+    {
+      "inputs": [{ "internalType": "Keycode", "name": "keycode_", "type": "bytes5" }],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [{ "internalType": "bytes", "name": "expected_", "type": "bytes" }],
+      "name": "Policy_WrongModuleVersion",
+      "type": "error"
+    },
+    { "inputs": [], "name": "RestartTimeframePassed", "type": "error" },
+    { "anonymous": false, "inputs": [], "name": "Activated", "type": "event" },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "newBacking", "type": "uint256" }],
+      "name": "BackingChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "newBacking", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "supplyAdded", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "reservesAdded", "type": "uint256" }
+      ],
+      "name": "BackingUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "changeBy", "type": "uint256" },
+        { "indexed": false, "internalType": "uint48", "name": "forNumBeats", "type": "uint48" },
+        { "indexed": false, "internalType": "bool", "name": "add", "type": "bool" }
+      ],
+      "name": "BaseRateChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "address", "name": "auctioneer", "type": "address" },
+        { "indexed": false, "internalType": "address", "name": "teller", "type": "address" }
+      ],
+      "name": "BondContractsSet",
+      "type": "event"
+    },
+    { "anonymous": false, "inputs": [], "name": "Deactivated", "type": "event" },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "newMinimumPremium", "type": "uint256" }],
+      "name": "MinimumPremiumChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint48", "name": "newRestartTimeframe", "type": "uint48" }],
+      "name": "RestartTimeframeChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "marketID", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "saleAmount", "type": "uint256" }
+      ],
+      "name": "SaleCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint48", "name": "newVestingPeriod", "type": "uint48" }],
+      "name": "VestingPeriodChanged",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "CHREG",
+      "outputs": [{ "internalType": "contract CHREGv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MINTR",
+      "outputs": [{ "internalType": "contract MINTRv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRICE",
+      "outputs": [{ "internalType": "contract PRICEv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLES",
+      "outputs": [{ "internalType": "contract ROLESv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRSRY",
+      "outputs": [{ "internalType": "contract TRSRYv1", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "activeMarketId",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auctioneer",
+      "outputs": [{ "internalType": "contract IBondSDA", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "backing",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "baseEmissionRate",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "beatCounter",
+      "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "id_", "type": "uint256" },
+        { "internalType": "uint256", "name": "inputAmount_", "type": "uint256" },
+        { "internalType": "uint256", "name": "outputAmount_", "type": "uint256" }
+      ],
+      "name": "callback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "changeBy_", "type": "uint256" },
+        { "internalType": "uint48", "name": "forNumBeats_", "type": "uint48" },
+        { "internalType": "bool", "name": "add", "type": "bool" }
+      ],
+      "name": "changeBaseRate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "contract Kernel", "name": "newKernel_", "type": "address" }],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [{ "internalType": "Keycode[]", "name": "dependencies", "type": "bytes5[]" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "execute", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "getNextSale",
+      "outputs": [
+        { "internalType": "uint256", "name": "premium", "type": "uint256" },
+        { "internalType": "uint256", "name": "emissionRate", "type": "uint256" },
+        { "internalType": "uint256", "name": "emission", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPremium",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getReserves",
+      "outputs": [{ "internalType": "uint256", "name": "reserves", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSupply",
+      "outputs": [{ "internalType": "uint256", "name": "supply", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gohm",
+      "outputs": [{ "internalType": "contract IgOHM", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "baseEmissionsRate_", "type": "uint256" },
+        { "internalType": "uint256", "name": "minimumPremium_", "type": "uint256" },
+        { "internalType": "uint256", "name": "backing_", "type": "uint256" },
+        { "internalType": "uint48", "name": "restartTimeframe_", "type": "uint48" }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isActive",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [{ "internalType": "contract Kernel", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "locallyActive",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "minimumPremium",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rateChange",
+      "outputs": [
+        { "internalType": "uint256", "name": "changeBy", "type": "uint256" },
+        { "internalType": "uint48", "name": "daysLeft", "type": "uint48" },
+        { "internalType": "bool", "name": "addition", "type": "bool" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "Keycode", "name": "keycode", "type": "bytes5" },
+            { "internalType": "bytes4", "name": "funcSelector", "type": "bytes4" }
+          ],
+          "internalType": "struct Permissions[]",
+          "name": "permissions",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "token_", "type": "address" }],
+      "name": "rescue",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserve",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "restart", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "restartTimeframe",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "sReserve",
+      "outputs": [{ "internalType": "contract ERC4626", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "newBacking", "type": "uint256" }],
+      "name": "setBacking",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "auctioneer_", "type": "address" },
+        { "internalType": "address", "name": "teller_", "type": "address" }
+      ],
+      "name": "setBondContracts",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "newMinimumPremium_", "type": "uint256" }],
+      "name": "setMinimumPremium",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint48", "name": "newTimeframe", "type": "uint48" }],
+      "name": "setRestartTimeframe",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint48", "name": "newVestingPeriod_", "type": "uint48" }],
+      "name": "setVestingPeriod",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "shutdown", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "shutdownTimestamp",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "teller",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "vestingPeriod",
+      "outputs": [{ "internalType": "uint48", "name": "", "type": "uint48" }],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

@@ -60,7 +60,7 @@ const NavContent: React.VFC = () => {
                     label={`Cooler Loans`}
                     to="/lending/cooler"
                   />
-                  <NavItem to="/range" icon="range" label={`RBS`} />
+                  <NavItem to="/emission" icon="range" label={`Emission Manager`} />
                   <NavItem icon="settings" label={`Utility`} to="/utility" />
                   <NavItem to="/governance" icon="voting" label={`Govern`} />
                 </>

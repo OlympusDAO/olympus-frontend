@@ -11,6 +11,7 @@ import {
   CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
   DEV_FAUCET,
   DISTRIBUTOR_ADDRESSES,
+  EMISSION_MANAGER_ADDRESSES,
   LIQUIDITY_REGISTRY_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OLYMPUS_GOVERNANCE_ADDRESSES,
@@ -33,6 +34,7 @@ import {
   CrossChainBridge__factory,
   CrossChainBridgeTestnet__factory,
   CrossChainMigrator__factory,
+  EmissionManager__factory,
   OlympusGovernorBravo__factory,
   OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
@@ -177,4 +179,10 @@ export const COOLER_CONSOLIDATION_CONTRACT = new Contract({
   factory: CoolerConsolidation__factory,
   name: "Cooler Consolidation Utils",
   addresses: COOLER_CONSOLIDATION_ADDRESSES,
+});
+
+export const EMISSION_MANAGER_CONTRACT = new Contract({
+  factory: EmissionManager__factory,
+  name: "Emissions Manager",
+  addresses: EMISSION_MANAGER_ADDRESSES,
 });
