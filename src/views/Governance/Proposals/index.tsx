@@ -91,7 +91,7 @@ export const ProposalPage = () => {
                 )}
                 <Typography fontSize={"18px"} fontWeight={600}>
                   {pending && proposalDetails.startDate ? (
-                    `Voting Starts in ${DateTime.fromJSDate(proposalDetails.startDate).toRelative({
+                    `Voting Starts ${DateTime.fromJSDate(proposalDetails.startDate).toRelative({
                       base: DateTime.fromJSDate(currentBlockTime),
                     })}`
                   ) : proposalDetails.status === "Succeeded" ? (
