@@ -21,7 +21,6 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
-import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";

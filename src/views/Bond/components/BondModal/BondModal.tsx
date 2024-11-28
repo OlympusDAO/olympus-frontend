@@ -159,8 +159,8 @@ const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean; baseSymbol:
   const price = sameToken
     ? formatNumber(1, 2)
     : isInverseBond
-    ? formatNumber(ohmPrice, 2)
-    : `${formatNumber(Number(priceToken.toString({ decimals: 2, format: true, trim: false })), 2)}`;
+      ? formatNumber(ohmPrice, 2)
+      : `${formatNumber(Number(priceToken.toString({ decimals: 2, format: true, trim: false })), 2)}`;
   return price ? (
     <>
       {price} {isInverseBond ? baseSymbol : quoteSymbol}
