@@ -104,9 +104,22 @@ export const getTotalCapacity = (snapshot: Snapshot | undefined): number => {
 
   const treasuryDaiBalance = snapshot.treasury?.daiBalance || 0;
   const treasurySDaiInDaiBalance = snapshot.treasury?.sDaiInDaiBalance || 0;
+  const treasuryUsdsBalance = snapshot.treasury?.usdsBalance || 0;
+  const treasurySUsdsInUsdsBalance = snapshot.treasury?.sUsdsInUsdsBalance || 0;
 
   const clearinghouseDaiBalance = snapshot.clearinghouseTotals.daiBalance || 0;
   const clearinghouseSDaiInDaiBalance = snapshot.clearinghouseTotals.sDaiInDaiBalance || 0;
+  const clearinghouseUsdsBalance = snapshot.clearinghouseTotals.usdsBalance || 0;
+  const clearinghouseSUsdsInUsdsBalance = snapshot.clearinghouseTotals.sUsdsInUsdsBalance || 0;
 
-  return treasuryDaiBalance + treasurySDaiInDaiBalance + clearinghouseDaiBalance + clearinghouseSDaiInDaiBalance;
+  return (
+    treasuryDaiBalance +
+    treasurySDaiInDaiBalance +
+    treasuryUsdsBalance +
+    treasurySUsdsInUsdsBalance +
+    clearinghouseDaiBalance +
+    clearinghouseSDaiInDaiBalance +
+    clearinghouseUsdsBalance +
+    clearinghouseSUsdsInUsdsBalance
+  );
 };
