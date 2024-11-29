@@ -195,8 +195,8 @@ export const BondInputArea: React.VFC<{
                   {isInverseBond
                     ? `${quoteTokenString} (≈${baseTokenString})`
                     : props.bond.baseToken === props.bond.quoteToken
-                    ? `${baseTokenString}`
-                    : `${baseTokenString} (≈${quoteTokenString})`}
+                      ? `${baseTokenString}`
+                      : `${baseTokenString} (≈${quoteTokenString})`}
                 </span>
               }
             />

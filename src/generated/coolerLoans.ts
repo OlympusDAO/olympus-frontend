@@ -46,12 +46,18 @@ export type GetSnapshotsParams = {
  * Represents the state of the Treasury at the time of the snapshot.
  */
 export type SnapshotTreasury = {
-  /** Total balance of DAI in the active treasury */
+  /** Total balance of the DAI token in the active treasury */
   daiBalance: number;
-  /** Total balance of sDAI in the active treasury */
+  /** Total balance of the sDAI token in the active treasury */
   sDaiBalance: number;
-  /** Total balance of sDAI in terms of DAI in the active treasury */
+  /** Total balance of the sDAI token in terms of DAI in the active treasury */
   sDaiInDaiBalance: number;
+  /** Total balance of the sUSDS token in the active treasury */
+  sUsdsBalance: number;
+  /** Total balance of the sUSDS token in terms of USDS in the active treasury */
+  sUsdsInUsdsBalance: number;
+  /** Total balance of the USDS token in the active treasury */
+  usdsBalance: number;
 };
 
 /**
@@ -86,12 +92,18 @@ export type SnapshotExpiryBuckets = {
  * Totals for the Clearinghouses at the time of the snapshot.
  */
 export type SnapshotClearinghouseTotals = {
-  /** Total balance of DAI across all Clearinghouses */
+  /** Total balance of the DAI token across all Clearinghouses */
   daiBalance: number;
-  /** Total balance of sDAI across all Clearinghouses */
+  /** Total balance of the sDAI token across all Clearinghouses */
   sDaiBalance: number;
-  /** Total balance of sDAI in terms of DAI across all Clearinghouses */
+  /** Total balance of the sDAI token in terms of DAI  across all Clearinghouses */
   sDaiInDaiBalance: number;
+  /** Total balance of the sUSDS token across all Clearinghouses */
+  sUsdsBalance: number;
+  /** Total balance of the sUSDS token in terms of USDS across all Clearinghouses */
+  sUsdsInUsdsBalance: number;
+  /** Total balance of the USDS token across all Clearinghouses */
+  usdsBalance: number;
 };
 
 export type SnapshotClearinghousesItem = {
@@ -101,18 +113,18 @@ export type SnapshotClearinghousesItem = {
   collateralAddress: string;
   /** The address of the CoolerFactory */
   coolerFactoryAddress: string;
-  /** Balance of DAI */
-  daiBalance: number;
   /** The address of the debt */
   debtAddress: string;
-  /** Amount of DAI that the Clearinghouse should be funded with */
+  /** Amount of the reserve token that the Clearinghouse should be funded with */
   fundAmount: number;
   /** The cadence of the funding */
   fundCadence: number;
-  /** Balance of sDAI */
-  sDaiBalance: number;
-  /** Balance of sDAI in terms of DAI */
-  sDaiInDaiBalance: number;
+  /** Balance of the reserve token */
+  reserveBalance: number;
+  /** Balance of the sReserve token */
+  sReserveBalance: number;
+  /** Balance of the sReserve token in terms of the reserve token */
+  sReserveInReserveBalance: number;
 };
 
 export type Snapshot = {
