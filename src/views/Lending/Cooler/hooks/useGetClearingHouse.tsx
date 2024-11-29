@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import {
   COOLER_CLEARING_HOUSE_CONTRACT_V1,
   COOLER_CLEARING_HOUSE_CONTRACT_V2,
@@ -54,10 +54,10 @@ export const useGetClearingHouse = ({
       factory,
       collateralAddress,
       debtAddress,
-      capacity: clearingHouse === "clearingHouseV3" ? BigNumber.from(10) : reserveBalanceClearingHouse,
+      capacity: reserveBalanceClearingHouse,
       clearingHouseAddress,
       debtAssetName,
-      isActive: clearingHouse === "clearingHouseV3" ? true : isActive,
+      isActive,
     };
   });
   return { data, isFetched, isLoading };
