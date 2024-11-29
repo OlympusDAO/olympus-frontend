@@ -41,7 +41,7 @@ export const useGetClearingHouse = ({
 
     const sReserveContract = ERC4626__factory.connect(sReserveAddress, provider);
     const sReserveBalanceClearingHouse = await sReserveContract.balanceOf(contract.address); //shares held by clearinghouse
-    const reserveSymbol = await sReserveContract.symbol();
+    const debtAssetName = await sReserveContract.symbol();
     const reserveBalanceClearingHouse = await sReserveContract.convertToAssets(sReserveBalanceClearingHouse);
     const clearingHouseAddress = contract.address;
     const isActive = await contract.isActive();
@@ -55,7 +55,7 @@ export const useGetClearingHouse = ({
       debtAddress,
       capacity: reserveBalanceClearingHouse,
       clearingHouseAddress,
-      reserveSymbol,
+      debtAssetName,
       isActive,
     };
   });
