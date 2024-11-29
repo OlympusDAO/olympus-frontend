@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import {
   COOLER_CLEARING_HOUSE_CONTRACT_V1,
   COOLER_CLEARING_HOUSE_CONTRACT_V2,
   COOLER_CLEARING_HOUSE_CONTRACT_V3,
 } from "src/constants/contracts";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { CoolerClearingHouse, CoolerClearingHouseV3, ERC4626__factory } from "src/typechain";
+import { CoolerClearingHouse, CoolerClearingHouseV3, ERC4626__factory, IERC20__factory } from "src/typechain";
 import { useProvider } from "wagmi";
 
 export const useGetClearingHouse = ({
@@ -32,16 +33,16 @@ export const useGetClearingHouse = ({
     let debtAddress: string;
     let sReserveAddress: string;
     if (clearingHouse === "clearingHouseV3") {
-      debtAddress = await (contract as CoolerClearingHouseV3).sReserve();
+      debtAddress = await (contract as CoolerClearingHouseV3).reserve();
       sReserveAddress = await (contract as CoolerClearingHouseV3).sReserve();
     } else {
       debtAddress = await (contract as CoolerClearingHouse).dai();
       sReserveAddress = await (contract as CoolerClearingHouse).sdai();
     }
-
+    const debtContract = IERC20__factory.connect(debtAddress, Providers.getStaticProvider(networks.MAINNET));
+    const debtAssetName = await debtContract.symbol();
     const sReserveContract = ERC4626__factory.connect(sReserveAddress, provider);
     const sReserveBalanceClearingHouse = await sReserveContract.balanceOf(contract.address); //shares held by clearinghouse
-    const debtAssetName = await sReserveContract.symbol();
     const reserveBalanceClearingHouse = await sReserveContract.convertToAssets(sReserveBalanceClearingHouse);
     const clearingHouseAddress = contract.address;
     const isActive = await contract.isActive();
@@ -53,10 +54,10 @@ export const useGetClearingHouse = ({
       factory,
       collateralAddress,
       debtAddress,
-      capacity: reserveBalanceClearingHouse,
+      capacity: clearingHouse === "clearingHouseV3" ? BigNumber.from(10) : reserveBalanceClearingHouse,
       clearingHouseAddress,
       debtAssetName,
-      isActive,
+      isActive: clearingHouse === "clearingHouseV3" ? true : isActive,
     };
   });
   return { data, isFetched, isLoading };

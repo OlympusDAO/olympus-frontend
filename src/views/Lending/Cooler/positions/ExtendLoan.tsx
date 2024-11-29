@@ -20,6 +20,7 @@ export const ExtendLoan = ({
   coolerAddress,
   debtAddress,
   clearingHouseAddress,
+  debtAssetName,
 }: {
   loan: {
     request: Cooler.RequestStructOutput;
@@ -39,6 +40,7 @@ export const ExtendLoan = ({
   coolerAddress?: string;
   debtAddress: string;
   clearingHouseAddress: string;
+  debtAssetName: string;
 }) => {
   const extendLoan = useExtendLoan();
   const networks = useTestableNetworks();
@@ -140,11 +142,11 @@ export const ExtendLoan = ({
             </Box>
           )}
           <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
-            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>DAI Balance</Typography>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>{debtAssetName} Balance</Typography>
             <Box display="flex" flexDirection="column" textAlign="right">
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
                 {" "}
-                {!daiBalance ? <Skeleton /> : daiBalance.toString({ decimals: 2 })} DAI
+                {!daiBalance ? <Skeleton /> : daiBalance.toString({ decimals: 2 })} {debtAssetName}
               </Typography>
             </Box>
           </Box>
@@ -153,7 +155,7 @@ export const ExtendLoan = ({
               <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Due on Extension</Typography>
               <Box display="flex" flexDirection="column" textAlign="right">
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                  {formatNumber(interestDue > 0 ? interestDue : 0, 2)} DAI
+                  {formatNumber(interestDue > 0 ? interestDue : 0, 2)} {debtAssetName}
                 </Typography>
               </Box>
             </Box>
@@ -165,8 +167,8 @@ export const ExtendLoan = ({
             isVertical
             message={
               <>
-                First time repaying with <b>DAI</b>? <br /> Please approve Olympus DAO to use your <b>DAI</b> for
-                payment.
+                First time repaying with <b>{debtAssetName}</b>? <br /> Please approve Olympus DAO to use your{" "}
+                <b>{debtAssetName}</b> for payment.
               </>
             }
             spendAmount={new DecimalBigNumber(interestDue.toString(), 18)}
@@ -186,7 +188,7 @@ export const ExtendLoan = ({
               }}
               loading={extendLoan.isLoading}
             >
-              {insufficientCollateral ? "Insufficient DAI Balance" : "Extend Loan"}
+              {insufficientCollateral ? `Insufficient ${debtAssetName} Balance` : "Extend Loan"}
             </PrimaryButton>
           </TokenAllowanceGuard>
         </>

@@ -14,9 +14,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { OHMTokenProps, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
@@ -107,11 +107,20 @@ export const CoolerPositions = () => {
   const [repayLoan, setRepayLoan] = useState<any>(null);
   const theme = useTheme();
 
+  // Update the clearing house version when the data is available
+  useEffect(() => {
+    if (clearingHouses.v3?.isActive && clearingHouses.v3?.capacity.gt(0)) {
+      setCurrentClearingHouse("v3");
+    } else if (clearingHouses.v2?.isActive && clearingHouses.v2?.capacity.gt(0)) {
+      setCurrentClearingHouse("v2");
+    }
+  }, [clearingHouses.v2, clearingHouses.v3]);
+
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
-          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} reserveAsset={clearingHouse?.reserveSymbol} />
+          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} reserveAsset={clearingHouse?.debtAssetName} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <BorrowRate />
@@ -120,7 +129,11 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) && (
+      {([(loansV1 || []).length > 0, (loansV2 || []).length > 0, (loansV3 || []).length > 0].filter(Boolean).length >
+        1 ||
+        (clearingHouses.v3?.isActive &&
+          clearingHouses.v3?.capacity.gt(0) &&
+          ((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)))) && (
         <Box display="flex" mt="16px" justifyContent="right" gap="4px">
           <Select
             value={currentClearingHouse}
@@ -148,9 +161,15 @@ export const CoolerPositions = () => {
               },
             }}
           >
-            <MenuItem value="v1">ClearingHouse V1</MenuItem>
-            <MenuItem value="v2">ClearingHouse V2</MenuItem>
-            <MenuItem value="v3">ClearingHouse V3</MenuItem>
+            {loansV1 && loansV1.length > 0 && <MenuItem value="v1">ClearingHouse V1</MenuItem>}
+            {((loansV2 && loansV2.length > 0) ||
+              (clearingHouses.v2?.capacity.gt(0) && clearingHouses.v2?.isActive)) && (
+              <MenuItem value="v2">ClearingHouse V2</MenuItem>
+            )}
+            {((loansV3 && loansV3.length > 0) ||
+              (clearingHouses.v3?.capacity.gt(0) && clearingHouses.v3?.isActive)) && (
+              <MenuItem value="v3">ClearingHouse V3</MenuItem>
+            )}
           </Select>
         </Box>
       )}
@@ -176,17 +195,21 @@ export const CoolerPositions = () => {
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
-            <Box pt="9px">Borrow against gOHM at a fixed rate and maturity</Box>
-            <Box mt="21px">
-              <PrimaryButton
-                onClick={() => {
-                  setRepayLoan(undefined);
-                  setCreateLoanModalOpen(true);
-                }}
-              >
-                Borrow DAI & Open Position
-              </PrimaryButton>
-            </Box>
+            {clearingHouse?.isActive && clearingHouse.capacity.gt(0) && (
+              <>
+                <Box pt="9px">Borrow against gOHM at a fixed rate and maturity</Box>
+                <Box mt="21px">
+                  <PrimaryButton
+                    onClick={() => {
+                      setRepayLoan(undefined);
+                      setCreateLoanModalOpen(true);
+                    }}
+                  >
+                    Borrow {clearingHouse?.debtAssetName} & Open Position
+                  </PrimaryButton>
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
       )}
@@ -232,8 +255,12 @@ export const CoolerPositions = () => {
                           <TableCell align="right" sx={{ padding: "9px" }}>
                             {principalAndInterest && (
                               <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
-                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)} DAI{" "}
-                                <Token name="DAI" style={{ fontSize: "21px" }} />
+                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)}{" "}
+                                {loan.debtAssetName}{" "}
+                                <Token
+                                  name={loan.debtAssetName as OHMTokenProps["name"]}
+                                  style={{ fontSize: "21px" }}
+                                />
                               </Box>
                             )}
                           </TableCell>
@@ -267,7 +294,7 @@ export const CoolerPositions = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              {clearingHouse?.isActive && (
+              {clearingHouse?.isActive && clearingHouse.capacity.gt(0) && (
                 <Box display="flex" justifyContent={"center"} gap="4px">
                   <PrimaryButton
                     onClick={() => {
@@ -275,7 +302,7 @@ export const CoolerPositions = () => {
                       setCreateLoanModalOpen(true);
                     }}
                   >
-                    Borrow DAI & Open Position
+                    Borrow {clearingHouse.debtAssetName} & Open Position
                   </PrimaryButton>
                 </Box>
               )}
@@ -296,6 +323,7 @@ export const CoolerPositions = () => {
               coolerAddress={coolerAddress}
               debtAddress={clearingHouse.debtAddress}
               clearingHouseAddress={clearingHouse.clearingHouseAddress}
+              debtAssetName={clearingHouse.debtAssetName}
             />
           )}
           <CreateOrRepayLoan
@@ -311,6 +339,7 @@ export const CoolerPositions = () => {
             modalOpen={createLoanModalOpen}
             loan={repayLoan}
             clearingHouseAddress={clearingHouse.clearingHouseAddress}
+            debtAssetName={clearingHouse.debtAssetName}
           />
         </>
       )}
