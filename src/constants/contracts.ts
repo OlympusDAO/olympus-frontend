@@ -6,6 +6,7 @@ import {
   BOND_FIXED_TERM_TELLER_ADDRESSES,
   COOLER_CLEARING_HOUSE_V1_ADDRESSES,
   COOLER_CLEARING_HOUSE_V2_ADDRESSES,
+  COOLER_CLEARING_HOUSE_V3_ADDRESSES,
   COOLER_CONSOLIDATION_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
@@ -29,6 +30,7 @@ import {
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
   CoolerClearingHouse__factory,
+  CoolerClearingHouseV3__factory,
   CoolerConsolidation__factory,
   CrossChainBridge__factory,
   CrossChainBridgeTestnet__factory,
@@ -165,6 +167,12 @@ export const COOLER_CLEARING_HOUSE_CONTRACT_V2 = new Contract({
   factory: CoolerClearingHouse__factory,
   name: "Cooler Clearing House Contract V2",
   addresses: COOLER_CLEARING_HOUSE_V2_ADDRESSES,
+});
+
+export const COOLER_CLEARING_HOUSE_CONTRACT_V3 = new Contract({
+  factory: CoolerClearingHouseV3__factory,
+  name: "Cooler Clearing House Contract V3",
+  addresses: COOLER_CLEARING_HOUSE_V3_ADDRESSES,
 });
 
 export const GOVERNANCE_CONTRACT = new Contract({

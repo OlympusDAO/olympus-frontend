@@ -21,54 +21,87 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
-import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
-  const [currentClearingHouse, setCurrentClearingHouse] = useState<"clearingHouseV1" | "clearingHouseV2">(
-    "clearingHouseV2",
-  );
-  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
-  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const [currentClearingHouse, setCurrentClearingHouse] = useState<"v1" | "v2" | "v3">("v3");
+  // Get clearing house data for all versions
+  const clearingHouses = {
+    v1: useGetClearingHouse({ clearingHouse: "clearingHouseV1" }).data,
+    v2: useGetClearingHouse({ clearingHouse: "clearingHouseV2" }).data,
+    v3: useGetClearingHouse({ clearingHouse: "clearingHouseV3" }).data,
+  };
 
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
+    factoryAddress: clearingHouses.v1?.factory,
+    collateralAddress: clearingHouses.v1?.collateralAddress,
+    debtAddress: clearingHouses.v1?.debtAddress,
   });
 
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
+    factoryAddress: clearingHouses.v1?.factory,
+    collateralAddress: clearingHouses.v1?.collateralAddress,
+    debtAddress: clearingHouses.v1?.debtAddress,
     clearingHouseVersion: "clearingHouseV1",
   });
 
   const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
+    factoryAddress: clearingHouses.v2?.factory,
+    collateralAddress: clearingHouses.v2?.collateralAddress,
+    debtAddress: clearingHouses.v2?.debtAddress,
   });
 
   const { data: coolerAddressV2 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
+    factoryAddress: clearingHouses.v2?.factory,
+    collateralAddress: clearingHouses.v2?.collateralAddress,
+    debtAddress: clearingHouses.v2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
 
-  const coolerAddress = currentClearingHouse === "clearingHouseV1" ? coolerAddressV1 : coolerAddressV2;
-  const clearingHouse = currentClearingHouse === "clearingHouseV1" ? clearingHouseV1 : clearingHouseV2;
-  const loans = currentClearingHouse === "clearingHouseV1" ? loansV1 : loansV2;
-  const isFetchedLoans = currentClearingHouse === "clearingHouseV1" ? isFetchedLoansV1 : isFetchedLoansV2;
+  const { data: loansV3, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
+    walletAddress: address,
+    factoryAddress: clearingHouses.v3?.factory,
+    collateralAddress: clearingHouses.v3?.collateralAddress,
+    debtAddress: clearingHouses.v3?.debtAddress,
+  });
+
+  const { data: coolerAddressV3 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouses.v3?.factory,
+    collateralAddress: clearingHouses.v3?.collateralAddress,
+    debtAddress: clearingHouses.v3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
+
+  // Organize version data
+  const versionData = {
+    v1: {
+      loans: { data: loansV1, isFetched: isFetchedLoansV1 },
+      coolerAddress: { data: coolerAddressV1 },
+    },
+    v2: {
+      loans: { data: loansV2, isFetched: isFetchedLoansV2 },
+      coolerAddress: { data: coolerAddressV2 },
+    },
+    v3: {
+      loans: { data: loansV3, isFetched: isFetchedLoansV3 },
+      coolerAddress: { data: coolerAddressV3 },
+    },
+  };
+
+  const currentData = versionData[currentClearingHouse];
+  const coolerAddress = currentData.coolerAddress.data;
+  const clearingHouse = clearingHouses[currentClearingHouse];
+  const loans = currentData.loans.data;
+  const isFetchedLoans = currentData.loans.isFetched;
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
@@ -78,7 +111,7 @@ export const CoolerPositions = () => {
     <div id="cooler-positions">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
-          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} />
+          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} reserveAsset={clearingHouse?.reserveSymbol} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <BorrowRate />
@@ -87,13 +120,13 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
+      {((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) && (
         <Box display="flex" mt="16px" justifyContent="right" gap="4px">
           <Select
             value={currentClearingHouse}
             label="ClearingHouse"
             onChange={e => {
-              setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
+              setCurrentClearingHouse(e.target.value as "v1" | "v2" | "v3");
             }}
             sx={{
               width: "200px",
@@ -115,8 +148,9 @@ export const CoolerPositions = () => {
               },
             }}
           >
-            <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
-            <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
+            <MenuItem value="v1">ClearingHouse V1</MenuItem>
+            <MenuItem value="v2">ClearingHouse V2</MenuItem>
+            <MenuItem value="v3">ClearingHouse V3</MenuItem>
           </Select>
         </Box>
       )}
