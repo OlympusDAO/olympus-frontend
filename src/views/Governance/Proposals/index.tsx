@@ -51,7 +51,9 @@ export const ProposalPage = () => {
 
   const currentBlockTime = currentBlock?.timestamp ? new Date(currentBlock?.timestamp * 1000) : new Date();
   const pending = !pendingActivation && proposalDetails.status === "Pending";
-  const pendingExecution = Boolean(proposalDetails.status === "Queued" && currentBlockTime >= proposalDetails.etaDate);
+  const pendingExecution = Boolean(
+    proposalDetails.status === "Queued" && proposalDetails.etaDate && currentBlockTime >= proposalDetails.etaDate,
+  );
 
   return (
     <div id="stake-view">
