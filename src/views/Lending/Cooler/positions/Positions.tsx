@@ -157,7 +157,7 @@ export const CoolerPositions = () => {
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
-        <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
+        <div>Borrow from the Olympus Treasury against your gOHM</div>
       </Box>
 
       {!address && (
@@ -176,7 +176,7 @@ export const CoolerPositions = () => {
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
-            <Box pt="9px">Borrow DAI against gOHM at a fixed rate and maturity</Box>
+            <Box pt="9px">Borrow against gOHM at a fixed rate and maturity</Box>
             <Box mt="21px">
               <PrimaryButton
                 onClick={() => {
@@ -267,16 +267,18 @@ export const CoolerPositions = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box display="flex" justifyContent={"center"} gap="4px">
-                <PrimaryButton
-                  onClick={() => {
-                    setRepayLoan(undefined);
-                    setCreateLoanModalOpen(true);
-                  }}
-                >
-                  Borrow DAI & Open Position
-                </PrimaryButton>
-              </Box>
+              {clearingHouse?.isActive && (
+                <Box display="flex" justifyContent={"center"} gap="4px">
+                  <PrimaryButton
+                    onClick={() => {
+                      setRepayLoan(undefined);
+                      setCreateLoanModalOpen(true);
+                    }}
+                  >
+                    Borrow DAI & Open Position
+                  </PrimaryButton>
+                </Box>
+              )}
             </>
           )}
         </>

@@ -44,6 +44,7 @@ export const useGetClearingHouse = ({
     const reserveSymbol = await sReserveContract.symbol();
     const reserveBalanceClearingHouse = await sReserveContract.convertToAssets(sReserveBalanceClearingHouse);
     const clearingHouseAddress = contract.address;
+    const isActive = await contract.isActive();
 
     return {
       interestRate,
@@ -55,6 +56,7 @@ export const useGetClearingHouse = ({
       capacity: reserveBalanceClearingHouse,
       clearingHouseAddress,
       reserveSymbol,
+      isActive,
     };
   });
   return { data, isFetched, isLoading };
