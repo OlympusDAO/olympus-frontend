@@ -1,13 +1,6 @@
-import { Box, SvgIcon, Typography } from "@mui/material";
-import { InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
-import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
-import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { COOLER_CONSOLIDATION_ADDRESSES, DAI_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
-import { formatNumber } from "src/helpers";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
@@ -57,8 +50,5 @@ export const ConsolidateLoans = ({
   }, [daiBalance, totals.interest]);
 
   console.log("consolidate loans");
-  return (
-    <>
-    </>
-  );
+  return <></>;
 };

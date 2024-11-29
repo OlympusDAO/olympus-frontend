@@ -81,12 +81,12 @@ export const LendingMarkets = () => {
     poolFilter === "stable"
       ? stablePools
       : poolFilter === "volatile"
-      ? volatilePools
-      : poolFilter === "gohm"
-      ? gOHMPools
-      : poolFilter === "ohm"
-      ? ohmPools
-      : defiLlamaPools;
+        ? volatilePools
+        : poolFilter === "gohm"
+          ? gOHMPools
+          : poolFilter === "ohm"
+            ? ohmPools
+            : defiLlamaPools;
 
   const poolListByNetwork = networkFilter ? poolList?.filter(pool => pool.chain === networkFilter) : poolList;
   const PoolChip = ({ label }: { label: string }) => (

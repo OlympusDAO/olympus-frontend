@@ -79,10 +79,10 @@ export const ExternalStakePools = () => {
     poolFilter === "stable"
       ? stablePools
       : poolFilter === "volatile"
-      ? volatilePools
-      : poolFilter === "gohm"
-      ? gOHMPools
-      : defiLlamaPools;
+        ? volatilePools
+        : poolFilter === "gohm"
+          ? gOHMPools
+          : defiLlamaPools;
 
   const poolListByNetwork = networkFilter ? poolList?.filter(pool => pool.chain === networkFilter) : poolList;
   const PoolChip = ({ label }: { label: string }) => (
