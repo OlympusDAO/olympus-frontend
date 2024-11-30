@@ -27,7 +27,7 @@ export const Emission = () => {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Metric label="Current Emissions" metric={emissionConfig?.currentEmission} />
+              <Metric label="Current Emissions" metric={emissionConfig?.currentEmission} isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={4}>
               <Metric label="Next Emission Rate" metric={emissionConfig?.nextSale.emissionRate} isLoading={isLoading} />

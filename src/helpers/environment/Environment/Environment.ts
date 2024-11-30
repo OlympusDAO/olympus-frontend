@@ -68,6 +68,13 @@ export class Environment {
       }),
     );
 
+  public static getEmissionsManagerEnabled = (): boolean =>
+    this._get({
+      first: true,
+      key: "VITE_EMISSIONS_MANAGER_ENABLED",
+      fallback: "false",
+    }) === "true";
+
   public static getGovernanceSubgraphUrl = (): string => {
     const subgraphApiKey = this.getSubgraphApiKey();
     return this._get({
