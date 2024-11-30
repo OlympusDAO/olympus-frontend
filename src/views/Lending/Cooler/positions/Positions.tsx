@@ -129,8 +129,7 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {([(loansV1 || []).length > 0, (loansV2 || []).length > 0, (loansV3 || []).length > 0].filter(Boolean).length >
-        1 ||
+      {([(loansV1 || []).length > 0, (loansV2 || []).length > 0].filter(Boolean).length > 0 ||
         (clearingHouses.v3?.isActive &&
           clearingHouses.v3?.capacity.gt(0) &&
           ((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)))) && (
@@ -166,10 +165,7 @@ export const CoolerPositions = () => {
               (clearingHouses.v2?.capacity.gt(0) && clearingHouses.v2?.isActive)) && (
               <MenuItem value="v2">ClearingHouse V2</MenuItem>
             )}
-            {((loansV3 && loansV3.length > 0) ||
-              (clearingHouses.v3?.capacity.gt(0) && clearingHouses.v3?.isActive)) && (
-              <MenuItem value="v3">ClearingHouse V3</MenuItem>
-            )}
+            <MenuItem value="v3">ClearingHouse V3</MenuItem>
           </Select>
         </Box>
       )}
