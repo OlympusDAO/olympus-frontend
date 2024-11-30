@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { Cooler__factory, CoolerFactory__factory } from "src/typechain";
+import { Cooler__factory, CoolerFactory__factory, IERC20__factory } from "src/typechain";
 import { useSigner } from "wagmi";
 
 export const useGetCoolerLoans = ({
@@ -24,7 +24,8 @@ export const useGetCoolerLoans = ({
       try {
         if (!walletAddress || !factoryAddress || !collateralAddress || !debtAddress || !signer) return [];
         const contract = CoolerFactory__factory.connect(factoryAddress, signer);
-
+        const debtContract = IERC20__factory.connect(debtAddress, Providers.getStaticProvider(networks.MAINNET));
+        const debtAssetName = await debtContract.symbol();
         const coolerAddress = await contract.callStatic.generateCooler(collateralAddress, debtAddress);
         const coolerContract = Cooler__factory.connect(coolerAddress, Providers.getStaticProvider(networks.MAINNET));
 
@@ -34,7 +35,7 @@ export const useGetCoolerLoans = ({
           try {
             const loanData = await coolerContract.loans(loanId);
             // const newCollateralAmount = await coolerContract.newCollateralFor(loanId);
-            loans.push({ ...loanData, loanId });
+            loans.push({ ...loanData, loanId, debtAssetName });
             loanId++;
           } catch (e) {
             break;

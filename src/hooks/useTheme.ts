@@ -26,8 +26,8 @@ const useTheme = (): [string, (e: KeyboardEvent) => void, boolean] => {
     window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches && !localTheme
       ? setMode("dark")
       : localTheme
-      ? setTheme(localTheme)
-      : setMode("dark");
+        ? setTheme(localTheme)
+        : setMode("dark");
     setMounted(true);
   }, []);
 

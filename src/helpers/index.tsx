@@ -49,7 +49,7 @@ export function formatCurrency(c: number, precision = 0, currency = "USD") {
     minimumFractionDigits: precision,
   }).format(c);
   if (currency === "OHM") return `${formatted} Ω`;
-  if (currency === "DAI") return `${formatted} DAI`;
+  if (currency) return `${formatted} ${currency}`;
   return formatted;
 }
 

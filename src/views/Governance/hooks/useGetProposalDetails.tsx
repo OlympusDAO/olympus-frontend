@@ -28,7 +28,7 @@ export const useGetProposalDetails = ({ proposalId }: { proposalId: number }) =>
         startBlock: proposalDetails.startBlock.toNumber(),
         endBlock: proposalDetails.endBlock.toNumber(),
         eta: proposalDetails.eta.toNumber(),
-        etaDate: new Date(Number(proposalDetails?.eta) * 1000),
+        etaDate: proposalDetails?.eta ? new Date(Number(proposalDetails.eta) * 1000) : undefined,
         quorumVotes: Number(formatEther(proposalDetails.quorumVotes)),
         proposalThreshold: Number(formatEther(proposalDetails.proposalThreshold)),
         startDate: startDateBlockTimestamp?.timestamp ? new Date(startDateBlockTimestamp.timestamp * 1000) : startDate,

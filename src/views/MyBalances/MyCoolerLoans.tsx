@@ -20,6 +20,7 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
 
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
 
   const { data: v1Loans, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
@@ -34,8 +35,14 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
     collateralAddress: clearingHouseV2?.collateralAddress,
     debtAddress: clearingHouseV2?.debtAddress,
   });
+  const { data: v3Loans, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
+    walletAddress: address,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
+  });
 
-  const loans = [...(v1Loans || []), ...(v2Loans || [])];
+  const loans = [...(v1Loans || []), ...(v2Loans || []), ...(v3Loans || [])];
 
   const sortedLoans = loans
     .slice()

@@ -1,8 +1,9 @@
 import { Box, Divider, SvgIcon } from "@mui/material";
 import { Modal, OHMSwapCardProps, PrimaryButton, SwapCard, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
+import usdsIcon from "src/assets/tokens/usds.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { formatNumber } from "src/helpers";
@@ -27,6 +28,7 @@ export const CreateOrRepayLoan = ({
   modalOpen,
   loan,
   clearingHouseAddress,
+  debtAssetName,
 }: {
   collateralAddress: string;
   debtAddress: string;
@@ -50,6 +52,7 @@ export const CreateOrRepayLoan = ({
     loanId: number;
   };
   clearingHouseAddress: string;
+  debtAssetName: string;
 }) => {
   const createCooler = useCreateCooler();
   const createLoan = useCreateLoan();
@@ -76,10 +79,18 @@ export const CreateOrRepayLoan = ({
     : Math.min(Number(capacity), collateralValue);
   const interestRepaid = loan?.collateral.isZero() || false;
   //if collateral minus principal is greater than interest... then calculate on collateral amount.
-  const daiCard = (
+  const debtCard = (
     <AssetSwapCard
       assetAddress={debtAddress}
-      tokenName="DAI"
+      tokenName={debtAssetName as OHMSwapCardProps["token"]}
+      tokenIcon={
+        debtAssetName === "USDS" ? (
+          <Box display="flex" gap="9px" alignItems="center">
+            <SvgIcon color="primary" sx={{ width: "20px", height: "20px" }} viewBox="0 0 50 50" component={usdsIcon} />
+            {debtAssetName}
+          </Box>
+        ) : undefined
+      }
       value={paymentAmount.toString()}
       onChange={(e: { target: { value: DecimalBigNumber | string } }) => {
         const value = typeof e.target.value === "string" ? new DecimalBigNumber(e.target.value) : e.target.value;
@@ -119,16 +130,21 @@ export const CreateOrRepayLoan = ({
       open={modalOpen}
       headerContent={
         <Box display="flex" alignItems="center" gap="6px">
-          <SvgIcon component={lendAndBorrowIcon} /> <Box fontWeight="500">{loan ? "Repay" : "Borrow"} DAI</Box>
+          <SvgIcon component={lendAndBorrowIcon} />{" "}
+          <Box fontWeight="500">
+            {loan ? "Repay" : "Borrow"} {debtAssetName}
+          </Box>
         </Box>
       }
       onClose={() => setModalOpen(false)}
     >
       <>
-        <SwapCollection UpperSwapCard={loan ? daiCard : gOHMCard} LowerSwapCard={loan ? gOHMCard : daiCard} />
+        <SwapCollection UpperSwapCard={loan ? debtCard : gOHMCard} LowerSwapCard={loan ? gOHMCard : debtCard} />
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Max you Can {loan ? "Repay" : "Borrow"}</Box>
-          <Box fontWeight="500">{formatNumber(maxYouCanBorrow, 2)} DAI</Box>
+          <Box fontWeight="500">
+            {formatNumber(maxYouCanBorrow, 2)} {debtAssetName}
+          </Box>
         </Box>
         <Box mt="18px" mb="21px">
           <Divider />
@@ -153,17 +169,23 @@ export const CreateOrRepayLoan = ({
         </Box>
         <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
           <Box>Loan To Value per gOHM</Box>
-          <Box fontWeight="500">{formatNumber(Number(loanToCollateral), 2)} DAI</Box>
+          <Box fontWeight="500">
+            {formatNumber(Number(loanToCollateral), 2)} {debtAssetName}
+          </Box>
         </Box>
         {loan && (
           <>
             <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
               <Box>Principal</Box>
-              <Box fontWeight="500">{formatNumber(Number(ethers.utils.formatUnits(loan.principal)), 2)} DAI</Box>
+              <Box fontWeight="500">
+                {formatNumber(Number(ethers.utils.formatUnits(loan.principal)), 2)} {debtAssetName}
+              </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
               <Box>Interest Due</Box>
-              <Box fontWeight="500">{formatNumber(Number(ethers.utils.formatUnits(loan.interestDue)), 2)} DAI</Box>
+              <Box fontWeight="500">
+                {formatNumber(Number(ethers.utils.formatUnits(loan.interestDue)), 2)} {debtAssetName}
+              </Box>
             </Box>
           </>
         )}
@@ -197,8 +219,8 @@ export const CreateOrRepayLoan = ({
                 isVertical
                 message={
                   <>
-                    First time {loan ? "repaying" : "borrowing"} with <b>{loan ? "DAI" : "gOHM"}</b>? <br /> Please
-                    approve Olympus DAO to use your <b>{loan ? "DAI" : "gOHM"}</b> for borrowing.
+                    First time {loan ? "repaying" : "borrowing"} with <b>{loan ? debtAssetName : "gOHM"}</b>? <br />{" "}
+                    Please approve Olympus DAO to use your <b>{loan ? debtAssetName : "gOHM"}</b> for borrowing.
                   </>
                 }
                 spendAmount={
@@ -257,7 +279,7 @@ export const CreateOrRepayLoan = ({
                         : `Repay Loan`
                     : Number(paymentAmount.toString()) > maxYouCanBorrow
                       ? `Amount requested exceeds capacity`
-                      : `Borrow DAI & Open Position`}
+                      : `Borrow ${debtAssetName} & Open Position`}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             )}
@@ -271,12 +293,14 @@ export const CreateOrRepayLoan = ({
 const AssetSwapCard = ({
   assetAddress,
   tokenName,
+  tokenIcon,
   value,
   onChange,
   loanBalance,
 }: {
   assetAddress: string;
   tokenName: OHMSwapCardProps["token"];
+  tokenIcon?: ReactElement;
   value: number | string;
   onChange: any;
   loanBalance?: BigNumber;
@@ -288,7 +312,7 @@ const AssetSwapCard = ({
   return (
     <SwapCard
       id={tokenName as string}
-      token={tokenName}
+      token={tokenIcon || tokenName}
       endString={`${loanBalance ? "Repayment" : "Balance"}: ${Number(balanceToUse?.toString() || "0").toFixed(
         4,
       )} ${tokenName}`}

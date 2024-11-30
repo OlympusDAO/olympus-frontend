@@ -112,8 +112,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
           isMigrationComplete || !oldAssetsDetected
             ? `Migration complete`
             : isAllApproved
-            ? `You are now ready to migrate`
-            : `You have assets ready to migrate to v2`
+              ? `You are now ready to migrate`
+              : `You have assets ready to migrate to v2`
         }
       >
         <>

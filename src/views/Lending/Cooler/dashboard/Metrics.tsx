@@ -90,11 +90,23 @@ export const OutstandingPrincipal = () => {
   );
 };
 
-export const WeeklyCapacityRemaining = ({ capacity }: { capacity?: BigNumber }) => {
+export const WeeklyCapacityRemaining = ({
+  capacity,
+  reserveAsset,
+}: {
+  capacity?: BigNumber;
+  reserveAsset?: string;
+}) => {
   return (
     <Metric
       label="Weekly Capacity Remaining"
-      metric={capacity ? formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, "DAI") : <Skeleton />}
+      metric={
+        capacity && reserveAsset ? (
+          formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, reserveAsset)
+        ) : (
+          <Skeleton />
+        )
+      }
       isLoading={capacity === undefined}
     />
   );
@@ -108,15 +120,19 @@ export const TotalCapacityRemaining = () => {
       label="Total Capacity Remaining"
       metric={formatCurrency(getTotalCapacity(latestSnapshot), 0, "DAI")}
       isLoading={latestSnapshot === undefined}
-      tooltip={`The capacity remaining is the sum of the DAI and sDAI in the clearinghouse and treasury. As of the latest snapshot, the values (in DAI) are:
+      tooltip={`The capacity remaining is the sum of the DAI/sDAI and USDS/sUSDS in the clearinghouse and treasury. As of the latest snapshot, the values are:
 
 Clearinghouse:
 DAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.daiBalance || 0, 0, "DAI")}
 sDAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.sDaiInDaiBalance || 0, 0, "DAI")}
+USDS: ${formatCurrency(latestSnapshot?.clearinghouseTotals.usdsBalance || 0, 0, "USDS")}
+sUSDS: ${formatCurrency(latestSnapshot?.clearinghouseTotals.sUsdsInUsdsBalance || 0, 0, "USDS")}
 
 Treasury:
 DAI: ${formatCurrency(latestSnapshot?.treasury?.daiBalance || 0, 0, "DAI")}
-sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI")}`}
+sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI")}
+USDS: ${formatCurrency(latestSnapshot?.treasury?.usdsBalance || 0, 0, "USDS")}
+sUSDS: ${formatCurrency(latestSnapshot?.treasury?.sUsdsInUsdsBalance || 0, 0, "USDS")}`}
     />
   );
 };

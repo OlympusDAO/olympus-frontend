@@ -1,434 +1,434 @@
 {
-    "abi": [
-      {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      },
-      {
-        "inputs": [],
-        "type": "error",
-        "name": "CreateFail"
-      },
-      {
-        "inputs": [],
-        "type": "error",
-        "name": "DecimalsNot18"
-      },
-      {
-        "inputs": [],
-        "type": "error",
-        "name": "NotFromFactory"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "uint256",
-            "name": "reqID",
-            "type": "uint256",
-            "indexed": false
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanID",
-            "type": "uint256",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "ClearRequest",
-        "anonymous": false
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanID",
-            "type": "uint256",
-            "indexed": false
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "DefaultLoan",
-        "anonymous": false
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanID",
-            "type": "uint256",
-            "indexed": false
-          },
-          {
-            "internalType": "uint8",
-            "name": "times",
-            "type": "uint8",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "ExtendLoan",
-        "anonymous": false
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanID",
-            "type": "uint256",
-            "indexed": false
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "RepayLoan",
-        "anonymous": false
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "address",
-            "name": "collateral",
-            "type": "address",
-            "indexed": false
-          },
-          {
-            "internalType": "address",
-            "name": "debt",
-            "type": "address",
-            "indexed": false
-          },
-          {
-            "internalType": "uint256",
-            "name": "reqID",
-            "type": "uint256",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "RequestLoan",
-        "anonymous": false
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address",
-            "indexed": true
-          },
-          {
-            "internalType": "uint256",
-            "name": "reqID",
-            "type": "uint256",
-            "indexed": false
-          }
-        ],
-        "type": "event",
-        "name": "RescindRequest",
-        "anonymous": false
-      },
-      {
-        "inputs": [],
-        "stateMutability": "view",
-        "type": "function",
-        "name": "coolerImplementation",
-        "outputs": [
-          {
-            "internalType": "contract Cooler",
-            "name": "",
-            "type": "address"
-          }
-        ]
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "contract ERC20",
-            "name": "",
-            "type": "address"
-          },
-          {
-            "internalType": "contract ERC20",
-            "name": "",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "name": "coolersFor",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ]
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "name": "created",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ]
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "contract ERC20",
-            "name": "collateral_",
-            "type": "address"
-          },
-          {
-            "internalType": "contract ERC20",
-            "name": "debt_",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "generateCooler",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "cooler",
-            "type": "address"
-          }
-        ]
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "user_",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "collateral_",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "debt_",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "name": "getCoolerFor",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ]
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "reqID_",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanID_",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logClearRequest"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "loanID_",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collateral_",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logDefaultLoan"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "loanID_",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "times_",
-            "type": "uint8"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logExtendLoan"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "loanID_",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "repayment_",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logRepayLoan"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "reqID_",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logRequestLoan"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "reqID_",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function",
-        "name": "logRescindRequest"
-      }
-    ],
-    "devdoc": {
-      "kind": "dev",
-      "methods": {
-        "generateCooler(address,address)": {
-          "params": {
-            "collateral_": "the token given as collateral.",
-            "debt_": "the token to be lent. Interest is denominated in debt tokens."
-          },
-          "returns": {
-            "cooler": "address of the contract."
-          }
-        }
-      },
-      "version": 1
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
-    "userdoc": {
-      "kind": "user",
-      "methods": {
-        "coolerImplementation()": {
-          "notice": "Cooler reference implementation (deployed on creation to clone from)."
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "CreateFail"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "DecimalsNot18"
+    },
+    {
+      "inputs": [],
+      "type": "error",
+      "name": "NotFromFactory"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
         },
-        "coolersFor(address,address,uint256)": {
-          "notice": "Mapping to query Coolers for Collateral-Debt pair."
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256",
+          "indexed": false
         },
-        "created(address)": {
-          "notice": "Mapping to validate deployed coolers."
-        },
-        "generateCooler(address,address)": {
-          "notice": "creates a new Escrow contract for collateral and debt tokens."
-        },
-        "getCoolerFor(address,address,address)": {
-          "notice": "Getter function to get an existing cooler for a given user <> collateral <> debt combination."
-        },
-        "logClearRequest(uint256,uint256)": {
-          "notice": "Emit a global event when a loan request is fulfilled."
-        },
-        "logDefaultLoan(uint256,uint256)": {
-          "notice": "Emit a global event when the collateral of defaulted loan is claimed."
-        },
-        "logExtendLoan(uint256,uint8)": {
-          "notice": "Emit a global event when a loan is extended."
-        },
-        "logRepayLoan(uint256,uint256)": {
-          "notice": "Emit a global event when a loan is repaid."
-        },
-        "logRequestLoan(uint256)": {
-          "notice": "Emit a global event when a new loan request is created."
-        },
-        "logRescindRequest(uint256)": {
-          "notice": "Emit a global event when a loan request is rescinded."
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256",
+          "indexed": false
         }
-      },
-      "version": 1
+      ],
+      "type": "event",
+      "name": "ClearRequest",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256",
+          "indexed": false
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "DefaultLoan",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256",
+          "indexed": false
+        },
+        {
+          "internalType": "uint8",
+          "name": "times",
+          "type": "uint8",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "ExtendLoan",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID",
+          "type": "uint256",
+          "indexed": false
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "RepayLoan",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
+        },
+        {
+          "internalType": "address",
+          "name": "collateral",
+          "type": "address",
+          "indexed": false
+        },
+        {
+          "internalType": "address",
+          "name": "debt",
+          "type": "address",
+          "indexed": false
+        },
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "RequestLoan",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address",
+          "indexed": true
+        },
+        {
+          "internalType": "uint256",
+          "name": "reqID",
+          "type": "uint256",
+          "indexed": false
+        }
+      ],
+      "type": "event",
+      "name": "RescindRequest",
+      "anonymous": false
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "coolerImplementation",
+      "outputs": [
+        {
+          "internalType": "contract Cooler",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "coolersFor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "created",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "collateral_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "debt_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "generateCooler",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "cooler",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "collateral_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "debt_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "getCoolerFor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logClearRequest"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateral_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logDefaultLoan"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "times_",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logExtendLoan"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "loanID_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "repayment_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logRepayLoan"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logRequestLoan"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reqID_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "logRescindRequest"
     }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "generateCooler(address,address)": {
+        "params": {
+          "collateral_": "the token given as collateral.",
+          "debt_": "the token to be lent. Interest is denominated in debt tokens."
+        },
+        "returns": {
+          "cooler": "address of the contract."
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "coolerImplementation()": {
+        "notice": "Cooler reference implementation (deployed on creation to clone from)."
+      },
+      "coolersFor(address,address,uint256)": {
+        "notice": "Mapping to query Coolers for Collateral-Debt pair."
+      },
+      "created(address)": {
+        "notice": "Mapping to validate deployed coolers."
+      },
+      "generateCooler(address,address)": {
+        "notice": "creates a new Escrow contract for collateral and debt tokens."
+      },
+      "getCoolerFor(address,address,address)": {
+        "notice": "Getter function to get an existing cooler for a given user <> collateral <> debt combination."
+      },
+      "logClearRequest(uint256,uint256)": {
+        "notice": "Emit a global event when a loan request is fulfilled."
+      },
+      "logDefaultLoan(uint256,uint256)": {
+        "notice": "Emit a global event when the collateral of defaulted loan is claimed."
+      },
+      "logExtendLoan(uint256,uint8)": {
+        "notice": "Emit a global event when a loan is extended."
+      },
+      "logRepayLoan(uint256,uint256)": {
+        "notice": "Emit a global event when a loan is repaid."
+      },
+      "logRequestLoan(uint256)": {
+        "notice": "Emit a global event when a new loan request is created."
+      },
+      "logRescindRequest(uint256)": {
+        "notice": "Emit a global event when a loan request is rescinded."
+      }
+    },
+    "version": 1
   }
+}
