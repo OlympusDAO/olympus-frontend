@@ -33,7 +33,7 @@ export const Cooler = () => {
         name="Cooler Loans"
         subtitle={
           <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
-            Borrow DAI against your gOHM collateral.{" "}
+            Borrow against your gOHM collateral.{" "}
             <Link
               component={RouterLink}
               to="https://docs.olympusdao.finance/main/overview/cooler-loans"

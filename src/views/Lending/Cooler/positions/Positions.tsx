@@ -14,9 +14,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
+import { OHMTokenProps, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
@@ -27,57 +27,100 @@ import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
-  const [currentClearingHouse, setCurrentClearingHouse] = useState<"clearingHouseV1" | "clearingHouseV2">(
-    "clearingHouseV2",
-  );
-  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
-  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const [currentClearingHouse, setCurrentClearingHouse] = useState<"v1" | "v2" | "v3">("v3");
+  // Get clearing house data for all versions
+  const clearingHouses = {
+    v1: useGetClearingHouse({ clearingHouse: "clearingHouseV1" }).data,
+    v2: useGetClearingHouse({ clearingHouse: "clearingHouseV2" }).data,
+    v3: useGetClearingHouse({ clearingHouse: "clearingHouseV3" }).data,
+  };
 
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
+    factoryAddress: clearingHouses.v1?.factory,
+    collateralAddress: clearingHouses.v1?.collateralAddress,
+    debtAddress: clearingHouses.v1?.debtAddress,
   });
 
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouseV1?.factory,
-    collateralAddress: clearingHouseV1?.collateralAddress,
-    debtAddress: clearingHouseV1?.debtAddress,
+    factoryAddress: clearingHouses.v1?.factory,
+    collateralAddress: clearingHouses.v1?.collateralAddress,
+    debtAddress: clearingHouses.v1?.debtAddress,
     clearingHouseVersion: "clearingHouseV1",
   });
 
   const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
+    factoryAddress: clearingHouses.v2?.factory,
+    collateralAddress: clearingHouses.v2?.collateralAddress,
+    debtAddress: clearingHouses.v2?.debtAddress,
   });
 
   const { data: coolerAddressV2 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouseV2?.factory,
-    collateralAddress: clearingHouseV2?.collateralAddress,
-    debtAddress: clearingHouseV2?.debtAddress,
+    factoryAddress: clearingHouses.v2?.factory,
+    collateralAddress: clearingHouses.v2?.collateralAddress,
+    debtAddress: clearingHouses.v2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
 
-  const coolerAddress = currentClearingHouse === "clearingHouseV1" ? coolerAddressV1 : coolerAddressV2;
-  const clearingHouse = currentClearingHouse === "clearingHouseV1" ? clearingHouseV1 : clearingHouseV2;
-  const loans = currentClearingHouse === "clearingHouseV1" ? loansV1 : loansV2;
-  const isFetchedLoans = currentClearingHouse === "clearingHouseV1" ? isFetchedLoansV1 : isFetchedLoansV2;
+  const { data: loansV3, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
+    walletAddress: address,
+    factoryAddress: clearingHouses.v3?.factory,
+    collateralAddress: clearingHouses.v3?.collateralAddress,
+    debtAddress: clearingHouses.v3?.debtAddress,
+  });
+
+  const { data: coolerAddressV3 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouses.v3?.factory,
+    collateralAddress: clearingHouses.v3?.collateralAddress,
+    debtAddress: clearingHouses.v3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
+
+  // Organize version data
+  const versionData = {
+    v1: {
+      loans: { data: loansV1, isFetched: isFetchedLoansV1 },
+      coolerAddress: { data: coolerAddressV1 },
+    },
+    v2: {
+      loans: { data: loansV2, isFetched: isFetchedLoansV2 },
+      coolerAddress: { data: coolerAddressV2 },
+    },
+    v3: {
+      loans: { data: loansV3, isFetched: isFetchedLoansV3 },
+      coolerAddress: { data: coolerAddressV3 },
+    },
+  };
+
+  const currentData = versionData[currentClearingHouse];
+  const coolerAddress = currentData.coolerAddress.data;
+  const clearingHouse = clearingHouses[currentClearingHouse];
+  const loans = currentData.loans.data;
+  const isFetchedLoans = currentData.loans.isFetched;
 
   const [extendLoan, setExtendLoan] = useState<any>(null);
   const [repayLoan, setRepayLoan] = useState<any>(null);
   const theme = useTheme();
 
+  // Update the clearing house version when the data is available
+  useEffect(() => {
+    if (clearingHouses.v3?.isActive && clearingHouses.v3?.capacity.gt(0)) {
+      setCurrentClearingHouse("v3");
+    } else if (clearingHouses.v2?.isActive && clearingHouses.v2?.capacity.gt(0)) {
+      setCurrentClearingHouse("v2");
+    }
+  }, [clearingHouses.v2, clearingHouses.v3]);
+
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
-          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} />
+          <WeeklyCapacityRemaining capacity={clearingHouse?.capacity} reserveAsset={clearingHouse?.debtAssetName} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <BorrowRate />
@@ -86,13 +129,17 @@ export const CoolerPositions = () => {
           <OutstandingPrincipal />
         </Grid>
       </Grid>
-      {clearingHouseV1 && loansV1 && loansV1.length > 0 && (
+      {([(loansV1 || []).length > 0, (loansV2 || []).length > 0, (loansV3 || []).length > 0].filter(Boolean).length >
+        1 ||
+        (clearingHouses.v3?.isActive &&
+          clearingHouses.v3?.capacity.gt(0) &&
+          ((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)))) && (
         <Box display="flex" mt="16px" justifyContent="right" gap="4px">
           <Select
             value={currentClearingHouse}
             label="ClearingHouse"
             onChange={e => {
-              setCurrentClearingHouse(e.target.value as "clearingHouseV1" | "clearingHouseV2");
+              setCurrentClearingHouse(e.target.value as "v1" | "v2" | "v3");
             }}
             sx={{
               width: "200px",
@@ -114,15 +161,22 @@ export const CoolerPositions = () => {
               },
             }}
           >
-            <MenuItem value="clearingHouseV1">ClearingHouse V1</MenuItem>
-            <MenuItem value="clearingHouseV2">ClearingHouse V2</MenuItem>
+            {loansV1 && loansV1.length > 0 && <MenuItem value="v1">ClearingHouse V1</MenuItem>}
+            {((loansV2 && loansV2.length > 0) ||
+              (clearingHouses.v2?.capacity.gt(0) && clearingHouses.v2?.isActive)) && (
+              <MenuItem value="v2">ClearingHouse V2</MenuItem>
+            )}
+            {((loansV3 && loansV3.length > 0) ||
+              (clearingHouses.v3?.capacity.gt(0) && clearingHouses.v3?.isActive)) && (
+              <MenuItem value="v3">ClearingHouse V3</MenuItem>
+            )}
           </Select>
         </Box>
       )}
 
       <Box mb="21px" mt="66px">
         <Typography variant="h1">Your Positions</Typography>
-        <div>Borrow DAI from the Olympus Treasury against your gOHM</div>
+        <div>Borrow from the Olympus Treasury against your gOHM</div>
       </Box>
 
       {!address && (
@@ -141,17 +195,21 @@ export const CoolerPositions = () => {
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
-            <Box pt="9px">Borrow DAI against gOHM at a fixed rate and maturity</Box>
-            <Box mt="21px">
-              <PrimaryButton
-                onClick={() => {
-                  setRepayLoan(undefined);
-                  setCreateLoanModalOpen(true);
-                }}
-              >
-                Borrow DAI & Open Position
-              </PrimaryButton>
-            </Box>
+            {clearingHouse?.isActive && clearingHouse.capacity.gt(0) && (
+              <>
+                <Box pt="9px">Borrow against gOHM at a fixed rate and maturity</Box>
+                <Box mt="21px">
+                  <PrimaryButton
+                    onClick={() => {
+                      setRepayLoan(undefined);
+                      setCreateLoanModalOpen(true);
+                    }}
+                  >
+                    Borrow {clearingHouse?.debtAssetName} & Open Position
+                  </PrimaryButton>
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
       )}
@@ -197,8 +255,12 @@ export const CoolerPositions = () => {
                           <TableCell align="right" sx={{ padding: "9px" }}>
                             {principalAndInterest && (
                               <Box display="flex" justifyContent="end" alignItems={"center"} gap="3px">
-                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)} DAI{" "}
-                                <Token name="DAI" style={{ fontSize: "21px" }} />
+                                {Number(ethers.utils.formatUnits(principalAndInterest.toString())).toFixed(2)}{" "}
+                                {loan.debtAssetName}{" "}
+                                <Token
+                                  name={loan.debtAssetName as OHMTokenProps["name"]}
+                                  style={{ fontSize: "21px" }}
+                                />
                               </Box>
                             )}
                           </TableCell>
@@ -232,16 +294,18 @@ export const CoolerPositions = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Box display="flex" justifyContent={"center"} gap="4px">
-                <PrimaryButton
-                  onClick={() => {
-                    setRepayLoan(undefined);
-                    setCreateLoanModalOpen(true);
-                  }}
-                >
-                  Borrow DAI & Open Position
-                </PrimaryButton>
-              </Box>
+              {clearingHouse?.isActive && clearingHouse.capacity.gt(0) && (
+                <Box display="flex" justifyContent={"center"} gap="4px">
+                  <PrimaryButton
+                    onClick={() => {
+                      setRepayLoan(undefined);
+                      setCreateLoanModalOpen(true);
+                    }}
+                  >
+                    Borrow {clearingHouse.debtAssetName} & Open Position
+                  </PrimaryButton>
+                </Box>
+              )}
             </>
           )}
         </>
@@ -259,6 +323,7 @@ export const CoolerPositions = () => {
               coolerAddress={coolerAddress}
               debtAddress={clearingHouse.debtAddress}
               clearingHouseAddress={clearingHouse.clearingHouseAddress}
+              debtAssetName={clearingHouse.debtAssetName}
             />
           )}
           <CreateOrRepayLoan
@@ -274,6 +339,7 @@ export const CoolerPositions = () => {
             modalOpen={createLoanModalOpen}
             loan={repayLoan}
             clearingHouseAddress={clearingHouse.clearingHouseAddress}
+            debtAssetName={clearingHouse.debtAssetName}
           />
         </>
       )}
