@@ -1,5 +1,5 @@
 import { Box, Grid, Link, Typography } from "@mui/material";
-import { Accordion, Metric, Paper } from "@olympusdao/component-library";
+import { Accordion, InfoNotification, Metric, Paper } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { useGetEmissionConfig } from "src/views/Emission/hooks/useGetEmissionConfig";
@@ -11,6 +11,23 @@ export const Emission = () => {
     <div id="stake-view">
       <PageTitle name={"Emission Manager"} noMargin />
       <Box width="97%" maxWidth="974px">
+        {emissionConfig?.activeMarketId && (
+          <Box mb="21px">
+            <InfoNotification>
+              <Typography>
+                A bond market is currently active.{" "}
+                <Link
+                  component={RouterLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  to={`https://app.bondprotocol.finance/#/market/1/${emissionConfig.activeMarketId}`}
+                >
+                  View market details
+                </Link>
+              </Typography>
+            </InfoNotification>
+          </Box>
+        )}
         <Paper enableBackground fullWidth>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
