@@ -186,7 +186,6 @@ export const CoolerPositions = () => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Version</TableCell>
                   <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
                   <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
                     Interest Rate
@@ -205,7 +204,6 @@ export const CoolerPositions = () => {
                   const principalAndInterest = loan.principal.add(loan.interestDue || 0) || 0;
                   return (
                     <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                      <TableCell sx={{ padding: "9px" }}>ClearingHouse {loan.version.toUpperCase()}</TableCell>
                       <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
                         <Box display="flex" alignItems="center" gap="3px">
                           {loan.collateral && Number(ethers.utils.formatUnits(loan.collateral.toString())).toFixed(4)}{" "}
