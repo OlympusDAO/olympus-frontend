@@ -51,12 +51,12 @@ export const useGetEmissionConfig = () => {
     return {
       baseEmissionRate: `${Number(formatUnits(baseEmissionRate, 9)) * 100}%`, // 1e9 = 100%
       backing: formatUnits(backing, 18),
-      premium: `${Number(formatUnits(premium, 18)) * 100}%`,
-      minimumPremium: `${Number(formatUnits(minimumPremium, 18)) * 100}%`, // 1e18 = 100%
+      premium: `${(Number(formatUnits(premium, 18)) * 100).toFixed(2)}%`,
+      minimumPremium: `${(Number(formatUnits(minimumPremium, 18)) * 100).toFixed(2)}%`, // 1e18 = 100%
       nextSale: {
-        premium: `${Number(formatUnits(nextSalePremium, 18)) * 100}%`, // 1e18 = 100%
-        emissionRate: `${Number(formatUnits(nextSaleEmissionRate, 9)) * 100}%`, // OHM scale
-        emission: `${formatUnits(nextSaleEmission, 9)} OHM`, // OHM scale
+        premium: `${(Number(formatUnits(nextSalePremium, 18)) * 100).toFixed(2)}%`, // 1e18 = 100%
+        emissionRate: `${(Number(formatUnits(nextSaleEmissionRate, 9)) * 100).toFixed(2)}%`, // OHM scale
+        emission: `${Number(formatUnits(nextSaleEmission, 9)).toFixed(2)} OHM`, // OHM scale
       },
       rateChange: {
         changeBy: formatUnits(rateChange.changeBy, 9), // OHM scale
@@ -66,7 +66,7 @@ export const useGetEmissionConfig = () => {
       activeMarketId: activeMarketId.toNumber(),
       vestingPeriod: vestingPeriod.toString(), // uint48 (in seconds)
       // reserves: formatUnits(reserves, 18), // DAI scale (18 decimals)
-      currentEmissionRate: `${Number(Number(formatUnits(currentEmissionRate, 9)) * 100).toFixed(4)}%`, // OHM scale
+      currentEmissionRate: `${(Number(formatUnits(currentEmissionRate, 9)) * 100).toFixed(4)}%`, // OHM scale
       currentEmission: `${Number(formatUnits(currentEmission, 9)).toFixed(2)} OHM`, // OHM scale
       tellerAddress,
       reserveAddress,
