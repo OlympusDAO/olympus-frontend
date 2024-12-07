@@ -32,6 +32,7 @@ const NavContent: React.VFC = () => {
 
   const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
+  const rbsDisabled = Environment.getRbsDisabled();
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -62,7 +63,7 @@ const NavContent: React.VFC = () => {
                     to="/lending/cooler"
                   />
                   {emissionsManagerEnabled && <NavItem to="/emission" icon="range" label={`Emission Manager`} />}
-                  {!emissionsManagerEnabled && <NavItem to="/range" icon="range" label={`RBS`} />}
+                  {!rbsDisabled && <NavItem to="/range" icon="range" label={`RBS`} />}
                   <NavItem icon="settings" label={`Utility`} to="/utility" />
                   <NavItem to="/governance" icon="voting" label={`Govern`} />
                 </>
