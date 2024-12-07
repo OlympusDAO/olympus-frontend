@@ -142,7 +142,7 @@ export const OperatorMovingAverage = () => {
  */
 export const OperatorReserveSymbol = () => {
   const networks = useTestableNetworks();
-  const contract = RANGE_CONTRACT.getEthersContract(networks.MAINNET);
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
