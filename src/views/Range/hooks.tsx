@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import request, { gql } from "graphql-request";
 import toast from "react-hot-toast";
-import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES, USDS_ADDRESSES } from "src/constants/addresses";
+import { DAO_TREASURY_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import {
   BOND_AGGREGATOR_CONTRACT,
   RANGE_CONTRACT,
@@ -142,13 +142,14 @@ export const OperatorMovingAverage = () => {
  */
 export const OperatorReserveSymbol = () => {
   const networks = useTestableNetworks();
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
     isLoading,
   } = useQuery(["getOperatorReserveSymbol", networks.MAINNET], async () => {
     const provider = Providers.getStaticProvider(networks.MAINNET);
-    const reserveAddress = USDS_ADDRESSES[networks.MAINNET]; //Range contract was not updated to set USDS as reserve
+    const reserveAddress = await contract.reserve();
     const TokenContract = IERC20__factory.connect(reserveAddress, provider);
     const symbol = await TokenContract.symbol();
     return { reserveAddress, symbol };
