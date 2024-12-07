@@ -11,7 +11,7 @@ export const Emission = () => {
     <div id="stake-view">
       <PageTitle name={"Emission Manager"} noMargin />
       <Box width="97%" maxWidth="974px">
-        {emissionConfig?.activeMarketId && (
+        {Boolean(emissionConfig?.activeMarketId) && (
           <Box mb="21px">
             <InfoNotification>
               <Typography>

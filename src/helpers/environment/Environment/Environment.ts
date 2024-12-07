@@ -75,6 +75,13 @@ export class Environment {
       fallback: "false",
     }) === "true";
 
+  public static getRbsDisabled = (): boolean =>
+    this._get({
+      first: true,
+      key: "VITE_RBS_DISABLED",
+      fallback: "false",
+    }) === "true";
+
   public static getGovernanceSubgraphUrl = (): string => {
     const subgraphApiKey = this.getSubgraphApiKey();
     return this._get({
