@@ -1,4 +1,4 @@
-import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, Link, Paper, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
@@ -7,8 +7,9 @@ import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import NavItem from "src/components/library/NavItem";
 import { formatCurrency } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { useGohmPriceDefiLlama, useOhmPriceDefillama } from "src/hooks/usePrices";
+import { useGohmPriceContract } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { usePriceContractPrice } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
@@ -24,11 +25,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const NavContent: React.VFC = () => {
-  const theme = useTheme();
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
-  const { data: ohmPrice } = useOhmPriceDefillama();
-  const { data: gohmPrice } = useGohmPriceDefiLlama();
+  const { data: ohmPrice } = usePriceContractPrice();
+  const { data: gohmPrice } = useGohmPriceContract();
 
   const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();

@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { Link as RouterLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { formatCurrency } from "src/helpers";
-import { useGohmPriceDefiLlama } from "src/hooks/usePrices";
+import { useGohmPriceContract } from "src/hooks/usePrices";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useAccount } from "wagmi";
@@ -12,7 +12,7 @@ import { useAccount } from "wagmi";
 export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanceUSD: string }) => {
   const theme = useTheme();
   const { address } = useAccount();
-  const { data: gOhmPrice = 0 } = useGohmPriceDefiLlama();
+  const { data: gOhmPrice = 0 } = useGohmPriceContract();
 
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });

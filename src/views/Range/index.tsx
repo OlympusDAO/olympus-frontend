@@ -24,11 +24,11 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import {
   DetermineRangePrice,
   LastSnapshotPrice,
-  OperatorPrice,
   OperatorReserveSymbol,
   RangeBondMaxPayout,
   RangeData,
   RangeNextBeat,
+  usePriceContractPrice,
   useRangeCheckActive,
 } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
@@ -63,7 +63,7 @@ export const Range = () => {
   const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(USDS_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice } = OperatorPrice();
+  const { data: currentPrice } = usePriceContractPrice();
   const { data: lastPrice } = LastSnapshotPrice();
   const { data: currentMarketPrices } = useGetDefillamaPrice({
     addresses: [USDS_ADDRESSES[1], OHM_ADDRESSES[1]],

@@ -76,11 +76,11 @@ export const PriceHistory = () => {
 /**
  * Returns the current price of the Operator at the given address
  */
-export const OperatorPrice = () => {
+export const usePriceContractPrice = () => {
   const networks = useTestableNetworks();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
-  const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", networks.MAINNET], async () => {
+  const { data, isFetched, isLoading } = useQuery(["getPriceContractPrice", networks.MAINNET], async () => {
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
