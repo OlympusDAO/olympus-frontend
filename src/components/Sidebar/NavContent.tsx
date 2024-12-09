@@ -2,15 +2,13 @@ import { Box, Link, Paper, SvgIcon, Typography, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
-import { NavLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import NavItem from "src/components/library/NavItem";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { formatCurrency } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
+import { useGohmPriceDefiLlama, useOhmPriceDefillama } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { DetermineRangeDiscount } from "src/views/Range/hooks";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
@@ -29,6 +27,8 @@ const NavContent: React.VFC = () => {
   const theme = useTheme();
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
+  const { data: ohmPrice } = useOhmPriceDefillama();
+  const { data: gohmPrice } = useGohmPriceDefiLlama();
 
   const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
@@ -49,6 +49,14 @@ const NavContent: React.VFC = () => {
                 Olympus
               </Typography>
             </Link>
+            <Box display="flex" flexDirection="column" mt="10px">
+              <Box fontSize="12px" fontWeight="500" lineHeight={"15px"}>
+                OHM Price: {formatCurrency(ohmPrice || 0, 2)}
+              </Box>
+              <Box fontSize="12px" fontWeight="500" lineHeight="15px">
+                gOHM Price: {formatCurrency(gohmPrice || 0, 2)}
+              </Box>
+            </Box>
           </Box>
 
           <div className="dapp-menu-links">
@@ -95,31 +103,6 @@ const NavContent: React.VFC = () => {
         </Box>
       </Box>
     </Paper>
-  );
-};
-
-const RangePrice = (props: { bidOrAsk: "bid" | "ask" }) => {
-  const { data, isFetched } = DetermineRangeDiscount(props.bidOrAsk);
-  return (
-    <>
-      {isFetched && (
-        <Box ml="26px" mt="12px" mb="12px" mr="18px">
-          <Typography variant="body2" color="textSecondary">
-            {props.bidOrAsk === "bid" ? `Bid` : `Ask`}
-          </Typography>
-          <Box mt="12px">
-            <Box mt="8px">
-              <Link component={NavLink} to={`/range`}>
-                <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  <Typography variant="body1">{data.quoteToken}</Typography>
-                  <BondDiscount discount={new DecimalBigNumber(data.discount.toString())} />
-                </Box>
-              </Link>
-            </Box>
-          </Box>
-        </Box>
-      )}
-    </>
   );
 };
 
