@@ -445,3 +445,13 @@ export const RangeNextBeat = () => {
   });
   return { data, isFetched, isLoading };
 };
+
+export const useRangeCheckActive = () => {
+  const networks = useTestableNetworks();
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
+  const { data, isFetched, isLoading } = useQuery(["getRangeCheckActive", networks.MAINNET], async () => {
+    const active = await contract.active();
+    return active;
+  });
+  return { data, isFetched, isLoading };
+};

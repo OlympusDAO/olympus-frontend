@@ -29,6 +29,7 @@ import {
   RangeBondMaxPayout,
   RangeData,
   RangeNextBeat,
+  useRangeCheckActive,
 } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
 import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
@@ -46,6 +47,7 @@ export const Range = () => {
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
   const { data: rangeData, isLoading: rangeDataLoading } = RangeData();
+  const { data: isActive } = useRangeCheckActive();
   usePathForNetwork({ pathName: "range", networkID: chain.id, navigate });
 
   const {
@@ -234,6 +236,13 @@ export const Range = () => {
                       </Box>
                     </Box>
                   )}
+                  {!isActive && (
+                    <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+                      <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                        <InfoNotification>RBS Operator is currently inactive</InfoNotification>
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
                 <form onSubmit={handleSubmit}>
                   <RangeInputForm
@@ -310,7 +319,8 @@ export const Range = () => {
                                 amountAboveCapacity ||
                                 amountAboveBalance ||
                                 (sellActive && !rangeData.low.active) ||
-                                (!sellActive && !rangeData.high.active)
+                                (!sellActive && !rangeData.high.active) ||
+                                !isActive
                               }
                             >
                               {amountAboveCapacity
