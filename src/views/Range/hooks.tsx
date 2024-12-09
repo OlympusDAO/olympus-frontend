@@ -142,7 +142,7 @@ export const OperatorMovingAverage = () => {
  */
 export const OperatorReserveSymbol = () => {
   const networks = useTestableNetworks();
-  const contract = RANGE_CONTRACT.getEthersContract(networks.MAINNET);
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
@@ -442,6 +442,16 @@ export const RangeNextBeat = () => {
     //take the unix timestamp of the last observation time, add the observation frequency, and convert to date
     const nextBeat = new Date((lastObservationTime + observationFrequency) * 1000);
     return nextBeat;
+  });
+  return { data, isFetched, isLoading };
+};
+
+export const useRangeCheckActive = () => {
+  const networks = useTestableNetworks();
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
+  const { data, isFetched, isLoading } = useQuery(["getRangeCheckActive", networks.MAINNET], async () => {
+    const active = await contract.active();
+    return active;
   });
   return { data, isFetched, isLoading };
 };

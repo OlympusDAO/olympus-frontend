@@ -52,6 +52,11 @@ export const DAI_ADDRESSES = {
   [NetworkId.MAINNET]: "0x6b175474e89094c44da98b954eedeac495271d0f",
 };
 
+export const USDS_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
+  [NetworkId.TESTNET_GOERLI]: "",
+};
+
 export const WETH_ADDRESSES = {
   [NetworkId.MAINNET]: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
 };
@@ -142,7 +147,7 @@ export const BALANCER_VAULT_ADDRESSSES = {
 };
 
 export const RANGE_OPERATOR_ADDRESSES = {
-  [NetworkId.MAINNET]: "0x0AE561226896dA978EaDA0Bec4a7d3CfAE04f506",
+  [NetworkId.MAINNET]: "0x6417F206a0a6628Da136C0Faa39026d0134D2b52",
   [NetworkId.TESTNET_GOERLI]: "0x6620592f9bdffAbadcea644a35946E7b93EaaF56",
 };
 
