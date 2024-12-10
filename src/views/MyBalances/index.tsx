@@ -52,6 +52,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const ohmBalances = useOhmBalance();
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
     factoryAddress: clearingHouseV1?.factory,
@@ -66,15 +67,23 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     debtAddress: clearingHouseV2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
+  const { data: coolerAddressV3 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
 
   const { data: coolerV1Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV1 });
   const { data: coolerV2Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV2 });
+  const { data: coolerV3Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV3 });
 
   const ohmTokens = isTestnet(chain.id)
     ? [ohmBalances[NetworkId.TESTNET_GOERLI].data, ohmBalances[NetworkId.ARBITRUM_GOERLI].data]
     : [ohmBalances[NetworkId.MAINNET].data, ohmBalances[NetworkId.ARBITRUM].data];
 
-  const coolerTokens = [coolerV1Balance, coolerV2Balance];
+  const coolerTokens = [coolerV1Balance, coolerV2Balance, coolerV3Balance];
 
   const gohmTokens = [
     gohmBalances[networks.MAINNET].data,
