@@ -18,7 +18,6 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPriceDefillama } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
@@ -29,6 +28,7 @@ import { LearnAboutOhm } from "src/views/MyBalances/LearnAboutOhm";
 import { MyCoolerLoans } from "src/views/MyBalances/MyCoolerLoans";
 import { MyGohmBalances } from "src/views/MyBalances/MyGohmBalances";
 import { MyOhmBalances } from "src/views/MyBalances/MyOhmBalances";
+import { usePriceContractPrice } from "src/views/Range/hooks";
 import { useAccount, useNetwork } from "wagmi";
 
 /**
@@ -42,7 +42,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const { address } = useAccount();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
-  const { data: ohmPrice = 0 } = useOhmPriceDefillama();
+  const { data: ohmPrice = 0 } = usePriceContractPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
