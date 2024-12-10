@@ -1,6 +1,6 @@
-import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Metric, Token } from "@olympusdao/component-library";
+import { Token } from "@olympusdao/component-library";
 import { FC } from "react";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { DevFaucet } from "src/components/DevFaucet";
@@ -18,7 +18,6 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/useProtocolMetrics";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
@@ -29,6 +28,7 @@ import { LearnAboutOhm } from "src/views/MyBalances/LearnAboutOhm";
 import { MyCoolerLoans } from "src/views/MyBalances/MyCoolerLoans";
 import { MyGohmBalances } from "src/views/MyBalances/MyGohmBalances";
 import { MyOhmBalances } from "src/views/MyBalances/MyOhmBalances";
+import { usePriceContractPrice } from "src/views/Range/hooks";
 import { useAccount, useNetwork } from "wagmi";
 
 /**
@@ -42,7 +42,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const { address } = useAccount();
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
-  const ohmPrice = useOhmPrice({}) || 0;
+  const { data: ohmPrice = 0 } = usePriceContractPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
@@ -52,6 +52,7 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
   const ohmBalances = useOhmBalance();
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
     factoryAddress: clearingHouseV1?.factory,
@@ -66,15 +67,23 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
     debtAddress: clearingHouseV2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
+  const { data: coolerAddressV3 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
 
   const { data: coolerV1Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV1 });
   const { data: coolerV2Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV2 });
+  const { data: coolerV3Balance } = useGetCoolerBalance({ coolerAddress: coolerAddressV3 });
 
   const ohmTokens = isTestnet(chain.id)
     ? [ohmBalances[NetworkId.TESTNET_GOERLI].data, ohmBalances[NetworkId.ARBITRUM_GOERLI].data]
     : [ohmBalances[NetworkId.MAINNET].data, ohmBalances[NetworkId.ARBITRUM].data];
 
-  const coolerTokens = [coolerV1Balance, coolerV2Balance];
+  const coolerTokens = [coolerV1Balance, coolerV2Balance, coolerV3Balance];
 
   const gohmTokens = [
     gohmBalances[networks.MAINNET].data,
@@ -176,9 +185,6 @@ export const MyBalances: FC<OHMAssetsProps> = () => {
                         />
                       </Box>
                     </Box>
-                  </Grid>
-                  <Grid item xs={6} sm={4}>
-                    <Metric label="OHM Price" metric={ohmPrice ? formatCurrency(ohmPrice, 2) : <Skeleton />} />
                   </Grid>
                 </Grid>
                 <Box display="flex" flexDirection="row" justifyContent="space-between"></Box>

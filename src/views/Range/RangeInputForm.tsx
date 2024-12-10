@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, SvgIcon } from "@mui/material";
 import { SwapCollection } from "@olympusdao/component-library";
 import { OHMTokenProps, SwapCard } from "@olympusdao/component-library";
 import React from "react";
+import usdsIcon from "src/assets/tokens/usds.svg?react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-
 /**
  * Component for Displaying RangeInputForm
  */
@@ -36,22 +36,33 @@ const RangeInputForm = (props: {
   const trimmedOhmBalance = ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance.toString({ decimals: 2 });
 
-  const ReserveInput = () => (
-    <SwapCard
-      key="reserveAmount"
-      id="reserve-amount"
-      inputProps={{ "data-testid": "reserve-amount" }}
-      name="reserveAmount"
-      value={reserveAmount}
-      onChange={event => onChangeReserveAmount(event.currentTarget.value)}
-      endString={`Max`}
-      endStringOnClick={() => hasPrice && onChangeReserveAmount(reserveBalance.toString())}
-      token={reserveSymbol}
-      type="string"
-      info={`Balance: ${trimmedReserveBalance} ${reserveSymbol}`}
-      disabled={!hasPrice}
-    />
-  );
+  const ReserveInput = () => {
+    const token =
+      reserveSymbol === ("USDS" as OHMTokenProps["name"]) ? (
+        <Box display="flex" gap="9px" alignItems="center">
+          <SvgIcon color="primary" sx={{ width: "20px", height: "20px" }} viewBox="0 0 50 50" component={usdsIcon} />
+          USDS
+        </Box>
+      ) : (
+        reserveSymbol
+      );
+    return (
+      <SwapCard
+        key="reserveAmount"
+        id="reserve-amount"
+        inputProps={{ "data-testid": "reserve-amount" }}
+        name="reserveAmount"
+        value={reserveAmount}
+        onChange={event => onChangeReserveAmount(event.currentTarget.value)}
+        endString={`Max`}
+        endStringOnClick={() => hasPrice && onChangeReserveAmount(reserveBalance.toString())}
+        token={token}
+        type="string"
+        info={`Balance: ${trimmedReserveBalance} ${reserveSymbol}`}
+        disabled={!hasPrice}
+      />
+    );
+  };
 
   const OhmInput = () => (
     <SwapCard

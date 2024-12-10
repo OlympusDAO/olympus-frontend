@@ -19,6 +19,8 @@ export const useGetDefillamaPrice = ({ addresses }: { addresses: string[] }) => 
         const response = await axios.get<DefillamaPriceResponse>(
           `https://coins.llama.fi/prices/current/${joinedAddresses}`,
         );
+
+        console.log("coins", response.data.coins);
         return response.data.coins;
       } catch (error) {
         return {};

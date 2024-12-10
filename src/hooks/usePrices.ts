@@ -5,6 +5,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { usePriceContractPrice } from "src/views/Range/hooks";
 
 export const ohmPriceQueryKey = () => ["useOhmPrice"];
 
@@ -27,6 +28,25 @@ export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: DecimalBi
  */
 export const useGohmPrice = () => {
   const { data: ohmPrice } = useOhmPrice();
+  const { data: currentIndex } = useCurrentIndex();
+
+  const key = gohmPriceQueryKey(ohmPrice, currentIndex);
+  return useQuery<number, Error>(
+    [key],
+    async () => {
+      queryAssertion(ohmPrice && currentIndex, key);
+
+      return currentIndex.toApproxNumber() * ohmPrice;
+    },
+    { enabled: !!ohmPrice && !!currentIndex },
+  );
+};
+
+/**
+ * Returns the calculated price of gOHM.
+ */
+export const useGohmPriceContract = () => {
+  const { data: ohmPrice } = usePriceContractPrice();
   const { data: currentIndex } = useCurrentIndex();
 
   const key = gohmPriceQueryKey(ohmPrice, currentIndex);
