@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
+import { OHM_ADDRESSES, USDS_ADDRESSES } from "src/constants/addresses";
 import { formatNumber, parseBigNumber } from "src/helpers";
 import CountdownTimer from "src/helpers/CountdownTimer";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -24,11 +24,12 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import {
   DetermineRangePrice,
   LastSnapshotPrice,
-  OperatorPrice,
   OperatorReserveSymbol,
   RangeBondMaxPayout,
   RangeData,
   RangeNextBeat,
+  usePriceContractPrice,
+  useRangeCheckActive,
 } from "src/views/Range/hooks";
 import RangeChart from "src/views/Range/RangeChart";
 import RangeConfirmationModal from "src/views/Range/RangeConfirmationModal";
@@ -46,6 +47,7 @@ export const Range = () => {
   const networks = useTestableNetworks();
   const { chain = { id: 1 } } = useNetwork();
   const { data: rangeData, isLoading: rangeDataLoading } = RangeData();
+  const { data: isActive } = useRangeCheckActive();
   usePathForNetwork({ pathName: "range", networkID: chain.id, navigate });
 
   const {
@@ -58,19 +60,19 @@ export const Range = () => {
   const [reserveAmount, setReserveAmount] = useState("");
   const [ohmAmount, setOhmAmount] = useState("");
 
-  const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(DAI_ADDRESSES)[networks.MAINNET];
+  const { data: reserveBalance = new DecimalBigNumber("0", 18) } = useBalance(USDS_ADDRESSES)[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useBalance(OHM_ADDRESSES)[networks.MAINNET];
 
-  const { data: currentPrice } = OperatorPrice();
+  const { data: currentPrice } = usePriceContractPrice();
   const { data: lastPrice } = LastSnapshotPrice();
   const { data: currentMarketPrices } = useGetDefillamaPrice({
-    addresses: [DAI_ADDRESSES[1], OHM_ADDRESSES[1]],
+    addresses: [USDS_ADDRESSES[1], OHM_ADDRESSES[1]],
   });
   const { data: nextBeat } = RangeNextBeat();
 
-  const daiPriceUSD = currentMarketPrices?.[`ethereum:${DAI_ADDRESSES[1]}`].price;
+  const usdsPriceUSD = currentMarketPrices?.[`ethereum:${USDS_ADDRESSES[1]}`].price;
   const ohmPriceUSD = currentMarketPrices?.[`ethereum:${OHM_ADDRESSES[1]}`].price;
-  const marketOhmPriceDAI = daiPriceUSD && ohmPriceUSD ? ohmPriceUSD / daiPriceUSD : undefined;
+  const marketOhmPriceUSDS = usdsPriceUSD && ohmPriceUSD ? ohmPriceUSD / usdsPriceUSD : undefined;
 
   const maxString = sellActive ? `Max You Can Sell` : `Max You Can Buy`;
 
@@ -112,12 +114,12 @@ export const Range = () => {
   // Set sell active if market price is defined and is below lower cushion OR if there is a active lower bond market.
   useEffect(() => {
     if (
-      (marketOhmPriceDAI && marketOhmPriceDAI < parseBigNumber(rangeData.low.cushion.price, 18)) ||
+      (marketOhmPriceUSDS && marketOhmPriceUSDS < parseBigNumber(rangeData.low.cushion.price, 18)) ||
       bidPrice.activeBondMarket
     ) {
       setSellActive(true);
     }
-  }, [rangeData.low.cushion.price, marketOhmPriceDAI]);
+  }, [rangeData.low.cushion.price, marketOhmPriceUSDS]);
 
   const maxBalanceString = `${formatNumber(maxCapacity, 2)} ${buyAsset}  (${formatNumber(
     sellActive ? maxCapacity / bidPrice.price : maxCapacity * askPrice.price,
@@ -146,7 +148,9 @@ export const Range = () => {
   const swapPriceFormatted = formatNumber(swapPrice, 2);
 
   const discount =
-    (marketOhmPriceDAI && (marketOhmPriceDAI - swapPrice) / (sellActive ? -marketOhmPriceDAI : marketOhmPriceDAI)) || 0;
+    (marketOhmPriceUSDS &&
+      (marketOhmPriceUSDS - swapPrice) / (sellActive ? -marketOhmPriceUSDS : marketOhmPriceUSDS)) ||
+    0;
 
   const hasPrice = (sellActive && askPrice.price) || (!sellActive && bidPrice.price) ? true : false;
 
@@ -164,7 +168,7 @@ export const Range = () => {
         name="Range Bound Stability"
         subtitle={
           <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
-            Swap DAI or OHM directly with the treasury.{" "}
+            Swap ${reserveSymbol} or OHM directly with the treasury.{" "}
             <Link
               component={RouterLink}
               to="https://docs.olympusdao.finance/main/overview/range-bound"
@@ -184,9 +188,9 @@ export const Range = () => {
           <>
             <Metric
               label="Market Price"
-              metric={`${formatNumber(marketOhmPriceDAI || 0, 2)} DAI`}
+              metric={`${formatNumber(marketOhmPriceUSDS || 0, 2)} ${reserveSymbol}`}
               tooltip="Market Price uses DefiLlama API, and is also used when calculating premium/discount on RBS"
-              isLoading={!marketOhmPriceDAI}
+              isLoading={!marketOhmPriceUSDS}
             />
             <Grid container>
               <Grid item xs={12} lg={6}>
@@ -232,6 +236,13 @@ export const Range = () => {
                       </Box>
                     </Box>
                   )}
+                  {!isActive && (
+                    <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
+                      <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                        <InfoNotification>RBS Operator is currently inactive</InfoNotification>
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
                 <form onSubmit={handleSubmit}>
                   <RangeInputForm
@@ -263,7 +274,7 @@ export const Range = () => {
                                 ? "premium"
                                 : "discount"}{" "}
                             of {formatNumber(Math.abs(discount) * 100, 2)}% relative to market price of{" "}
-                            {formatNumber(marketOhmPriceDAI || 0, 2)} {reserveSymbol}
+                            {formatNumber(marketOhmPriceUSDS || 0, 2)} {reserveSymbol}
                           </InfoNotification>
                         </Box>
                         <div data-testid="max-row">
@@ -308,7 +319,8 @@ export const Range = () => {
                                 amountAboveCapacity ||
                                 amountAboveBalance ||
                                 (sellActive && !rangeData.low.active) ||
-                                (!sellActive && !rangeData.high.active)
+                                (!sellActive && !rangeData.high.active) ||
+                                !isActive
                               }
                             >
                               {amountAboveCapacity
