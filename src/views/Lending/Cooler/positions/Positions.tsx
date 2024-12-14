@@ -19,6 +19,7 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
@@ -273,6 +274,17 @@ export const CoolerPositions = () => {
               >
                 Borrow {activeClearingHouse.debtAssetName} & Open Position
               </PrimaryButton>
+              {allLoans.length > 1 && (
+                <ConsolidateLoans
+                  v3CoolerAddress={coolerAddressV3 || ""}
+                  v2CoolerAddress={coolerAddressV2 || ""}
+                  v1CoolerAddress={coolerAddressV1 || ""}
+                  clearingHouseAddresses={clearingHouses}
+                  v1Loans={loansV1}
+                  v2Loans={loansV2}
+                  v3Loans={loansV3}
+                />
+              )}
             </Box>
           )}
         </>

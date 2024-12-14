@@ -17,6 +17,8 @@ export const useGetConsolidationAllowances = ({
   const provider = useProvider();
   const networks = useTestableNetworks();
 
+  console.log("useGetConsolidationAllowances", clearingHouseAddress, coolerAddress);
+
   const { data, isFetched, isLoading } = useQuery(
     ["useGetConsolidationAllowances", clearingHouseAddress, coolerAddress],
     async () => {
