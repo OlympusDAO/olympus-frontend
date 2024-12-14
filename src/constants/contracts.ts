@@ -6,11 +6,13 @@ import {
   BOND_FIXED_TERM_TELLER_ADDRESSES,
   COOLER_CLEARING_HOUSE_V1_ADDRESSES,
   COOLER_CLEARING_HOUSE_V2_ADDRESSES,
+  COOLER_CLEARING_HOUSE_V3_ADDRESSES,
   COOLER_CONSOLIDATION_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
   DEV_FAUCET,
   DISTRIBUTOR_ADDRESSES,
+  EMISSION_MANAGER_ADDRESSES,
   LIQUIDITY_REGISTRY_ADDRESSES,
   MIGRATOR_ADDRESSES,
   OLYMPUS_GOVERNANCE_ADDRESSES,
@@ -29,10 +31,12 @@ import {
   BondFixedExpiryTeller__factory,
   BondFixedTermTeller__factory,
   CoolerClearingHouse__factory,
+  CoolerClearingHouseV3__factory,
   CoolerConsolidation__factory,
   CrossChainBridge__factory,
   CrossChainBridgeTestnet__factory,
   CrossChainMigrator__factory,
+  EmissionManager__factory,
   OlympusGovernorBravo__factory,
   OlympusLiquidityRegistry__factory,
   OlympusProV2__factory,
@@ -167,6 +171,12 @@ export const COOLER_CLEARING_HOUSE_CONTRACT_V2 = new Contract({
   addresses: COOLER_CLEARING_HOUSE_V2_ADDRESSES,
 });
 
+export const COOLER_CLEARING_HOUSE_CONTRACT_V3 = new Contract({
+  factory: CoolerClearingHouseV3__factory,
+  name: "Cooler Clearing House Contract V3",
+  addresses: COOLER_CLEARING_HOUSE_V3_ADDRESSES,
+});
+
 export const GOVERNANCE_CONTRACT = new Contract({
   factory: OlympusGovernorBravo__factory,
   name: "Governance Contract",
@@ -177,4 +187,10 @@ export const COOLER_CONSOLIDATION_CONTRACT = new Contract({
   factory: CoolerConsolidation__factory,
   name: "Cooler Consolidation Utils",
   addresses: COOLER_CONSOLIDATION_ADDRESSES,
+});
+
+export const EMISSION_MANAGER_CONTRACT = new Contract({
+  factory: EmissionManager__factory,
+  name: "Emissions Manager",
+  addresses: EMISSION_MANAGER_ADDRESSES,
 });

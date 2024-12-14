@@ -4,9 +4,7 @@ import { ethers } from "ethers";
 import { Link as RouterLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { formatCurrency } from "src/helpers";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useGohmPriceContract } from "src/hooks/usePrices";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useAccount } from "wagmi";
@@ -14,12 +12,11 @@ import { useAccount } from "wagmi";
 export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanceUSD: string }) => {
   const theme = useTheme();
   const { address } = useAccount();
-  const { data: ohmPrice = 0 } = useOhmPrice();
-  const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
-  const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
+  const { data: gOhmPrice = 0 } = useGohmPriceContract();
 
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
 
   const { data: v1Loans, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
@@ -34,8 +31,14 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
     collateralAddress: clearingHouseV2?.collateralAddress,
     debtAddress: clearingHouseV2?.debtAddress,
   });
+  const { data: v3Loans, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
+    walletAddress: address,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
+  });
 
-  const loans = [...(v1Loans || []), ...(v2Loans || [])];
+  const loans = [...(v1Loans || []), ...(v2Loans || []), ...(v3Loans || [])];
 
   const sortedLoans = loans
     .slice()

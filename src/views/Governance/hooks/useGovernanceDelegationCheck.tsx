@@ -11,6 +11,7 @@ export const useGovernanceDelegationCheck = () => {
 
   const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
   const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
+  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
     factoryAddress: clearingHouseV1?.factory,
@@ -25,9 +26,17 @@ export const useGovernanceDelegationCheck = () => {
     debtAddress: clearingHouseV2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
+  const { data: coolerAddressV3 } = useGetCoolerForWallet({
+    walletAddress: address,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
   const { data: gOHMDelegationAddress } = useCheckDelegation({ address });
   const { data: coolerV1DelegationAddress } = useCheckDelegation({ address: coolerAddressV1 });
   const { data: coolerV2DelegationAddress } = useCheckDelegation({ address: coolerAddressV2 });
+  const { data: coolerV3DelegationAddress } = useCheckDelegation({ address: coolerAddressV3 });
 
   const { data: gohmCoolerV2Balance } = useBalance({
     address: coolerAddressV2 as `0x${string}`,
@@ -45,10 +54,12 @@ export const useGovernanceDelegationCheck = () => {
     gOHMDelegationAddress,
     coolerV1DelegationAddress,
     coolerV2DelegationAddress,
+    coolerV3DelegationAddress,
     gohmBalance,
     gohmCoolerV1Balance,
     gohmCoolerV2Balance,
     coolerAddressV1,
     coolerAddressV2,
+    coolerAddressV3,
   };
 };

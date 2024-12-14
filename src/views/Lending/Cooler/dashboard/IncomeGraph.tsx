@@ -25,8 +25,7 @@ export const IncomeGraph = ({ startDate }: { startDate?: Date }) => {
       return;
     }
 
-    // Sort in descending order
-    data.sort((a, b) => b.timestamp - a.timestamp);
+    // Cache. Already sorted in descending order.
     setCoolerSnapshots(data);
   }, [data]);
 

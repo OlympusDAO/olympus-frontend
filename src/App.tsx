@@ -33,6 +33,7 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import { BondModalContainer } from "src/views/Bond/components/BondModal/BondModal";
 import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondModalContainerV3";
+import { Emission } from "src/views/Emission";
 import { Governance } from "src/views/Governance";
 import { Delegate } from "src/views/Governance/Delegation";
 import { ProposalPage } from "src/views/Governance/Proposals";
@@ -251,6 +252,7 @@ function App() {
                   <Route path="/bonds/inverse" element={<Bond />} />
                   <Route path="/bridge" element={<Bridge />} />
                   <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+                  <Route path="/emission" element={<Emission />} />
                   <Route path="/range/*" element={<Range />} />
                   <Route path="/liquidity/vaults/:id" element={<Vault />} />
                   <Route path="/lending" element={<Navigate to="/lending/cooler" />} />

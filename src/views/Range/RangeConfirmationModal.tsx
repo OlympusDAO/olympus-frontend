@@ -84,7 +84,9 @@ const RangeConfirmationModal = (props: {
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Price of OHM</Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
-            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>{props.swapPrice} DAI</Typography>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+              {props.swapPrice} {props.reserveSymbol}
+            </Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>

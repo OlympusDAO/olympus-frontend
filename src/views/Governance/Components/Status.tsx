@@ -55,10 +55,12 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
                 <Typography fontWeight="500">Queued for Execution</Typography>
               </div>
             )}
-            <div>
-              <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
-              <Typography fontWeight="500">Estimated Execution Time</Typography>
-            </div>
+            {proposalDetails.etaDate && (
+              <div>
+                <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
+                <Typography fontWeight="500">Estimated Execution Time</Typography>
+              </div>
+            )}
           </>
         )}
         {proposalDetails?.status === "Expired" && (
@@ -69,10 +71,12 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
                 <Typography fontWeight="500">Queued for Execution</Typography>
               </div>
             )}
-            <div>
-              <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
-              <Typography fontWeight="500">Execution Expired</Typography>
-            </div>
+            {proposalDetails.etaDate && (
+              <div>
+                <Typography fontSize="12px">{proposalDetails.etaDate.toLocaleString()}</Typography>
+                <Typography fontWeight="500">Execution Expired</Typography>
+              </div>
+            )}
           </>
         )}
         {proposalDetails?.status === "Executed" && (

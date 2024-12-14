@@ -118,12 +118,14 @@ export const BridgeConfirmModal = (props: {
                   {props.amountExceedsBalance
                     ? "Amount exceeds balance"
                     : !props.amount || parseFloat(props.amount) === 0
-                    ? "Enter an amount"
-                    : !isValidAddress
-                    ? `Invalid recipient address: ${shorten(props.recipientAddress)}`
-                    : props.bridgeMutation.isLoading
-                    ? "Confirming Bridging in your wallet"
-                    : `Bridge OHM to ${BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name}`}
+                      ? "Enter an amount"
+                      : !isValidAddress
+                        ? `Invalid recipient address: ${shorten(props.recipientAddress)}`
+                        : props.bridgeMutation.isLoading
+                          ? "Confirming Bridging in your wallet"
+                          : `Bridge OHM to ${
+                              BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name
+                            }`}
                 </PrimaryButton>
               </>
             </TokenAllowanceGuard>

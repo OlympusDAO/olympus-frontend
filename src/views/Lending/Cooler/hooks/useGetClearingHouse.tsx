@@ -1,15 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { COOLER_CLEARING_HOUSE_CONTRACT_V1, COOLER_CLEARING_HOUSE_CONTRACT_V2 } from "src/constants/contracts";
+import {
+  COOLER_CLEARING_HOUSE_CONTRACT_V1,
+  COOLER_CLEARING_HOUSE_CONTRACT_V2,
+  COOLER_CLEARING_HOUSE_CONTRACT_V3,
+} from "src/constants/contracts";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { ERC4626__factory } from "src/typechain";
+import { CoolerClearingHouse, CoolerClearingHouseV3, ERC4626__factory, IERC20__factory } from "src/typechain";
 import { useProvider } from "wagmi";
 
-export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearingHouseV1" | "clearingHouseV2" }) => {
+export const useGetClearingHouse = ({
+  clearingHouse,
+}: {
+  clearingHouse: "clearingHouseV1" | "clearingHouseV2" | "clearingHouseV3";
+}) => {
   const networks = useTestableNetworks();
   const provider = useProvider();
   const clearingHouseContract =
-    clearingHouse === "clearingHouseV1" ? COOLER_CLEARING_HOUSE_CONTRACT_V1 : COOLER_CLEARING_HOUSE_CONTRACT_V2;
+    clearingHouse === "clearingHouseV1"
+      ? COOLER_CLEARING_HOUSE_CONTRACT_V1
+      : clearingHouse === "clearingHouseV2"
+        ? COOLER_CLEARING_HOUSE_CONTRACT_V2
+        : COOLER_CLEARING_HOUSE_CONTRACT_V3;
   const contract = clearingHouseContract.getEthersContract(networks.MAINNET);
   const { data, isFetched, isLoading } = useQuery(["getClearingHouse", networks.MAINNET, clearingHouse], async () => {
     const factory = await contract.factory();
@@ -17,16 +30,22 @@ export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearin
     const duration = (await contract.DURATION()).div(86400).toString(); // 86400 seconds in a day
     const loanToCollateral = ethers.utils.formatUnits((await contract.LOAN_TO_COLLATERAL()).toString()); // 1.5 = 150% LTV (Loan to Value Ratio
     const collateralAddress = await contract.gohm();
-    const debtAddress = await contract.dai();
-    const sdai = await contract.sdai();
-    const sdaiContract = ERC4626__factory.connect(sdai, provider);
-    const sdaiBalanceClearingHouse = await sdaiContract.balanceOf(contract.address); //shares held by clearinghouse
-    // const sdaiBalanceTreasury = await sdaiContract.balanceOf(treasury); //shares held by treasury
-    const daiBalanceClearingHouse = await sdaiContract.convertToAssets(sdaiBalanceClearingHouse);
-    // const daiBalanceTreasury = await sdaiContract.convertToAssets(sdaiBalanceTreasury);
-
-    // const daiBalance = daiBalanceClearingHouse.add(daiBalanceTreasury);
+    let debtAddress: string;
+    let sReserveAddress: string;
+    if (clearingHouse === "clearingHouseV3") {
+      debtAddress = await (contract as CoolerClearingHouseV3).reserve();
+      sReserveAddress = await (contract as CoolerClearingHouseV3).sReserve();
+    } else {
+      debtAddress = await (contract as CoolerClearingHouse).dai();
+      sReserveAddress = await (contract as CoolerClearingHouse).sdai();
+    }
+    const debtContract = IERC20__factory.connect(debtAddress, Providers.getStaticProvider(networks.MAINNET));
+    const debtAssetName = await debtContract.symbol();
+    const sReserveContract = ERC4626__factory.connect(sReserveAddress, provider);
+    const sReserveBalanceClearingHouse = await sReserveContract.balanceOf(contract.address); //shares held by clearinghouse
+    const reserveBalanceClearingHouse = await sReserveContract.convertToAssets(sReserveBalanceClearingHouse);
     const clearingHouseAddress = contract.address;
+    const isActive = await contract.isActive();
 
     return {
       interestRate,
@@ -35,8 +54,10 @@ export const useGetClearingHouse = ({ clearingHouse }: { clearingHouse: "clearin
       factory,
       collateralAddress,
       debtAddress,
-      capacity: daiBalanceClearingHouse,
+      capacity: reserveBalanceClearingHouse,
       clearingHouseAddress,
+      debtAssetName,
+      isActive,
     };
   });
   return { data, isFetched, isLoading };

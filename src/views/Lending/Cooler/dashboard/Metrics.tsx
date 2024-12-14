@@ -2,12 +2,11 @@ import { Skeleton } from "@mui/material";
 import { Metric } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { useMemo, useState } from "react";
-import { SnapshotLoansStatus } from "src/generated/coolerLoans";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   getTotalCapacity,
   useCoolerSnapshot,
-  useCoolerSnapshotLatest,
+  useCurrentCoolerSnapshot,
 } from "src/views/Lending/Cooler/hooks/useSnapshot";
 
 export const CumulativeInterestIncome = ({ startDate }: { startDate?: Date }) => {
@@ -61,13 +60,13 @@ export const CumulativeCollateralIncome = ({ startDate }: { startDate?: Date }) 
       label="Income From Defaults"
       metric={cumulativeCollateralIncome !== undefined ? formatCurrency(cumulativeCollateralIncome, 0, "USD") : ""}
       isLoading={cumulativeCollateralIncome === undefined}
-      tooltip="The value of collateral reclaimed due to defaults during the selected time period"
+      tooltip="The residual value of collateral (collateral value - outstanding principal) reclaimed due to defaults during the selected time period"
     />
   );
 };
 
 export const CollateralDeposited = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
@@ -79,7 +78,7 @@ export const CollateralDeposited = () => {
 };
 
 export const OutstandingPrincipal = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
@@ -91,33 +90,49 @@ export const OutstandingPrincipal = () => {
   );
 };
 
-export const WeeklyCapacityRemaining = ({ capacity }: { capacity?: BigNumber }) => {
+export const WeeklyCapacityRemaining = ({
+  capacity,
+  reserveAsset,
+}: {
+  capacity?: BigNumber;
+  reserveAsset?: string;
+}) => {
   return (
     <Metric
       label="Weekly Capacity Remaining"
-      metric={capacity ? formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, "DAI") : <Skeleton />}
+      metric={
+        capacity && reserveAsset ? (
+          formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, reserveAsset)
+        ) : (
+          <Skeleton />
+        )
+      }
       isLoading={capacity === undefined}
     />
   );
 };
 
 export const TotalCapacityRemaining = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   return (
     <Metric
       label="Total Capacity Remaining"
       metric={formatCurrency(getTotalCapacity(latestSnapshot), 0, "DAI")}
       isLoading={latestSnapshot === undefined}
-      tooltip={`The capacity remaining is the sum of the DAI and sDAI in the clearinghouse and treasury. As of the latest snapshot, the values (in DAI) are:
+      tooltip={`The capacity remaining is the sum of the DAI/sDAI and USDS/sUSDS in the clearinghouse and treasury. As of the latest snapshot, the values are:
 
 Clearinghouse:
-DAI: ${formatCurrency(latestSnapshot?.clearinghouse?.daiBalance || 0, 0, "DAI")}
-sDAI: ${formatCurrency(latestSnapshot?.clearinghouse?.sDaiInDaiBalance || 0, 0, "DAI")}
+DAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.daiBalance || 0, 0, "DAI")}
+sDAI: ${formatCurrency(latestSnapshot?.clearinghouseTotals.sDaiInDaiBalance || 0, 0, "DAI")}
+USDS: ${formatCurrency(latestSnapshot?.clearinghouseTotals.usdsBalance || 0, 0, "USDS")}
+sUSDS: ${formatCurrency(latestSnapshot?.clearinghouseTotals.sUsdsInUsdsBalance || 0, 0, "USDS")}
 
 Treasury:
 DAI: ${formatCurrency(latestSnapshot?.treasury?.daiBalance || 0, 0, "DAI")}
-sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI")}`}
+sDAI: ${formatCurrency(latestSnapshot?.treasury?.sDaiInDaiBalance || 0, 0, "DAI")}
+USDS: ${formatCurrency(latestSnapshot?.treasury?.usdsBalance || 0, 0, "USDS")}
+sUSDS: ${formatCurrency(latestSnapshot?.treasury?.sUsdsInUsdsBalance || 0, 0, "USDS")}`}
     />
   );
 };
@@ -129,7 +144,7 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
     throw new Error("Invalid days");
   }
 
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   const [principalMaturing, setPrincipalMaturing] = useState<number | undefined>();
   useMemo(() => {
@@ -139,12 +154,12 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
     }
 
     if (days == 30) {
-      setPrincipalMaturing(latestSnapshot.expiryBuckets["30Days"]);
+      setPrincipalMaturing(latestSnapshot.expiryBuckets.days30);
       return;
     }
 
     if (days == 121) {
-      setPrincipalMaturing(latestSnapshot.expiryBuckets["121Days"]);
+      setPrincipalMaturing(latestSnapshot.expiryBuckets.days121);
       return;
     }
 
@@ -153,7 +168,7 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
 
   return (
     <Metric
-      label={`Principal Maturing in < ${days} ${days == 1 ? "Day" : "Days"}`}
+      label={`Principal Maturing in < ${days} Days`}
       metric={formatCurrency(principalMaturing || 0, 0, "DAI")}
       isLoading={latestSnapshot === undefined}
       tooltip={`The value of principal that will mature in more than ${previousBucket} days but less than ${days} days`}
@@ -161,39 +176,8 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
   );
 };
 
-export const PrincipalExpired = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
-
-  const [principalExpired, setPrincipalExpired] = useState<number | undefined>();
-  useMemo(() => {
-    if (!latestSnapshot) {
-      setPrincipalExpired(undefined);
-      return;
-    }
-
-    let _principalExpired = 0;
-    for (const loan of Object.values(latestSnapshot.loans)) {
-      if (loan.status != SnapshotLoansStatus.Expired) {
-        continue;
-      }
-
-      _principalExpired += loan.principal;
-    }
-
-    setPrincipalExpired(_principalExpired);
-  }, [latestSnapshot]);
-
-  return (
-    <Metric
-      label="Principal Expired"
-      metric={formatCurrency(principalExpired || 0, 0, "DAI")}
-      isLoading={latestSnapshot === undefined}
-    />
-  );
-};
-
 export const BorrowRate = () => {
-  const { latestSnapshot } = useCoolerSnapshotLatest();
+  const { latestSnapshot } = useCurrentCoolerSnapshot();
 
   const [borrowRate, setBorrowRate] = useState<number | undefined>();
   useMemo(() => {

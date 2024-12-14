@@ -123,7 +123,9 @@ const RangeChart = (props: {
         <DataRow title="Wall" balance={formatCurrency(lowerWall, 2, reserveSymbol)} />
         <DataRow
           title="Capacity"
-          balance={`${capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18))} ${reserveSymbol} `}
+          balance={`${
+            rangeData.low.active ? capacityFormatter.format(parseBigNumber(rangeData.low.capacity, 18)) : 0
+          } ${reserveSymbol} `}
         />
         <Typography fontSize="15px" fontWeight={600} mt="33px">
           Upper Range
@@ -132,7 +134,9 @@ const RangeChart = (props: {
         <DataRow title="Wall" balance={formatCurrency(upperWall, 2, reserveSymbol)} />
         <DataRow
           title="Capacity"
-          balance={`${capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9))} OHM`}
+          balance={`${
+            rangeData.high.active ? capacityFormatter.format(parseBigNumber(rangeData.high.capacity, 9)) : 0
+          } OHM`}
         />
         {label === "now" && (
           <>

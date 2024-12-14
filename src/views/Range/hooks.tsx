@@ -15,8 +15,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { BondFixedTermSDA__factory, BondTeller__factory, IERC20__factory } from "src/typechain";
 import { RANGEv2 as OlympusRange } from "src/typechain/Range";
@@ -78,11 +76,11 @@ export const PriceHistory = () => {
 /**
  * Returns the current price of the Operator at the given address
  */
-export const OperatorPrice = () => {
+export const usePriceContractPrice = () => {
   const networks = useTestableNetworks();
 
   const contract = RANGE_PRICE_CONTRACT.getEthersContract(networks.MAINNET);
-  const { data, isFetched, isLoading } = useQuery(["getOperatorPrice", networks.MAINNET], async () => {
+  const { data, isFetched, isLoading } = useQuery(["getPriceContractPrice", networks.MAINNET], async () => {
     return parseBigNumber(await contract.getCurrentPrice(), 18);
   });
   return { data, isFetched, isLoading };
@@ -142,7 +140,7 @@ export const OperatorMovingAverage = () => {
  */
 export const OperatorReserveSymbol = () => {
   const networks = useTestableNetworks();
-  const contract = RANGE_CONTRACT.getEthersContract(networks.MAINNET);
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
   const {
     data = { symbol: "", reserveAddress: "" },
     isFetched,
@@ -250,7 +248,7 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
   const { data: lowerBondMarket } = useBondV3({ id: rangeData.low.market.toString(), isInverseBond: true });
 
   const {
-    data = { price: 0, contract: "swap", activeBondMarket: false },
+    data = { price: 0, contract: "swap", activeBondMarket: false, discount: undefined },
     isFetched,
     isLoading,
   } = useQuery(
@@ -296,45 +294,6 @@ export const DetermineRangePrice = (bidOrAsk: "bid" | "ask") => {
       }
     },
     { enabled: !!rangeData },
-  );
-
-  return { data, isFetched, isLoading };
-};
-
-export const DetermineRangeDiscount = (bidOrAsk: "bid" | "ask") => {
-  const { data: currentOhmPrice } = useOhmPrice();
-  const { data: reserveSymbol } = OperatorReserveSymbol();
-  const { data: rangeData } = RangeData();
-  const { data: bidOrAskPrice } = DetermineRangePrice(bidOrAsk);
-  const {
-    data = { discount: 0, quoteToken: "" },
-    isFetched,
-    isLoading,
-  } = useQuery(
-    ["getDetermineRangeDiscount", currentOhmPrice, bidOrAskPrice, reserveSymbol, bidOrAsk],
-    () => {
-      queryAssertion(currentOhmPrice);
-      const bondDiscount = bidOrAskPrice.discount ? bidOrAskPrice.discount : undefined;
-      const sellActive = bidOrAsk === "bid";
-      const swapWithOperator = sellActive
-        ? bidOrAskPrice.price < parseBigNumber(rangeData.low.wall.price, 18)
-        : bidOrAskPrice.price > parseBigNumber(rangeData.high.wall.price, 18);
-
-      const swapPrice = swapWithOperator
-        ? sellActive
-          ? parseBigNumber(rangeData.low.wall.price, 18)
-          : parseBigNumber(rangeData.high.wall.price, 18)
-        : sellActive
-          ? bidOrAskPrice.price
-          : bidOrAskPrice.price;
-      const discount =
-        bondDiscount && !swapWithOperator
-          ? bondDiscount
-          : (currentOhmPrice - swapPrice) / (sellActive ? -currentOhmPrice : currentOhmPrice);
-
-      return { discount, quoteToken: bidOrAsk === "ask" ? "OHM" : reserveSymbol.symbol };
-    },
-    { enabled: !!currentOhmPrice && !!bidOrAskPrice.price && !!reserveSymbol.symbol },
   );
 
   return { data, isFetched, isLoading };
@@ -442,6 +401,16 @@ export const RangeNextBeat = () => {
     //take the unix timestamp of the last observation time, add the observation frequency, and convert to date
     const nextBeat = new Date((lastObservationTime + observationFrequency) * 1000);
     return nextBeat;
+  });
+  return { data, isFetched, isLoading };
+};
+
+export const useRangeCheckActive = () => {
+  const networks = useTestableNetworks();
+  const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(networks.MAINNET);
+  const { data, isFetched, isLoading } = useQuery(["getRangeCheckActive", networks.MAINNET], async () => {
+    const active = await contract.active();
+    return active;
   });
   return { data, isFetched, isLoading };
 };

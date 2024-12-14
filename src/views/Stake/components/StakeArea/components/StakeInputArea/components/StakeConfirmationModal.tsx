@@ -170,14 +170,14 @@ const StakeConfirmationModal = (props: {
                     {props.amountExceedsBalance
                       ? "Amount exceeds balance"
                       : !props.amount || parseFloat(props.amount) === 0
-                      ? "Enter an amount"
-                      : props.currentAction === "STAKE"
-                      ? props.isMutating
-                        ? "Confirming Wrapping in your wallet"
-                        : "Wrap"
-                      : props.isMutating
-                      ? "Confirming Unwrapping in your wallet "
-                      : "Unwrap"}
+                        ? "Enter an amount"
+                        : props.currentAction === "STAKE"
+                          ? props.isMutating
+                            ? "Confirming Wrapping in your wallet"
+                            : "Wrap"
+                          : props.isMutating
+                            ? "Confirming Unwrapping in your wallet "
+                            : "Unwrap"}
                   </PrimaryButton>
                 </>
               )}
@@ -195,14 +195,14 @@ const StakeConfirmationModal = (props: {
                   {props.amountExceedsBalance
                     ? "Amount exceeds balance"
                     : !props.amount || parseFloat(props.amount) === 0
-                    ? "Enter an amount"
-                    : props.currentAction === "STAKE"
-                    ? props.isMutating
-                      ? "Confirming Wrapping in your wallet"
-                      : "Wrap to gOHM"
-                    : props.isMutating
-                    ? "Confirming Unwrapping in your wallet "
-                    : "Unwrap"}
+                      ? "Enter an amount"
+                      : props.currentAction === "STAKE"
+                        ? props.isMutating
+                          ? "Confirming Wrapping in your wallet"
+                          : "Wrap to gOHM"
+                        : props.isMutating
+                          ? "Confirming Unwrapping in your wallet "
+                          : "Unwrap"}
                 </PrimaryButton>
               )}
             </TokenAllowanceGuard>

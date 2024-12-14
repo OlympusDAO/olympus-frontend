@@ -42,7 +42,6 @@ export function shorten(str: string) {
 }
 
 export function formatCurrency(c: number, precision = 0, currency = "USD") {
-  console.log(c, precision, currency);
   const formatted = new Intl.NumberFormat("en-US", {
     style: currency === "USD" || currency === "" ? "currency" : undefined,
     currency: "USD",
@@ -50,7 +49,7 @@ export function formatCurrency(c: number, precision = 0, currency = "USD") {
     minimumFractionDigits: precision,
   }).format(c);
   if (currency === "OHM") return `${formatted} Ω`;
-  if (currency === "DAI") return `${formatted} DAI`;
+  if (currency) return `${formatted} ${currency}`;
   return formatted;
 }
 

@@ -91,7 +91,7 @@ This behavior is intended to prevent users from changing the outcome of a vote i
             )
           }
         >
-          {Number(votingWeight) > 0 ? "Cast Vote" : "No Voting Power"}
+          {Number(votingWeight) > 0 ? (castVote.isLoading ? "Casting Vote" : "Cast Vote") : "No Voting Power"}
         </PrimaryButton>
       </Box>
       <Typography fontSize="12px" textAlign="center" fontWeight="600">

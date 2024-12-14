@@ -1,4 +1,4 @@
-import { Box, Link, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Link, Tab, Tabs } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
@@ -10,19 +10,16 @@ import { CoolerPositions } from "src/views/Lending/Cooler/positions/Positions";
 const PARAM_TAB = "tab";
 
 export const Cooler = () => {
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState<string | undefined>(undefined);
   const [searchParams] = useSearchParams();
+  const queryTab = searchParams.get(PARAM_TAB);
 
   // When the page loads, this causes the tab to be set to the correct value
   useEffect(() => {
-    const queryTab = searchParams.get(PARAM_TAB);
-    setTabIndex(queryTab ? (queryTab === "metrics" ? 1 : 0) : 0);
-  }, [searchParams]);
+    setTabIndex(queryTab === "metrics" ? "metrics" : "positions");
+  }, [queryTab]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
 
@@ -36,7 +33,7 @@ export const Cooler = () => {
         name="Cooler Loans"
         subtitle={
           <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
-            Borrow DAI against your gOHM collateral.{" "}
+            Borrow against your gOHM collateral.{" "}
             <Link
               component={RouterLink}
               to="https://docs.olympusdao.finance/main/overview/cooler-loans"
@@ -63,12 +60,12 @@ export const Cooler = () => {
           //hides the tab underline sliding animation in while <Zoom> is loading
           TabIndicatorProps={{ style: { display: "none" } }}
         >
-          <Tab label="Positions" href={`#/lending/cooler?${getSearchParamsWithTab(0)}`} />
-          <Tab label="Metrics" href={`#/lending/cooler?${getSearchParamsWithTab(1)}`} />
+          <Tab label="Positions" href={`#/lending/cooler?${getSearchParamsWithTab(0)}`} value="positions" />
+          <Tab label="Metrics" href={`#/lending/cooler?${getSearchParamsWithTab(1)}`} value="metrics" />
         </Tabs>
 
-        {tabIndex === 0 && <CoolerPositions />}
-        {tabIndex === 1 && <CoolerDashboard />}
+        {tabIndex === "positions" && <CoolerPositions />}
+        {tabIndex === "metrics" && <CoolerDashboard />}
       </Box>
     </div>
   );
