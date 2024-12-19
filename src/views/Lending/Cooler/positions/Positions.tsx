@@ -123,7 +123,7 @@ export const CoolerPositions = () => {
   };
 
   console.log(allLoans, isFetchedLoansV1, isFetchedLoansV2, isFetchedLoansV3, address);
-
+  console.log(coolerAddressV1, coolerAddressV2, coolerAddressV3);
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>

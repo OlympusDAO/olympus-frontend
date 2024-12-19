@@ -100,10 +100,12 @@ export const ConsolidateLoans = ({
     { principal: BigNumber.from(0), interest: BigNumber.from(0), collateral: BigNumber.from(0) },
   );
   const { data: allowances } = useGetConsolidationAllowances({
-    clearingHouseAddress: selectedClearingHouse.clearingHouseAddress,
+    clearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
     coolerAddress,
     loanIds,
   });
+
+  console.log(allowances, "allowances");
   const maturityDate = new Date();
   maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
   const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
