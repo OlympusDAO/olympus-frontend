@@ -11,6 +11,7 @@ import { formatNumber } from "src/helpers";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
+import { useCheckConsolidatorActive } from "src/views/Lending/Cooler/hooks/useCheckConsolidatorActive";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
 import { useCreateCooler } from "src/views/Lending/Cooler/hooks/useCreateCooler";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
@@ -41,6 +42,7 @@ export const ConsolidateLoans = ({
   factoryAddress: string;
 }) => {
   const coolerMutation = useConsolidateCooler();
+  const { data: consolidatorActive } = useCheckConsolidatorActive();
   const createCooler = useCreateCooler();
   const networks = useTestableNetworks();
   const [open, setOpen] = useState(false);
@@ -84,7 +86,7 @@ export const ConsolidateLoans = ({
       : selectedVersion === "v2"
         ? clearingHouseAddresses.v2
         : clearingHouseAddresses.v3;
-  const duration = 121; // Standard duration for consolidated loans
+  const duration = clearingHouseAddresses.v3.duration; // Standard duration for consolidated loans
   const debtAddress = clearingHouseAddresses.v3.debtAddress;
 
   // Show button only if there are loans that can be consolidated
@@ -149,11 +151,13 @@ export const ConsolidateLoans = ({
 
   if (!showConsolidateButton) return null;
 
-  console.log(allowances, "allowances");
-
   return (
     <>
-      <PrimaryButton onClick={() => setOpen(!open)}>Consolidate Loans</PrimaryButton>
+      {consolidatorActive && (
+        <PrimaryButton onClick={() => setOpen(!open)}>
+          Consolidate Loans to {clearingHouseAddresses.v3.debtAssetName}
+        </PrimaryButton>
+      )}
       <Modal
         maxWidth="476px"
         minHeight="200px"

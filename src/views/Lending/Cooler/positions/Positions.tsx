@@ -274,22 +274,26 @@ export const CoolerPositions = () => {
               >
                 Borrow {activeClearingHouse.debtAssetName} & Open Position
               </PrimaryButton>
-              {allLoans.length > 1 && clearingHouses.v1 && clearingHouses.v2 && clearingHouses.v3 && (
-                <ConsolidateLoans
-                  v3CoolerAddress={coolerAddressV3 || ""}
-                  v2CoolerAddress={coolerAddressV2 || ""}
-                  v1CoolerAddress={coolerAddressV1 || ""}
-                  clearingHouseAddresses={{
-                    v1: clearingHouses.v1,
-                    v2: clearingHouses.v2,
-                    v3: clearingHouses.v3,
-                  }}
-                  v1Loans={loansV1}
-                  v2Loans={loansV2}
-                  v3Loans={loansV3}
-                  factoryAddress={clearingHouses.v3.factory}
-                />
-              )}
+              {allLoans.length > 1 ||
+                (((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) &&
+                  clearingHouses.v1 &&
+                  clearingHouses.v2 &&
+                  clearingHouses.v3 && (
+                    <ConsolidateLoans
+                      v3CoolerAddress={coolerAddressV3 || ""}
+                      v2CoolerAddress={coolerAddressV2 || ""}
+                      v1CoolerAddress={coolerAddressV1 || ""}
+                      clearingHouseAddresses={{
+                        v1: clearingHouses.v1,
+                        v2: clearingHouses.v2,
+                        v3: clearingHouses.v3,
+                      }}
+                      v1Loans={loansV1}
+                      v2Loans={loansV2}
+                      v3Loans={loansV3}
+                      factoryAddress={clearingHouses.v3.factory}
+                    />
+                  ))}
             </Box>
           )}
         </>
