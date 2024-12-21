@@ -101,11 +101,10 @@ export const ConsolidateLoans = ({
   );
   const { data: allowances } = useGetConsolidationAllowances({
     clearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
-    coolerAddress,
+    coolerAddress: coolerAddress || "",
     loanIds,
   });
 
-  console.log(allowances, "allowances");
   const maturityDate = new Date();
   maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
   const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
@@ -128,10 +127,13 @@ export const ConsolidateLoans = ({
   };
 
   const handleConsolidate = () => {
+    if (!coolerAddress || !v3CoolerAddress) return;
     coolerMutation.mutate(
       {
-        coolerAddress,
-        clearingHouseAddress: selectedClearingHouse.clearingHouseAddress,
+        fromCoolerAddress: coolerAddress,
+        toCoolerAddress: v3CoolerAddress,
+        fromClearingHouseAddress: selectedClearingHouse.clearingHouseAddress,
+        toClearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
         loanIds,
       },
       {
