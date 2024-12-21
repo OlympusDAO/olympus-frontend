@@ -37,7 +37,7 @@ export const useConsolidateCooler = () => {
         toCoolerAddress,
         loanIds,
         {
-          gasLimit: loanIds.length <= 30 ? loanIds.length * 1000000 : 30000000,
+          gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
         },
       );
       const receipt = await cooler.wait();

@@ -84,8 +84,8 @@ export const ConsolidateLoans = ({
       : selectedVersion === "v2"
         ? clearingHouseAddresses.v2
         : clearingHouseAddresses.v3;
-  const duration = 90; // Standard duration for consolidated loans
-  const debtAddress = selectedClearingHouse.debtAddress;
+  const duration = 121; // Standard duration for consolidated loans
+  const debtAddress = clearingHouseAddresses.v3.debtAddress;
 
   // Show button only if there are loans that can be consolidated
   const showConsolidateButton = hasV1Loans || hasV2Loans || hasMultipleV3Loans;
@@ -184,8 +184,8 @@ export const ConsolidateLoans = ({
             <>
               <InfoNotification>
                 All existing open loans for this Cooler and Clearinghouse will be repaid and consolidated into a new
-                loan with a {duration} day duration. You must hold enough {selectedClearingHouse.debtAssetName} in your
-                wallet to cover the interest owed at consolidation.
+                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} in
+                your wallet to cover the interest owed at consolidation.
               </InfoNotification>
               <Box
                 display="flex"
@@ -227,7 +227,8 @@ export const ConsolidateLoans = ({
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Owed At Consolidation</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
                   <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {formatNumber(parseFloat(formatEther(totals.interest)), 4)} {selectedClearingHouse.debtAssetName}
+                    {formatNumber(parseFloat(formatEther(totals.interest)), 4)}{" "}
+                    {clearingHouseAddresses.v3.debtAssetName}
                   </Typography>
                 </Box>
               </Box>
@@ -275,14 +276,14 @@ export const ConsolidateLoans = ({
                 </PrimaryButton>
               ) : (
                 <TokenAllowanceGuard
-                  tokenAddressMap={{ [NetworkId.MAINNET]: selectedClearingHouse.debtAddress }}
+                  tokenAddressMap={{ [NetworkId.MAINNET]: clearingHouseAddresses.v3.debtAddress }}
                   spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
                   isVertical
                   message={
-                    <>Approve {selectedClearingHouse.debtAssetName} for Spending on the Consolidation Contract</>
+                    <>Approve {clearingHouseAddresses.v3.debtAssetName} for Spending on the Consolidation Contract</>
                   }
                   spendAmount={allowances?.totalDebtWithFee}
-                  approvalText={`Approve ${selectedClearingHouse.debtAssetName} for Spending`}
+                  approvalText={`Approve ${clearingHouseAddresses.v3.debtAssetName} for Spending`}
                 >
                   <TokenAllowanceGuard
                     tokenAddressMap={GOHM_ADDRESSES}
@@ -307,7 +308,7 @@ export const ConsolidateLoans = ({
           ) : (
             <PrimaryButton disabled fullWidth>
               {insufficientCollateral
-                ? `Insufficient ${selectedClearingHouse.debtAssetName} Balance`
+                ? `Insufficient ${clearingHouseAddresses.v3.debtAssetName} Balance`
                 : "Select loans to consolidate"}
             </PrimaryButton>
           )}
