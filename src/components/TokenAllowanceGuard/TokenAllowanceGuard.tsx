@@ -120,7 +120,7 @@ export const TokenAllowanceGuard: React.FC<{
               loading={approveMutation.isLoading}
               fullWidth
               className=""
-              onClick={() => approveMutation.mutate({ spenderAddressMap })}
+              onClick={() => approveMutation.mutate({ spenderAddressMap, spendAmount })}
               disabled={approveMutation.isLoading}
             >
               {approveMutation.isLoading ? `${approvalPendingText}` : `${approvalText}`}
