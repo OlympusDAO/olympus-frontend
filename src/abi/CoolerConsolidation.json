@@ -1,434 +1,579 @@
 {
   "abi": [
     {
-      "type": "constructor",
       "inputs": [
         {
-          "name": "gohm_",
-          "type": "address",
-          "internalType": "address"
+          "internalType": "address",
+          "name": "kernel_",
+          "type": "address"
         },
         {
-          "name": "sdai_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "dai_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "owner_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "lender_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "collector_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
+          "internalType": "uint256",
           "name": "feePercentage_",
-          "type": "uint256",
-          "internalType": "uint256"
+          "type": "uint256"
         }
       ],
-      "stateMutability": "nonpayable"
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
-      "type": "function",
-      "name": "ONE_HUNDRED_PERCENT",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "VERSION",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "pure"
-    },
-    {
-      "type": "function",
-      "name": "collateralRequired",
       "inputs": [
         {
-          "name": "clearinghouse_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "cooler_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "ids_",
-          "type": "uint256[]",
-          "internalType": "uint256[]"
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
         }
       ],
-      "outputs": [
-        {
-          "name": "consolidatedLoanCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "existingLoanCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "additionalCollateral",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
+      "name": "KernelAdapter_OnlyKernel",
+      "type": "error"
     },
     {
-      "type": "function",
-      "name": "collector",
       "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
+      "name": "OnlyConsolidatorActive",
+      "type": "error"
     },
     {
-      "type": "function",
-      "name": "consolidateWithFlashLoan",
-      "inputs": [
-        {
-          "name": "clearinghouse_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "cooler_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "ids_",
-          "type": "uint256[]",
-          "internalType": "uint256[]"
-        },
-        {
-          "name": "useFunds_",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "sdai_",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "dai",
       "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IERC20"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "feePercentage",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "getProtocolFee",
-      "inputs": [
-        {
-          "name": "totalDebt_",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "gohm",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IERC20"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "lender",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IERC3156FlashLender"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "onFlashLoan",
-      "inputs": [
-        {
-          "name": "initiator_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "amount_",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "lenderFee_",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "params_",
-          "type": "bytes",
-          "internalType": "bytes"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bytes32",
-          "internalType": "bytes32"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "owner",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "requiredApprovals",
-      "inputs": [
-        {
-          "name": "clearinghouse_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "cooler_",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "ids_",
-          "type": "uint256[]",
-          "internalType": "uint256[]"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        },
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "sdai",
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "contract IERC4626"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
-      "name": "setCollector",
-      "inputs": [
-        {
-          "name": "collector_",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "setFeePercentage",
-      "inputs": [
-        {
-          "name": "feePercentage_",
-          "type": "uint256",
-          "internalType": "uint256"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "function",
-      "name": "transferOwnership",
-      "inputs": [
-        {
-          "name": "newOwner",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-    },
-    {
-      "type": "event",
-      "name": "OwnershipTransferred",
-      "inputs": [
-        {
-          "name": "user",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "newOwner",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "error",
-      "name": "InsufficientCoolerCount",
-      "inputs": []
-    },
-    {
-      "type": "error",
       "name": "OnlyCoolerOwner",
-      "inputs": []
+      "type": "error"
     },
     {
-      "type": "error",
+      "inputs": [],
       "name": "OnlyLender",
-      "inputs": []
+      "type": "error"
     },
     {
-      "type": "error",
+      "inputs": [],
+      "name": "OnlyPolicyActive",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "OnlyThis",
-      "inputs": []
+      "type": "error"
     },
     {
-      "type": "error",
+      "inputs": [],
       "name": "Params_FeePercentageOutOfRange",
-      "inputs": []
+      "type": "error"
     },
     {
-      "type": "error",
+      "inputs": [],
+      "name": "Params_InsufficientCoolerCount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
       "name": "Params_InvalidAddress",
-      "inputs": []
+      "type": "error"
     },
     {
-      "type": "error",
-      "name": "Params_UseFundsOutOfBounds",
-      "inputs": []
+      "inputs": [],
+      "name": "Params_InvalidClearinghouse",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Params_InvalidCooler",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Keycode",
+          "name": "keycode_",
+          "type": "bytes5"
+        }
+      ],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "expected_",
+          "type": "bytes"
+        }
+      ],
+      "name": "Policy_WrongModuleVersion",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "ConsolidatorActivated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "ConsolidatorDeactivated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "feePercentage",
+          "type": "uint256"
+        }
+      ],
+      "name": "FeePercentageSet",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "ONE_HUNDRED_PERCENT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLES",
+      "outputs": [
+        {
+          "internalType": "contract ROLESv1",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLE_ADMIN",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ROLE_EMERGENCY_SHUTDOWN",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "VERSION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "activate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "newKernel_",
+          "type": "address"
+        }
+      ],
+      "name": "changeKernel",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "clearinghouse_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "cooler_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids_",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "collateralRequired",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "consolidatedLoanCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "existingLoanCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "additionalCollateral",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureDependencies",
+      "outputs": [
+        {
+          "internalType": "Keycode[]",
+          "name": "dependencies",
+          "type": "bytes5[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "clearinghouseFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "clearinghouseTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids_",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "consolidate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "clearinghouseFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "clearinghouseTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids_",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "consolidateWithNewOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "consolidatorActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "deactivate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "feePercentage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "clearinghouseTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids_",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "fundsRequired",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "reserveTo",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lenderFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "protocolFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalDebt_",
+          "type": "uint256"
+        }
+      ],
+      "name": "getProtocolFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isActive",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kernel",
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initiator_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lenderFee_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "params_",
+          "type": "bytes"
+        }
+      ],
+      "name": "onFlashLoan",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestPermissions",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "Keycode",
+              "name": "keycode",
+              "type": "bytes5"
+            },
+            {
+              "internalType": "bytes4",
+              "name": "funcSelector",
+              "type": "bytes4"
+            }
+          ],
+          "internalType": "struct Permissions[]",
+          "name": "requests",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "clearinghouseTo_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "coolerFrom_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids_",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "requiredApprovals",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "feePercentage_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFeePercentage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ]
 }

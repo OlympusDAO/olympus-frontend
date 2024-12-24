@@ -19,6 +19,7 @@ import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/v
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
 import { useAccount } from "wagmi";
@@ -122,7 +123,7 @@ export const CoolerPositions = () => {
   };
 
   console.log(allLoans, isFetchedLoansV1, isFetchedLoansV2, isFetchedLoansV3, address);
-
+  console.log(coolerAddressV1, coolerAddressV2, coolerAddressV3);
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>
@@ -273,6 +274,26 @@ export const CoolerPositions = () => {
               >
                 Borrow {activeClearingHouse.debtAssetName} & Open Position
               </PrimaryButton>
+              {allLoans.length > 1 ||
+                (((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) &&
+                  clearingHouses.v1 &&
+                  clearingHouses.v2 &&
+                  clearingHouses.v3 && (
+                    <ConsolidateLoans
+                      v3CoolerAddress={coolerAddressV3 || ""}
+                      v2CoolerAddress={coolerAddressV2 || ""}
+                      v1CoolerAddress={coolerAddressV1 || ""}
+                      clearingHouseAddresses={{
+                        v1: clearingHouses.v1,
+                        v2: clearingHouses.v2,
+                        v3: clearingHouses.v3,
+                      }}
+                      v1Loans={loansV1}
+                      v2Loans={loansV2}
+                      v3Loans={loansV3}
+                      factoryAddress={clearingHouses.v3.factory}
+                    />
+                  ))}
             </Box>
           )}
         </>
