@@ -12,7 +12,7 @@ export const useCheckConsolidatorActive = () => {
     queryKey: ["consolidatorActive"],
     queryFn: async () => {
       const contract = CoolerConsolidation__factory.connect(COOLER_CONSOLIDATION_ADDRESSES[networks.MAINNET], provider);
-      const isActive = await contract.isActive();
+      const isActive = await contract.consolidatorActive();
       return isActive;
     },
   });
