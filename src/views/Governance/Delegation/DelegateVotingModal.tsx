@@ -13,6 +13,7 @@ export const DelegateVotingModal = ({
   setOpen,
   currentDelegateAddress,
   currentWalletAddress,
+  initialDelegationAddress,
 }: {
   address?: string;
   open: boolean;
@@ -27,11 +28,13 @@ export const DelegateVotingModal = ({
   >;
   currentDelegateAddress?: string;
   currentWalletAddress?: string;
+  initialDelegationAddress?: string;
 }) => {
-  const [delegationAddress, setDelegationAddress] = useState("");
+  const [delegationAddress, setDelegationAddress] = useState(initialDelegationAddress || "");
   const delegateVoting = useDelegateVoting();
   const client = useNetwork();
 
+  console.log(delegationAddress, "yes", initialDelegationAddress);
   return (
     <Modal
       maxWidth="476px"

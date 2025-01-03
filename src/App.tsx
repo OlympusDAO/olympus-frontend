@@ -36,6 +36,8 @@ import { BondModalContainerV3 } from "src/views/Bond/components/BondModal/BondMo
 import { Emission } from "src/views/Emission";
 import { Governance } from "src/views/Governance";
 import { Delegate } from "src/views/Governance/Delegation";
+import { DelegateDetails } from "src/views/Governance/Delegation/DelegateDetails";
+import { DelegatesView } from "src/views/Governance/Delegation/Delegates";
 import { ProposalPage } from "src/views/Governance/Proposals";
 import { Cooler } from "src/views/Lending/Cooler";
 import { Vault } from "src/views/Liquidity/Vault";
@@ -261,7 +263,8 @@ function App() {
                   <Route path="/governance" element={<Governance />} />
                   <Route path="/governance/delegate" element={<Delegate />} />
                   <Route path="/governance/proposals/:id" element={<ProposalPage />} />
-
+                  <Route path="/governance/delegates" element={<DelegatesView />} />
+                  <Route path="/governance/delegate/:id" element={<DelegateDetails />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
