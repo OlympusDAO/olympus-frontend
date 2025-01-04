@@ -23,12 +23,10 @@ import { GovernanceNavigation } from "src/views/Governance/Components/Governance
 import { DelegateRow } from "src/views/Governance/Delegation/DelegateRow";
 import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
 import { useGetDelegates } from "src/views/Governance/hooks/useGetDelegates";
-import { useGetVotingWeight } from "src/views/Governance/hooks/useGetVotingWeight";
 
 export const Delegate = () => {
   const { data: delegates, isLoading } = useGetDelegates();
   const navigate = useNavigate();
-  const { data: currentVotingWeight } = useGetVotingWeight({});
   const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
 
