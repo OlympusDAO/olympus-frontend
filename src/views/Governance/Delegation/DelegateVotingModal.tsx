@@ -34,7 +34,6 @@ export const DelegateVotingModal = ({
   const delegateVoting = useDelegateVoting();
   const client = useNetwork();
 
-  console.log(delegationAddress, "yes", initialDelegationAddress);
   return (
     <Modal
       maxWidth="476px"
@@ -46,7 +45,6 @@ export const DelegateVotingModal = ({
         </Box>
       }
       onClose={() => {
-        setDelegationAddress("");
         setOpen(undefined);
       }}
     >

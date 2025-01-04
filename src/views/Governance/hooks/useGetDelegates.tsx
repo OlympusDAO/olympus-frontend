@@ -12,6 +12,9 @@ export type Voter = {
     reason: string;
     support: number;
   }[];
+  delegators: {
+    id: string;
+  }[];
 };
 
 export const useGetDelegates = () => {
@@ -26,6 +29,9 @@ export const useGetDelegates = () => {
         address
         latestVotingPowerSnapshot {
           votingPower
+        }
+        delegators {
+          id
         }
       }
     }

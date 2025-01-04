@@ -16,6 +16,7 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { ContractParameters } from "src/views/Governance/Components/ContractParameters";
+import { GovernanceNavigation } from "src/views/Governance/Components/GovernanceNavigation";
 import { ProposalContainer } from "src/views/Governance/Components/ProposalContainer";
 import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
 import { GovernanceDevTools } from "src/views/Governance/hooks/dev/GovernanceDevTools";
@@ -37,6 +38,7 @@ export const Governance = () => {
       <Box width="97%" maxWidth="974px">
         {import.meta.env.VITE_GOVERNANCE_DEV && <GovernanceDevTools />}
         <DelegationMessage />
+        <GovernanceNavigation />
         <Metric label="Current Voting Power" metric={`${Number(currentVotingWeight || 0).toFixed(2)} gOHM`} />
         <Box display="flex" justifyContent="right">
           <Link component={RouterLink} to="/governance/delegate">

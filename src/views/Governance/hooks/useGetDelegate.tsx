@@ -15,6 +15,9 @@ export const useGetDelegate = ({ id }: { id: string }) => {
           reason
           support
         }
+        delegators {
+          id
+        }
       }
     }
   `;

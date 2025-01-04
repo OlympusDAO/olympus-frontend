@@ -1,5 +1,7 @@
-import { Button, TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { Voter } from "src/views/Governance/hooks/useGetDelegates";
+import { useEnsName } from "wagmi";
 
 export const DelegateRow = ({
   delegate,
@@ -10,23 +12,23 @@ export const DelegateRow = ({
   onClick: () => void;
   onDelegateClick: () => void;
 }) => {
+  const { data: ensName } = useEnsName({ address: delegate.address as `0x${string}` });
+
   return (
     <TableRow hover style={{ cursor: "pointer" }}>
-      <TableCell onClick={onClick}>{delegate.id}</TableCell>
+      <TableCell onClick={onClick}>{ensName || delegate.id}</TableCell>
       <TableCell align="right" onClick={onClick}>
-        {delegate.latestVotingPowerSnapshot.votingPower || "0"}
+        {Number(delegate.latestVotingPowerSnapshot.votingPower).toFixed(4) || "0"} gOHM
       </TableCell>
+      <TableCell align="right">{delegate.delegators.length}</TableCell>
       <TableCell align="right">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={e => {
-            e.stopPropagation();
+        <SecondaryButton
+          onClick={() => {
             onDelegateClick();
           }}
         >
           Delegate
-        </Button>
+        </SecondaryButton>
       </TableCell>
     </TableRow>
   );
