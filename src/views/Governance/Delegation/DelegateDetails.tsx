@@ -12,8 +12,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Metric } from "@olympusdao/component-library";
-import { useParams } from "react-router-dom";
+import { Icon, Metric, PrimaryButton } from "@olympusdao/component-library";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { truncateEthereumAddress } from "src/helpers/truncateAddress";
@@ -28,6 +28,7 @@ export const DelegateDetails = () => {
   const delegatorCount = delegate?.delegators.length || 0;
   const { data: proposals } = useGetProposalsFromSubgraph();
   const { data: ensName } = useEnsName({ address: delegate?.address as `0x${string}` });
+  const navigate = useNavigate();
 
   //get proposal title from proposal id
   const proposalTitle = (id: string) => {
@@ -50,7 +51,7 @@ export const DelegateDetails = () => {
         }
       />
       <Box width="97%" maxWidth="974px">
-        <Box display="flex" gap={2} mb={4}>
+        <Box display="flex" gap={2} mb={8} mt={4}>
           <Metric
             label="Voting Power"
             metric={`${Number(delegate?.latestVotingPowerSnapshot.votingPower).toFixed(4)} gOHM`}
@@ -58,17 +59,24 @@ export const DelegateDetails = () => {
           <Metric label="Vote Participation" metric={`${delegate?.votesCasted.length}`} />
           <Metric label="Received Delegations" metric={`${delegatorCount}`} />
         </Box>
-        <Typography variant="h5" gutterBottom>
-          Voting History
-        </Typography>
-        <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="33px">
+        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" gap={1}>
+          <Typography fontSize="27px" fontWeight="500">
+            Voting History
+          </Typography>
+          <Box display="flex" justifyContent="flex-end">
+            <Link component={RouterLink} to={`/governance/manageDelegation?to=${delegate?.address}`}>
+              <PrimaryButton>Delegate voting power</PrimaryButton>
+            </Link>
+          </Box>
+        </Box>
+        <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mt="33px">
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Proposal</TableCell>
                   <TableCell>Vote</TableCell>
-                  {/* <TableCell align="right">Weight</TableCell> */}
+                  <TableCell align="right"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -82,20 +90,45 @@ export const DelegateDetails = () => {
                   </TableRow>
                 ) : (
                   delegate?.votesCasted.map(vote => (
-                    <TableRow key={vote.proposalId}>
-                      <TableCell>
-                        <Link component={RouterLink} to={`/governance/proposals/${vote.proposalId}`}>
-                          {proposalTitle(vote.proposalId)}
-                        </Link>
+                    <TableRow key={vote.proposalId} hover style={{ cursor: "pointer" }}>
+                      <TableCell
+                        onClick={() => {
+                          navigate(`/governance/proposals/${vote.proposalId}`);
+                        }}
+                      >
+                        {proposalTitle(vote.proposalId)}
                       </TableCell>
-                      <TableCell>
-                        {vote.support === 1
-                          ? "For"
-                          : vote.support === 0
-                            ? "Against"
-                            : vote.support === 2
-                              ? "Abstain"
-                              : ""}
+                      <TableCell
+                        onClick={() => {
+                          navigate(`/governance/proposals/${vote.proposalId}`);
+                        }}
+                      >
+                        {vote.support === 1 ? (
+                          <Typography color="success.main">For</Typography>
+                        ) : vote.support === 0 ? (
+                          <Typography color="error.main">Against</Typography>
+                        ) : vote.support === 2 ? (
+                          "Abstain"
+                        ) : (
+                          ""
+                        )}
+                      </TableCell>
+                      <TableCell
+                        onClick={() => {
+                          navigate(`/governance/proposals/${vote.proposalId}`);
+                        }}
+                      >
+                        <Box
+                          display="flex"
+                          flexDirection="row"
+                          alignItems="center"
+                          gap={1}
+                          color={theme.colors.primary[300]}
+                          fontWeight={600}
+                        >
+                          <span>View Proposal</span>
+                          <Icon name="arrow-up-right" sx={{ fontSize: "9px" }} />{" "}
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))

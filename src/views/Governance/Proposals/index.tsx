@@ -169,7 +169,7 @@ export const ProposalPage = () => {
         <Grid container spacing={"24px"}>
           <Grid item xs={12} lg={8}>
             {/* <Paper enableBackground fullWidth> */}
-            <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px">
+            <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px">
               {tabIndex === 0 && (
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}

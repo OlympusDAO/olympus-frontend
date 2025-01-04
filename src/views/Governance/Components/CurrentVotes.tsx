@@ -1,6 +1,6 @@
 import { CheckCircle, HighlightOffOutlined } from "@mui/icons-material";
 import { Box, Tooltip, Typography, useTheme } from "@mui/material";
-import { Paper, PrimaryButton } from "@olympusdao/component-library";
+import { PrimaryButton } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { abbreviatedNumber } from "src/helpers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -47,7 +47,7 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
     (proposalDetails && proposalDetails?.forCount + proposalDetails?.againstCount + proposalDetails?.abstainCount) || 0;
 
   return (
-    <Paper enableBackground>
+    <Box bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mb="24px">
       <Typography fontSize="21px" fontWeight={600} mb="15px">
         Progress
       </Typography>
@@ -141,6 +141,6 @@ export const CurrentVotes = ({ proposalId, onVoteClick }: { proposalId: number; 
           </WalletConnectedGuard>
         )}
       </Box>
-    </Paper>
+    </Box>
   );
 };

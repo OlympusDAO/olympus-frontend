@@ -1,5 +1,6 @@
-import { TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow, Tooltip, Typography } from "@mui/material";
 import { SecondaryButton } from "@olympusdao/component-library";
+import { truncateEthereumAddress } from "src/helpers/truncateAddress";
 import { Voter } from "src/views/Governance/hooks/useGetDelegates";
 import { useEnsName } from "wagmi";
 
@@ -16,11 +17,17 @@ export const DelegateRow = ({
 
   return (
     <TableRow hover style={{ cursor: "pointer" }}>
-      <TableCell onClick={onClick}>{ensName || delegate.id}</TableCell>
-      <TableCell align="right" onClick={onClick}>
-        {Number(delegate.latestVotingPowerSnapshot.votingPower).toFixed(4) || "0"} gOHM
+      <TableCell onClick={onClick}>
+        <Tooltip title={delegate.id}>
+          <>{ensName || truncateEthereumAddress(delegate.id, 10)}</>
+        </Tooltip>
       </TableCell>
-      <TableCell align="right">{delegate.delegators.length}</TableCell>
+      <TableCell align="right" onClick={onClick}>
+        {Number(delegate.latestVotingPowerSnapshot.votingPower).toFixed(2) || "0"} gOHM
+      </TableCell>
+      <TableCell align="right">
+        <Typography fontWeight={600}>{delegate.delegators.length}</Typography>
+      </TableCell>
       <TableCell align="right">
         <SecondaryButton
           onClick={() => {

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -34,14 +34,14 @@ export const ManageDelegation = () => {
   const [delegateVoting, setDelegateVoting] = useState<
     { delegatorAddress: string; currentDelegatedToAddress?: string } | undefined
   >(undefined);
-  console.log(to, "to");
+  const theme = useTheme();
   return (
     <Modal
       open={true}
       closePosition="right"
-      headerText="Delegate Voting"
+      headerText="Manage Voting Delegation"
       onClose={() => navigate("/governance/delegate")}
-      maxWidth="450px"
+      maxWidth="600px"
       minHeight="300px"
     >
       <>
@@ -52,56 +52,76 @@ export const ManageDelegation = () => {
             </div>
           </Box>
         ) : (
-          <Box display="flex" flexDirection="column" gap="18px">
-            {address && (
-              <GovernanceTableRow
-                tokenName={`Wallet`}
-                delegatorAddress={GOHM_ADDRESSES[networks.MAINNET]}
-                delegationAddress={gOHMDelegationAddress}
-                setDelegateVoting={setDelegateVoting}
-                balance={gohmBalance?.formatted}
-                address={address}
-              />
+          <>
+            {to && (
+              <Box display="flex" flexDirection="column" mb="18px">
+                <Typography>You are about to delegate your voting power to the following address:</Typography>
+                <Box
+                  display="flex"
+                  width="100%"
+                  bgcolor={theme.colors.gray[700]}
+                  borderRadius="6px"
+                  px="18px"
+                  py="3px"
+                  height="39px"
+                  alignItems="center"
+                >
+                  {to}
+                </Box>
+                <Box width="100%" height="1px" bgcolor={theme.colors.gray[500]} mt="9px" />
+              </Box>
             )}
-            {coolerAddressV1 && (
-              <GovernanceTableRow
-                delegatorAddress={coolerAddressV1}
-                tokenName={`Cooler Clearinghouse V1`}
-                setDelegateVoting={setDelegateVoting}
-                delegationAddress={coolerV1DelegationAddress}
-                balance={gohmCoolerV1Balance?.formatted}
-                address={coolerAddressV1}
+            <Box display="flex" flexDirection="column" gap="18px">
+              {address && (
+                <GovernanceTableRow
+                  tokenName={`Wallet Voting Power`}
+                  delegatorAddress={GOHM_ADDRESSES[networks.MAINNET]}
+                  delegationAddress={gOHMDelegationAddress}
+                  setDelegateVoting={setDelegateVoting}
+                  balance={gohmBalance?.formatted}
+                  address={address}
+                />
+              )}
+              {coolerAddressV1 && (
+                <GovernanceTableRow
+                  delegatorAddress={coolerAddressV1}
+                  tokenName={`Cooler Clearinghouse V1 Voting Power`}
+                  setDelegateVoting={setDelegateVoting}
+                  delegationAddress={coolerV1DelegationAddress}
+                  balance={gohmCoolerV1Balance?.formatted}
+                  address={coolerAddressV1}
+                />
+              )}
+              {coolerAddressV2 && (
+                <GovernanceTableRow
+                  delegatorAddress={coolerAddressV2}
+                  tokenName={`Cooler Clearinghouse V2 Voting Power`}
+                  setDelegateVoting={setDelegateVoting}
+                  delegationAddress={coolerV2DelegationAddress}
+                  balance={gohmCoolerV2Balance?.formatted}
+                  address={coolerAddressV2}
+                />
+              )}
+              {coolerAddressV3 && (
+                <GovernanceTableRow
+                  delegatorAddress={coolerAddressV3}
+                  tokenName={`Cooler Clearinghouse V3 Voting Power`}
+                  setDelegateVoting={setDelegateVoting}
+                  delegationAddress={coolerV3DelegationAddress}
+                  balance={gohmCoolerV3Balance?.formatted}
+                  address={coolerAddressV3}
+                />
+              )}
+              <DelegateVotingModal
+                address={delegateVoting?.delegatorAddress}
+                open={Boolean(delegateVoting)}
+                setOpen={setDelegateVoting}
+                currentDelegateAddress={delegateVoting?.currentDelegatedToAddress}
+                currentWalletAddress={address}
+                initialDelegationAddress={to || undefined}
               />
-            )}
-            {coolerAddressV2 && (
-              <GovernanceTableRow
-                delegatorAddress={coolerAddressV2}
-                tokenName={`Cooler Clearinghouse V2`}
-                setDelegateVoting={setDelegateVoting}
-                delegationAddress={coolerV2DelegationAddress}
-                balance={gohmCoolerV2Balance?.formatted}
-                address={coolerAddressV2}
-              />
-            )}
-            {coolerAddressV3 && (
-              <GovernanceTableRow
-                delegatorAddress={coolerAddressV3}
-                tokenName={`Cooler Clearinghouse V3`}
-                setDelegateVoting={setDelegateVoting}
-                delegationAddress={coolerV3DelegationAddress}
-                balance={gohmCoolerV3Balance?.formatted}
-                address={coolerAddressV3}
-              />
-            )}
-            <DelegateVotingModal
-              address={delegateVoting?.delegatorAddress}
-              open={Boolean(delegateVoting)}
-              setOpen={setDelegateVoting}
-              currentDelegateAddress={delegateVoting?.currentDelegatedToAddress}
-              currentWalletAddress={address}
-              initialDelegationAddress={to || undefined}
-            />
-          </Box>
+            </Box>
+          </>
         )}
       </>
     </Modal>

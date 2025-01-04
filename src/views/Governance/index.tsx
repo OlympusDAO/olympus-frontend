@@ -45,7 +45,7 @@ export const Governance = () => {
             <PrimaryButton>Manage Voting Delegation</PrimaryButton>
           </Link>
         </Box>
-        <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="33px">
+        <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mt="33px">
           <Typography fontSize="24px" fontWeight="600">
             Upcoming & Active Proposals
           </Typography>
@@ -90,7 +90,7 @@ export const Governance = () => {
             </Typography>
           ) : null}
         </Box>
-        <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="66px">
+        <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mt="66px">
           <Typography fontSize="24px" fontWeight="600">
             Past Proposals
           </Typography>
