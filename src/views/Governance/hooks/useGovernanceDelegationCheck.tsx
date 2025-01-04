@@ -46,6 +46,10 @@ export const useGovernanceDelegationCheck = () => {
     address: coolerAddressV1 as `0x${string}`,
     token: GOHM_ADDRESSES[networks.MAINNET] as `0x${string}`,
   });
+  const { data: gohmCoolerV3Balance } = useBalance({
+    address: coolerAddressV3 as `0x${string}`,
+    token: GOHM_ADDRESSES[networks.MAINNET] as `0x${string}`,
+  });
   const { data: gohmBalance } = useBalance({
     address: address as `0x${string}`,
     token: GOHM_ADDRESSES[networks.MAINNET] as `0x${string}`,
@@ -58,6 +62,7 @@ export const useGovernanceDelegationCheck = () => {
     gohmBalance,
     gohmCoolerV1Balance,
     gohmCoolerV2Balance,
+    gohmCoolerV3Balance,
     coolerAddressV1,
     coolerAddressV2,
     coolerAddressV3,
