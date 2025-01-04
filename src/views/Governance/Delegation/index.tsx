@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { Metric } from "@olympusdao/component-library";
 import { PrimaryButton } from "@olympusdao/component-library";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -26,9 +25,6 @@ import { useGetVotingWeight } from "src/views/Governance/hooks/useGetVotingWeigh
 export const Delegate = () => {
   const { data: delegates, isLoading } = useGetDelegates();
   const navigate = useNavigate();
-  const [delegateVoting, setDelegateVoting] = useState<
-    { delegatorAddress: string; currentDelegatedToAddress?: string } | undefined
-  >(undefined);
   const { data: currentVotingWeight } = useGetVotingWeight({});
   const theme = useTheme();
   return (
