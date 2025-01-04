@@ -41,7 +41,7 @@ export const Delegate = () => {
         <DelegationMessage />
         <GovernanceNavigation />
         <Box display="flex" flexDirection="column" gap={1}>
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="flex-end" mb="9px">
             <Link component={RouterLink} to="/governance/manageDelegation">
               <PrimaryButton>Manage Voting Delegation</PrimaryButton>
             </Link>

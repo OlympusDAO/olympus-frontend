@@ -17,7 +17,7 @@ export const GovernanceNavigation = () => {
   };
 
   return (
-    <Box alignItems="center" display="flex" justifyContent="center" mb="20px">
+    <Box alignItems="center" display="flex" justifyContent="center" mb="9px">
       <Tabs value={value} onChange={handleChange} TabIndicatorProps={{ style: { display: "none" } }}>
         <Tab label="Proposals" />
         <Tab label="Delegation" />
