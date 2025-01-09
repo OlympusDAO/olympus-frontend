@@ -1,15 +1,16 @@
-import { TableCell, TableRow, Tooltip, Typography } from "@mui/material";
+import { TableCell, TableRow, Typography } from "@mui/material";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { truncateEthereumAddress } from "src/helpers/truncateAddress";
 import { Voter } from "src/views/Governance/hooks/useGetDelegates";
 import { useEnsName } from "wagmi";
 
 export const DelegateRow = ({
   delegate,
+  quorum,
   onClick,
   onDelegateClick,
 }: {
   delegate: Voter;
+  quorum?: number;
   onClick: () => void;
   onDelegateClick: () => void;
 }) => {
@@ -18,9 +19,7 @@ export const DelegateRow = ({
   return (
     <TableRow hover style={{ cursor: "pointer" }}>
       <TableCell onClick={onClick}>
-        <Tooltip title={delegate.id}>
-          <>{ensName || truncateEthereumAddress(delegate.id, 10)}</>
-        </Tooltip>
+        <Typography fontWeight={600}>{ensName || delegate.id}</Typography>
       </TableCell>
       <TableCell align="right" onClick={onClick}>
         {Number(delegate.latestVotingPowerSnapshot.votingPower).toFixed(2) || "0"} gOHM
@@ -28,6 +27,13 @@ export const DelegateRow = ({
       <TableCell align="right">
         <Typography fontWeight={600}>{delegate.delegators.length}</Typography>
       </TableCell>
+
+      <TableCell align="right">
+        <Typography fontWeight={600}>
+          {quorum && (Number(Number(delegate.latestVotingPowerSnapshot.votingPower) / quorum) * 100).toFixed(2)}%
+        </Typography>
+      </TableCell>
+
       <TableCell align="right">
         <SecondaryButton
           onClick={() => {

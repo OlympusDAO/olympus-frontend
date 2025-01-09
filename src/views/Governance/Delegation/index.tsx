@@ -22,10 +22,13 @@ import PageTitle from "src/components/PageTitle";
 import { GovernanceNavigation } from "src/views/Governance/Components/GovernanceNavigation";
 import { DelegateRow } from "src/views/Governance/Delegation/DelegateRow";
 import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
+import { useGetContractParameters } from "src/views/Governance/hooks/useGetContractParameters";
 import { useGetDelegates } from "src/views/Governance/hooks/useGetDelegates";
 
 export const Delegate = () => {
   const { data: delegates, isLoading } = useGetDelegates();
+  const { data: parameters } = useGetContractParameters();
+
   const navigate = useNavigate();
   const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +37,7 @@ export const Delegate = () => {
     delegate.id.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  const quorum = parameters?.proposalQuorum ? Number(parameters?.proposalQuorum) : undefined;
   return (
     <div id="stake-view">
       <PageTitle name="Delegation" />
@@ -89,6 +93,7 @@ export const Delegate = () => {
                       <TableCell>Delegate Address</TableCell>
                       <TableCell align="right">Voting Power</TableCell>
                       <TableCell align="right">Delegations</TableCell>
+                      <TableCell align="right">% Quorum</TableCell>
                       <TableCell align="right">Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -97,6 +102,7 @@ export const Delegate = () => {
                       <DelegateRow
                         key={delegate.id}
                         delegate={delegate}
+                        quorum={quorum}
                         onClick={() => navigate(`/governance/delegate/${delegate.id}`)}
                         onDelegateClick={() => navigate(`/governance/manageDelegation?to=${delegate.id}`)}
                       />

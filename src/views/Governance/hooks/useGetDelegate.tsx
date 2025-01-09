@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import request, { gql } from "graphql-request";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { Voter } from "src/views/Governance/hooks/useGetDelegates";
 
 export const useGetDelegate = ({ id }: { id: string }) => {
@@ -24,7 +25,7 @@ export const useGetDelegate = ({ id }: { id: string }) => {
 
   return useQuery(["getDelegate", id], async () => {
     try {
-      const subgraphUrl = "https://api.studio.thegraph.com/query/46563/olympus-governor/version/latest/";
+      const subgraphUrl = Environment.getGovernanceSubgraphUrl();
       const response = await request<{ voter: Voter }>(subgraphUrl, query);
       return response.voter;
     } catch (error) {

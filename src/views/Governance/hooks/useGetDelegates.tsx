@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import request, { gql } from "graphql-request";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export type Voter = {
   id: string;
@@ -39,7 +40,7 @@ export const useGetDelegates = () => {
 
   return useQuery(["getDelegates"], async () => {
     try {
-      const subgraphUrl = "https://api.studio.thegraph.com/query/46563/olympus-governor/version/latest/";
+      const subgraphUrl = Environment.getGovernanceSubgraphUrl();
       const response = await request<{ voters: Voter[] }>(subgraphUrl, query);
       return response.voters;
     } catch (error) {
