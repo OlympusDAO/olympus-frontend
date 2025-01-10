@@ -1,5 +1,4 @@
-import { Box, Tooltip, Typography } from "@mui/material";
-import { Paper } from "@olympusdao/component-library";
+import { Box, Tooltip, Typography, useTheme } from "@mui/material";
 import { useGetCanceledTime } from "src/views/Governance/hooks/useGetCanceledTime";
 import { useGetExecutedTime } from "src/views/Governance/hooks/useGetExecutedTime";
 import { useGetProposalDetails } from "src/views/Governance/hooks/useGetProposalDetails";
@@ -19,8 +18,9 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
   const placeholderEndDate = proposalDetails?.startDate && new Date(proposalDetails?.startDate);
 
   placeholderEndDate?.setDate(placeholderEndDate.getDate() + 7);
+  const theme = useTheme();
   return (
-    <Paper enableBackground>
+    <Box bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px">
       <Typography fontSize="21px" fontWeight={600} mb="15px">
         Timeline
       </Typography>
@@ -130,6 +130,6 @@ export const Status = ({ proposalId }: { proposalId: number }) => {
           </>
         )}
       </Box>
-    </Paper>
+    </Box>
   );
 };

@@ -1,91 +1,129 @@
-import { Box } from "@mui/material";
-import { Modal } from "@olympusdao/component-library";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Box,
+  InputAdornment,
+  Link,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
-import { GOHM_ADDRESSES } from "src/constants/addresses";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { GovernanceTableRow } from "src/views/Governance/Components/GovernanceTableRow";
-import { DelegateVotingModal } from "src/views/Governance/Delegation/DelegateVotingModal";
-import { useGovernanceDelegationCheck } from "src/views/Governance/hooks/useGovernanceDelegationCheck";
-import { useAccount } from "wagmi";
+import { Link as RouterLink } from "react-router-dom";
+import PageTitle from "src/components/PageTitle";
+import { GovernanceNavigation } from "src/views/Governance/Components/GovernanceNavigation";
+import { DelegateRow } from "src/views/Governance/Delegation/DelegateRow";
+import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
+import { useGetContractParameters } from "src/views/Governance/hooks/useGetContractParameters";
+import { useGetDelegates } from "src/views/Governance/hooks/useGetDelegates";
 
 export const Delegate = () => {
-  const { address, isConnected } = useAccount();
-  const networks = useTestableNetworks();
-  const {
-    gOHMDelegationAddress,
-    coolerV1DelegationAddress,
-    coolerV2DelegationAddress,
-    gohmBalance,
-    gohmCoolerV1Balance,
-    gohmCoolerV2Balance,
-    coolerAddressV1,
-    coolerAddressV2,
-  } = useGovernanceDelegationCheck();
-  const navigate = useNavigate();
+  const { data: delegates, isLoading } = useGetDelegates();
+  const { data: parameters } = useGetContractParameters();
 
-  const [delegateVoting, setDelegateVoting] = useState<
-    { delegatorAddress: string; currentDelegatedToAddress?: string } | undefined
-  >(undefined);
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredDelegates = delegates?.filter(delegate =>
+    delegate.id.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const quorum = parameters?.proposalQuorum ? Number(parameters?.proposalQuorum) : undefined;
   return (
-    <Modal
-      open={true}
-      closePosition="right"
-      headerText="Delegate Voting"
-      onClose={() => navigate("/governance")}
-      maxWidth="450px"
-      minHeight="300px"
-    >
-      <>
-        {!isConnected ? (
-          <Box mt="48px">
-            <div className="stake-wallet-notification">
-              <InPageConnectButton buttonText="Connect to Delegate Voting" />
-            </div>
+    <div id="stake-view">
+      <PageTitle name="Delegation" />
+      <Box width="100%" maxWidth="974px">
+        <DelegationMessage />
+        <GovernanceNavigation />
+        <Box display="flex" flexDirection="column" gap={1}>
+          <Box display="flex" justifyContent="flex-end" mb="9px">
+            <Link component={RouterLink} to="/governance/manageDelegation">
+              <PrimaryButton>Manage Voting Delegation</PrimaryButton>
+            </Link>
           </Box>
-        ) : (
-          <Box display="flex" flexDirection="column" gap="18px">
-            {address && (
-              <GovernanceTableRow
-                tokenName={`Wallet`}
-                delegatorAddress={GOHM_ADDRESSES[networks.MAINNET]}
-                delegationAddress={gOHMDelegationAddress}
-                setDelegateVoting={setDelegateVoting}
-                balance={gohmBalance?.formatted}
-                address={address}
-              />
-            )}
-            {coolerAddressV1 && (
-              <GovernanceTableRow
-                delegatorAddress={coolerAddressV1}
-                tokenName={`Cooler Clearinghouse V1`}
-                setDelegateVoting={setDelegateVoting}
-                delegationAddress={coolerV1DelegationAddress}
-                balance={gohmCoolerV1Balance?.formatted}
-                address={coolerAddressV1}
-              />
-            )}
-            {coolerAddressV2 && (
-              <GovernanceTableRow
-                delegatorAddress={coolerAddressV2}
-                tokenName={`Cooler Clearinghouse V2`}
-                setDelegateVoting={setDelegateVoting}
-                delegationAddress={coolerV2DelegationAddress}
-                balance={gohmCoolerV2Balance?.formatted}
-                address={coolerAddressV2}
-              />
-            )}
-            <DelegateVotingModal
-              address={delegateVoting?.delegatorAddress}
-              open={Boolean(delegateVoting)}
-              setOpen={setDelegateVoting}
-              currentDelegateAddress={delegateVoting?.currentDelegatedToAddress}
-              currentWalletAddress={address}
-            />
+
+          <TextField
+            placeholder="Search Address"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            size="small"
+            sx={{
+              width: "100%",
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: theme.colors.gray[700],
+                borderRadius: "6px",
+                "& fieldset": {
+                  border: "none",
+                },
+                "&:hover fieldset": {
+                  border: "none",
+                },
+                "&.Mui-focused fieldset": {
+                  border: "none",
+                },
+              },
+              "& .MuiOutlinedInput-input": {
+                color: theme.palette.text.primary,
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: theme.colors.gray["500"] }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <Box overflow="scroll" borderRadius="10px">
+            <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px">
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Delegate Address</TableCell>
+                      <TableCell align="right">Voting Power</TableCell>
+                      <TableCell align="right">Delegations</TableCell>
+                      <TableCell align="right">% Quorum</TableCell>
+                      <TableCell align="right">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredDelegates?.map(delegate => (
+                      <DelegateRow
+                        key={delegate.id}
+                        delegate={delegate}
+                        quorum={quorum}
+                        onClick={() => navigate(`/governance/delegate/${delegate.id}`)}
+                        onDelegateClick={() => navigate(`/governance/manageDelegation?to=${delegate.id}`)}
+                      />
+                    ))}
+                    {!isLoading && filteredDelegates?.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4}>
+                          <Typography textAlign="center">
+                            {searchQuery ? "No delegates found matching your search" : "No delegates found"}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+            {isLoading && <Typography textAlign="center">Loading delegates...</Typography>}
           </Box>
-        )}
-      </>
-    </Modal>
+        </Box>
+      </Box>
+    </div>
   );
 };
