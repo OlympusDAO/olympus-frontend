@@ -10,7 +10,9 @@ export const useGetVotes = ({ proposalId, support }: { proposalId?: string; supp
         query MyQuery {
           voteCasts(orderBy: votes, orderDirection: desc, where: {proposalId: ${proposalId}, support: ${support} }) {
             votes
-            voter
+            voter {
+              address
+            }
             reason
             support
             transactionHash
@@ -21,7 +23,7 @@ export const useGetVotes = ({ proposalId, support }: { proposalId?: string; supp
       type votesResponse = {
         voteCasts: {
           votes: string;
-          voter: string;
+          voter: { address: string };
           reason: string;
           support: number;
           transactionHash: string;
