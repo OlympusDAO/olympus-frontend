@@ -16,6 +16,7 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { ContractParameters } from "src/views/Governance/Components/ContractParameters";
+import { GovernanceNavigation } from "src/views/Governance/Components/GovernanceNavigation";
 import { ProposalContainer } from "src/views/Governance/Components/ProposalContainer";
 import { DelegationMessage } from "src/views/Governance/Delegation/DelegationMessage";
 import { GovernanceDevTools } from "src/views/Governance/hooks/dev/GovernanceDevTools";
@@ -37,13 +38,14 @@ export const Governance = () => {
       <Box width="97%" maxWidth="974px">
         {import.meta.env.VITE_GOVERNANCE_DEV && <GovernanceDevTools />}
         <DelegationMessage />
+        <GovernanceNavigation />
         <Metric label="Current Voting Power" metric={`${Number(currentVotingWeight || 0).toFixed(2)} gOHM`} />
         <Box display="flex" justifyContent="right">
           <Link component={RouterLink} to="/governance/delegate">
             <PrimaryButton>Manage Voting Delegation</PrimaryButton>
           </Link>
         </Box>
-        <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="33px">
+        <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mt="33px">
           <Typography fontSize="24px" fontWeight="600">
             Upcoming & Active Proposals
           </Typography>
@@ -88,7 +90,7 @@ export const Governance = () => {
             </Typography>
           ) : null}
         </Box>
-        <Box overflow="scroll" bgcolor={theme.colors["paper"].card} borderRadius={"10px"} px="30px" py="20px" mt="66px">
+        <Box overflow="scroll" bgcolor={theme.colors.gray[700]} borderRadius={"10px"} px="30px" py="20px" mt="66px">
           <Typography fontSize="24px" fontWeight="600">
             Past Proposals
           </Typography>

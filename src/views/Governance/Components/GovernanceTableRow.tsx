@@ -31,45 +31,47 @@ export const GovernanceTableRow = ({
   const theme = useTheme();
 
   return (
-    <Box display="flex" flexDirection="column" bgcolor={theme.colors.paper.card} padding="20px" borderRadius={"10px"}>
-      <Typography fontWeight="600" fontSize="18px">
+    <div>
+      <Typography fontWeight="600" fontSize="18px" mb="3px">
         {tokenName}
-      </Typography>{" "}
-      <Tooltip title={address}>
-        <Typography sx={{ color: theme.colors.gray["40"] }}>
-          <>{truncateEthereumAddress(address, 9)}</>
-        </Typography>
-      </Tooltip>
-      <Box display="flex" gap="3px">
-        <Typography fontWeight="600">Balance: </Typography>
-        {Number(balance || 0).toFixed(2)} gOHM
-      </Box>
-      <Tooltip title={delegationAddress ? `Delegated to ${delegationAddress} ` : "Undelegated"}>
-        <Box display="flex" gap="3px">
-          <Typography fontWeight="600">Status:</Typography>
-          {delegationAddress ? "Delegated" : "Undelegated"}
+      </Typography>
+      <Box display="flex" flexDirection="column" bgcolor={theme.colors.gray[700]} padding="20px" borderRadius={"10px"}>
+        <Tooltip title={address}>
+          <Typography sx={{ color: theme.colors.gray["40"] }}>
+            <>{truncateEthereumAddress(address, 9)}</>
+          </Typography>
+        </Tooltip>
+        <Box display="flex" gap="3px" justifyContent={"space-between"}>
+          <Typography>Balance </Typography>
+          <Typography fontWeight="600">{Number(balance || 0).toFixed(2)} gOHM</Typography>
         </Box>
-      </Tooltip>
-      <Box display="flex" gap="3px" mt="18px">
-        <Box>
-          <PrimaryButton
-            onClick={() => setDelegateVoting({ currentDelegatedToAddress: delegationAddress, delegatorAddress })}
-          >
-            Delegate
-          </PrimaryButton>
+        <Tooltip title={delegationAddress ? `Delegated to ${delegationAddress} ` : "Undelegated"}>
+          <Box display="flex" gap="3px" justifyContent={"space-between"}>
+            <Typography>Status</Typography>
+            <Typography fontWeight="600">{delegationAddress ? "Delegated" : "Undelegated"}</Typography>
+          </Box>
+        </Tooltip>
+        <Box display="flex" gap="3px" mt="18px" justifyContent={"flex-end"}>
+          {delegationAddress && (
+            <SecondaryButton
+              disabled={delegateVoting.isLoading}
+              onClick={() => {
+                delegateVoting.mutate({ address: delegatorAddress, delegationAddress: ethers.constants.AddressZero });
+              }}
+              loading={delegateVoting.isLoading && !delegationAddress}
+            >
+              Revoke Delegation
+            </SecondaryButton>
+          )}
+          <Box>
+            <PrimaryButton
+              onClick={() => setDelegateVoting({ currentDelegatedToAddress: delegationAddress, delegatorAddress })}
+            >
+              Delegate
+            </PrimaryButton>
+          </Box>
         </Box>
-        {delegationAddress && (
-          <SecondaryButton
-            disabled={delegateVoting.isLoading}
-            onClick={() => {
-              delegateVoting.mutate({ address: delegatorAddress, delegationAddress: ethers.constants.AddressZero });
-            }}
-            loading={delegateVoting.isLoading && !delegationAddress}
-          >
-            Revoke
-          </SecondaryButton>
-        )}
       </Box>
-    </Box>
+    </div>
   );
 };
