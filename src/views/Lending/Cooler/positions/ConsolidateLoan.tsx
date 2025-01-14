@@ -212,8 +212,8 @@ export const ConsolidateLoans = ({
             <>
               <InfoNotification>
                 All existing open loans for this Cooler and Clearinghouse will be repaid and consolidated into a new
-                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} in
-                your wallet to cover the interest owed at consolidation.
+                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} and
+                gOHM in your wallet to cover the interest owed at consolidation.
               </InfoNotification>
               {walletFundsRequired && (
                 <>
@@ -233,6 +233,24 @@ export const ConsolidateLoans = ({
                       <Tooltip title={walletFundsRequired?.totalDebtNeededInWallet.toString()}>
                         <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
                           {Math.ceil(Number(walletFundsRequired?.totalDebtNeededInWallet.toString()) * 100) / 100}
+                        </Typography>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb={"9px"}
+                    mt={"9px"}
+                  >
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM Balance</Typography>
+                    <Box display="flex" flexDirection="column" textAlign="right">
+                      <Tooltip title={walletFundsRequired?.totalCollateralNeededInWallet.toString()}>
+                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                          {Math.ceil(Number(walletFundsRequired?.totalCollateralNeededInWallet.toString()) * 100000) /
+                            100000}
                         </Typography>
                       </Tooltip>
                     </Box>
