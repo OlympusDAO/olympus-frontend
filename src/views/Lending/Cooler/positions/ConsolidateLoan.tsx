@@ -1,4 +1,14 @@
-import { Box, Divider, FormControl, MenuItem, Select, SelectChangeEvent, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SvgIcon,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
@@ -202,8 +212,8 @@ export const ConsolidateLoans = ({
             <>
               <InfoNotification>
                 All existing open loans for this Cooler and Clearinghouse will be repaid and consolidated into a new
-                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} and
-                gOHM in your wallet to cover the interest owed at consolidation.
+                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} in
+                your wallet to cover the interest owed at consolidation.
               </InfoNotification>
               {walletFundsRequired && (
                 <>
@@ -220,24 +230,11 @@ export const ConsolidateLoans = ({
                       {clearingHouseAddresses.v3.debtAssetName} Balance
                     </Typography>
                     <Box display="flex" flexDirection="column" textAlign="right">
-                      <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                        {walletFundsRequired?.totalDebtNeededInWallet.toString()}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={"9px"}
-                    mt={"9px"}
-                  >
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM Balance</Typography>
-                    <Box display="flex" flexDirection="column" textAlign="right">
-                      <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                        {walletFundsRequired?.totalCollateralNeededInWallet.toString()}
-                      </Typography>
+                      <Tooltip title={walletFundsRequired?.totalDebtNeededInWallet.toString()}>
+                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                          {Math.ceil(Number(walletFundsRequired?.totalDebtNeededInWallet.toString()) * 100) / 100}
+                        </Typography>
+                      </Tooltip>
                     </Box>
                   </Box>
                 </>
@@ -260,9 +257,11 @@ export const ConsolidateLoans = ({
                   {clearingHouseAddresses.v3.debtAssetName}
                 </Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
-                  <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {allowances?.totalDebtWithFee.toString()}
-                  </Typography>
+                  <Tooltip title={allowances?.totalDebtWithFee.toString()}>
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                      {Math.ceil(Number(allowances?.totalDebtWithFee.toString()) * 100) / 100}
+                    </Typography>
+                  </Tooltip>
                 </Box>
               </Box>
               <Box
@@ -275,9 +274,11 @@ export const ConsolidateLoans = ({
               >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
-                  <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {allowances?.consolidatedLoanCollateral.toString()}
-                  </Typography>
+                  <Tooltip title={allowances?.consolidatedLoanCollateral.toString()}>
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                      {Math.ceil(Number(allowances?.consolidatedLoanCollateral.toString()) * 100000) / 100000}
+                    </Typography>
+                  </Tooltip>
                 </Box>
               </Box>
               <Box sx={{ width: "100%", my: "21px" }}>
