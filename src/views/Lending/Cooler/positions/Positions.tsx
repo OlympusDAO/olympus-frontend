@@ -132,6 +132,8 @@ export const CoolerPositions = () => {
       clearingHouses.v2 &&
       clearingHouses.v3);
 
+  const allLoansLoaded = isFetchedLoansV1 && isFetchedLoansV2 && isFetchedLoansV3;
+
   return (
     <div id="cooler-positions">
       <Grid container spacing={2}>
@@ -160,7 +162,7 @@ export const CoolerPositions = () => {
         </Box>
       )}
 
-      {allLoans.length === 0 && isFetchedLoansV1 && isFetchedLoansV2 && isFetchedLoansV3 && address && (
+      {allLoans.length === 0 && allLoansLoaded && address && (
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
@@ -183,13 +185,13 @@ export const CoolerPositions = () => {
         </Box>
       )}
 
-      {address && (!isFetchedLoansV1 || !isFetchedLoansV2 || !isFetchedLoansV3) && (
+      {address && !allLoansLoaded && (
         <Box display="flex" justifyContent="center">
           <Typography variant="h4">Loading your positions...</Typography>
         </Box>
       )}
 
-      {allLoans.length > 0 && (
+      {allLoans.length > 0 && allLoansLoaded && (
         <>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
