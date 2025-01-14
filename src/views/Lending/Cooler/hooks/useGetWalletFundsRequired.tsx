@@ -16,8 +16,6 @@ export const useGetWalletFundsRequired = ({
   const provider = useProvider();
   const networks = useTestableNetworks();
 
-  console.log("useGetConsolidationAllowances", clearingHouseAddress, coolerAddress, loanIds);
-
   const { data, isFetched, isLoading } = useQuery(
     ["useGetWalletFundsRequired", clearingHouseAddress, coolerAddress],
     async () => {
