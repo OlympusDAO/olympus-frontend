@@ -87,7 +87,11 @@ export const CoolerPositions = () => {
       ...(loansV2 || []).map(loan => ({ ...loan, version: "v2" })),
       ...(loansV3 || []).map(loan => ({ ...loan, version: "v3" })),
     ];
-    return allLoans;
+    return allLoans.sort((a, b) => {
+      const expiryA = Number(a.expiry?.toString() || 0);
+      const expiryB = Number(b.expiry?.toString() || 0);
+      return expiryA - expiryB;
+    });
   };
 
   const getActiveClearingHouse = () => {
