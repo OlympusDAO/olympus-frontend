@@ -1,4 +1,14 @@
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SvgIcon,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
@@ -17,6 +27,7 @@ import { useCreateCooler } from "src/views/Lending/Cooler/hooks/useCreateCooler"
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetConsolidationAllowances } from "src/views/Lending/Cooler/hooks/useGetConsolidationAllowances";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
+import { useGetWalletFundsRequired } from "src/views/Lending/Cooler/hooks/useGetWalletFundsRequired";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
@@ -107,22 +118,35 @@ export const ConsolidateLoans = ({
     loanIds,
   });
 
+  const { data: walletFundsRequired } = useGetWalletFundsRequired({
+    clearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
+    coolerAddress: coolerAddress || "",
+    loanIds,
+  });
+
   const maturityDate = new Date();
   maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
   const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
-  const [insufficientCollateral, setInsufficientCollateral] = useState<boolean | undefined>();
+  const { data: gOhmBalance } = useBalance(GOHM_ADDRESSES)[networks.MAINNET];
+  const [insufficientBalances, setInsufficientBalances] = useState<
+    | {
+        debt: boolean;
+        gohm: boolean;
+      }
+    | undefined
+  >();
+
   useEffect(() => {
-    if (!debtBalance) {
-      setInsufficientCollateral(undefined);
+    if (!debtBalance || !gOhmBalance || !walletFundsRequired) {
+      setInsufficientBalances(undefined);
       return;
     }
 
-    if (Number(debtBalance) < parseFloat(formatEther(totals.interest))) {
-      setInsufficientCollateral(true);
-    } else {
-      setInsufficientCollateral(false);
-    }
-  }, [debtBalance, totals.interest]);
+    setInsufficientBalances({
+      debt: Number(debtBalance) < Number(walletFundsRequired.totalDebtNeededInWallet.toString()),
+      gohm: Number(gOhmBalance) < Number(walletFundsRequired.totalCollateralNeededInWallet.toString()),
+    });
+  }, [debtBalance, gOhmBalance, walletFundsRequired]);
 
   const handleVersionChange = (event: SelectChangeEvent) => {
     setSelectedVersion(event.target.value as "v1" | "v2" | "v3");
@@ -188,16 +212,106 @@ export const ConsolidateLoans = ({
             <>
               <InfoNotification>
                 All existing open loans for this Cooler and Clearinghouse will be repaid and consolidated into a new
-                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} in
-                your wallet to cover the interest owed at consolidation.
+                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} and
+                gOHM in your wallet to cover the interest owed at consolidation.
               </InfoNotification>
+              {walletFundsRequired && (
+                <>
+                  <Typography fontWeight="500">Wallet Balances Required</Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb={"9px"}
+                    mt={"9px"}
+                  >
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                      {clearingHouseAddresses.v3.debtAssetName} Balance
+                    </Typography>
+                    <Box display="flex" flexDirection="column" textAlign="right">
+                      <Tooltip title={walletFundsRequired?.totalDebtNeededInWallet.toString()}>
+                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                          {Math.ceil(Number(walletFundsRequired?.totalDebtNeededInWallet.toString()) * 100) / 100}
+                        </Typography>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb={"9px"}
+                    mt={"9px"}
+                  >
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM Balance</Typography>
+                    <Box display="flex" flexDirection="column" textAlign="right">
+                      <Tooltip title={walletFundsRequired?.totalCollateralNeededInWallet.toString()}>
+                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                          {Math.ceil(Number(walletFundsRequired?.totalCollateralNeededInWallet.toString()) * 100000) /
+                            100000}
+                        </Typography>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                </>
+              )}
+              <Box sx={{ width: "100%", my: "21px" }}>
+                <Divider />
+              </Box>
+              <Typography fontWeight="500" mt="21px">
+                Required Allowances
+              </Typography>
               <Box
                 display="flex"
                 flexDirection="row"
                 justifyContent="space-between"
                 alignItems="center"
                 mb={"9px"}
-                mt={"21px"}
+                mt={"9px"}
+              >
+                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                  {clearingHouseAddresses.v3.debtAssetName}
+                </Typography>
+                <Box display="flex" flexDirection="column" textAlign="right">
+                  <Tooltip title={allowances?.totalDebtWithFee.toString()}>
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                      {Math.ceil(Number(allowances?.totalDebtWithFee.toString()) * 100) / 100}
+                    </Typography>
+                  </Tooltip>
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={"9px"}
+                mt={"9px"}
+              >
+                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM</Typography>
+                <Box display="flex" flexDirection="column" textAlign="right">
+                  <Tooltip title={allowances?.consolidatedLoanCollateral.toString()}>
+                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+                      {Math.ceil(Number(allowances?.consolidatedLoanCollateral.toString()) * 100000) / 100000}
+                    </Typography>
+                  </Tooltip>
+                </Box>
+              </Box>
+              <Box sx={{ width: "100%", my: "21px" }}>
+                <Divider />
+              </Box>
+              <Typography fontWeight="500" mt="21px">
+                Consolidated Loan Details
+              </Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={"9px"}
+                mt={"9px"}
               >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Loans to Consolidate</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
@@ -210,7 +324,7 @@ export const ConsolidateLoans = ({
                 justifyContent="space-between"
                 alignItems="center"
                 mb={"9px"}
-                mt={"21px"}
+                mt={"9px"}
               >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>New Principal Amount</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
@@ -226,7 +340,7 @@ export const ConsolidateLoans = ({
                 justifyContent="space-between"
                 alignItems="center"
                 mb={"9px"}
-                mt={"21px"}
+                mt={"9px"}
               >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Owed At Consolidation</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
@@ -242,7 +356,7 @@ export const ConsolidateLoans = ({
                 justifyContent="space-between"
                 alignItems="center"
                 mb={"9px"}
-                mt={"21px"}
+                mt={"9px"}
               >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>New Maturity Date</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
@@ -261,7 +375,7 @@ export const ConsolidateLoans = ({
               </Box>
             </>
           )}
-          {selectedVersion && !insufficientCollateral ? (
+          {selectedVersion && !insufficientBalances?.debt && !insufficientBalances?.gohm ? (
             <WalletConnectedGuard fullWidth>
               {needsCoolerCreation ? (
                 <PrimaryButton
@@ -311,9 +425,11 @@ export const ConsolidateLoans = ({
             </WalletConnectedGuard>
           ) : (
             <PrimaryButton disabled fullWidth>
-              {insufficientCollateral
+              {insufficientBalances?.debt
                 ? `Insufficient ${clearingHouseAddresses.v3.debtAssetName} Balance`
-                : "Select loans to consolidate"}
+                : insufficientBalances?.gohm
+                  ? "Insufficient gOHM Balance"
+                  : "Select loans to consolidate"}
             </PrimaryButton>
           )}
         </>

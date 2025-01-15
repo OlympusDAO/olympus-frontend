@@ -7,6 +7,35 @@ import { useGetEmissionConfig } from "src/views/Emission/hooks/useGetEmissionCon
 export const Emission = () => {
   const { data: emissionConfig, isLoading } = useGetEmissionConfig();
 
+  // Calculate annualized growth rates
+  const calculateAnnualizedRate = (dailyRate: number) => {
+    if (dailyRate === 0) {
+      return 0;
+    }
+    return (Math.pow(1 + dailyRate, 365) - 1) * 100;
+  };
+
+  // Parse the percentage strings into decimal numbers
+  const parsePercentage = (percentStr: string | undefined) => {
+    if (!percentStr) return undefined;
+    return Number(percentStr.replace("%", "")) / 100;
+  };
+
+  const emissionRate = parsePercentage(emissionConfig?.currentEmissionRate);
+  const premium = parsePercentage(emissionConfig?.premium);
+
+  const supplyGrowthRate = emissionRate !== undefined ? calculateAnnualizedRate(emissionRate) : undefined;
+
+  const treasuryGrowthRate =
+    emissionRate !== undefined && premium !== undefined
+      ? calculateAnnualizedRate(emissionRate * (1 + premium))
+      : undefined;
+
+  const backingGrowthRate =
+    emissionRate && premium
+      ? calculateAnnualizedRate((1 + emissionRate * (1 + premium)) / (1 + emissionRate) - 1)
+      : undefined;
+
   return (
     <div id="stake-view">
       <PageTitle name={"Emission Manager"} noMargin />
@@ -20,7 +49,7 @@ export const Emission = () => {
                   component={RouterLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  to={`https://app.bondprotocol.finance/#/market/1/${emissionConfig.activeMarketId}`}
+                  to={`https://app.bondprotocol.finance/#/market/1/${emissionConfig?.activeMarketId}`}
                 >
                   View market details
                 </Link>
@@ -51,6 +80,27 @@ export const Emission = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <Metric label="Next Emission" metric={emissionConfig?.nextSale.emission} isLoading={isLoading} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Metric
+                label="Supply Growth Rate (Annual)"
+                metric={supplyGrowthRate ? `${supplyGrowthRate.toFixed(2)}%` : "0%"}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Metric
+                label="Treasury Growth Rate (Annual)"
+                metric={treasuryGrowthRate ? `${treasuryGrowthRate.toFixed(2)}%` : "0%"}
+                isLoading={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Metric
+                label="Backing Growth Rate (Annual)"
+                metric={backingGrowthRate ? `${backingGrowthRate.toFixed(2)}%` : "0%"}
+                isLoading={isLoading}
+              />
             </Grid>
           </Grid>
         </Paper>
