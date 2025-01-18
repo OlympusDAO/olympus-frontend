@@ -20,26 +20,41 @@ export const useConsolidateCooler = () => {
       fromClearingHouseAddress,
       toClearingHouseAddress,
       loanIds,
+      newOwner,
     }: {
       fromCoolerAddress: string;
       toCoolerAddress: string;
       fromClearingHouseAddress: string;
       toClearingHouseAddress: string;
       loanIds: number[];
+      newOwner?: boolean;
     }) => {
       if (!signer) throw new Error(`Please connect a wallet`);
       const contractAddress = COOLER_CONSOLIDATION_CONTRACT.addresses[networks.MAINNET];
       const contract = CoolerConsolidation__factory.connect(contractAddress, signer);
-      const cooler = await contract.consolidate(
-        fromClearingHouseAddress,
-        toClearingHouseAddress,
-        fromCoolerAddress,
-        toCoolerAddress,
-        loanIds,
-        {
-          gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
-        },
-      );
+
+      const cooler = newOwner
+        ? await contract.consolidateWithNewOwner(
+            fromClearingHouseAddress,
+            toClearingHouseAddress,
+            fromCoolerAddress,
+            toCoolerAddress,
+            loanIds,
+            {
+              gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
+            },
+          )
+        : await contract.consolidate(
+            fromClearingHouseAddress,
+            toClearingHouseAddress,
+            fromCoolerAddress,
+            toCoolerAddress,
+            loanIds,
+            {
+              gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
+            },
+          );
+
       const receipt = await cooler.wait();
       return receipt;
     },

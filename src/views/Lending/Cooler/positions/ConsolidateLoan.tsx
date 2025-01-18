@@ -1,4 +1,9 @@
+import { getAddress } from "@ethersproject/address";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Divider,
   FormControl,
@@ -9,7 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { InfoNotification, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
@@ -26,8 +31,10 @@ import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolid
 import { useCreateCooler } from "src/views/Lending/Cooler/hooks/useCreateCooler";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetConsolidationAllowances } from "src/views/Lending/Cooler/hooks/useGetConsolidationAllowances";
+import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useGetWalletFundsRequired } from "src/views/Lending/Cooler/hooks/useGetWalletFundsRequired";
+import { useAccount } from "wagmi";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
@@ -57,6 +64,9 @@ export const ConsolidateLoans = ({
   const createCooler = useCreateCooler();
   const networks = useTestableNetworks();
   const [open, setOpen] = useState(false);
+  const { address } = useAccount();
+  const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
+  const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
 
   // Determine which versions are available for consolidation
   const hasV1Loans = v1Loans && v1Loans.length > 0;
@@ -152,26 +162,60 @@ export const ConsolidateLoans = ({
     setSelectedVersion(event.target.value as "v1" | "v2" | "v3");
   };
 
+  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputAddress = event.target.value;
+    setNewOwnerAddress(inputAddress);
+
+    try {
+      const checksummedAddress = getAddress(inputAddress.toLowerCase());
+      console.log("checksummedAddress", checksummedAddress);
+      // First check if empty or valid address, then check if it's not the current owner
+      const isValid = inputAddress === "" || checksummedAddress;
+      const isNotCurrentOwner = !address || !inputAddress || inputAddress.toLowerCase() !== address.toLowerCase();
+      setIsValidAddress(isValid && isNotCurrentOwner);
+    } catch {
+      setIsValidAddress(false);
+    }
+  };
+
   const handleConsolidate = () => {
     if (!coolerAddress || !v3CoolerAddress) return;
+
     coolerMutation.mutate(
       {
         fromCoolerAddress: coolerAddress,
-        toCoolerAddress: v3CoolerAddress,
+        toCoolerAddress: newOwnerAddress && isValidAddress ? newOwnerCoolerAddress || "" : v3CoolerAddress,
         fromClearingHouseAddress: selectedClearingHouse.clearingHouseAddress,
         toClearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
         loanIds,
+        newOwner: Boolean(newOwnerAddress && isValidAddress && newOwnerCoolerAddress),
       },
       {
         onSuccess: () => {
           setOpen(false);
           setSelectedVersion("");
+          setNewOwnerAddress("");
         },
       },
     );
   };
 
   const needsCoolerCreation = !v3CoolerAddress;
+
+  const { data: newOwnerCoolerAddress, isFetched: isFetchedNewOwnerCoolerAddress } = useGetCoolerForWallet({
+    walletAddress: isValidAddress ? newOwnerAddress : undefined,
+    factoryAddress: clearingHouseAddresses.v3?.factory,
+    collateralAddress: clearingHouseAddresses.v3?.collateralAddress,
+    debtAddress: clearingHouseAddresses.v3?.debtAddress,
+    clearingHouseVersion: "clearingHouseV3",
+  });
+
+  const getButtonText = () => {
+    if (newOwnerAddress && isValidAddress && newOwnerCoolerAddress) {
+      return `Transfer & Consolidate Loans`;
+    }
+    return `Consolidate Loans`;
+  };
 
   if (!showConsolidateButton) return null;
 
@@ -373,6 +417,58 @@ export const ConsolidateLoans = ({
                   </Typography>
                 </Box>
               </Box>
+              {selectedVersion && (
+                <>
+                  <Box sx={{ width: "100%", my: "21px" }}>
+                    <Divider />
+                  </Box>
+                  <Accordion
+                    sx={{
+                      background: "none",
+                      boxShadow: "none",
+                      "&:before": {
+                        display: "none",
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      sx={{
+                        padding: 0,
+                        "& .MuiAccordionSummary-content": {
+                          margin: 0,
+                        },
+                      }}
+                    >
+                      <Typography fontWeight="500">Transfer Ownership (Optional)</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ padding: "0 0 8px 0" }}>
+                      <Box>
+                        <Input
+                          id="new-owner-address"
+                          fullWidth
+                          label="New Owner EOA"
+                          value={newOwnerAddress}
+                          onChange={handleAddressChange}
+                          error={
+                            !isValidAddress ||
+                            Boolean(newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
+                          }
+                          helperText={
+                            !isValidAddress && newOwnerAddress.toLowerCase() === address?.toLowerCase()
+                              ? "New owner cannot be the current owner"
+                              : !isValidAddress
+                                ? "Invalid Ethereum address"
+                                : newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress
+                                  ? "This EOA must generate a V3 Cooler before you can consolidate to it"
+                                  : ""
+                          }
+                        />
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                </>
+              )}
             </>
           )}
           {selectedVersion && !insufficientBalances?.debt && !insufficientBalances?.gohm ? (
@@ -414,10 +510,15 @@ export const ConsolidateLoans = ({
                     <PrimaryButton
                       onClick={handleConsolidate}
                       loading={coolerMutation.isLoading}
-                      disabled={coolerMutation.isLoading || !selectedVersion}
+                      disabled={
+                        coolerMutation.isLoading ||
+                        !selectedVersion ||
+                        !isValidAddress ||
+                        (newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
+                      }
                       fullWidth
                     >
-                      Consolidate Loans
+                      {getButtonText()}
                     </PrimaryButton>
                   </TokenAllowanceGuard>
                 </TokenAllowanceGuard>
