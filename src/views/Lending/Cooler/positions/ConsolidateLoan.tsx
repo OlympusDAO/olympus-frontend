@@ -1,4 +1,4 @@
-import { isAddress } from "@ethersproject/address";
+import { getAddress } from "@ethersproject/address";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -34,6 +34,7 @@ import { useGetConsolidationAllowances } from "src/views/Lending/Cooler/hooks/us
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useGetWalletFundsRequired } from "src/views/Lending/Cooler/hooks/useGetWalletFundsRequired";
+import { useAccount } from "wagmi";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
@@ -63,6 +64,7 @@ export const ConsolidateLoans = ({
   const createCooler = useCreateCooler();
   const networks = useTestableNetworks();
   const [open, setOpen] = useState(false);
+  const { address } = useAccount();
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
 
@@ -161,9 +163,19 @@ export const ConsolidateLoans = ({
   };
 
   const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const address = event.target.value;
-    setNewOwnerAddress(address);
-    setIsValidAddress(address === "" || isAddress(address));
+    const inputAddress = event.target.value;
+    setNewOwnerAddress(inputAddress);
+
+    try {
+      const checksummedAddress = getAddress(inputAddress.toLowerCase());
+      console.log("checksummedAddress", checksummedAddress);
+      // First check if empty or valid address, then check if it's not the current owner
+      const isValid = inputAddress === "" || checksummedAddress;
+      const isNotCurrentOwner = !address || !inputAddress || inputAddress.toLowerCase() !== address.toLowerCase();
+      setIsValidAddress(isValid && isNotCurrentOwner);
+    } catch {
+      setIsValidAddress(false);
+    }
   };
 
   const handleConsolidate = () => {
@@ -190,7 +202,6 @@ export const ConsolidateLoans = ({
 
   const needsCoolerCreation = !v3CoolerAddress;
 
-  // Add this hook alongside other hooks
   const { data: newOwnerCoolerAddress, isFetched: isFetchedNewOwnerCoolerAddress } = useGetCoolerForWallet({
     walletAddress: isValidAddress ? newOwnerAddress : undefined,
     factoryAddress: clearingHouseAddresses.v3?.factory,
@@ -444,11 +455,13 @@ export const ConsolidateLoans = ({
                             Boolean(newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
                           }
                           helperText={
-                            !isValidAddress
-                              ? "Invalid Ethereum address"
-                              : newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress
-                                ? "This EOA must generate a V3 Cooler before you can consolidate to it"
-                                : ""
+                            !isValidAddress && newOwnerAddress.toLowerCase() === address?.toLowerCase()
+                              ? "New owner cannot be the current owner"
+                              : !isValidAddress
+                                ? "Invalid Ethereum address"
+                                : newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress
+                                  ? "This EOA must generate a V3 Cooler before you can consolidate to it"
+                                  : ""
                           }
                         />
                       </Box>
@@ -497,7 +510,12 @@ export const ConsolidateLoans = ({
                     <PrimaryButton
                       onClick={handleConsolidate}
                       loading={coolerMutation.isLoading}
-                      disabled={coolerMutation.isLoading || !selectedVersion}
+                      disabled={
+                        coolerMutation.isLoading ||
+                        !selectedVersion ||
+                        !isValidAddress ||
+                        (newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
+                      }
                       fullWidth
                     >
                       {getButtonText()}
