@@ -40,6 +40,7 @@ import { DelegateDetails } from "src/views/Governance/Delegation/DelegateDetails
 import { ManageDelegation } from "src/views/Governance/Delegation/manage";
 import { ProposalPage } from "src/views/Governance/Proposals";
 import { Cooler } from "src/views/Lending/Cooler";
+import CoolerV2 from "src/views/Lending/CoolerV2";
 import { Vault } from "src/views/Liquidity/Vault";
 import { MyBalances } from "src/views/MyBalances";
 import { Utility } from "src/views/Utility";
@@ -259,6 +260,7 @@ function App() {
                   <Route path="/liquidity/vaults/:id" element={<Vault />} />
                   <Route path="/lending" element={<Navigate to="/lending/cooler" />} />
                   <Route path="/lending/cooler" element={<Cooler />} />
+                  <Route path="/lending/cooler/v2" element={<CoolerV2 />} />
                   <Route path="/utility" element={<Utility />} />
                   <Route path="/governance" element={<Governance />} />
                   <Route path="/governance/manageDelegation" element={<ManageDelegation />} />

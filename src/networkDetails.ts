@@ -22,6 +22,7 @@ export enum NetworkId {
 
   BOBA = 288,
   BOBA_TESTNET = 28,
+  HOLESKY = 17000,
 }
 
 // VIEWS FOR NETWORK is used to denote which paths should be viewable on each network

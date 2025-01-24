@@ -104,6 +104,26 @@ export const { chains, provider, webSocketProvider } = configureChains(
     },
     goerli,
     arbitrumGoerli,
+    {
+      id: 17000,
+      network: "holesky",
+      name: "Holesky",
+      nativeCurrency: { name: "Holesky Ether", symbol: "ETH", decimals: 18 },
+      rpcUrls: {
+        default: {
+          http: ["https://ethereum-holesky.publicnode.com"],
+        },
+        public: {
+          http: ["https://ethereum-holesky.publicnode.com"],
+        },
+      },
+      contracts: {
+        multicall3: {
+          address: "0xca11bde05977b3631167028862be2a173976ca11",
+          blockCreated: 77,
+        },
+      },
+    },
   ],
   [
     // jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
