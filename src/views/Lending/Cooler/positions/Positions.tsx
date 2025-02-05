@@ -22,10 +22,13 @@ import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLo
 import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
+import { MonoCoolerPositions } from "src/views/Lending/CoolerV2/components/MonoCoolerPositions";
+import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
+  const { data: monoPosition } = useMonoCoolerPosition();
   const clearingHouses = {
     v1: useGetClearingHouse({ clearingHouse: "clearingHouseV1" }).data,
     v2: useGetClearingHouse({ clearingHouse: "clearingHouseV2" }).data,
@@ -33,7 +36,7 @@ export const CoolerPositions = () => {
   };
 
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
-  const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
+  const { data: loansV1, isLoading: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
     factoryAddress: clearingHouses.v1?.factory,
     collateralAddress: clearingHouses.v1?.collateralAddress,
@@ -48,7 +51,7 @@ export const CoolerPositions = () => {
     clearingHouseVersion: "clearingHouseV1",
   });
 
-  const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
+  const { data: loansV2, isLoading: isFetchedLoansV2 } = useGetCoolerLoans({
     walletAddress: address,
     factoryAddress: clearingHouses.v2?.factory,
     collateralAddress: clearingHouses.v2?.collateralAddress,
@@ -63,7 +66,7 @@ export const CoolerPositions = () => {
     clearingHouseVersion: "clearingHouseV2",
   });
 
-  const { data: loansV3, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
+  const { data: loansV3, isLoading: isFetchedLoansV3 } = useGetCoolerLoans({
     walletAddress: address,
     factoryAddress: clearingHouses.v3?.factory,
     collateralAddress: clearingHouses.v3?.collateralAddress,
@@ -166,7 +169,7 @@ export const CoolerPositions = () => {
         </Box>
       )}
 
-      {allLoans.length === 0 && allLoansLoaded && address && (
+      {allLoans.length === 0 && allLoansLoaded && address && !monoPosition?.collateral.gt(0) && (
         <Box display="flex" justifyContent="center">
           <Box textAlign="center">
             <Box fontWeight={700}>You currently have no Cooler loans</Box>
@@ -197,6 +200,9 @@ export const CoolerPositions = () => {
 
       {allLoans.length > 0 && allLoansLoaded && (
         <>
+          <Box mb="21px" mt="33px">
+            <Typography variant="h2">Cooler Loans</Typography>
+          </Box>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -308,6 +314,8 @@ export const CoolerPositions = () => {
           )}
         </>
       )}
+
+      <MonoCoolerPositions />
 
       {activeClearingHouse && (
         <>

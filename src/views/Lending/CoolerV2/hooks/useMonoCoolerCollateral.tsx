@@ -57,7 +57,10 @@ export const useMonoCoolerCollateral = () => {
     }) => {
       if (!signer || !address) throw new Error("No signer available");
 
-      const contract = CoolerV2MonoCooler__factory.connect(COOLER_V2_MONOCOOLER_ADDRESSES[networks.MAINNET], signer);
+      const contract = CoolerV2MonoCooler__factory.connect(
+        COOLER_V2_MONOCOOLER_ADDRESSES[networks.MAINNET_HOLESKY],
+        signer,
+      );
 
       const tx = await contract.withdrawCollateral(amount, recipient, delegationRequests);
       await tx.wait();

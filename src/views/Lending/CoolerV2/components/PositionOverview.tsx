@@ -36,13 +36,31 @@ export const PositionOverview = () => {
     return new Date(Date.now() + timeInMilliseconds);
   }, [position]);
 
+  const currentLtv = useMemo(() => {
+    if (!position?.currentDebt || !position?.collateral) return 0;
+    return (Number(formatUnits(position.currentDebt, 18)) / Number(formatUnits(position.collateral, 18))) * 100;
+  }, [position]);
+
   if (!position) return null;
 
   return (
     <Box>
       <DataRow title="Collateral" balance={`${formatUnits(position.collateral, 18)} gOHM`} />
       <DataRow title="Current Debt" balance={`${formatUnits(position.currentDebt, 18)} USDS`} />
-      <DataRow title="Current LTV" balance={`${(Number(formatUnits(position.currentLtv, 18)) * 100).toFixed(2)}%`} />
+      <DataRow title="Current LTV" balance={`${Number(formatUnits(position.currentLtv, 18)).toFixed(2)} USDS/gOHM`} />
+      <DataRow
+        title="Max LTV"
+        balance={`${Number(formatUnits(position.maxOriginationLtv, 18)).toFixed(2)} USDS/gOHM`}
+      />
+      <DataRow
+        title="Max Origination LTV"
+        balance={`${Number(formatUnits(position.maxOriginationLtv, 18)).toFixed(2)}%`}
+      />
+      <DataRow
+        title="Max Debt"
+        balance={`${Number(formatUnits(position.maxOriginationDebtAmount, 18)).toFixed(2)} USDS`}
+      />
+
       <DataRow
         title="Health Factor"
         balance={
@@ -54,7 +72,7 @@ export const PositionOverview = () => {
       <DataRow title="Max Borrow" balance={`${formatUnits(position.maxOriginationDebtAmount, 18)} USDS`} />
       <DataRow
         title="Liquidation Threshold"
-        balance={`${(Number(formatUnits(position.liquidationLtv, 18)) * 100).toFixed(2)}%`}
+        balance={`${Number(formatUnits(position.liquidationLtv, 18)).toFixed(2)} USDS/gOHM`}
       />
       <DataRow title="Interest Rate" balance={`${(Number(position.interestRateBps) / 100).toFixed(2)}%`} />
       <DataRow title="Total Delegated" balance={`${formatUnits(position.totalDelegated, 18)} gOHM`} />
