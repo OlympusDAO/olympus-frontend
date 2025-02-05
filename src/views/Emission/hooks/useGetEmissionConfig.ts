@@ -1,48 +1,132 @@
 import { useQuery } from "@tanstack/react-query";
+import { multicall } from "@wagmi/core";
 import { BigNumber } from "ethers";
 import { formatUnits } from "ethers/lib/utils.js";
 import { EMISSION_MANAGER_CONTRACT } from "src/constants/contracts";
-import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { BondFixedTermSDA__factory } from "src/typechain";
+import { BondFixedTermSDA__factory, EmissionManager__factory } from "src/typechain";
 
 export const useGetEmissionConfig = () => {
   const networks = useTestableNetworks();
   const contract = EMISSION_MANAGER_CONTRACT.getEthersContract(networks.MAINNET);
   const { data, isFetched, isLoading } = useQuery(["getEmissionConfig", networks.MAINNET], async () => {
-    const baseEmissionRate = await contract.baseEmissionRate();
-    const backing = await contract.backing();
-    const premium = await contract.getPremium().catch(() => BigNumber.from(0));
-    const minimumPremium = await contract.minimumPremium();
+    const emissionManagerConfig = {
+      abi: EmissionManager__factory.abi,
+      address: EMISSION_MANAGER_CONTRACT.getAddress(networks.MAINNET) as `0x${string}`,
+    };
+    const [
+      baseEmissionRate,
+      backing,
+      premium,
+      minimumPremium,
+      rateChange,
+      activeMarketId,
+      vestingPeriod,
+      tellerAddress,
+      reserveAddress,
+      kernelAddress,
+      auctioneerAddress,
+      chregAddress,
+      mintrAddress,
+      priceAddress,
+      rolesAddress,
+      trsryAddress,
+    ] = await multicall({
+      contracts: [
+        {
+          ...emissionManagerConfig,
+          functionName: "baseEmissionRate",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "backing",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "getPremium",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "minimumPremium",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "rateChange",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "activeMarketId",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "vestingPeriod",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "teller",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "reserve",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "kernel",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "auctioneer",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "CHREG",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "MINTR",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "PRICE",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "ROLES",
+        },
+        {
+          ...emissionManagerConfig,
+          functionName: "TRSRY",
+        },
+      ],
+    });
+
     const [nextSalePremium, nextSaleEmissionRate, nextSaleEmission] = await contract
       .getNextSale()
       .catch(() => [BigNumber.from(0), BigNumber.from(0), BigNumber.from(0)]);
-    const rateChange = await contract.rateChange();
-    const activeMarketId = await contract.activeMarketId();
-    const vestingPeriod = await contract.vestingPeriod();
-
-    // // //addresses
-    const tellerAddress = await contract.teller();
-    const reserveAddress = await contract.reserve();
-    const kernelAddress = await contract.kernel();
-    const auctioneerAddress = await contract.auctioneer();
-    const chregAddress = await contract.CHREG();
-    const mintrAddress = await contract.MINTR();
-    const priceAddress = await contract.PRICE();
-    const rolesAddress = await contract.ROLES();
-    const trsryAddress = await contract.TRSRY();
-
-    //get active market information
-    const provider = Providers.getStaticProvider(networks.MAINNET);
-    const bondAuctioneer = BondFixedTermSDA__factory.connect(auctioneerAddress, provider);
 
     let currentEmissionRate = BigNumber.from(0);
     let currentEmission = BigNumber.from(0);
     if (activeMarketId.gt(0)) {
-      const totalSupply = await contract.getSupply();
-      const marketInfo = await bondAuctioneer.markets(activeMarketId);
-      // Get remaining capacity - this is the current emission amount left
-      currentEmission = marketInfo.capacity;
+      //bond market info
+      const bondMarketInfo = {
+        abi: BondFixedTermSDA__factory.abi,
+        address: auctioneerAddress,
+      };
+      const [totalSupply, marketInfo] = await multicall({
+        contracts: [
+          {
+            ...emissionManagerConfig,
+            functionName: "getSupply",
+          },
+          {
+            ...bondMarketInfo,
+            functionName: "markets",
+            args: [activeMarketId],
+          },
+        ],
+      });
+      // Get original capacity - this is the capacity plus the amount sold
+      currentEmission = marketInfo.capacity.add(marketInfo.sold);
       // Calculate emission rate: (emission * 10^decimals) / supply
       currentEmissionRate = currentEmission.mul(BigNumber.from(10).pow(9)).div(totalSupply);
     }
