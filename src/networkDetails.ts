@@ -22,6 +22,9 @@ export enum NetworkId {
 
   BOBA = 288,
   BOBA_TESTNET = 28,
+
+  BERACHAIN = 80094,
+  BERACHAIN_TESTNET = 80084,
 }
 
 // VIEWS FOR NETWORK is used to denote which paths should be viewable on each network

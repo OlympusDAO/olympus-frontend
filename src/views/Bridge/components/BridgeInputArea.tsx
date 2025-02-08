@@ -56,6 +56,8 @@ export const BridgeInputArea = () => {
                   token={
                     BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token === "BASE" ? (
                       <Avatar src="/assets/images/base.svg" sx={{ width: "20px", height: "20px" }} />
+                    ) : BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token === "BERACHAIN" ? (
+                      <Avatar src="/assets/images/berachain.svg" sx={{ width: "20px", height: "20px" }} />
                     ) : (
                       <Token
                         name={BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS].token as OHMTokenProps["name"]}
@@ -80,6 +82,8 @@ export const BridgeInputArea = () => {
                   token={
                     BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token === "BASE" ? (
                       <Avatar src="/assets/images/base.svg" sx={{ width: "20px", height: "20px" }} />
+                    ) : BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].token === "BERACHAIN" ? (
+                      <Avatar src="/assets/images/berachain.svg" sx={{ width: "20px", height: "20px" }} />
                     ) : (
                       <Token
                         name={
