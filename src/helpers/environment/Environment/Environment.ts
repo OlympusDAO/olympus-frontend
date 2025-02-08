@@ -173,6 +173,16 @@ export class Environment {
           key: `VITE_BASE_TESTNET_NODE_URL`,
           fallback: "https://sepolia.base.org",
         });
+      case NetworkId.BERACHAIN:
+        return this._get({
+          key: `VITE_BERACHAIN_NODE_URL`,
+          fallback: "https://rpc.berachain.com",
+        });
+      case NetworkId.BERACHAIN_TESTNET:
+        return this._get({
+          key: `VITE_BERACHAIN_TESTNET_NODE_URL`,
+          fallback: "https://bartio.rpc.berachain.com",
+        });
     }
   };
   public static getArchiveNodeUrls = (networkId: NetworkId) => {
