@@ -53,7 +53,7 @@ export const layerZeroChainIdsFromEVM = ({ evmChainId }: { evmChainId: number })
     case NetworkId.BASE:
       return 184;
     case NetworkId.BERACHAIN:
-      return 30362;
+      return 362;
     case NetworkId.MAINNET:
     default:
       return 101;
