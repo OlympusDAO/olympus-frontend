@@ -23,8 +23,14 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
   // Move state into the hook
   const [collateralAmount, setCollateralAmount] = useState(new DecimalBigNumber("0", 18));
 
+  // Calculate hourly interest rate once
+  const hourlyInterestRate = useMemo(() => {
+    if (!position?.interestRateBps) return 0;
+    return position.interestRateBps / 10000 / 8760;
+  }, [position?.interestRateBps]);
+
   const [borrowAmount, setBorrowAmount] = useState<DecimalBigNumber>(() => {
-    if (!loan || !position?.maxOriginationLtv || !position?.interestRateBps) return new DecimalBigNumber("0", 18);
+    if (!loan || !position?.maxOriginationLtv || hourlyInterestRate === 0) return new DecimalBigNumber("0", 18);
 
     if (isRepayMode) {
       return new DecimalBigNumber(loan.debt, 18);
@@ -38,7 +44,6 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
       const additionalBorrowing = maxBorrow.sub(currentDebt);
 
       // Calculate one hour's interest
-      const hourlyInterestRate = position.interestRateBps / 10000 / 8760;
       const oneHourInterest = currentDebt.mul(new DecimalBigNumber(hourlyInterestRate.toFixed(18)));
 
       // If additional borrowing is less than or equal to one hour's interest, return zero
@@ -75,7 +80,6 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
   // Liquidation threshold calculation
   const liquidationThreshold = useMemo(() => {
     if (!position?.liquidationLtv) return new DecimalBigNumber("0", 18);
-    console.log("existingCollateral", loan?.collateral.toString(), currentDebt.toString());
 
     if (isRepayMode && loan) {
       const existingCollateral = new DecimalBigNumber(loan.collateral, 18);
@@ -138,10 +142,9 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
 
   // One hour interest calculation
   const oneHourInterest = useMemo(() => {
-    if (!position?.interestRateBps || !currentDebt) return new DecimalBigNumber("0", 18);
-    const hourlyInterestRate = position.interestRateBps / 10000 / 8760;
+    if (!currentDebt || hourlyInterestRate === 0) return new DecimalBigNumber("0", 18);
     return currentDebt.mul(new DecimalBigNumber(hourlyInterestRate.toFixed(18)));
-  }, [position?.interestRateBps, currentDebt]);
+  }, [hourlyInterestRate, currentDebt]);
 
   // Projected values
   const projectedDebt = useMemo(() => {
@@ -163,10 +166,7 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
       if (!loan) return new DecimalBigNumber("0", 18);
 
       const existingCollateral = new DecimalBigNumber(loan.collateral, 18);
-      const existingDebt = new DecimalBigNumber(loan.debt, 18);
 
-      // Calculate what percentage of debt is being repaid
-      const repaymentRatio = borrowAmount.div(existingDebt);
       // Calculate how much collateral will be withdrawn
       const collateralBeingWithdrawn = collateralToBeReleased;
 
@@ -182,7 +182,7 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
     // For existing positions, add new collateral to existing
     const existingCollateral = new DecimalBigNumber(loan.collateral, 18);
     return existingCollateral.add(collateralAmount);
-  }, [loan, isRepayMode, collateralAmount, borrowAmount, collateralToBeReleased]);
+  }, [loan, isRepayMode, collateralAmount, collateralToBeReleased]);
 
   const handleRepayLtvChange = (value: number) => {
     if (!position?.maxOriginationLtv || !loan) return;
@@ -210,10 +210,9 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
   };
 
   const handleBorrowLtvChange = (value: number) => {
-    if (!position?.maxOriginationLtv || !position?.interestRateBps) return;
+    if (!position?.maxOriginationLtv || hourlyInterestRate === 0) return;
 
     const maxLtv = new DecimalBigNumber(position.maxOriginationLtv, 18);
-    const hourlyInterestRate = position.interestRateBps / 10000 / 8760;
 
     if (loan) {
       const existingCollateral = new DecimalBigNumber(loan.collateral, 18);

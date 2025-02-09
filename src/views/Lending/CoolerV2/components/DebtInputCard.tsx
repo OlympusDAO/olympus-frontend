@@ -53,7 +53,7 @@ export const DebtInputCard = ({
       info={
         loan && isRepayMode
           ? `Total Debt: ${formatNumber(Number(ethers.utils.formatUnits(loan.debt)), 4)} USDS`
-          : `Balance: ${debtBalance?.toString({ decimals: 4 }) || "0"} USDS`
+          : `Debt to Borrow`
       }
       endString={isRepayMode ? "Max" : ""}
       endStringOnClick={

@@ -8,44 +8,29 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { OHMTokenProps, PrimaryButton, SecondaryButton, Token } from "@olympusdao/component-library";
-import { ethers } from "ethers";
-import { useMemo, useState } from "react";
+import { BigNumber, ethers } from "ethers";
+import { useState } from "react";
 import usdsIcon from "src/assets/tokens/usds.svg?react";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { formatNumber } from "src/helpers";
 import { CreateOrRepayLoanV2 } from "src/views/Lending/CoolerV2/components/CreateOrRepayLoanV2";
+import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 
 export const MonoCoolerPositions = () => {
   const { data: position } = useMonoCoolerPosition();
+  const { additionalBorrowingAvailable } = useMonoCoolerCalculations({
+    loan: {
+      debt: position?.currentDebt || BigNumber.from("0"),
+      collateral: position?.collateral || BigNumber.from("0"),
+    },
+    isRepayMode: false,
+  });
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const [isRepayMode, setIsRepayMode] = useState(false);
-
-  // Calculate how much collateral can be withdrawn
-  const withdrawableCollateral = useMemo(() => {
-    if (!position) return new DecimalBigNumber("0", 18);
-
-    // If there's no debt, all collateral can be withdrawn
-    if (position.currentDebt.eq(0)) {
-      return new DecimalBigNumber(position.collateral.toString(), 18);
-    }
-
-    // Calculate minimum collateral needed for current debt
-    const minCollateralNeeded = new DecimalBigNumber(position.currentDebt.toString(), 18).div(
-      new DecimalBigNumber(position.maxOriginationLtv.toString(), 18),
-    );
-
-    const currentCollateral = new DecimalBigNumber(position.collateral.toString(), 18);
-
-    // If we have more than minimum needed, the excess can be withdrawn
-    if (currentCollateral.gt(minCollateralNeeded)) {
-      return currentCollateral.sub(minCollateralNeeded);
-    }
-
-    return new DecimalBigNumber("0", 18);
-  }, [position]);
 
   if (!position) return null;
 
@@ -55,12 +40,12 @@ export const MonoCoolerPositions = () => {
     return (
       <>
         <Box mb="21px" mt="33px">
-          <Typography variant="h2">MonoCooler Position</Typography>
+          {/* <Typography variant="h2">Cooler V2 Positions</Typography> */}
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
           <Box textAlign="center">
             <Typography variant="h6" mb={2}>
-              You don't have any active positions
+              You currently have no Cooler loans
             </Typography>
             <PrimaryButton
               onClick={() => {
@@ -68,7 +53,7 @@ export const MonoCoolerPositions = () => {
                 setCreateLoanModalOpen(true);
               }}
             >
-              Create Position
+              Borrow USDS & Open Position
             </PrimaryButton>
           </Box>
         </Box>
@@ -97,7 +82,10 @@ export const MonoCoolerPositions = () => {
                 Current Debt
               </TableCell>
               <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                Liquidation Threshold
+                Buffer To Liquidation
+              </TableCell>
+              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                Available Borrowing
               </TableCell>
               <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right"></TableCell>
             </TableRow>
@@ -106,7 +94,8 @@ export const MonoCoolerPositions = () => {
             <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
                 <Box display="flex" alignItems="center" gap="3px">
-                  {parseFloat(ethers.utils.formatUnits(position.collateral)).toFixed(4)} {position.collateralAssetName}
+                  {formatNumber(Number(ethers.utils.formatUnits(position.collateral)), 4)}{" "}
+                  {position.collateralAssetName}
                   <Token name={position.collateralAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
                 </Box>
               </TableCell>
@@ -115,7 +104,7 @@ export const MonoCoolerPositions = () => {
               </TableCell>
               <TableCell align="right" sx={{ padding: "9px" }}>
                 <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
-                  {parseFloat(ethers.utils.formatUnits(position.currentDebt)).toFixed(2)} {position.debtAssetName}
+                  {formatNumber(Number(ethers.utils.formatUnits(position.currentDebt)))} {position.debtAssetName}
                   {position.debtAssetName === "USDS" ? (
                     <SvgIcon
                       color="primary"
@@ -129,9 +118,32 @@ export const MonoCoolerPositions = () => {
                 </Box>
               </TableCell>
               <TableCell align="right" sx={{ padding: "9px" }}>
+                <Tooltip
+                  title={
+                    position.projectedLiquidationDate
+                      ? `Your position is projected to be liquidated on ${position.projectedLiquidationDate.toLocaleString()}`
+                      : "Your position is currently healthy"
+                  }
+                >
+                  <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
+                    {formatNumber(Number(ethers.utils.formatUnits(position.liquidationDebtAmount)))}{" "}
+                    {position.debtAssetName}
+                    {position.debtAssetName === "USDS" ? (
+                      <SvgIcon
+                        color="primary"
+                        sx={{ width: "20px", height: "20px" }}
+                        viewBox="0 0 50 50"
+                        component={usdsIcon}
+                      />
+                    ) : (
+                      <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
+                    )}
+                  </Box>
+                </Tooltip>
+              </TableCell>
+              <TableCell align="right" sx={{ padding: "9px" }}>
                 <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
-                  {parseFloat(ethers.utils.formatUnits(position.liquidationDebtAmount)).toFixed(2)}{" "}
-                  {position.debtAssetName}
+                  {formatNumber(Number(additionalBorrowingAvailable.toString()))} USDS
                   {position.debtAssetName === "USDS" ? (
                     <SvgIcon
                       color="primary"

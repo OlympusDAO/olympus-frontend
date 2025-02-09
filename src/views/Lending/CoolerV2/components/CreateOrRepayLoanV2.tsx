@@ -4,7 +4,7 @@ import { BigNumber } from "ethers";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { COOLER_V2_MONOCOOLER_ADDRESSES } from "src/constants/addresses";
+import { COOLER_V2_COMPOSITES_ADDRESSES, COOLER_V2_MONOCOOLER_ADDRESSES } from "src/constants/addresses";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -33,7 +33,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
     networks.MAINNET_HOLESKY
   ];
-  const { borrow, repay, withdrawCollateral, repayAndWithdrawCollateral, addCollateralAndBorrow, addCollateral } =
+  const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
   const { address } = useAccount();
 
@@ -46,7 +46,6 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
     currentDebt,
     maxPotentialBorrowAmount,
     liquidationThreshold,
-    healthFactor,
     collateralToBeReleased,
     oneHourInterest,
     projectedDebt,
@@ -63,15 +62,15 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
 
   if (!position) return null;
 
-  console.log(
-    borrowAmount.toString(),
-    "borrowAmount",
-    currentDebt.toString(),
-    "currentDebt",
-    calculateRepayAmount(borrowAmount, Number(position.interestRateBps), true).toString(),
-    "calculateRepayAmount",
-  );
-
+  const interactWithComposites =
+    // Case 1: Borrowing with collateral
+    (!isRepayMode &&
+      collateralAmount.gt(new DecimalBigNumber("0", 18)) &&
+      borrowAmount.gt(new DecimalBigNumber("0", 18))) ||
+    // Case 2: Repaying and withdrawing
+    (isRepayMode &&
+      borrowAmount.gt(new DecimalBigNumber("0", 18)) &&
+      collateralToBeReleased.gt(new DecimalBigNumber("0", 18)));
   return (
     <Modal
       maxWidth="542px"
@@ -150,8 +149,9 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 borrow.isLoading ||
                 repay.isLoading ||
                 withdrawCollateral.isLoading ||
-                repayAndWithdrawCollateral.isLoading ||
-                addCollateralAndBorrow.isLoading;
+                repayAndRemoveCollateral.isLoading ||
+                addCollateralAndBorrow.isLoading ||
+                addCollateral.isLoading;
 
               // Check if collateral exceeds balance
               const exceedsCollateralBalance =
@@ -237,7 +237,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 if (
                   !withdrawOnly &&
                   (repay.isLoading ||
-                    repayAndWithdrawCollateral.isLoading ||
+                    repayAndRemoveCollateral.isLoading ||
                     borrowAmount.eq(new DecimalBigNumber("0", 18)))
                 ) {
                   return (
@@ -260,7 +260,9 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                   tokenAddressMap={{
                     [networks.MAINNET_HOLESKY]: isRepayMode ? position.debtAddress : position.collateralAddress,
                   }}
-                  spenderAddressMap={COOLER_V2_MONOCOOLER_ADDRESSES}
+                  spenderAddressMap={
+                    interactWithComposites ? COOLER_V2_COMPOSITES_ADDRESSES : COOLER_V2_MONOCOOLER_ADDRESSES
+                  }
                   isVertical
                   message={
                     <>
@@ -288,9 +290,9 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                           });
                         } else {
                           if (collateralToBeReleased.gt(new DecimalBigNumber("0", 18))) {
-                            repayAndWithdrawCollateral.mutate(
+                            repayAndRemoveCollateral.mutate(
                               {
-                                amount: borrowAmount,
+                                repayAmount: borrowAmount,
                                 collateralAmount: collateralToBeReleased,
                                 fullRepay: borrowAmount.eq(currentDebt),
                               },
@@ -320,14 +322,30 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                       } else {
                         if (collateralAmount.gt(new DecimalBigNumber("0", 18))) {
                           if (borrowAmount.gt(new DecimalBigNumber("0", 18))) {
-                            addCollateralAndBorrow.mutate({
-                              collateralAmount: collateralAmount,
-                              borrowAmount: borrowAmount,
-                            });
+                            addCollateralAndBorrow.mutate(
+                              {
+                                collateralAmount: collateralAmount,
+                                borrowAmount: borrowAmount,
+                              },
+                              {
+                                onSuccess: () => {
+                                  resetState();
+                                  setModalOpen(false);
+                                },
+                              },
+                            );
                           } else {
-                            addCollateral.mutate({
-                              amount: collateralAmount,
-                            });
+                            addCollateral.mutate(
+                              {
+                                amount: collateralAmount,
+                              },
+                              {
+                                onSuccess: () => {
+                                  resetState();
+                                  setModalOpen(false);
+                                },
+                              },
+                            );
                           }
                         } else {
                           borrow.mutate(

@@ -2,9 +2,6 @@ import { Box, Link } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
-import { BorrowRepay } from "src/views/Lending/CoolerV2/components/BorrowRepay";
-import { CollateralManagement } from "src/views/Lending/CoolerV2/components/CollateralManagement";
-import { CombinedOperations } from "src/views/Lending/CoolerV2/components/CombinedOperations";
 import { DelegationManagement } from "src/views/Lending/CoolerV2/components/DelegationManagement";
 import { PositionOverview } from "src/views/Lending/CoolerV2/components/PositionOverview";
 
@@ -32,9 +29,6 @@ export const CoolerV2 = () => {
       />
       <Box width="97%" maxWidth="974px" display="flex" flexDirection="column" gap={2}>
         <PositionOverview />
-        <CombinedOperations />
-        <CollateralManagement />
-        <BorrowRepay />
         <DelegationManagement />
       </Box>
     </div>

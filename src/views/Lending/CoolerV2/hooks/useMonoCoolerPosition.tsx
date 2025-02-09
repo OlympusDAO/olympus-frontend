@@ -1,109 +1,122 @@
 import { useQuery } from "@tanstack/react-query";
 import { multicall } from "@wagmi/core";
-import { NetworkId } from "src/constants";
-import { COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
-import { Providers } from "src/helpers/providers/Providers/Providers";
+import { formatUnits } from "ethers/lib/utils";
+import { COOLER_V2_MONOCOOLER_ADDRESSES } from "src/constants/addresses";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { CoolerV2MonoCooler__factory, IERC20__factory } from "src/typechain";
-import { useAccount, useNetwork, useSigner } from "wagmi";
+import { useAccount } from "wagmi";
 
 export const useMonoCoolerPosition = () => {
   const { address = "" } = useAccount();
-  const { data: signer } = useSigner();
-  const { chain = { id: NetworkId.MAINNET } } = useNetwork();
   const networks = useTestableNetworks();
-  return useQuery(
-    ["monoCoolerPosition", address, chain.id],
-    async () => {
-      if (!address || !signer) return null;
 
-      const [position, debt, interestRate, maxOriginationLtv, liquidationLtv, debtAddress, collateralAddress] =
-        await multicall({
-          contracts: [
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "accountPosition",
-              args: [address],
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "accountDebt",
-              args: [address],
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "interestRateBps",
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "maxOriginationLtv",
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "liquidationLtv",
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "debtToken",
-            },
-            {
-              abi: CoolerV2MonoCooler__factory.abi,
-              address: COOLER_V2_MONOCOOLER_CONTRACT.getAddress(chain.id) as `0x${string}`,
-              functionName: "collateralToken",
-            },
-          ],
-        });
+  return useQuery(
+    ["monoCoolerPosition", address, networks.MAINNET_HOLESKY],
+    async () => {
+      if (!address) return null;
+
+      const config = {
+        address: COOLER_V2_MONOCOOLER_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`,
+        abi: CoolerV2MonoCooler__factory.abi,
+      };
+
+      const [
+        accountPosition,
+        interestRateWad,
+        [maxOriginationLtv, liquidationLtv],
+        collateralToken,
+        debtToken,
+        borrowsPaused,
+      ] = await multicall({
+        contracts: [
+          {
+            ...config,
+            functionName: "accountPosition",
+            args: [address],
+          },
+          {
+            ...config,
+            functionName: "interestRateWad",
+          },
+          {
+            ...config,
+            functionName: "loanToValues",
+          },
+          {
+            ...config,
+            functionName: "collateralToken",
+          },
+          {
+            ...config,
+            functionName: "debtToken",
+          },
+          {
+            ...config,
+            functionName: "borrowsPaused",
+          },
+        ],
+      });
 
       const [debtAssetName, collateralAssetName] = await multicall({
         contracts: [
           {
             abi: IERC20__factory.abi,
-            address: debtAddress,
+            address: debtToken,
             functionName: "symbol",
           },
           {
             abi: IERC20__factory.abi,
-            address: collateralAddress,
+            address: collateralToken,
             functionName: "symbol",
           },
         ],
       });
 
-      //retrieve the name of the debt token
-      const debtContract = IERC20__factory.connect(debtAddress, Providers.getStaticProvider(networks.MAINNET_HOLESKY));
-      const collateralContract = IERC20__factory.connect(
-        collateralAddress,
-        Providers.getStaticProvider(networks.MAINNET_HOLESKY),
-      );
+      // Calculate projected liquidation date
+      let projectedLiquidationDate: Date | null = null;
+      if (accountPosition.currentDebt.gt(0) && accountPosition.collateral.gt(0)) {
+        // Convert interest rate from basis points to decimal (1 bp = 0.0001)
+        const annualRate = Math.round((Math.exp(Number(interestRateWad) / 1e18) - 1) * 10000) / 10000;
+        const currentLtv = Number(formatUnits(accountPosition.currentLtv, 18));
+        const liquidationLtvValue = Number(formatUnits(liquidationLtv, 18));
+
+        // If already at or above liquidation LTV, return now
+        if (currentLtv >= liquidationLtvValue) {
+          projectedLiquidationDate = new Date();
+        } else {
+          // Calculate time until liquidation using continuous compound interest formula
+          // liquidationLtv = currentLtv * e^(r*t)
+          // t = ln(liquidationLtv/currentLtv) / r
+          const timeInYears = Math.log(liquidationLtvValue / currentLtv) / annualRate;
+          const timeInMilliseconds = timeInYears * 365 * 24 * 60 * 60 * 1000;
+          projectedLiquidationDate = new Date(Date.now() + timeInMilliseconds);
+        }
+      }
 
       return {
-        // Raw values from contract
-        collateral: position.collateral,
-        currentDebt: position.currentDebt,
-        maxOriginationDebtAmount: position.maxOriginationDebtAmount,
-        liquidationDebtAmount: position.liquidationDebtAmount,
-        healthFactor: position.healthFactor,
-        currentLtv: position.currentLtv,
-        totalDelegated: position.totalDelegated,
-        numDelegateAddresses: position.numDelegateAddresses,
-        maxDelegateAddresses: position.maxDelegateAddresses,
-        interestRateBps: interestRate,
+        collateral: accountPosition.collateral,
+        currentDebt: accountPosition.currentDebt,
+        maxOriginationDebtAmount: accountPosition.maxOriginationDebtAmount,
+        liquidationDebtAmount: accountPosition.liquidationDebtAmount,
+        healthFactor: accountPosition.healthFactor,
+        currentLtv: accountPosition.currentLtv,
+        totalDelegated: accountPosition.totalDelegated,
+        numDelegateAddresses: accountPosition.numDelegateAddresses,
+        maxDelegateAddresses: accountPosition.maxDelegateAddresses,
+        interestRateWad,
+        interestRateBps: Math.round((Math.exp(Number(interestRateWad) / 1e18) - 1) * 10000),
         maxOriginationLtv,
         liquidationLtv,
         debtAssetName,
         collateralAssetName,
-        debtAddress,
-        collateralAddress,
+        debtAddress: debtToken,
+        collateralAddress: collateralToken,
+        borrowsPaused,
+        projectedLiquidationDate,
       };
     },
     {
-      enabled: !!address && !!signer,
+      enabled: Boolean(address),
     },
   );
 };

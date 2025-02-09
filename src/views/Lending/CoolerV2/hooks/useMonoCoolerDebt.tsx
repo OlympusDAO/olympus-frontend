@@ -1,17 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ethers } from "ethers";
 import { NetworkId } from "src/constants";
-import { COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
+import { COOLER_V2_COMPOSITES_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { DelegationRequest } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCollateral";
+import type { DLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
-import { useAccount, useNetwork, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner, useSignTypedData } from "wagmi";
 
 const calculateBorrowAmount = (amount: DecimalBigNumber, interestRateBps: number) => {
-  // Convert annual interest rate (in basis points) to hourly rate
-  // interestRateBps is in basis points (1 bp = 0.01%)
-  // 1 year = 8760 hours
-  // Formula: hourlyRate = (interestRateBps / 10000) / 8760
   const hourlyInterestRate = interestRateBps / 10000 / 8760;
   const hourlyInterestRateString = hourlyInterestRate.toFixed(18);
 
@@ -21,15 +18,6 @@ const calculateBorrowAmount = (amount: DecimalBigNumber, interestRateBps: number
   // Subtract buffer to ensure there's room for interest accrual
   const finalBorrowAmount = amount.sub(bufferAmount);
 
-  console.log(
-    finalBorrowAmount.toString(),
-    "finalBorrowAmount",
-    amount.toString(),
-    "originalAmount",
-    bufferAmount.toString(),
-    "bufferAmount",
-  );
-
   return finalBorrowAmount;
 };
 
@@ -37,7 +25,7 @@ export const calculateRepayAmount = (amount: DecimalBigNumber, interestRateBps: 
   if (!fullRepay) return amount;
 
   // For full repayment, add an hour's worth of interest to ensure complete repayment
-  // Convert annual interest rate to hourly (interestRateBps is in basis points)
+  // Convert annual interest rate to hourly (interestRateWad is in WAD)
   const hourlyInterestRate = interestRateBps / 10000 / 8760;
   const hourlyInterestRateString = hourlyInterestRate.toFixed(18);
 
@@ -45,8 +33,6 @@ export const calculateRepayAmount = (amount: DecimalBigNumber, interestRateBps: 
   const bufferAmount = amount.mul(new DecimalBigNumber(hourlyInterestRateString));
 
   // Add the buffer to the repayment amount
-
-  console.log(amount.toString(), "amount", bufferAmount.toString(), "bufferAmount");
   return new DecimalBigNumber(amount.add(bufferAmount).toBigNumber(18), 18);
 };
 
@@ -54,8 +40,52 @@ export const useMonoCoolerDebt = () => {
   const { address = "" } = useAccount();
   const { data: signer } = useSigner();
   const { chain = { id: NetworkId.MAINNET } } = useNetwork();
+  const { signTypedDataAsync } = useSignTypedData();
   const queryClient = useQueryClient();
   const { data: position } = useMonoCoolerPosition();
+
+  const getAuthorizationSignature = async () => {
+    if (!address) throw new Error("No address available");
+    const coolerContract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id);
+
+    // Get the current nonce for the user
+    const nonce = await coolerContract.authorizationNonces(address);
+
+    // Create authorization with the user's address and a 1 hour deadline
+    const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
+    const auth = {
+      account: address,
+      authorized: COOLER_V2_COMPOSITES_CONTRACT.getAddress(chain.id),
+      authorizationDeadline: deadline,
+      nonce: nonce.toString(),
+      signatureDeadline: deadline,
+    };
+
+    // Get the signature from the signer
+    const domain = {
+      chainId: chain.id,
+      verifyingContract: coolerContract.address as `0x${string}`,
+    };
+
+    const types = {
+      Authorization: [
+        { name: "account", type: "address" },
+        { name: "authorized", type: "address" },
+        { name: "authorizationDeadline", type: "uint96" },
+        { name: "nonce", type: "uint256" },
+        { name: "signatureDeadline", type: "uint256" },
+      ],
+    };
+
+    const signature = await signTypedDataAsync({
+      domain,
+      types,
+      value: auth,
+    });
+    const { v, r, s } = ethers.utils.splitSignature(signature);
+
+    return { auth, signature: { v, r, s } };
+  };
 
   const borrow = useMutation(
     async ({ amount, recipient = address }: { amount: DecimalBigNumber; recipient?: string }) => {
@@ -65,7 +95,11 @@ export const useMonoCoolerDebt = () => {
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
       const finalBorrowAmount = calculateBorrowAmount(amount, position.interestRateBps);
 
-      const tx = await contract.borrow(finalBorrowAmount.toBigNumber(18), recipient);
+      const tx = await contract.borrow(
+        finalBorrowAmount.toBigNumber(18),
+        address, // onBehalfOf
+        recipient,
+      );
       await tx.wait();
 
       return tx;
@@ -115,16 +149,19 @@ export const useMonoCoolerDebt = () => {
     }: {
       amount: DecimalBigNumber;
       recipient?: string;
-      delegationRequests?: any[];
+      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position) throw new Error("No position available");
       if (!signer || !address) throw new Error("No signer available");
 
-      console.log("withdrawing collateral", amount.toString(), "amount");
-
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
 
-      const tx = await contract.withdrawCollateral(amount.toBigNumber(18), recipient, delegationRequests);
+      const tx = await contract.withdrawCollateral(
+        amount.toBigNumber(18),
+        address, // onBehalfOf
+        recipient,
+        delegationRequests,
+      );
       await tx.wait();
 
       return tx;
@@ -144,47 +181,14 @@ export const useMonoCoolerDebt = () => {
       delegationRequests = [],
     }: {
       amount: DecimalBigNumber;
-      recipient?: string;
       onBehalfOf?: string;
-      delegationRequests?: DelegationRequest[];
+      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position) throw new Error("No position available");
       if (!signer || !address) throw new Error("No signer available");
 
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
       const tx = await contract.addCollateral(amount.toBigNumber(18), onBehalfOf, delegationRequests);
-      await tx.wait();
-
-      return tx;
-    },
-  );
-
-  const repayAndWithdrawCollateral = useMutation(
-    async ({
-      amount,
-      collateralAmount,
-      recipient = address,
-      delegationRequests = [],
-      fullRepay = false,
-    }: {
-      amount: DecimalBigNumber;
-      collateralAmount: DecimalBigNumber;
-      recipient?: string;
-      delegationRequests?: DelegationRequest[];
-      fullRepay?: boolean;
-    }) => {
-      if (!position) throw new Error("No position available");
-      if (!signer || !address) throw new Error("No signer available");
-
-      const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
-      const amountToRepay = calculateRepayAmount(amount, position.interestRateBps, fullRepay);
-
-      const tx = await contract.repayAndWithdrawCollateral(
-        amountToRepay.toBigNumber(),
-        collateralAmount.toBigNumber(18),
-        recipient,
-        delegationRequests,
-      );
       await tx.wait();
 
       return tx;
@@ -197,28 +201,67 @@ export const useMonoCoolerDebt = () => {
     },
   );
 
+  // New Composite functions
   const addCollateralAndBorrow = useMutation({
     mutationFn: async ({
       collateralAmount,
       borrowAmount,
-      recipient = address,
       delegationRequests = [],
     }: {
       collateralAmount: DecimalBigNumber;
       borrowAmount: DecimalBigNumber;
-      recipient?: string;
-      delegationRequests?: DelegationRequest[];
+      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position || !address) throw new Error("No position or address");
-      if (!signer || !address) throw new Error("No signer available");
+      if (!signer) throw new Error("No signer available");
 
       const borrowAmountToUse = calculateBorrowAmount(borrowAmount, position.interestRateBps);
+      const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
 
-      const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
+      const { auth, signature } = await getAuthorizationSignature();
+
       const tx = await contract.addCollateralAndBorrow(
+        auth,
+        signature,
         collateralAmount.toBigNumber(18),
         borrowAmountToUse.toBigNumber(18),
-        recipient,
+        delegationRequests,
+      );
+      await tx.wait();
+
+      return tx;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["monoCoolerPosition", address] });
+      queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
+    },
+  });
+
+  const repayAndRemoveCollateral = useMutation({
+    mutationFn: async ({
+      repayAmount,
+      collateralAmount,
+      delegationRequests = [],
+      fullRepay = false,
+    }: {
+      repayAmount: DecimalBigNumber;
+      collateralAmount: DecimalBigNumber;
+      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
+      fullRepay?: boolean;
+    }) => {
+      if (!position || !address) throw new Error("No position or address");
+      if (!signer) throw new Error("No signer available");
+
+      const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
+      const amountToRepay = calculateRepayAmount(repayAmount, position.interestRateBps, fullRepay);
+
+      const { auth, signature } = await getAuthorizationSignature();
+
+      const tx = await contract.repayAndRemoveCollateral(
+        auth,
+        signature,
+        amountToRepay.toBigNumber(18),
+        collateralAmount.toBigNumber(18),
         delegationRequests,
       );
       await tx.wait();
@@ -235,8 +278,8 @@ export const useMonoCoolerDebt = () => {
     borrow,
     repay,
     withdrawCollateral,
-    repayAndWithdrawCollateral,
-    addCollateralAndBorrow,
     addCollateral,
+    addCollateralAndBorrow,
+    repayAndRemoveCollateral,
   };
 };

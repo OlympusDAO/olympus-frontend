@@ -36,11 +36,6 @@ export const PositionOverview = () => {
     return new Date(Date.now() + timeInMilliseconds);
   }, [position]);
 
-  const currentLtv = useMemo(() => {
-    if (!position?.currentDebt || !position?.collateral) return 0;
-    return (Number(formatUnits(position.currentDebt, 18)) / Number(formatUnits(position.collateral, 18))) * 100;
-  }, [position]);
-
   if (!position) return null;
 
   return (
@@ -71,7 +66,7 @@ export const PositionOverview = () => {
       />
       <DataRow title="Max Borrow" balance={`${formatUnits(position.maxOriginationDebtAmount, 18)} USDS`} />
       <DataRow
-        title="Liquidation Threshold"
+        title="Buffer To Liquidation"
         balance={`${Number(formatUnits(position.liquidationLtv, 18)).toFixed(2)} USDS/gOHM`}
       />
       <DataRow title="Interest Rate" balance={`${(Number(position.interestRateBps) / 100).toFixed(2)}%`} />
