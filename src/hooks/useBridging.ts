@@ -156,13 +156,25 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
   return useQuery<IHistoryTx[], Error>(
     ["GetBridgingEvents", chainId, address],
     async () => {
+      //if berachain we can only go back 10000 blocks w/ rpc.
+      //so we need to get the block number from the rpc
+      let fromBlockNumber: number | undefined;
+      if (chainId === NetworkId.BERACHAIN || chainId === NetworkId.BERACHAIN_TESTNET) {
+        fromBlockNumber = blockNumber && blockNumber - 10000;
+      }
       // using EVENTS
       if (!address) throw new Error("Cannot get transfer events without a connected wallet");
       if (!signer) throw new Error("Cannot get transfer events without a signer");
       if ([NetworkId.TESTNET_GOERLI, NetworkId.ARBITRUM_GOERLI].includes(chainId)) {
         const queryContract = contract.connect(signer) as CrossChainBridgeTestnet;
-        const sendOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeTransferred());
-        const receiveOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeReceived());
+        const sendOhmEvents = await queryContract.queryFilter(
+          queryContract.filters.BridgeTransferred(),
+          fromBlockNumber,
+        );
+        const receiveOhmEvents = await queryContract.queryFilter(
+          queryContract.filters.BridgeReceived(),
+          fromBlockNumber,
+        );
         return [
           ...sendOhmEvents
             .filter((event: BridgeTransferredEvent) => event.args.sender_ === address)
@@ -173,8 +185,14 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
         ];
       } else {
         const queryContract = contract as CrossChainBridge;
-        const sendOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeTransferred(address));
-        const receiveOhmEvents = await queryContract.queryFilter(queryContract.filters.BridgeReceived(address));
+        const sendOhmEvents = await queryContract.queryFilter(
+          queryContract.filters.BridgeTransferred(address),
+          fromBlockNumber,
+        );
+        const receiveOhmEvents = await queryContract.queryFilter(
+          queryContract.filters.BridgeReceived(address),
+          fromBlockNumber,
+        );
         return [
           ...sendOhmEvents.map((event: BridgeTransferredEvent) =>
             mapBridgeEvents({ event, blockNumber, type: "send", chainId }),
