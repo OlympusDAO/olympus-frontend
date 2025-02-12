@@ -2,12 +2,7 @@ import { Box, SvgIcon } from "@mui/material";
 import { SwapCard } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import usdsIcon from "src/assets/tokens/usds.svg?react";
-import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useBalance } from "src/hooks/useBalance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
-
 interface DebtInputCardProps {
   borrowAmount: DecimalBigNumber;
   onBorrowAmountChange: (value: DecimalBigNumber) => void;
@@ -17,6 +12,7 @@ interface DebtInputCardProps {
   };
   isRepayMode: boolean;
   disabled?: boolean;
+  walletBalance?: DecimalBigNumber;
 }
 
 export const DebtInputCard = ({
@@ -26,12 +22,15 @@ export const DebtInputCard = ({
   loan,
   isRepayMode,
   disabled,
+  walletBalance,
 }: DebtInputCardProps) => {
-  const networks = useTestableNetworks();
-  const { data: position } = useMonoCoolerPosition();
-  const { data: debtBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.debtAddress || "" })[
-    networks.MAINNET_HOLESKY
-  ];
+  const getInfoText = () => {
+    if (loan && isRepayMode) {
+      return `
+        ${walletBalance && `Balance: ${walletBalance.toString({ decimals: 4 })} USDS`}`;
+    }
+    return "Debt to Borrow";
+  };
 
   return (
     <SwapCard
@@ -50,12 +49,8 @@ export const DebtInputCard = ({
           onDebtInputChange?.(value);
         }
       }}
-      info={
-        loan && isRepayMode
-          ? `Total Debt: ${formatNumber(Number(ethers.utils.formatUnits(loan.debt)), 4)} USDS`
-          : `Debt to Borrow`
-      }
-      endString={isRepayMode ? "Max" : ""}
+      info={getInfoText()}
+      endString={isRepayMode ? "Repay All" : ""}
       endStringOnClick={
         loan && isRepayMode
           ? () => {

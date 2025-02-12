@@ -22,6 +22,7 @@ import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLo
 import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
 import { CreateOrRepayLoan } from "src/views/Lending/Cooler/positions/CreateOrRepayLoan";
 import { ExtendLoan } from "src/views/Lending/Cooler/positions/ExtendLoan";
+import { DevTools } from "src/views/Lending/CoolerV2/components/DevTools";
 import { MonoCoolerPositions } from "src/views/Lending/CoolerV2/components/MonoCoolerPositions";
 import { useMonoCoolerCapacity } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCapacity";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
@@ -142,6 +143,7 @@ export const CoolerPositions = () => {
 
   return (
     <div id="cooler-positions">
+      <DevTools />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <CapacityRemaining capacity={capacity?.globalBorrowingCapacity} reserveAsset={"USDS"} />

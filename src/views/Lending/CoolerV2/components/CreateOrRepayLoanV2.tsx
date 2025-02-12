@@ -33,6 +33,9 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
     networks.MAINNET_HOLESKY
   ];
+  const { data: debtBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.debtAddress || "" })[
+    networks.MAINNET_HOLESKY
+  ];
   const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
   const { address } = useAccount();
@@ -71,6 +74,10 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
     (isRepayMode &&
       borrowAmount.gt(new DecimalBigNumber("0", 18)) &&
       collateralToBeReleased.gt(new DecimalBigNumber("0", 18)));
+
+  // Check if repay amount exceeds wallet balance
+  const exceedsDebtBalance = isRepayMode && borrowAmount.gt(debtBalance || new DecimalBigNumber("0", 18));
+
   return (
     <Modal
       maxWidth="542px"
@@ -93,6 +100,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 loan={loan}
                 isRepayMode={isRepayMode}
                 disabled={borrow.isLoading || repay.isLoading}
+                walletBalance={debtBalance}
               />
             ) : (
               <CollateralInputCard
@@ -198,6 +206,14 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 return (
                   <PrimaryButton fullWidth disabled>
                     Insufficient collateral balance
+                  </PrimaryButton>
+                );
+              }
+
+              if (exceedsDebtBalance) {
+                return (
+                  <PrimaryButton fullWidth disabled>
+                    Insufficient USDS balance
                   </PrimaryButton>
                 );
               }

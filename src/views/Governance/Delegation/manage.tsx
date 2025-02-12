@@ -1,13 +1,18 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
-import { useState } from "react";
+import { BigNumber } from "ethers";
+import { formatUnits } from "ethers/lib/utils";
+import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { CoolerV2GovernanceTableRow } from "src/views/Governance/Components/CoolerV2GovernanceTableRow";
 import { GovernanceTableRow } from "src/views/Governance/Components/GovernanceTableRow";
 import { DelegateVotingModal } from "src/views/Governance/Delegation/DelegateVotingModal";
 import { useGovernanceDelegationCheck } from "src/views/Governance/hooks/useGovernanceDelegationCheck";
+import { CoolerV2DelegationModal } from "src/views/Lending/CoolerV2/components/CoolerV2DelegationModal";
+import { useMonoCoolerDelegations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDelegations";
 import { useAccount } from "wagmi";
 
 export const ManageDelegation = () => {
@@ -18,23 +23,49 @@ export const ManageDelegation = () => {
   const networks = useTestableNetworks();
   const {
     gOHMDelegationAddress,
-    coolerV1DelegationAddress,
-    coolerV2DelegationAddress,
-    coolerV3DelegationAddress,
+    coolerV1ClearingHouseDelegationAddress,
+    coolerV2ClearingHouseDelegationAddress,
+    coolerV3ClearingHouseDelegationAddress,
     gohmBalance,
-    gohmCoolerV1Balance,
-    gohmCoolerV2Balance,
-    gohmCoolerV3Balance,
+    gohmCoolerV1ClearingHouseBalance,
+    gohmCoolerV2ClearingHouseBalance,
+    gohmCoolerV3ClearingHouseBalance,
     coolerAddressV1,
     coolerAddressV2,
     coolerAddressV3,
+    gohmCoolerV2Balance,
   } = useGovernanceDelegationCheck();
+
+  const { delegations } = useMonoCoolerDelegations();
   const navigate = useNavigate();
 
-  const [delegateVoting, setDelegateVoting] = useState<
-    { delegatorAddress: string; currentDelegatedToAddress?: string } | undefined
-  >(undefined);
+  const [delegateVoting, setDelegateVoting] = useState<{
+    delegatorAddress: string;
+    currentDelegatedToAddress?: string;
+  }>();
+  const [coolerV2DelegationOpen, setCoolerV2DelegationOpen] = useState(false);
   const theme = useTheme();
+
+  console.log(gohmCoolerV2Balance, "this is the balance");
+
+  // Calculate delegation percentages for Cooler V2
+  const coolerV2DelegationRows = useMemo(() => {
+    if (!gohmCoolerV2Balance || !delegations.data) return [];
+    if (gohmCoolerV2Balance.isZero()) return [];
+
+    return delegations.data.map(delegation => {
+      const percentage =
+        (Number(formatUnits(delegation.totalAmount, 18)) / Number(formatUnits(gohmCoolerV2Balance, 18))) * 100;
+      return {
+        tokenName: `Cooler V2 Delegation`,
+        delegationAddress: delegation.delegate,
+        balance: formatUnits(delegation.totalAmount, 18),
+        address: address || "",
+        percentage,
+      };
+    });
+  }, [gohmCoolerV2Balance, delegations.data, address]);
+
   return (
     <Modal
       open={true}
@@ -75,7 +106,7 @@ export const ManageDelegation = () => {
               {address && (
                 <GovernanceTableRow
                   tokenName={`Wallet Voting Power`}
-                  delegatorAddress={GOHM_ADDRESSES[networks.MAINNET]}
+                  delegatorAddress={GOHM_ADDRESSES[networks.MAINNET_HOLESKY]}
                   delegationAddress={gOHMDelegationAddress}
                   setDelegateVoting={setDelegateVoting}
                   balance={gohmBalance?.formatted}
@@ -87,8 +118,8 @@ export const ManageDelegation = () => {
                   delegatorAddress={coolerAddressV1}
                   tokenName={`Cooler Clearinghouse V1 Voting Power`}
                   setDelegateVoting={setDelegateVoting}
-                  delegationAddress={coolerV1DelegationAddress}
-                  balance={gohmCoolerV1Balance?.formatted}
+                  delegationAddress={coolerV1ClearingHouseDelegationAddress}
+                  balance={gohmCoolerV1ClearingHouseBalance?.formatted}
                   address={coolerAddressV1}
                 />
               )}
@@ -97,8 +128,8 @@ export const ManageDelegation = () => {
                   delegatorAddress={coolerAddressV2}
                   tokenName={`Cooler Clearinghouse V2 Voting Power`}
                   setDelegateVoting={setDelegateVoting}
-                  delegationAddress={coolerV2DelegationAddress}
-                  balance={gohmCoolerV2Balance?.formatted}
+                  delegationAddress={coolerV2ClearingHouseDelegationAddress}
+                  balance={gohmCoolerV2ClearingHouseBalance?.formatted}
                   address={coolerAddressV2}
                 />
               )}
@@ -107,11 +138,22 @@ export const ManageDelegation = () => {
                   delegatorAddress={coolerAddressV3}
                   tokenName={`Cooler Clearinghouse V3 Voting Power`}
                   setDelegateVoting={setDelegateVoting}
-                  delegationAddress={coolerV3DelegationAddress}
-                  balance={gohmCoolerV3Balance?.formatted}
+                  delegationAddress={coolerV3ClearingHouseDelegationAddress}
+                  balance={gohmCoolerV3ClearingHouseBalance?.formatted}
                   address={coolerAddressV3}
                 />
               )}
+              {gohmCoolerV2Balance && (
+                <CoolerV2GovernanceTableRow
+                  tokenName={`Cooler V2 Voting Power`}
+                  delegationAddress={undefined}
+                  balance={formatUnits(gohmCoolerV2Balance || BigNumber.from(0), 18)}
+                  address={address || ""}
+                  onDelegate={() => setCoolerV2DelegationOpen(true)}
+                  delegations={coolerV2DelegationRows}
+                />
+              )}
+
               <DelegateVotingModal
                 address={delegateVoting?.delegatorAddress}
                 open={Boolean(delegateVoting)}
@@ -120,6 +162,8 @@ export const ManageDelegation = () => {
                 currentWalletAddress={address}
                 initialDelegationAddress={to || undefined}
               />
+
+              <CoolerV2DelegationModal open={coolerV2DelegationOpen} setOpen={setCoolerV2DelegationOpen} />
             </Box>
           </>
         )}

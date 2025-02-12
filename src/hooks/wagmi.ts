@@ -108,6 +108,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
       id: 17000,
       network: "holesky",
       name: "Holesky",
+      iconUrl: "/assets/images/ethereum.png",
       nativeCurrency: { name: "Holesky Ether", symbol: "ETH", decimals: 18 },
       rpcUrls: {
         default: {
