@@ -79,6 +79,8 @@ export const ChainPickerModal = ({
                 <Box display="flex" gap={1} alignItems="center">
                   {chain.token === "BASE" ? (
                     <Avatar src="/assets/images/base.svg" sx={{ width: "36px", height: "36px" }} />
+                  ) : chain.token === "BERACHAIN" ? (
+                    <Avatar src="/assets/images/berachain.svg" sx={{ width: "36px", height: "36px" }} />
                   ) : (
                     <Token name={chain.token as OHMTokenProps["name"]} />
                   )}

@@ -2,6 +2,7 @@ import { Box, Grid, Link, Typography } from "@mui/material";
 import { Accordion, InfoNotification, Metric, Paper } from "@olympusdao/component-library";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
+import { formatNumber } from "src/helpers";
 import { useGetEmissionConfig } from "src/views/Emission/hooks/useGetEmissionConfig";
 
 export const Emission = () => {
@@ -60,20 +61,36 @@ export const Emission = () => {
         <Paper enableBackground fullWidth>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <Metric label="Base Emission Rate" metric={emissionConfig?.baseEmissionRate} isLoading={isLoading} />
+              <Metric
+                label="Base Emission Rate"
+                metric={emissionConfig?.baseEmissionRate}
+                isLoading={isLoading}
+                tooltip="Base % of Circulating Supply to be sold per day (At the minimum premium)"
+              />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Metric label="Premium" metric={emissionConfig?.premium} isLoading={isLoading} />
+              <Metric
+                label="Premium"
+                metric={emissionConfig?.premium}
+                isLoading={isLoading}
+                tooltip="% Market Price is above backing and must be >= 100% for EM to be active"
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <Metric
                 label="Current Emission Rate"
                 metric={emissionConfig?.currentEmissionRate}
                 isLoading={isLoading}
+                tooltip="% of circulating supply to be sold per day at the current premium. This is the base Emission Rate scaled up as premium rises: Base Rate * (1 + premium / 1 + min premium). Its 0% if the premium is not >= the minimum premium (100%)"
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Metric label="Current Emissions" metric={emissionConfig?.currentEmission} isLoading={isLoading} />
+              <Metric
+                label="Current Emissions"
+                metric={emissionConfig?.currentEmission}
+                isLoading={isLoading}
+                tooltip="Current Emission Rate * Circulating Supply"
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <Metric label="Next Emission Rate" metric={emissionConfig?.nextSale.emissionRate} isLoading={isLoading} />
@@ -138,7 +155,7 @@ export const Emission = () => {
                   </Box>
                   <Box display="flex" justifyContent="space-between">
                     <Typography fontWeight={600}>Backing:</Typography>
-                    <Typography>{emissionConfig.backing}</Typography>
+                    <Typography>{formatNumber(Number(emissionConfig.backing), 2)}</Typography>
                   </Box>
                 </Box>
               </Grid>

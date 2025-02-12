@@ -96,6 +96,8 @@ export const OHM_ADDRESSES = {
   [NetworkId.BASE]: "0x060cb087a9730E13aa191f31A6d86bFF8DfcdCC0",
   [NetworkId.BASE_TESTNET]: "",
   [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
+  [NetworkId.BERACHAIN]: "0x18878df23e2a36f81e820e4b47b4a40576d3159c",
+  [NetworkId.BERACHAIN_TESTNET]: "",
 };
 
 export const V1_OHM_ADDRESSES = {
@@ -218,6 +220,7 @@ export const CROSS_CHAIN_BRIDGE_ADDRESSES = {
   [NetworkId.MAINNET]: "0x45e563c39cddba8699a90078f42353a57509543a",
   [NetworkId.ARBITRUM]: "0x20B3834091f038Ce04D8686FAC99CA44A0FB285c",
   [NetworkId.BASE]: "0x6CA1a916e883c7ce2BFBcF59dc70F2c1EF9dac6e",
+  [NetworkId.BERACHAIN]: "0xBA42BE149e5260EbA4B82418A6306f55D532eA47",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };
@@ -226,6 +229,7 @@ export const CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET = {
   [NetworkId.MAINNET]: "",
   [NetworkId.ARBITRUM]: "",
   [NetworkId.BASE]: "",
+  [NetworkId.BERACHAIN]: "",
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };
@@ -237,6 +241,7 @@ export const MINTER_ADDRESSES = {
   [NetworkId.TESTNET_GOERLI]: "0xefffab0Aa61828c4af926E039ee754e3edE10dAc",
   [NetworkId.ARBITRUM_GOERLI]: "0x78f84998c73655ac2da0aa1e1270f6cb985a343e",
   [NetworkId.BASE]: "0x623164A9Ee2556D524b08f34F1d2389d7B4e1A1C",
+  [NetworkId.BERACHAIN]: "0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE",
 };
 
 /** for display purposes */
@@ -261,12 +266,16 @@ export const BRIDGE_CHAINS = {
     name: "Arbitrum Goerli",
     token: "ARBITRUM",
   },
+  [NetworkId.BERACHAIN]: {
+    name: "Berachain",
+    token: "BERACHAIN",
+  },
 };
 
 export const BRIDGEABLE_CHAINS = {
   [NetworkId.MAINNET]: {
     defaultRecChain: NetworkId.ARBITRUM,
-    availableChains: [NetworkId.ARBITRUM, NetworkId.BASE],
+    availableChains: [NetworkId.ARBITRUM, NetworkId.BASE, NetworkId.BERACHAIN],
   },
   [NetworkId.ARBITRUM]: {
     defaultRecChain: NetworkId.MAINNET,
@@ -283,6 +292,10 @@ export const BRIDGEABLE_CHAINS = {
   [NetworkId.ARBITRUM_GOERLI]: {
     defaultRecChain: NetworkId.TESTNET_GOERLI,
     availableChains: [NetworkId.TESTNET_GOERLI],
+  },
+  [NetworkId.BERACHAIN]: {
+    defaultRecChain: NetworkId.MAINNET,
+    availableChains: [NetworkId.MAINNET],
   },
 };
 

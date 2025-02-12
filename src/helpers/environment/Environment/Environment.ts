@@ -178,6 +178,16 @@ export class Environment {
           key: `VITE_HOLESKY_NODE_URL`,
           fallback: "https://ethereum-holesky.publicnode.com",
         });
+      case NetworkId.BERACHAIN:
+        return this._get({
+          key: `VITE_BERACHAIN_NODE_URL`,
+          fallback: "https://rpc.berachain.com",
+        });
+      case NetworkId.BERACHAIN_TESTNET:
+        return this._get({
+          key: `VITE_BERACHAIN_TESTNET_NODE_URL`,
+          fallback: "https://bartio.rpc.berachain.com",
+        });
     }
   };
   public static getArchiveNodeUrls = (networkId: NetworkId) => {

@@ -102,6 +102,33 @@ export const { chains, provider, webSocketProvider } = configureChains(
         },
       },
     },
+    {
+      id: 80094,
+      name: "Berachain",
+      network: "berachain",
+      iconUrl: "/assets/images/berachain.svg",
+      nativeCurrency: {
+        decimals: 18,
+        name: "BERA Token",
+        symbol: "BERA",
+      },
+      contracts: {
+        multicall3: {
+          address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+          blockCreated: 0,
+        },
+      },
+      rpcUrls: {
+        default: { http: ["https://rpc.berachain.com"] },
+        public: { http: ["https://rpc.berachain.com"] },
+      },
+      blockExplorers: {
+        default: {
+          name: "Berascan",
+          url: "https://berascan.com",
+        },
+      },
+    },
     goerli,
     arbitrumGoerli,
     {
