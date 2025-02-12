@@ -64,6 +64,8 @@ export const CollateralInputCard = ({
         if (!showCollateralToBeReleased) {
           if (isRepayMode && totalCollateral) {
             handleCollateralChange(totalCollateral);
+          } else {
+            collateralBalance && handleCollateralChange(collateralBalance);
           }
         }
       }}

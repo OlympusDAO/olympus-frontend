@@ -61,24 +61,27 @@ export const LoanInformation = ({
             <Box fontWeight="500">{formatNumber(Number(maxPotentialBorrowAmount), 2)} USDS</Box>
           </Box>
 
-          {additionalBorrowingAvailable && oneHourInterest && additionalBorrowingAvailable.gt(oneHourInterest) && (
-            <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
-              <Box display="flex" alignItems="center" gap={0.5}>
-                Additional Borrowing Available
-                <Tooltip
-                  title="You can borrow more against your existing collateral without depositing additional gOHM. This amount may increase further as market conditions improve."
-                  arrow
-                >
-                  <SvgIcon sx={{ fontSize: 16, cursor: "help" }} viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
-                  </SvgIcon>
-                </Tooltip>
+          {additionalBorrowingAvailable &&
+            oneHourInterest &&
+            additionalBorrowingAvailable.gt(oneHourInterest) &&
+            (position.currentDebt.gt(0) || position.collateral.gt(0)) && (
+              <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
+                <Box display="flex" alignItems="center" gap={0.5}>
+                  Additional Borrowing Available
+                  <Tooltip
+                    title="You can borrow more against your existing collateral without depositing additional gOHM. This amount may increase further as market conditions improve."
+                    arrow
+                  >
+                    <SvgIcon sx={{ fontSize: 16, cursor: "help" }} viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
+                    </SvgIcon>
+                  </Tooltip>
+                </Box>
+                <Box fontWeight="500" color="success.main">
+                  {formatNumber(Number(additionalBorrowingAvailable), 2)} USDS
+                </Box>
               </Box>
-              <Box fontWeight="500" color="success.main">
-                {formatNumber(Number(additionalBorrowingAvailable), 2)} USDS
-              </Box>
-            </Box>
-          )}
+            )}
         </>
       )}
 

@@ -166,17 +166,16 @@ export const MonoCoolerPositions = () => {
                   >
                     Borrow More
                   </PrimaryButton>
-                  {position.currentDebt.gt(0) ||
-                    (position.collateral.gt(0) && (
-                      <SecondaryButton
-                        onClick={() => {
-                          setIsRepayMode(true);
-                          setCreateLoanModalOpen(true);
-                        }}
-                      >
-                        Repay
-                      </SecondaryButton>
-                    ))}
+                  {(position.currentDebt.gt(0) || position.collateral.gt(0)) && (
+                    <SecondaryButton
+                      onClick={() => {
+                        setIsRepayMode(true);
+                        setCreateLoanModalOpen(true);
+                      }}
+                    >
+                      Repay
+                    </SecondaryButton>
+                  )}
                 </Box>
               </TableCell>
             </TableRow>
