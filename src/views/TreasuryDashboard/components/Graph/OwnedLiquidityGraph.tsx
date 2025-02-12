@@ -76,7 +76,16 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset, 
       return 0;
     });
 
-    const tokenCategories = Array.from(new Set(sortedRecords.map(tokenRecord => tokenRecord.token)));
+    // Prepare the token categories
+    // We remove the "LP" and "Liquidity Pool" words from the token names, as they are not needed for the chart labels
+    // We also add the blockchain name to the token name, as it is not included in the token name
+    const tokenCategories = Array.from(
+      new Set(
+        sortedRecords.map(
+          tokenRecord => `${tokenRecord.token.replace(/\s*LP\b|\s*Liquidity Pool\b/g, "")} (${tokenRecord.blockchain})`,
+        ),
+      ),
+    );
     // Replicates the format of the keys returned by getDateTokenSummary
     const tokenIds = Array.from(new Set(sortedRecords.map(tokenRecord => getTokenId(tokenRecord))));
 
