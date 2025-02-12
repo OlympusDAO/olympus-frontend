@@ -23,6 +23,9 @@ export const useBridgeableTestableNetwork = () => {
   const { chain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
   switch (chain.id) {
+    case NetworkId.BERACHAIN:
+    case NetworkId.BERACHAIN_TESTNET:
+      return networks.BERACHAIN;
     case NetworkId.BASE:
     case NetworkId.BASE_TESTNET:
       return networks.BASE;
