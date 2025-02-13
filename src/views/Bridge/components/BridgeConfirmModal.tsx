@@ -10,7 +10,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { IBridgeOhm, useEstimateSendFee } from "src/hooks/useBridging";
 import { EthersError } from "src/lib/EthersTypes";
 import { BridgeFees } from "src/views/Bridge/components/BridgeFees";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, useBalance, useNetwork } from "wagmi";
 
 export const BridgeConfirmModal = (props: {
   isOpen: boolean;
@@ -25,6 +25,8 @@ export const BridgeConfirmModal = (props: {
   const { address } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
 
+  const { data: nativeBalance } = useBalance({ address });
+
   const { data: fee } = useEstimateSendFee({
     destinationChainId: props.destinationChainId,
     recipientAddress: props.recipientAddress,
@@ -32,6 +34,8 @@ export const BridgeConfirmModal = (props: {
   });
 
   const isValidAddress = utils.isAddress(props.recipientAddress);
+  console.log("nativeBalance", nativeBalance);
+  const totalFees = (fee?.nativeFee || new DecimalBigNumber("0")).add(fee?.gasFee || new DecimalBigNumber("0"));
 
   return (
     <Modal
@@ -96,37 +100,44 @@ export const BridgeConfirmModal = (props: {
               spendAmount={!!props.amount ? new DecimalBigNumber(props.amount, 9) : undefined}
             >
               <>
-                <PrimaryButton
-                  data-testid="submit-modal-button"
-                  loading={props.bridgeMutation.isLoading}
-                  fullWidth
-                  disabled={
-                    props.bridgeMutation.isLoading ||
-                    !props.amount ||
-                    props.amountExceedsBalance ||
-                    parseFloat(props.amount) === 0 ||
-                    !isValidAddress
-                  }
-                  onClick={() =>
-                    props.bridgeMutation.mutate({
-                      destinationChainId: props.destinationChainId,
-                      recipientAddress: props.recipientAddress,
-                      amount: props.amount,
-                    })
-                  }
-                >
-                  {props.amountExceedsBalance
-                    ? "Amount exceeds balance"
-                    : !props.amount || parseFloat(props.amount) === 0
-                      ? "Enter an amount"
-                      : !isValidAddress
-                        ? `Invalid recipient address: ${shorten(props.recipientAddress)}`
-                        : props.bridgeMutation.isLoading
-                          ? "Confirming Bridging in your wallet"
-                          : `Bridge OHM to ${
-                              BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name
-                            }`}
-                </PrimaryButton>
+                {nativeBalance?.value &&
+                new DecimalBigNumber(nativeBalance.value, 18).lt(totalFees || new DecimalBigNumber("0")) ? (
+                  <PrimaryButton fullWidth disabled>
+                    Insufficient Native Token Balance
+                  </PrimaryButton>
+                ) : (
+                  <PrimaryButton
+                    data-testid="submit-modal-button"
+                    loading={props.bridgeMutation.isLoading}
+                    fullWidth
+                    disabled={
+                      props.bridgeMutation.isLoading ||
+                      !props.amount ||
+                      props.amountExceedsBalance ||
+                      parseFloat(props.amount) === 0 ||
+                      !isValidAddress
+                    }
+                    onClick={() =>
+                      props.bridgeMutation.mutate({
+                        destinationChainId: props.destinationChainId,
+                        recipientAddress: props.recipientAddress,
+                        amount: props.amount,
+                      })
+                    }
+                  >
+                    {props.amountExceedsBalance
+                      ? "Amount exceeds balance"
+                      : !props.amount || parseFloat(props.amount) === 0
+                        ? "Enter an amount"
+                        : !isValidAddress
+                          ? `Invalid recipient address: ${shorten(props.recipientAddress)}`
+                          : props.bridgeMutation.isLoading
+                            ? "Confirming Bridging in your wallet"
+                            : `Bridge OHM to ${
+                                BRIDGE_CHAINS[props.destinationChainId as keyof typeof BRIDGE_CHAINS].name
+                              }`}
+                  </PrimaryButton>
+                )}
               </>
             </TokenAllowanceGuard>
           </WalletConnectedGuard>
