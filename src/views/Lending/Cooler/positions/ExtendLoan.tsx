@@ -118,11 +118,16 @@ export const ExtendLoan = ({
               endAdornment="Term"
               value={extensionTerm}
               onChange={e => {
-                if (Number(e.target.value) > 0) {
-                  setExtensionTerm(e.target.value);
-                } else {
-                  setExtensionTerm("");
+                const value = e.target.value;
+                // Only allow positive integers
+                if (value === "" || (/^\d+$/.test(value) && Number(value) > 0)) {
+                  setExtensionTerm(value);
                 }
+              }}
+              type="text"
+              inputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
               }}
             />
           </Box>
