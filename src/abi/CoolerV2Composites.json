@@ -1,0 +1,152 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract IMonoCooler", "name": "_cooler", "type": "address" },
+        { "internalType": "contract ERC20", "name": "_gohm", "type": "address" },
+        { "internalType": "contract ERC20", "name": "_usds", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "COOLER",
+      "outputs": [{ "internalType": "contract IMonoCooler", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "GOHM",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "USDS",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "struct IMonoCooler.Authorization",
+          "name": "authorization",
+          "type": "tuple",
+          "components": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "address", "name": "authorized", "type": "address" },
+            { "internalType": "uint96", "name": "authorizationDeadline", "type": "uint96" },
+            { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+            { "internalType": "uint256", "name": "signatureDeadline", "type": "uint256" }
+          ]
+        },
+        {
+          "internalType": "struct IMonoCooler.Signature",
+          "name": "signature",
+          "type": "tuple",
+          "components": [
+            { "internalType": "uint8", "name": "v", "type": "uint8" },
+            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "s", "type": "bytes32" }
+          ]
+        },
+        { "internalType": "uint128", "name": "collateralAmount", "type": "uint128" },
+        { "internalType": "uint128", "name": "borrowAmount", "type": "uint128" },
+        {
+          "internalType": "struct DLGTEv1.DelegationRequest[]",
+          "name": "delegationRequests",
+          "type": "tuple[]",
+          "components": [
+            { "internalType": "address", "name": "delegate", "type": "address" },
+            { "internalType": "int256", "name": "amount", "type": "int256" }
+          ]
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "addCollateralAndBorrow"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "struct IMonoCooler.Authorization",
+          "name": "authorization",
+          "type": "tuple",
+          "components": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "address", "name": "authorized", "type": "address" },
+            { "internalType": "uint96", "name": "authorizationDeadline", "type": "uint96" },
+            { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+            { "internalType": "uint256", "name": "signatureDeadline", "type": "uint256" }
+          ]
+        },
+        {
+          "internalType": "struct IMonoCooler.Signature",
+          "name": "signature",
+          "type": "tuple",
+          "components": [
+            { "internalType": "uint8", "name": "v", "type": "uint8" },
+            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "s", "type": "bytes32" }
+          ]
+        },
+        { "internalType": "uint128", "name": "repayAmount", "type": "uint128" },
+        { "internalType": "uint128", "name": "collateralAmount", "type": "uint128" },
+        {
+          "internalType": "struct DLGTEv1.DelegationRequest[]",
+          "name": "delegationRequests",
+          "type": "tuple[]",
+          "components": [
+            { "internalType": "address", "name": "delegate", "type": "address" },
+            { "internalType": "int256", "name": "amount", "type": "int256" }
+          ]
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "repayAndRemoveCollateral"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "addCollateralAndBorrow((address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),uint128,uint128,(address,int256)[])": {
+        "details": "user must provide authorization signature before using function",
+        "params": {
+          "authorization": "authorization info",
+          "borrowAmount": "amount of USDS to borrow",
+          "collateralAmount": "amount of gOHM collateral to deposit",
+          "delegationRequests": "resulting collateral delegation",
+          "signature": "offchain auth signature"
+        }
+      },
+      "repayAndRemoveCollateral((address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),uint128,uint128,(address,int256)[])": {
+        "details": "user must provide authorization signature before using function",
+        "params": {
+          "authorization": "authorization info",
+          "collateralAmount": "amount of gOHM collateral to withdraw",
+          "delegationRequests": "resulting collateral delegation",
+          "repayAmount": "amount of USDS to repay",
+          "signature": "offchain auth signature"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "addCollateralAndBorrow((address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),uint128,uint128,(address,int256)[])": {
+        "notice": "allow user to add collateral and borrow from Cooler V2"
+      },
+      "repayAndRemoveCollateral((address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),uint128,uint128,(address,int256)[])": {
+        "notice": "allow user to add collateral and borrow from Cooler V2"
+      }
+    },
+    "version": 1
+  }
+}
