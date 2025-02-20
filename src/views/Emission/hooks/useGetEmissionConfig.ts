@@ -106,13 +106,14 @@ export const useGetEmissionConfig = () => {
 
     let currentEmissionRate = BigNumber.from(0);
     let currentEmission = BigNumber.from(0);
+    let isMarketLive = false;
     if (activeMarketId.gt(0)) {
       //bond market info
       const bondMarketInfo = {
         abi: BondFixedTermSDA__factory.abi,
         address: auctioneerAddress,
       };
-      const [totalSupply, marketInfo] = await multicall({
+      const [totalSupply, marketInfo, isLive] = await multicall({
         contracts: [
           {
             ...emissionManagerConfig,
@@ -123,12 +124,18 @@ export const useGetEmissionConfig = () => {
             functionName: "markets",
             args: [activeMarketId],
           },
+          {
+            ...bondMarketInfo,
+            functionName: "isLive",
+            args: [activeMarketId],
+          },
         ],
       });
       // Get original capacity - this is the capacity plus the amount sold
       currentEmission = marketInfo.capacity.add(marketInfo.sold);
       // Calculate emission rate: (emission * 10^decimals) / supply
       currentEmissionRate = currentEmission.mul(BigNumber.from(10).pow(9)).div(totalSupply);
+      isMarketLive = isLive;
     }
 
     //todo
@@ -147,11 +154,15 @@ export const useGetEmissionConfig = () => {
         daysLeft: rateChange.daysLeft.toString(), // uint48
         addition: rateChange.addition, // boolean
       },
-      activeMarketId: activeMarketId.toNumber(),
+      activeMarketId: isMarketLive ? activeMarketId.toNumber() : 0,
       vestingPeriod: vestingPeriod.toString(), // uint48 (in seconds)
       // reserves: formatUnits(reserves, 18), // DAI scale (18 decimals)
-      currentEmissionRate: `${(Number(formatUnits(currentEmissionRate, 9)) * 100).toFixed(4)}%`, // OHM scale
-      currentEmission: `${Number(formatUnits(currentEmission, 9)).toFixed(2)} OHM`, // OHM scale
+      currentEmissionRate: isMarketLive
+        ? `${(Number(formatUnits(currentEmissionRate, 9)) * 100).toFixed(4)}%` // OHM scale
+        : "0%",
+      currentEmission: isMarketLive
+        ? `${Number(formatUnits(currentEmission, 9)).toFixed(2)} OHM` // OHM scale
+        : "0 OHM",
       tellerAddress,
       reserveAddress,
       kernelAddress,
