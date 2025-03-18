@@ -24,29 +24,41 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...mainnet,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/eth"] },
-        public: { http: ["https://rpc.ankr.com/eth"] },
+        default: { http: ["https://eth.merkle.io"] },
+        public: { http: ["https://eth.merkle.io"] },
       },
     },
     {
       ...polygon,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/polygon"] },
-        public: { http: ["https://rpc.ankr.com/polygon"] },
+        default: {
+          http: ["https://rpc.ankr.com/polygon/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
+        public: {
+          http: ["https://rpc.ankr.com/polygon/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
       },
     },
     {
       ...optimism,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/optimism"] },
-        public: { http: ["https://rpc.ankr.com/optimism"] },
+        default: {
+          http: ["https://rpc.ankr.com/optimism/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
+        public: {
+          http: ["https://rpc.ankr.com/optimism/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
       },
     },
     {
       ...arbitrum,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/arbitrum"] },
-        public: { http: ["https://rpc.ankr.com/arbitrum"] },
+        default: {
+          http: ["https://rpc.ankr.com/arbitrum/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
+        public: {
+          http: ["https://rpc.ankr.com/arbitrum/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+        },
       },
     },
     {
@@ -66,10 +78,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/base"],
+          http: ["https://rpc.ankr.com/base/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
         },
         public: {
-          http: ["https://rpc.ankr.com/base"],
+          http: ["https://rpc.ankr.com/base/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
         },
       },
       blockExplorers: {
