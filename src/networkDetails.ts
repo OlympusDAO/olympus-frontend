@@ -22,6 +22,7 @@ export enum NetworkId {
 
   BOBA = 288,
   BOBA_TESTNET = 28,
+  HOLESKY = 17000,
 
   BERACHAIN = 80094,
   BERACHAIN_TESTNET = 80084,
