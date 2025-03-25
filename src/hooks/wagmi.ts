@@ -32,10 +32,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...polygon,
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/polygon/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://polygon.drpc.org"],
         },
         public: {
-          http: ["https://rpc.ankr.com/polygon/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://polygon.drpc.org"],
         },
       },
     },
@@ -43,10 +43,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...optimism,
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/optimism/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://optimism.drpc.org"],
         },
         public: {
-          http: ["https://rpc.ankr.com/optimism/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://optimism.drpc.org"],
         },
       },
     },
@@ -54,10 +54,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       ...arbitrum,
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/arbitrum/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://arbitrum.drpc.org"],
         },
         public: {
-          http: ["https://rpc.ankr.com/arbitrum/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://arbitrum.drpc.org"],
         },
       },
     },
@@ -78,10 +78,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/base/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://base.drpc.org"],
         },
         public: {
-          http: ["https://rpc.ankr.com/base/e362aeef2a36f89e3f6c99d3bb0ae70de91e25ca16bd7a4acb86efd5d0aa2fb5"],
+          http: ["https://base.drpc.org"],
         },
       },
       blockExplorers: {
