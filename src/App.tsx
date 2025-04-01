@@ -25,7 +25,6 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useGoogleAnalytics } from "src/hooks/useGoogleAnalytics";
 import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
-import { getMigrationAllowances, loadAccountDetails } from "src/slices/AccountSlice";
 import { loadAppDetails } from "src/slices/AppSlice";
 import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
@@ -164,8 +163,8 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chain.id, provider, address }));
-      dispatch(getMigrationAllowances({ address, provider, networkID: chain.id }));
+      // dispatch(loadAccountDetails({ networkID: chain.id, provider, address }));
+      // dispatch(getMigrationAllowances({ address, provider, networkID: chain.id }));
     },
     [chain.id, address],
   );

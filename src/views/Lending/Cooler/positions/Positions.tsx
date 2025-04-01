@@ -16,7 +16,7 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import usdsIcon from "src/assets/tokens/usds.svg?react";
 import { BorrowRate, OutstandingPrincipal, WeeklyCapacityRemaining } from "src/views/Lending/Cooler/dashboard/Metrics";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
+import { useGetAllClearingHouses } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { ConsolidateLoans } from "src/views/Lending/Cooler/positions/ConsolidateLoan";
@@ -26,55 +26,52 @@ import { useAccount } from "wagmi";
 
 export const CoolerPositions = () => {
   const { address } = useAccount();
-  const clearingHouses = {
-    v1: useGetClearingHouse({ clearingHouse: "clearingHouseV1" }).data,
-    v2: useGetClearingHouse({ clearingHouse: "clearingHouseV2" }).data,
-    v3: useGetClearingHouse({ clearingHouse: "clearingHouseV3" }).data,
-  };
+  const clearingHouses = useGetAllClearingHouses();
+  const [clearingHouseV1, clearingHouseV2, clearingHouseV3] = Object.values(clearingHouses.data || {});
 
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const { data: loansV1, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouses.v1?.factory,
-    collateralAddress: clearingHouses.v1?.collateralAddress,
-    debtAddress: clearingHouses.v1?.debtAddress,
+    factoryAddress: clearingHouseV1?.factory,
+    collateralAddress: clearingHouseV1?.collateralAddress,
+    debtAddress: clearingHouseV1?.debtAddress,
   });
 
   const { data: coolerAddressV1 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouses.v1?.factory,
-    collateralAddress: clearingHouses.v1?.collateralAddress,
-    debtAddress: clearingHouses.v1?.debtAddress,
+    factoryAddress: clearingHouseV1?.factory,
+    collateralAddress: clearingHouseV1?.collateralAddress,
+    debtAddress: clearingHouseV1?.debtAddress,
     clearingHouseVersion: "clearingHouseV1",
   });
 
   const { data: loansV2, isFetched: isFetchedLoansV2 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouses.v2?.factory,
-    collateralAddress: clearingHouses.v2?.collateralAddress,
-    debtAddress: clearingHouses.v2?.debtAddress,
+    factoryAddress: clearingHouseV2?.factory,
+    collateralAddress: clearingHouseV2?.collateralAddress,
+    debtAddress: clearingHouseV2?.debtAddress,
   });
 
   const { data: coolerAddressV2 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouses.v2?.factory,
-    collateralAddress: clearingHouses.v2?.collateralAddress,
-    debtAddress: clearingHouses.v2?.debtAddress,
+    factoryAddress: clearingHouseV2?.factory,
+    collateralAddress: clearingHouseV2?.collateralAddress,
+    debtAddress: clearingHouseV2?.debtAddress,
     clearingHouseVersion: "clearingHouseV2",
   });
 
   const { data: loansV3, isFetched: isFetchedLoansV3 } = useGetCoolerLoans({
     walletAddress: address,
-    factoryAddress: clearingHouses.v3?.factory,
-    collateralAddress: clearingHouses.v3?.collateralAddress,
-    debtAddress: clearingHouses.v3?.debtAddress,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
   });
 
   const { data: coolerAddressV3 } = useGetCoolerForWallet({
     walletAddress: address,
-    factoryAddress: clearingHouses.v3?.factory,
-    collateralAddress: clearingHouses.v3?.collateralAddress,
-    debtAddress: clearingHouses.v3?.debtAddress,
+    factoryAddress: clearingHouseV3?.factory,
+    collateralAddress: clearingHouseV3?.collateralAddress,
+    debtAddress: clearingHouseV3?.debtAddress,
     clearingHouseVersion: "clearingHouseV3",
   });
 
@@ -95,11 +92,11 @@ export const CoolerPositions = () => {
   };
 
   const getActiveClearingHouse = () => {
-    if (clearingHouses.v3?.isActive && clearingHouses.v3?.capacity.gt(0)) {
-      return { version: "v3", ...clearingHouses.v3 };
+    if (clearingHouseV3?.isActive && clearingHouseV3?.capacity.gt(0)) {
+      return { version: "v3", ...clearingHouseV3 };
     }
-    if (clearingHouses.v2?.isActive && clearingHouses.v2?.capacity.gt(0)) {
-      return { version: "v2", ...clearingHouses.v2 };
+    if (clearingHouseV2?.isActive && clearingHouseV2?.capacity.gt(0)) {
+      return { version: "v2", ...clearingHouseV2 };
     }
     return null;
   };
@@ -108,9 +105,16 @@ export const CoolerPositions = () => {
   const allLoans = getAllLoans();
 
   const getClearingHouseForLoan = (version: string) => {
-    const clearingHouse = clearingHouses[version as keyof typeof clearingHouses];
-    if (!clearingHouse) throw new Error(`No clearing house found for version ${version}`);
-    return clearingHouse;
+    switch (version) {
+      case "v1":
+        return clearingHouseV1;
+      case "v2":
+        return clearingHouseV2;
+      case "v3":
+        return clearingHouseV3;
+      default:
+        return clearingHouseV3;
+    }
   };
 
   const getCoolerAddressForLoan = (version: string) => {
@@ -122,7 +126,7 @@ export const CoolerPositions = () => {
       case "v3":
         return coolerAddressV3;
       default:
-        return undefined;
+        return coolerAddressV3;
     }
   };
 
@@ -132,9 +136,9 @@ export const CoolerPositions = () => {
   const shouldShowConsolidate =
     allLoans.length > 1 ||
     (((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) &&
-      clearingHouses.v1 &&
-      clearingHouses.v2 &&
-      clearingHouses.v3);
+      clearingHouseV1 &&
+      clearingHouseV2 &&
+      clearingHouseV3);
 
   const allLoansLoaded = isFetchedLoansV1 && isFetchedLoansV2 && isFetchedLoansV3;
 
@@ -288,20 +292,20 @@ export const CoolerPositions = () => {
               >
                 Borrow {activeClearingHouse.debtAssetName} & Open Position
               </PrimaryButton>
-              {shouldShowConsolidate && clearingHouses.v1 && clearingHouses.v2 && clearingHouses.v3 && (
+              {shouldShowConsolidate && clearingHouseV1 && clearingHouseV2 && clearingHouseV3 && (
                 <ConsolidateLoans
                   v3CoolerAddress={coolerAddressV3 || ""}
                   v2CoolerAddress={coolerAddressV2 || ""}
                   v1CoolerAddress={coolerAddressV1 || ""}
                   clearingHouseAddresses={{
-                    v1: clearingHouses.v1,
-                    v2: clearingHouses.v2,
-                    v3: clearingHouses.v3,
+                    v1: clearingHouseV1,
+                    v2: clearingHouseV2,
+                    v3: clearingHouseV3,
                   }}
                   v1Loans={loansV1}
                   v2Loans={loansV2}
                   v3Loans={loansV3}
-                  factoryAddress={clearingHouses.v3.factory}
+                  factoryAddress={clearingHouseV3.factory}
                 />
               )}
             </Box>
