@@ -5,7 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { formatCurrency } from "src/helpers";
 import { useGohmPriceContract } from "src/hooks/usePrices";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
+import { useGetAllClearingHouses } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useAccount } from "wagmi";
 
@@ -14,9 +14,8 @@ export const MyCoolerLoans = ({ balance, balanceUSD }: { balance: string; balanc
   const { address } = useAccount();
   const { data: gOhmPrice = 0 } = useGohmPriceContract();
 
-  const { data: clearingHouseV1 } = useGetClearingHouse({ clearingHouse: "clearingHouseV1" });
-  const { data: clearingHouseV2 } = useGetClearingHouse({ clearingHouse: "clearingHouseV2" });
-  const { data: clearingHouseV3 } = useGetClearingHouse({ clearingHouse: "clearingHouseV3" });
+  const { data: clearingHouses } = useGetAllClearingHouses();
+  const [clearingHouseV1, clearingHouseV2, clearingHouseV3] = Object.values(clearingHouses || {});
 
   const { data: v1Loans, isFetched: isFetchedLoansV1 } = useGetCoolerLoans({
     walletAddress: address,
