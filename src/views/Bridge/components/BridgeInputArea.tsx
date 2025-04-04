@@ -44,6 +44,11 @@ export const BridgeInputArea = () => {
     setReceivingChain(chainDefaults?.defaultRecChain || 1);
   }, [chain.id]);
 
+  //update recipient address if address changes
+  useEffect(() => {
+    setRecipientAddress(address as string);
+  }, [address]);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
