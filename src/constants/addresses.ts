@@ -331,10 +331,10 @@ export const EMISSION_MANAGER_ADDRESSES = {
 
 export const COOLER_V2_MONOCOOLER_ADDRESSES = {
   [NetworkId.MAINNET]: "",
-  [NetworkId.HOLESKY]: "0x38Ec1cd649DB8aE87fcaE33304aB1504BaE38255",
+  [NetworkId.HOLESKY]: "0x16D3da2ffC3335588076e9069d9023840A585D84",
 };
 
 export const COOLER_V2_COMPOSITES_ADDRESSES = {
   [NetworkId.MAINNET]: "0x...", // Add the actual mainnet address
-  [NetworkId.HOLESKY]: "0xaeaA69e46f6cD69cA7b3A3210BcC396db72E802a",
+  [NetworkId.HOLESKY]: "0xE39311d0E09e13b49cC943b95f08013438A3f87c",
 } as const;
