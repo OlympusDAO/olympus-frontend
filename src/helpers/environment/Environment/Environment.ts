@@ -96,7 +96,7 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `VITE_ETHEREUM_NODE_URL`,
-          fallback: "https://rpc.ankr.com/eth",
+          fallback: "https://eth.drpc.org",
         });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
@@ -106,7 +106,7 @@ export class Environment {
       case NetworkId.ARBITRUM:
         return this._get({
           key: `VITE_ARBITRUM_NODE_URL`,
-          fallback: "https://rpc.ankr.com/arbitrum",
+          fallback: "https://arbitrum.drpc.org",
         });
       case NetworkId.ARBITRUM_GOERLI:
         return this._get({
@@ -116,7 +116,7 @@ export class Environment {
       case NetworkId.AVALANCHE:
         return this._get({
           key: `VITE_AVALANCHE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/avalanche",
+          fallback: "https://avalanche.drpc.org",
         });
       case NetworkId.AVALANCHE_TESTNET:
         return this._get({
@@ -126,7 +126,7 @@ export class Environment {
       case NetworkId.POLYGON:
         return this._get({
           key: `VITE_POLYGON_NODE_URL`,
-          fallback: "https://rpc.ankr.com/polygon",
+          fallback: "https://polygon.drpc.org",
         });
       case NetworkId.POLYGON_TESTNET:
         return this._get({
@@ -136,7 +136,7 @@ export class Environment {
       case NetworkId.FANTOM:
         return this._get({
           key: `VITE_FANTOM_NODE_URL`,
-          fallback: "https://rpc.ankr.com/fantom/",
+          fallback: "https://fantom.drpc.org",
         });
       case NetworkId.FANTOM_TESTNET:
         return this._get({
@@ -146,7 +146,7 @@ export class Environment {
       case NetworkId.OPTIMISM:
         return this._get({
           key: `VITE_OPTIMISM_NODE_URL`,
-          fallback: "https://rpc.ankr.com/optimism",
+          fallback: "https://optimism.drpc.org",
         });
       case NetworkId.OPTIMISM_TESTNET:
         return this._get({
@@ -166,7 +166,7 @@ export class Environment {
       case NetworkId.BASE:
         return this._get({
           key: `VITE_BASE_NODE_URL`,
-          fallback: "https://rpc.ankr.com/base",
+          fallback: "https://base.drpc.org",
         });
       case NetworkId.BASE_TESTNET:
         return this._get({

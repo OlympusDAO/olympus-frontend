@@ -24,29 +24,41 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...mainnet,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/eth"] },
-        public: { http: ["https://rpc.ankr.com/eth"] },
+        default: { http: ["https://eth.merkle.io"] },
+        public: { http: ["https://eth.merkle.io"] },
       },
     },
     {
       ...polygon,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/polygon"] },
-        public: { http: ["https://rpc.ankr.com/polygon"] },
+        default: {
+          http: ["https://polygon.drpc.org"],
+        },
+        public: {
+          http: ["https://polygon.drpc.org"],
+        },
       },
     },
     {
       ...optimism,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/optimism"] },
-        public: { http: ["https://rpc.ankr.com/optimism"] },
+        default: {
+          http: ["https://optimism.drpc.org"],
+        },
+        public: {
+          http: ["https://optimism.drpc.org"],
+        },
       },
     },
     {
       ...arbitrum,
       rpcUrls: {
-        default: { http: ["https://rpc.ankr.com/arbitrum"] },
-        public: { http: ["https://rpc.ankr.com/arbitrum"] },
+        default: {
+          http: ["https://arbitrum.drpc.org"],
+        },
+        public: {
+          http: ["https://arbitrum.drpc.org"],
+        },
       },
     },
     {
@@ -66,10 +78,10 @@ export const { chains, provider, webSocketProvider } = configureChains(
       nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
       rpcUrls: {
         default: {
-          http: ["https://rpc.ankr.com/base"],
+          http: ["https://base.drpc.org"],
         },
         public: {
-          http: ["https://rpc.ankr.com/base"],
+          http: ["https://base.drpc.org"],
         },
       },
       blockExplorers: {
