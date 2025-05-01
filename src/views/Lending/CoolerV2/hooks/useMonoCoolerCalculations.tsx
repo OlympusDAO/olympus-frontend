@@ -123,7 +123,7 @@ export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCa
       const existingDebt = new DecimalBigNumber(loan.debt, 18);
 
       // Calculate what percentage of debt is being repaid
-      const repaymentRatio = borrowAmount.div(existingDebt);
+      const repaymentRatio = existingDebt.gt("0") ? borrowAmount.div(existingDebt) : new DecimalBigNumber("1", 18);
       // Maximum collateral that can be withdrawn is proportional to debt being repaid
       const maxCollateralToWithdraw = existingCollateral.mul(repaymentRatio);
 
