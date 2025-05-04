@@ -11,7 +11,6 @@ import { useOhmBalance } from "src/hooks/useBalance";
 import { useBridgeOhm } from "src/hooks/useBridging";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
 import { BridgeFees } from "src/views/Bridge/components/BridgeFees";
-import { BridgeSettingsModal } from "src/views/Bridge/components/BridgeSettingsModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 import { useAccount, useNetwork } from "wagmi";
@@ -23,13 +22,11 @@ export const BridgeInputArea = () => {
   const bridgeMutation = useBridgeOhm();
   const network = useBridgeableTestableNetwork();
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
-  const [recipientAddress, setRecipientAddress] = useState<string>(address as string);
   const [amount, setAmount] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recChainOpen, setRecChainOpen] = useState(false);
   const [sendChainOpen, setSendChainOpen] = useState(false);
   const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
-  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const setMax = () => {
     if (!ohmBalance) return;
@@ -43,11 +40,6 @@ export const BridgeInputArea = () => {
   useEffect(() => {
     setReceivingChain(chainDefaults?.defaultRecChain || 1);
   }, [chain.id]);
-
-  //update recipient address if address changes
-  useEffect(() => {
-    setRecipientAddress(address as string);
-  }, [address]);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -150,26 +142,21 @@ export const BridgeInputArea = () => {
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column">
-            <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
+            {address && <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={address} />}
           </Box>
         </Box>
       </Box>
-      <BridgeConfirmModal
-        isOpen={confirmOpen}
-        handleConfirmClose={() => setConfirmOpen(false)}
-        amount={amount}
-        amountExceedsBalance={false}
-        bridgeMutation={bridgeMutation}
-        destinationChainId={receivingChain}
-        recipientAddress={recipientAddress}
-        handleSettingsOpen={() => setSettingsOpen(true)}
-      />
-      <BridgeSettingsModal
-        open={settingsOpen}
-        handleClose={() => setSettingsOpen(false)}
-        recipientAddress={recipientAddress}
-        setRecipientAddress={setRecipientAddress}
-      />
+      {address && (
+        <BridgeConfirmModal
+          isOpen={confirmOpen}
+          handleConfirmClose={() => setConfirmOpen(false)}
+          amount={amount}
+          amountExceedsBalance={false}
+          bridgeMutation={bridgeMutation}
+          destinationChainId={receivingChain}
+          recipientAddress={address}
+        />
+      )}
       <ChainPickerModal
         isOpen={recChainOpen}
         selectedChain={receivingChain}

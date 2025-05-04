@@ -82,6 +82,8 @@ const Bridge = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
+  const bridgeChain = BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS];
+
   return (
     <>
       <PageTitle
@@ -106,28 +108,36 @@ const Bridge = () => {
         }
       />
       <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <Box width="100%" mt="24px">
-          <BridgeInputArea />
-        </Box>
-        {totalGohmBalance.gt("0") && (
-          <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-            <StyledMiniCard
-              title="Bridge gOHM on Synapse"
-              icon={["ETH", "ARBITRUM", "OPTIMISM"]}
-              href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
-            />
-          </Box>
-        )}
+        {bridgeChain ? (
+          <>
+            <Box width="100%" mt="24px">
+              <BridgeInputArea />
+            </Box>
+            {totalGohmBalance.gt("0") && (
+              <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                <StyledMiniCard
+                  title="Bridge gOHM on Synapse"
+                  icon={["ETH", "ARBITRUM", "OPTIMISM"]}
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
+                />
+              </Box>
+            )}
 
-        <Paper headerText={`Bridging History`}>
-          {transferEvents && transferEvents.length > 0 ? (
-            <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
-          ) : (
-            <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
-              You have not bridged any OHM recently.
-            </Typography>
-          )}
-        </Paper>
+            <Paper headerText={`Bridging History`}>
+              {transferEvents && transferEvents.length > 0 ? (
+                <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
+              ) : (
+                <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
+                  You have not bridged any OHM recently.
+                </Typography>
+              )}
+            </Paper>
+          </>
+        ) : (
+          <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>
+            Bridging is not available on this network.
+          </Typography>
+        )}
       </Box>
     </>
   );

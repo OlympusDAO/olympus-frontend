@@ -20,7 +20,6 @@ export const BridgeConfirmModal = (props: {
   bridgeMutation: UseMutationResult<ContractReceipt, EthersError, IBridgeOhm, unknown>;
   destinationChainId: number;
   recipientAddress: string;
-  handleSettingsOpen: () => void;
 }) => {
   const { address } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
@@ -47,7 +46,6 @@ export const BridgeConfirmModal = (props: {
           <Typography variant="body1" sx={{ fontSize: "15px", fontWeight: 500 }}>{`Confirm Bridging`}</Typography>
         </Box>
       }
-      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={props.handleSettingsOpen} />}
       open={props.isOpen}
       onClose={props.handleConfirmClose}
       minHeight={"100px"}
