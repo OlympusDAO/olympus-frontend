@@ -96,6 +96,7 @@ export const BridgeConfirmModal = (props: {
                 </>
               }
               spendAmount={!!props.amount ? new DecimalBigNumber(props.amount, 9) : undefined}
+              isVertical={true}
             >
               <>
                 {nativeBalance?.value &&
