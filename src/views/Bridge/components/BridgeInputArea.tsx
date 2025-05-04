@@ -148,7 +148,7 @@ export const BridgeInputArea = () => {
       </Box>
       {address && (
         <BridgeConfirmModal
-          isOpen={true}
+          isOpen={confirmOpen}
           handleConfirmClose={() => setConfirmOpen(false)}
           amount={amount}
           amountExceedsBalance={false}
