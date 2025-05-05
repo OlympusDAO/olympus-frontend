@@ -23,7 +23,7 @@ export const BridgeInputArea = () => {
   const bridgeMutation = useBridgeOhm();
   const network = useBridgeableTestableNetwork();
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network];
-  const [recipientAddress, setRecipientAddress] = useState(address as string);
+  const [recipientAddress, setRecipientAddress] = useState<string>(address as string);
   const [amount, setAmount] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recChainOpen, setRecChainOpen] = useState(false);
