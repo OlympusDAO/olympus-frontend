@@ -42,10 +42,9 @@ export const BridgeConfirmModal = (props: {
   });
 
   const isValidAddress = utils.isAddress(props.recipientAddress);
-  console.log("nativeBalance", nativeBalance);
   const totalFees = (fee?.nativeFee || new DecimalBigNumber("0")).add(fee?.gasFee || new DecimalBigNumber("0"));
 
-  const addressMatch = props.recipientAddress.toLowerCase() === address?.toLowerCase();
+  const addressMatch = props.recipientAddress?.toLowerCase() === address?.toLowerCase();
 
   return (
     <Modal

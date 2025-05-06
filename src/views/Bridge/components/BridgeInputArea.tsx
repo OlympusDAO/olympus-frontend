@@ -158,8 +158,8 @@ export const BridgeInputArea = () => {
           </Box>
         </Box>
       </Box>
-      {recipientAddress && (
-        <>
+      <>
+        {confirmOpen && (
           <BridgeConfirmModal
             isOpen={confirmOpen}
             handleConfirmClose={() => setConfirmOpen(false)}
@@ -170,14 +170,17 @@ export const BridgeInputArea = () => {
             recipientAddress={recipientAddress}
             handleSettingsOpen={() => setSettingsOpen(true)}
           />
+        )}
+        {settingsOpen && (
           <BridgeSettingsModal
             open={settingsOpen}
             handleClose={() => setSettingsOpen(false)}
             recipientAddress={recipientAddress}
             setRecipientAddress={setRecipientAddress}
           />
-        </>
-      )}
+        )}
+      </>
+
       <ChainPickerModal
         isOpen={recChainOpen}
         selectedChain={receivingChain}
