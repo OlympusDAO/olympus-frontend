@@ -44,6 +44,13 @@ export const BridgeInputArea = () => {
     setReceivingChain(chainDefaults?.defaultRecChain || 1);
   }, [chain.id]);
 
+  //update recipient address if address changes
+  useEffect(() => {
+    if (address) {
+      setRecipientAddress(address);
+    }
+  }, [address]);
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" flexDirection="row" width="100%" justifyContent="center" mt="24px">
@@ -145,26 +152,35 @@ export const BridgeInputArea = () => {
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column">
-            <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
+            {recipientAddress && (
+              <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
+            )}
           </Box>
         </Box>
       </Box>
-      <BridgeConfirmModal
-        isOpen={confirmOpen}
-        handleConfirmClose={() => setConfirmOpen(false)}
-        amount={amount}
-        amountExceedsBalance={false}
-        bridgeMutation={bridgeMutation}
-        destinationChainId={receivingChain}
-        recipientAddress={recipientAddress}
-        handleSettingsOpen={() => setSettingsOpen(true)}
-      />
-      <BridgeSettingsModal
-        open={settingsOpen}
-        handleClose={() => setSettingsOpen(false)}
-        recipientAddress={recipientAddress}
-        setRecipientAddress={setRecipientAddress}
-      />
+      <>
+        {confirmOpen && (
+          <BridgeConfirmModal
+            isOpen={confirmOpen}
+            handleConfirmClose={() => setConfirmOpen(false)}
+            amount={amount}
+            amountExceedsBalance={false}
+            bridgeMutation={bridgeMutation}
+            destinationChainId={receivingChain}
+            recipientAddress={recipientAddress}
+            handleSettingsOpen={() => setSettingsOpen(true)}
+          />
+        )}
+        {settingsOpen && (
+          <BridgeSettingsModal
+            open={settingsOpen}
+            handleClose={() => setSettingsOpen(false)}
+            recipientAddress={recipientAddress}
+            setRecipientAddress={setRecipientAddress}
+          />
+        )}
+      </>
+
       <ChainPickerModal
         isOpen={recChainOpen}
         selectedChain={receivingChain}
