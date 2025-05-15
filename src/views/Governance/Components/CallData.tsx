@@ -178,7 +178,7 @@ export const CallData = ({
                 <Typography fontFamily="monospace" width="100px">
                   {input.type}:
                 </Typography>
-                <Typography fontFamily="monospace">{value}</Typography>
+                <Typography fontFamily="monospace">{value.toString()}</Typography>
               </Box>
             );
           })}
