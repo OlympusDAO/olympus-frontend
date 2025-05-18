@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { COOLER_CONSOLIDATION_CONTRACT } from "src/constants/contracts";
+import { COOLER_V2_MIGRATOR_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { CoolerConsolidation__factory } from "src/typechain";
+import { IDLGTEv1, IMonoCooler } from "src/typechain/CoolerV2Migrator";
 import { useSigner } from "wagmi";
 
 export const useConsolidateCooler = () => {
@@ -13,49 +13,35 @@ export const useConsolidateCooler = () => {
   const queryClient = useQueryClient();
   const networks = useTestableNetworks();
 
-  return useMutation(
+  // Preview function for UI
+  const previewConsolidate = async (coolers: string[]) => {
+    if (!signer) throw new Error("Please connect a wallet");
+    const contract = COOLER_V2_MIGRATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+    const [collateralAmount, borrowAmount] = await contract.previewConsolidate(coolers);
+    return { collateralAmount, borrowAmount };
+  };
+
+  // Main mutation for consolidation
+  const mutation = useMutation(
     async ({
-      fromCoolerAddress,
-      toCoolerAddress,
-      fromClearingHouseAddress,
-      toClearingHouseAddress,
-      loanIds,
+      coolers,
       newOwner,
+      authorization,
+      signature,
+      delegationRequests,
     }: {
-      fromCoolerAddress: string;
-      toCoolerAddress: string;
-      fromClearingHouseAddress: string;
-      toClearingHouseAddress: string;
-      loanIds: number[];
-      newOwner?: boolean;
+      coolers: string[];
+      newOwner: string;
+      authorization: IMonoCooler.AuthorizationStruct;
+      signature: IMonoCooler.SignatureStruct;
+      delegationRequests: IDLGTEv1.DelegationRequestStruct[];
     }) => {
-      if (!signer) throw new Error(`Please connect a wallet`);
-      const contractAddress = COOLER_CONSOLIDATION_CONTRACT.addresses[networks.MAINNET];
-      const contract = CoolerConsolidation__factory.connect(contractAddress, signer);
-
-      const cooler = newOwner
-        ? await contract.consolidateWithNewOwner(
-            fromClearingHouseAddress,
-            toClearingHouseAddress,
-            fromCoolerAddress,
-            toCoolerAddress,
-            loanIds,
-            {
-              gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
-            },
-          )
-        : await contract.consolidate(
-            fromClearingHouseAddress,
-            toClearingHouseAddress,
-            fromCoolerAddress,
-            toCoolerAddress,
-            loanIds,
-            {
-              gasLimit: loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000,
-            },
-          );
-
-      const receipt = await cooler.wait();
+      if (!signer) throw new Error("Please connect a wallet");
+      const contract = COOLER_V2_MIGRATOR_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
+      const tx = await contract.consolidate(coolers, newOwner, authorization, signature, delegationRequests, {
+        gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
+      });
+      const receipt = await tx.wait();
       return receipt;
     },
     {
@@ -69,20 +55,20 @@ export const useConsolidateCooler = () => {
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Cooler",
-            action: "Consolidate Cooler",
+            action: "Consolidate Cooler V2",
             dimension1: tx.transactionHash,
-            dimension2: tx.from, // the signer, not necessarily the receipient
+            dimension2: tx.from,
           });
-
           trackGtagEvent("Cooler", {
-            event_category: "Consolidate Cooler",
-            address: tx.from.slice(2), // the signer, not necessarily the receipient
+            event_category: "Consolidate Cooler V2",
+            address: tx.from.slice(2),
             txHash: tx.transactionHash.slice(2),
           });
         }
-
-        toast(`Coolers Consolidated Successfully`);
+        toast("Coolers Migrated to V2 Successfully");
       },
     },
   );
+
+  return { ...mutation, previewConsolidate };
 };

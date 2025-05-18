@@ -104,14 +104,17 @@ export const CoolerPositions = () => {
     if (clearingHouses.v3?.isActive && clearingHouses.v3?.capacity.gt(0)) {
       return { version: "v3", ...clearingHouses.v3 };
     }
-    if (clearingHouses.v2?.isActive && clearingHouses.v2?.capacity.gt(0)) {
+    if (clearingHouses.v2?.isActive) {
       return { version: "v2", ...clearingHouses.v2 };
     }
+
     return null;
   };
 
   const activeClearingHouse = getActiveClearingHouse();
   const allLoans = getAllLoans();
+
+  console.log(activeClearingHouse);
 
   const getClearingHouseForLoan = (version: string) => {
     const clearingHouse = clearingHouses[version as keyof typeof clearingHouses];
@@ -297,15 +300,9 @@ export const CoolerPositions = () => {
                   v3CoolerAddress={coolerAddressV3 || ""}
                   v2CoolerAddress={coolerAddressV2 || ""}
                   v1CoolerAddress={coolerAddressV1 || ""}
-                  clearingHouseAddresses={{
-                    v1: clearingHouses.v1,
-                    v2: clearingHouses.v2,
-                    v3: clearingHouses.v3,
-                  }}
                   v1Loans={loansV1}
                   v2Loans={loansV2}
                   v3Loans={loansV3}
-                  factoryAddress={clearingHouses.v3.factory}
                 />
               )}
             </Box>

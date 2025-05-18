@@ -338,3 +338,8 @@ export const COOLER_V2_COMPOSITES_ADDRESSES = {
   [NetworkId.MAINNET]: "0x...", // Add the actual mainnet address
   [NetworkId.HOLESKY]: "0xE39311d0E09e13b49cC943b95f08013438A3f87c",
 } as const;
+
+export const COOLER_V2_MIGRATOR_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x557493AaBA0cB4c560710997D2BC80266dF2Bb04",
+  [NetworkId.HOLESKY]: "",
+};

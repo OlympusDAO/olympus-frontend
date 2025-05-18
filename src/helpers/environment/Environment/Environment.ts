@@ -96,7 +96,7 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `VITE_ETHEREUM_NODE_URL`,
-          fallback: "https://eth.drpc.org",
+          fallback: "https://ethereum-rpc.publicnode.com",
         });
       case NetworkId.TESTNET_GOERLI:
         return this._get({

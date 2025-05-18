@@ -9,6 +9,7 @@ import {
   COOLER_CLEARING_HOUSE_V3_ADDRESSES,
   COOLER_CONSOLIDATION_ADDRESSES,
   COOLER_V2_COMPOSITES_ADDRESSES,
+  COOLER_V2_MIGRATOR_ADDRESSES,
   COOLER_V2_MONOCOOLER_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
@@ -52,6 +53,7 @@ import {
   Zap__factory,
 } from "src/typechain";
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
+import { CoolerV2Migrator__factory } from "src/typechain/factories/CoolerV2Migrator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
 
@@ -209,4 +211,10 @@ export const COOLER_V2_COMPOSITES_CONTRACT = new Contract({
   factory: CoolerV2Composites__factory,
   name: "Cooler V2 Composites",
   addresses: COOLER_V2_COMPOSITES_ADDRESSES,
+});
+
+export const COOLER_V2_MIGRATOR_CONTRACT = new Contract({
+  factory: CoolerV2Migrator__factory,
+  name: "Cooler V2 Migrator",
+  addresses: COOLER_V2_MIGRATOR_ADDRESSES,
 });
