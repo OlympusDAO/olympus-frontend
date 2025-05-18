@@ -24,8 +24,8 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...mainnet,
       rpcUrls: {
-        default: { http: ["https://eth.merkle.io"] },
-        public: { http: ["https://eth.merkle.io"] },
+        default: { http: ["https://ethereum-rpc.publicnode.com"] },
+        public: { http: ["https://ethereum-rpc.publicnode.com"] },
       },
     },
     {
