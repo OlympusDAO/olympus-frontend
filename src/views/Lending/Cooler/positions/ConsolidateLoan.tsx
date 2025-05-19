@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { InfoNotification, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
-import { formatEther } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
@@ -26,7 +25,6 @@ import { COOLER_CONSOLIDATION_ADDRESSES, GOHM_ADDRESSES } from "src/constants/ad
 import { COOLER_V2_MIGRATOR_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useCheckConsolidatorActive } from "src/views/Lending/Cooler/hooks/useCheckConsolidatorActive";
@@ -81,7 +79,6 @@ export const ConsolidateLoans = ({
 
   // Destination is always CoolerV2 (no branching needed)
   const debtAddress = v2Position?.debtAddress;
-  const collateralAddress = v2Position?.collateralAddress;
   const debtAssetName = v2Position?.debtAssetName;
 
   // Use selectedVersion for source loan info only (CoolerV1s)
@@ -110,20 +107,10 @@ export const ConsolidateLoans = ({
     { principal: BigNumber.from(0), interest: BigNumber.from(0), collateral: BigNumber.from(0) },
   );
 
-  // All destination (post-migration) logic uses V2
-  const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
-  const { data: gOhmBalance } = useBalance(GOHM_ADDRESSES)[networks.MAINNET];
-  const [insufficientBalances, setInsufficientBalances] = useState<
-    | {
-        debt: boolean;
-        gohm: boolean;
-      }
-    | undefined
-  >();
-
   const [preview, setPreview] = useState<{ collateralAmount: DecimalBigNumber; borrowAmount: DecimalBigNumber } | null>(
     null,
   );
+
   const [previewLoading, setPreviewLoading] = useState(false);
 
   useEffect(() => {
@@ -140,18 +127,6 @@ export const ConsolidateLoans = ({
       .catch(() => setPreview(null))
       .finally(() => setPreviewLoading(false));
   }, [sourceCoolerAddress]);
-
-  useEffect(() => {
-    if (!debtBalance || !gOhmBalance || !preview) {
-      setInsufficientBalances(undefined);
-      return;
-    }
-
-    setInsufficientBalances({
-      debt: Number(debtBalance) < Number(preview.borrowAmount),
-      gohm: Number(gOhmBalance) < Number(preview.collateralAmount),
-    });
-  }, [debtBalance, gOhmBalance, preview]);
 
   const handleVersionChange = (event: SelectChangeEvent) => {
     setSelectedVersion(event.target.value as "v1" | "v2" | "v3");
@@ -250,8 +225,6 @@ export const ConsolidateLoans = ({
 
   if (!showConsolidateButton) return null;
 
-  console.log(v2Position, "debtAddress");
-
   return (
     <>
       {consolidatorActive && <PrimaryButton onClick={() => setOpen(!open)}>Migrate Loans to Cooler V2</PrimaryButton>}
@@ -284,49 +257,11 @@ export const ConsolidateLoans = ({
           {selectedVersion && (
             <>
               <InfoNotification>
-                All selected loans from this CoolerV1 clearinghouse will be repaid and migrated into your single
-                CoolerV2 position. <b>CoolerV2 is always the destination.</b> CoolerV2 loans are open-ended and do not
-                have a fixed maturity date. Interest accrues continuously and is only paid when you repay your loan.
+                All selected loans from this Cooler V1 clearinghouse will be repaid and migrated into your single Cooler
+                V2 position. Cooler V2 loans are open-ended and do not have a fixed maturity date. Interest accrues
+                continuously and is only paid when you repay your loan.
               </InfoNotification>
-              {preview && (
-                <>
-                  <Typography fontWeight="500">Wallet Balances Required</Typography>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={"9px"}
-                    mt={"9px"}
-                  >
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>{debtAssetName} Balance</Typography>
-                    <Box display="flex" flexDirection="column" textAlign="right">
-                      <Tooltip title={preview?.borrowAmount?.toString()}>
-                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                          {Math.ceil(Number(preview?.borrowAmount?.toString()) * 100) / 100}
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={"9px"}
-                    mt={"9px"}
-                  >
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM Balance</Typography>
-                    <Box display="flex" flexDirection="column" textAlign="right">
-                      <Tooltip title={preview?.collateralAmount?.toString()}>
-                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                          {Math.ceil(Number(preview?.collateralAmount?.toString()) * 100000) / 100000}
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </>
-              )}
+
               <Box sx={{ width: "100%", my: "21px" }}>
                 <Divider />
               </Box>
@@ -397,7 +332,9 @@ export const ConsolidateLoans = ({
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>New Principal Amount</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
                   <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {formatNumber(parseFloat(formatEther(totals.principal)), 4)} {debtAssetName}
+                    {preview?.borrowAmount &&
+                      formatNumber(Math.ceil(Number(preview.borrowAmount.toString()) * 100) / 100, 2)}{" "}
+                    {debtAssetName}
                   </Typography>
                 </Box>
               </Box>
@@ -446,7 +383,7 @@ export const ConsolidateLoans = ({
               </Accordion>
             </>
           )}
-          {selectedVersion && !insufficientBalances?.debt && !insufficientBalances?.gohm ? (
+          {selectedVersion ? (
             <WalletConnectedGuard fullWidth>
               <TokenAllowanceGuard
                 tokenAddressMap={{ [NetworkId.MAINNET]: debtAddress }}
@@ -477,11 +414,7 @@ export const ConsolidateLoans = ({
             </WalletConnectedGuard>
           ) : (
             <PrimaryButton disabled fullWidth>
-              {insufficientBalances?.debt
-                ? `Insufficient ${debtAssetName} Balance`
-                : insufficientBalances?.gohm
-                  ? "Insufficient gOHM Balance"
-                  : "Select loans to consolidate"}
+              Select loans to consolidate
             </PrimaryButton>
           )}
         </>
