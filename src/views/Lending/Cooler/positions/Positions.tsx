@@ -114,8 +114,6 @@ export const CoolerPositions = () => {
   const activeClearingHouse = getActiveClearingHouse();
   const allLoans = getAllLoans();
 
-  console.log(activeClearingHouse);
-
   const getClearingHouseForLoan = (version: string) => {
     const clearingHouse = clearingHouses[version as keyof typeof clearingHouses];
     if (!clearingHouse) throw new Error(`No clearing house found for version ${version}`);
@@ -136,14 +134,29 @@ export const CoolerPositions = () => {
   };
 
   const shouldShowConsolidate =
-    allLoans.length > 1 ||
+    allLoans.length > 0 ||
     (((loansV1 && loansV1.length > 0) || (loansV2 && loansV2.length > 0)) &&
-      clearingHouses.v1 &&
-      clearingHouses.v2 &&
-      clearingHouses.v3);
+      Boolean(clearingHouses.v1) &&
+      Boolean(clearingHouses.v2) &&
+      Boolean(clearingHouses.v3));
 
   const allLoansLoaded = !isFetchingLoansV1 && !isFetchingLoansV2 && !isFetchingLoansV3;
 
+  const consolidateButton = () => {
+    if (shouldShowConsolidate) {
+      return (
+        <ConsolidateLoans
+          v3CoolerAddress={coolerAddressV3 || ""}
+          v2CoolerAddress={coolerAddressV2 || ""}
+          v1CoolerAddress={coolerAddressV1 || ""}
+          v1Loans={loansV1}
+          v2Loans={loansV2}
+          v3Loans={loansV3}
+        />
+      );
+    }
+    return <></>;
+  };
   return (
     <div id="cooler-positions">
       <DevTools />
@@ -285,32 +298,10 @@ export const CoolerPositions = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {activeClearingHouse && (
-            <Box display="flex" justifyContent={"center"} gap="4px">
-              <PrimaryButton
-                onClick={() => {
-                  setRepayLoan(undefined);
-                  setCreateLoanModalOpen(true);
-                }}
-              >
-                Borrow {activeClearingHouse.debtAssetName} & Open Position
-              </PrimaryButton>
-              {shouldShowConsolidate && clearingHouses.v1 && clearingHouses.v2 && clearingHouses.v3 && (
-                <ConsolidateLoans
-                  v3CoolerAddress={coolerAddressV3 || ""}
-                  v2CoolerAddress={coolerAddressV2 || ""}
-                  v1CoolerAddress={coolerAddressV1 || ""}
-                  v1Loans={loansV1}
-                  v2Loans={loansV2}
-                  v3Loans={loansV3}
-                />
-              )}
-            </Box>
-          )}
         </>
       )}
 
-      <MonoCoolerPositions />
+      <MonoCoolerPositions consolidateButton={consolidateButton()} v1Loans={shouldShowConsolidate || false} />
 
       {activeClearingHouse && (
         <>

@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { COOLER_V2_MIGRATOR_CONTRACT } from "src/constants/contracts";
+import { COOLER_V2_MIGRATOR_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { contractAllowanceQueryKey } from "src/hooks/useContractAllowance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { CoolerV2Migrator__factory } from "src/typechain";
-import { IDLGTEv1, IMonoCooler } from "src/typechain/CoolerV2Migrator";
-import { useProvider, useSigner } from "wagmi";
+import { CoolerV2Migrator__factory, CoolerV2MonoCooler__factory } from "src/typechain";
+import { getAuthorizationSignature } from "src/views/Lending/CoolerV2/utils/getAuthorizationSignature";
+import { useProvider, useSigner, useSignTypedData } from "wagmi";
 
 export const useConsolidateCooler = () => {
   const { data: signer } = useSigner();
+  const { signTypedDataAsync } = useSignTypedData();
   const queryClient = useQueryClient();
   const networks = useTestableNetworks();
   const provider = useProvider();
@@ -28,24 +29,42 @@ export const useConsolidateCooler = () => {
 
   // Main mutation for consolidation
   const mutation = useMutation(
-    async ({
-      coolers,
-      newOwner,
-      authorization,
-      signature,
-      delegationRequests,
-    }: {
-      coolers: string[];
-      newOwner: string;
-      authorization: IMonoCooler.AuthorizationStruct;
-      signature: IMonoCooler.SignatureStruct;
-      delegationRequests: IDLGTEv1.DelegationRequestStruct[];
-    }) => {
+    async ({ coolers, newOwner }: { coolers: string[]; newOwner: string }) => {
       if (!signer) throw new Error("Please connect a wallet");
-      const contract = COOLER_V2_MIGRATOR_CONTRACT.getEthersContract(networks.MAINNET_HOLESKY).connect(signer);
-      const tx = await contract.consolidate(coolers, newOwner, authorization, signature, delegationRequests, {
-        gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
+
+      // 1. Get nonce from V2 contract for new owner
+      const v2Contract = CoolerV2MonoCooler__factory.connect(
+        COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
+        provider,
+      );
+      const nonce = await v2Contract.authorizationNonces(newOwner);
+
+      // 2. Generate EIP-712 signature
+      const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
+      const v2ContractAddress = v2Contract.address;
+      if (!migratorAddress || !v2ContractAddress) throw new Error("Missing contract addresses");
+
+      const { auth, signature } = await getAuthorizationSignature({
+        userAddress: newOwner,
+        authorizedAddress: migratorAddress as `0x${string}`,
+        verifyingContract: v2ContractAddress as `0x${string}`,
+        chainId: networks.MAINNET_HOLESKY,
+        nonce: nonce.toString(),
+        signTypedDataAsync,
       });
+
+      // 3. Call the migrator contract
+      const contract = CoolerV2Migrator__factory.connect(migratorAddress, signer);
+      const tx = await contract.consolidate(
+        coolers,
+        newOwner,
+        auth,
+        signature,
+        [], // delegationRequests
+        {
+          gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
+        },
+      );
       const receipt = await tx.wait();
       return receipt;
     },

@@ -15,24 +15,17 @@ import {
   Typography,
 } from "@mui/material";
 import { InfoNotification, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { COOLER_CONSOLIDATION_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
-import { COOLER_V2_MIGRATOR_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
+import { COOLER_V2_MIGRATOR_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
-import { useCheckConsolidatorActive } from "src/views/Lending/Cooler/hooks/useCheckConsolidatorActive";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
-import { getAuthorizationSignature } from "src/views/Lending/CoolerV2/utils/getAuthorizationSignature";
-import { useAccount, useSignTypedData } from "wagmi";
+import { useAccount } from "wagmi";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
@@ -51,13 +44,10 @@ export const ConsolidateLoans = ({
   v3Loans?: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
 }) => {
   const coolerMutation = useConsolidateCooler();
-  const { data: consolidatorActive } = useCheckConsolidatorActive();
-  const networks = useTestableNetworks();
   const [open, setOpen] = useState(false);
   const { address } = useAccount();
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
-  const { signTypedDataAsync } = useSignTypedData();
   const { data: v2Position } = useMonoCoolerPosition();
 
   // Determine which V1 clearinghouse loans are available for consolidation (source selection only)
@@ -77,8 +67,6 @@ export const ConsolidateLoans = ({
     availableVersions.length === 1 ? availableVersions[0] : "",
   );
 
-  // Destination is always CoolerV2 (no branching needed)
-  const debtAddress = v2Position?.debtAddress;
   const debtAssetName = v2Position?.debtAssetName;
 
   // Use selectedVersion for source loan info only (CoolerV1s)
@@ -96,16 +84,6 @@ export const ConsolidateLoans = ({
 
   // Show button only if there are loans that can be consolidated
   const showConsolidateButton = hasV1Loans || hasV2Loans || hasV3Loans;
-
-  const totals = loans.reduce(
-    (acc, loan) => {
-      acc.principal = acc.principal.add(loan.principal);
-      acc.interest = acc.interest.add(loan.interestDue);
-      acc.collateral = acc.collateral.add(loan.collateral);
-      return acc;
-    },
-    { principal: BigNumber.from(0), interest: BigNumber.from(0), collateral: BigNumber.from(0) },
-  );
 
   const [preview, setPreview] = useState<{ collateralAmount: DecimalBigNumber; borrowAmount: DecimalBigNumber } | null>(
     null,
@@ -138,7 +116,6 @@ export const ConsolidateLoans = ({
 
     try {
       const checksummedAddress = getAddress(inputAddress.toLowerCase());
-      console.log("checksummedAddress", checksummedAddress);
       // First check if empty or valid address, then check if it's not the current owner
       const isValid = inputAddress === "" || checksummedAddress;
       const isNotCurrentOwner = !address || !inputAddress || inputAddress.toLowerCase() !== address.toLowerCase();
@@ -148,86 +125,20 @@ export const ConsolidateLoans = ({
     }
   };
 
-  const handleConsolidate = async () => {
-    // Collect all selected cooler addresses (from UI logic)
-    const coolers = [sourceCoolerAddress]; // TODO: update if multi-select is supported
-    const newOwner = newOwnerAddress && isValidAddress ? newOwnerAddress : address;
+  // newOwner is the connected wallet unless the user enters a different EOA
+  const newOwner = newOwnerAddress && isValidAddress ? newOwnerAddress : address;
+
+  const handleConsolidate = () => {
+    const coolers = [sourceCoolerAddress].filter(Boolean) as string[];
     if (!coolers.length || !newOwner) return;
-
-    // Get nonce from V2 contract for new owner
-    const v2Contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(networks.MAINNET_HOLESKY);
-    let nonce;
-    try {
-      nonce = await v2Contract.authorizationNonces(newOwner);
-    } catch (e) {
-      toast.error("Failed to fetch nonce for authorization signature");
-      return;
-    }
-
-    // Ensure addresses are defined and valid
-    const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
-    const v2ContractAddress = v2Contract.address;
-    if (
-      !migratorAddress ||
-      !migratorAddress.startsWith("0x") ||
-      !v2ContractAddress ||
-      !v2ContractAddress.startsWith("0x")
-    ) {
-      toast.error("Could not determine contract addresses for signature");
-      return;
-    }
-    let safeMigratorAddress: `0x${string}`;
-    let safeV2ContractAddress: `0x${string}`;
-    try {
-      safeMigratorAddress = asHexString(migratorAddress);
-      safeV2ContractAddress = asHexString(v2ContractAddress);
-    } catch {
-      toast.error("Invalid contract address format");
-      return;
-    }
-
-    // Generate authorization signature
-    let auth, signature;
-    try {
-      const sigResult = await getAuthorizationSignature({
-        userAddress: newOwner,
-        authorizedAddress: safeMigratorAddress,
-        verifyingContract: safeV2ContractAddress,
-        chainId: networks.MAINNET_HOLESKY,
-        nonce: nonce.toString(),
-        signTypedDataAsync,
-      });
-      auth = sigResult.auth;
-      signature = sigResult.signature;
-    } catch (e) {
-      toast.error("Signature request was rejected or failed");
-      return;
-    }
-
-    // Call the migrator
-    coolerMutation.mutate(
-      {
-        coolers: coolers.filter(Boolean) as string[],
-        newOwner,
-        authorization: auth,
-        signature,
-        delegationRequests: [], // TODO: support delegation if needed
-      },
-      {
-        onSuccess: () => {
-          setOpen(false);
-          setSelectedVersion("");
-          setNewOwnerAddress("");
-        },
-      },
-    );
+    coolerMutation.mutate({ coolers, newOwner });
   };
 
   if (!showConsolidateButton) return null;
 
   return (
     <>
-      {consolidatorActive && <PrimaryButton onClick={() => setOpen(!open)}>Migrate Loans to Cooler V2</PrimaryButton>}
+      <PrimaryButton onClick={() => setOpen(!open)}>Migrate Loans to Cooler V2</PrimaryButton>
       <Modal
         maxWidth="476px"
         minHeight="200px"
@@ -386,30 +297,21 @@ export const ConsolidateLoans = ({
           {selectedVersion ? (
             <WalletConnectedGuard fullWidth>
               <TokenAllowanceGuard
-                tokenAddressMap={{ [NetworkId.MAINNET]: debtAddress }}
-                spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
+                tokenAddressMap={GOHM_ADDRESSES}
+                spenderAddressMap={COOLER_V2_MIGRATOR_ADDRESSES}
                 isVertical
-                message={<>Approve {debtAssetName} for Spending on the Consolidation Contract</>}
-                spendAmount={preview?.borrowAmount}
-                approvalText={`Approve ${debtAssetName} for Spending`}
+                message={<>Approve gOHM for Spending on the Consolidation Contract</>}
+                spendAmount={preview?.collateralAmount}
+                approvalText="Approve gOHM for Spending"
               >
-                <TokenAllowanceGuard
-                  tokenAddressMap={GOHM_ADDRESSES}
-                  spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
-                  isVertical
-                  message={<>Approve gOHM for Spending on the Consolidation Contract</>}
-                  spendAmount={preview?.collateralAmount}
-                  approvalText="Approve gOHM for Spending"
+                <PrimaryButton
+                  onClick={handleConsolidate}
+                  loading={coolerMutation.isLoading}
+                  disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
+                  fullWidth
                 >
-                  <PrimaryButton
-                    onClick={handleConsolidate}
-                    loading={coolerMutation.isLoading}
-                    disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
-                    fullWidth
-                  >
-                    Migrate Loans to Cooler V2
-                  </PrimaryButton>
-                </TokenAllowanceGuard>
+                  Migrate Loans to Cooler V2
+                </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>
           ) : (
@@ -422,11 +324,3 @@ export const ConsolidateLoans = ({
     </>
   );
 };
-
-// Helper to assert a value is a valid 0x-prefixed string
-function asHexString(value: string | undefined): `0x${string}` {
-  if (!value || typeof value !== "string" || !value.startsWith("0x")) {
-    throw new Error("Invalid hex string");
-  }
-  return value as `0x${string}`;
-}

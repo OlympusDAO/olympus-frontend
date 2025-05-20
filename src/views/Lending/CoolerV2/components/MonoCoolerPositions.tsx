@@ -20,7 +20,13 @@ import { CreateOrRepayLoanV2 } from "src/views/Lending/CoolerV2/components/Creat
 import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 
-export const MonoCoolerPositions = () => {
+export const MonoCoolerPositions = ({
+  consolidateButton,
+  v1Loans,
+}: {
+  consolidateButton: React.ReactNode;
+  v1Loans: boolean;
+}) => {
   const { data: position } = useMonoCoolerPosition();
   const { additionalBorrowingAvailable } = useMonoCoolerCalculations({
     loan: {
@@ -39,22 +45,24 @@ export const MonoCoolerPositions = () => {
   if (!hasActivePosition) {
     return (
       <>
-        <Box mb="21px" mt="33px">
-          {/* <Typography variant="h2">Cooler V2 Positions</Typography> */}
-        </Box>
         <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
           <Box textAlign="center">
-            <Typography variant="h6" mb={2}>
-              You currently have no Cooler loans
-            </Typography>
-            <PrimaryButton
-              onClick={() => {
-                setIsRepayMode(false);
-                setCreateLoanModalOpen(true);
-              }}
-            >
-              Borrow USDS & Open Position
-            </PrimaryButton>
+            {!v1Loans && (
+              <Typography variant="h6" mb={2}>
+                You currently have no Cooler loans
+              </Typography>
+            )}
+            <Box display="flex" gap={1}>
+              <PrimaryButton
+                onClick={() => {
+                  setIsRepayMode(false);
+                  setCreateLoanModalOpen(true);
+                }}
+              >
+                Borrow USDS & Open Position
+              </PrimaryButton>
+              {consolidateButton}
+            </Box>
           </Box>
         </Box>
         {createLoanModalOpen && (
@@ -182,6 +190,10 @@ export const MonoCoolerPositions = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+        <Box textAlign="center">{consolidateButton}</Box>
+      </Box>
 
       {createLoanModalOpen && (
         <CreateOrRepayLoanV2

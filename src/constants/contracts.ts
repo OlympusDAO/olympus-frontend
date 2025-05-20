@@ -7,7 +7,6 @@ import {
   COOLER_CLEARING_HOUSE_V1_ADDRESSES,
   COOLER_CLEARING_HOUSE_V2_ADDRESSES,
   COOLER_CLEARING_HOUSE_V3_ADDRESSES,
-  COOLER_CONSOLIDATION_ADDRESSES,
   COOLER_V2_COMPOSITES_ADDRESSES,
   COOLER_V2_MIGRATOR_ADDRESSES,
   COOLER_V2_MONOCOOLER_ADDRESSES,
@@ -35,7 +34,6 @@ import {
   BondFixedTermTeller__factory,
   CoolerClearingHouse__factory,
   CoolerClearingHouseV3__factory,
-  CoolerConsolidation__factory,
   CoolerV2Composites__factory,
   CoolerV2MonoCooler__factory,
   CrossChainBridge__factory,
@@ -187,12 +185,6 @@ export const GOVERNANCE_CONTRACT = new Contract({
   factory: OlympusGovernorBravo__factory,
   name: "Governance Contract",
   addresses: OLYMPUS_GOVERNANCE_ADDRESSES,
-});
-
-export const COOLER_CONSOLIDATION_CONTRACT = new Contract({
-  factory: CoolerConsolidation__factory,
-  name: "Cooler Consolidation Utils",
-  addresses: COOLER_CONSOLIDATION_ADDRESSES,
 });
 
 export const EMISSION_MANAGER_CONTRACT = new Contract({
