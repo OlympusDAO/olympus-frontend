@@ -37,9 +37,17 @@ export interface IBridgeFee {
   gasFee?: DecimalBigNumber;
 }
 
-const normalizedBridgeContract = ({ chainId }: { chainId: number }): CrossChainBridge | CrossChainBridgeTestnet => {
-  const contractConstant = isTestnet(chainId) ? CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET : CROSS_CHAIN_BRIDGE_CONTRACT;
-  return contractConstant.getEthersContract(chainId);
+const normalizedBridgeContract = ({
+  chainId,
+}: {
+  chainId: number;
+}): CrossChainBridge | CrossChainBridgeTestnet | undefined => {
+  try {
+    const contractConstant = isTestnet(chainId) ? CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET : CROSS_CHAIN_BRIDGE_CONTRACT;
+    return contractConstant.getEthersContract(chainId);
+  } catch (error) {
+    return undefined;
+  }
 };
 
 export const useEstimateSendFee = ({ destinationChainId, recipientAddress, amount }: IBridgeOhm) => {
@@ -156,6 +164,7 @@ export const useGetBridgeTransferredEvents = (chainId: number) => {
   return useQuery<IHistoryTx[], Error>(
     ["GetBridgingEvents", chainId, address],
     async () => {
+      if (!contract) throw new Error("Bridging doesn't exist on current network. Please switch networks.");
       //if berachain we can only go back 10000 blocks w/ rpc.
       //so we need to get the block number from the rpc
       let fromBlockNumber: number | undefined;

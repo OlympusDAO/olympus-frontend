@@ -1,5 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import { Icon, InfoNotification, Modal, OHMTokenProps, PrimaryButton, Token } from "@olympusdao/component-library";
+import {
+  Icon,
+  InfoNotification,
+  Modal,
+  OHMTokenProps,
+  PrimaryButton,
+  Token,
+  WarningNotification,
+} from "@olympusdao/component-library";
 import { UseMutationResult } from "@tanstack/react-query";
 import { ContractReceipt, utils } from "ethers";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -34,8 +42,9 @@ export const BridgeConfirmModal = (props: {
   });
 
   const isValidAddress = utils.isAddress(props.recipientAddress);
-  console.log("nativeBalance", nativeBalance);
   const totalFees = (fee?.nativeFee || new DecimalBigNumber("0")).add(fee?.gasFee || new DecimalBigNumber("0"));
+
+  const addressMatch = props.recipientAddress?.toLowerCase() === address?.toLowerCase();
 
   return (
     <Modal
@@ -57,6 +66,12 @@ export const BridgeConfirmModal = (props: {
           <InfoNotification>
             Please don't close this modal until all wallet transactions are confirmed.
           </InfoNotification>
+        )}
+        {!addressMatch && (
+          <WarningNotification>
+            The address of the connected wallet and recipient address are different. Please confirm the recipient
+            address. If this is not a valid recipient, your funds will be irrevocably lost.
+          </WarningNotification>
         )}
 
         <Box id="bridge-metrics" display="flex" flexDirection="row" justifyContent="space-around" alignItems="center">
@@ -98,6 +113,7 @@ export const BridgeConfirmModal = (props: {
                 </>
               }
               spendAmount={!!props.amount ? new DecimalBigNumber(props.amount, 9) : undefined}
+              isVertical={true}
             >
               <>
                 {nativeBalance?.value &&
