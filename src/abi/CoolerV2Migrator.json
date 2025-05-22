@@ -1,0 +1,302 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "owner_", "type": "address" },
+        { "internalType": "address", "name": "coolerV2_", "type": "address" },
+        { "internalType": "address", "name": "dai_", "type": "address" },
+        { "internalType": "address", "name": "usds_", "type": "address" },
+        { "internalType": "address", "name": "gohm_", "type": "address" },
+        { "internalType": "address", "name": "migrator_", "type": "address" },
+        { "internalType": "address", "name": "flash_", "type": "address" },
+        { "internalType": "address", "name": "chreg_", "type": "address" },
+        { "internalType": "address[]", "name": "coolerFactories_", "type": "address[]" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "type": "error", "name": "NotDisabled" },
+    { "inputs": [], "type": "error", "name": "NotEnabled" },
+    { "inputs": [], "type": "error", "name": "OnlyLender" },
+    { "inputs": [], "type": "error", "name": "OnlyThis" },
+    { "inputs": [], "type": "error", "name": "Only_CoolerOwner" },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
+      "type": "error",
+      "name": "Overflow"
+    },
+    { "inputs": [], "type": "error", "name": "Params_DuplicateCooler" },
+    {
+      "inputs": [{ "internalType": "string", "name": "reason_", "type": "string" }],
+      "type": "error",
+      "name": "Params_InvalidAddress"
+    },
+    { "inputs": [], "type": "error", "name": "Params_InvalidClearinghouse" },
+    { "inputs": [], "type": "error", "name": "Params_InvalidCooler" },
+    { "inputs": [], "type": "error", "name": "Params_InvalidNewOwner" },
+    {
+      "inputs": [{ "internalType": "address", "name": "coolerFactory", "type": "address", "indexed": true }],
+      "type": "event",
+      "name": "CoolerFactoryAdded",
+      "anonymous": false
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "coolerFactory", "type": "address", "indexed": true }],
+      "type": "event",
+      "name": "CoolerFactoryRemoved",
+      "anonymous": false
+    },
+    { "inputs": [], "type": "event", "name": "Disabled", "anonymous": false },
+    { "inputs": [], "type": "event", "name": "Enabled", "anonymous": false },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "user", "type": "address", "indexed": true },
+        { "internalType": "address", "name": "newOwner", "type": "address", "indexed": true }
+      ],
+      "type": "event",
+      "name": "OwnershipTransferred",
+      "anonymous": false
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "token", "type": "address", "indexed": true },
+        { "internalType": "address", "name": "recipient", "type": "address", "indexed": true },
+        { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+      ],
+      "type": "event",
+      "name": "TokenRefunded",
+      "anonymous": false
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "CHREG",
+      "outputs": [{ "internalType": "contract CHREGv1", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "COOLERV2",
+      "outputs": [{ "internalType": "contract IMonoCooler", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "DAI",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "FLASH",
+      "outputs": [{ "internalType": "contract IERC3156FlashLender", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "GOHM",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "MIGRATOR",
+      "outputs": [{ "internalType": "contract IDaiUsdsMigrator", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "USDS",
+      "outputs": [{ "internalType": "contract ERC20", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "coolerFactory_", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "addCoolerFactory"
+    },
+    {
+      "inputs": [
+        { "internalType": "address[]", "name": "coolers_", "type": "address[]" },
+        { "internalType": "address", "name": "newOwner_", "type": "address" },
+        {
+          "internalType": "struct IMonoCooler.Authorization",
+          "name": "authorization_",
+          "type": "tuple",
+          "components": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "address", "name": "authorized", "type": "address" },
+            { "internalType": "uint96", "name": "authorizationDeadline", "type": "uint96" },
+            { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+            { "internalType": "uint256", "name": "signatureDeadline", "type": "uint256" }
+          ]
+        },
+        {
+          "internalType": "struct IMonoCooler.Signature",
+          "name": "signature_",
+          "type": "tuple",
+          "components": [
+            { "internalType": "uint8", "name": "v", "type": "uint8" },
+            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "s", "type": "bytes32" }
+          ]
+        },
+        {
+          "internalType": "struct IDLGTEv1.DelegationRequest[]",
+          "name": "delegationRequests_",
+          "type": "tuple[]",
+          "components": [
+            { "internalType": "address", "name": "delegate", "type": "address" },
+            { "internalType": "int256", "name": "amount", "type": "int256" }
+          ]
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "consolidate"
+    },
+    {
+      "inputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "disable"
+    },
+    {
+      "inputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "enable"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "getCoolerFactories",
+      "outputs": [{ "internalType": "address[]", "name": "coolerFactories", "type": "address[]" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "isEnabled",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "initiator_", "type": "address" },
+        { "internalType": "address", "name": "", "type": "address" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "bytes", "name": "params_", "type": "bytes" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "onFlashLoan",
+      "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+    },
+    {
+      "inputs": [],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }]
+    },
+    {
+      "inputs": [{ "internalType": "address[]", "name": "coolers_", "type": "address[]" }],
+      "stateMutability": "view",
+      "type": "function",
+      "name": "previewConsolidate",
+      "outputs": [
+        { "internalType": "uint256", "name": "collateralAmount", "type": "uint256" },
+        { "internalType": "uint256", "name": "borrowAmount", "type": "uint256" }
+      ]
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "coolerFactory_", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "removeCoolerFactory"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "name": "transferOwnership"
+    }
+  ],
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "addCoolerFactory(address)": { "params": { "coolerFactory_": "The CoolerFactory to add" } },
+      "consolidate(address[],address,(address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),(address,int256)[])": {
+        "details": "This function will revert if:         - Any of the Coolers are not owned by the caller.         - Any of the Coolers have not been created by the CoolerFactory.         - Any of the Coolers have a different lender than an Olympus Clearinghouse.         - A duplicate Cooler is provided.         - The owner of the destination Cooler V2 has not provided authorization for this contract to manage their Cooler V2 position.         - The caller has not approved this contract to spend the collateral token, gOHM.         - The contract is not active.         - Re-entrancy is detected.",
+        "params": {
+          "authorization_": "Authorization parameters for the new owner. Set the `account` field to the zero address to indicate that authorization has already been provided through `IMonoCooler.setAuthorization()`.",
+          "coolers_": "The Coolers from which the loans will be migrated.",
+          "delegationRequests_": "Delegation requests for the new owner.",
+          "newOwner_": "Address of the owner of the Cooler V2 position. This can be the same as the caller, or a different address.",
+          "signature_": "Authorization signature for the new owner. Ignored if `authorization_.account` is the zero address."
+        }
+      },
+      "disable(bytes)": {
+        "details": "Implementing contracts should implement permissioning logic",
+        "params": { "disableData_": "Optional data to pass to a custom disable function" }
+      },
+      "enable(bytes)": {
+        "details": "Implementing contracts should implement permissioning logic",
+        "params": { "enableData_": "Optional data to pass to a custom enable function" }
+      },
+      "getCoolerFactories()": { "returns": { "coolerFactories": "The list of CoolerFactories" } },
+      "onFlashLoan(address,address,uint256,uint256,bytes)": {
+        "details": "This function reverts if:             - The caller is not the flash loan provider             - The initiator is not this contract",
+        "params": {
+          "amount": "The amount of tokens lent.",
+          "data": "Arbitrary data structure, intended to contain user-defined parameters.",
+          "fee": "The additional amount of tokens to repay.",
+          "initiator": "The initiator of the loan.",
+          "token": "The loan currency."
+        },
+        "returns": { "_0": "The keccak256 hash of \"ERC3156FlashBorrower.onFlashLoan\"" }
+      },
+      "previewConsolidate(address[])": {
+        "params": { "coolers_": "The Coolers to consolidate the loans from." },
+        "returns": {
+          "borrowAmount": "       The amount of debt that will be borrowed from Cooler V2.",
+          "collateralAmount": "   The amount of collateral that will be migrated into Cooler V2."
+        }
+      },
+      "removeCoolerFactory(address)": { "params": { "coolerFactory_": "The CoolerFactory to remove" } }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "CHREG()": { "notice": "The Clearinghouse registry module" },
+      "COOLERV2()": { "notice": "The Cooler V2 contract" },
+      "DAI()": { "notice": "The DAI token" },
+      "FLASH()": { "notice": "The ERC3156 flash loan provider" },
+      "GOHM()": { "notice": "The gOHM token" },
+      "MIGRATOR()": { "notice": "The DAI <> USDS Migrator" },
+      "USDS()": { "notice": "The USDS token" },
+      "addCoolerFactory(address)": { "notice": "Add a CoolerFactory to the migrator" },
+      "consolidate(address[],address,(address,address,uint96,uint256,uint256),(uint8,bytes32,bytes32),(address,int256)[])": {
+        "notice": "Consolidate Cooler V1 loans into Cooler V2         This function supports consolidation of loans from multiple Clearinghouses and Coolers, provided that the caller is the owner.         The funds for paying interest owed and fees will be borrowed from Cooler V2.         It is expected that the caller will have already provided approval for this contract to spend the required tokens. See `previewConsolidate()` for more details."
+      },
+      "disable(bytes)": { "notice": "Disables the contract" },
+      "enable(bytes)": { "notice": "Enables the contract" },
+      "getCoolerFactories()": { "notice": "Get the list of CoolerFactories" },
+      "isEnabled()": { "notice": "Whether the contract is enabled" },
+      "previewConsolidate(address[])": { "notice": "Preview the consolidation of a set of loans." },
+      "removeCoolerFactory(address)": { "notice": "Remove a CoolerFactory from the migrator" }
+    },
+    "version": 1
+  }
+}

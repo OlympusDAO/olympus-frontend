@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ethers } from "ethers";
 import { NetworkId } from "src/constants";
 import { COOLER_V2_COMPOSITES_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import type { DLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
+import { getAuthorizationSignature } from "src/views/Lending/CoolerV2/utils/getAuthorizationSignature";
 import { useAccount, useNetwork, useSigner, useSignTypedData } from "wagmi";
 
 const calculateBorrowAmount = (amount: DecimalBigNumber, interestRateBps: number) => {
@@ -44,47 +44,20 @@ export const useMonoCoolerDebt = () => {
   const queryClient = useQueryClient();
   const { data: position } = useMonoCoolerPosition();
 
-  const getAuthorizationSignature = async () => {
+  const authSignature = async () => {
     if (!address) throw new Error("No address available");
     const coolerContract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id);
-
-    // Get the current nonce for the user
     const nonce = await coolerContract.authorizationNonces(address);
-
-    // Create authorization with the user's address and a 1 hour deadline
-    const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
-    const auth = {
-      account: address,
-      authorized: COOLER_V2_COMPOSITES_CONTRACT.getAddress(chain.id),
-      authorizationDeadline: deadline,
-      nonce: nonce.toString(),
-      signatureDeadline: deadline,
-    };
-
-    // Get the signature from the signer
-    const domain = {
-      chainId: chain.id,
+    const deadline = Math.floor(Date.now() / 1000) + 3600;
+    return getAuthorizationSignature({
+      userAddress: address,
+      authorizedAddress: COOLER_V2_COMPOSITES_CONTRACT.getAddress(chain.id) as `0x${string}`,
       verifyingContract: coolerContract.address as `0x${string}`,
-    };
-
-    const types = {
-      Authorization: [
-        { name: "account", type: "address" },
-        { name: "authorized", type: "address" },
-        { name: "authorizationDeadline", type: "uint96" },
-        { name: "nonce", type: "uint256" },
-        { name: "signatureDeadline", type: "uint256" },
-      ],
-    };
-
-    const signature = await signTypedDataAsync({
-      domain,
-      types,
-      value: auth,
+      chainId: chain.id,
+      deadline,
+      nonce: nonce.toString(),
+      signTypedDataAsync,
     });
-    const { v, r, s } = ethers.utils.splitSignature(signature);
-
-    return { auth, signature: { v, r, s } };
   };
 
   const borrow = useMutation(
@@ -218,7 +191,7 @@ export const useMonoCoolerDebt = () => {
       const borrowAmountToUse = calculateBorrowAmount(borrowAmount, position.interestRateBps);
       const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
 
-      const { auth, signature } = await getAuthorizationSignature();
+      const { auth, signature } = await authSignature();
 
       const tx = await contract.addCollateralAndBorrow(
         auth,
@@ -255,7 +228,7 @@ export const useMonoCoolerDebt = () => {
       const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
       const amountToRepay = calculateRepayAmount(repayAmount, position.interestRateBps, fullRepay);
 
-      const { auth, signature } = await getAuthorizationSignature();
+      const { auth, signature } = await authSignature();
 
       const tx = await contract.repayAndRemoveCollateral(
         auth,

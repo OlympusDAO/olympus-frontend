@@ -13,6 +13,7 @@ export const useMonoCoolerPosition = () => {
   return useQuery(
     ["monoCoolerPosition", address, networks.MAINNET_HOLESKY],
     async () => {
+      console.log(address, "address");
       if (!address) return null;
 
       const config = {
@@ -27,6 +28,7 @@ export const useMonoCoolerPosition = () => {
         collateralToken,
         debtToken,
         borrowsPaused,
+        isActive,
       ] = await multicall({
         contracts: [
           {
@@ -54,8 +56,14 @@ export const useMonoCoolerPosition = () => {
             ...config,
             functionName: "borrowsPaused",
           },
+          {
+            ...config,
+            functionName: "isActive",
+          },
         ],
       });
+
+      console.log(accountPosition, "accountPosition");
 
       const [debtAssetName, collateralAssetName] = await multicall({
         contracts: [
@@ -113,6 +121,7 @@ export const useMonoCoolerPosition = () => {
         collateralAddress: collateralToken,
         borrowsPaused,
         projectedLiquidationDate,
+        isActive,
       };
     },
     {
