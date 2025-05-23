@@ -7,6 +7,7 @@ import {
   Box,
   Divider,
   FormControl,
+  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -25,7 +26,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
@@ -45,7 +46,9 @@ export const ConsolidateLoans = ({
 }) => {
   const coolerMutation = useConsolidateCooler();
   const [open, setOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
   const { data: v2Position } = useMonoCoolerPosition();
@@ -131,14 +134,79 @@ export const ConsolidateLoans = ({
   const handleConsolidate = () => {
     const coolers = [sourceCoolerAddress].filter(Boolean) as string[];
     if (!coolers.length || !newOwner) return;
-    coolerMutation.mutate({ coolers, newOwner });
+    coolerMutation.mutate(
+      { coolers, newOwner },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          setConfirmModalOpen(false);
+        },
+      },
+    );
   };
+
+  const openConfirmModal = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const handleContinue = () => {
+    setConfirmModalOpen(false);
+    handleConsolidate();
+  };
+
+  const getExplorerUrl = (address: string) => {
+    const baseUrl = chain?.blockExplorers?.default.url || "https://etherscan.io";
+    return `${baseUrl}/address/${address}`;
+  };
+
+  const migratorAddressKey = (chain?.id || 1) as keyof typeof COOLER_V2_MIGRATOR_ADDRESSES;
+  const migratorAddress = COOLER_V2_MIGRATOR_ADDRESSES[migratorAddressKey];
+  const coolerAddress = sourceCoolerAddress;
 
   if (!showConsolidateButton) return null;
 
   return (
     <>
-      <PrimaryButton onClick={() => setOpen(!open)}>Migrate Loans to Cooler V2</PrimaryButton>
+      <PrimaryButton onClick={() => setOpen(true)}>Migrate Loans to Cooler V2</PrimaryButton>
+
+      {/* Confirmation Modal */}
+      <Modal
+        maxWidth="476px"
+        minHeight="200px"
+        open={confirmModalOpen}
+        headerContent={
+          <Box display="flex" alignItems="center" gap="6px">
+            <SvgIcon component={lendAndBorrowIcon} /> <Box fontWeight="500">Confirmation</Box>
+          </Box>
+        }
+        onClose={() => setConfirmModalOpen(false)}
+      >
+        <>
+          <Box mb={3}>
+            <Typography textAlign="center">
+              You are about to receive a signature request that allows the Olympus migrator contract (
+              <Link href={getExplorerUrl(migratorAddress)} target="_blank" rel="noopener noreferrer">
+                {migratorAddress.substring(0, 6)}...{migratorAddress.substring(migratorAddress.length - 4)}
+              </Link>
+              ) to act on behalf of your Cooler (
+              <Link href={getExplorerUrl(coolerAddress || "")} target="_blank" rel="noopener noreferrer">
+                {coolerAddress
+                  ? `${coolerAddress.substring(0, 6)}...${coolerAddress.substring(coolerAddress.length - 4)}`
+                  : ""}
+              </Link>
+              ).
+            </Typography>
+            <Typography textAlign="center" mt={2}>
+              After signing the message, you will receive a request to approve the contract call.
+            </Typography>
+          </Box>
+          <PrimaryButton onClick={handleContinue} fullWidth>
+            Continue
+          </PrimaryButton>
+        </>
+      </Modal>
+
+      {/* Main Migration Modal */}
       <Modal
         maxWidth="476px"
         minHeight="200px"
@@ -179,23 +247,6 @@ export const ConsolidateLoans = ({
               <Typography fontWeight="500" mt="21px">
                 Required Allowances
               </Typography>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={"9px"}
-                mt={"9px"}
-              >
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>{debtAssetName}</Typography>
-                <Box display="flex" flexDirection="column" textAlign="right">
-                  <Tooltip title={preview?.borrowAmount?.toString()}>
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                      {Math.ceil(Number(preview?.borrowAmount?.toString()) * 100) / 100}
-                    </Typography>
-                  </Tooltip>
-                </Box>
-              </Box>
               <Box
                 display="flex"
                 flexDirection="row"
@@ -305,7 +356,7 @@ export const ConsolidateLoans = ({
                 approvalText="Approve gOHM for Spending"
               >
                 <PrimaryButton
-                  onClick={handleConsolidate}
+                  onClick={openConfirmModal}
                   loading={coolerMutation.isLoading}
                   disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
                   fullWidth

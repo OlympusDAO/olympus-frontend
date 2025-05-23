@@ -215,7 +215,7 @@ export const CoolerPositions = () => {
       {allLoans.length > 0 && allLoansLoaded && (
         <>
           <Box mb="21px" mt="33px">
-            <Typography variant="h2">Cooler Loans</Typography>
+            <Typography variant="h2">V1 Cooler Loans</Typography>
           </Box>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

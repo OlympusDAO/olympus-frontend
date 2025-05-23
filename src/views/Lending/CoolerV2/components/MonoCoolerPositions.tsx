@@ -52,7 +52,7 @@ export const MonoCoolerPositions = ({
                 You currently have no Cooler loans
               </Typography>
             )}
-            <Box display="flex" gap={1}>
+            <Box display="flex" gap={1} alignItems="center" justifyContent="center">
               <PrimaryButton
                 onClick={() => {
                   setIsRepayMode(false);
@@ -78,6 +78,9 @@ export const MonoCoolerPositions = ({
 
   return (
     <>
+      <Box mb="21px" mt="33px">
+        <Typography variant="h2">V2 Cooler Loans</Typography>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="monocooler position">
           <TableHead>
