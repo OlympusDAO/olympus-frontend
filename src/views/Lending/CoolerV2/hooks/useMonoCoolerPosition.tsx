@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { multicall } from "@wagmi/core";
 import { formatUnits } from "ethers/lib/utils";
-import { COOLER_V2_MONOCOOLER_ADDRESSES } from "src/constants/addresses";
+import { COOLER_V2_COMPOSITES_ADDRESSES, COOLER_V2_MONOCOOLER_ADDRESSES } from "src/constants/addresses";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { CoolerV2MonoCooler__factory, IERC20__factory } from "src/typechain";
+import { CoolerV2Composites__factory, CoolerV2MonoCooler__factory, IERC20__factory } from "src/typechain";
 import { useAccount } from "wagmi";
 
 export const useMonoCoolerPosition = () => {
@@ -21,6 +21,11 @@ export const useMonoCoolerPosition = () => {
         abi: CoolerV2MonoCooler__factory.abi,
       };
 
+      const compositeConfig = {
+        address: COOLER_V2_COMPOSITES_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`,
+        abi: CoolerV2Composites__factory.abi,
+      };
+
       const [
         accountPosition,
         interestRateWad,
@@ -29,6 +34,7 @@ export const useMonoCoolerPosition = () => {
         debtToken,
         borrowsPaused,
         isActive,
+        isEnabled,
       ] = await multicall({
         contracts: [
           {
@@ -59,6 +65,10 @@ export const useMonoCoolerPosition = () => {
           {
             ...config,
             functionName: "isActive",
+          },
+          {
+            ...compositeConfig,
+            functionName: "isEnabled",
           },
         ],
       });
@@ -122,6 +132,7 @@ export const useMonoCoolerPosition = () => {
         borrowsPaused,
         projectedLiquidationDate,
         isActive,
+        isEnabled,
       };
     },
     {

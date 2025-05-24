@@ -42,7 +42,7 @@ export const MonoCoolerPositions = ({
 
   const hasActivePosition = position.collateral.gt(0);
 
-  if (!hasActivePosition) {
+  if (!hasActivePosition && position.isEnabled) {
     return (
       <>
         <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
@@ -76,69 +76,47 @@ export const MonoCoolerPositions = ({
     );
   }
 
-  return (
-    <>
-      <Box mb="21px" mt="33px">
-        <Typography variant="h2">V2 Cooler Loans</Typography>
-      </Box>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="monocooler position">
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                Interest Rate
-              </TableCell>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                Current Debt
-              </TableCell>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                Buffer To Liquidation
-              </TableCell>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
-                Available Borrowing
-              </TableCell>
-              <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right"></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-              <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
-                <Box display="flex" alignItems="center" gap="3px">
-                  {formatNumber(Number(ethers.utils.formatUnits(position.collateral)), 4)}{" "}
-                  {position.collateralAssetName}
-                  <Token name={position.collateralAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
-                </Box>
-              </TableCell>
-              <TableCell align="right" sx={{ padding: "9px" }}>
-                {(Number(position.interestRateBps) / 100).toFixed(2)}%
-              </TableCell>
-              <TableCell align="right" sx={{ padding: "9px" }}>
-                <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
-                  {formatNumber(Number(ethers.utils.formatUnits(position.currentDebt)))} {position.debtAssetName}
-                  {position.debtAssetName === "USDS" ? (
-                    <SvgIcon
-                      color="primary"
-                      sx={{ width: "20px", height: "20px" }}
-                      viewBox="0 0 50 50"
-                      component={usdsIcon}
-                    />
-                  ) : (
-                    <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
-                  )}
-                </Box>
-              </TableCell>
-              <TableCell align="right" sx={{ padding: "9px" }}>
-                <Tooltip
-                  title={
-                    position.projectedLiquidationDate
-                      ? `Your position is projected to be liquidated on ${position.projectedLiquidationDate.toLocaleString()}`
-                      : "Your position is currently healthy"
-                  }
-                >
+  if (hasActivePosition) {
+    return (
+      <>
+        <Box mb="21px" mt="33px">
+          <Typography variant="h2">V2 Cooler Loans</Typography>
+        </Box>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="monocooler position">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }}>Collateral</TableCell>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                  Interest Rate
+                </TableCell>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                  Current Debt
+                </TableCell>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                  Buffer To Liquidation
+                </TableCell>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right">
+                  Available Borrowing
+                </TableCell>
+                <TableCell sx={{ fontSize: "15px", padding: "9px" }} align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell component="th" scope="row" sx={{ padding: "9px" }}>
+                  <Box display="flex" alignItems="center" gap="3px">
+                    {formatNumber(Number(ethers.utils.formatUnits(position.collateral)), 4)}{" "}
+                    {position.collateralAssetName}
+                    <Token name={position.collateralAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
+                  </Box>
+                </TableCell>
+                <TableCell align="right" sx={{ padding: "9px" }}>
+                  {(Number(position.interestRateBps) / 100).toFixed(2)}%
+                </TableCell>
+                <TableCell align="right" sx={{ padding: "9px" }}>
                   <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
-                    {formatNumber(Number(ethers.utils.formatUnits(position.liquidationDebtAmount)))}{" "}
-                    {position.debtAssetName}
+                    {formatNumber(Number(ethers.utils.formatUnits(position.currentDebt)))} {position.debtAssetName}
                     {position.debtAssetName === "USDS" ? (
                       <SvgIcon
                         color="primary"
@@ -150,65 +128,91 @@ export const MonoCoolerPositions = ({
                       <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
                     )}
                   </Box>
-                </Tooltip>
-              </TableCell>
-              <TableCell align="right" sx={{ padding: "9px" }}>
-                <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
-                  {formatNumber(Number(additionalBorrowingAvailable.toString()))} USDS
-                  {position.debtAssetName === "USDS" ? (
-                    <SvgIcon
-                      color="primary"
-                      sx={{ width: "20px", height: "20px" }}
-                      viewBox="0 0 50 50"
-                      component={usdsIcon}
-                    />
-                  ) : (
-                    <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
-                  )}
-                </Box>
-              </TableCell>
-              <TableCell align="right" sx={{ padding: "9px" }}>
-                <Box display="flex" gap={1}>
-                  <PrimaryButton
-                    onClick={() => {
-                      setIsRepayMode(false);
-                      setCreateLoanModalOpen(true);
-                    }}
+                </TableCell>
+                <TableCell align="right" sx={{ padding: "9px" }}>
+                  <Tooltip
+                    title={
+                      position.projectedLiquidationDate
+                        ? `Your position is projected to be liquidated on ${position.projectedLiquidationDate.toLocaleString()}`
+                        : "Your position is currently healthy"
+                    }
                   >
-                    Borrow More
-                  </PrimaryButton>
-                  {(position.currentDebt.gt(0) || position.collateral.gt(0)) && (
-                    <SecondaryButton
+                    <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
+                      {formatNumber(Number(ethers.utils.formatUnits(position.liquidationDebtAmount)))}{" "}
+                      {position.debtAssetName}
+                      {position.debtAssetName === "USDS" ? (
+                        <SvgIcon
+                          color="primary"
+                          sx={{ width: "20px", height: "20px" }}
+                          viewBox="0 0 50 50"
+                          component={usdsIcon}
+                        />
+                      ) : (
+                        <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
+                      )}
+                    </Box>
+                  </Tooltip>
+                </TableCell>
+                <TableCell align="right" sx={{ padding: "9px" }}>
+                  <Box display="flex" justifyContent="end" alignItems="center" gap="3px">
+                    {formatNumber(Number(additionalBorrowingAvailable.toString()))} USDS
+                    {position.debtAssetName === "USDS" ? (
+                      <SvgIcon
+                        color="primary"
+                        sx={{ width: "20px", height: "20px" }}
+                        viewBox="0 0 50 50"
+                        component={usdsIcon}
+                      />
+                    ) : (
+                      <Token name={position.debtAssetName as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell align="right" sx={{ padding: "9px" }}>
+                  <Box display="flex" gap={1}>
+                    <PrimaryButton
                       onClick={() => {
-                        setIsRepayMode(true);
+                        setIsRepayMode(false);
                         setCreateLoanModalOpen(true);
                       }}
                     >
-                      Repay
-                    </SecondaryButton>
-                  )}
-                </Box>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+                      Borrow More
+                    </PrimaryButton>
+                    {(position.currentDebt.gt(0) || position.collateral.gt(0)) && (
+                      <SecondaryButton
+                        onClick={() => {
+                          setIsRepayMode(true);
+                          setCreateLoanModalOpen(true);
+                        }}
+                      >
+                        Repay
+                      </SecondaryButton>
+                    )}
+                  </Box>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
-        <Box textAlign="center">{consolidateButton}</Box>
-      </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+          <Box textAlign="center">{consolidateButton}</Box>
+        </Box>
 
-      {createLoanModalOpen && (
-        <CreateOrRepayLoanV2
-          setModalOpen={setCreateLoanModalOpen}
-          modalOpen={createLoanModalOpen}
-          loan={{
-            debt: position.currentDebt,
-            collateral: position.collateral,
-          }}
-          isRepayMode={isRepayMode}
-        />
-      )}
-    </>
-  );
+        {createLoanModalOpen && (
+          <CreateOrRepayLoanV2
+            setModalOpen={setCreateLoanModalOpen}
+            modalOpen={createLoanModalOpen}
+            loan={{
+              debt: position.currentDebt,
+              collateral: position.collateral,
+            }}
+            isRepayMode={isRepayMode}
+          />
+        )}
+      </>
+    );
+  }
+
+  return null;
 };

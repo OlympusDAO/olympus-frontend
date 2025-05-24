@@ -26,7 +26,7 @@ export const DelegationMessage = () => {
   const undelegatedV2ClearingHouseCooler =
     !coolerV2ClearingHouseDelegationAddress &&
     gohmCoolerV2ClearingHouseBalance &&
-    BigNumber.from(gohmCoolerV2ClearingHouseBalance).gt(BigNumber.from("1000000000000"));
+    gohmCoolerV2ClearingHouseBalance.value.gt(BigNumber.from("1000000000000"));
 
   const undelegatedV3ClearingHouseCooler =
     !coolerV3ClearingHouseDelegationAddress &&

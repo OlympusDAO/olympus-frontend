@@ -94,7 +94,10 @@ export class Environment {
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
-        return ["https://virtual.mainnet.rpc.tenderly.co/e3cf3f5a-51f1-4b21-82c6-df63505ed0e5"];
+        return this._get({
+          key: `VITE_ETHEREUM_NODE_URL`,
+          fallback: "https://ethereum-rpc.publicnode.com",
+        });
       case NetworkId.TESTNET_GOERLI:
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_NODE_URL`,
@@ -192,12 +195,12 @@ export class Environment {
       case NetworkId.MAINNET:
         return this._get({
           key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://ethereum-rpc.publicnode.com",
+          fallback: "https://eth.merkle.io",
         });
       default:
         return this._get({
           key: `VITE_ETHEREUM_ARCHIVE_NODE_URL`,
-          fallback: "https://ethereum-rpc.publicnode.com",
+          fallback: "https://eth.merkle.io",
         });
     }
   };
