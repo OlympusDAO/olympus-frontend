@@ -89,8 +89,9 @@ export const TokenAllowanceGuard: React.FC<{
     );
 
   if (
-    (allowance && allowance.eq(0) && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero) ||
-    (allowance && allowance.lt(spendAmount?.toBigNumber() || balance.toBigNumber()))
+    (spendAmount === undefined || spendAmount.gt(new DecimalBigNumber("0"))) &&
+    ((allowance && allowance.eq(0) && tokenAddressMap[chain.id as NetworkId] !== ethers.constants.AddressZero) ||
+      (allowance && allowance.lt(spendAmount?.toBigNumber() || balance.toBigNumber())))
   )
     return (
       <Grid container alignItems="center">

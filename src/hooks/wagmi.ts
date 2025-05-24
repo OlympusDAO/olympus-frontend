@@ -24,8 +24,8 @@ export const { chains, provider, webSocketProvider } = configureChains(
     {
       ...mainnet,
       rpcUrls: {
-        default: { http: ["https://ethereum-rpc.publicnode.com"] },
-        public: { http: ["https://ethereum-rpc.publicnode.com"] },
+        default: { http: ["https://virtual.mainnet.rpc.tenderly.co/e3cf3f5a-51f1-4b21-82c6-df63505ed0e5"] },
+        public: { http: ["https://virtual.mainnet.rpc.tenderly.co/e3cf3f5a-51f1-4b21-82c6-df63505ed0e5"] },
       },
     },
     {
@@ -143,6 +143,27 @@ export const { chains, provider, webSocketProvider } = configureChains(
     },
     goerli,
     arbitrumGoerli,
+    {
+      id: 17000,
+      network: "holesky",
+      name: "Holesky",
+      iconUrl: "/assets/images/ethereum.png",
+      nativeCurrency: { name: "Holesky Ether", symbol: "ETH", decimals: 18 },
+      rpcUrls: {
+        default: {
+          http: ["https://ethereum-holesky.publicnode.com"],
+        },
+        public: {
+          http: ["https://ethereum-holesky.publicnode.com"],
+        },
+      },
+      contracts: {
+        multicall3: {
+          address: "0xca11bde05977b3631167028862be2a173976ca11",
+          blockCreated: 77,
+        },
+      },
+    },
   ],
   [
     // jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),

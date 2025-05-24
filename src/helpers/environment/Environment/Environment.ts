@@ -94,10 +94,7 @@ export class Environment {
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
-        return this._get({
-          key: `VITE_ETHEREUM_NODE_URL`,
-          fallback: "https://eth.drpc.org",
-        });
+        return ["https://virtual.mainnet.rpc.tenderly.co/e3cf3f5a-51f1-4b21-82c6-df63505ed0e5"];
       case NetworkId.TESTNET_GOERLI:
         return this._get({
           key: `VITE_ETHEREUM_TESTNET_NODE_URL`,
@@ -172,6 +169,11 @@ export class Environment {
         return this._get({
           key: `VITE_BASE_TESTNET_NODE_URL`,
           fallback: "https://sepolia.base.org",
+        });
+      case NetworkId.HOLESKY:
+        return this._get({
+          key: `VITE_HOLESKY_NODE_URL`,
+          fallback: "https://ethereum-holesky.publicnode.com",
         });
       case NetworkId.BERACHAIN:
         return this._get({

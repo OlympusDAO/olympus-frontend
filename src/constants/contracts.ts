@@ -7,7 +7,9 @@ import {
   COOLER_CLEARING_HOUSE_V1_ADDRESSES,
   COOLER_CLEARING_HOUSE_V2_ADDRESSES,
   COOLER_CLEARING_HOUSE_V3_ADDRESSES,
-  COOLER_CONSOLIDATION_ADDRESSES,
+  COOLER_V2_COMPOSITES_ADDRESSES,
+  COOLER_V2_MIGRATOR_ADDRESSES,
+  COOLER_V2_MONOCOOLER_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES,
   CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET,
   DEV_FAUCET,
@@ -32,7 +34,8 @@ import {
   BondFixedTermTeller__factory,
   CoolerClearingHouse__factory,
   CoolerClearingHouseV3__factory,
-  CoolerConsolidation__factory,
+  CoolerV2Composites__factory,
+  CoolerV2MonoCooler__factory,
   CrossChainBridge__factory,
   CrossChainBridgeTestnet__factory,
   CrossChainMigrator__factory,
@@ -48,6 +51,7 @@ import {
   Zap__factory,
 } from "src/typechain";
 import { BondAggregator__factory } from "src/typechain/factories/BondAggregator__factory";
+import { CoolerV2Migrator__factory } from "src/typechain/factories/CoolerV2Migrator__factory";
 import { DevFaucet__factory } from "src/typechain/factories/DevFaucet__factory";
 import { OlympusDistributor__factory } from "src/typechain/factories/OlympusDistributor__factory";
 
@@ -183,14 +187,26 @@ export const GOVERNANCE_CONTRACT = new Contract({
   addresses: OLYMPUS_GOVERNANCE_ADDRESSES,
 });
 
-export const COOLER_CONSOLIDATION_CONTRACT = new Contract({
-  factory: CoolerConsolidation__factory,
-  name: "Cooler Consolidation Utils",
-  addresses: COOLER_CONSOLIDATION_ADDRESSES,
-});
-
 export const EMISSION_MANAGER_CONTRACT = new Contract({
   factory: EmissionManager__factory,
   name: "Emissions Manager",
   addresses: EMISSION_MANAGER_ADDRESSES,
+});
+
+export const COOLER_V2_MONOCOOLER_CONTRACT = new Contract({
+  factory: CoolerV2MonoCooler__factory,
+  name: "Cooler V2 MonoCooler",
+  addresses: COOLER_V2_MONOCOOLER_ADDRESSES,
+});
+
+export const COOLER_V2_COMPOSITES_CONTRACT = new Contract({
+  factory: CoolerV2Composites__factory,
+  name: "Cooler V2 Composites",
+  addresses: COOLER_V2_COMPOSITES_ADDRESSES,
+});
+
+export const COOLER_V2_MIGRATOR_CONTRACT = new Contract({
+  factory: CoolerV2Migrator__factory,
+  name: "Cooler V2 Migrator",
+  addresses: COOLER_V2_MIGRATOR_ADDRESSES,
 });
