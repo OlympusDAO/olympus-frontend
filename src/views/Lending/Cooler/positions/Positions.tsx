@@ -298,6 +298,18 @@ export const CoolerPositions = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          {activeClearingHouse && (
+            <Box display="flex" justifyContent={"center"} gap="4px">
+              <PrimaryButton
+                onClick={() => {
+                  setRepayLoan(undefined);
+                  setCreateLoanModalOpen(true);
+                }}
+              >
+                Borrow {activeClearingHouse.debtAssetName} & Open Position
+              </PrimaryButton>
+            </Box>
+          )}
         </>
       )}
 

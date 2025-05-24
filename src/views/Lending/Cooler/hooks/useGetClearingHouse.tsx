@@ -74,7 +74,7 @@ export const useGetClearingHouse = ({
           },
           {
             ...contractConfig,
-            functionName: "isActive",
+            functionName: "active",
           },
         ],
       });
