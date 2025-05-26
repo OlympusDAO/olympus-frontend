@@ -18,7 +18,7 @@ export const useGetCoolerLoans = ({
   const networks = useTestableNetworks();
   const { data: signer } = useSigner();
 
-  const { data, isFetched, isLoading } = useQuery(
+  const { data, isFetched, isLoading, isFetching } = useQuery(
     ["getCoolerLoans", networks.MAINNET, factoryAddress, collateralAddress, debtAddress, walletAddress],
     async () => {
       try {
@@ -49,5 +49,5 @@ export const useGetCoolerLoans = ({
     },
     { enabled: !!walletAddress && !!factoryAddress && !!collateralAddress && !!debtAddress && !!signer },
   );
-  return { data, isFetched, isLoading };
+  return { data, isFetched, isLoading, isFetching };
 };

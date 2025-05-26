@@ -7,28 +7,56 @@ import { useGovernanceDelegationCheck } from "src/views/Governance/hooks/useGove
 export const DelegationMessage = () => {
   const {
     gOHMDelegationAddress,
-    coolerV1DelegationAddress,
-    coolerV2DelegationAddress,
+    coolerV1ClearingHouseDelegationAddress,
+    coolerV2ClearingHouseDelegationAddress,
+    coolerV3ClearingHouseDelegationAddress,
+    hasCoolerV2Delegations,
     gohmBalance,
-    gohmCoolerV1Balance,
+    gohmCoolerV1ClearingHouseBalance,
+    gohmCoolerV2ClearingHouseBalance,
+    gohmCoolerV3ClearingHouseBalance,
     gohmCoolerV2Balance,
   } = useGovernanceDelegationCheck();
 
-  const undelegatedV1Cooler =
-    !coolerV1DelegationAddress && gohmCoolerV1Balance && gohmCoolerV1Balance.value.gt(BigNumber.from("1000000000000"));
-  const undelegatedV2Cooler =
-    !coolerV2DelegationAddress && gohmCoolerV2Balance && gohmCoolerV2Balance.value.gt(BigNumber.from("1000000000000"));
+  const undelegatedV1ClearingHouseCooler =
+    !coolerV1ClearingHouseDelegationAddress &&
+    gohmCoolerV1ClearingHouseBalance &&
+    gohmCoolerV1ClearingHouseBalance.value.gt(BigNumber.from("1000000000000"));
+
+  const undelegatedV2ClearingHouseCooler =
+    !coolerV2ClearingHouseDelegationAddress &&
+    gohmCoolerV2ClearingHouseBalance &&
+    gohmCoolerV2ClearingHouseBalance.value.gt(BigNumber.from("1000000000000"));
+
+  const undelegatedV3ClearingHouseCooler =
+    !coolerV3ClearingHouseDelegationAddress &&
+    gohmCoolerV3ClearingHouseBalance &&
+    gohmCoolerV3ClearingHouseBalance.value.gt(BigNumber.from("1000000000000"));
+
+  const undelegatedCoolerV2 =
+    !hasCoolerV2Delegations &&
+    gohmCoolerV2Balance &&
+    BigNumber.from(gohmCoolerV2Balance).gt(BigNumber.from("1000000000000"));
+
   const undelegatedGohm =
     !gOHMDelegationAddress && gohmBalance && gohmBalance.value.gt(BigNumber.from("1000000000000"));
 
-  if (undelegatedV1Cooler || undelegatedV2Cooler || undelegatedGohm) {
+  if (
+    undelegatedV1ClearingHouseCooler ||
+    undelegatedV2ClearingHouseCooler ||
+    undelegatedV3ClearingHouseCooler ||
+    undelegatedCoolerV2 ||
+    undelegatedGohm
+  ) {
     return (
       <InfoNotification>
-        To participate on on-chain governance you must delegate your gOHM{" "}
+        To participate in on-chain governance you must delegate your gOHM{" "}
         <Link component={RouterLink} to="/governance/delegate">
           Learn More
         </Link>
       </InfoNotification>
     );
   }
+
+  return null;
 };
