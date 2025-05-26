@@ -1,0 +1,173 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract IMonoCooler", "name": "cooler_", "type": "address" },
+        { "internalType": "address", "name": "owner_", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    { "inputs": [], "name": "NotDisabled", "type": "error" },
+    { "inputs": [], "name": "NotEnabled", "type": "error" },
+    { "anonymous": false, "inputs": [], "name": "Disabled", "type": "event" },
+    { "anonymous": false, "inputs": [], "name": "Enabled", "type": "event" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+        { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
+        { "indexed": true, "internalType": "address", "name": "caller", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+      ],
+      "name": "TokenRefunded",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "COOLER",
+      "outputs": [{ "internalType": "contract IMonoCooler", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "address", "name": "authorized", "type": "address" },
+            { "internalType": "uint96", "name": "authorizationDeadline", "type": "uint96" },
+            { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+            { "internalType": "uint256", "name": "signatureDeadline", "type": "uint256" }
+          ],
+          "internalType": "struct IMonoCooler.Authorization",
+          "name": "authorization",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            { "internalType": "uint8", "name": "v", "type": "uint8" },
+            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "s", "type": "bytes32" }
+          ],
+          "internalType": "struct IMonoCooler.Signature",
+          "name": "signature",
+          "type": "tuple"
+        },
+        { "internalType": "uint128", "name": "collateralAmount", "type": "uint128" },
+        { "internalType": "uint128", "name": "borrowAmount", "type": "uint128" },
+        {
+          "components": [
+            { "internalType": "address", "name": "delegate", "type": "address" },
+            { "internalType": "int256", "name": "amount", "type": "int256" }
+          ],
+          "internalType": "struct IDLGTEv1.DelegationRequest[]",
+          "name": "delegationRequests",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "addCollateralAndBorrow",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "collateralToken",
+      "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "debtToken",
+      "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+      "name": "disable",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+      "name": "enable",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isEnabled",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "address", "name": "authorized", "type": "address" },
+            { "internalType": "uint96", "name": "authorizationDeadline", "type": "uint96" },
+            { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+            { "internalType": "uint256", "name": "signatureDeadline", "type": "uint256" }
+          ],
+          "internalType": "struct IMonoCooler.Authorization",
+          "name": "authorization",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            { "internalType": "uint8", "name": "v", "type": "uint8" },
+            { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "s", "type": "bytes32" }
+          ],
+          "internalType": "struct IMonoCooler.Signature",
+          "name": "signature",
+          "type": "tuple"
+        },
+        { "internalType": "uint128", "name": "repayAmount", "type": "uint128" },
+        { "internalType": "uint128", "name": "collateralAmount", "type": "uint128" },
+        {
+          "components": [
+            { "internalType": "address", "name": "delegate", "type": "address" },
+            { "internalType": "int256", "name": "amount", "type": "int256" }
+          ],
+          "internalType": "struct IDLGTEv1.DelegationRequest[]",
+          "name": "delegationRequests",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "repayAndRemoveCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

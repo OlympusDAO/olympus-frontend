@@ -90,16 +90,10 @@ export const OutstandingPrincipal = () => {
   );
 };
 
-export const WeeklyCapacityRemaining = ({
-  capacity,
-  reserveAsset,
-}: {
-  capacity?: BigNumber;
-  reserveAsset?: string;
-}) => {
+export const CapacityRemaining = ({ capacity, reserveAsset }: { capacity?: BigNumber; reserveAsset?: string }) => {
   return (
     <Metric
-      label="Weekly Capacity Remaining"
+      label="Capacity Remaining"
       metric={
         capacity && reserveAsset ? (
           formatCurrency(Number(ethers.utils.formatUnits(capacity.toString())), 0, reserveAsset)

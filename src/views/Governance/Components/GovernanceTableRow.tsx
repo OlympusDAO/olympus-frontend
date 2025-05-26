@@ -2,6 +2,7 @@ import { Box, Tooltip, Typography, useTheme } from "@mui/material";
 import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { truncateEthereumAddress } from "src/helpers/truncateAddress";
+import { DelegateVotingState } from "src/views/Governance/Delegation/manage";
 import { useDelegateVoting } from "src/views/Governance/hooks/useDelegateVoting";
 
 export const GovernanceTableRow = ({
@@ -15,15 +16,7 @@ export const GovernanceTableRow = ({
   tokenName: string;
   delegationAddress?: string;
   delegatorAddress: string;
-  setDelegateVoting: React.Dispatch<
-    React.SetStateAction<
-      | {
-          delegatorAddress: string;
-          currentDelegatedToAddress?: string;
-        }
-      | undefined
-    >
-  >;
+  setDelegateVoting: React.Dispatch<React.SetStateAction<DelegateVotingState | undefined>>;
   balance?: string;
   address: string;
 }) => {

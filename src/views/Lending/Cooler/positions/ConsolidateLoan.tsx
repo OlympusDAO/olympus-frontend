@@ -7,6 +7,7 @@ import {
   Box,
   Divider,
   FormControl,
+  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -15,85 +16,67 @@ import {
   Typography,
 } from "@mui/material";
 import { InfoNotification, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
-import { formatEther } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { COOLER_CONSOLIDATION_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
+import { COOLER_V2_MIGRATOR_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatNumber } from "src/helpers";
-import { useBalance } from "src/hooks/useBalance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
-import { useCheckConsolidatorActive } from "src/views/Lending/Cooler/hooks/useCheckConsolidatorActive";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useConsolidateCooler } from "src/views/Lending/Cooler/hooks/useConsolidateCooler";
-import { useCreateCooler } from "src/views/Lending/Cooler/hooks/useCreateCooler";
-import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
-import { useGetConsolidationAllowances } from "src/views/Lending/Cooler/hooks/useGetConsolidationAllowances";
-import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
-import { useGetWalletFundsRequired } from "src/views/Lending/Cooler/hooks/useGetWalletFundsRequired";
-import { useAccount } from "wagmi";
+import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
+import { useAccount, useNetwork } from "wagmi";
 
 export const ConsolidateLoans = ({
   v3CoolerAddress,
   v2CoolerAddress,
   v1CoolerAddress,
-  clearingHouseAddresses,
   v1Loans,
   v2Loans,
   v3Loans,
-  factoryAddress,
 }: {
   v3CoolerAddress?: string;
   v2CoolerAddress?: string;
   v1CoolerAddress?: string;
-  clearingHouseAddresses: {
-    v1: NonNullable<ReturnType<typeof useGetClearingHouse>["data"]>;
-    v2: NonNullable<ReturnType<typeof useGetClearingHouse>["data"]>;
-    v3: NonNullable<ReturnType<typeof useGetClearingHouse>["data"]>;
-  };
+
   v1Loans?: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
   v2Loans?: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
   v3Loans?: NonNullable<ReturnType<typeof useGetCoolerLoans>["data"]>;
-  factoryAddress: string;
 }) => {
   const coolerMutation = useConsolidateCooler();
-  const { data: consolidatorActive } = useCheckConsolidatorActive();
-  const createCooler = useCreateCooler();
-  const networks = useTestableNetworks();
   const [open, setOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
+  const { data: v2Position } = useMonoCoolerPosition();
 
-  // Determine which versions are available for consolidation
+  // Determine which V1 clearinghouse loans are available for consolidation (source selection only)
   const hasV1Loans = v1Loans && v1Loans.length > 0;
   const hasV2Loans = v2Loans && v2Loans.length > 0;
-  const hasMultipleV3Loans = v3Loans && v3Loans.length > 1;
+  const hasV3Loans = v3Loans && v3Loans.length > 0;
 
-  // Calculate available versions
-  const availableVersions = [hasV1Loans && "v1", hasV2Loans && "v2", hasMultipleV3Loans && "v3"].filter(Boolean) as (
+  // Only used for selecting the *source* (CoolerV1 clearinghouse) to consolidate from
+  const availableVersions = [hasV1Loans && "v1", hasV2Loans && "v2", hasV3Loans && "v3"].filter(Boolean) as (
     | "v1"
     | "v2"
     | "v3"
   )[];
 
-  // If there's only one option, use it automatically
+  // If there's only one source, use it automatically
   const [selectedVersion, setSelectedVersion] = useState<"v1" | "v2" | "v3" | "">(
     availableVersions.length === 1 ? availableVersions[0] : "",
   );
 
-  // Get the appropriate loans based on selection
+  const debtAssetName = v2Position?.debtAssetName;
+
+  // Use selectedVersion for source loan info only (CoolerV1s)
   const selectedLoans =
     selectedVersion === "v1" ? v1Loans : selectedVersion === "v2" ? v2Loans : selectedVersion === "v3" ? v3Loans : [];
-
   const loans = selectedLoans || [];
-  const loanIds = loans.map(loan => loan.loanId);
-
-  // Set the appropriate addresses based on selection
-  const coolerAddress =
+  const sourceCoolerAddress =
     selectedVersion === "v1"
       ? v1CoolerAddress
       : selectedVersion === "v2"
@@ -101,62 +84,30 @@ export const ConsolidateLoans = ({
         : selectedVersion === "v3"
           ? v3CoolerAddress
           : "";
-  const selectedClearingHouse =
-    selectedVersion === "v1"
-      ? clearingHouseAddresses.v1
-      : selectedVersion === "v2"
-        ? clearingHouseAddresses.v2
-        : clearingHouseAddresses.v3;
-  const duration = clearingHouseAddresses.v3.duration; // Standard duration for consolidated loans
-  const debtAddress = clearingHouseAddresses.v3.debtAddress;
 
   // Show button only if there are loans that can be consolidated
-  const showConsolidateButton = hasV1Loans || hasV2Loans || hasMultipleV3Loans;
+  const showConsolidateButton = hasV1Loans || hasV2Loans || hasV3Loans;
 
-  const totals = loans.reduce(
-    (acc, loan) => {
-      acc.principal = acc.principal.add(loan.principal);
-      acc.interest = acc.interest.add(loan.interestDue);
-      acc.collateral = acc.collateral.add(loan.collateral);
-      return acc;
-    },
-    { principal: BigNumber.from(0), interest: BigNumber.from(0), collateral: BigNumber.from(0) },
+  const [preview, setPreview] = useState<{ collateralAmount: DecimalBigNumber; borrowAmount: DecimalBigNumber } | null>(
+    null,
   );
-  const { data: allowances } = useGetConsolidationAllowances({
-    clearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
-    coolerAddress: coolerAddress || "",
-    loanIds,
-  });
 
-  const { data: walletFundsRequired } = useGetWalletFundsRequired({
-    clearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
-    coolerAddress: coolerAddress || "",
-    loanIds,
-  });
-
-  const maturityDate = new Date();
-  maturityDate.setDate(maturityDate.getDate() + Number(duration || 0));
-  const { data: debtBalance } = useBalance({ [networks.MAINNET]: debtAddress || "" })[networks.MAINNET];
-  const { data: gOhmBalance } = useBalance(GOHM_ADDRESSES)[networks.MAINNET];
-  const [insufficientBalances, setInsufficientBalances] = useState<
-    | {
-        debt: boolean;
-        gohm: boolean;
-      }
-    | undefined
-  >();
+  const [previewLoading, setPreviewLoading] = useState(false);
 
   useEffect(() => {
-    if (!debtBalance || !gOhmBalance || !walletFundsRequired) {
-      setInsufficientBalances(undefined);
-      return;
-    }
-
-    setInsufficientBalances({
-      debt: Number(debtBalance) < Number(walletFundsRequired.totalDebtNeededInWallet.toString()),
-      gohm: Number(gOhmBalance) < Number(walletFundsRequired.totalCollateralNeededInWallet.toString()),
-    });
-  }, [debtBalance, gOhmBalance, walletFundsRequired]);
+    if (!sourceCoolerAddress) return;
+    setPreviewLoading(true);
+    coolerMutation
+      .previewConsolidate([sourceCoolerAddress])
+      .then(res => {
+        setPreview({
+          collateralAmount: new DecimalBigNumber(res.collateralAmount, 18),
+          borrowAmount: new DecimalBigNumber(res.borrowAmount, 18),
+        });
+      })
+      .catch(() => setPreview(null))
+      .finally(() => setPreviewLoading(false));
+  }, [sourceCoolerAddress]);
 
   const handleVersionChange = (event: SelectChangeEvent) => {
     setSelectedVersion(event.target.value as "v1" | "v2" | "v3");
@@ -168,7 +119,6 @@ export const ConsolidateLoans = ({
 
     try {
       const checksummedAddress = getAddress(inputAddress.toLowerCase());
-      console.log("checksummedAddress", checksummedAddress);
       // First check if empty or valid address, then check if it's not the current owner
       const isValid = inputAddress === "" || checksummedAddress;
       const isNotCurrentOwner = !address || !inputAddress || inputAddress.toLowerCase() !== address.toLowerCase();
@@ -178,61 +128,92 @@ export const ConsolidateLoans = ({
     }
   };
 
-  const handleConsolidate = () => {
-    if (!coolerAddress || !v3CoolerAddress) return;
+  // newOwner is the connected wallet unless the user enters a different EOA
+  const newOwner = newOwnerAddress && isValidAddress ? newOwnerAddress : address;
 
+  const handleConsolidate = () => {
+    const coolers = [sourceCoolerAddress].filter(Boolean) as string[];
+    if (!coolers.length || !newOwner) return;
     coolerMutation.mutate(
-      {
-        fromCoolerAddress: coolerAddress,
-        toCoolerAddress: newOwnerAddress && isValidAddress ? newOwnerCoolerAddress || "" : v3CoolerAddress,
-        fromClearingHouseAddress: selectedClearingHouse.clearingHouseAddress,
-        toClearingHouseAddress: clearingHouseAddresses.v3.clearingHouseAddress,
-        loanIds,
-        newOwner: Boolean(newOwnerAddress && isValidAddress && newOwnerCoolerAddress),
-      },
+      { coolers, newOwner },
       {
         onSuccess: () => {
           setOpen(false);
-          setSelectedVersion("");
-          setNewOwnerAddress("");
+          setConfirmModalOpen(false);
         },
       },
     );
   };
 
-  const needsCoolerCreation = !v3CoolerAddress;
-
-  const { data: newOwnerCoolerAddress, isFetched: isFetchedNewOwnerCoolerAddress } = useGetCoolerForWallet({
-    walletAddress: isValidAddress ? newOwnerAddress : undefined,
-    factoryAddress: clearingHouseAddresses.v3?.factory,
-    collateralAddress: clearingHouseAddresses.v3?.collateralAddress,
-    debtAddress: clearingHouseAddresses.v3?.debtAddress,
-    clearingHouseVersion: "clearingHouseV3",
-  });
-
-  const getButtonText = () => {
-    if (newOwnerAddress && isValidAddress && newOwnerCoolerAddress) {
-      return `Transfer & Consolidate Loans`;
-    }
-    return `Consolidate Loans`;
+  const openConfirmModal = () => {
+    setConfirmModalOpen(true);
   };
+
+  const handleContinue = () => {
+    setConfirmModalOpen(false);
+    handleConsolidate();
+  };
+
+  const getExplorerUrl = (address: string) => {
+    const baseUrl = chain?.blockExplorers?.default.url || "https://etherscan.io";
+    return `${baseUrl}/address/${address}`;
+  };
+
+  const migratorAddressKey = (chain?.id || 1) as keyof typeof COOLER_V2_MIGRATOR_ADDRESSES;
+  const migratorAddress = COOLER_V2_MIGRATOR_ADDRESSES[migratorAddressKey];
+  const coolerAddress = sourceCoolerAddress;
 
   if (!showConsolidateButton) return null;
 
   return (
     <>
-      {consolidatorActive && (
-        <PrimaryButton onClick={() => setOpen(!open)}>
-          Consolidate Loans to {clearingHouseAddresses.v3.debtAssetName}
-        </PrimaryButton>
-      )}
+      <PrimaryButton onClick={() => setOpen(true)}>Migrate Loans to Cooler V2</PrimaryButton>
+
+      {/* Confirmation Modal */}
+      <Modal
+        maxWidth="476px"
+        minHeight="200px"
+        open={confirmModalOpen}
+        headerContent={
+          <Box display="flex" alignItems="center" gap="6px">
+            <SvgIcon component={lendAndBorrowIcon} /> <Box fontWeight="500">Confirmation</Box>
+          </Box>
+        }
+        onClose={() => setConfirmModalOpen(false)}
+      >
+        <>
+          <Box mb={3}>
+            <Typography textAlign="center">
+              You are about to receive a signature request that allows the Olympus migrator contract (
+              <Link href={getExplorerUrl(migratorAddress)} target="_blank" rel="noopener noreferrer">
+                {migratorAddress.substring(0, 6)}...{migratorAddress.substring(migratorAddress.length - 4)}
+              </Link>
+              ) to act on behalf of your Cooler (
+              <Link href={getExplorerUrl(coolerAddress || "")} target="_blank" rel="noopener noreferrer">
+                {coolerAddress
+                  ? `${coolerAddress.substring(0, 6)}...${coolerAddress.substring(coolerAddress.length - 4)}`
+                  : ""}
+              </Link>
+              ).
+            </Typography>
+            <Typography textAlign="center" mt={2}>
+              After signing the message, you will receive a request to approve the contract call.
+            </Typography>
+          </Box>
+          <PrimaryButton onClick={handleContinue} fullWidth>
+            Continue
+          </PrimaryButton>
+        </>
+      </Modal>
+
+      {/* Main Migration Modal */}
       <Modal
         maxWidth="476px"
         minHeight="200px"
         open={open}
         headerContent={
           <Box display="flex" alignItems="center" gap="6px">
-            <SvgIcon component={lendAndBorrowIcon} /> <Box fontWeight="500">Consolidate Loans</Box>
+            <SvgIcon component={lendAndBorrowIcon} /> <Box fontWeight="500">Migrate Loans to Cooler V2</Box>
           </Box>
         }
         onClose={() => setOpen(false)}
@@ -243,11 +224,11 @@ export const ConsolidateLoans = ({
               <FormControl fullWidth>
                 <Select value={selectedVersion} onChange={handleVersionChange} displayEmpty sx={{ height: "40px" }}>
                   <MenuItem value="" disabled>
-                    Select loans to consolidate
+                    Select which CoolerV1 Clearinghouse to consolidate from
                   </MenuItem>
                   {hasV1Loans && <MenuItem value="v1">V1 Loans ({v1Loans?.length})</MenuItem>}
                   {hasV2Loans && <MenuItem value="v2">V2 Loans ({v2Loans?.length})</MenuItem>}
-                  {hasMultipleV3Loans && <MenuItem value="v3">V3 Loans ({v3Loans?.length})</MenuItem>}
+                  {hasV3Loans && <MenuItem value="v3">V3 Loans ({v3Loans?.length})</MenuItem>}
                 </Select>
               </FormControl>
             </Box>
@@ -255,52 +236,11 @@ export const ConsolidateLoans = ({
           {selectedVersion && (
             <>
               <InfoNotification>
-                All existing open loans for this Cooler and Clearinghouse will be repaid and consolidated into a new
-                loan with a {duration} day duration. You must hold enough {clearingHouseAddresses.v3.debtAssetName} and
-                gOHM in your wallet to cover the interest owed at consolidation.
+                All selected loans from this Cooler V1 clearinghouse will be repaid and migrated into your single Cooler
+                V2 position. Cooler V2 loans are open-ended and do not have a fixed maturity date. Interest accrues
+                continuously and is only paid when you repay your loan.
               </InfoNotification>
-              {walletFundsRequired && (
-                <>
-                  <Typography fontWeight="500">Wallet Balances Required</Typography>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={"9px"}
-                    mt={"9px"}
-                  >
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                      {clearingHouseAddresses.v3.debtAssetName} Balance
-                    </Typography>
-                    <Box display="flex" flexDirection="column" textAlign="right">
-                      <Tooltip title={walletFundsRequired?.totalDebtNeededInWallet.toString()}>
-                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                          {Math.ceil(Number(walletFundsRequired?.totalDebtNeededInWallet.toString()) * 100) / 100}
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={"9px"}
-                    mt={"9px"}
-                  >
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM Balance</Typography>
-                    <Box display="flex" flexDirection="column" textAlign="right">
-                      <Tooltip title={walletFundsRequired?.totalCollateralNeededInWallet.toString()}>
-                        <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                          {Math.ceil(Number(walletFundsRequired?.totalCollateralNeededInWallet.toString()) * 100000) /
-                            100000}
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </>
-              )}
+
               <Box sx={{ width: "100%", my: "21px" }}>
                 <Divider />
               </Box>
@@ -315,30 +255,11 @@ export const ConsolidateLoans = ({
                 mb={"9px"}
                 mt={"9px"}
               >
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                  {clearingHouseAddresses.v3.debtAssetName}
-                </Typography>
-                <Box display="flex" flexDirection="column" textAlign="right">
-                  <Tooltip title={allowances?.totalDebtWithFee.toString()}>
-                    <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                      {Math.ceil(Number(allowances?.totalDebtWithFee.toString()) * 100) / 100}
-                    </Typography>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={"9px"}
-                mt={"9px"}
-              >
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>gOHM</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
-                  <Tooltip title={allowances?.consolidatedLoanCollateral.toString()}>
+                  <Tooltip title={preview?.collateralAmount?.toString()}>
                     <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                      {Math.ceil(Number(allowances?.consolidatedLoanCollateral.toString()) * 100000) / 100000}
+                      {Math.ceil(Number(preview?.collateralAmount?.toString()) * 100000) / 100000}
                     </Typography>
                   </Tooltip>
                 </Box>
@@ -373,164 +294,80 @@ export const ConsolidateLoans = ({
                 <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>New Principal Amount</Typography>
                 <Box display="flex" flexDirection="column" textAlign="right">
                   <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {formatNumber(parseFloat(formatEther(totals.principal)), 4)}{" "}
-                    {clearingHouseAddresses.v3.debtAssetName}
+                    {preview?.borrowAmount &&
+                      formatNumber(Math.ceil(Number(preview.borrowAmount.toString()) * 100) / 100, 2)}{" "}
+                    {debtAssetName}
                   </Typography>
                 </Box>
               </Box>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={"9px"}
-                mt={"9px"}
+              <Box sx={{ width: "100%", my: "21px" }}>
+                <Divider />
+              </Box>
+              <Accordion
+                sx={{
+                  background: "none",
+                  boxShadow: "none",
+                  "&:before": {
+                    display: "none",
+                  },
+                }}
               >
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Interest Owed At Consolidation</Typography>
-                <Box display="flex" flexDirection="column" textAlign="right">
-                  <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {formatNumber(parseFloat(formatEther(totals.interest)), 4)}{" "}
-                    {clearingHouseAddresses.v3.debtAssetName}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={"9px"}
-                mt={"9px"}
-              >
-                <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>New Maturity Date</Typography>
-                <Box display="flex" flexDirection="column" textAlign="right">
-                  <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
-                    {maturityDate.toLocaleDateString([], {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    }) || ""}{" "}
-                    {maturityDate.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                </Box>
-              </Box>
-              {selectedVersion && (
-                <>
-                  <Box sx={{ width: "100%", my: "21px" }}>
-                    <Divider />
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{
+                    padding: 0,
+                    "& .MuiAccordionSummary-content": {
+                      margin: 0,
+                    },
+                  }}
+                >
+                  <Typography fontWeight="500">Transfer Ownership (Optional)</Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: "0 0 8px 0" }}>
+                  <Box>
+                    <Input
+                      id="new-owner-address"
+                      fullWidth
+                      label="New Owner EOA"
+                      value={newOwnerAddress}
+                      onChange={handleAddressChange}
+                      error={!isValidAddress}
+                      helperText={
+                        !isValidAddress && newOwnerAddress.toLowerCase() === address?.toLowerCase()
+                          ? "New owner cannot be the current owner"
+                          : !isValidAddress
+                            ? "Invalid Ethereum address"
+                            : ""
+                      }
+                    />
                   </Box>
-                  <Accordion
-                    sx={{
-                      background: "none",
-                      boxShadow: "none",
-                      "&:before": {
-                        display: "none",
-                      },
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      sx={{
-                        padding: 0,
-                        "& .MuiAccordionSummary-content": {
-                          margin: 0,
-                        },
-                      }}
-                    >
-                      <Typography fontWeight="500">Transfer Ownership (Optional)</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ padding: "0 0 8px 0" }}>
-                      <Box>
-                        <Input
-                          id="new-owner-address"
-                          fullWidth
-                          label="New Owner EOA"
-                          value={newOwnerAddress}
-                          onChange={handleAddressChange}
-                          error={
-                            !isValidAddress ||
-                            Boolean(newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
-                          }
-                          helperText={
-                            !isValidAddress && newOwnerAddress.toLowerCase() === address?.toLowerCase()
-                              ? "New owner cannot be the current owner"
-                              : !isValidAddress
-                                ? "Invalid Ethereum address"
-                                : newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress
-                                  ? "This EOA must generate a V3 Cooler before you can consolidate to it"
-                                  : ""
-                          }
-                        />
-                      </Box>
-                    </AccordionDetails>
-                  </Accordion>
-                </>
-              )}
+                </AccordionDetails>
+              </Accordion>
             </>
           )}
-          {selectedVersion && !insufficientBalances?.debt && !insufficientBalances?.gohm ? (
+          {selectedVersion ? (
             <WalletConnectedGuard fullWidth>
-              {needsCoolerCreation ? (
+              <TokenAllowanceGuard
+                tokenAddressMap={GOHM_ADDRESSES}
+                spenderAddressMap={COOLER_V2_MIGRATOR_ADDRESSES}
+                isVertical
+                message={<>Approve gOHM for Spending on the Consolidation Contract</>}
+                spendAmount={preview?.collateralAmount}
+                approvalText="Approve gOHM for Spending"
+              >
                 <PrimaryButton
+                  onClick={openConfirmModal}
+                  loading={coolerMutation.isLoading}
+                  disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
                   fullWidth
-                  onClick={() =>
-                    createCooler.mutate({
-                      collateralAddress: clearingHouseAddresses.v3.collateralAddress,
-                      debtAddress: clearingHouseAddresses.v3.debtAddress,
-                      factoryAddress,
-                    })
-                  }
-                  loading={createCooler.isLoading}
-                  disabled={createCooler.isLoading}
                 >
-                  Create Cooler & Consolidate
+                  Migrate Loans to Cooler V2
                 </PrimaryButton>
-              ) : (
-                <TokenAllowanceGuard
-                  tokenAddressMap={{ [NetworkId.MAINNET]: clearingHouseAddresses.v3.debtAddress }}
-                  spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
-                  isVertical
-                  message={
-                    <>Approve {clearingHouseAddresses.v3.debtAssetName} for Spending on the Consolidation Contract</>
-                  }
-                  spendAmount={allowances?.totalDebtWithFee}
-                  approvalText={`Approve ${clearingHouseAddresses.v3.debtAssetName} for Spending`}
-                >
-                  <TokenAllowanceGuard
-                    tokenAddressMap={GOHM_ADDRESSES}
-                    spenderAddressMap={COOLER_CONSOLIDATION_ADDRESSES}
-                    isVertical
-                    message={<>Approve gOHM for Spending on the Consolidation Contract</>}
-                    spendAmount={allowances?.consolidatedLoanCollateral}
-                    approvalText="Approve gOHM for Spending"
-                  >
-                    <PrimaryButton
-                      onClick={handleConsolidate}
-                      loading={coolerMutation.isLoading}
-                      disabled={
-                        coolerMutation.isLoading ||
-                        !selectedVersion ||
-                        !isValidAddress ||
-                        (newOwnerAddress && !newOwnerCoolerAddress && isFetchedNewOwnerCoolerAddress)
-                      }
-                      fullWidth
-                    >
-                      {getButtonText()}
-                    </PrimaryButton>
-                  </TokenAllowanceGuard>
-                </TokenAllowanceGuard>
-              )}
+              </TokenAllowanceGuard>
             </WalletConnectedGuard>
           ) : (
             <PrimaryButton disabled fullWidth>
-              {insufficientBalances?.debt
-                ? `Insufficient ${clearingHouseAddresses.v3.debtAssetName} Balance`
-                : insufficientBalances?.gohm
-                  ? "Insufficient gOHM Balance"
-                  : "Select loans to consolidate"}
+              Select loans to consolidate
             </PrimaryButton>
           )}
         </>
