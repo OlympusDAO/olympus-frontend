@@ -315,74 +315,72 @@ export const CoolerPositions = () => {
 
       <MonoCoolerPositions consolidateButton={consolidateButton()} v1Loans={shouldShowConsolidate || false} />
 
-      {activeClearingHouse && (
-        <>
-          {extendLoan && getClearingHouseForLoan(extendLoan.version) && getCoolerAddressForLoan(extendLoan.version) && (
-            <ExtendLoan
-              loan={extendLoan}
-              setLoan={setExtendLoan}
-              loanToCollateral={getClearingHouseForLoan(extendLoan.version).loanToCollateral}
-              interestRate={getClearingHouseForLoan(extendLoan.version).interestRate}
-              duration={getClearingHouseForLoan(extendLoan.version).duration}
-              coolerAddress={getCoolerAddressForLoan(extendLoan.version) || ""}
-              debtAddress={getClearingHouseForLoan(extendLoan.version).debtAddress}
-              clearingHouseAddress={getClearingHouseForLoan(extendLoan.version).clearingHouseAddress}
-              debtAssetName={getClearingHouseForLoan(extendLoan.version).debtAssetName}
-            />
-          )}
-          <CreateOrRepayLoan
-            collateralAddress={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).collateralAddress
-                : activeClearingHouse.collateralAddress
-            }
-            debtAddress={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).debtAddress
-                : activeClearingHouse.debtAddress
-            }
-            interestRate={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).interestRate
-                : activeClearingHouse.interestRate
-            }
-            loanToCollateral={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).loanToCollateral
-                : activeClearingHouse.loanToCollateral
-            }
-            duration={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).duration
-                : activeClearingHouse.duration
-            }
-            coolerAddress={
-              repayLoan && getCoolerAddressForLoan(repayLoan.version)
-                ? getCoolerAddressForLoan(repayLoan.version)
-                : coolerAddressV3 || ""
-            }
-            factoryAddress={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).factory
-                : activeClearingHouse.factory
-            }
-            capacity={ethers.utils.formatUnits(activeClearingHouse.capacity || "0")}
-            setModalOpen={setCreateLoanModalOpen}
-            modalOpen={createLoanModalOpen}
-            loan={repayLoan}
-            clearingHouseAddress={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).clearingHouseAddress
-                : activeClearingHouse.clearingHouseAddress
-            }
-            debtAssetName={
-              repayLoan && getClearingHouseForLoan(repayLoan.version)
-                ? getClearingHouseForLoan(repayLoan.version).debtAssetName
-                : activeClearingHouse.debtAssetName
-            }
+      <>
+        {extendLoan && getClearingHouseForLoan(extendLoan.version) && getCoolerAddressForLoan(extendLoan.version) && (
+          <ExtendLoan
+            loan={extendLoan}
+            setLoan={setExtendLoan}
+            loanToCollateral={getClearingHouseForLoan(extendLoan.version).loanToCollateral}
+            interestRate={getClearingHouseForLoan(extendLoan.version).interestRate}
+            duration={getClearingHouseForLoan(extendLoan.version).duration}
+            coolerAddress={getCoolerAddressForLoan(extendLoan.version) || ""}
+            debtAddress={getClearingHouseForLoan(extendLoan.version).debtAddress}
+            clearingHouseAddress={getClearingHouseForLoan(extendLoan.version).clearingHouseAddress}
+            debtAssetName={getClearingHouseForLoan(extendLoan.version).debtAssetName}
           />
-        </>
-      )}
+        )}
+        <CreateOrRepayLoan
+          collateralAddress={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).collateralAddress
+              : clearingHouses.v3?.collateralAddress || ""
+          }
+          debtAddress={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).debtAddress
+              : clearingHouses.v3?.debtAddress || ""
+          }
+          interestRate={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).interestRate
+              : clearingHouses.v3?.interestRate || ""
+          }
+          loanToCollateral={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).loanToCollateral
+              : clearingHouses.v3?.loanToCollateral || ""
+          }
+          duration={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).duration
+              : clearingHouses.v3?.duration || ""
+          }
+          coolerAddress={
+            repayLoan && getCoolerAddressForLoan(repayLoan.version)
+              ? getCoolerAddressForLoan(repayLoan.version)
+              : coolerAddressV3 || ""
+          }
+          factoryAddress={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).factory
+              : clearingHouses.v3?.factory || ""
+          }
+          capacity={ethers.utils.formatUnits(clearingHouses.v3?.capacity || "0")}
+          setModalOpen={setCreateLoanModalOpen}
+          modalOpen={createLoanModalOpen}
+          loan={repayLoan}
+          clearingHouseAddress={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).clearingHouseAddress
+              : clearingHouses.v3?.clearingHouseAddress || ""
+          }
+          debtAssetName={
+            repayLoan && getClearingHouseForLoan(repayLoan.version)
+              ? getClearingHouseForLoan(repayLoan.version).debtAssetName
+              : clearingHouses.v3?.debtAssetName || ""
+          }
+        />
+      </>
     </div>
   );
 };
