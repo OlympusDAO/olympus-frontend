@@ -66,6 +66,8 @@ export const ManageDelegation = () => {
     });
   }, [gohmCoolerV2Balance, delegations.data, address]);
 
+  console.log(delegations, "this is the cooler v2 delegation rows");
+
   return (
     <Modal
       open={true}
