@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
-import { DLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
+import { IDLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const useMonoCoolerDelegations = () => {
@@ -23,7 +23,7 @@ export const useMonoCoolerDelegations = () => {
       return delegationsList.map(d => ({
         delegate: d.delegate,
         escrow: d.escrow,
-        totalAmount: d.totalAmount.toString(),
+        totalAmount: d.amount,
       }));
     },
     {
@@ -32,7 +32,7 @@ export const useMonoCoolerDelegations = () => {
   );
 
   const applyDelegations = useMutation(
-    async ({ delegationRequests }: { delegationRequests: DLGTEv1.DelegationRequestStruct[] }) => {
+    async ({ delegationRequests }: { delegationRequests: IDLGTEv1.DelegationRequestStruct[] }) => {
       if (!signer || !address) throw new Error("No signer available");
 
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
