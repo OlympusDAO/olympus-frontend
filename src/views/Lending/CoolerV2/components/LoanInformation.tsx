@@ -30,7 +30,7 @@ export const LoanInformation = ({
     <>
       <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
         <Box>Interest Rate</Box>
-        <Box fontWeight="500">{formatNumber(position.interestRateBps / 1000, 2)}%</Box>
+        <Box fontWeight="500">{formatNumber(position.interestRateBps / 100, 2)}%</Box>
       </Box>
 
       <Box display="flex" justifyContent="space-between" fontSize="12px" mt="9px" lineHeight="15px">
