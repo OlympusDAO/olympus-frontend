@@ -154,7 +154,10 @@ export const DelegationManagement = () => {
     try {
       // Create a map of current delegations for easy lookup
       const currentDelegations = new Map(
-        (delegations.data || []).map(delegation => [delegation.delegate.toLowerCase(), delegation.totalAmount]),
+        (delegations.data || []).map(delegation => [
+          delegation.delegate.toLowerCase(),
+          formatUnits(delegation.totalAmount, 18),
+        ]),
       );
 
       // Create a map of new delegations for comparison
