@@ -46,8 +46,6 @@ export const ManageDelegation = () => {
   const [coolerV2DelegationOpen, setCoolerV2DelegationOpen] = useState(false);
   const theme = useTheme();
 
-  console.log(gohmCoolerV2Balance, "this is the balance");
-
   // Calculate delegation percentages for Cooler V2
   const coolerV2DelegationRows = useMemo(() => {
     if (!gohmCoolerV2Balance || !delegations.data) return [];

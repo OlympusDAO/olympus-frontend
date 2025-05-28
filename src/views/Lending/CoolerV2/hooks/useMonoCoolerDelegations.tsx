@@ -43,8 +43,6 @@ export const useMonoCoolerDelegations = () => {
         amount: req.amount,
       }));
 
-      console.log(formattedDelegations, "this is the formatted delegations");
-
       const tx = await contract.applyDelegations(formattedDelegations, address);
       await tx.wait();
 
