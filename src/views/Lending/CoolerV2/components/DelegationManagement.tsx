@@ -152,15 +152,15 @@ export const DelegationManagement = () => {
   const handleApplyDelegations = async () => {
     if (!isValid) return;
     try {
-      // Create a map of current delegations for easy lookup
+      // Create a map of current delegations for easy lookup (keep in wei as BigInt strings)
       const currentDelegations = new Map(
         (delegations.data || []).map(delegation => [
           delegation.delegate.toLowerCase(),
-          formatUnits(delegation.totalAmount, 18),
+          delegation.totalAmount.toString(), // Keep as BigInt string in wei
         ]),
       );
 
-      // Create a map of new delegations for comparison
+      // Create a map of new delegations for comparison (convert to wei)
       const newDelegations = new Map(
         delegationInputs
           .filter(input => input.address && input.amount && !isNaN(Number(input.amount)))
@@ -205,8 +205,6 @@ export const DelegationManagement = () => {
         // For positive values, smaller ones first
         return amountA < amountB ? -1 : 1;
       });
-
-      console.log("Sorted delegation requests:", delegationRequests);
 
       if (delegationRequests.length > 0) {
         await applyDelegations.mutateAsync({
