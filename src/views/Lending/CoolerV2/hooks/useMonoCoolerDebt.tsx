@@ -3,7 +3,7 @@ import { NetworkId } from "src/constants";
 import { COOLER_V2_COMPOSITES_CONTRACT, COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import type { DLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
+import type { IDLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 import { getAuthorizationSignature } from "src/views/Lending/CoolerV2/utils/getAuthorizationSignature";
 import { useAccount, useNetwork, useSigner, useSignTypedData } from "wagmi";
@@ -72,6 +72,9 @@ export const useMonoCoolerDebt = () => {
         finalBorrowAmount.toBigNumber(18),
         address, // onBehalfOf
         recipient,
+        {
+          gasLimit: 500000,
+        },
       );
       await tx.wait();
 
@@ -101,7 +104,9 @@ export const useMonoCoolerDebt = () => {
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
       const amountToRepay = calculateRepayAmount(amount, position.interestRateBps, fullRepay);
 
-      const tx = await contract.repay(amountToRepay.toBigNumber(), onBehalfOf);
+      const tx = await contract.repay(amountToRepay.toBigNumber(), onBehalfOf, {
+        gasLimit: 500000,
+      });
       await tx.wait();
 
       return tx;
@@ -122,7 +127,7 @@ export const useMonoCoolerDebt = () => {
     }: {
       amount: DecimalBigNumber;
       recipient?: string;
-      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
+      delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position) throw new Error("No position available");
       if (!signer || !address) throw new Error("No signer available");
@@ -155,7 +160,7 @@ export const useMonoCoolerDebt = () => {
     }: {
       amount: DecimalBigNumber;
       onBehalfOf?: string;
-      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
+      delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position) throw new Error("No position available");
       if (!signer || !address) throw new Error("No signer available");
@@ -183,7 +188,7 @@ export const useMonoCoolerDebt = () => {
     }: {
       collateralAmount: DecimalBigNumber;
       borrowAmount: DecimalBigNumber;
-      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
+      delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
     }) => {
       if (!position || !address) throw new Error("No position or address");
       if (!signer) throw new Error("No signer available");
@@ -219,7 +224,7 @@ export const useMonoCoolerDebt = () => {
     }: {
       repayAmount: DecimalBigNumber;
       collateralAmount: DecimalBigNumber;
-      delegationRequests?: DLGTEv1.DelegationRequestStruct[];
+      delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
       fullRepay?: boolean;
     }) => {
       if (!position || !address) throw new Error("No position or address");
