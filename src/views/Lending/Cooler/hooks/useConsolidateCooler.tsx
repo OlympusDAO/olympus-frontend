@@ -64,7 +64,7 @@ export const useConsolidateCooler = () => {
         signature,
         [], // delegationRequests
         // {
-        //   gasLimit: 500000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
+        //   gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
         // },
       );
       const receipt = await tx.wait();
