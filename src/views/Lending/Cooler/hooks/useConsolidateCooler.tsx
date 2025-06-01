@@ -76,6 +76,7 @@ export const useConsolidateCooler = () => {
         queryClient.invalidateQueries({ queryKey: ["getCoolerLoans"] });
         queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
         queryClient.invalidateQueries({ queryKey: [contractAllowanceQueryKey()] });
+        queryClient.invalidateQueries({ queryKey: ["monoCoolerPosition"] });
         if (tx.transactionHash) {
           trackGAEvent({
             category: "Cooler",
