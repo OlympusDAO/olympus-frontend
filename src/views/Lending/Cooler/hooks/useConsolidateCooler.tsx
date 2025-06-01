@@ -32,12 +32,14 @@ export const useConsolidateCooler = () => {
     async ({ coolers, newOwner }: { coolers: string[]; newOwner: string }) => {
       if (!signer) throw new Error("Please connect a wallet");
 
+      const address = await signer.getAddress();
+
       // 1. Get nonce from V2 contract for new owner
       const v2Contract = CoolerV2MonoCooler__factory.connect(
         COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
         provider,
       );
-      const nonce = await v2Contract.authorizationNonces(newOwner);
+      const nonce = await v2Contract.authorizationNonces(address);
 
       // 2. Generate EIP-712 signature
       const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
@@ -45,7 +47,7 @@ export const useConsolidateCooler = () => {
       if (!migratorAddress || !v2ContractAddress) throw new Error("Missing contract addresses");
 
       const { auth, signature } = await getAuthorizationSignature({
-        userAddress: newOwner,
+        userAddress: address,
         authorizedAddress: migratorAddress as `0x${string}`,
         verifyingContract: v2ContractAddress as `0x${string}`,
         chainId: networks.MAINNET_HOLESKY,
@@ -61,9 +63,9 @@ export const useConsolidateCooler = () => {
         auth,
         signature,
         [], // delegationRequests
-        // {
-        //   gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
-        // },
+        {
+          gasLimit: 500000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
+        },
       );
       const receipt = await tx.wait();
       return receipt;
