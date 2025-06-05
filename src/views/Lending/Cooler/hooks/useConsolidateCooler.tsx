@@ -46,6 +46,9 @@ export const useConsolidateCooler = () => {
       const v2ContractAddress = v2Contract.address;
       if (!migratorAddress || !v2ContractAddress) throw new Error("Missing contract addresses");
 
+      //check if signer is the new owner
+      const isNewOwner = address !== newOwner;
+
       const { auth, signature } = await getAuthorizationSignature({
         userAddress: address,
         authorizedAddress: migratorAddress as `0x${string}`,
@@ -55,6 +58,7 @@ export const useConsolidateCooler = () => {
         signTypedDataAsync,
       });
 
+      console.log("isNewOwner", isNewOwner);
       // 3. Call the migrator contract
       const contract = CoolerV2Migrator__factory.connect(migratorAddress, signer);
       const tx = await contract.consolidate(
@@ -63,6 +67,9 @@ export const useConsolidateCooler = () => {
         auth,
         signature,
         [], // delegationRequests
+        {
+          gasLimit: isNewOwner ? 1000000 : undefined,
+        },
         // {
         //   gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
         // },
