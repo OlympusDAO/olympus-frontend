@@ -254,9 +254,9 @@ export const ConsolidateLoans = ({
                   <MenuItem value="" disabled>
                     Select which CoolerV1 Clearinghouse to consolidate from
                   </MenuItem>
-                  {v1Loans && <MenuItem value="v1">V1 Loans ({v1Loans?.length})</MenuItem>}
-                  {v2Loans && <MenuItem value="v2">V2 Loans ({v2Loans?.length})</MenuItem>}
-                  {v3Loans && <MenuItem value="v3">V3 Loans ({v3Loans?.length})</MenuItem>}
+                  {hasV1Loans && <MenuItem value="v1">V1 Loans ({v1Loans?.length})</MenuItem>}
+                  {hasV2Loans && <MenuItem value="v2">V2 Loans ({v2Loans?.length})</MenuItem>}
+                  {hasV3Loans && <MenuItem value="v3">V3 Loans ({v3Loans?.length})</MenuItem>}
                 </Select>
               </FormControl>
             </Box>
