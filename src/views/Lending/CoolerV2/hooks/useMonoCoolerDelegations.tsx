@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NetworkId } from "src/constants";
 import { COOLER_V2_MONOCOOLER_CONTRACT } from "src/constants/contracts";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { IDLGTEv1 } from "src/typechain/CoolerV2MonoCooler";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
@@ -57,8 +58,72 @@ export const useMonoCoolerDelegations = () => {
     },
   );
 
+  /**
+   * Check if delegations need to be rescinded for a withdrawal and get the required rescission requests
+   */
+  const getRequiredDelegationRescissions = (withdrawAmount: DecimalBigNumber) => {
+    if (!delegations.data || delegations.data.length === 0) {
+      return {
+        needsRescission: false,
+        rescissionRequests: [],
+        totalDelegated: new DecimalBigNumber("0", 18),
+        canWithdrawDirectly: true,
+      };
+    }
+
+    const totalDelegated = delegations.data.reduce(
+      (sum, delegation) => sum.add(new DecimalBigNumber(delegation.totalAmount, 18)),
+      new DecimalBigNumber("0", 18),
+    );
+
+    // If no delegations, no rescission needed
+    if (totalDelegated.eq(new DecimalBigNumber("0", 18))) {
+      return {
+        needsRescission: false,
+        rescissionRequests: [],
+        totalDelegated,
+        canWithdrawDirectly: true,
+      };
+    }
+
+    let remainingToUndelegate = withdrawAmount;
+    const rescissionRequests: IDLGTEv1.DelegationRequestStruct[] = [];
+
+    // Calculate which delegations need to be rescinded
+    for (const delegation of delegations.data) {
+      if (
+        remainingToUndelegate.eq(new DecimalBigNumber("0", 18)) ||
+        remainingToUndelegate.lt(new DecimalBigNumber("0", 18))
+      )
+        break;
+
+      const delegatedAmount = new DecimalBigNumber(delegation.totalAmount, 18);
+      const amountToRescind =
+        remainingToUndelegate.gt(delegatedAmount) || remainingToUndelegate.eq(delegatedAmount)
+          ? delegatedAmount
+          : remainingToUndelegate;
+
+      if (amountToRescind.gt(new DecimalBigNumber("0", 18))) {
+        rescissionRequests.push({
+          delegate: delegation.delegate,
+          amount: amountToRescind.toBigNumber(18).mul(-1), // Negative amount for rescinding
+        });
+
+        remainingToUndelegate = remainingToUndelegate.sub(amountToRescind);
+      }
+    }
+
+    return {
+      needsRescission: rescissionRequests.length > 0,
+      rescissionRequests,
+      totalDelegated,
+      canWithdrawDirectly: rescissionRequests.length === 0,
+    };
+  };
+
   return {
     delegations,
     applyDelegations,
+    getRequiredDelegationRescissions,
   };
 };

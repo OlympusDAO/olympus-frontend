@@ -1,5 +1,5 @@
-import { Box, SvgIcon } from "@mui/material";
-import { Modal, PrimaryButton, SwapCollection } from "@olympusdao/component-library";
+import { Box, SvgIcon, Typography } from "@mui/material";
+import { InfoNotification, Modal, PrimaryButton, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -14,6 +14,7 @@ import { LoanInformation } from "src/views/Lending/CoolerV2/components/LoanInfor
 import { LoanToValueSlider } from "src/views/Lending/CoolerV2/components/LoanToValueSlider";
 import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { calculateRepayAmount, useMonoCoolerDebt } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDebt";
+import { useMonoCoolerDelegations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDelegations";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 import { useAccount } from "wagmi";
 
@@ -38,6 +39,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   ];
   const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
+  const { getRequiredDelegationRescissions } = useMonoCoolerDelegations();
   const { address } = useAccount();
 
   const {
@@ -62,6 +64,22 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   } = useMonoCoolerCalculations({ loan, isRepayMode });
 
   const withdrawOnly = isRepayMode && borrowAmount.eq(new DecimalBigNumber("0", 18));
+
+  // Check if delegations need to be rescinded for withdrawal
+  const withdrawalAmount = isRepayMode
+    ? withdrawOnly
+      ? collateralAmount
+      : collateralToBeReleased
+    : new DecimalBigNumber("0", 18);
+
+  const delegationRescissionInfo = withdrawalAmount.gt(new DecimalBigNumber("0", 18))
+    ? getRequiredDelegationRescissions(withdrawalAmount)
+    : {
+        needsRescission: false,
+        rescissionRequests: [],
+        totalDelegated: new DecimalBigNumber("0", 18),
+        canWithdrawDirectly: true,
+      };
 
   if (!position) return null;
 
@@ -139,6 +157,26 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
 
         <LoanToValueSlider ltvPercentage={ltvPercentage} onLtvChange={handleLtvChange} isRepayMode={isRepayMode} />
 
+        {/* Delegation Rescission Warning */}
+        {delegationRescissionInfo.needsRescission && (
+          <Box mt="12px">
+            <InfoNotification>
+              <Typography component="div">
+                <strong>Delegation Notice:</strong> This withdrawal requires undelegating{" "}
+                <strong>{withdrawalAmount.toString({ decimals: 4 })} gOHM</strong> from your current delegations.
+                <br />
+                <Typography mt={1} component="div">
+                  Your delegations will be automatically rescinded in the amount needed to enable this withdrawal. You
+                  currently have{" "}
+                  <strong>{delegationRescissionInfo.totalDelegated.toString({ decimals: 4 })} gOHM</strong> delegated.
+                  If you would like to manually rescind delegations to a specific address, please do so from the
+                  governance page.
+                </Typography>
+              </Typography>
+            </InfoNotification>
+          </Box>
+        )}
+
         <LoanInformation
           isRepayMode={isRepayMode}
           liquidationThreshold={liquidationThreshold}
@@ -179,8 +217,12 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
               // Get appropriate button text
               const buttonText = isRepayMode
                 ? withdrawOnly
-                  ? "Withdraw Collateral"
-                  : "Repay Loan"
+                  ? delegationRescissionInfo.needsRescission
+                    ? "Withdraw Collateral & Rescind Delegations"
+                    : "Withdraw Collateral"
+                  : delegationRescissionInfo.needsRescission
+                    ? "Repay Loan & Rescind Delegations"
+                    : "Repay Loan"
                 : loan
                   ? borrowAmount.gt(new DecimalBigNumber("0", 18))
                     ? "Borrow More"
@@ -246,7 +288,9 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 if (withdrawOnly && withdrawCollateral.isLoading) {
                   return (
                     <PrimaryButton fullWidth disabled loading>
-                      Withdrawing collateral...
+                      {delegationRescissionInfo.needsRescission
+                        ? "Withdrawing & rescinding..."
+                        : "Withdrawing collateral..."}
                     </PrimaryButton>
                   );
                 }

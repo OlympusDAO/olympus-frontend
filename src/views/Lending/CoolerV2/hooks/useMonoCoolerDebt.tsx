@@ -124,21 +124,63 @@ export const useMonoCoolerDebt = () => {
       amount,
       recipient = address,
       delegationRequests = [],
+      autoRescindDelegations = true,
     }: {
       amount: DecimalBigNumber;
       recipient?: string;
       delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
+      autoRescindDelegations?: boolean;
     }) => {
       if (!position) throw new Error("No position available");
       if (!signer || !address) throw new Error("No signer available");
 
       const contract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
 
+      let finalDelegationRequests = delegationRequests;
+
+      // If auto-rescind is enabled and no explicit delegation requests provided,
+      // automatically create delegation requests to undelegate the required amount
+      if (autoRescindDelegations && delegationRequests.length === 0) {
+        try {
+          // Get current delegations
+          const delegationsList = await contract.accountDelegationsList(address, 0, 100);
+
+          if (delegationsList.length > 0) {
+            let remainingToUndelegate = amount.toBigNumber(18);
+            const rescindRequests: IDLGTEv1.DelegationRequestStruct[] = [];
+
+            // Create rescind requests for delegations until we have enough undelegated
+            for (const delegation of delegationsList) {
+              if (remainingToUndelegate.lte(0)) break;
+
+              const delegatedAmount = delegation.amount;
+              const amountToRescind = remainingToUndelegate.gte(delegatedAmount)
+                ? delegatedAmount
+                : remainingToUndelegate;
+
+              if (amountToRescind.gt(0)) {
+                rescindRequests.push({
+                  delegate: delegation.delegate,
+                  amount: amountToRescind.mul(-1), // Negative amount for rescinding
+                });
+
+                remainingToUndelegate = remainingToUndelegate.sub(amountToRescind);
+              }
+            }
+
+            finalDelegationRequests = rescindRequests;
+          }
+        } catch (error) {
+          console.warn("Failed to automatically rescind delegations:", error);
+          // Continue with empty delegation requests - let the contract handle the error
+        }
+      }
+
       const tx = await contract.withdrawCollateral(
         amount.toBigNumber(18),
         address, // onBehalfOf
         recipient,
-        delegationRequests,
+        finalDelegationRequests,
       );
       await tx.wait();
 
@@ -148,6 +190,7 @@ export const useMonoCoolerDebt = () => {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["monoCoolerPosition", address] });
         queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
+        queryClient.invalidateQueries({ queryKey: ["monoCoolerDelegations", address] });
       },
     },
   );
@@ -221,17 +264,64 @@ export const useMonoCoolerDebt = () => {
       collateralAmount,
       delegationRequests = [],
       fullRepay = false,
+      autoRescindDelegations = true,
     }: {
       repayAmount: DecimalBigNumber;
       collateralAmount: DecimalBigNumber;
       delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
       fullRepay?: boolean;
+      autoRescindDelegations?: boolean;
     }) => {
       if (!position || !address) throw new Error("No position or address");
       if (!signer) throw new Error("No signer available");
 
       const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
       const amountToRepay = calculateRepayAmount(repayAmount, position.interestRateBps, fullRepay);
+
+      let finalDelegationRequests = delegationRequests;
+
+      // If auto-rescind is enabled and no explicit delegation requests provided,
+      // automatically create delegation requests to undelegate the required amount
+      if (
+        autoRescindDelegations &&
+        delegationRequests.length === 0 &&
+        collateralAmount.gt(new DecimalBigNumber("0", 18))
+      ) {
+        try {
+          // Get current delegations from the MonoCooler contract
+          const coolerContract = COOLER_V2_MONOCOOLER_CONTRACT.getEthersContract(chain.id).connect(signer);
+          const delegationsList = await coolerContract.accountDelegationsList(address, 0, 100);
+
+          if (delegationsList.length > 0) {
+            let remainingToUndelegate = collateralAmount.toBigNumber(18);
+            const rescindRequests: IDLGTEv1.DelegationRequestStruct[] = [];
+
+            // Create rescind requests for delegations until we have enough undelegated
+            for (const delegation of delegationsList) {
+              if (remainingToUndelegate.lte(0)) break;
+
+              const delegatedAmount = delegation.amount;
+              const amountToRescind = remainingToUndelegate.gte(delegatedAmount)
+                ? delegatedAmount
+                : remainingToUndelegate;
+
+              if (amountToRescind.gt(0)) {
+                rescindRequests.push({
+                  delegate: delegation.delegate,
+                  amount: amountToRescind.mul(-1), // Negative amount for rescinding
+                });
+
+                remainingToUndelegate = remainingToUndelegate.sub(amountToRescind);
+              }
+            }
+
+            finalDelegationRequests = rescindRequests;
+          }
+        } catch (error) {
+          console.warn("Failed to automatically rescind delegations:", error);
+          // Continue with empty delegation requests - let the contract handle the error
+        }
+      }
 
       const { auth, signature } = await authSignature();
 
@@ -240,7 +330,7 @@ export const useMonoCoolerDebt = () => {
         signature,
         amountToRepay.toBigNumber(18),
         collateralAmount.toBigNumber(18),
-        delegationRequests,
+        finalDelegationRequests,
       );
       await tx.wait();
 
@@ -249,6 +339,7 @@ export const useMonoCoolerDebt = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["monoCoolerPosition", address] });
       queryClient.invalidateQueries({ queryKey: [balanceQueryKey()] });
+      queryClient.invalidateQueries({ queryKey: ["monoCoolerDelegations", address] });
     },
   });
 
