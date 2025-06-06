@@ -381,7 +381,7 @@ export const ConsolidateLoans = ({
                         ) : isAuthorized === false ? (
                           <Box>
                             <InfoNotification type="warning">
-                              ⚠️ New owner needs to authorize the migrator contract before migration can proceed.
+                              New owner needs to authorize the migrator contract before migration can proceed.
                             </InfoNotification>
                             <Box mt={2} textAlign="center">
                               <Link
