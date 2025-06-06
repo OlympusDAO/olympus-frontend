@@ -27,38 +27,96 @@ export const useConsolidateCooler = () => {
     return { collateralAmount, borrowAmount };
   };
 
+  // Function for newOwner to authorize the migrator contract
+  const authorizeMigrator = async () => {
+    if (!signer) throw new Error("Please connect a wallet");
+
+    const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
+    const v2Contract = CoolerV2MonoCooler__factory.connect(
+      COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
+      signer,
+    );
+
+    if (!migratorAddress) throw new Error("Missing migrator contract address");
+
+    // Set authorization deadline to 1 hour from now
+    const authorizationDeadline = Math.floor(Date.now() / 1000) + 3600;
+
+    const tx = await v2Contract.setAuthorization(migratorAddress, authorizationDeadline);
+    const receipt = await tx.wait();
+    return receipt;
+  };
+
+  // Check if an address has authorized the migrator
+  const checkAuthorization = async (ownerAddress: string) => {
+    if (!provider) throw new Error("Please connect a wallet");
+
+    const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
+    const v2Contract = CoolerV2MonoCooler__factory.connect(
+      COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
+      provider,
+    );
+
+    if (!migratorAddress) throw new Error("Missing migrator contract address");
+
+    const authorizationDeadline = await v2Contract.authorizations(ownerAddress, migratorAddress);
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+
+    return authorizationDeadline.toNumber() > currentTimestamp;
+  };
+
   // Main mutation for consolidation
   const mutation = useMutation(
     async ({ coolers, newOwner }: { coolers: string[]; newOwner: string }) => {
       if (!signer) throw new Error("Please connect a wallet");
 
       const address = await signer.getAddress();
-
-      // 1. Get nonce from V2 contract for new owner
+      const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
       const v2Contract = CoolerV2MonoCooler__factory.connect(
         COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
         provider,
       );
-      const nonce = await v2Contract.authorizationNonces(address);
-
-      // 2. Generate EIP-712 signature
-      const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
       const v2ContractAddress = v2Contract.address;
+
       if (!migratorAddress || !v2ContractAddress) throw new Error("Missing contract addresses");
 
-      //check if signer is the new owner
       const isNewOwner = address !== newOwner;
 
-      const { auth, signature } = await getAuthorizationSignature({
-        userAddress: address,
-        authorizedAddress: migratorAddress as `0x${string}`,
-        verifyingContract: v2ContractAddress as `0x${string}`,
-        chainId: networks.MAINNET_HOLESKY,
-        nonce: nonce.toString(),
-        signTypedDataAsync,
-      });
+      let auth;
+      let signature;
 
-      console.log("isNewOwner", isNewOwner);
+      if (isNewOwner) {
+        // When newOwner is different, don't provide authorization
+        // The newOwner should call setAuthorization() separately
+        auth = {
+          account: "0x0000000000000000000000000000000000000000", // Zero address
+          authorized: migratorAddress,
+          authorizationDeadline: 0,
+          nonce: 0,
+          signatureDeadline: 0,
+        };
+        signature = {
+          v: 0,
+          r: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          s: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        };
+      } else {
+        // When newOwner is the same as signer, provide authorization
+        const nonce = await v2Contract.authorizationNonces(address);
+
+        const result = await getAuthorizationSignature({
+          userAddress: address,
+          authorizedAddress: migratorAddress as `0x${string}`,
+          verifyingContract: v2ContractAddress as `0x${string}`,
+          chainId: networks.MAINNET_HOLESKY,
+          nonce: nonce.toString(),
+          signTypedDataAsync,
+        });
+
+        auth = result.auth;
+        signature = result.signature;
+      }
+
       // 3. Call the migrator contract
       const contract = CoolerV2Migrator__factory.connect(migratorAddress, signer);
       const tx = await contract.consolidate(
@@ -70,9 +128,6 @@ export const useConsolidateCooler = () => {
         {
           gasLimit: isNewOwner ? 1000000 : undefined,
         },
-        // {
-        //   gasLimit: 5000000, // probably need to do what we did before. loanIds.length <= 15 ? loanIds.length * 2000000 : 30000000.
-        // },
       );
       const receipt = await tx.wait();
       return receipt;
@@ -104,5 +159,5 @@ export const useConsolidateCooler = () => {
     },
   );
 
-  return { ...mutation, previewConsolidate };
+  return { ...mutation, previewConsolidate, authorizeMigrator, checkAuthorization };
 };
