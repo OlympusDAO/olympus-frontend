@@ -26,6 +26,9 @@ export enum NetworkId {
 
   BERACHAIN = 80094,
   BERACHAIN_TESTNET = 80084,
+  SOLANA = 100000, // Placeholder for Solana mainnet
+  SOLANA_DEVNET = 100001, // Placeholder for Solana devnet
+  SEPOLIA = 11155111, // Sepolia testnet
 }
 
 // VIEWS FOR NETWORK is used to denote which paths should be viewable on each network

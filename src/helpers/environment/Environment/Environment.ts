@@ -188,6 +188,11 @@ export class Environment {
           key: `VITE_BERACHAIN_TESTNET_NODE_URL`,
           fallback: "https://bartio.rpc.berachain.com",
         });
+      case NetworkId.SEPOLIA:
+        return this._get({
+          key: `VITE_SEPOLIA_NODE_URL`,
+          fallback: "https://eth-sepolia.api.onfinality.io/public",
+        });
     }
   };
   public static getArchiveNodeUrls = (networkId: NetworkId) => {

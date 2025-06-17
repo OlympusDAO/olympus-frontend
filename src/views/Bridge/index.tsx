@@ -1,3 +1,5 @@
+import "@solana/wallet-adapter-react-ui/styles.css";
+
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
 import {
@@ -14,6 +16,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { PhantomWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
@@ -84,62 +90,91 @@ const Bridge = () => {
 
   const bridgeChain = BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS];
 
-  return (
-    <>
-      <PageTitle
-        name="Bridge"
-        subtitle={
-          <>
-            <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
-              Use OHM on other chains.{" "}
-              <Link
-                component={RouterLink}
-                to="https://docs.olympusdao.finance/main/overview/cross-chain"
-                target="_blank"
-                rel="noopener noreferrer"
-                alignItems="center"
-                display="flex"
-                gap="4px"
-              >
-                Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
-              </Link>
-            </Box>
-          </>
-        }
-      />
-      <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        {bridgeChain ? (
-          <>
-            <Box width="100%" mt="24px">
-              <BridgeInputArea />
-            </Box>
-            {totalGohmBalance.gt("0") && (
-              <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-                <StyledMiniCard
-                  title="Bridge gOHM on Synapse"
-                  icon={["ETH", "ARBITRUM", "OPTIMISM"]}
-                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
-                />
-              </Box>
-            )}
+  // Determine Solana network for wallet adapter
+  const [receivingChain, setReceivingChain] = useState<number>(NetworkId.SOLANA); // or derive from state/props
 
-            <Paper headerText={`Bridging History`}>
-              {transferEvents && transferEvents.length > 0 ? (
-                <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
-              ) : (
-                <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
-                  You have not bridged any OHM recently.
-                </Typography>
-              )}
-            </Paper>
-          </>
-        ) : (
-          <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>
-            Bridging is not available on this network.
-          </Typography>
-        )}
-      </Box>
-    </>
+  const solanaNetwork = useMemo(() => {
+    if (chain.id === NetworkId.SOLANA_DEVNET || receivingChain === NetworkId.SOLANA_DEVNET) {
+      return "devnet";
+    }
+    return "mainnet-beta";
+  }, [chain.id, receivingChain]);
+  const endpoint = useMemo(() => {
+    switch (solanaNetwork) {
+      case "devnet":
+        return "https://api.devnet.solana.com";
+      case "mainnet-beta":
+      default:
+        return "https://solana-rpc.publicnode.com";
+    }
+  }, [solanaNetwork]);
+
+  console.log("endpoint", endpoint);
+  const wallets = useMemo(
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter(), new TorusWalletAdapter()],
+    [],
+  );
+
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+          <PageTitle
+            name="Bridge"
+            subtitle={
+              <>
+                <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+                  Use OHM on other chains.{" "}
+                  <Link
+                    component={RouterLink}
+                    to="https://docs.olympusdao.finance/main/overview/cross-chain"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    alignItems="center"
+                    display="flex"
+                    gap="4px"
+                  >
+                    Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
+                  </Link>
+                </Box>
+              </>
+            }
+          />
+          <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+            {bridgeChain ? (
+              <>
+                <Box width="100%" mt="24px">
+                  <BridgeInputArea />
+                </Box>
+                {totalGohmBalance.gt("0") && (
+                  <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                    <StyledMiniCard
+                      title="Bridge gOHM on Synapse"
+                      icon={["ETH", "ARBITRUM", "OPTIMISM"]}
+                      href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
+                    />
+                  </Box>
+                )}
+
+                <Paper headerText={`Bridging History`}>
+                  {transferEvents && transferEvents.length > 0 ? (
+                    <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
+                  ) : (
+                    <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
+                      You have not bridged any OHM recently.
+                    </Typography>
+                  )}
+                </Paper>
+              </>
+            ) : (
+              <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>
+                Bridging is not available on this network.
+              </Typography>
+            )}
+          </Box>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 };
 
@@ -180,7 +215,7 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
 
 const NetworkIcon = ({ chainId }: { chainId: keyof typeof BRIDGE_CHAINS }) => {
   const bridgeChain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
-  return <Token name={bridgeChain.token as OHMTokenProps["name"]} />;
+  return <Token name={bridgeChain?.token as OHMTokenProps["name"]} />;
 };
 
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {

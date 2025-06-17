@@ -1,0 +1,444 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "ohm_", "type": "address" },
+      { "internalType": "address", "name": "ccipRouter_", "type": "address" },
+      { "internalType": "address", "name": "owner_", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  { "inputs": [], "name": "Bridge_DestinationNotTrusted", "type": "error" },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "messageId", "type": "bytes32" }],
+    "name": "Bridge_FailedMessageNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "expected", "type": "uint256" },
+      { "internalType": "uint256", "name": "actual", "type": "uint256" }
+    ],
+    "name": "Bridge_InsufficientAmount",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "expected", "type": "uint256" },
+      { "internalType": "uint256", "name": "actual", "type": "uint256" }
+    ],
+    "name": "Bridge_InsufficientNativeToken",
+    "type": "error"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "param", "type": "string" }],
+    "name": "Bridge_InvalidAddress",
+    "type": "error"
+  },
+  { "inputs": [], "name": "Bridge_InvalidCaller", "type": "error" },
+  { "inputs": [], "name": "Bridge_InvalidPayloadToken", "type": "error" },
+  { "inputs": [], "name": "Bridge_InvalidPayloadTokensLength", "type": "error" },
+  { "inputs": [], "name": "Bridge_SourceNotTrusted", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "caller", "type": "address" },
+      { "internalType": "address", "name": "recipient", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "Bridge_TransferFailed",
+    "type": "error"
+  },
+  { "inputs": [], "name": "Bridge_TrustedRemoteNotSet", "type": "error" },
+  { "inputs": [], "name": "Bridge_ZeroAmount", "type": "error" },
+  {
+    "inputs": [{ "internalType": "address", "name": "router", "type": "address" }],
+    "name": "InvalidRouter",
+    "type": "error"
+  },
+  { "inputs": [], "name": "NotDisabled", "type": "error" },
+  { "inputs": [], "name": "NotEnabled", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "bytes32", "name": "messageId", "type": "bytes32" },
+      { "indexed": false, "internalType": "uint64", "name": "destinationChainSelector", "type": "uint64" },
+      { "indexed": true, "internalType": "address", "name": "sender", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "fees", "type": "uint256" }
+    ],
+    "name": "Bridged",
+    "type": "event"
+  },
+  { "anonymous": false, "inputs": [], "name": "Disabled", "type": "event" },
+  { "anonymous": false, "inputs": [], "name": "Enabled", "type": "event" },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint64", "name": "dstChainSelector", "type": "uint64" },
+      { "indexed": false, "internalType": "uint32", "name": "gasLimit", "type": "uint32" }
+    ],
+    "name": "GasLimitSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bytes32", "name": "messageId", "type": "bytes32" }],
+    "name": "MessageFailed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "bytes32", "name": "messageId", "type": "bytes32" },
+      { "indexed": false, "internalType": "uint64", "name": "sourceChainSelector", "type": "uint64" },
+      { "indexed": true, "internalType": "address", "name": "sender", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "Received",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bytes32", "name": "messageId", "type": "bytes32" }],
+    "name": "RetryMessageSuccess",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint64", "name": "dstChainSelector", "type": "uint64" },
+      { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+    ],
+    "name": "TrustedRemoteEVMSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "uint64", "name": "dstChainSelector", "type": "uint64" }],
+    "name": "TrustedRemoteEVMUnset",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint64", "name": "dstChainSelector", "type": "uint64" },
+      { "indexed": true, "internalType": "bytes32", "name": "to", "type": "bytes32" }
+    ],
+    "name": "TrustedRemoteSVMSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "uint64", "name": "dstChainSelector", "type": "uint64" }],
+    "name": "TrustedRemoteSVMUnset",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "recipient", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "Withdrawn",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "OHM",
+    "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "messageId", "type": "bytes32" },
+          { "internalType": "uint64", "name": "sourceChainSelector", "type": "uint64" },
+          { "internalType": "bytes", "name": "sender", "type": "bytes" },
+          { "internalType": "bytes", "name": "data", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "address", "name": "token", "type": "address" },
+              { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "internalType": "struct Client.EVMTokenAmount[]",
+            "name": "destTokenAmounts",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct Client.Any2EVMMessage",
+        "name": "message",
+        "type": "tuple"
+      }
+    ],
+    "name": "ccipReceive",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "disableData_", "type": "bytes" }],
+    "name": "disable",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "enableData_", "type": "bytes" }],
+    "name": "enable",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCCIPRouter",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "messageId_", "type": "bytes32" }],
+    "name": "getFailedMessage",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "messageId", "type": "bytes32" },
+          { "internalType": "uint64", "name": "sourceChainSelector", "type": "uint64" },
+          { "internalType": "bytes", "name": "sender", "type": "bytes" },
+          { "internalType": "bytes", "name": "data", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "address", "name": "token", "type": "address" },
+              { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "internalType": "struct ICCIPClient.EVMTokenAmount[]",
+            "name": "destTokenAmounts",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct ICCIPClient.Any2EVMMessage",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "address", "name": "to_", "type": "address" },
+      { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+    ],
+    "name": "getFeeEVM",
+    "outputs": [{ "internalType": "uint256", "name": "fee_", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "bytes32", "name": "to_", "type": "bytes32" },
+      { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+    ],
+    "name": "getFeeSVM",
+    "outputs": [{ "internalType": "uint256", "name": "fee_", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" }],
+    "name": "getGasLimit",
+    "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getRouter",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" }],
+    "name": "getTrustedRemoteEVM",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "remoteAddress", "type": "address" },
+          { "internalType": "bool", "name": "isSet", "type": "bool" }
+        ],
+        "internalType": "struct ICCIPCrossChainBridge.TrustedRemoteEVM",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" }],
+    "name": "getTrustedRemoteSVM",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "remoteAddress", "type": "bytes32" },
+          { "internalType": "bool", "name": "isSet", "type": "bool" }
+        ],
+        "internalType": "struct ICCIPCrossChainBridge.TrustedRemoteSVM",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isEnabled",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "messageId", "type": "bytes32" },
+          { "internalType": "uint64", "name": "sourceChainSelector", "type": "uint64" },
+          { "internalType": "bytes", "name": "sender", "type": "bytes" },
+          { "internalType": "bytes", "name": "data", "type": "bytes" },
+          {
+            "components": [
+              { "internalType": "address", "name": "token", "type": "address" },
+              { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "internalType": "struct Client.EVMTokenAmount[]",
+            "name": "destTokenAmounts",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct Client.Any2EVMMessage",
+        "name": "message_",
+        "type": "tuple"
+      }
+    ],
+    "name": "receiveMessage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "messageId_", "type": "bytes32" }],
+    "name": "retryFailedMessage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "address", "name": "to_", "type": "address" },
+      { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+    ],
+    "name": "sendToEVM",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "bytes32", "name": "to_", "type": "bytes32" },
+      { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+    ],
+    "name": "sendToSVM",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "uint32", "name": "gasLimit_", "type": "uint32" }
+    ],
+    "name": "setGasLimit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "address", "name": "to_", "type": "address" }
+    ],
+    "name": "setTrustedRemoteEVM",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" },
+      { "internalType": "bytes32", "name": "to_", "type": "bytes32" }
+    ],
+    "name": "setTrustedRemoteSVM",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes4", "name": "interfaceId_", "type": "bytes4" }],
+    "name": "supportsInterface",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" }],
+    "name": "unsetTrustedRemoteEVM",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint64", "name": "dstChainSelector_", "type": "uint64" }],
+    "name": "unsetTrustedRemoteSVM",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "recipient_", "type": "address" }],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

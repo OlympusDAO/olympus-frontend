@@ -71,7 +71,7 @@ export default ({ mode }) => {
         plugins: [
           NodeGlobalsPolyfillPlugin({
             process: true,
-            buffer: true,
+            buffer: false,
           }),
           NodeModulesPolyfillPlugin(),
         ],

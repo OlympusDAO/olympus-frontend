@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import bs58 from "bs58";
 import { ContractReceipt, ethers } from "ethers";
 import toast from "react-hot-toast";
-import { CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
+import { CCIP_BRIDGE_ADDRESSES, CROSS_CHAIN_BRIDGE_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { CROSS_CHAIN_BRIDGE_CONTRACT, CROSS_CHAIN_BRIDGE_CONTRACT_TESTNET } from "src/constants/contracts";
 import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { balanceQueryKey, useOhmBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { EthersError } from "src/lib/EthersTypes";
 import { NetworkId } from "src/networkDetails";
-import { CrossChainBridgeTestnet } from "src/typechain";
+import { CCIPBridge__factory, CrossChainBridgeTestnet } from "src/typechain";
 import { BridgeReceivedEvent, BridgeTransferredEvent, CrossChainBridge } from "src/typechain/CrossChainBridge";
 import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
 import { useAccount, useBlockNumber, useNetwork, useSigner } from "wagmi";
@@ -237,4 +239,99 @@ const mapBridgeEvents = ({
     send: type === "send",
     chainId,
   };
+};
+
+function solanaAddressToBytes32(address: string): string {
+  const bytes = bs58.decode(address);
+  if (bytes.length > 32) throw new Error("Solana address too long for bytes32");
+  const padded = new Uint8Array(32);
+  padded.set(bytes, 32 - bytes.length);
+  return "0x" + Buffer.from(padded).toString("hex");
+}
+
+export const useBridgeOhmToSolana = () => {
+  const client = useQueryClient();
+  const { address = "" } = useAccount();
+  const { chain = { id: 1 } } = useNetwork();
+  const { data: signer } = useSigner();
+  const network = useTestableNetworks();
+
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network.MAINNET_SEPOLIA];
+
+  // For testnet/devnet
+  const SOLANA_DEVNET_SELECTOR = "16423721717087811551";
+
+  // Fee estimation
+  const estimateFee = async (solanaAddress: string, amount: string) => {
+    if (!signer) throw new Error("No signer");
+    const bridgeContract = CCIPBridge__factory.connect(
+      CCIP_BRIDGE_ADDRESSES[NetworkId.SOLANA_DEVNET as keyof typeof CCIP_BRIDGE_ADDRESSES],
+      signer,
+    );
+    if (!bridgeContract) throw new Error("Bridging contract not found");
+    const decimalAmount = new DecimalBigNumber(amount, 9);
+    const toBytes32 = solanaAddressToBytes32(solanaAddress);
+    const fee = await bridgeContract.getFeeSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber());
+    return fee;
+  };
+
+  // Bridge mutation
+  const mutation = useMutation<
+    ContractReceipt & { messageId: string },
+    EthersError,
+    { solanaAddress: string; amount: string }
+  >(
+    async ({ solanaAddress, amount }) => {
+      if (!signer) throw new Error("No signer");
+      const bridgeContract = CCIPBridge__factory.connect(CCIP_BRIDGE_ADDRESSES[network.MAINNET_SEPOLIA], signer);
+      if (!bridgeContract) throw new Error("Bridging contract not found");
+
+      if (Number(amount) === 0) throw new Error("You cannot bridge 0 OHM");
+      const decimalAmount = new DecimalBigNumber(amount, 9);
+      if (ohmBalance.lt(decimalAmount)) throw new Error(`You cannot bridge more than your OHM balance`);
+      const toBytes32 = solanaAddressToBytes32(solanaAddress);
+      const fee = await bridgeContract.getFeeSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber());
+      const tx = await bridgeContract
+        .connect(signer)
+        .sendToSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber(), { value: fee });
+      const receipt = await tx.wait();
+      // Try to extract messageId from logs
+      let messageId = "";
+      for (const log of receipt.logs) {
+        if (log.topics && log.topics.length > 0 && log.topics[0].toLowerCase().includes("bridged")) {
+          messageId = log.data; // You may need to parse this more precisely
+        }
+      }
+      return { ...receipt, messageId };
+    },
+    {
+      onError: (error: any) => toast.error("error" in error ? error.error.message : error.message),
+      onSuccess: async () => {
+        toast.success("Successfully bridged to Solana");
+        await client.refetchQueries([balanceQueryKey(address, OHM_ADDRESSES, chain.id)]);
+      },
+    },
+  );
+
+  return { ...mutation, estimateFee };
+};
+
+export const useEstimateSolanaBridgeFee = ({ solanaAddress, amount }: { solanaAddress: string; amount: string }) => {
+  const { data: signer } = useSigner();
+  const network = useTestableNetworks();
+  return useQuery(
+    ["solanaBridgeFeae", solanaAddress, amount],
+    async () => {
+      if (!signer) throw new Error("No signer");
+      const bridgeContract = CCIPBridge__factory.connect(CCIP_BRIDGE_ADDRESSES[network.MAINNET_SEPOLIA], signer);
+
+      const decimalAmount = new DecimalBigNumber(amount, 9);
+      const toBytes32 = solanaAddressToBytes32(solanaAddress);
+      const fee = await bridgeContract.getFeeSVM("16423721717087811551", toBytes32, decimalAmount.toBigNumber());
+      return new DecimalBigNumber(fee, 18); //todo: make sure we replace this with the correct decimals on the other way out.
+    },
+    {
+      enabled: !!solanaAddress && !!amount && !isNaN(Number(amount)) && Number(amount) > 0,
+    },
+  );
 };
