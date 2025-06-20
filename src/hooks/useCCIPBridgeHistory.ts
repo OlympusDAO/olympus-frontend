@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { CCIP_BRIDGE_ADDRESSES } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
 import { CCIPBridge__factory } from "src/typechain";
-import { useAccount, useBlockNumber, useNetwork, useSigner } from "wagmi";
+import { useAccount, useBlockNumber, useSigner } from "wagmi";
 
 export interface ICCIPHistoryTx {
   messageId: string;
@@ -29,7 +29,6 @@ interface CCIPBridgeHistoryParams {
 export const useCCIPBridgeHistory = ({ sendingChain, receivingChain }: CCIPBridgeHistoryParams) => {
   const { address } = useAccount();
   const { publicKey } = useWallet();
-  const { chain } = useNetwork();
   const { data: signer } = useSigner();
   const { data: blockNumber } = useBlockNumber({ chainId: sendingChain });
 
@@ -131,7 +130,7 @@ const fetchEVMTransactionsToCCIPBridge = async (
           fromChain: chainName,
           toChain: destinationChainName,
           fromAddress: userAddress,
-          toAddress: "", // Would need to decode from event data
+          toAddress: "",
           status: "success", // Events only appear if successful
           ccipExplorerUrl: getCCIPExplorerUrl(event.transactionHash),
         });
@@ -230,7 +229,7 @@ const fetchSolanaTransactionsToCCIPBridge = async (
         // Parse transaction data to extract actual amounts and destination chain
         try {
           // Look for token transfer amounts in the transaction
-          const parsedAmount = await parseTokenAmountFromSolanaTransaction(transaction, connection);
+          const parsedAmount = await parseTokenAmountFromSolanaTransaction(transaction);
           if (parsedAmount !== null) {
             amount = parsedAmount;
           } else {
@@ -279,10 +278,7 @@ const fetchSolanaTransactionsToCCIPBridge = async (
 };
 
 // Helper function to parse token amount from Solana transaction
-const parseTokenAmountFromSolanaTransaction = async (
-  transaction: any,
-  connection: Connection,
-): Promise<string | null> => {
+const parseTokenAmountFromSolanaTransaction = async (transaction: any): Promise<string | null> => {
   try {
     // Look for token balance changes in pre/post token balances
     const preTokenBalances = transaction.meta?.preTokenBalances || [];
@@ -341,12 +337,6 @@ const parseDestinationChainFromSolanaTransaction = (transaction: any): string | 
         if (log.includes("ethereum") || log.includes("Ethereum")) {
           return "Ethereum";
         }
-        if (log.includes("arbitrum") || log.includes("Arbitrum")) {
-          return "Arbitrum";
-        }
-        if (log.includes("base") || log.includes("Base")) {
-          return "Base";
-        }
         if (log.includes("sepolia") || log.includes("Sepolia")) {
           return "Sepolia";
         }
@@ -371,12 +361,6 @@ const getChainName = (chainId: number): string => {
   switch (chainId) {
     case NetworkId.MAINNET:
       return "Ethereum";
-    case NetworkId.ARBITRUM:
-      return "Arbitrum";
-    case NetworkId.BASE:
-      return "Base";
-    case NetworkId.SEPOLIA:
-      return "Sepolia";
     case NetworkId.SOLANA:
       return "Solana";
     case NetworkId.SOLANA_DEVNET:
@@ -393,8 +377,6 @@ const getChainNameFromSelector = (selector: string): string => {
   switch (selector) {
     case "5009297550715157269": // Ethereum mainnet
       return "Ethereum";
-    case "4949039107694359620": // Arbitrum
-      return "Arbitrum";
     case "16423721717087811551": // Solana devnet
       return "Solana Devnet";
     case "124615329519749607": // Solana mainnet

@@ -91,7 +91,6 @@ const Bridge = () => {
 
   const bridgeChain = BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS];
 
-  // Lift chain selection state up from BridgeInputArea
   const [sendingChain, setSendingChain] = useState<number>(chain.id);
   const [receivingChain, setReceivingChain] = useState<number>(NetworkId.SOLANA_DEVNET);
 

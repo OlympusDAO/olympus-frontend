@@ -325,8 +325,10 @@ export const useBridgeOhmToSolana = () => {
 export const useEstimateSolanaBridgeFee = ({ solanaAddress, amount }: { solanaAddress: string; amount: string }) => {
   const { data: signer } = useSigner();
   const network = useTestableNetworks();
-  // For testnet/devnet
-  const SOLANA_CHAIN_ID = solanaChainIdsFromEVM({ evmChainId: NetworkId.SOLANA_DEVNET });
+  const { connection } = useConnection();
+  const isDevnet = connection.rpcEndpoint.includes("devnet");
+
+  const SOLANA_CHAIN_ID = solanaChainIdsFromEVM({ evmChainId: isDevnet ? NetworkId.SOLANA_DEVNET : NetworkId.SOLANA });
   return useQuery(
     ["solanaBridgeFeae", solanaAddress, amount],
     async () => {
@@ -336,7 +338,7 @@ export const useEstimateSolanaBridgeFee = ({ solanaAddress, amount }: { solanaAd
       const decimalAmount = new DecimalBigNumber(amount, 9);
       const toBytes32 = solanaAddressToBytes32(solanaAddress);
       const fee = await bridgeContract.getFeeSVM(SOLANA_CHAIN_ID, toBytes32, decimalAmount.toBigNumber());
-      return new DecimalBigNumber(fee, 18); //todo: make sure we replace this with the correct decimals on the other way out.
+      return new DecimalBigNumber(fee, 18);
     },
     {
       enabled: !!solanaAddress && !!amount && !isNaN(Number(amount)) && Number(amount) > 0,

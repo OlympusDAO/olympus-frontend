@@ -140,7 +140,7 @@ const CCIPHistoryTx = ({ tx }: { tx: ICCIPHistoryTx }) => {
     }
   };
 
-  const isOutgoing = tx.fromAddress.toLowerCase() === tx.fromAddress.toLowerCase(); // This would need proper address comparison
+  const isOutgoing = true;
 
   return (
     <TableRow>
@@ -206,7 +206,7 @@ const MobileCCIPHistoryTx = ({ tx }: { tx: ICCIPHistoryTx }) => {
   const { data: dateTime } = useGetDateTimeFromBlockNumber({
     blockNumber: tx.timestamp,
   });
-  const isOutgoing = tx.fromAddress.toLowerCase() === tx.fromAddress.toLowerCase(); // This would need proper address comparison
+  const isOutgoing = true;
 
   const getStatusColor = (status: string) => {
     switch (status) {
