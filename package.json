@@ -40,7 +40,6 @@
     "@openchainxyz/abi-guesser": "^1.0.2",
     "@rainbow-me/rainbowkit": "^0.12.18",
     "@reduxjs/toolkit": "^1.9.3",
-    "@solana/buffer-layout-utils": "^0.2.0",
     "@solana/spl-token": "^0.4.13",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/wallet-adapter-react-ui": "^0.9.39",
