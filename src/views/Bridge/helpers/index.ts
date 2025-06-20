@@ -32,6 +32,8 @@ export const useBridgeableTestableNetwork = () => {
     case NetworkId.ARBITRUM_GOERLI:
     case NetworkId.ARBITRUM:
       return networks.ARBITRUM;
+    case NetworkId.SEPOLIA:
+      return networks.MAINNET_SEPOLIA;
     case NetworkId.TESTNET_GOERLI:
     case NetworkId.MAINNET:
     default:
@@ -60,5 +62,19 @@ export const layerZeroChainIdsFromEVM = ({ evmChainId }: { evmChainId: number })
     case NetworkId.MAINNET:
     default:
       return 101;
+  }
+};
+
+export const solanaChainIdsFromEVM = ({ evmChainId }: { evmChainId: number }) => {
+  switch (evmChainId) {
+    case NetworkId.SOLANA_DEVNET:
+      return "16423721717087811551";
+    case NetworkId.SOLANA:
+      return "124615329519749607";
+    case NetworkId.SEPOLIA:
+      return "16015286601757825753";
+    case NetworkId.MAINNET:
+    default:
+      return "5009297550715157269";
   }
 };

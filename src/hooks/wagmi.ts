@@ -164,6 +164,23 @@ export const { chains, provider, webSocketProvider } = configureChains(
         },
       },
     },
+    {
+      id: 11155111,
+      name: "Sepolia",
+      network: "sepolia",
+      iconUrl: "/assets/images/ethereum.png",
+      nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+      rpcUrls: {
+        default: { http: ["https://eth-sepolia.api.onfinality.io/public"] },
+        public: { http: ["https://eth-sepolia.api.onfinality.io/public"] },
+      },
+      blockExplorers: {
+        default: {
+          name: "Sepolia Explorer",
+          url: "https://sepolia.etherscan.io",
+        },
+      },
+    },
   ],
   [
     // jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),

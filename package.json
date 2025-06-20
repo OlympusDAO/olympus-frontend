@@ -26,6 +26,7 @@
     }
   },
   "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.10.5",
     "@ethersproject/address": "^5.6.1",
@@ -39,6 +40,12 @@
     "@openchainxyz/abi-guesser": "^1.0.2",
     "@rainbow-me/rainbowkit": "^0.12.18",
     "@reduxjs/toolkit": "^1.9.3",
+    "@solana/spl-token": "^0.4.13",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-react-ui": "^0.9.39",
+    "@solana/wallet-adapter-walletconnect": "^0.1.21",
+    "@solana/wallet-adapter-phantom": "^0.9.28",
+    "@solana/web3.js": "^1.98.2",
     "@tanstack/react-query": "^4.2.3",
     "@types/recharts": "^1.8.29",
     "@vitejs/plugin-react-swc": "^3.5.0",
