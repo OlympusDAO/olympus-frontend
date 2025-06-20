@@ -32,6 +32,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         path: "rollup-plugin-node-polyfills/polyfills/path",
+        fs: "rollup-plugin-node-polyfills/polyfills/fs",
         os: "rollup-plugin-node-polyfills/polyfills/os",
         Buffer: "rollup-plugin-node-polyfills/polyfills/buffer",
       },
@@ -70,7 +71,7 @@ export default ({ mode }) => {
         plugins: [
           NodeGlobalsPolyfillPlugin({
             process: true,
-            buffer: false,
+            buffer: true,
           }),
           NodeModulesPolyfillPlugin(),
         ],

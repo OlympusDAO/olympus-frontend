@@ -16,9 +16,9 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { PhantomWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
@@ -127,14 +127,11 @@ const Bridge = () => {
     }
   }, [solanaNetwork]);
 
-  const wallets = useMemo(
-    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter(), new TorusWalletAdapter()],
-    [],
-  );
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
           <PageTitle
             name="Bridge"
