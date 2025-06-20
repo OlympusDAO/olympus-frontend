@@ -1,3 +1,4 @@
+import { useConnection } from "@solana/wallet-adapter-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import bs58 from "bs58";
 import { ContractReceipt, ethers } from "ethers";
@@ -12,7 +13,11 @@ import { EthersError } from "src/lib/EthersTypes";
 import { NetworkId } from "src/networkDetails";
 import { CCIPBridge__factory, CrossChainBridgeTestnet } from "src/typechain";
 import { BridgeReceivedEvent, BridgeTransferredEvent, CrossChainBridge } from "src/typechain/CrossChainBridge";
-import { layerZeroChainIdsFromEVM, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
+import {
+  layerZeroChainIdsFromEVM,
+  solanaChainIdsFromEVM,
+  useBridgeableTestableNetwork,
+} from "src/views/Bridge/helpers";
 import { useAccount, useBlockNumber, useNetwork, useSigner } from "wagmi";
 
 export interface IHistoryTx {
@@ -255,11 +260,12 @@ export const useBridgeOhmToSolana = () => {
   const { chain = { id: 1 } } = useNetwork();
   const { data: signer } = useSigner();
   const network = useTestableNetworks();
+  const { connection } = useConnection();
+  const isDevnet = connection.rpcEndpoint.includes("devnet");
 
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[network.MAINNET_SEPOLIA];
 
-  // For testnet/devnet
-  const SOLANA_DEVNET_SELECTOR = "16423721717087811551";
+  const SOLANA_CHAIN_ID = solanaChainIdsFromEVM({ evmChainId: isDevnet ? NetworkId.SOLANA_DEVNET : NetworkId.SOLANA });
 
   // Fee estimation
   const estimateFee = async (solanaAddress: string, amount: string) => {
@@ -271,7 +277,7 @@ export const useBridgeOhmToSolana = () => {
     if (!bridgeContract) throw new Error("Bridging contract not found");
     const decimalAmount = new DecimalBigNumber(amount, 9);
     const toBytes32 = solanaAddressToBytes32(solanaAddress);
-    const fee = await bridgeContract.getFeeSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber());
+    const fee = await bridgeContract.getFeeSVM(SOLANA_CHAIN_ID, toBytes32, decimalAmount.toBigNumber());
     return fee;
   };
 
@@ -290,10 +296,10 @@ export const useBridgeOhmToSolana = () => {
       const decimalAmount = new DecimalBigNumber(amount, 9);
       if (ohmBalance.lt(decimalAmount)) throw new Error(`You cannot bridge more than your OHM balance`);
       const toBytes32 = solanaAddressToBytes32(solanaAddress);
-      const fee = await bridgeContract.getFeeSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber());
+      const fee = await bridgeContract.getFeeSVM(SOLANA_CHAIN_ID, toBytes32, decimalAmount.toBigNumber());
       const tx = await bridgeContract
         .connect(signer)
-        .sendToSVM(SOLANA_DEVNET_SELECTOR, toBytes32, decimalAmount.toBigNumber(), { value: fee });
+        .sendToSVM(SOLANA_CHAIN_ID, toBytes32, decimalAmount.toBigNumber(), { value: fee });
       const receipt = await tx.wait();
       // Try to extract messageId from logs
       let messageId = "";
@@ -319,6 +325,8 @@ export const useBridgeOhmToSolana = () => {
 export const useEstimateSolanaBridgeFee = ({ solanaAddress, amount }: { solanaAddress: string; amount: string }) => {
   const { data: signer } = useSigner();
   const network = useTestableNetworks();
+  // For testnet/devnet
+  const SOLANA_CHAIN_ID = solanaChainIdsFromEVM({ evmChainId: NetworkId.SOLANA_DEVNET });
   return useQuery(
     ["solanaBridgeFeae", solanaAddress, amount],
     async () => {
@@ -327,7 +335,7 @@ export const useEstimateSolanaBridgeFee = ({ solanaAddress, amount }: { solanaAd
 
       const decimalAmount = new DecimalBigNumber(amount, 9);
       const toBytes32 = solanaAddressToBytes32(solanaAddress);
-      const fee = await bridgeContract.getFeeSVM("16423721717087811551", toBytes32, decimalAmount.toBigNumber());
+      const fee = await bridgeContract.getFeeSVM(SOLANA_CHAIN_ID, toBytes32, decimalAmount.toBigNumber());
       return new DecimalBigNumber(fee, 18); //todo: make sure we replace this with the correct decimals on the other way out.
     },
     {

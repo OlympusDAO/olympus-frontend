@@ -35,6 +35,7 @@ export const BridgeFees = ({
       : new DecimalBigNumber("0");
   const gasFee =
     fee && typeof fee === "object" && "gasFee" in fee && fee.gasFee ? fee.gasFee : new DecimalBigNumber("0");
+  // @ts-ignore
   const totalFees = nativeFee.add(gasFee);
 
   return (

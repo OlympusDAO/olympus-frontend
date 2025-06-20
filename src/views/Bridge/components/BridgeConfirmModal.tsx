@@ -202,11 +202,13 @@ export const BridgeConfirmModal = (props: {
           <Box sx={{ marginTop: "1rem" }}>
             <hr style={{ borderWidth: "0.5px" }} />
           </Box>
-          <BridgeFees
-            amount={props.amount}
-            receivingChain={props.destinationChainId}
-            recipientAddress={recipientAddress}
-          />
+          {!isSolanaSource && (
+            <BridgeFees
+              amount={props.amount}
+              receivingChain={props.destinationChainId}
+              recipientAddress={recipientAddress}
+            />
+          )}
         </Box>
 
         <Box id="bridge-button" sx={{ marginTop: "2rem" }}>
@@ -280,6 +282,7 @@ export const BridgeConfirmModal = (props: {
                           props.bridgeMutation.mutate({ solanaAddress: solanaRecipient, amount: props.amount });
                         } else {
                           props.bridgeMutation.mutate({
+                            destinationChainId: props.destinationChainId,
                             recipientAddress: evmRecipient,
                             amount: props.amount,
                           });

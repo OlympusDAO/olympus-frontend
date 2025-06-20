@@ -1,3 +1,4 @@
+import { BigNumber } from "@ethersproject/bignumber";
 import {
   getAccount,
   getAssociatedTokenAddress,
@@ -55,8 +56,9 @@ export const useSolanaOhmBalance = (
         console.log("Raw tokenAccount.amount:", tokenAccount.amount.toString());
         console.log("Mint decimals:", mintInfo.decimals);
 
-        // Use the actual decimals from the mint
-        return new DecimalBigNumber(tokenAccount.amount.toString(), mintInfo.decimals);
+        // Convert the raw token amount (BigInt) to BigNumber and use the actual decimals from the mint
+        const rawAmount = BigNumber.from(tokenAccount.amount.toString());
+        return new DecimalBigNumber(rawAmount, mintInfo.decimals);
       } catch (error) {
         console.debug("Solana OHM balance fetch error:", error);
         return new DecimalBigNumber("0", 9);

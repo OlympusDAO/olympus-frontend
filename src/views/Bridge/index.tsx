@@ -19,7 +19,7 @@ import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter } from "@solana/wallet-adapter-wallets";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
@@ -32,6 +32,7 @@ import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
+import { CCIPBridgeHistoryWrapper } from "src/views/Bridge/components/CCIPBridgeHistoryWrapper";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "Bridge";
@@ -90,15 +91,33 @@ const Bridge = () => {
 
   const bridgeChain = BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS];
 
-  // Determine Solana network for wallet adapter
-  const [receivingChain, setReceivingChain] = useState<number>(NetworkId.SOLANA); // or derive from state/props
+  // Lift chain selection state up from BridgeInputArea
+  const [sendingChain, setSendingChain] = useState<number>(chain.id);
+  const [receivingChain, setReceivingChain] = useState<number>(NetworkId.SOLANA_DEVNET);
+
+  // Update sending chain when EVM wallet chain changes (but not if user manually selected Solana)
+  useEffect(() => {
+    if (sendingChain !== NetworkId.SOLANA && sendingChain !== NetworkId.SOLANA_DEVNET) {
+      setSendingChain(chain.id);
+    }
+  }, [chain.id, sendingChain]);
+
+  // Check if current setup involves CCIP bridging
+  const isCCIPBridge =
+    sendingChain === NetworkId.SOLANA ||
+    sendingChain === NetworkId.SOLANA_DEVNET ||
+    receivingChain === NetworkId.SOLANA ||
+    receivingChain === NetworkId.SOLANA_DEVNET;
+
+  // CCIP bridge history will be fetched inside the wallet provider context
 
   const solanaNetwork = useMemo(() => {
-    if (chain.id === NetworkId.SOLANA_DEVNET || receivingChain === NetworkId.SOLANA_DEVNET) {
+    if (sendingChain === NetworkId.SOLANA_DEVNET || receivingChain === NetworkId.SOLANA_DEVNET) {
       return "devnet";
     }
     return "mainnet-beta";
-  }, [chain.id, receivingChain]);
+  }, [sendingChain, receivingChain]);
+
   const endpoint = useMemo(() => {
     switch (solanaNetwork) {
       case "devnet":
@@ -109,7 +128,6 @@ const Bridge = () => {
     }
   }, [solanaNetwork]);
 
-  console.log("endpoint", endpoint);
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter(), new TorusWalletAdapter()],
     [],
@@ -144,7 +162,12 @@ const Bridge = () => {
             {bridgeChain ? (
               <>
                 <Box width="100%" mt="24px">
-                  <BridgeInputArea />
+                  <BridgeInputArea
+                    sendingChain={sendingChain}
+                    setSendingChain={setSendingChain}
+                    receivingChain={receivingChain}
+                    setReceivingChain={setReceivingChain}
+                  />
                 </Box>
                 {totalGohmBalance.gt("0") && (
                   <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
@@ -156,15 +179,24 @@ const Bridge = () => {
                   </Box>
                 )}
 
-                <Paper headerText={`Bridging History`}>
-                  {transferEvents && transferEvents.length > 0 ? (
-                    <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
-                  ) : (
-                    <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
-                      You have not bridged any OHM recently.
-                    </Typography>
-                  )}
-                </Paper>
+                {isCCIPBridge ? (
+                  <CCIPBridgeHistoryWrapper
+                    sendingChain={sendingChain}
+                    receivingChain={receivingChain}
+                    isSmallScreen={isSmallScreen}
+                    isCCIPBridge={isCCIPBridge}
+                  />
+                ) : (
+                  <Paper headerText="Bridging History">
+                    {transferEvents && transferEvents.length > 0 ? (
+                      <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
+                    ) : (
+                      <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
+                        You have not bridged any OHM recently.
+                      </Typography>
+                    )}
+                  </Paper>
+                )}
               </>
             ) : (
               <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>

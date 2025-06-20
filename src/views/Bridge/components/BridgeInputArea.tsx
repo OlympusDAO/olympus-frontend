@@ -18,7 +18,7 @@ import {
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useOhmBalance } from "src/hooks/useBalance";
 import { useBridgeOhmFromSolana } from "src/hooks/useBridgeOhmFromSolana";
-import { useBridgeOhm } from "src/hooks/useBridging";
+import { useBridgeOhm, useBridgeOhmToSolana } from "src/hooks/useBridging";
 import { useSolanaOhmBalance } from "src/hooks/useSolanaBalance";
 import { NetworkId } from "src/networkDetails";
 import { BridgeConfirmModal } from "src/views/Bridge/components/BridgeConfirmModal";
@@ -26,23 +26,36 @@ import { BridgeFees } from "src/views/Bridge/components/BridgeFees";
 import { BridgeSettingsModal } from "src/views/Bridge/components/BridgeSettingsModal";
 import { ChainPickerModal } from "src/views/Bridge/components/ChainPickerModal";
 import { useBridgeableChains, useBridgeableTestableNetwork } from "src/views/Bridge/helpers";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
-export const BridgeInputArea = () => {
+interface BridgeInputAreaProps {
+  sendingChain: number;
+  setSendingChain: React.Dispatch<React.SetStateAction<number>>;
+  receivingChain: number;
+  setReceivingChain: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const BridgeInputArea = ({
+  sendingChain,
+  setSendingChain,
+  receivingChain,
+  setReceivingChain,
+}: BridgeInputAreaProps) => {
   const { address } = useAccount();
-  const { chain = { id: 1 } } = useNetwork();
   const { data: chainDefaults, isInvalid } = useBridgeableChains();
-  const [receivingChain, setReceivingChain] = useState<number>(chainDefaults?.defaultRecChain || 1);
-  const [sendingChain, setSendingChain] = useState<number>(chain.id);
   const bridgeOhmMutation = useBridgeOhm();
   const bridgeOhmFromSolanaMutation = useBridgeOhmFromSolana();
+  const bridgeOhmToSolanaMutation = useBridgeOhmToSolana();
+
+  // Choose the right bridging hook based on source and destination chains
   const bridgeMutation =
     sendingChain === NetworkId.SOLANA || sendingChain === NetworkId.SOLANA_DEVNET
-      ? bridgeOhmFromSolanaMutation
-      : bridgeOhmMutation;
+      ? bridgeOhmFromSolanaMutation // Solana → EVM
+      : receivingChain === NetworkId.SOLANA || receivingChain === NetworkId.SOLANA_DEVNET
+        ? bridgeOhmToSolanaMutation // EVM → Solana
+        : bridgeOhmMutation; // EVM → EVM
   const network = useBridgeableTestableNetwork();
 
-  console.log("sendingChain", sendingChain);
   // Get appropriate balance based on sending chain
   const evmOhmBalance = useOhmBalance()[network];
   const solanaOhmBalance = useSolanaOhmBalance(
@@ -174,7 +187,9 @@ export const BridgeInputArea = () => {
             <SolanaWalletConnectedGuard fullWidth>
               <PrimaryButton
                 fullWidth
-                disabled={bridgeMutation.isLoading || !(Number(amount) > 0)}
+                disabled={
+                  bridgeMutation.isLoading || !(Number(amount) > 0) || Number(amount) > Number(ohmBalance.toString())
+                }
                 onClick={handleOpenConfirm}
               >
                 {bridgeMutation.isLoading ? "Bridging..." : Number(amount) > 0 ? "Bridge" : "Enter an amount to bridge"}
@@ -221,9 +236,13 @@ export const BridgeInputArea = () => {
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column">
-            {recipientAddress && receivingChain !== NetworkId.SOLANA && receivingChain !== NetworkId.SOLANA_DEVNET && (
-              <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
-            )}
+            {recipientAddress &&
+              receivingChain !== NetworkId.SOLANA &&
+              receivingChain !== NetworkId.SOLANA_DEVNET &&
+              sendingChain !== NetworkId.SOLANA &&
+              sendingChain !== NetworkId.SOLANA_DEVNET && (
+                <BridgeFees amount={amount} receivingChain={receivingChain} recipientAddress={recipientAddress} />
+              )}
           </Box>
         </Box>
       </Box>

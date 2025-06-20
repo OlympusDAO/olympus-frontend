@@ -20,7 +20,6 @@ import {
   VersionedTransaction,
 } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
-import { BigNumber } from "ethers";
 import { utils as ethersUtils } from "ethers";
 import { NetworkId } from "src/constants";
 import {
@@ -131,9 +130,9 @@ function getNetworkFromCCIPRouter(ccipRouter: string): NetworkId {
 
 // Helper function to get CCIP program addresses for a given network
 function getCCIPProgramAddresses(networkId: NetworkId) {
-  const feeQuoterAddress = CCIP_FEE_QUOTER_ADDRESSES[NetworkId.SOLANA_DEVNET];
-  const rmnRemoteAddress = CCIP_RMN_REMOTE_ADDRESSES[NetworkId.SOLANA_DEVNET];
-  const linkTokenAddress = CCIP_LINK_TOKEN_ADDRESSES[NetworkId.SOLANA_DEVNET];
+  const feeQuoterAddress = CCIP_FEE_QUOTER_ADDRESSES[NetworkId.SOLANA];
+  const rmnRemoteAddress = CCIP_RMN_REMOTE_ADDRESSES[NetworkId.SOLANA];
+  const linkTokenAddress = CCIP_LINK_TOKEN_ADDRESSES[NetworkId.SOLANA];
 
   if (!feeQuoterAddress || !rmnRemoteAddress || !linkTokenAddress) {
     throw new Error(`CCIP program addresses not configured for network: ${networkId}`);
@@ -146,7 +145,6 @@ function getCCIPProgramAddresses(networkId: NetworkId) {
   };
 }
 
-// Simple logger implementation
 const createLogger = (): CCIPLogger => ({
   info: (msg: string) => console.log(`[INFO] ${msg}`),
   debug: (msg: string) => console.log(`[DEBUG] ${msg}`),
@@ -700,7 +698,9 @@ function ccipSend(args: CcipSendArgs, accounts: CcipSendAccounts, programId: Pub
     },
     buffer,
   );
+  // @ts-ignore
   const dataBuffer = Buffer.concat([identifier, buffer]).slice(0, 8 + len);
+  // @ts-ignore
   const data = Buffer.from(dataBuffer);
   const ix = new TransactionInstruction({ keys, programId, data });
   return ix;
@@ -970,18 +970,21 @@ async function delegateTokensToFeeBillingSigner(
   return [approveInstruction];
 }
 
-// React hook
 export const useBridgeOhmFromSolana = () => {
   const { publicKey, signTransaction, connected } = useWallet();
   const { connection } = useConnection();
+
+  const isDevnet = connection.rpcEndpoint.includes("devnet");
 
   return useMutation(
     async ({
       evmAddress,
       amount,
-      destinationChainSelector = solanaChainIdsFromEVM({ evmChainId: NetworkId.SOLANA }),
-      tokenAddress = SVM_OHM_ADDRESSES[NetworkId.SOLANA],
-      ccipRouter = CCIP_BRIDGE_ADDRESSES[NetworkId.SOLANA],
+      destinationChainSelector = solanaChainIdsFromEVM({
+        evmChainId: isDevnet ? NetworkId.SEPOLIA : NetworkId.MAINNET,
+      }),
+      tokenAddress = SVM_OHM_ADDRESSES[isDevnet ? NetworkId.SOLANA_DEVNET : NetworkId.SOLANA],
+      ccipRouter = CCIP_BRIDGE_ADDRESSES[isDevnet ? NetworkId.SOLANA_DEVNET : NetworkId.SOLANA],
       decimals = 9, // OHM decimals
     }: {
       evmAddress: string;
@@ -1011,9 +1014,9 @@ export const useBridgeOhmFromSolana = () => {
         throw new Error("Invalid EVM address");
       }
 
-      // Convert amount to smallest units
-      const amountBN = BigNumber.from(amount).mul(BigNumber.from(10).pow(decimals));
-      const amountBNSolana = new BN(amountBN.toString());
+      // Convert amount to smallest units using parseUnits to handle decimals
+      const amountBN = ethersUtils.parseUnits(amount, decimals);
+      const amountBNSolana = new BN(amountBN.toString()); //solana handles bignumbers differenly
 
       // Determine network and get CCIP program addresses
       const network = getNetworkFromCCIPRouter(ccipRouter);
