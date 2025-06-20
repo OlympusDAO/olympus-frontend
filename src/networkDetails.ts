@@ -26,8 +26,8 @@ export enum NetworkId {
 
   BERACHAIN = 80094,
   BERACHAIN_TESTNET = 80084,
-  SOLANA = 100000, // Placeholder for Solana mainnet
-  SOLANA_DEVNET = 100001, // Placeholder for Solana devnet
+  SOLANA = 1000000000, // Placeholder for Solana mainnet
+  SOLANA_DEVNET = 1000000001, // Placeholder for Solana devnet
   SEPOLIA = 11155111, // Sepolia testnet
 }
 

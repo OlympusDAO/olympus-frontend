@@ -250,17 +250,17 @@ export const CCIP_BRIDGE_ADDRESSES = {
 // CCIP Program IDs for Solana networks
 export const CCIP_FEE_QUOTER_ADDRESSES = {
   [NetworkId.SOLANA_DEVNET]: "FeeQPGkKDeRV1MgoYfMH6L8o3KeuYjwUZrgn4LRKfjHi",
-  [NetworkId.SOLANA]: "FeeQPGkKDeRV1MgoYfMH6L8o3KeuYjwUZrgn4LRKfjHi", // Mainnet address to be added when available
+  [NetworkId.SOLANA]: "FeeQPGkKDeRV1MgoYfMH6L8o3KeuYjwUZrgn4LRKfjHi",
 };
 
 export const CCIP_RMN_REMOTE_ADDRESSES = {
   [NetworkId.SOLANA_DEVNET]: "RmnXLft1mSEwDgMKu2okYuHkiazxntFFcZFrrcXxYg7",
-  [NetworkId.SOLANA]: "RmnXLft1mSEwDgMKu2okYuHkiazxntFFcZFrrcXxYg7", // Mainnet address to be added when available
+  [NetworkId.SOLANA]: "RmnXLft1mSEwDgMKu2okYuHkiazxntFFcZFrrcXxYg7",
 };
 
 export const CCIP_LINK_TOKEN_ADDRESSES = {
   [NetworkId.SOLANA_DEVNET]: "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L",
-  [NetworkId.SOLANA]: "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L", // Mainnet address to be added when available
+  [NetworkId.SOLANA]: "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L",
 };
 
 /** for cross-chain */
