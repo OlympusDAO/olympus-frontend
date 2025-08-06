@@ -56,12 +56,11 @@ export const Cooler = () => {
           indicatorColor="primary"
           className="stake-tab-buttons"
           value={tabIndex}
-          onChange={handleTabChange}
           //hides the tab underline sliding animation in while <Zoom> is loading
           TabIndicatorProps={{ style: { display: "none" } }}
         >
           <Tab label="Positions" href={`#/lending/cooler?${getSearchParamsWithTab(0)}`} value="positions" />
-          <Tab label="Metrics" href={`#/lending/cooler?${getSearchParamsWithTab(1)}`} value="metrics" />
+          <Tab label="Metrics" href={`https://coolermetrics.olympusdao.finance`} target="_blank" />
         </Tabs>
 
         {tabIndex === "positions" && <CoolerPositions />}
