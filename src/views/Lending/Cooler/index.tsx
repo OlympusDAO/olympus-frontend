@@ -55,7 +55,13 @@ export const Cooler = () => {
           TabIndicatorProps={{ style: { display: "none" } }}
         >
           <Tab label="Positions" href={`#/lending/cooler?${getSearchParamsWithTab(0)}`} value="positions" />
-          <Tab label="Metrics" href={`https://coolermetrics.olympusdao.finance`} value="metrics" target="_blank" />
+          <Tab
+            label="Metrics"
+            href={`https://coolermetrics.olympusdao.finance`}
+            value="metrics"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          />
         </Tabs>
 
         {tabIndex === "positions" && <CoolerPositions />}
