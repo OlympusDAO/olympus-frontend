@@ -60,7 +60,7 @@ export const Cooler = () => {
             href={`https://coolermetrics.olympusdao.finance`}
             value="metrics"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
           />
         </Tabs>
 
