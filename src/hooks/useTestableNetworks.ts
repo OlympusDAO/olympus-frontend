@@ -23,5 +23,6 @@ export const useTestableNetworks = () => {
     BASE: getTestnet(NetworkId.BASE, NetworkId.BASE_TESTNET, chain.id),
     MAINNET_HOLESKY: getTestnet(NetworkId.MAINNET, NetworkId.HOLESKY, chain.id),
     BERACHAIN: getTestnet(NetworkId.BERACHAIN, NetworkId.BERACHAIN_TESTNET, chain.id),
+    MAINNET_SEPOLIA: getTestnet(NetworkId.MAINNET, NetworkId.SEPOLIA, chain.id),
   };
 };

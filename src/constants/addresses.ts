@@ -98,6 +98,12 @@ export const OHM_ADDRESSES = {
   [NetworkId.ARBITRUM_GOERLI]: "0x69da0a4ace14c0befe906f18881a35670e7568ac",
   [NetworkId.BERACHAIN]: "0x18878df23e2a36f81e820e4b47b4a40576d3159c",
   [NetworkId.BERACHAIN_TESTNET]: "",
+  [NetworkId.SEPOLIA]: "0x784cA0C006b8651BAB183829A99fA46BeCe50dBc",
+};
+
+export const SVM_OHM_ADDRESSES = {
+  [NetworkId.SOLANA]: "2Xva1NeLRuBFdK41gEuXqgeWtnKKDve9PKeCnMEpNG6K",
+  [NetworkId.SOLANA_DEVNET]: "G1x7gVrLFtEfdhGhjLknwCWbU3SK6ZDwmaiUx5Bfouk3",
 };
 
 export const V1_OHM_ADDRESSES = {
@@ -234,6 +240,29 @@ export const CROSS_CHAIN_BRIDGE_ADDRESSES_TESTNET = {
   [NetworkId.ARBITRUM_GOERLI]: "0xB01432c01A9128e3d1d70583eA873477B2a1f5e1",
 };
 
+export const CCIP_BRIDGE_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xFbf6383dC3F6010d403Ecdf12DDC1311701D143D",
+  [NetworkId.SEPOLIA]: "0xCfe75Cca2b7A9354F7c25e889b1216F977DEC6a5",
+  [NetworkId.SOLANA_DEVNET]: "Ccip842gzYHhvdDkSyi2YVCoAWPbYJoApMFzSxQroE9C",
+  [NetworkId.SOLANA]: "Ccip842gzYHhvdDkSyi2YVCoAWPbYJoApMFzSxQroE9C",
+};
+
+// CCIP Program IDs for Solana networks
+export const CCIP_FEE_QUOTER_ADDRESSES = {
+  [NetworkId.SOLANA_DEVNET]: "FeeQPGkKDeRV1MgoYfMH6L8o3KeuYjwUZrgn4LRKfjHi",
+  [NetworkId.SOLANA]: "FeeQPGkKDeRV1MgoYfMH6L8o3KeuYjwUZrgn4LRKfjHi",
+};
+
+export const CCIP_RMN_REMOTE_ADDRESSES = {
+  [NetworkId.SOLANA_DEVNET]: "RmnXLft1mSEwDgMKu2okYuHkiazxntFFcZFrrcXxYg7",
+  [NetworkId.SOLANA]: "RmnXLft1mSEwDgMKu2okYuHkiazxntFFcZFrrcXxYg7",
+};
+
+export const CCIP_LINK_TOKEN_ADDRESSES = {
+  [NetworkId.SOLANA_DEVNET]: "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L",
+  [NetworkId.SOLANA]: "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L",
+};
+
 /** for cross-chain */
 export const MINTER_ADDRESSES = {
   [NetworkId.MAINNET]: "0xa90bFe53217da78D900749eb6Ef513ee5b6a491e",
@@ -245,7 +274,13 @@ export const MINTER_ADDRESSES = {
 };
 
 /** for display purposes */
-export const BRIDGE_CHAINS = {
+export interface BridgeChainDisplay {
+  name: string;
+  token: string;
+  image?: string;
+}
+
+export const BRIDGE_CHAINS: Partial<Record<NetworkId, BridgeChainDisplay>> = {
   [NetworkId.MAINNET]: {
     name: "Ethereum",
     token: "MAINNET",
@@ -270,12 +305,27 @@ export const BRIDGE_CHAINS = {
     name: "Berachain",
     token: "BERACHAIN",
   },
+  [NetworkId.SOLANA]: {
+    name: "Solana",
+    token: "SOLANA",
+    image: "/assets/images/solana.svg",
+  },
+  [NetworkId.SOLANA_DEVNET]: {
+    name: "Solana Devnet",
+    token: "SOLANA",
+    image: "/assets/images/solana.svg",
+  },
+  [NetworkId.SEPOLIA]: {
+    name: "Sepolia",
+    token: "SEPOLIA",
+    image: "/assets/images/sepolia.svg",
+  },
 };
 
 export const BRIDGEABLE_CHAINS = {
   [NetworkId.MAINNET]: {
     defaultRecChain: NetworkId.ARBITRUM,
-    availableChains: [NetworkId.ARBITRUM, NetworkId.BASE, NetworkId.BERACHAIN],
+    availableChains: [NetworkId.ARBITRUM, NetworkId.BASE, NetworkId.BERACHAIN, NetworkId.SOLANA],
   },
   [NetworkId.ARBITRUM]: {
     defaultRecChain: NetworkId.MAINNET,
@@ -296,6 +346,18 @@ export const BRIDGEABLE_CHAINS = {
   [NetworkId.BERACHAIN]: {
     defaultRecChain: NetworkId.MAINNET,
     availableChains: [NetworkId.MAINNET],
+  },
+  [NetworkId.SOLANA]: {
+    defaultRecChain: NetworkId.MAINNET,
+    availableChains: [NetworkId.MAINNET],
+  },
+  [NetworkId.SOLANA_DEVNET]: {
+    defaultRecChain: NetworkId.SEPOLIA,
+    availableChains: [NetworkId.SEPOLIA],
+  },
+  [NetworkId.SEPOLIA]: {
+    defaultRecChain: NetworkId.SOLANA_DEVNET,
+    availableChains: [NetworkId.SOLANA_DEVNET],
   },
 };
 

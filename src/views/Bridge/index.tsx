@@ -1,3 +1,5 @@
+import "@solana/wallet-adapter-react-ui/styles.css";
+
 import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
 import VerticalAlignTopIcon from "@mui/icons-material/VerticalAlignTop";
 import {
@@ -14,6 +16,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataRow, Icon, MiniCard, OHMTokenProps, Paper, TextButton, Token } from "@olympusdao/component-library";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PageTitle from "src/components/PageTitle";
 import { BRIDGE_CHAINS } from "src/constants/addresses";
@@ -26,6 +32,7 @@ import { IHistoryTx, useGetBridgeTransferredEvents } from "src/hooks/useBridging
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { BridgeInputArea } from "src/views/Bridge/components/BridgeInputArea";
+import { CCIPBridgeHistoryWrapper } from "src/views/Bridge/components/CCIPBridgeHistoryWrapper";
 import { useNetwork } from "wagmi";
 
 const PREFIX = "Bridge";
@@ -84,62 +91,118 @@ const Bridge = () => {
 
   const bridgeChain = BRIDGE_CHAINS[chain.id as keyof typeof BRIDGE_CHAINS];
 
-  return (
-    <>
-      <PageTitle
-        name="Bridge"
-        subtitle={
-          <>
-            <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
-              Use OHM on other chains.{" "}
-              <Link
-                component={RouterLink}
-                to="https://docs.olympusdao.finance/main/overview/cross-chain"
-                target="_blank"
-                rel="noopener noreferrer"
-                alignItems="center"
-                display="flex"
-                gap="4px"
-              >
-                Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
-              </Link>
-            </Box>
-          </>
-        }
-      />
-      <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        {bridgeChain ? (
-          <>
-            <Box width="100%" mt="24px">
-              <BridgeInputArea />
-            </Box>
-            {totalGohmBalance.gt("0") && (
-              <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
-                <StyledMiniCard
-                  title="Bridge gOHM on Synapse"
-                  icon={["ETH", "ARBITRUM", "OPTIMISM"]}
-                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
-                />
-              </Box>
-            )}
+  const [sendingChain, setSendingChain] = useState<number>(chain.id);
+  const [receivingChain, setReceivingChain] = useState<number>(NetworkId.SOLANA_DEVNET);
 
-            <Paper headerText={`Bridging History`}>
-              {transferEvents && transferEvents.length > 0 ? (
-                <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
-              ) : (
-                <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
-                  You have not bridged any OHM recently.
-                </Typography>
-              )}
-            </Paper>
-          </>
-        ) : (
-          <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>
-            Bridging is not available on this network.
-          </Typography>
-        )}
-      </Box>
-    </>
+  // Update sending chain when EVM wallet chain changes (but not if user manually selected Solana)
+  useEffect(() => {
+    if (sendingChain !== NetworkId.SOLANA && sendingChain !== NetworkId.SOLANA_DEVNET) {
+      setSendingChain(chain.id);
+    }
+  }, [chain.id, sendingChain]);
+
+  // Check if current setup involves CCIP bridging
+  const isCCIPBridge =
+    sendingChain === NetworkId.SOLANA ||
+    sendingChain === NetworkId.SOLANA_DEVNET ||
+    receivingChain === NetworkId.SOLANA ||
+    receivingChain === NetworkId.SOLANA_DEVNET;
+
+  // CCIP bridge history will be fetched inside the wallet provider context
+
+  const solanaNetwork = useMemo(() => {
+    if (sendingChain === NetworkId.SOLANA_DEVNET || receivingChain === NetworkId.SOLANA_DEVNET) {
+      return "devnet";
+    }
+    return "mainnet-beta";
+  }, [sendingChain, receivingChain]);
+
+  const endpoint = useMemo(() => {
+    switch (solanaNetwork) {
+      case "devnet":
+        return "https://api.devnet.solana.com";
+      case "mainnet-beta":
+      default:
+        return "https://solana-rpc.publicnode.com";
+    }
+  }, [solanaNetwork]);
+
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={[]} autoConnect>
+        <WalletModalProvider>
+          <PageTitle
+            name="Bridge"
+            subtitle={
+              <>
+                <Box display="flex" flexDirection="row" alignItems="center" gap="4px">
+                  Use OHM on other chains.{" "}
+                  <Link
+                    component={RouterLink}
+                    to="https://docs.olympusdao.finance/main/overview/cross-chain"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    alignItems="center"
+                    display="flex"
+                    gap="4px"
+                  >
+                    Learn More <Icon name="arrow-up" sx={{ fontSize: "14px" }} />
+                  </Link>
+                </Box>
+              </>
+            }
+          />
+          <Box id="bridge-view" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+            {bridgeChain ? (
+              <>
+                <Box width="100%" mt="24px">
+                  <BridgeInputArea
+                    sendingChain={sendingChain}
+                    setSendingChain={setSendingChain}
+                    receivingChain={receivingChain}
+                    setReceivingChain={setReceivingChain}
+                  />
+                </Box>
+                {totalGohmBalance.gt("0") && (
+                  <Box display="flex" flexDirection="column" width="100%" maxWidth="476px">
+                    <StyledMiniCard
+                      title="Bridge gOHM on Synapse"
+                      icon={["ETH", "ARBITRUM", "OPTIMISM"]}
+                      href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM"
+                    />
+                  </Box>
+                )}
+
+                {isCCIPBridge ? (
+                  <CCIPBridgeHistoryWrapper
+                    sendingChain={sendingChain}
+                    receivingChain={receivingChain}
+                    isSmallScreen={isSmallScreen}
+                    isCCIPBridge={isCCIPBridge}
+                  />
+                ) : (
+                  <Paper headerText="Bridging History">
+                    {transferEvents && transferEvents.length > 0 ? (
+                      <BridgeHistory isSmallScreen={isSmallScreen} txs={transferEvents} />
+                    ) : (
+                      <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "12px", color: "#8A8B90" }}>
+                        You have not bridged any OHM recently.
+                      </Typography>
+                    )}
+                  </Paper>
+                )}
+              </>
+            ) : (
+              <Typography style={{ lineHeight: 1.4, fontWeight: 300, fontSize: "24px" }}>
+                Bridging is not available on this network.
+              </Typography>
+            )}
+          </Box>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 };
 
@@ -180,7 +243,7 @@ const BridgeHistory = ({ isSmallScreen, txs }: { isSmallScreen: boolean; txs: IH
 
 const NetworkIcon = ({ chainId }: { chainId: keyof typeof BRIDGE_CHAINS }) => {
   const bridgeChain = BRIDGE_CHAINS[chainId as keyof typeof BRIDGE_CHAINS];
-  return <Token name={bridgeChain.token as OHMTokenProps["name"]} />;
+  return <Token name={bridgeChain?.token as OHMTokenProps["name"]} />;
 };
 
 const HistoryTx = ({ tx }: { tx: IHistoryTx }) => {
