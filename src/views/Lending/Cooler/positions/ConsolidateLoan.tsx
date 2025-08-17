@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { InfoNotification, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -49,8 +50,11 @@ export const ConsolidateLoans = ({
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const { address } = useAccount();
   const { chain } = useNetwork();
+  const location = useLocation();
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
+  const [isCheckingAuthorization, setIsCheckingAuthorization] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const { data: v2Position } = useMonoCoolerPosition();
 
   // Determine which V1 clearinghouse loans are available for consolidation (source selection only)
@@ -130,6 +134,30 @@ export const ConsolidateLoans = ({
 
   // newOwner is the connected wallet unless the user enters a different EOA
   const newOwner = newOwnerAddress && isValidAddress ? newOwnerAddress : address;
+  const isNewOwnerDifferent = newOwner && address && newOwner.toLowerCase() !== address.toLowerCase();
+
+  // Check authorization when newOwner changes
+  useEffect(() => {
+    if (!newOwner || !isNewOwnerDifferent) {
+      setIsAuthorized(null);
+      return;
+    }
+
+    const checkAuth = async () => {
+      setIsCheckingAuthorization(true);
+      try {
+        const authorized = await coolerMutation.checkAuthorization(newOwner);
+        setIsAuthorized(authorized);
+      } catch (error) {
+        console.error("Error checking authorization:", error);
+        setIsAuthorized(false);
+      } finally {
+        setIsCheckingAuthorization(false);
+      }
+    };
+
+    checkAuth();
+  }, [newOwner, isNewOwnerDifferent]);
 
   const handleConsolidate = () => {
     const coolers = [sourceCoolerAddress].filter(Boolean) as string[];
@@ -340,6 +368,38 @@ export const ConsolidateLoans = ({
                             : ""
                       }
                     />
+
+                    {/* Authorization Status */}
+                    {isNewOwnerDifferent && (
+                      <Box mt={2}>
+                        {isCheckingAuthorization ? (
+                          <InfoNotification type="info">Checking authorization status...</InfoNotification>
+                        ) : isAuthorized === true ? (
+                          <InfoNotification type="success">
+                            ✓ New owner has authorized the migrator contract.
+                          </InfoNotification>
+                        ) : isAuthorized === false ? (
+                          <Box>
+                            <InfoNotification type="warning">
+                              New owner needs to authorize the migrator contract before migration can proceed.
+                            </InfoNotification>
+                            <Box mt={2} textAlign="center">
+                              <Link
+                                component={RouterLink}
+                                to={`/authorize-migration?address=${newOwner}&returnUrl=${encodeURIComponent(
+                                  location.pathname,
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{ fontWeight: 500 }}
+                              >
+                                Open Authorization Page →
+                              </Link>
+                            </Box>
+                          </Box>
+                        ) : null}
+                      </Box>
+                    )}
                   </Box>
                 </AccordionDetails>
               </Accordion>
@@ -358,10 +418,17 @@ export const ConsolidateLoans = ({
                 <PrimaryButton
                   onClick={openConfirmModal}
                   loading={coolerMutation.isLoading}
-                  disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
+                  disabled={
+                    coolerMutation.isLoading ||
+                    !selectedVersion ||
+                    !isValidAddress ||
+                    (isNewOwnerDifferent && isAuthorized !== true)
+                  }
                   fullWidth
                 >
-                  Migrate Loans to Cooler V2
+                  {isNewOwnerDifferent && isAuthorized === false
+                    ? "Authorization Required"
+                    : "Migrate Loans to Cooler V2"}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>
