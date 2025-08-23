@@ -1,6 +1,7 @@
 import { Box, SvgIcon } from "@mui/material";
 import { Modal, PrimaryButton, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
+import { useMemo } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -14,6 +15,7 @@ import { LoanInformation } from "src/views/Lending/CoolerV2/components/LoanInfor
 import { LoanToValueSlider } from "src/views/Lending/CoolerV2/components/LoanToValueSlider";
 import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { calculateRepayAmount, useMonoCoolerDebt } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDebt";
+import { useMonoCoolerDelegations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDelegations";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 import { useAccount } from "wagmi";
 
@@ -38,6 +40,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   ];
   const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
+  const { delegations } = useMonoCoolerDelegations();
   const { address } = useAccount();
 
   const {
@@ -62,6 +65,32 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
   } = useMonoCoolerCalculations({ loan, isRepayMode });
 
   const withdrawOnly = isRepayMode && borrowAmount.eq(new DecimalBigNumber("0", 18));
+
+  // Calculate undelegated collateral amount
+  const undelegatedAmount = useMemo(() => {
+    if (!position) return new DecimalBigNumber("0", 18);
+
+    const totalCollateral = new DecimalBigNumber(position.collateral, 18);
+
+    // Calculate total delegated amount from delegation data
+    const totalDelegated =
+      delegations.data?.reduce(
+        (sum, delegation) => {
+          return sum.add(new DecimalBigNumber(delegation.totalAmount, 18));
+        },
+        new DecimalBigNumber("0", 18),
+      ) || new DecimalBigNumber("0", 18);
+
+    return totalCollateral.sub(totalDelegated);
+  }, [position, delegations.data]);
+
+  // Check if withdrawal amount exceeds undelegated amount
+  const exceedsUndelegatedAmount = useMemo(() => {
+    if (!isRepayMode) return false;
+
+    const withdrawalAmount = withdrawOnly ? collateralAmount : collateralToBeReleased;
+    return withdrawalAmount.gt(undelegatedAmount);
+  }, [isRepayMode, withdrawOnly, collateralAmount, collateralToBeReleased, undelegatedAmount]);
 
   if (!position) return null;
 
@@ -238,6 +267,14 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 return (
                   <PrimaryButton fullWidth disabled>
                     Amount exceeds current debt
+                  </PrimaryButton>
+                );
+              }
+
+              if (exceedsUndelegatedAmount) {
+                return (
+                  <PrimaryButton fullWidth disabled>
+                    You must undelegate before withdrawing
                   </PrimaryButton>
                 );
               }
