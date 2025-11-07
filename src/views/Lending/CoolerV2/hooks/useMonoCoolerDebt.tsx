@@ -185,10 +185,12 @@ export const useMonoCoolerDebt = () => {
       collateralAmount,
       borrowAmount,
       delegationRequests = [],
+      isAuthorized = false,
     }: {
       collateralAmount: DecimalBigNumber;
       borrowAmount: DecimalBigNumber;
       delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
+      isAuthorized?: boolean;
     }) => {
       if (!position || !address) throw new Error("No position or address");
       if (!signer) throw new Error("No signer available");
@@ -196,6 +198,33 @@ export const useMonoCoolerDebt = () => {
       const borrowAmountToUse = calculateBorrowAmount(borrowAmount, position.interestRateBps);
       const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
 
+      // For smart contract wallets that are already authorized, use empty auth/sig
+      if (isAuthorized) {
+        const emptyAuth = {
+          account: "0x0000000000000000000000000000000000000000",
+          authorized: "0x0000000000000000000000000000000000000000",
+          authorizationDeadline: 0,
+          nonce: 0,
+          signatureDeadline: 0,
+        };
+        const emptySig = {
+          v: 0,
+          r: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          s: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        };
+
+        const tx = await contract.addCollateralAndBorrow(
+          emptyAuth,
+          emptySig,
+          collateralAmount.toBigNumber(18),
+          borrowAmountToUse.toBigNumber(18),
+          delegationRequests,
+        );
+        await tx.wait();
+        return tx;
+      }
+
+      // For EOAs, use signature-based authorization
       const { auth, signature } = await authSignature();
 
       const tx = await contract.addCollateralAndBorrow(
@@ -221,18 +250,47 @@ export const useMonoCoolerDebt = () => {
       collateralAmount,
       delegationRequests = [],
       fullRepay = false,
+      isAuthorized = false,
     }: {
       repayAmount: DecimalBigNumber;
       collateralAmount: DecimalBigNumber;
       delegationRequests?: IDLGTEv1.DelegationRequestStruct[];
       fullRepay?: boolean;
+      isAuthorized?: boolean;
     }) => {
       if (!position || !address) throw new Error("No position or address");
       if (!signer) throw new Error("No signer available");
 
-      const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
       const amountToRepay = calculateRepayAmount(repayAmount, position.interestRateBps, fullRepay);
+      const contract = COOLER_V2_COMPOSITES_CONTRACT.getEthersContract(chain.id).connect(signer);
 
+      // For smart contract wallets that are already authorized, use empty auth/sig
+      if (isAuthorized) {
+        const emptyAuth = {
+          account: "0x0000000000000000000000000000000000000000",
+          authorized: "0x0000000000000000000000000000000000000000",
+          authorizationDeadline: 0,
+          nonce: 0,
+          signatureDeadline: 0,
+        };
+        const emptySig = {
+          v: 0,
+          r: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          s: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        };
+
+        const tx = await contract.repayAndRemoveCollateral(
+          emptyAuth,
+          emptySig,
+          amountToRepay.toBigNumber(18),
+          collateralAmount.toBigNumber(18),
+          delegationRequests,
+        );
+        await tx.wait();
+        return tx;
+      }
+
+      // For EOAs, use signature-based authorization
       const { auth, signature } = await authSignature();
 
       const tx = await contract.repayAndRemoveCollateral(

@@ -12,6 +12,8 @@ import { CollateralInputCard } from "src/views/Lending/CoolerV2/components/Colla
 import { DebtInputCard } from "src/views/Lending/CoolerV2/components/DebtInputCard";
 import { LoanInformation } from "src/views/Lending/CoolerV2/components/LoanInformation";
 import { LoanToValueSlider } from "src/views/Lending/CoolerV2/components/LoanToValueSlider";
+import { useIsSmartContractWallet } from "src/views/Lending/CoolerV2/hooks/useIsSmartContractWallet";
+import { useMonoCoolerAuthorization } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerAuthorization";
 import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { calculateRepayAmount, useMonoCoolerDebt } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDebt";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
@@ -40,6 +42,10 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
     useMonoCoolerDebt();
   const { address } = useAccount();
 
+  // Multisig support
+  const { isSmartContractWallet } = useIsSmartContractWallet();
+  const { isAuthorized, setAuthorization } = useMonoCoolerAuthorization();
+
   const {
     // State
     collateralAmount,
@@ -65,7 +71,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
 
   if (!position) return null;
 
-  const interactWithComposites =
+  const wouldUseComposites =
     // Case 1: Borrowing with collateral
     (!isRepayMode &&
       collateralAmount.gt(new DecimalBigNumber("0", 18)) &&
@@ -75,8 +81,14 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
       borrowAmount.gt(new DecimalBigNumber("0", 18)) &&
       collateralToBeReleased.gt(new DecimalBigNumber("0", 18)));
 
+  // For composites, always use the composite contract (for token approvals)
+  const interactWithComposites = wouldUseComposites;
+
   // Check if repay amount exceeds wallet balance
   const exceedsDebtBalance = isRepayMode && borrowAmount.gt(debtBalance || new DecimalBigNumber("0", 18));
+
+  // Check if multisig needs authorization
+  const multisigNeedsAuth = isSmartContractWallet && wouldUseComposites && !isAuthorized;
 
   return (
     <Modal
@@ -159,7 +171,8 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 withdrawCollateral.isLoading ||
                 repayAndRemoveCollateral.isLoading ||
                 addCollateralAndBorrow.isLoading ||
-                addCollateral.isLoading;
+                addCollateral.isLoading ||
+                setAuthorization.isLoading;
 
               // Check if collateral exceeds balance
               const exceedsCollateralBalance =
@@ -177,21 +190,23 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
               const exceedsCurrentDebt = isRepayMode && borrowAmount.gt(currentDebt);
 
               // Get appropriate button text
-              const buttonText = isRepayMode
-                ? withdrawOnly
-                  ? "Withdraw Collateral"
-                  : "Repay Loan"
-                : loan
-                  ? borrowAmount.gt(new DecimalBigNumber("0", 18))
-                    ? "Borrow More"
-                    : collateralAmount.gt(new DecimalBigNumber("0", 18))
-                      ? "Supply Collateral"
-                      : "Enter Amount"
-                  : borrowAmount.gt(new DecimalBigNumber("0", 18))
-                    ? "Create Loan"
-                    : collateralAmount.gt(new DecimalBigNumber("0", 18))
-                      ? "Supply Collateral"
-                      : "Enter Amount";
+              const buttonText = multisigNeedsAuth
+                ? "Authorize Composites Contract"
+                : isRepayMode
+                  ? withdrawOnly
+                    ? "Withdraw Collateral"
+                    : "Repay Loan"
+                  : loan
+                    ? borrowAmount.gt(new DecimalBigNumber("0", 18))
+                      ? "Borrow More"
+                      : collateralAmount.gt(new DecimalBigNumber("0", 18))
+                        ? "Supply Collateral"
+                        : "Enter Amount"
+                    : borrowAmount.gt(new DecimalBigNumber("0", 18))
+                      ? "Create Loan"
+                      : collateralAmount.gt(new DecimalBigNumber("0", 18))
+                        ? "Supply Collateral"
+                        : "Enter Amount";
 
               // Check all disable conditions
               if (isLoading) {
@@ -299,6 +314,12 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                   <PrimaryButton
                     fullWidth
                     onClick={() => {
+                      // If multisig needs authorization, authorize first
+                      if (multisigNeedsAuth) {
+                        setAuthorization.mutate({});
+                        return;
+                      }
+
                       if (isRepayMode) {
                         if (withdrawOnly) {
                           withdrawCollateral.mutate({
@@ -311,6 +332,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                                 repayAmount: borrowAmount,
                                 collateralAmount: collateralToBeReleased,
                                 fullRepay: borrowAmount.eq(currentDebt),
+                                isAuthorized: isAuthorized || false,
                               },
                               {
                                 onSuccess: () => {
@@ -342,6 +364,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                               {
                                 collateralAmount: collateralAmount,
                                 borrowAmount: borrowAmount,
+                                isAuthorized: isAuthorized || false,
                               },
                               {
                                 onSuccess: () => {
