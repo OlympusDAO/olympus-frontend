@@ -104,7 +104,7 @@ export const ManageDelegation = () => {
               {address && (
                 <GovernanceTableRow
                   tokenName={`Wallet Voting Power`}
-                  delegatorAddress={GOHM_ADDRESSES[networks.MAINNET_HOLESKY]}
+                  delegatorAddress={GOHM_ADDRESSES[networks.MAINNET_SEPOLIA]}
                   delegationAddress={gOHMDelegationAddress}
                   setDelegateVoting={setDelegateVoting}
                   balance={gohmBalance?.formatted}

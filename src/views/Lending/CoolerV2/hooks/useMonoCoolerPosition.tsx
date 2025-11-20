@@ -11,17 +11,17 @@ export const useMonoCoolerPosition = () => {
   const networks = useTestableNetworks();
 
   return useQuery(
-    ["monoCoolerPosition", address, networks.MAINNET_HOLESKY],
+    ["monoCoolerPosition", address, networks.MAINNET_SEPOLIA],
     async () => {
       if (!address) return null;
 
       const config = {
-        address: COOLER_V2_MONOCOOLER_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`,
+        address: COOLER_V2_MONOCOOLER_ADDRESSES[networks.MAINNET_SEPOLIA] as `0x${string}`,
         abi: CoolerV2MonoCooler__factory.abi,
       };
 
       const compositeConfig = {
-        address: COOLER_V2_COMPOSITES_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`,
+        address: COOLER_V2_COMPOSITES_ADDRESSES[networks.MAINNET_SEPOLIA] as `0x${string}`,
         abi: CoolerV2Composites__factory.abi,
       };
 

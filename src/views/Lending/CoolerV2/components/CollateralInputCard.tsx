@@ -26,8 +26,8 @@ export const CollateralInputCard = ({
 }: CollateralInputCardProps) => {
   const networks = useTestableNetworks();
   const { data: position } = useMonoCoolerPosition();
-  const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: collateralBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.collateralAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
 
   const hasDebt = currentDebt && !currentDebt.eq(new DecimalBigNumber("0", 18));

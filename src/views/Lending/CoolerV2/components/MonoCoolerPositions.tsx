@@ -38,9 +38,10 @@ export const MonoCoolerPositions = ({
   const [createLoanModalOpen, setCreateLoanModalOpen] = useState(false);
   const [isRepayMode, setIsRepayMode] = useState(false);
 
-  if (!position) return null;
+  if (!position) return <>hi</>;
 
   const hasActivePosition = position.collateral.gt(0);
+  console.log({ position, hasActivePosition });
 
   if (!hasActivePosition && position.isEnabled) {
     return (

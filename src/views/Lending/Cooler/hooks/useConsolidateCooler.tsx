@@ -20,7 +20,7 @@ export const useConsolidateCooler = () => {
   const previewConsolidate = async (coolers: string[]) => {
     if (!provider) throw new Error("Please connect a wallet");
     const contract = CoolerV2Migrator__factory.connect(
-      COOLER_V2_MIGRATOR_CONTRACT.addresses[networks.MAINNET_HOLESKY],
+      COOLER_V2_MIGRATOR_CONTRACT.addresses[networks.MAINNET_SEPOLIA],
       provider,
     );
     const [collateralAmount, borrowAmount] = await contract.previewConsolidate(coolers);
@@ -36,13 +36,13 @@ export const useConsolidateCooler = () => {
 
       // 1. Get nonce from V2 contract for new owner
       const v2Contract = CoolerV2MonoCooler__factory.connect(
-        COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_HOLESKY),
+        COOLER_V2_MONOCOOLER_CONTRACT.getAddress(networks.MAINNET_SEPOLIA),
         provider,
       );
       const nonce = await v2Contract.authorizationNonces(address);
 
       // 2. Generate EIP-712 signature
-      const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_HOLESKY);
+      const migratorAddress = COOLER_V2_MIGRATOR_CONTRACT.getAddress(networks.MAINNET_SEPOLIA);
       const v2ContractAddress = v2Contract.address;
       if (!migratorAddress || !v2ContractAddress) throw new Error("Missing contract addresses");
 
@@ -53,7 +53,7 @@ export const useConsolidateCooler = () => {
         userAddress: address,
         authorizedAddress: migratorAddress as `0x${string}`,
         verifyingContract: v2ContractAddress as `0x${string}`,
-        chainId: networks.MAINNET_HOLESKY,
+        chainId: networks.MAINNET_SEPOLIA,
         nonce: nonce.toString(),
         signTypedDataAsync,
       });

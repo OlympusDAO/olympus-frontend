@@ -32,11 +32,11 @@ interface CreateOrRepayLoanV2Props {
 export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode }: CreateOrRepayLoanV2Props) => {
   const networks = useTestableNetworks();
   const { data: position } = useMonoCoolerPosition();
-  const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: collateralBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.collateralAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
-  const { data: debtBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.debtAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: debtBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.debtAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
   const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
@@ -289,7 +289,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
               return (
                 <TokenAllowanceGuard
                   tokenAddressMap={{
-                    [networks.MAINNET_HOLESKY]: isRepayMode ? position.debtAddress : position.collateralAddress,
+                    [networks.MAINNET_SEPOLIA]: isRepayMode ? position.debtAddress : position.collateralAddress,
                   }}
                   spenderAddressMap={
                     interactWithComposites ? COOLER_V2_COMPOSITES_ADDRESSES : COOLER_V2_MONOCOOLER_ADDRESSES
