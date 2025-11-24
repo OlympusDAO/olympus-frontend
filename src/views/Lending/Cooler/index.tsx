@@ -18,6 +18,13 @@ export const Cooler = () => {
     setTabIndex(queryTab === "metrics" ? "metrics" : "positions");
   }, [queryTab]);
 
+  // Redirect to external metrics URL if the metrics tab is accessed via bookmark
+  useEffect(() => {
+    if (queryTab === "metrics") {
+      window.location.href = "https://coolermetrics.olympusdao.finance";
+    }
+  }, [queryTab]);
+
   const getSearchParamsWithTab = (tabIndex: number) => {
     return updateSearchParams(searchParams, PARAM_TAB, tabIndex === 0 ? "positions" : "metrics");
   };

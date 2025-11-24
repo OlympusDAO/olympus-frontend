@@ -16,8 +16,8 @@ interface UseMonoCoolerCalculationsProps {
 export const useMonoCoolerCalculations = ({ loan, isRepayMode }: UseMonoCoolerCalculationsProps) => {
   const { data: position } = useMonoCoolerPosition();
   const networks = useTestableNetworks();
-  const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: collateralBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.collateralAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
 
   // Move state into the hook

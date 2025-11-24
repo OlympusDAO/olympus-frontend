@@ -1,6 +1,7 @@
 import { Box, SvgIcon } from "@mui/material";
 import { Modal, PrimaryButton, SwapCollection } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
+import { useMemo } from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -12,8 +13,11 @@ import { CollateralInputCard } from "src/views/Lending/CoolerV2/components/Colla
 import { DebtInputCard } from "src/views/Lending/CoolerV2/components/DebtInputCard";
 import { LoanInformation } from "src/views/Lending/CoolerV2/components/LoanInformation";
 import { LoanToValueSlider } from "src/views/Lending/CoolerV2/components/LoanToValueSlider";
+import { useIsSmartContractWallet } from "src/views/Lending/CoolerV2/hooks/useIsSmartContractWallet";
+import { useMonoCoolerAuthorization } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerAuthorization";
 import { useMonoCoolerCalculations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerCalculations";
 import { calculateRepayAmount, useMonoCoolerDebt } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDebt";
+import { useMonoCoolerDelegations } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerDelegations";
 import { useMonoCoolerPosition } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerPosition";
 import { useAccount } from "wagmi";
 
@@ -30,15 +34,20 @@ interface CreateOrRepayLoanV2Props {
 export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode }: CreateOrRepayLoanV2Props) => {
   const networks = useTestableNetworks();
   const { data: position } = useMonoCoolerPosition();
-  const { data: collateralBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.collateralAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: collateralBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.collateralAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
-  const { data: debtBalance } = useBalance({ [networks.MAINNET_HOLESKY]: position?.debtAddress || "" })[
-    networks.MAINNET_HOLESKY
+  const { data: debtBalance } = useBalance({ [networks.MAINNET_SEPOLIA]: position?.debtAddress || "" })[
+    networks.MAINNET_SEPOLIA
   ];
   const { borrow, repay, withdrawCollateral, repayAndRemoveCollateral, addCollateralAndBorrow, addCollateral } =
     useMonoCoolerDebt();
+  const { delegations } = useMonoCoolerDelegations();
   const { address } = useAccount();
+
+  // Multisig support
+  const { isSmartContractWallet } = useIsSmartContractWallet();
+  const { isAuthorized, setAuthorization } = useMonoCoolerAuthorization();
 
   const {
     // State
@@ -63,9 +72,35 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
 
   const withdrawOnly = isRepayMode && borrowAmount.eq(new DecimalBigNumber("0", 18));
 
+  // Calculate undelegated collateral amount
+  const undelegatedAmount = useMemo(() => {
+    if (!position) return new DecimalBigNumber("0", 18);
+
+    const totalCollateral = new DecimalBigNumber(position.collateral, 18);
+
+    // Calculate total delegated amount from delegation data
+    const totalDelegated =
+      delegations.data?.reduce(
+        (sum, delegation) => {
+          return sum.add(new DecimalBigNumber(delegation.totalAmount, 18));
+        },
+        new DecimalBigNumber("0", 18),
+      ) || new DecimalBigNumber("0", 18);
+
+    return totalCollateral.sub(totalDelegated);
+  }, [position, delegations.data]);
+
+  // Check if withdrawal amount exceeds undelegated amount
+  const exceedsUndelegatedAmount = useMemo(() => {
+    if (!isRepayMode) return false;
+
+    const withdrawalAmount = withdrawOnly ? collateralAmount : collateralToBeReleased;
+    return withdrawalAmount.gt(undelegatedAmount);
+  }, [isRepayMode, withdrawOnly, collateralAmount, collateralToBeReleased, undelegatedAmount]);
+
   if (!position) return null;
 
-  const interactWithComposites =
+  const wouldUseComposites =
     // Case 1: Borrowing with collateral
     (!isRepayMode &&
       collateralAmount.gt(new DecimalBigNumber("0", 18)) &&
@@ -75,8 +110,14 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
       borrowAmount.gt(new DecimalBigNumber("0", 18)) &&
       collateralToBeReleased.gt(new DecimalBigNumber("0", 18)));
 
+  // For composites, always use the composite contract (for token approvals)
+  const interactWithComposites = wouldUseComposites;
+
   // Check if repay amount exceeds wallet balance
   const exceedsDebtBalance = isRepayMode && borrowAmount.gt(debtBalance || new DecimalBigNumber("0", 18));
+
+  // Check if multisig needs authorization
+  const multisigNeedsAuth = isSmartContractWallet && wouldUseComposites && !isAuthorized;
 
   return (
     <Modal
@@ -159,7 +200,8 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 withdrawCollateral.isLoading ||
                 repayAndRemoveCollateral.isLoading ||
                 addCollateralAndBorrow.isLoading ||
-                addCollateral.isLoading;
+                addCollateral.isLoading ||
+                setAuthorization.isLoading;
 
               // Check if collateral exceeds balance
               const exceedsCollateralBalance =
@@ -177,21 +219,23 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
               const exceedsCurrentDebt = isRepayMode && borrowAmount.gt(currentDebt);
 
               // Get appropriate button text
-              const buttonText = isRepayMode
-                ? withdrawOnly
-                  ? "Withdraw Collateral"
-                  : "Repay Loan"
-                : loan
-                  ? borrowAmount.gt(new DecimalBigNumber("0", 18))
-                    ? "Borrow More"
-                    : collateralAmount.gt(new DecimalBigNumber("0", 18))
-                      ? "Supply Collateral"
-                      : "Enter Amount"
-                  : borrowAmount.gt(new DecimalBigNumber("0", 18))
-                    ? "Create Loan"
-                    : collateralAmount.gt(new DecimalBigNumber("0", 18))
-                      ? "Supply Collateral"
-                      : "Enter Amount";
+              const buttonText = multisigNeedsAuth
+                ? "Authorize Composites Contract"
+                : isRepayMode
+                  ? withdrawOnly
+                    ? "Withdraw Collateral"
+                    : "Repay Loan"
+                  : loan
+                    ? borrowAmount.gt(new DecimalBigNumber("0", 18))
+                      ? "Borrow More"
+                      : collateralAmount.gt(new DecimalBigNumber("0", 18))
+                        ? "Supply Collateral"
+                        : "Enter Amount"
+                    : borrowAmount.gt(new DecimalBigNumber("0", 18))
+                      ? "Create Loan"
+                      : collateralAmount.gt(new DecimalBigNumber("0", 18))
+                        ? "Supply Collateral"
+                        : "Enter Amount";
 
               // Check all disable conditions
               if (isLoading) {
@@ -242,6 +286,14 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                 );
               }
 
+              if (exceedsUndelegatedAmount) {
+                return (
+                  <PrimaryButton fullWidth disabled>
+                    You must undelegate before withdrawing
+                  </PrimaryButton>
+                );
+              }
+
               if (isRepayMode) {
                 if (withdrawOnly && withdrawCollateral.isLoading) {
                   return (
@@ -274,7 +326,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
               return (
                 <TokenAllowanceGuard
                   tokenAddressMap={{
-                    [networks.MAINNET_HOLESKY]: isRepayMode ? position.debtAddress : position.collateralAddress,
+                    [networks.MAINNET_SEPOLIA]: isRepayMode ? position.debtAddress : position.collateralAddress,
                   }}
                   spenderAddressMap={
                     interactWithComposites ? COOLER_V2_COMPOSITES_ADDRESSES : COOLER_V2_MONOCOOLER_ADDRESSES
@@ -299,6 +351,12 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                   <PrimaryButton
                     fullWidth
                     onClick={() => {
+                      // If multisig needs authorization, authorize first
+                      if (multisigNeedsAuth) {
+                        setAuthorization.mutate({});
+                        return;
+                      }
+
                       if (isRepayMode) {
                         if (withdrawOnly) {
                           withdrawCollateral.mutate({
@@ -311,6 +369,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                                 repayAmount: borrowAmount,
                                 collateralAmount: collateralToBeReleased,
                                 fullRepay: borrowAmount.eq(currentDebt),
+                                isAuthorized: isAuthorized || false,
                               },
                               {
                                 onSuccess: () => {
@@ -342,6 +401,7 @@ export const CreateOrRepayLoanV2 = ({ setModalOpen, modalOpen, loan, isRepayMode
                               {
                                 collateralAmount: collateralAmount,
                                 borrowAmount: borrowAmount,
+                                isAuthorized: isAuthorized || false,
                               },
                               {
                                 onSuccess: () => {

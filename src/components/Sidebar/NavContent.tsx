@@ -63,7 +63,7 @@ const NavContent: React.VFC = () => {
             <div className="dapp-nav" id="navbarNav">
               <NavItem to="/my-balances" icon="stake" label={`My Balances`} />
               {protocolMetricsEnabled && <NavItem to="/dashboard" icon="dashboard" label={`Protocol Metrics`} />}
-              {chain.id === networks.MAINNET_HOLESKY ? (
+              {chain.id === networks.MAINNET_SEPOLIA ? (
                 <>
                   <NavItem
                     customIcon={<SvgIcon component={lendAndBorrowIcon} viewBox="0 0 21 21" />}
