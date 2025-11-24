@@ -21,7 +21,7 @@ export const useTestableNetworks = () => {
     POLYGON: getTestnet(NetworkId.POLYGON, NetworkId.POLYGON_TESTNET, chain.id),
     FANTOM: getTestnet(NetworkId.FANTOM, NetworkId.FANTOM_TESTNET, chain.id),
     BASE: getTestnet(NetworkId.BASE, NetworkId.BASE_TESTNET, chain.id),
-    MAINNET_HOLESKY: getTestnet(NetworkId.MAINNET, NetworkId.HOLESKY, chain.id),
+    MAINNET_SEPOLIA: getTestnet(NetworkId.MAINNET, NetworkId.SEPOLIA, chain.id),
     BERACHAIN: getTestnet(NetworkId.BERACHAIN, NetworkId.BERACHAIN_TESTNET, chain.id),
   };
 };

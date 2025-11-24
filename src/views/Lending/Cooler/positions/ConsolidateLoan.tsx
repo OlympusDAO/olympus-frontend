@@ -134,8 +134,21 @@ export const ConsolidateLoans = ({
   const handleConsolidate = () => {
     const coolers = [sourceCoolerAddress].filter(Boolean) as string[];
     if (!coolers.length || !newOwner) return;
+
+    // Check if multisig needs authorization first
+    if (coolerMutation.isSmartContractWallet && !coolerMutation.isMigratorAuthorized) {
+      coolerMutation.setMigratorAuthorization.mutate(undefined, {
+        onSuccess: () => {
+          // After authorization succeeds, refetch and the button will change
+          setConfirmModalOpen(false);
+        },
+      });
+      return;
+    }
+
+    // Normal flow (EOA or authorized multisig)
     coolerMutation.mutate(
-      { coolers, newOwner },
+      { coolers, newOwner, isAuthorized: coolerMutation.isMigratorAuthorized || false },
       {
         onSuccess: () => {
           setOpen(false);
@@ -163,6 +176,12 @@ export const ConsolidateLoans = ({
   const migratorAddress = COOLER_V2_MIGRATOR_ADDRESSES[migratorAddressKey];
   const coolerAddress = sourceCoolerAddress;
 
+  // Check if multisig needs authorization
+  const multisigNeedsAuth = coolerMutation.isSmartContractWallet && !coolerMutation.isMigratorAuthorized;
+
+  // Update button text based on authorization status
+  const buttonText = multisigNeedsAuth ? "Authorize Migrator Contract" : "Migrate Loans to Cooler V2";
+
   if (!showConsolidateButton) return null;
 
   return (
@@ -183,24 +202,48 @@ export const ConsolidateLoans = ({
       >
         <>
           <Box mb={3}>
-            <Typography textAlign="center">
-              You are about to receive a signature request that allows the Olympus migrator contract (
-              <Link href={getExplorerUrl(migratorAddress)} target="_blank" rel="noopener noreferrer">
-                {migratorAddress.substring(0, 6)}...{migratorAddress.substring(migratorAddress.length - 4)}
-              </Link>
-              ) to act on behalf of your Cooler (
-              <Link href={getExplorerUrl(coolerAddress || "")} target="_blank" rel="noopener noreferrer">
-                {coolerAddress
-                  ? `${coolerAddress.substring(0, 6)}...${coolerAddress.substring(coolerAddress.length - 4)}`
-                  : ""}
-              </Link>
-              ).
-            </Typography>
-            <Typography textAlign="center" mt={2}>
-              After signing the message, you will receive a request to approve the contract call.
-            </Typography>
+            {multisigNeedsAuth ? (
+              <>
+                <Typography textAlign="center">
+                  <strong>Multisig Wallet: Authorization Required</strong>
+                </Typography>
+                <Typography textAlign="center" mt={2}>
+                  Before migrating, you must authorize the Olympus migrator contract (
+                  <Link href={getExplorerUrl(migratorAddress)} target="_blank" rel="noopener noreferrer">
+                    {migratorAddress.substring(0, 6)}...{migratorAddress.substring(migratorAddress.length - 4)}
+                  </Link>
+                  ) to act on your behalf. This authorization lasts 72 hours.
+                </Typography>
+                <Typography textAlign="center" mt={2}>
+                  After authorization completes, you can proceed with the migration.
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography textAlign="center">
+                  {coolerMutation.isSmartContractWallet
+                    ? "You are about to migrate your loans using the authorized Olympus migrator contract ("
+                    : "You are about to receive a signature request that allows the Olympus migrator contract ("}
+                  <Link href={getExplorerUrl(migratorAddress)} target="_blank" rel="noopener noreferrer">
+                    {migratorAddress.substring(0, 6)}...{migratorAddress.substring(migratorAddress.length - 4)}
+                  </Link>
+                  ) to act on behalf of your Cooler (
+                  <Link href={getExplorerUrl(coolerAddress || "")} target="_blank" rel="noopener noreferrer">
+                    {coolerAddress
+                      ? `${coolerAddress.substring(0, 6)}...${coolerAddress.substring(coolerAddress.length - 4)}`
+                      : ""}
+                  </Link>
+                  ).
+                </Typography>
+                <Typography textAlign="center" mt={2}>
+                  {coolerMutation.isSmartContractWallet
+                    ? "You will receive a request to approve the contract call."
+                    : "After signing the message, you will receive a request to approve the contract call."}
+                </Typography>
+              </>
+            )}
           </Box>
-          <PrimaryButton onClick={handleContinue} fullWidth>
+          <PrimaryButton onClick={handleContinue} fullWidth loading={coolerMutation.setMigratorAuthorization.isLoading}>
             Continue
           </PrimaryButton>
         </>
@@ -357,11 +400,16 @@ export const ConsolidateLoans = ({
               >
                 <PrimaryButton
                   onClick={openConfirmModal}
-                  loading={coolerMutation.isLoading}
-                  disabled={coolerMutation.isLoading || !selectedVersion || !isValidAddress}
+                  loading={coolerMutation.isLoading || coolerMutation.setMigratorAuthorization.isLoading}
+                  disabled={
+                    coolerMutation.isLoading ||
+                    coolerMutation.setMigratorAuthorization.isLoading ||
+                    !selectedVersion ||
+                    !isValidAddress
+                  }
                   fullWidth
                 >
-                  Migrate Loans to Cooler V2
+                  {buttonText}
                 </PrimaryButton>
               </TokenAllowanceGuard>
             </WalletConnectedGuard>

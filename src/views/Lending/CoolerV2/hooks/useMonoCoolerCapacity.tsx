@@ -7,22 +7,22 @@ import { ERC4626__factory } from "src/typechain";
 
 export const useMonoCoolerCapacity = () => {
   const networks = useTestableNetworks();
-  const provider = Providers.getStaticProvider(networks.MAINNET_HOLESKY);
+  const provider = Providers.getStaticProvider(networks.MAINNET_SEPOLIA);
 
-  return useQuery(["monoCoolerCapacity", networks.MAINNET_HOLESKY], async () => {
+  return useQuery(["monoCoolerCapacity", networks.MAINNET_SEPOLIA], async () => {
     const [sDebtTokenBalance] = await multicall({
       contracts: [
         {
           abi: ERC4626__factory.abi,
-          address: SUSDS_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`,
+          address: SUSDS_ADDRESSES[networks.MAINNET_SEPOLIA] as `0x${string}`,
           functionName: "balanceOf",
-          args: [DAO_TREASURY_ADDRESSES[networks.MAINNET_HOLESKY] as `0x${string}`],
+          args: [DAO_TREASURY_ADDRESSES[networks.MAINNET_SEPOLIA] as `0x${string}`],
         },
       ],
     });
 
     const debtTokenBalance = await ERC4626__factory.connect(
-      SUSDS_ADDRESSES[networks.MAINNET_HOLESKY],
+      SUSDS_ADDRESSES[networks.MAINNET_SEPOLIA],
       provider,
     ).convertToAssets(sDebtTokenBalance);
 

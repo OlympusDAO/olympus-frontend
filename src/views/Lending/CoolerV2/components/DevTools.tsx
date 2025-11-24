@@ -13,12 +13,12 @@ export const DevTools = () => {
   const { data: signer } = useSigner();
   const { address } = useAccount();
 
-  // Only show on Holesky testnet
-  if (chain.id !== NetworkId.HOLESKY) return null;
+  // Only show on Sepolia testnet
+  if (chain.id !== NetworkId.SEPOLIA) return null;
 
   const mintGohm = async () => {
     if (!signer || !address) return;
-    const gohmContract = GOHM__factory.connect(GOHM_ADDRESSES[networks.MAINNET_HOLESKY], signer);
+    const gohmContract = GOHM__factory.connect(GOHM_ADDRESSES[networks.MAINNET_SEPOLIA], signer);
     const amount = new DecimalBigNumber("1000", 18);
     const tx = await gohmContract.mint(address, amount.toBigNumber());
     await tx.wait();
@@ -26,7 +26,7 @@ export const DevTools = () => {
 
   const mintUsds = async () => {
     if (!signer || !address) return;
-    const usdsContract = GOHM__factory.connect(USDS_ADDRESSES[networks.MAINNET_HOLESKY], signer);
+    const usdsContract = GOHM__factory.connect(USDS_ADDRESSES[networks.MAINNET_SEPOLIA], signer);
     const amount = new DecimalBigNumber("10000", 18);
     const tx = await usdsContract.mint(address, amount.toBigNumber());
     await tx.wait();

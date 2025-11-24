@@ -173,10 +173,10 @@ export class Environment {
           key: `VITE_BASE_TESTNET_NODE_URL`,
           fallback: "https://sepolia.base.org",
         });
-      case NetworkId.HOLESKY:
+      case NetworkId.SEPOLIA:
         return this._get({
-          key: `VITE_HOLESKY_NODE_URL`,
-          fallback: "https://ethereum-holesky.publicnode.com",
+          key: `VITE_SEPOLIA_NODE_URL`,
+          fallback: "https://ethereum-sepolia.publicnode.com",
         });
       case NetworkId.BERACHAIN:
         return this._get({
