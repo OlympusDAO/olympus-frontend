@@ -1,9 +1,10 @@
 import { Box, Link, Paper, SvgIcon, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
+import rewardsIcon from "src/assets/icons/rewards.svg?react";
 import NavItem from "src/components/library/NavItem";
 import { formatCurrency } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
@@ -29,6 +30,7 @@ const NavContent: React.VFC = () => {
   const networks = useTestableNetworks();
   const { data: ohmPrice } = usePriceContractPrice();
   const { data: gohmPrice } = useGohmPriceContract();
+  const theme = useTheme();
 
   const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
@@ -82,6 +84,30 @@ const NavContent: React.VFC = () => {
                 </>
               )}
               <NavItem icon="bridge" label={`Bridge`} to="/bridge" />
+              <NavItem
+                customIcon={<SvgIcon component={rewardsIcon} viewBox="0 0 21 21" />}
+                label={
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    Rewards
+                    <Box
+                      sx={{
+                        width: "30px",
+                        height: "16px",
+                        border: `1px solid`,
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography fontSize="10px" fontWeight={600}>
+                        Soon
+                      </Typography>
+                    </Box>
+                  </Box>
+                }
+                to="/rewards"
+              />
             </div>
           </div>
         </div>
