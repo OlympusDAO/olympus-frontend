@@ -96,7 +96,7 @@ interface MatchProps {
 }
 
 export interface OHMNavItemProps extends LinkProps {
-  label: string;
+  label: ReactNode;
   customIcon?: ReactNode;
   icon?: IconName;
   chip?: string | ReactNode;
