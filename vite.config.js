@@ -26,6 +26,12 @@ export default ({ mode }) => {
               mode === "development" ?
                 "https://olympus-cooler-loans-api-dev.web.app" : // Avoids CORS errors during local development
                 "https://olympus-cooler-loans-api-prod.web.app", // Used in production builds
+          "OLYMPUS_UNITS_API_ENDPOINT":
+            process.env.VITE_OLYMPUS_UNITS_API_ENDPOINT ?
+              process.env.VITE_OLYMPUS_UNITS_API_ENDPOINT :
+              mode === "development" ?
+                "https://dev-olympus-api.callisto.finance" : // Staging server for development
+                "https://api.olympusdao.finance", // Production server
         },
       }),
     ],

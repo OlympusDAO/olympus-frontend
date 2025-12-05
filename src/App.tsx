@@ -42,7 +42,9 @@ import { ProposalPage } from "src/views/Governance/Proposals";
 import { Cooler } from "src/views/Lending/Cooler";
 import { Vault } from "src/views/Liquidity/Vault";
 import { MyBalances } from "src/views/MyBalances";
-import { RewardsSoonAnimation } from "src/views/Rewards/components/RewardsSoonAnimation";
+import { ManagerPageRewards } from "src/views/Rewards/pages/ManagerPageRewards";
+import { UserPageRewards } from "src/views/Rewards/pages/UserPageRewards";
+/*import { RewardsSoonAnimation } from "src/views/Rewards/components/RewardsSoonAnimation";*/
 import { Utility } from "src/views/Utility";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
@@ -266,7 +268,9 @@ function App() {
                   <Route path="/governance/proposals/:id" element={<ProposalPage />} />
                   <Route path="/governance/delegate" element={<Delegate />} />
                   <Route path="/governance/delegate/:id" element={<DelegateDetails />} />
-                  <Route path="/rewards" element={<RewardsSoonAnimation />} />
+                  <Route path="/rewards" element={<UserPageRewards />} />
+                  <Route path="/manager-rewards" element={<ManagerPageRewards />} />
+                  {/*<Route path="/rewards" element={<RewardsSoonAnimation />} />*/}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
