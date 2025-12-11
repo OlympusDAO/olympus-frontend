@@ -13,7 +13,25 @@ export default defineConfig({
           name: "customHttpClient",
         },
         useTypeOverInterfaces: true,
-      }
+      },
+    },
+    hooks: {
+      afterAllFilesWrite: "yarn lint:fix",
+    },
+  },
+  olympusUnits: {
+    input: "tmp/olympus-units-api.yaml",
+    output: {
+      target: "src/generated/olympusUnits.ts",
+      client: "react-query",
+      clean: false,
+      override: {
+        mutator: {
+          path: "src/views/Rewards/hooks/customHttpClient.ts",
+          name: "customHttpClient",
+        },
+        useTypeOverInterfaces: true,
+      },
     },
     hooks: {
       afterAllFilesWrite: "yarn lint:fix",
