@@ -15,11 +15,11 @@ import { Icon } from "@olympusdao/component-library";
 import { useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
-import { AdminUserRewardEntry } from "src/generated/olympusUnits";
+import { EpochsEpochRewardUser } from "src/generated/olympusUnits";
 import { abbreviatedNumber, formatNumber, shorten } from "src/helpers";
 
 interface ManageEpochTableProps {
-  users: AdminUserRewardEntry[];
+  users: EpochsEpochRewardUser[];
   totalUserCount: number;
 }
 
@@ -65,9 +65,6 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset to first page when changing rows per page
   };
-
-  const isLoading = false;
-  const error = false;
 
   return (
     <Box
@@ -194,53 +191,13 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
             </TableRow>
           </TableHead>
           <TableBody>
-            {isLoading ? (
-              <TableRow
-                sx={{
-                  bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-                  borderBottom: "none",
-                }}
-              >
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    textAlign: "center",
-                    height: "96px",
-                    color: theme.colors.gray[40],
-                    borderBottom: "none",
-                    padding: "12px",
-                  }}
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : error ? (
-              <TableRow
-                sx={{
-                  bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-                  borderBottom: "none",
-                }}
-              >
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    textAlign: "center",
-                    height: "96px",
-                    color: theme.palette.mode === "dark" ? "#f87171" : "#dc2626",
-                    borderBottom: "none",
-                    padding: "12px",
-                  }}
-                >
-                  Error loading leaderboard
-                </TableCell>
-              </TableRow>
-            ) : users.length > 0 ? (
+            {users.length > 0 ? (
               users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 const paginatedEntries = users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
                 return (
                   <TableRow
-                    key={row.address + row.asset}
+                    key={row.userAddress + row.rewardAssetId}
                     sx={{
                       bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
                       transition: "background-color 0.2s",
@@ -264,7 +221,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                         borderBottom: "none",
                       }}
                     >
-                      <AddressCell address={row.address} theme={theme} />
+                      <AddressCell address={row.userAddress} theme={theme} />
                     </TableCell>
                     <TableCell
                       sx={{
@@ -276,7 +233,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                       <Box display="flex" alignItems="center" gap="4px">
                         <SvgIcon sx={{ fontSize: "14px" }} component={DrachmaIcon} />
                         <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                          {formatNumber(parseFloat(row.totalUnits), 0)}
+                          {formatNumber(parseFloat(row.units), 0)}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -306,7 +263,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                         {new Intl.NumberFormat("en-US", {
                           style: "percent",
                           maximumFractionDigits: 1,
-                        }).format(row.share / 100)}
+                        }).format(parseFloat(row.rewardShare))}
                       </Typography>
                     </TableCell>
                     <TableCell
@@ -325,7 +282,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                           fontFamily: "monospace",
                         }}
                       >
-                        {row.merkleLeaf}
+                        {typeof row.merkleLeaf === "string" ? shorten(row.merkleLeaf) : "N/A"}
                       </Typography>
                     </TableCell>
                   </TableRow>

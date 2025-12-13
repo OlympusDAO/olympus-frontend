@@ -7,7 +7,7 @@ import DepositRewardsDistributorABI from "src/abi/DepositRewardsDistributor.json
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import USDSIcon from "src/assets/icons/USDS.svg?react";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
-import { LibChainId, useGETUsersUserHistory } from "src/generated/olympusUnits";
+import { LibChainId, useGETUserUserHistory } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
@@ -121,7 +121,7 @@ export const RewardsHistoryTable = () => {
 
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
   // Fetch user history data from API
-  const { data: userHistoryData, isLoading } = useGETUsersUserHistory(
+  const { data: userHistoryData, isLoading } = useGETUserUserHistory(
     address || "",
     {
       chainId,

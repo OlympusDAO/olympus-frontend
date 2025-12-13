@@ -1,16 +1,16 @@
-import { Box, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES, SAFE_REWARDS_ADDRESSES } from "src/constants/addresses";
 import {
   AdminEpochStatus,
   LibChainId,
-  useGETAdminEpochDetails,
   useGETAdminPendingEpochs,
-  usePOSTAdminProposeEpochTransaction,
+  useGETEpochsEpochRewardUsers,
+  usePOSTAdminPrepareEpochTransactionApi,
 } from "src/generated/olympusUnits";
 import { ManageEpochStats } from "src/views/Rewards/components/ManageEpochStats";
 import { ManageEpochTable } from "src/views/Rewards/components/ManageEpochTable";
+import { useAuth } from "src/views/Rewards/hooks/useAuth";
 import { useAccount, useNetwork } from "wagmi";
 
 export const ManagerPageRewards = () => {
@@ -19,34 +19,37 @@ export const ManagerPageRewards = () => {
   const { address: userAddress } = useAccount();
   const [selectedEpochIndex, setSelectedEpochIndex] = useState(0);
 
+  // Authentication
+  const { isAuthenticated, isAuthenticating, signIn } = useAuth();
+
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
-  // Mutation for submitting proposal
-  const proposeMutation = usePOSTAdminProposeEpochTransaction();
+  // Mutation for preparing transaction
+  const prepareMutation = usePOSTAdminPrepareEpochTransactionApi();
 
-  const safeAddress = SAFE_REWARDS_ADDRESSES[chainId as keyof typeof SAFE_REWARDS_ADDRESSES];
-  const rewardDistributorAddress =
-    DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES[chainId as keyof typeof DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES];
-
-  // Fetch list of epochs
+  // Fetch list of pending epochs
   const { data: pendingEpochsData, isLoading: isLoadingEpochs } = useGETAdminPendingEpochs({
     chainId,
-    safeAddress,
-    rewardDistributorAddress,
   });
 
   const epochs = pendingEpochsData?.epochs || [];
   const selectedEpoch = epochs[selectedEpochIndex];
+  const safeAddress = pendingEpochsData?.safeAddress;
 
-  // Fetch details for selected epoch
-  const { data: epochDetails, isLoading: isLoadingDetails } = useGETAdminEpochDetails(
-    selectedEpoch?.startTimestamp || 0,
+  // Fetch users for selected epoch
+  // Note: We need both epochId and rewardAssetId. For now, we'll use the first asset
+  const firstRewardAssetId = selectedEpoch?.epochRewardsId;
+
+  const { data: epochUsersData, isLoading: isLoadingUsers } = useGETEpochsEpochRewardUsers(
+    selectedEpoch?.epochId || 0,
+    firstRewardAssetId || 0,
     {
-      chainId,
+      limit: 100, // Get top 100 users
+      sortOrder: "desc" as const,
     },
     {
       query: {
-        enabled: !!selectedEpoch,
+        enabled: !!selectedEpoch && !!firstRewardAssetId,
       },
     },
   );
@@ -57,11 +60,11 @@ export const ManagerPageRewards = () => {
 
   const getStatusColor = (status: AdminEpochStatus) => {
     switch (status) {
-      case AdminEpochStatus.NOT_SUBMITTED:
+      case AdminEpochStatus.pending:
         return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
-      case AdminEpochStatus.PENDING_SIGNATURES:
+      case AdminEpochStatus.calculated:
         return theme.palette.mode === "dark" ? "#4A9EFF" : "#4A9EFF";
-      case AdminEpochStatus.EXECUTED:
+      case AdminEpochStatus.distributed:
         return theme.palette.mode === "dark" ? "#6FCF97" : "#6FCF97";
       default:
         return theme.colors.gray[40];
@@ -69,18 +72,60 @@ export const ManagerPageRewards = () => {
   };
 
   const handleSubmitProposal = () => {
-    if (!userAddress || !selectedEpoch) return;
+    if (!selectedEpoch) return;
 
-    proposeMutation.mutate({
-      startTimestamp: selectedEpoch.startTimestamp,
-      data: {
-        chainId,
-        safeAddress,
-        rewardDistributorAddress,
-        callerAddress: userAddress,
-      },
+    // Call prepare transaction API
+    prepareMutation.mutate({
+      epochRewardsId: selectedEpoch.epochRewardsId,
     });
   };
+
+  // Show authentication UI if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <section>
+        <Box mb="23px" pl="31px">
+          <Typography component="h1" fontSize="32px" lineHeight="36px" m={0} fontWeight={600}>
+            Rewards Manager
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+          <Paper
+            sx={{
+              background: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
+              padding: "48px",
+              borderRadius: "24px",
+              textAlign: "center",
+              maxWidth: "500px",
+            }}
+          >
+            <Typography fontSize="18px" fontWeight={600} mb="16px" sx={{ color: theme.colors.gray[10] }}>
+              Authentication Required
+            </Typography>
+            <Typography fontSize="15px" mb="32px" sx={{ color: theme.colors.gray[40] }}>
+              {userAddress
+                ? "Sign in with your wallet to access the Rewards Manager."
+                : "Please connect your wallet to continue."}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={signIn}
+              disabled={!userAddress || isAuthenticating}
+              sx={{
+                textTransform: "none",
+                fontSize: "15px",
+                fontWeight: 500,
+                padding: "12px 32px",
+              }}
+            >
+              {isAuthenticating ? "Signing In..." : "Sign In with Wallet"}
+            </Button>
+          </Paper>
+        </Box>
+      </section>
+    );
+  }
 
   if (isLoadingEpochs) {
     return (
@@ -141,33 +186,35 @@ export const ManagerPageRewards = () => {
           </Box>
           <Box mt="16px" display="flex" gap="16px">
             <Box width="344px" flexShrink={0}>
-              {isLoadingDetails ? (
-                <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-                  <CircularProgress size={24} />
-                </Box>
+              {selectedEpoch ? (
+                <ManageEpochStats
+                  epochId={selectedEpoch.epochId}
+                  startTimestamp={selectedEpoch.startTimestamp}
+                  endTimestamp={selectedEpoch.endTimestamp}
+                  totalUnits={selectedEpoch.totalUnits}
+                  totalYield={selectedEpoch.totalRewardsDistributed}
+                  status={selectedEpoch.status}
+                  chainId={chainId}
+                  onSubmitProposal={handleSubmitProposal}
+                  isSubmitting={prepareMutation.isLoading}
+                />
               ) : (
-                epochDetails && (
-                  <ManageEpochStats
-                    epochId={epochDetails.epochId}
-                    startTimestamp={epochDetails.startTimestamp}
-                    endTimestamp={epochDetails.endTimestamp}
-                    totalUnits={epochDetails.totalUnits}
-                    totalYield={epochDetails.totalYield}
-                    status={selectedEpoch.status}
-                    chainId={chainId}
-                    onSubmitProposal={handleSubmitProposal}
-                    isSubmitting={proposeMutation.isLoading}
-                  />
-                )
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+                  <Typography>Select an epoch</Typography>
+                </Box>
               )}
             </Box>
             <Box flex={1} minWidth={0}>
-              {isLoadingDetails ? (
+              {isLoadingUsers ? (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
                   <CircularProgress size={24} />
                 </Box>
+              ) : epochUsersData ? (
+                <ManageEpochTable users={epochUsersData.users} totalUserCount={selectedEpoch?.userCount || 0} />
               ) : (
-                epochDetails && <ManageEpochTable users={epochDetails.users} totalUserCount={epochDetails.userCount} />
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+                  <Typography>No user data available</Typography>
+                </Box>
               )}
             </Box>
           </Box>

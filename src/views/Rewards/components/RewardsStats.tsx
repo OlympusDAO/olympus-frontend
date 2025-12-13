@@ -4,7 +4,7 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
-import { LibChainId, useGETRewardsCurrentEpoch } from "src/generated/olympusUnits";
+import { LibChainId, useGETEpochsCurrentEpoch } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 import { useNetwork } from "wagmi";
 
@@ -40,7 +40,7 @@ export const RewardsStats = () => {
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
   // Fetch current epoch data
-  const { data: epochData } = useGETRewardsCurrentEpoch({
+  const { data: epochData } = useGETEpochsCurrentEpoch({
     chainId,
   });
 

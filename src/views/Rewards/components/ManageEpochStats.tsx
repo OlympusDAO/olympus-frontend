@@ -41,12 +41,12 @@ export const ManageEpochStats = ({
 
   const getStatusLabel = (status: AdminEpochStatus) => {
     switch (status) {
-      case AdminEpochStatus.NOT_SUBMITTED:
-        return "Not Submitted";
-      case AdminEpochStatus.PENDING_SIGNATURES:
+      case AdminEpochStatus.pending:
         return "Pending";
-      case AdminEpochStatus.EXECUTED:
-        return "Executed";
+      case AdminEpochStatus.calculated:
+        return "Calculated";
+      case AdminEpochStatus.distributed:
+        return "Distributed";
       default:
         return status;
     }
@@ -181,7 +181,7 @@ export const ManageEpochStats = ({
           variant="contained"
           color="primary"
           onClick={onSubmitProposal}
-          disabled={status !== AdminEpochStatus.NOT_SUBMITTED || isSubmitting}
+          disabled={status !== AdminEpochStatus.calculated || isSubmitting}
           sx={{
             width: "100%",
             marginTop: "auto",

@@ -17,7 +17,7 @@ import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import Medal1Icon from "src/assets/icons/medal-1.svg?react";
 import Medal2Icon from "src/assets/icons/medal-2.svg?react";
 import Medal3Icon from "src/assets/icons/medal-3.svg?react";
-import { LibChainId, useGETUsersLeaderboard } from "src/generated/olympusUnits";
+import { LibChainId, useGETSeasonsLeaderboard } from "src/generated/olympusUnits";
 import { formatNumber, shorten } from "src/helpers";
 import { useAccount, useNetwork } from "wagmi";
 
@@ -128,7 +128,7 @@ export const RewardsLeaderboardTable = () => {
     data: leaderboardData,
     isLoading,
     error,
-  } = useGETUsersLeaderboard({
+  } = useGETSeasonsLeaderboard({
     userAddress,
     chainId,
     limit: rowsPerPage,
