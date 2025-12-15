@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { LibChainId, useGETAuthVerify, usePOSTAuthGetNonce, usePOSTAuthLogin } from "src/generated/olympusUnits";
 import { clearAuthToken, getAuthToken, setAuthToken } from "src/views/Rewards/hooks/customHttpClient";
@@ -8,6 +9,7 @@ export const useAuth = () => {
   const { chain } = useNetwork();
   const { signMessageAsync } = useSignMessage();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const queryClient = useQueryClient();
 
   // Check if user is authenticated
   const { data: verifyData, refetch: refetchVerify } = useGETAuthVerify({
@@ -61,6 +63,15 @@ export const useAuth = () => {
       // Step 5: Verify authentication
       await refetchVerify();
 
+      // Step 6: Invalidate admin queries to trigger refetch with new auth token
+      await queryClient.invalidateQueries({ queryKey: ["/admin/epochs/pending"] });
+      await queryClient.invalidateQueries({
+        predicate: query => {
+          const key = query.queryKey[0];
+          return typeof key === "string" && key.startsWith("/epochs/");
+        },
+      });
+
       return loginResponse;
     } catch (error) {
       console.error("Authentication failed:", error);
@@ -68,7 +79,7 @@ export const useAuth = () => {
     } finally {
       setIsAuthenticating(false);
     }
-  }, [address, chain?.id, getNonceMutation, loginMutation, signMessageAsync, refetchVerify]);
+  }, [address, chain?.id, getNonceMutation, loginMutation, signMessageAsync, refetchVerify, queryClient]);
 
   /**
    * Sign out - clear token

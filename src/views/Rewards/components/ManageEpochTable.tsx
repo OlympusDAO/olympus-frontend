@@ -1,3 +1,4 @@
+import { formatUnits } from "@ethersproject/units";
 import {
   Box,
   Link,
@@ -16,11 +17,23 @@ import { useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
 import { EpochsEpochRewardUser } from "src/generated/olympusUnits";
-import { abbreviatedNumber, formatNumber, shorten } from "src/helpers";
+import { formatNumber, shorten } from "src/helpers";
+
+// Format token amount from wei to human-readable format
+const formatTokenAmount = (amount: string, decimals: number): string => {
+  const formatted = parseFloat(formatUnits(amount, decimals));
+  if (formatted === 0) return "0";
+  if (formatted < 0.0001) return "< 0.0001";
+  if (formatted < 1) return formatted.toFixed(4);
+  if (formatted < 1000) return formatted.toFixed(2);
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(formatted);
+};
 
 interface ManageEpochTableProps {
   users: EpochsEpochRewardUser[];
   totalUserCount: number;
+  rewardAssetDecimals: number;
+  rewardAssetSymbol: string;
 }
 
 const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
@@ -50,7 +63,12 @@ const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
   );
 };
 
-export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProps) => {
+export const ManageEpochTable = ({
+  users,
+  totalUserCount,
+  rewardAssetDecimals,
+  rewardAssetSymbol,
+}: ManageEpochTableProps) => {
   const theme = useTheme();
 
   // Pagination state
@@ -246,7 +264,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                       <Box display="flex" alignItems="center" gap="4px">
                         <SvgIcon sx={{ fontSize: "14px" }} component={usdsIcon} />
                         <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                          {abbreviatedNumber.format(parseFloat(row.rewardAmount))}
+                          {formatTokenAmount(row.rewardAmount, rewardAssetDecimals)} {rewardAssetSymbol}
                         </Typography>
                       </Box>
                     </TableCell>

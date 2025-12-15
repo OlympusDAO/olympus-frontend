@@ -1,3 +1,4 @@
+import { formatUnits } from "@ethersproject/units";
 import { Box, Button, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +15,16 @@ import { NetworkId } from "src/networkDetails";
 import { ClaimRewardsModal } from "src/views/Rewards/components/ClaimRewardsModal";
 import { useClaimRewards } from "src/views/Rewards/hooks/useClaimRewards";
 import { useAccount, useNetwork } from "wagmi";
+
+// Format token amount from wei to human-readable format
+const formatTokenAmount = (amount: string, decimals: number): string => {
+  const formatted = parseFloat(formatUnits(amount, decimals));
+  if (formatted === 0) return "0";
+  if (formatted < 0.0001) return "< 0.0001";
+  if (formatted < 1) return formatted.toFixed(4);
+  if (formatted < 1000) return formatted.toFixed(2);
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(formatted);
+};
 
 // Hook to check if user has claimed for a specific epoch
 const useHasClaimed = (userAddress: string | undefined, epochEndDate: number) => {
@@ -40,6 +51,33 @@ const useHasClaimed = (userAddress: string | undefined, epochEndDate: number) =>
   });
 };
 
+// Hook to check if merkle root is set for a specific epoch
+const useHasMerkleRoot = (epochEndDate: number) => {
+  const { chain = { id: 11155111 } } = useNetwork();
+  const networkId = chain.id as NetworkId;
+  const contractAddress =
+    DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES[networkId as keyof typeof DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES];
+
+  const provider = Providers.getStaticProvider(networkId);
+
+  const contract = useMemo(() => {
+    if (!provider || !contractAddress) return null;
+    return new Contract(contractAddress, DepositRewardsDistributorABI, provider);
+  }, [provider, contractAddress]);
+
+  return useQuery({
+    queryKey: ["hasMerkleRoot", epochEndDate, networkId],
+    queryFn: async () => {
+      if (!contract) return false;
+      const result = await contract.weeklyMerkleRoots(epochEndDate);
+      // Check if merkle root is not zero (bytes32(0))
+      const zeroBytes32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
+      return result !== zeroBytes32 && result !== "0x0";
+    },
+    enabled: !!contract,
+  });
+};
+
 // Component for individual claim button with status check
 const ClaimButton = ({
   epochId,
@@ -47,16 +85,21 @@ const ClaimButton = ({
   userAddress,
   rewardAmount,
   merkleProof,
+  rewardAssetDecimals,
+  rewardAssetSymbol,
 }: {
   epochId: number;
   epochEndDate: number;
   userAddress: string;
   rewardAmount: string;
   merkleProof: string[];
+  rewardAssetDecimals: number;
+  rewardAssetSymbol: string;
 }) => {
   const { data: hasClaimed = false, isLoading: isCheckingClaim } = useHasClaimed(userAddress, epochEndDate);
+  const { data: hasMerkleRoot = false, isLoading: isCheckingMerkleRoot } = useHasMerkleRoot(epochEndDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const hasNoRewards = parseFloat(rewardAmount) === 0;
+  const hasNoRewards = parseFloat(formatUnits(rewardAmount, rewardAssetDecimals)) === 0;
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -82,23 +125,25 @@ const ClaimButton = ({
     }
   };
 
+  const isDisabled = hasClaimed || isCheckingClaim || isCheckingMerkleRoot || hasNoRewards || !hasMerkleRoot;
+
   return (
     <>
       <Button
         variant="contained"
         color="primary"
         size="small"
-        disabled={hasClaimed || isCheckingClaim || hasNoRewards}
+        disabled={isDisabled}
         onClick={handleOpenModal}
         sx={{
           textTransform: "none",
           fontSize: "13px",
           fontWeight: 500,
           padding: "6px 16px",
-          opacity: hasClaimed || hasNoRewards ? 0.5 : 1,
+          opacity: hasClaimed || hasNoRewards || !hasMerkleRoot ? 0.5 : 1,
         }}
       >
-        {hasClaimed ? "Claimed" : "Claim"}
+        {hasClaimed ? "Claimed" : !hasMerkleRoot && !isCheckingMerkleRoot ? "Pending" : "Claim"}
       </Button>
 
       <ClaimRewardsModal
@@ -107,9 +152,11 @@ const ClaimButton = ({
         epochEndDates={[epochEndDate]}
         amounts={[rewardAmount]}
         proofs={[merkleProof]}
-        totalAmount={parseFloat(rewardAmount)}
+        totalAmount={parseFloat(formatUnits(rewardAmount, rewardAssetDecimals))}
         onClaim={handleClaim}
         isClaiming={claimMutation.isLoading}
+        rewardAssetDecimals={rewardAssetDecimals}
+        rewardAssetSymbol={rewardAssetSymbol}
       />
     </>
   );
@@ -141,9 +188,10 @@ export const RewardsHistoryTable = () => {
       epochId: entry.epochId,
       epochEndDate: entry.endDate, // Unix timestamp from API
       drachmas_earned: parseFloat(entry.totalUnits),
-      rewards_earned: parseFloat(entry.rewardAmount),
       rewardAmount: entry.rewardAmount,
       merkleProof: entry.merkleProof,
+      rewardAssetDecimals: entry.rewardAssetDecimals,
+      rewardAssetSymbol: entry.rewardAssetSymbol,
     })) || [];
 
   return (
@@ -338,7 +386,7 @@ export const RewardsHistoryTable = () => {
                   <Box display="flex" alignItems="center" gap="4px">
                     <SvgIcon sx={{ fontSize: "14px" }} component={USDSIcon} />
                     <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                      {formatNumber(row.rewards_earned, 0)} USDS
+                      {formatTokenAmount(row.rewardAmount, row.rewardAssetDecimals)} {row.rewardAssetSymbol}
                     </Typography>
                   </Box>
                 </TableCell>
@@ -358,6 +406,8 @@ export const RewardsHistoryTable = () => {
                         userAddress={address}
                         rewardAmount={row.rewardAmount}
                         merkleProof={row.merkleProof}
+                        rewardAssetDecimals={row.rewardAssetDecimals}
+                        rewardAssetSymbol={row.rewardAssetSymbol}
                       />
                     )}
                   </Box>

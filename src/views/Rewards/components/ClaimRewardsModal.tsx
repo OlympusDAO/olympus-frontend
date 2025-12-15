@@ -17,6 +17,8 @@ interface ClaimRewardsModalProps {
   vaultShares?: number;
   onClaim: (params: { epochEndDates: number[]; amounts: string[]; proofs: string[][]; asVaultToken: boolean }) => void;
   isClaiming?: boolean;
+  rewardAssetDecimals?: number;
+  rewardAssetSymbol?: string;
 }
 
 type RewardToken = "USDS" | "sUSDS";
@@ -101,6 +103,8 @@ export const ClaimRewardsModal = ({
   vaultShares,
   onClaim,
   isClaiming = false,
+  rewardAssetDecimals = 18,
+  rewardAssetSymbol = "USDS",
 }: ClaimRewardsModalProps) => {
   const theme = useTheme();
   const [selectedToken, setSelectedToken] = useState<RewardToken>("USDS");

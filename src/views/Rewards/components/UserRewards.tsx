@@ -1,3 +1,4 @@
+import { formatUnits } from "@ethersproject/units";
 import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
@@ -72,8 +73,8 @@ export const UserRewards = () => {
     [userHistoryData?.rewards?.entries],
   );
 
-  // Prepare contracts array for multicall
-  const contracts = useMemo(
+  // Prepare contracts array for multicall - hasClaimed
+  const hasClaimedContracts = useMemo(
     () =>
       epochData.map(({ epochEndDate }) => ({
         address: contractAddress as `0x${string}`,
@@ -84,65 +85,104 @@ export const UserRewards = () => {
     [epochData, contractAddress, address],
   );
 
+  // Prepare contracts array for multicall - weeklyMerkleRoots
+  const merkleRootContracts = useMemo(
+    () =>
+      epochData.map(({ epochEndDate }) => ({
+        address: contractAddress as `0x${string}`,
+        abi: DepositRewardsDistributorABI,
+        functionName: "weeklyMerkleRoots",
+        args: [epochEndDate],
+      })),
+    [epochData, contractAddress],
+  );
+
   const { data: claimStatusData } = useContractReads({
-    contracts,
+    contracts: hasClaimedContracts,
     enabled: !!address && !!contractAddress && epochData.length > 0,
   });
 
-  // Map claim status results to epoch data
+  const { data: merkleRootData } = useContractReads({
+    contracts: merkleRootContracts,
+    enabled: !!contractAddress && epochData.length > 0,
+  });
+
+  // Map claim status and merkle root results to epoch data
   const claimStatuses = useMemo(() => {
-    if (!claimStatusData) return [];
+    if (!claimStatusData || !merkleRootData) return [];
+
+    const zeroBytes32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
+
     return epochData.map((epoch, index) => {
       // In wagmi v0.12, useContractReads returns array where each item can be the result directly
       // or an object with { result, status, error }
       const statusResult = claimStatusData[index] as any;
       const claimed = statusResult?.result !== undefined ? Boolean(statusResult.result) : Boolean(statusResult);
 
+      // Check if merkle root is set (not zero)
+      const merkleResult = merkleRootData[index] as any;
+      const merkleRoot = merkleResult?.result !== undefined ? merkleResult.result : merkleResult;
+      const hasMerkleRoot = merkleRoot && merkleRoot !== zeroBytes32 && merkleRoot !== "0x0";
+
       return {
         epochId: epoch.epochId,
         epochEndDate: epoch.epochEndDate,
         claimed,
+        hasMerkleRoot,
       };
     });
-  }, [claimStatusData, epochData]);
+  }, [claimStatusData, merkleRootData, epochData]);
 
-  // Calculate claimed and unclaimed rewards
-  const { totalClaimed, totalUnclaimedDrachmas, totalUnclaimedRewards, unclaimedEntries } = useMemo(() => {
-    const entries = userHistoryData?.rewards?.entries || [];
+  // Get reward asset info from first entry (assuming all entries use same asset)
+  const firstEntry = userHistoryData?.rewards?.entries?.[0];
+  const rewardAssetDecimals = firstEntry?.rewardAssetDecimals ?? 18;
+  const rewardAssetSymbol = firstEntry?.rewardAssetSymbol ?? "USDS";
 
-    let claimed = 0;
-    let unclaimedDrachmas = 0;
-    let unclaimedRewards = 0;
-    const unclaimed: typeof entries = [];
+  // Calculate claimed and unclaimed rewards (only epochs with active merkle roots are claimable)
+  const { totalClaimed, totalUnclaimedDrachmas, totalUnclaimedRewards, unclaimedEntries, claimableEntries } =
+    useMemo(() => {
+      const entries = userHistoryData?.rewards?.entries || [];
 
-    entries.forEach(entry => {
-      const claimStatus = claimStatuses.find(s => s.epochId === entry.epochId);
-      const rewardAmount = parseFloat(entry.rewardAmount);
-      const drachmas = parseFloat(entry.totalUnits);
+      let claimed = 0;
+      let unclaimedDrachmas = 0;
+      let unclaimedRewards = 0;
+      const unclaimed: typeof entries = [];
+      const claimable: typeof entries = [];
 
-      if (claimStatus?.claimed) {
-        claimed += rewardAmount;
-      } else {
-        unclaimedDrachmas += drachmas;
-        unclaimedRewards += rewardAmount;
-        unclaimed.push(entry);
-      }
-    });
+      entries.forEach(entry => {
+        const claimStatus = claimStatuses.find(s => s.epochId === entry.epochId);
+        const rewardAmount = parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals));
+        const drachmas = parseFloat(entry.totalUnits);
 
-    return {
-      totalClaimed: claimed,
-      totalUnclaimedDrachmas: unclaimedDrachmas,
-      totalUnclaimedRewards: unclaimedRewards,
-      unclaimedEntries: unclaimed,
-    };
-  }, [userHistoryData?.rewards?.entries, claimStatuses]);
+        if (claimStatus?.claimed) {
+          claimed += rewardAmount;
+        } else {
+          unclaimedDrachmas += drachmas;
+          unclaimedRewards += rewardAmount;
+          unclaimed.push(entry);
+
+          // Only add to claimable if merkle root is set and reward amount > 0
+          if (claimStatus?.hasMerkleRoot && rewardAmount > 0) {
+            claimable.push(entry);
+          }
+        }
+      });
+
+      return {
+        totalClaimed: claimed,
+        totalUnclaimedDrachmas: unclaimedDrachmas,
+        totalUnclaimedRewards: unclaimedRewards,
+        unclaimedEntries: unclaimed,
+        claimableEntries: claimable,
+      };
+    }, [userHistoryData?.rewards?.entries, claimStatuses]);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const claimMutation = useClaimRewards();
 
   const handleOpenModal = () => {
-    if (unclaimedEntries.length > 0) {
+    if (claimableEntries.length > 0) {
       setIsModalOpen(true);
     }
   };
@@ -218,7 +258,7 @@ export const UserRewards = () => {
             <Box display="flex" alignItems="center" justifyContent="center" gap="4px" mt="8px">
               <SvgIcon sx={{ height: "16px", width: "16px" }} component={USDSIcon} />
               <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(totalClaimed, 2)} USDS
+                {formatNumber(totalClaimed, 2)} {rewardAssetSymbol}
               </Typography>
             </Box>
           </Box>
@@ -244,7 +284,7 @@ export const UserRewards = () => {
               <Box display="flex" alignItems="center" justifyContent="center" gap="4px">
                 <SvgIcon sx={{ fontSize: "20px" }} component={USDSIcon} />
                 <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                  {formatNumber(totalUnclaimedRewards, 2)} USDS
+                  {formatNumber(totalUnclaimedRewards, 2)} {rewardAssetSymbol}
                 </Typography>
               </Box>
             </Box>
@@ -254,7 +294,7 @@ export const UserRewards = () => {
           variant="contained"
           color="primary"
           onClick={handleOpenModal}
-          disabled={unclaimedEntries.length === 0 || totalUnclaimedRewards === 0 || !address}
+          disabled={claimableEntries.length === 0 || !address}
           sx={{
             width: "100%",
             marginTop: "auto",
@@ -270,12 +310,17 @@ export const UserRewards = () => {
         <ClaimRewardsModal
           open={isModalOpen}
           onClose={handleCloseModal}
-          epochEndDates={unclaimedEntries.map(entry => entry.endDate)}
-          amounts={unclaimedEntries.map(entry => entry.rewardAmount)}
-          proofs={unclaimedEntries.map(entry => entry.merkleProof)}
-          totalAmount={totalUnclaimedRewards}
+          epochEndDates={claimableEntries.map(entry => entry.endDate)}
+          amounts={claimableEntries.map(entry => entry.rewardAmount)}
+          proofs={claimableEntries.map(entry => entry.merkleProof)}
+          totalAmount={claimableEntries.reduce(
+            (sum, entry) => sum + parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals)),
+            0,
+          )}
           onClaim={handleClaim}
           isClaiming={claimMutation.isLoading}
+          rewardAssetDecimals={rewardAssetDecimals}
+          rewardAssetSymbol={rewardAssetSymbol}
         />
       </Box>
     </Paper>

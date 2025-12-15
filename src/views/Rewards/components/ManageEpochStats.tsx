@@ -1,9 +1,20 @@
+import { formatUnits } from "@ethersproject/units";
 import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
 import { AdminEpochStatus, LibChainId } from "src/generated/olympusUnits";
-import { abbreviatedNumber, formatNumber } from "src/helpers";
+import { formatNumber } from "src/helpers";
+
+// Format token amount from wei to human-readable format
+const formatTokenAmount = (amount: string, decimals: number): string => {
+  const formatted = parseFloat(formatUnits(amount, decimals));
+  if (formatted === 0) return "0";
+  if (formatted < 0.0001) return "< 0.0001";
+  if (formatted < 1) return formatted.toFixed(4);
+  if (formatted < 1000) return formatted.toFixed(2);
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(formatted);
+};
 
 interface ManageEpochStatsProps {
   epochId: number;
@@ -16,6 +27,8 @@ interface ManageEpochStatsProps {
   onSubmitProposal: () => void;
   isSubmitting: boolean;
   userCount: number;
+  rewardAssetDecimals: number;
+  rewardAssetSymbol: string;
 }
 
 export const ManageEpochStats = ({
@@ -28,6 +41,8 @@ export const ManageEpochStats = ({
   onSubmitProposal,
   isSubmitting,
   userCount,
+  rewardAssetDecimals,
+  rewardAssetSymbol,
 }: ManageEpochStatsProps) => {
   const theme = useTheme();
 
@@ -186,7 +201,7 @@ export const ManageEpochStats = ({
           <Box display="flex" alignItems="center" gap="4px" mt="8px">
             <SvgIcon sx={{ fontSize: "20px" }} component={usdsIcon} />
             <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-              {abbreviatedNumber.format(parseFloat(totalYield))}
+              {formatTokenAmount(totalYield, rewardAssetDecimals)} {rewardAssetSymbol}
             </Typography>
           </Box>
         </Box>
@@ -195,7 +210,10 @@ export const ManageEpochStats = ({
           color="primary"
           onClick={onSubmitProposal}
           disabled={
-            status !== AdminEpochStatus.calculated || isSubmitting || parseFloat(totalYield) === 0 || userCount === 0
+            status !== AdminEpochStatus.calculated ||
+            isSubmitting ||
+            parseFloat(formatUnits(totalYield, rewardAssetDecimals)) === 0 ||
+            userCount === 0
           }
           sx={{
             width: "100%",

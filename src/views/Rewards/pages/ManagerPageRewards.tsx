@@ -5,6 +5,7 @@ import {
   AdminEpochStatus,
   LibChainId,
   useGETAdminPendingEpochs,
+  useGETEpochsEpochRewards,
   useGETEpochsEpochRewardUsers,
   usePOSTAdminPrepareEpochTransactionApi,
 } from "src/generated/olympusUnits";
@@ -27,29 +28,49 @@ export const ManagerPageRewards = () => {
   // Mutation for preparing transaction
   const prepareMutation = usePOSTAdminPrepareEpochTransactionApi();
 
-  // Fetch list of pending epochs
-  const { data: pendingEpochsData, isLoading: isLoadingEpochs } = useGETAdminPendingEpochs({
-    chainId,
-  });
+  // Fetch list of pending epochs (only when authenticated)
+  const { data: pendingEpochsData, isLoading: isLoadingEpochs } = useGETAdminPendingEpochs(
+    {
+      chainId,
+    },
+    {
+      query: {
+        enabled: isAuthenticated,
+      },
+    },
+  );
 
   const epochs = pendingEpochsData?.epochs || [];
   const selectedEpoch = epochs[selectedEpochIndex];
   const safeAddress = pendingEpochsData?.safeAddress;
 
-  // Fetch users for selected epoch
-  // Note: We need both epochId and rewardAssetId. For now, we'll use the first asset
-  const firstRewardAssetId = selectedEpoch?.epochRewardsId;
+  // Fetch epoch rewards to get the rewardAssetId (different from epochRewardsId which is the table PK)
+  const { data: epochRewardsData, isLoading: isLoadingRewards } = useGETEpochsEpochRewards(
+    selectedEpoch?.epochId || 0,
+    {
+      query: {
+        enabled: !!selectedEpoch?.epochId && isAuthenticated,
+      },
+    },
+  );
 
+  // Get the reward asset info from the epoch rewards response
+  const rewardAsset = epochRewardsData?.rewards?.[0];
+  const rewardAssetId = rewardAsset?.rewardAssetId;
+  const rewardAssetDecimals = rewardAsset?.tokenDecimals ?? 18;
+  const rewardAssetSymbol = rewardAsset?.tokenSymbol ?? "USDS";
+
+  // Fetch users for selected epoch using the correct rewardAssetId
   const { data: epochUsersData, isLoading: isLoadingUsers } = useGETEpochsEpochRewardUsers(
     selectedEpoch?.epochId || 0,
-    firstRewardAssetId || 0,
+    rewardAssetId || 0,
     {
       limit: 100, // Get top 100 users
       sortOrder: "desc" as const,
     },
     {
       query: {
-        enabled: !!selectedEpoch && !!firstRewardAssetId,
+        enabled: !!selectedEpoch && !!rewardAssetId,
       },
     },
   );
@@ -200,6 +221,8 @@ export const ManagerPageRewards = () => {
                   onSubmitProposal={handleSubmitProposal}
                   isSubmitting={prepareMutation.isLoading}
                   userCount={selectedEpoch.userCount || 0}
+                  rewardAssetDecimals={rewardAssetDecimals}
+                  rewardAssetSymbol={rewardAssetSymbol}
                 />
               ) : (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
@@ -208,12 +231,17 @@ export const ManagerPageRewards = () => {
               )}
             </Box>
             <Box flex={1} minWidth={0} overflow="hidden">
-              {isLoadingUsers ? (
+              {isLoadingRewards || isLoadingUsers ? (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
                   <CircularProgress size={24} />
                 </Box>
               ) : epochUsersData ? (
-                <ManageEpochTable users={epochUsersData.users} totalUserCount={selectedEpoch?.userCount || 0} />
+                <ManageEpochTable
+                  users={epochUsersData.users}
+                  totalUserCount={selectedEpoch?.userCount || 0}
+                  rewardAssetDecimals={epochUsersData.rewardAssetDecimals}
+                  rewardAssetSymbol={epochUsersData.rewardAssetSymbol}
+                />
               ) : (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
                   <Typography>No user data available</Typography>
