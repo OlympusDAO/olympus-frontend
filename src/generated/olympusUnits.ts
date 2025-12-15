@@ -230,17 +230,9 @@ export type POSTAdminSubmitEpochTransactionApiBody = {
 };
 
 export type POSTAdminPrepareEpochTransactionApi200 = {
-  chainId: number;
-  endTimestamp: number;
-  epochRewardsId: number;
-  merkleRoot: string;
-  safeAddress: string;
   safeStatus: AdminProposalStatus;
-  safeTxHash?: string;
+  safeTxHash: string;
   safeUrl?: string;
-  status: AdminEpochRewardsStatus;
-  success: boolean;
-  transaction: AdminTransactionDetails;
 };
 
 /**
@@ -450,13 +442,6 @@ export type EpochsEpoch = {
   updatedAt: string;
 };
 
-export type AdminTransactionDetails = {
-  data: string;
-  operation: number;
-  to: string;
-  value: string;
-};
-
 export type AdminSafeDelegate = {
   delegate: string;
   delegator: string;
@@ -497,15 +482,6 @@ export type AdminPendingEpoch = {
   totalUnits: string;
   userCount: number;
 };
-
-export type AdminEpochRewardsStatus = (typeof AdminEpochRewardsStatus)[keyof typeof AdminEpochRewardsStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AdminEpochRewardsStatus = {
-  pending: "pending",
-  calculated: "calculated",
-  distributed: "distributed",
-} as const;
 
 /**
  * @summary Serve Swagger UI using Encore's raw endpoint
@@ -561,17 +537,15 @@ export const useGETDocsSwaggerUI = <
 };
 
 /**
- * This endpoint: 1. Authenticates the caller via JWT token 2. Looks up epoch rewards by ID to get chainId, distributorAddress, merkleRoot 3. Gets Safe address from server config for the chain 4. Verifies the caller is a multisig member (owner or delegate) 5. Checks for existing transactions with the same merkle root 6. Returns encoded transaction data for the frontend to sign
+ * @param epochRewardsId - Primary key ID from epoch\_rewards table (path parameter) @returns PrepareTransactionResponse with safeTxHash to sign
 
-The frontend should use the returned transaction details to: - Create a Safe transaction using Safe Protocol Kit - Calculate the safeTxHash - Sign the transaction with the connected wallet - Call the submit endpoint with the signature
+@example POST /admin/epoch-rewards/42/prepare
 
-@param epochRewardsId - Primary key ID from epoch\_rewards table (path parameter) @returns PrepareTransactionResponse with transaction details, safeAddress, and chainId
+Response (new proposal): { "safeStatus": "CREATED", "safeTxHash": "0x..." }
 
-@example POST /admin/epoch-rewards/42/prepare Headers: { "Authorization": "Bearer \<jwt\_token>" }
+Response (already exists): { "safeStatus": "ALREADY\_PENDING", "safeTxHash": "0x...", "safeUrl": "[https://app.safe.global/](https://app.safe.global/)..." }
 
-Response: { "success": true, "epochRewardsId": 42, "merkleRoot": "0x...", "endTimestamp": 1732406400, "status": "CREATED", "message": "Transaction data prepared...", "transaction": { "to": "0x...", "data": "0x...", "value": "0", "operation": 0 }, "safeAddress": "0x...", "chainId": 11155111 }
-
- * @summary Step 1: Prepare transaction data for frontend to sign
+ * @summary Step 1: Prepare transaction for frontend to sign
 
  */
 export const pOSTAdminPrepareEpochTransactionApi = (epochRewardsId: number) => {
@@ -618,7 +592,7 @@ export type POSTAdminPrepareEpochTransactionApiMutationResult = NonNullable<
 export type POSTAdminPrepareEpochTransactionApiMutationError = APIErrorResponse;
 
 /**
- * @summary Step 1: Prepare transaction data for frontend to sign
+ * @summary Step 1: Prepare transaction for frontend to sign
 
  */
 export const usePOSTAdminPrepareEpochTransactionApi = <TError = APIErrorResponse, TContext = unknown>(options?: {
@@ -635,15 +609,15 @@ export const usePOSTAdminPrepareEpochTransactionApi = <TError = APIErrorResponse
 };
 
 /**
- * This endpoint: 1. Authenticates the caller via JWT token 2. Looks up epoch rewards by ID to get chainId 3. Gets Safe address from server config for the chain 4. Validates the signature via Safe Transaction Service 5. Submits the signature to Safe Transaction Service
+ * This endpoint: 1. Authenticates the caller via JWT token 2. Looks up epoch rewards by ID to reconstruct transaction 3. Gets Safe address from server config for the chain 4. Finds the correct nonce by searching (handles race conditions) 5. Proposes the transaction to Safe Transaction Service 6. Updates epoch\_rewards with status='distributed'
 
-The frontend should: 1. First call /prepare to get transaction details, safeAddress, and chainId 2. Create a Safe transaction using Safe Protocol Kit 3. Sign the transaction with the connected wallet 4. Call this endpoint with the safeTxHash and signature
+The frontend should: 1. First call /prepare to get safeTxHash 2. Sign the safeTxHash with the connected wallet 3. Call this endpoint with safeTxHash and signature
 
-@param epochRewardsId - Primary key ID from epoch\_rewards table (path parameter) @param safeTxHash - Hash of the Safe transaction @param senderSignature - Signature from the caller's wallet @returns SubmitTransactionResponse with Safe transaction URL
+@param epochRewardsId - Primary key ID from epoch\_rewards table (path parameter) @param safeTxHash - Hash of the Safe transaction (from prepare endpoint) @param senderSignature - Signature from the caller's wallet @returns SubmitTransactionResponse with Safe transaction URL
 
 @example POST /admin/epoch-rewards/42/submit Headers: { "Authorization": "Bearer \<jwt\_token>" } Body: { "safeTxHash": "0x...", "senderSignature": "0x..." }
 
-Response: { "success": true, "epochRewardsId": 42, "safeTxHash": "0x...", "safeUrl": "[https://app.safe.global/](https://app.safe.global/)...", "message": "Transaction signature submitted..." }
+Response: { "success": true, "epochRewardsId": 42, "safeTxHash": "0x...", "safeUrl": "[https://app.safe.global/](https://app.safe.global/)..." }
 
  * @summary Step 2: Submit a signed transaction to Safe Transaction Service
 

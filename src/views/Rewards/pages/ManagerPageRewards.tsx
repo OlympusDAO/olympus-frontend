@@ -1,32 +1,56 @@
-import { Box, Button, CircularProgress, Paper, Tab, Tabs, Typography } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Alert, Box, Button, CircularProgress, Paper, Snackbar, Tab, Tabs, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useState } from "react";
+import { Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import {
   AdminEpochStatus,
+  AdminProposalStatus,
   LibChainId,
+  POSTAdminPrepareEpochTransactionApi200,
   useGETAdminPendingEpochs,
   useGETEpochsEpochRewards,
   useGETEpochsEpochRewardUsers,
   usePOSTAdminPrepareEpochTransactionApi,
+  usePOSTAdminSubmitEpochTransactionApi,
 } from "src/generated/olympusUnits";
 import { ManageEpochStats } from "src/views/Rewards/components/ManageEpochStats";
 import { ManageEpochTable } from "src/views/Rewards/components/ManageEpochTable";
 import { useAuth } from "src/views/Rewards/hooks/useAuth";
+import { useSignSafeTransaction } from "src/views/Rewards/hooks/useSignSafeTransaction";
 import { useAccount, useNetwork } from "wagmi";
+
+// Submission flow states
+type SubmissionStep = "idle" | "preparing" | "signing" | "submitting" | "success" | "error";
 
 export const ManagerPageRewards = () => {
   const theme = useTheme();
   const { chain } = useNetwork();
   const { address: userAddress } = useAccount();
+  const queryClient = useQueryClient();
   const [selectedEpochIndex, setSelectedEpochIndex] = useState(0);
+
+  // Submission flow state
+  const [submissionStep, setSubmissionStep] = useState<SubmissionStep>("idle");
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [safeUrl, setSafeUrl] = useState<string | null>(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [resubmitDialogOpen, setResubmitDialogOpen] = useState(false);
 
   // Authentication
   const { isAuthenticated, isAuthenticating, signIn } = useAuth();
+
+  // Safe transaction signing
+  const { signSafeTxHash } = useSignSafeTransaction();
 
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
   // Mutation for preparing transaction
   const prepareMutation = usePOSTAdminPrepareEpochTransactionApi();
+
+  // Mutation for submitting signed transaction
+  const submitMutation = usePOSTAdminSubmitEpochTransactionApi();
 
   // Fetch list of pending epochs (only when authenticated)
   const { data: pendingEpochsData, isLoading: isLoadingEpochs } = useGETAdminPendingEpochs(
@@ -42,7 +66,6 @@ export const ManagerPageRewards = () => {
 
   const epochs = pendingEpochsData?.epochs || [];
   const selectedEpoch = epochs[selectedEpochIndex];
-  const safeAddress = pendingEpochsData?.safeAddress;
 
   // Fetch epoch rewards to get the rewardAssetId (different from epochRewardsId which is the table PK)
   const { data: epochRewardsData, isLoading: isLoadingRewards } = useGETEpochsEpochRewards(
@@ -92,13 +115,105 @@ export const ManagerPageRewards = () => {
     }
   };
 
-  const handleSubmitProposal = () => {
+  // Handle the full proposal submission flow: prepare -> sign -> submit
+  const handleSubmitProposal = useCallback(async () => {
     if (!selectedEpoch) return;
 
-    // Call prepare transaction API
-    prepareMutation.mutate({
-      epochRewardsId: selectedEpoch.epochRewardsId,
-    });
+    setSubmissionStep("preparing");
+    setSubmissionError(null);
+    setSafeUrl(null);
+
+    try {
+      // Step 1: Prepare the transaction (backend creates Safe tx and returns safeTxHash)
+      const prepareResult: POSTAdminPrepareEpochTransactionApi200 = await prepareMutation.mutateAsync({
+        epochRewardsId: selectedEpoch.epochRewardsId,
+      });
+
+      // If the transaction was already executed, no need to sign
+      if (prepareResult.safeStatus === AdminProposalStatus.ALREADY_EXECUTED) {
+        setSubmissionStep("success");
+        setSafeUrl(prepareResult.safeUrl || null);
+        setSnackbarOpen(true);
+        return;
+      }
+
+      // Backend must provide safeTxHash
+      if (!prepareResult.safeTxHash) {
+        throw new Error("Backend did not return safeTxHash. Please try again.");
+      }
+
+      // Step 2: Sign the safeTxHash
+      setSubmissionStep("signing");
+      const signature = await signSafeTxHash(prepareResult.safeTxHash);
+
+      // Step 3: Submit the signature to backend
+      setSubmissionStep("submitting");
+      const submitResult = await submitMutation.mutateAsync({
+        epochRewardsId: selectedEpoch.epochRewardsId,
+        data: {
+          safeTxHash: prepareResult.safeTxHash,
+          senderSignature: signature,
+        },
+      });
+
+      // Success!
+      setSubmissionStep("success");
+      setSafeUrl(submitResult.safeUrl || null);
+      setSnackbarOpen(true);
+
+      // Refresh the epochs data
+      await queryClient.invalidateQueries({ queryKey: ["/admin/epochs/pending"] });
+    } catch (err) {
+      console.error("Proposal submission failed:", err);
+      setSubmissionStep("error");
+      setSubmissionError(err instanceof Error ? err.message : "Failed to submit proposal");
+      setSnackbarOpen(true);
+    }
+  }, [selectedEpoch, prepareMutation, signSafeTxHash, submitMutation, queryClient]);
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  // Handle button click - show confirmation if resubmitting
+  const handleButtonClick = () => {
+    if (submissionStep === "success" || selectedEpoch?.safeUrl) {
+      setResubmitDialogOpen(true);
+    } else {
+      handleSubmitProposal();
+    }
+  };
+
+  const handleConfirmResubmit = () => {
+    setResubmitDialogOpen(false);
+    handleSubmitProposal();
+  };
+
+  const handleCancelResubmit = () => {
+    setResubmitDialogOpen(false);
+  };
+
+  // Check if currently in submission flow
+  const isSubmitting = submissionStep !== "idle" && submissionStep !== "success" && submissionStep !== "error";
+
+  // Get submission step label for button
+  const getSubmissionLabel = () => {
+    switch (submissionStep) {
+      case "preparing":
+        return "Preparing Transaction...";
+      case "signing":
+        return "Sign in Wallet...";
+      case "submitting":
+        return "Submitting Transaction...";
+      case "success":
+        return "Resubmit Transaction";
+      default:
+        // If epoch already has a safeUrl (was previously submitted), show resubmit
+        if (selectedEpoch?.safeUrl) {
+          return "Resubmit Transaction";
+        }
+        return "Prepare Transaction";
+    }
   };
 
   // Show authentication UI if not authenticated
@@ -192,7 +307,7 @@ export const ManagerPageRewards = () => {
                 },
               }}
             >
-              {epochs.map((epoch, index) => (
+              {epochs.map(epoch => (
                 <Tab
                   key={epoch.epochId + epoch.endTimestamp + epoch.startTimestamp}
                   label={
@@ -218,8 +333,11 @@ export const ManagerPageRewards = () => {
                   totalYield={selectedEpoch.totalRewardsDistributed}
                   status={selectedEpoch.status}
                   chainId={chainId}
-                  onSubmitProposal={handleSubmitProposal}
-                  isSubmitting={prepareMutation.isLoading}
+                  onSubmitProposal={handleButtonClick}
+                  isSubmitting={isSubmitting}
+                  submissionLabel={getSubmissionLabel()}
+                  submissionSuccess={submissionStep === "success" || !!selectedEpoch.safeUrl}
+                  safeUrl={safeUrl || selectedEpoch.safeUrl}
                   userCount={selectedEpoch.userCount || 0}
                   rewardAssetDecimals={rewardAssetDecimals}
                   rewardAssetSymbol={rewardAssetSymbol}
@@ -251,6 +369,98 @@ export const ManagerPageRewards = () => {
           </Box>
         </Box>
       </Box>
+
+      {/* Submission feedback snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={submissionStep === "success" ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
+          {submissionStep === "success" ? (
+            <>
+              Transaction submitted to Safe!
+              {safeUrl && (
+                <Box component="span" ml={1}>
+                  <a href={safeUrl} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>
+                    View in Safe →
+                  </a>
+                </Box>
+              )}
+            </>
+          ) : (
+            submissionError || "An error occurred"
+          )}
+        </Alert>
+      </Snackbar>
+
+      {/* Resubmit confirmation modal */}
+      <Modal
+        maxWidth="476px"
+        headerContent={
+          <Typography variant="h5" fontWeight={600}>
+            Resubmit Transaction?
+          </Typography>
+        }
+        open={resubmitDialogOpen}
+        onClose={handleCancelResubmit}
+        minHeight="200px"
+      >
+        <Box display="flex" flexDirection="column" gap="24px">
+          {/* Warning message */}
+          <Box
+            sx={{
+              padding: "16px",
+              borderRadius: "12px",
+              bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#F5F5F5",
+            }}
+          >
+            <Typography fontSize="15px" fontWeight={400} color={theme.colors.gray[40]}>
+              If the transaction has already been executed on-chain, nothing will happen.
+            </Typography>
+          </Box>
+
+          {/* View in Safe link */}
+          {(safeUrl || selectedEpoch?.safeUrl) && (
+            <Button
+              component="a"
+              href={safeUrl || selectedEpoch?.safeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="text"
+              color="primary"
+              endIcon={<OpenInNewIcon fontSize="small" />}
+              sx={{
+                textTransform: "none",
+                padding: 0,
+                minWidth: "auto",
+                alignSelf: "flex-start",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              View current transaction in Safe
+            </Button>
+          )}
+
+          {/* Action buttons */}
+          <Box display="flex" gap="12px">
+            <SecondaryButton fullWidth onClick={handleCancelResubmit}>
+              Cancel
+            </SecondaryButton>
+            <PrimaryButton fullWidth onClick={handleConfirmResubmit}>
+              Resubmit
+            </PrimaryButton>
+          </Box>
+        </Box>
+      </Modal>
     </section>
   );
 };

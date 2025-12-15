@@ -1,4 +1,5 @@
 import { formatUnits } from "@ethersproject/units";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
@@ -26,6 +27,9 @@ interface ManageEpochStatsProps {
   chainId: LibChainId;
   onSubmitProposal: () => void;
   isSubmitting: boolean;
+  submissionLabel?: string;
+  submissionSuccess?: boolean;
+  safeUrl?: string | null;
   userCount: number;
   rewardAssetDecimals: number;
   rewardAssetSymbol: string;
@@ -40,6 +44,9 @@ export const ManageEpochStats = ({
   status,
   onSubmitProposal,
   isSubmitting,
+  submissionLabel,
+  submissionSuccess,
+  safeUrl,
   userCount,
   rewardAssetDecimals,
   rewardAssetSymbol,
@@ -205,12 +212,33 @@ export const ManageEpochStats = ({
             </Typography>
           </Box>
         </Box>
+        {submissionSuccess && safeUrl && (
+          <Button
+            variant="outlined"
+            color="primary"
+            component="a"
+            href={safeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<OpenInNewIcon />}
+            sx={{
+              width: "100%",
+              marginTop: "auto",
+              textTransform: "none",
+              fontSize: "15px",
+              fontWeight: 500,
+              mb: "12px",
+            }}
+          >
+            View Safe Tx
+          </Button>
+        )}
         <Button
           variant="contained"
           color="primary"
           onClick={onSubmitProposal}
           disabled={
-            status !== AdminEpochStatus.calculated ||
+            (!submissionSuccess && status !== AdminEpochStatus.calculated) ||
             isSubmitting ||
             parseFloat(formatUnits(totalYield, rewardAssetDecimals)) === 0 ||
             userCount === 0
@@ -223,7 +251,7 @@ export const ManageEpochStats = ({
             fontWeight: 500,
           }}
         >
-          {isSubmitting ? "Submitting..." : "Submit Proposal"}
+          {submissionLabel || "Prepare Transaction"}
         </Button>
       </Box>
     </Paper>
