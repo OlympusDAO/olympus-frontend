@@ -56,6 +56,7 @@ const ClaimButton = ({
 }) => {
   const { data: hasClaimed = false, isLoading: isCheckingClaim } = useHasClaimed(userAddress, epochEndDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const hasNoRewards = parseFloat(rewardAmount) === 0;
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -87,14 +88,14 @@ const ClaimButton = ({
         variant="contained"
         color="primary"
         size="small"
-        disabled={hasClaimed || isCheckingClaim}
+        disabled={hasClaimed || isCheckingClaim || hasNoRewards}
         onClick={handleOpenModal}
         sx={{
           textTransform: "none",
           fontSize: "13px",
           fontWeight: 500,
           padding: "6px 16px",
-          opacity: hasClaimed ? 0.5 : 1,
+          opacity: hasClaimed || hasNoRewards ? 0.5 : 1,
         }}
       >
         {hasClaimed ? "Claimed" : "Claim"}

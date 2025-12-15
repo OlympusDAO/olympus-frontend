@@ -40,7 +40,7 @@ export const RewardsWalletNotConnected = () => {
                 Wallet Not Connected
               </Typography>
               <Typography fontSize="15px" fontWeight={400} maxWidth="224px" sx={{ color: "#BBBDC0" }}>
-                Please connect your wallet to check your Drachmas amount.
+                Connect your wallet to get access to the Rewards program.
               </Typography>
             </Box>
             <Button

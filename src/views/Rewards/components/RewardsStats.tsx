@@ -4,9 +4,9 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
-import { LibChainId, useGETEpochsCurrentEpoch } from "src/generated/olympusUnits";
+import { LibChainId, useGETEpochsCurrentEpoch, useGETUserUserUnits } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 const useCountdown = (targetDate: Date) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
@@ -37,12 +37,26 @@ const useCountdown = (targetDate: Date) => {
 export const RewardsStats = () => {
   const theme = useTheme();
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
   // Fetch current epoch data
   const { data: epochData } = useGETEpochsCurrentEpoch({
     chainId,
   });
+
+  // Fetch user units data from API
+  const { data: userUnitsData } = useGETUserUserUnits(
+    address || "",
+    {
+      chainId,
+    },
+    {
+      query: {
+        enabled: !!address,
+      },
+    },
+  );
 
   const targetDate = useMemo(() => {
     if (epochData?.endTimestamp) {
@@ -57,6 +71,13 @@ export const RewardsStats = () => {
     if (!epochData?.totalUnits) return 0;
     return parseFloat(epochData.totalUnits);
   }, [epochData?.totalUnits]);
+
+  // Calculate user's drachmas for the current epoch
+  const userEpochDrachmas = useMemo(() => {
+    if (!userUnitsData?.units?.entries || !epochData?.epochId) return 0;
+    const currentEpochEntries = userUnitsData.units.entries.filter(entry => entry.epochId === epochData.epochId);
+    return currentEpochEntries.reduce((sum, entry) => sum + parseFloat(entry.units), 0);
+  }, [userUnitsData?.units?.entries, epochData?.epochId]);
 
   return (
     <Paper
@@ -132,8 +153,8 @@ export const RewardsStats = () => {
           </Box>
         </Box>
         <Typography fontSize="15px" fontWeight={400} my="24px" sx={{ color: theme.colors.gray[10] }}>
-          Each epoch distributes rewards. Earn Drachmas for activity in the protocol and claim your share of the rewards
-          pool.
+          Rewards are distributed each epoch. Earn Drachmas for activity in the protocol and claim your share of the
+          rewards.
         </Typography>
         <Box display="grid" gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr" }} gap="12px">
           <Box
@@ -147,7 +168,7 @@ export const RewardsStats = () => {
               <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
                 Epoch Drachmas
               </Typography>
-              <InfoTooltip message="Total number of drachmas accumulated across all participants during the current epoch." />
+              <InfoTooltip message="Total Drachmas accumulated during this epoch by all the participants." />
             </Box>
             <Box display="flex" alignItems="center" gap="4px" mt="8px">
               <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
@@ -166,14 +187,14 @@ export const RewardsStats = () => {
           >
             <Box display="flex" alignItems="center" gap="4px">
               <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Drachma Rate
+                Your Drachmas
               </Typography>
-              <InfoTooltip message="The rate at which drachmas are earned per unit of USDS deposited to Convertible Deposits per day. For example, depositing 100 USDS earns 100 drachmas daily." />
+              <InfoTooltip message="The total Drachmas you've earned during this epoch from protocol activity." />
             </Box>
             <Box display="flex" alignItems="center" gap="4px" mt="8px">
               <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
               <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                1 = $1 / day in CDs
+                {address ? formatNumber(userEpochDrachmas, 0) : "—"}
               </Typography>
             </Box>
           </Box>
@@ -189,7 +210,7 @@ export const RewardsStats = () => {
               <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
                 Drachma Snapshot
               </Typography>
-              <InfoTooltip message="Drachmas are calculated once per day at 11:59 PM EST, based on your active Convertible Deposit positions at that time." />
+              <InfoTooltip message="Drachmas are calculated on a daily basis. The final snapshot of the protocol positions is taken at 23:59:59 UTC." />
             </Box>
             <Box display="flex" alignItems="center" gap="4px" mt="8px">
               <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
@@ -208,7 +229,7 @@ export const RewardsStats = () => {
                 }}
               >
                 <Typography fontWeight={600} fontSize="15px" sx={{ color: theme.colors.gray[40] }}>
-                  11:59:59 PM UTC
+                  23:59:59 UTC
                 </Typography>
               </Box>
             </Box>
@@ -225,7 +246,7 @@ export const RewardsStats = () => {
               <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
                 Reward Distribution
               </Typography>
-              <InfoTooltip message="USDS rewards are distributed weekly, typically between Tuesday and Wednesday, based on the drachmas you've earned during the previous cycle." />
+              <InfoTooltip message="Rewards are distributed based on the Drachmas amount you have earned each epoch." />
             </Box>
             <Box display="flex" alignItems="center" gap="4px" mt="8px">
               <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>

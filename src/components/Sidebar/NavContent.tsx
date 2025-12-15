@@ -136,7 +136,7 @@ const NavContent: React.VFC = () => {
                       }}
                     >
                       <Typography fontSize="10px" fontWeight={600}>
-                        Soon
+                        NEW
                       </Typography>
                     </Box>
                   </Box>

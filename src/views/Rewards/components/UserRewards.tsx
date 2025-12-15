@@ -177,7 +177,7 @@ export const UserRewards = () => {
       <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[10] }}>
-            Your Drachmas
+            Your Rewards
           </Typography>
         </Box>
         <Box
@@ -254,7 +254,7 @@ export const UserRewards = () => {
           variant="contained"
           color="primary"
           onClick={handleOpenModal}
-          disabled={unclaimedEntries.length === 0 || !address}
+          disabled={unclaimedEntries.length === 0 || totalUnclaimedRewards === 0 || !address}
           sx={{
             width: "100%",
             marginTop: "auto",
