@@ -61,9 +61,9 @@ export const ManagerPageRewards = () => {
   const getStatusColor = (status: AdminEpochStatus) => {
     switch (status) {
       case AdminEpochStatus.pending:
-        return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
+        return theme.colors.gray[40];
       case AdminEpochStatus.calculated:
-        return theme.palette.mode === "dark" ? "#4A9EFF" : "#4A9EFF";
+        return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
       case AdminEpochStatus.distributed:
         return theme.palette.mode === "dark" ? "#6FCF97" : "#6FCF97";
       default:
@@ -151,7 +151,7 @@ export const ManagerPageRewards = () => {
         </Typography>
       </Box>
       <Box display="flex" alignItems="center">
-        <Box py="8px" px="32px" maxWidth="930px" margin="auto">
+        <Box py="8px" px={{ xs: "16px", sm: "32px" }} width="100%" margin="auto">
           <Box>
             <Tabs
               value={selectedEpochIndex}
@@ -177,15 +177,17 @@ export const ManagerPageRewards = () => {
                   label={
                     <Box display="flex" flexDirection="column" alignItems="center" gap="4px">
                       <Box width="6px" height="6px" bgcolor={getStatusColor(epoch.status)} borderRadius="100%" />
-                      Epoch {epoch.epochId}
+                      <Typography variant="body1" fontWeight={500}>
+                        Epoch {epoch.epochId}
+                      </Typography>
                     </Box>
                   }
                 />
               ))}
             </Tabs>
           </Box>
-          <Box mt="16px" display="flex" gap="16px">
-            <Box width="344px" flexShrink={0}>
+          <Box mt="16px" display="flex" flexDirection={{ xs: "column", md: "row" }} gap="16px">
+            <Box width={{ xs: "100%", md: "344px" }} flexShrink={0}>
               {selectedEpoch ? (
                 <ManageEpochStats
                   epochId={selectedEpoch.epochId}
@@ -197,6 +199,7 @@ export const ManagerPageRewards = () => {
                   chainId={chainId}
                   onSubmitProposal={handleSubmitProposal}
                   isSubmitting={prepareMutation.isLoading}
+                  userCount={selectedEpoch.userCount || 0}
                 />
               ) : (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
@@ -204,7 +207,7 @@ export const ManagerPageRewards = () => {
                 </Box>
               )}
             </Box>
-            <Box flex={1} minWidth={0}>
+            <Box flex={1} minWidth={0} overflow="hidden">
               {isLoadingUsers ? (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
                   <CircularProgress size={24} />

@@ -15,6 +15,7 @@ interface ManageEpochStatsProps {
   chainId: LibChainId;
   onSubmitProposal: () => void;
   isSubmitting: boolean;
+  userCount: number;
 }
 
 export const ManageEpochStats = ({
@@ -26,16 +27,28 @@ export const ManageEpochStats = ({
   status,
   onSubmitProposal,
   isSubmitting,
+  userCount,
 }: ManageEpochStatsProps) => {
   const theme = useTheme();
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
     return {
-      date: date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" }),
+      date: date.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
       time:
-        date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }) +
-        " UTC",
+        date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZone: "UTC",
+        }) + " UTC",
     };
   };
 
@@ -84,7 +97,7 @@ export const ManageEpochStats = ({
         </Box>
       </Box>
       <Typography fontSize="15px" fontWeight={400} mb="16px">
-        You need to submit the proposal to release rewards and send them to users
+        Submit the proposal to the multisig to distribute rewards to the user.
       </Typography>
       <Box>
         <Box
@@ -181,7 +194,9 @@ export const ManageEpochStats = ({
           variant="contained"
           color="primary"
           onClick={onSubmitProposal}
-          disabled={status !== AdminEpochStatus.calculated || isSubmitting}
+          disabled={
+            status !== AdminEpochStatus.calculated || isSubmitting || parseFloat(totalYield) === 0 || userCount === 0
+          }
           sx={{
             width: "100%",
             marginTop: "auto",

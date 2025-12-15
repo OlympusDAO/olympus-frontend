@@ -168,7 +168,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                       : "1px solid rgba(20, 23, 34, 0.05)",
                 }}
               >
-                Share %
+                Share
               </TableCell>
               <TableCell
                 sx={{
@@ -201,7 +201,6 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                     sx={{
                       bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
                       transition: "background-color 0.2s",
-                      height: "64px",
                       "&:hover": {
                         bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(20, 23, 34, 0.1)",
                       },
@@ -282,7 +281,7 @@ export const ManageEpochTable = ({ users, totalUserCount }: ManageEpochTableProp
                           fontFamily: "monospace",
                         }}
                       >
-                        {typeof row.merkleLeaf === "string" ? shorten(row.merkleLeaf) : "N/A"}
+                        {typeof row.merkleLeaf === "string" ? row.merkleLeaf : "N/A"}
                       </Typography>
                     </TableCell>
                   </TableRow>
