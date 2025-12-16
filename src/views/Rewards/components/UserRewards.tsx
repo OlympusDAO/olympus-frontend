@@ -3,7 +3,7 @@ import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
-import DepositRewardsDistributorABI from "src/abi/DepositRewardsDistributor.json";
+import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import USDSIcon from "src/assets/icons/USDS.svg?react";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
@@ -78,20 +78,20 @@ export const UserRewards = () => {
     () =>
       epochData.map(({ epochEndDate }) => ({
         address: contractAddress as `0x${string}`,
-        abi: DepositRewardsDistributorABI,
+        abi: RewardDistributorABI,
         functionName: "hasClaimed",
         args: [address, epochEndDate],
       })),
     [epochData, contractAddress, address],
   );
 
-  // Prepare contracts array for multicall - weeklyMerkleRoots
+  // Prepare contracts array for multicall - epochMerkleRoots
   const merkleRootContracts = useMemo(
     () =>
       epochData.map(({ epochEndDate }) => ({
         address: contractAddress as `0x${string}`,
-        abi: DepositRewardsDistributorABI,
-        functionName: "weeklyMerkleRoots",
+        abi: RewardDistributorABI,
+        functionName: "epochMerkleRoots",
         args: [epochEndDate],
       })),
     [epochData, contractAddress],

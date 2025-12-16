@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import { useQuery } from "@tanstack/react-query";
 import { Contract } from "ethers";
 import { useMemo, useState } from "react";
-import DepositRewardsDistributorABI from "src/abi/DepositRewardsDistributor.json";
+import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import USDSIcon from "src/assets/icons/USDS.svg?react";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
@@ -37,7 +37,7 @@ const useHasClaimed = (userAddress: string | undefined, epochEndDate: number) =>
 
   const contract = useMemo(() => {
     if (!provider || !contractAddress) return null;
-    return new Contract(contractAddress, DepositRewardsDistributorABI, provider);
+    return new Contract(contractAddress, RewardDistributorABI, provider);
   }, [provider, contractAddress]);
 
   return useQuery({
@@ -62,14 +62,14 @@ const useHasMerkleRoot = (epochEndDate: number) => {
 
   const contract = useMemo(() => {
     if (!provider || !contractAddress) return null;
-    return new Contract(contractAddress, DepositRewardsDistributorABI, provider);
+    return new Contract(contractAddress, RewardDistributorABI, provider);
   }, [provider, contractAddress]);
 
   return useQuery({
     queryKey: ["hasMerkleRoot", epochEndDate, networkId],
     queryFn: async () => {
       if (!contract) return false;
-      const result = await contract.weeklyMerkleRoots(epochEndDate);
+      const result = await contract.epochMerkleRoots(epochEndDate);
       // Check if merkle root is not zero (bytes32(0))
       const zeroBytes32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
       return result !== zeroBytes32 && result !== "0x0";

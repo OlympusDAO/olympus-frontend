@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Contract, ContractReceipt } from "ethers";
-import { parseUnits } from "ethers/lib/utils";
-import USDSRewardDistributorABI from "src/abi/DepositRewardsDistributor.json";
+import { BigNumber, Contract, ContractReceipt } from "ethers";
+import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { EthersError } from "src/lib/EthersTypes";
@@ -40,10 +39,10 @@ export const useClaimRewards = () => {
 
         // Create contract with signer
         const provider = Providers.getStaticProvider(networkId);
-        const contract = new Contract(contractAddress, USDSRewardDistributorABI, signer || provider);
+        const contract = new Contract(contractAddress, RewardDistributorABI, signer || provider);
 
-        // Convert amounts from strings to BigNumbers (USDS has 18 decimals)
-        const amountsBigNumber = amounts.map(amount => parseUnits(amount, 18));
+        // Amounts are already in wei from the API, just convert to BigNumber
+        const amountsBigNumber = amounts.map(amount => BigNumber.from(amount));
 
         // Call claim function on the contract
         const transaction = await contract.claim(epochEndDates, amountsBigNumber, proofs, asVaultToken);
