@@ -80,7 +80,6 @@ const useHasMerkleRoot = (epochEndDate: number) => {
 
 // Component for individual claim button with status check
 const ClaimButton = ({
-  epochId,
   epochEndDate,
   userAddress,
   rewardAmount,
@@ -88,7 +87,6 @@ const ClaimButton = ({
   rewardAssetDecimals,
   rewardAssetSymbol,
 }: {
-  epochId: number;
   epochEndDate: number;
   userAddress: string;
   rewardAmount: string;
@@ -185,7 +183,7 @@ export const RewardsHistoryTable = () => {
   const data =
     userHistoryData?.rewards?.entries?.map(entry => ({
       id: entry.epochId,
-      epochId: entry.epochId,
+      epochNumber: entry.epochNumber,
       epochEndDate: entry.endDate, // Unix timestamp from API
       drachmas_earned: parseFloat(entry.totalUnits),
       rewardAmount: entry.rewardAmount,
@@ -359,7 +357,7 @@ export const RewardsHistoryTable = () => {
                   }}
                 >
                   <Typography fontSize="12px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                    {formatNumber(row.epochId, 0)}
+                    {formatNumber(row.epochNumber, 0)}
                   </Typography>
                 </TableCell>
                 <TableCell
@@ -401,7 +399,6 @@ export const RewardsHistoryTable = () => {
                   <Box display="flex" justifyContent="flex-end">
                     {address && (
                       <ClaimButton
-                        epochId={row.epochId}
                         epochEndDate={row.epochEndDate}
                         userAddress={address}
                         rewardAmount={row.rewardAmount}

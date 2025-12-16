@@ -91,7 +91,7 @@ export const RewardsStats = () => {
       <Box>
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
           <Typography fontSize="18px" lineHeight="28px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-            Epoch {epochData?.epochId || 0}
+            Epoch {epochData?.epochNumber || 0}
           </Typography>
           <Box display="flex" alignItems="center" gap="8px">
             <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>

@@ -6,9 +6,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import {
   AdminProposalStatus,
-  EpochsEpochRewardsStatus,
   LibChainId,
   POSTAdminPrepareEpochTransactionApi200,
+  SharedEpochRewardsStatus,
   useGETEpochsEpochRewards,
   useGETEpochsEpochRewardUsers,
   useGETEpochsEpochsList,
@@ -105,23 +105,23 @@ export const ManagerPageRewards = () => {
   // Derive the primary status from rewardStatuses array
   // Priority: distributed > calculated > pending
   const getPrimaryStatus = (rewardStatuses: string[]): string => {
-    if (rewardStatuses.includes(EpochsEpochRewardsStatus.distributed)) {
-      return EpochsEpochRewardsStatus.distributed;
+    if (rewardStatuses.includes(SharedEpochRewardsStatus.distributed)) {
+      return SharedEpochRewardsStatus.distributed;
     }
-    if (rewardStatuses.includes(EpochsEpochRewardsStatus.calculated)) {
-      return EpochsEpochRewardsStatus.calculated;
+    if (rewardStatuses.includes(SharedEpochRewardsStatus.calculated)) {
+      return SharedEpochRewardsStatus.calculated;
     }
-    return EpochsEpochRewardsStatus.pending;
+    return SharedEpochRewardsStatus.pending;
   };
 
   const getStatusColor = (rewardStatuses: string[]) => {
     const primaryStatus = getPrimaryStatus(rewardStatuses);
     switch (primaryStatus) {
-      case EpochsEpochRewardsStatus.pending:
+      case SharedEpochRewardsStatus.pending:
         return theme.colors.gray[40];
-      case EpochsEpochRewardsStatus.calculated:
+      case SharedEpochRewardsStatus.calculated:
         return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
-      case EpochsEpochRewardsStatus.distributed:
+      case SharedEpochRewardsStatus.distributed:
         return theme.palette.mode === "dark" ? "#6FCF97" : "#6FCF97";
       default:
         return theme.colors.gray[40];
@@ -338,7 +338,7 @@ export const ManagerPageRewards = () => {
                         borderRadius="100%"
                       />
                       <Typography variant="body1" fontWeight={500}>
-                        Epoch {epoch.id}
+                        Epoch {epoch.epochNumber}
                       </Typography>
                     </Box>
                   }
@@ -350,7 +350,7 @@ export const ManagerPageRewards = () => {
             <Box width={{ xs: "100%", md: "344px" }} flexShrink={0}>
               {selectedEpoch ? (
                 <ManageEpochStats
-                  epochId={selectedEpoch.id}
+                  epochNumber={selectedEpoch.epochNumber}
                   startTimestamp={selectedEpoch.startTimestamp}
                   endTimestamp={selectedEpoch.endTimestamp}
                   totalUnits={

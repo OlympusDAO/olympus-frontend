@@ -4,7 +4,7 @@ import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
-import { EpochsEpochRewardsStatus, LibChainId } from "src/generated/olympusUnits";
+import { LibChainId, SharedEpochRewardsStatus } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 
 // Format token amount from wei to human-readable format
@@ -18,7 +18,7 @@ const formatTokenAmount = (amount: string, decimals: number): string => {
 };
 
 interface ManageEpochStatsProps {
-  epochId: number;
+  epochNumber: number;
   startTimestamp: number;
   endTimestamp: number;
   totalUnits: string;
@@ -36,7 +36,7 @@ interface ManageEpochStatsProps {
 }
 
 export const ManageEpochStats = ({
-  epochId,
+  epochNumber,
   startTimestamp,
   endTimestamp,
   totalUnits,
@@ -77,23 +77,23 @@ export const ManageEpochStats = ({
   // Derive the primary status from rewardStatuses array
   // Priority: distributed > calculated > pending
   const getPrimaryStatus = (statuses: string[]): string => {
-    if (statuses.includes(EpochsEpochRewardsStatus.distributed)) {
-      return EpochsEpochRewardsStatus.distributed;
+    if (statuses.includes(SharedEpochRewardsStatus.distributed)) {
+      return SharedEpochRewardsStatus.distributed;
     }
-    if (statuses.includes(EpochsEpochRewardsStatus.calculated)) {
-      return EpochsEpochRewardsStatus.calculated;
+    if (statuses.includes(SharedEpochRewardsStatus.calculated)) {
+      return SharedEpochRewardsStatus.calculated;
     }
-    return EpochsEpochRewardsStatus.pending;
+    return SharedEpochRewardsStatus.pending;
   };
 
   const getStatusLabel = (statuses: string[]) => {
     const primaryStatus = getPrimaryStatus(statuses);
     switch (primaryStatus) {
-      case EpochsEpochRewardsStatus.pending:
+      case SharedEpochRewardsStatus.pending:
         return "Pending";
-      case EpochsEpochRewardsStatus.calculated:
+      case SharedEpochRewardsStatus.calculated:
         return "Calculated";
-      case EpochsEpochRewardsStatus.distributed:
+      case SharedEpochRewardsStatus.distributed:
         return "Distributed";
       default:
         return primaryStatus;
@@ -113,7 +113,7 @@ export const ManageEpochStats = ({
     >
       <Box display="flex" alignItems="center" justifyContent="space-between" mb="12px">
         <Typography fontSize="18px" fontWeight={600}>
-          Epoch {epochId}
+          Epoch {epochNumber}
         </Typography>
         <Box
           border="1px solid"
@@ -251,7 +251,7 @@ export const ManageEpochStats = ({
           color="primary"
           onClick={onSubmitProposal}
           disabled={
-            (!submissionSuccess && !rewardStatuses.includes(EpochsEpochRewardsStatus.calculated)) ||
+            (!submissionSuccess && !rewardStatuses.includes(SharedEpochRewardsStatus.calculated)) ||
             isSubmitting ||
             parseFloat(formatUnits(totalYield, rewardAssetDecimals)) === 0 ||
             userCount === 0

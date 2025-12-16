@@ -100,7 +100,7 @@ export type GETSeasonsSeasons200 = {
 
 export type GETSeasonsSeasonsParams = {
   chainId: LibChainId;
-  sort?: SeasonsSortOrder;
+  sort?: SharedSortOrder;
 };
 
 export type GETReadyReady200 = {
@@ -111,6 +111,7 @@ export type GETReadyReady200 = {
 
 export type GETEpochsEpochRewardUsers200 = {
   epochId: number;
+  epochNumber: number;
   pagination: EpochsPaginationInfo;
   rewardAssetDecimals: number;
   rewardAssetId: number;
@@ -121,17 +122,19 @@ export type GETEpochsEpochRewardUsers200 = {
 export type GETEpochsEpochRewardUsersParams = {
   page?: number;
   limit?: number;
-  sortOrder?: EpochsSortOrder;
+  sortOrder?: SharedSortOrder;
 };
 
 export type GETEpochsEpochRewards200 = {
   epochId: number;
+  epochNumber: number;
   rewards: EpochsEpochReward[];
 };
 
 export type GETEpochsCurrentEpoch200 = {
   endTimestamp: number;
   epochId: number;
+  epochNumber: number;
   seasonId: number;
   seasonName: string;
   startTimestamp: number;
@@ -151,7 +154,7 @@ export type GETEpochsEpochsListParams = {
   chainId: LibChainId;
   page?: number;
   limit?: number;
-  sortOrder?: EpochsSortOrder;
+  sortOrder?: SharedSortOrder;
 };
 
 export type GETAuthVerify200 = {
@@ -239,10 +242,18 @@ export type APIErrorResponse = {
   message?: string;
 };
 
+export type UserUserUnitsSummary = {
+  address: string;
+  chainId: LibChainId;
+  entries: UserUserDailyUnitsEntry[];
+  totalUnits: string;
+};
+
 export type UserUserEpochRewardsEntry = {
   asset: string;
   endDate: number;
   epochId: number;
+  epochNumber: number;
   merkleLeaf: string;
   merkleProof: string[];
   rewardAmount: string;
@@ -274,12 +285,21 @@ export type UserUserDailyUnitsEntry = {
   units: string;
 };
 
-export type SeasonsSortOrder = (typeof SeasonsSortOrder)[keyof typeof SeasonsSortOrder];
+export type SharedSortOrder = (typeof SharedSortOrder)[keyof typeof SharedSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SeasonsSortOrder = {
-  ASC: "ASC",
-  DESC: "DESC",
+export const SharedSortOrder = {
+  asc: "asc",
+  desc: "desc",
+} as const;
+
+export type SharedEpochRewardsStatus = (typeof SharedEpochRewardsStatus)[keyof typeof SharedEpochRewardsStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SharedEpochRewardsStatus = {
+  pending: "pending",
+  calculated: "calculated",
+  distributed: "distributed",
 } as const;
 
 export type SeasonsSeasonWithStatsEndDate = string | boolean | null | null;
@@ -320,11 +340,10 @@ export type SeasonsSeason = {
   updated_at: string;
 };
 
-export type SeasonsLeaderboardEntryPositionDirection =
-  (typeof SeasonsLeaderboardEntryPositionDirection)[keyof typeof SeasonsLeaderboardEntryPositionDirection];
+export type SeasonsPositionDirection = (typeof SeasonsPositionDirection)[keyof typeof SeasonsPositionDirection];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SeasonsLeaderboardEntryPositionDirection = {
+export const SeasonsPositionDirection = {
   up: "up",
   down: "down",
   none: "none",
@@ -334,7 +353,7 @@ export const SeasonsLeaderboardEntryPositionDirection = {
 export type SeasonsLeaderboardEntry = {
   address: string;
   positionChange: number;
-  positionDirection: SeasonsLeaderboardEntryPositionDirection;
+  positionDirection: SeasonsPositionDirection;
   rank: number;
   totalUnits: string;
 };
@@ -347,36 +366,12 @@ export const LibChainId = {
   NUMBER_11155111: 11155111,
 } as const;
 
-export type UserUserUnitsSummary = {
-  address: string;
-  chainId: LibChainId;
-  entries: UserUserDailyUnitsEntry[];
-  totalUnits: string;
-};
-
-export type EpochsSortOrder = (typeof EpochsSortOrder)[keyof typeof EpochsSortOrder];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EpochsSortOrder = {
-  asc: "asc",
-  desc: "desc",
-} as const;
-
 export type EpochsPaginationInfo = {
   limit: number;
   page: number;
   total: number;
   totalPages: number;
 };
-
-export type EpochsEpochRewardsStatus = (typeof EpochsEpochRewardsStatus)[keyof typeof EpochsEpochRewardsStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EpochsEpochRewardsStatus = {
-  pending: "pending",
-  calculated: "calculated",
-  distributed: "distributed",
-} as const;
 
 export type EpochsEpochRewardUserMerkleProofs = string[] | boolean | null | null;
 
@@ -414,7 +409,7 @@ export type EpochsEpochReward = {
   rewardAssetId: number;
   safeTxHash: EpochsEpochRewardSafeTxHash;
   safeUrl: EpochsEpochRewardSafeUrl;
-  status: EpochsEpochRewardsStatus;
+  status: SharedEpochRewardsStatus;
   tokenAddress: string;
   tokenDecimals: number;
   tokenSymbol: string;
@@ -424,6 +419,7 @@ export type EpochsEpochReward = {
 export type EpochsEpoch = {
   createdAt: string;
   endTimestamp: number;
+  epochNumber: number;
   id: number;
   rewardStatuses: string[];
   seasonId: number;
