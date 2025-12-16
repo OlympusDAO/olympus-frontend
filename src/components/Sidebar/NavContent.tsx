@@ -6,13 +6,16 @@ import { cdIcon } from "src/assets/cdIcon";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import rewardsIcon from "src/assets/icons/rewards.svg?react";
+import managerRewardsIcon from "src/assets/icons/rewards-manager.svg?react";
 import NavItem from "src/components/library/NavItem";
+import { SAFE_REWARDS_ADDRESSES } from "src/constants/addresses";
+import { LibChainId, useGETAdminMultisigMembers } from "src/generated/olympusUnits";
 import { formatCurrency } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useGohmPriceContract } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { usePriceContractPrice } from "src/views/Range/hooks";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
 
@@ -28,10 +31,31 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const NavContent: React.VFC = () => {
   const { chain = { id: 1 } } = useNetwork();
+  const { address: userAddress } = useAccount();
   const networks = useTestableNetworks();
   const { data: ohmPrice } = usePriceContractPrice();
   const { data: gohmPrice } = useGohmPriceContract();
   const theme = useTheme();
+
+  const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
+
+  const safeAddress = SAFE_REWARDS_ADDRESSES[chainId as keyof typeof SAFE_REWARDS_ADDRESSES];
+
+  // Check if user is a Safe owner
+  const { data: multisigData } = useGETAdminMultisigMembers(
+    {
+      chainId,
+      safeAddress,
+    },
+    {
+      query: {
+        enabled: !!userAddress,
+      },
+    },
+  );
+
+  const isRewardsManager =
+    userAddress && multisigData?.owners.some(owner => owner.toLowerCase() === userAddress.toLowerCase());
 
   const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
@@ -112,13 +136,20 @@ const NavContent: React.VFC = () => {
                       }}
                     >
                       <Typography fontSize="10px" fontWeight={600}>
-                        Soon
+                        NEW
                       </Typography>
                     </Box>
                   </Box>
                 }
                 to="/rewards"
               />
+              {isRewardsManager && (
+                <NavItem
+                  customIcon={<SvgIcon component={managerRewardsIcon} viewBox="0 0 21 21" />}
+                  label="Rewards Manager"
+                  to="/rewards-manager"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -126,7 +157,7 @@ const NavContent: React.VFC = () => {
           <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={`Forum`} />
           <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={`Docs`} />
           <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={`Bug Bounty`} />
-          <StyledBox display="flex" justifyContent="space-around" paddingY="24px">
+          <StyledBox display="flex" justifyContent="space-around" paddingTop="6px" paddingBottom="24px">
             <Link href="https://github.com/OlympusDAO" target="_blank" rel="noopener noreferrer">
               <Icon name="github" className={classes.gray} />
             </Link>

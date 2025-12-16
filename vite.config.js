@@ -26,6 +26,12 @@ export default ({ mode }) => {
               mode === "development" ?
                 "https://olympus-cooler-loans-api-dev.web.app" : // Avoids CORS errors during local development
                 "https://olympus-cooler-loans-api-prod.web.app", // Used in production builds
+          "OLYMPUS_UNITS_API_ENDPOINT":
+            process.env.VITE_OLYMPUS_UNITS_API_ENDPOINT ?
+              process.env.VITE_OLYMPUS_UNITS_API_ENDPOINT :
+              mode === "development" ?
+                "/api" : // Proxied through Vite dev server to avoid CORS errors
+                "https://api.olympusdao.finance", // Production server
         },
       }),
     ],
@@ -58,6 +64,16 @@ export default ({ mode }) => {
       coverage: {
         provider: "v8",
         reporter: ["text", "json", "html", "lcov", "json-summary", "text-summary"],
+      },
+    },
+    server: {
+      proxy: {
+        "/api": {
+          target: "https://dev-olympus-api.callisto.finance",
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ""),
+          secure: true,
+        },
       },
     },
     optimizeDeps: {

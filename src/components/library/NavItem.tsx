@@ -15,7 +15,7 @@ const classes = {
 const Root = styled("div", { shouldForwardProp: prop => prop !== "match" })<MatchProps>(({ theme, match }) => ({
   [`&.${classes.root}`]: {
     alignItems: "center",
-    marginBottom: "12px",
+    marginBottom: "6px",
     "& .link-container": {
       paddingRight: "12px",
     },

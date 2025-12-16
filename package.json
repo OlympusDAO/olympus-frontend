@@ -39,6 +39,7 @@
     "@openchainxyz/abi-guesser": "^1.0.2",
     "@rainbow-me/rainbowkit": "^0.12.18",
     "@reduxjs/toolkit": "^1.9.3",
+    "@remixicon/react": "^4.7.0",
     "@tanstack/react-query": "^4.2.3",
     "@types/recharts": "^1.8.29",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -157,8 +158,9 @@
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "postinstall": "yarn typechain:build",
     "prepare": "husky install",
-    "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/apps/get/openapi/openapi.yml -o tmp/openapi.yaml",
-    "codegen": "yarn codegen:bundle && orval && yarn lint:fix"
+    "codegen:bundle-cooler": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/apps/get/openapi/openapi.yml -o tmp/openapi.yaml",
+    "codegen:bundle-units": "redocly bundle https://dev-olympus-api.callisto.finance/openapi.json -o tmp/olympus-units-api.yaml",
+    "codegen": "yarn codegen:bundle-cooler && yarn codegen:bundle-units && orval && yarn lint:fix"
   },
   "resolutions": {
     "**/prompts": "2.4.2",
