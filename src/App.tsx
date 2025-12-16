@@ -268,7 +268,7 @@ function App() {
                   <Route path="/governance/delegate" element={<Delegate />} />
                   <Route path="/governance/delegate/:id" element={<DelegateDetails />} />
                   <Route path="/rewards" element={<UserPageRewards />} />
-                  <Route path="/manager-rewards" element={<ManagerPageRewards />} />
+                  <Route path="/rewards-manager" element={<ManagerPageRewards />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

@@ -147,7 +147,7 @@ const NavContent: React.VFC = () => {
                 <NavItem
                   customIcon={<SvgIcon component={managerRewardsIcon} viewBox="0 0 21 21" />}
                   label="Rewards Manager"
-                  to="/manager-rewards"
+                  to="/rewards-manager"
                 />
               )}
             </div>
