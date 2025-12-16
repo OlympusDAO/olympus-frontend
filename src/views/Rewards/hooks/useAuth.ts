@@ -63,8 +63,8 @@ export const useAuth = () => {
       // Step 5: Verify authentication
       await refetchVerify();
 
-      // Step 6: Invalidate admin queries to trigger refetch with new auth token
-      await queryClient.invalidateQueries({ queryKey: ["/admin/epochs/pending"] });
+      // Step 6: Invalidate epoch queries to trigger refetch with new auth token
+      await queryClient.invalidateQueries({ queryKey: ["/epochs"] });
       await queryClient.invalidateQueries({
         predicate: query => {
           const key = query.queryKey[0];

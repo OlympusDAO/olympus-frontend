@@ -5,13 +5,13 @@ import { Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-lib
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import {
-  AdminEpochStatus,
   AdminProposalStatus,
+  EpochsEpochRewardsStatus,
   LibChainId,
   POSTAdminPrepareEpochTransactionApi200,
-  useGETAdminPendingEpochs,
   useGETEpochsEpochRewards,
   useGETEpochsEpochRewardUsers,
+  useGETEpochsEpochsList,
   usePOSTAdminPrepareEpochTransactionApi,
   usePOSTAdminSubmitEpochTransactionApi,
 } from "src/generated/olympusUnits";
@@ -52,10 +52,11 @@ export const ManagerPageRewards = () => {
   // Mutation for submitting signed transaction
   const submitMutation = usePOSTAdminSubmitEpochTransactionApi();
 
-  // Fetch list of pending epochs (only when authenticated)
-  const { data: pendingEpochsData, isLoading: isLoadingEpochs } = useGETAdminPendingEpochs(
+  // Fetch list of epochs (only when authenticated)
+  const { data: epochsListData, isLoading: isLoadingEpochs } = useGETEpochsEpochsList(
     {
       chainId,
+      sortOrder: "desc",
     },
     {
       query: {
@@ -64,28 +65,27 @@ export const ManagerPageRewards = () => {
     },
   );
 
-  const epochs = pendingEpochsData?.epochs || [];
+  const epochs = epochsListData?.epochs || [];
   const selectedEpoch = epochs[selectedEpochIndex];
 
-  // Fetch epoch rewards to get the rewardAssetId (different from epochRewardsId which is the table PK)
-  const { data: epochRewardsData, isLoading: isLoadingRewards } = useGETEpochsEpochRewards(
-    selectedEpoch?.epochId || 0,
-    {
-      query: {
-        enabled: !!selectedEpoch?.epochId && isAuthenticated,
-      },
+  // Fetch epoch rewards to get the rewardAssetId and epochRewardsId (which is the table PK)
+  const { data: epochRewardsData, isLoading: isLoadingRewards } = useGETEpochsEpochRewards(selectedEpoch?.id || 0, {
+    query: {
+      enabled: !!selectedEpoch?.id && isAuthenticated,
     },
-  );
+  });
 
   // Get the reward asset info from the epoch rewards response
   const rewardAsset = epochRewardsData?.rewards?.[0];
   const rewardAssetId = rewardAsset?.rewardAssetId;
   const rewardAssetDecimals = rewardAsset?.tokenDecimals ?? 18;
   const rewardAssetSymbol = rewardAsset?.tokenSymbol ?? "USDS";
+  // epochRewardsId is the primary key from epoch_rewards table, used for submitting transactions
+  const epochRewardsId = rewardAsset?.id;
 
   // Fetch users for selected epoch using the correct rewardAssetId
   const { data: epochUsersData, isLoading: isLoadingUsers } = useGETEpochsEpochRewardUsers(
-    selectedEpoch?.epochId || 0,
+    selectedEpoch?.id || 0,
     rewardAssetId || 0,
     {
       limit: 100, // Get top 100 users
@@ -102,13 +102,26 @@ export const ManagerPageRewards = () => {
     setSelectedEpochIndex(newValue);
   };
 
-  const getStatusColor = (status: AdminEpochStatus) => {
-    switch (status) {
-      case AdminEpochStatus.pending:
+  // Derive the primary status from rewardStatuses array
+  // Priority: distributed > calculated > pending
+  const getPrimaryStatus = (rewardStatuses: string[]): string => {
+    if (rewardStatuses.includes(EpochsEpochRewardsStatus.distributed)) {
+      return EpochsEpochRewardsStatus.distributed;
+    }
+    if (rewardStatuses.includes(EpochsEpochRewardsStatus.calculated)) {
+      return EpochsEpochRewardsStatus.calculated;
+    }
+    return EpochsEpochRewardsStatus.pending;
+  };
+
+  const getStatusColor = (rewardStatuses: string[]) => {
+    const primaryStatus = getPrimaryStatus(rewardStatuses);
+    switch (primaryStatus) {
+      case EpochsEpochRewardsStatus.pending:
         return theme.colors.gray[40];
-      case AdminEpochStatus.calculated:
+      case EpochsEpochRewardsStatus.calculated:
         return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
-      case AdminEpochStatus.distributed:
+      case EpochsEpochRewardsStatus.distributed:
         return theme.palette.mode === "dark" ? "#6FCF97" : "#6FCF97";
       default:
         return theme.colors.gray[40];
@@ -117,7 +130,7 @@ export const ManagerPageRewards = () => {
 
   // Handle the full proposal submission flow: prepare -> sign -> submit
   const handleSubmitProposal = useCallback(async () => {
-    if (!selectedEpoch) return;
+    if (!selectedEpoch || !epochRewardsId) return;
 
     setSubmissionStep("preparing");
     setSubmissionError(null);
@@ -126,7 +139,7 @@ export const ManagerPageRewards = () => {
     try {
       // Step 1: Prepare the transaction (backend creates Safe tx and returns safeTxHash)
       const prepareResult: POSTAdminPrepareEpochTransactionApi200 = await prepareMutation.mutateAsync({
-        epochRewardsId: selectedEpoch.epochRewardsId,
+        epochRewardsId,
       });
 
       // If the transaction was already executed, no need to sign
@@ -149,7 +162,7 @@ export const ManagerPageRewards = () => {
       // Step 3: Submit the signature to backend
       setSubmissionStep("submitting");
       const submitResult = await submitMutation.mutateAsync({
-        epochRewardsId: selectedEpoch.epochRewardsId,
+        epochRewardsId,
         data: {
           safeTxHash: prepareResult.safeTxHash,
           senderSignature: signature,
@@ -162,14 +175,20 @@ export const ManagerPageRewards = () => {
       setSnackbarOpen(true);
 
       // Refresh the epochs data
-      await queryClient.invalidateQueries({ queryKey: ["/admin/epochs/pending"] });
+      await queryClient.invalidateQueries({ queryKey: ["/epochs"] });
+      await queryClient.invalidateQueries({
+        predicate: query => {
+          const key = query.queryKey[0];
+          return typeof key === "string" && key.startsWith("/epochs/");
+        },
+      });
     } catch (err) {
       console.error("Proposal submission failed:", err);
       setSubmissionStep("error");
       setSubmissionError(err instanceof Error ? err.message : "Failed to submit proposal");
       setSnackbarOpen(true);
     }
-  }, [selectedEpoch, prepareMutation, signSafeTxHash, submitMutation, queryClient]);
+  }, [selectedEpoch, epochRewardsId, prepareMutation, signSafeTxHash, submitMutation, queryClient]);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
@@ -177,7 +196,7 @@ export const ManagerPageRewards = () => {
 
   // Handle button click - show confirmation if resubmitting
   const handleButtonClick = () => {
-    if (submissionStep === "success" || selectedEpoch?.safeUrl) {
+    if (submissionStep === "success" || rewardAsset?.safeUrl) {
       setResubmitDialogOpen(true);
     } else {
       handleSubmitProposal();
@@ -209,7 +228,7 @@ export const ManagerPageRewards = () => {
         return "Resubmit Transaction";
       default:
         // If epoch already has a safeUrl (was previously submitted), show resubmit
-        if (selectedEpoch?.safeUrl) {
+        if (rewardAsset?.safeUrl) {
           return "Resubmit Transaction";
         }
         return "Prepare Transaction";
@@ -309,12 +328,17 @@ export const ManagerPageRewards = () => {
             >
               {epochs.map(epoch => (
                 <Tab
-                  key={epoch.epochId + epoch.endTimestamp + epoch.startTimestamp}
+                  key={epoch.id + epoch.endTimestamp + epoch.startTimestamp}
                   label={
                     <Box display="flex" flexDirection="column" alignItems="center" gap="4px">
-                      <Box width="6px" height="6px" bgcolor={getStatusColor(epoch.status)} borderRadius="100%" />
+                      <Box
+                        width="6px"
+                        height="6px"
+                        bgcolor={getStatusColor(epoch.rewardStatuses)}
+                        borderRadius="100%"
+                      />
                       <Typography variant="body1" fontWeight={500}>
-                        Epoch {epoch.epochId}
+                        Epoch {epoch.id}
                       </Typography>
                     </Box>
                   }
@@ -326,19 +350,21 @@ export const ManagerPageRewards = () => {
             <Box width={{ xs: "100%", md: "344px" }} flexShrink={0}>
               {selectedEpoch ? (
                 <ManageEpochStats
-                  epochId={selectedEpoch.epochId}
+                  epochId={selectedEpoch.id}
                   startTimestamp={selectedEpoch.startTimestamp}
                   endTimestamp={selectedEpoch.endTimestamp}
-                  totalUnits={selectedEpoch.totalUnits}
-                  totalYield={selectedEpoch.totalRewardsDistributed}
-                  status={selectedEpoch.status}
+                  totalUnits={
+                    epochUsersData?.users?.reduce((sum, user) => sum + BigInt(user.units), BigInt(0)).toString() || "0"
+                  }
+                  totalYield={rewardAsset?.rewardAmount || "0"}
+                  rewardStatuses={selectedEpoch.rewardStatuses}
                   chainId={chainId}
                   onSubmitProposal={handleButtonClick}
                   isSubmitting={isSubmitting}
                   submissionLabel={getSubmissionLabel()}
-                  submissionSuccess={submissionStep === "success" || !!selectedEpoch.safeUrl}
-                  safeUrl={safeUrl || selectedEpoch.safeUrl}
-                  userCount={selectedEpoch.userCount || 0}
+                  submissionSuccess={submissionStep === "success" || !!rewardAsset?.safeUrl}
+                  safeUrl={safeUrl || (rewardAsset?.safeUrl as string | null) || null}
+                  userCount={epochUsersData?.pagination?.total || 0}
                   rewardAssetDecimals={rewardAssetDecimals}
                   rewardAssetSymbol={rewardAssetSymbol}
                 />
@@ -356,7 +382,7 @@ export const ManagerPageRewards = () => {
               ) : epochUsersData ? (
                 <ManageEpochTable
                   users={epochUsersData.users}
-                  totalUserCount={selectedEpoch?.userCount || 0}
+                  totalUserCount={epochUsersData.pagination?.total || 0}
                   rewardAssetDecimals={epochUsersData.rewardAssetDecimals}
                   rewardAssetSymbol={epochUsersData.rewardAssetSymbol}
                 />
@@ -426,10 +452,10 @@ export const ManagerPageRewards = () => {
           </Box>
 
           {/* View in Safe link */}
-          {(safeUrl || selectedEpoch?.safeUrl) && (
+          {(safeUrl || rewardAsset?.safeUrl) && (
             <Button
               component="a"
-              href={safeUrl || selectedEpoch?.safeUrl}
+              href={safeUrl || (rewardAsset?.safeUrl as string)}
               target="_blank"
               rel="noopener noreferrer"
               variant="text"

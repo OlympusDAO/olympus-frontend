@@ -4,7 +4,7 @@ import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
-import { AdminEpochStatus, LibChainId } from "src/generated/olympusUnits";
+import { EpochsEpochRewardsStatus, LibChainId } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 
 // Format token amount from wei to human-readable format
@@ -23,7 +23,7 @@ interface ManageEpochStatsProps {
   endTimestamp: number;
   totalUnits: string;
   totalYield: string;
-  status: AdminEpochStatus;
+  rewardStatuses: string[];
   chainId: LibChainId;
   onSubmitProposal: () => void;
   isSubmitting: boolean;
@@ -41,7 +41,7 @@ export const ManageEpochStats = ({
   endTimestamp,
   totalUnits,
   totalYield,
-  status,
+  rewardStatuses,
   onSubmitProposal,
   isSubmitting,
   submissionLabel,
@@ -74,16 +74,29 @@ export const ManageEpochStats = ({
     };
   };
 
-  const getStatusLabel = (status: AdminEpochStatus) => {
-    switch (status) {
-      case AdminEpochStatus.pending:
+  // Derive the primary status from rewardStatuses array
+  // Priority: distributed > calculated > pending
+  const getPrimaryStatus = (statuses: string[]): string => {
+    if (statuses.includes(EpochsEpochRewardsStatus.distributed)) {
+      return EpochsEpochRewardsStatus.distributed;
+    }
+    if (statuses.includes(EpochsEpochRewardsStatus.calculated)) {
+      return EpochsEpochRewardsStatus.calculated;
+    }
+    return EpochsEpochRewardsStatus.pending;
+  };
+
+  const getStatusLabel = (statuses: string[]) => {
+    const primaryStatus = getPrimaryStatus(statuses);
+    switch (primaryStatus) {
+      case EpochsEpochRewardsStatus.pending:
         return "Pending";
-      case AdminEpochStatus.calculated:
+      case EpochsEpochRewardsStatus.calculated:
         return "Calculated";
-      case AdminEpochStatus.distributed:
+      case EpochsEpochRewardsStatus.distributed:
         return "Distributed";
       default:
-        return status;
+        return primaryStatus;
     }
   };
 
@@ -114,7 +127,7 @@ export const ManageEpochStats = ({
           borderColor={theme.colors.gray[40]}
         >
           <Typography fontSize="12px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-            {getStatusLabel(status)}
+            {getStatusLabel(rewardStatuses)}
           </Typography>
         </Box>
       </Box>
@@ -238,7 +251,7 @@ export const ManageEpochStats = ({
           color="primary"
           onClick={onSubmitProposal}
           disabled={
-            (!submissionSuccess && status !== AdminEpochStatus.calculated) ||
+            (!submissionSuccess && !rewardStatuses.includes(EpochsEpochRewardsStatus.calculated)) ||
             isSubmitting ||
             parseFloat(formatUnits(totalYield, rewardAssetDecimals)) === 0 ||
             userCount === 0

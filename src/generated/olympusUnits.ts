@@ -207,16 +207,6 @@ export type GETAdminMultisigMembersParams = {
   chainId: LibChainId;
 };
 
-export type GETAdminPendingEpochs200 = {
-  chainId: LibChainId;
-  epochs: AdminPendingEpoch[];
-  safeAddress: string;
-};
-
-export type GETAdminPendingEpochsParams = {
-  chainId: LibChainId;
-};
-
 export type POSTAdminSubmitEpochTransactionApi200 = {
   epochRewardsId: number;
   safeTxHash: string;
@@ -247,13 +237,6 @@ export type APIErrorResponse = {
   details?: APIErrorResponseDetails;
   /** Error message */
   message?: string;
-};
-
-export type UserUserUnitsSummary = {
-  address: string;
-  chainId: LibChainId;
-  entries: UserUserDailyUnitsEntry[];
-  totalUnits: string;
 };
 
 export type UserUserEpochRewardsEntry = {
@@ -364,6 +347,13 @@ export const LibChainId = {
   NUMBER_11155111: 11155111,
 } as const;
 
+export type UserUserUnitsSummary = {
+  address: string;
+  chainId: LibChainId;
+  entries: UserUserDailyUnitsEntry[];
+  totalUnits: string;
+};
+
 export type EpochsSortOrder = (typeof EpochsSortOrder)[keyof typeof EpochsSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -435,6 +425,7 @@ export type EpochsEpoch = {
   createdAt: string;
   endTimestamp: number;
   id: number;
+  rewardStatuses: string[];
   seasonId: number;
   seasonName: string;
   startTimestamp: number;
@@ -458,30 +449,6 @@ export const AdminProposalStatus = {
   ALREADY_PENDING: "ALREADY_PENDING",
   ALREADY_EXECUTED: "ALREADY_EXECUTED",
 } as const;
-
-export type AdminEpochStatus = (typeof AdminEpochStatus)[keyof typeof AdminEpochStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AdminEpochStatus = {
-  pending: "pending",
-  calculated: "calculated",
-  distributed: "distributed",
-} as const;
-
-export type AdminPendingEpoch = {
-  assets: string[];
-  endTimestamp: number;
-  epochId: number;
-  epochRewardsId: number;
-  merkleRoot: string;
-  safeTxHash?: string;
-  safeUrl?: string;
-  startTimestamp: number;
-  status: AdminEpochStatus;
-  totalRewardsDistributed: string;
-  totalUnits: string;
-  userCount: number;
-};
 
 /**
  * @summary Serve Swagger UI using Encore's raw endpoint
@@ -685,72 +652,6 @@ export const usePOSTAdminSubmitEpochTransactionApi = <TError = APIErrorResponse,
   const mutationOptions = getPOSTAdminSubmitEpochTransactionApiMutationOptions(options);
 
   return useMutation(mutationOptions);
-};
-
-/**
- * Returns a list of epochs with computed rewards and their Safe submission status. Each epoch includes: - Date range and merkle root - Total rewards and user counts - Submission status (NOT\_SUBMITTED, PENDING\_SIGNATURES, or EXECUTED)
-
-Safe address is derived from server configuration based on chainId. Distributor address is fetched from database (reward\_assets table).
-
-@param chainId - Blockchain chain ID (e.g., 11155111 for Sepolia, 1 for Mainnet) @returns PendingEpochsResponse with epochs array and safeAddress
-
-@example GET /admin/epochs/pending?chainId=11155111
-
-Response: { "epochs": \[ { "epochId": 1, "startTimestamp": 1732406400, "endTimestamp": 1732665599, "merkleRoot": "0x...", "totalRewardsDistributed": "1000000000000000000", "totalUnits": "5000", "userCount": 10, "assets": \["0x..."], "status": "NOT\_SUBMITTED" } ], "chainId": 11155111, "safeAddress": "0x..." }
-
- * @summary Get pending epochs requiring merkle root submission
-
- */
-export const gETAdminPendingEpochs = (params: GETAdminPendingEpochsParams, signal?: AbortSignal) => {
-  return customHttpClient<GETAdminPendingEpochs200>({ url: `/admin/epochs/pending`, method: "GET", params, signal });
-};
-
-export const getGETAdminPendingEpochsQueryKey = (params: GETAdminPendingEpochsParams) => {
-  return [`/admin/epochs/pending`, ...(params ? [params] : [])] as const;
-};
-
-export const getGETAdminPendingEpochsQueryOptions = <
-  TData = Awaited<ReturnType<typeof gETAdminPendingEpochs>>,
-  TError = APIErrorResponse,
->(
-  params: GETAdminPendingEpochsParams,
-  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof gETAdminPendingEpochs>>, TError, TData> },
-) => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getGETAdminPendingEpochsQueryKey(params);
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof gETAdminPendingEpochs>>> = ({ signal }) =>
-    gETAdminPendingEpochs(params, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof gETAdminPendingEpochs>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
-
-export type GETAdminPendingEpochsQueryResult = NonNullable<Awaited<ReturnType<typeof gETAdminPendingEpochs>>>;
-export type GETAdminPendingEpochsQueryError = APIErrorResponse;
-
-/**
- * @summary Get pending epochs requiring merkle root submission
-
- */
-export const useGETAdminPendingEpochs = <
-  TData = Awaited<ReturnType<typeof gETAdminPendingEpochs>>,
-  TError = APIErrorResponse,
->(
-  params: GETAdminPendingEpochsParams,
-  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof gETAdminPendingEpochs>>, TError, TData> },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGETAdminPendingEpochsQueryOptions(params, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
 };
 
 /**
@@ -1007,7 +908,7 @@ export const useGETAuthVerify = <
 
 @example GET /epochs?chainId=11155111&page=1&limit=10&sortOrder=desc
 
-Response: { "epochs": \[ { "id": 1, "seasonId": 1, "seasonName": "Season 1", "startTimestamp": 1732406400, "endTimestamp": 1732665599, "status": "completed", "createdAt": "2024-11-24 00:00:00", "updatedAt": "2024-11-24 00:00:00" } ], "pagination": { "page": 1, "limit": 10, "total": 25, "totalPages": 3 } }
+Response: { "epochs": \[ { "id": 1, "seasonId": 1, "seasonName": "Season 1", "startTimestamp": 1732406400, "endTimestamp": 1732665599, "status": "completed", "rewardStatuses": \["calculated", "distributed"], "createdAt": "2024-11-24 00:00:00", "updatedAt": "2024-11-24 00:00:00" } ], "pagination": { "page": 1, "limit": 10, "total": 25, "totalPages": 3 } }
 
  * @summary Get paginated list of epochs
 
