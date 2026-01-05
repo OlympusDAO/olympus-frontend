@@ -1,0 +1,63 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "disableData_",
+        "type": "bytes"
+      }
+    ],
+    "name": "disable",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "enableData_",
+        "type": "bytes"
+      }
+    ],
+    "name": "enable",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isEnabled",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "enabled",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "Disabled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "Enabled",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "NotDisabled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotEnabled",
+    "type": "error"
+  }
+]

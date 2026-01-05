@@ -53,6 +53,7 @@ const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryD
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const V1Stake = lazy(() => import("./views/V1-Stake/V1-Stake"));
 const Range = lazy(() => import("./views/Range"));
+const EmergencyShutdown = lazy(() => import("./views/EmergencyShutdown"));
 
 const PREFIX = "App";
 
@@ -267,6 +268,7 @@ function App() {
                   <Route path="/governance/delegate" element={<Delegate />} />
                   <Route path="/governance/delegate/:id" element={<DelegateDetails />} />
                   <Route path="/rewards" element={<RewardsSoonAnimation />} />
+                  <Route path="/emergency" element={<EmergencyShutdown />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

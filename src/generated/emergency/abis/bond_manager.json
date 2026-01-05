@@ -1,0 +1,622 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract Kernel",
+        "name": "kernel_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "fixedExpiryAuctioneer_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "fixedExpiryTeller_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "gnosisEasyAuction_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "ohm_",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "MINTR",
+    "outputs": [
+      {
+        "internalType": "contract MINTRv1",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ROLES",
+    "outputs": [
+      {
+        "internalType": "contract ROLESv1",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "TRSRY",
+    "outputs": [
+      {
+        "internalType": "contract TRSRYv1",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "batchAuctionParameters",
+    "outputs": [
+      {
+        "internalType": "uint48",
+        "name": "auctionCancelTime",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint48",
+        "name": "auctionTime",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint96",
+        "name": "minPctSold",
+        "type": "uint96"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minBuyAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minFundingThreshold",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bondCallback",
+    "outputs": [
+      {
+        "internalType": "contract IBondCallback",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Kernel",
+        "name": "newKernel_",
+        "type": "address"
+      }
+    ],
+    "name": "changeKernel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "marketId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "closeFixedExpiryBondMarket",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "configureDependencies",
+    "outputs": [
+      {
+        "internalType": "Keycode[]",
+        "name": "dependencies",
+        "type": "bytes5[]"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint96",
+        "name": "capacity_",
+        "type": "uint96"
+      },
+      {
+        "internalType": "uint48",
+        "name": "bondTerm_",
+        "type": "uint48"
+      }
+    ],
+    "name": "createBatchAuction",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "auctionId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "capacity_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint48",
+        "name": "bondTerm_",
+        "type": "uint48"
+      }
+    ],
+    "name": "createFixedExpiryBondMarket",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "marketId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "contract_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount_",
+        "type": "uint256"
+      }
+    ],
+    "name": "emergencySetApproval",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "marketId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "emergencyShutdownFixedExpiryMarket",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount_",
+        "type": "uint256"
+      }
+    ],
+    "name": "emergencyWithdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fixedExpiryAuctioneer",
+    "outputs": [
+      {
+        "internalType": "contract IBondAuctioneer",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fixedExpiryParameters",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "initialPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint48",
+        "name": "auctionTime",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint32",
+        "name": "debtBuffer",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint32",
+        "name": "depositInterval",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "capacityInQuote",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fixedExpiryTeller",
+    "outputs": [
+      {
+        "internalType": "contract IBondFixedExpiryTeller",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gnosisEasyAuction",
+    "outputs": [
+      {
+        "internalType": "contract IEasyAuction",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isActive",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "kernel",
+    "outputs": [
+      {
+        "internalType": "contract Kernel",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ohm",
+    "outputs": [
+      {
+        "internalType": "contract OlympusERC20Token",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "requestPermissions",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "Keycode",
+            "name": "keycode",
+            "type": "bytes5"
+          },
+          {
+            "internalType": "bytes4",
+            "name": "funcSelector",
+            "type": "bytes4"
+          }
+        ],
+        "internalType": "struct Permissions[]",
+        "name": "requests",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint48",
+        "name": "auctionCancelTime_",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint48",
+        "name": "auctionTime_",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint96",
+        "name": "minPctSold_",
+        "type": "uint96"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minBuyAmount_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minFundingThreshold_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBatchAuctionParameters",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IBondCallback",
+        "name": "newCallback_",
+        "type": "address"
+      }
+    ],
+    "name": "setCallback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "initialPrice_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minPrice_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint48",
+        "name": "auctionTime_",
+        "type": "uint48"
+      },
+      {
+        "internalType": "uint32",
+        "name": "debtBuffer_",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint32",
+        "name": "depositInterval_",
+        "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "capacityInQuote_",
+        "type": "bool"
+      }
+    ],
+    "name": "setFixedExpiryParameters",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "auctionId_",
+        "type": "uint256"
+      }
+    ],
+    "name": "settleBatchAuction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "marketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "bondToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "capacity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint48",
+        "name": "bondTerm",
+        "type": "uint48"
+      }
+    ],
+    "name": "BondProtocolMarketLaunched",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "marketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "bondToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint96",
+        "name": "capacity",
+        "type": "uint96"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint48",
+        "name": "bondTerm",
+        "type": "uint48"
+      }
+    ],
+    "name": "GnosisAuctionLaunched",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_AuctionTimeTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_CancelTimeTooLong",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_DebtBufferTooLow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_DepositIntervalTooLong",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_DepositIntervalTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_InitialPriceTooLow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_MinPctSoldTooLow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BondManager_TermTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "caller_",
+        "type": "address"
+      }
+    ],
+    "name": "KernelAdapter_OnlyKernel",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "Keycode",
+        "name": "keycode_",
+        "type": "bytes5"
+      }
+    ],
+    "name": "Policy_ModuleDoesNotExist",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "expected_",
+        "type": "bytes"
+      }
+    ],
+    "name": "Policy_WrongModuleVersion",
+    "type": "error"
+  }
+]

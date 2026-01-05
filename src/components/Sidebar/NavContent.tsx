@@ -119,6 +119,7 @@ const NavContent: React.VFC = () => {
                 }
                 to="/rewards"
               />
+              <NavItem icon="alert-circle" label="Emergency" to="/emergency" />
             </div>
           </div>
         </div>
