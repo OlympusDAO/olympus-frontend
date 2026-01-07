@@ -17,7 +17,7 @@ interface EmergencyComponentCardProps {
 }
 
 /**
- * Card displaying an emergency component with its status and shutdown button
+ * Horizontal card displaying an emergency component with networks, status and shutdown button
  */
 export const EmergencyComponentCard = ({
   component,
@@ -56,68 +56,167 @@ export const EmergencyComponentCard = ({
     return <Chip label="Active" size="small" color="success" variant="outlined" />;
   };
 
+  // Format chain name for display
+  const formatChainName = (chain: string) => {
+    return chain
+      .split("-")
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join("-");
+  };
+
   return (
     <>
-      <Paper enableBackground>
-        <Box display="flex" flexDirection="column" gap={2} p={1}>
-          {/* Header */}
-          <Box display="flex" justifyContent="space-between" alignItems="flex-start">
-            <Box>
-              <Typography variant="h6" fontWeight={600}>
-                {component.name}
-              </Typography>
-              <Chip
-                label={ownerLabel}
-                size="small"
-                color={component.owner === "emergency_ms" ? "error" : "warning"}
-                sx={{ mt: 0.5 }}
-              />
-            </Box>
-            {getStatusChip()}
-          </Box>
-
-          {/* Description */}
-          <Typography variant="body2" color="textSecondary">
-            {component.description}
-          </Typography>
-
-          {/* Calls Info */}
-          <Box>
-            <Typography variant="caption" color="textSecondary">
-              Shutdown Actions: {component.calls.length}
+      <Paper enableBackground fullWidth>
+        <Box display="flex" flexDirection="column" gap={1.5} p={{ xs: 2, md: 1 }}>
+          {/* Mobile Layout */}
+          <Box display={{ xs: "flex", md: "none" }} flexDirection="column" gap={1.5}>
+            {/* Title */}
+            <Typography variant="h6" fontWeight={600}>
+              {component.name}
             </Typography>
-            <Box display="flex" flexWrap="wrap" gap={0.5} mt={0.5}>
-              {component.calls.map((call, index) => (
-                <Chip
-                  key={index}
-                  label={`${call.functionName}()`}
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontSize: "10px" }}
-                />
-              ))}
+            {/* Chips */}
+            <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
+              <Chip label={ownerLabel} size="small" color={component.owner === "emergency_ms" ? "error" : "success"} />
+              {getStatusChip()}
             </Box>
-          </Box>
-
-          {/* Shutdown Button */}
-          <Box mt={1}>
+            {/* Description */}
+            <Typography variant="body2" color="textSecondary">
+              {component.description}
+            </Typography>
+            {/* Networks */}
+            <Box>
+              <Typography variant="body2" color="textSecondary" mb={0.5}>
+                Networks: {component.chains.length}
+              </Typography>
+              <Box display="flex" flexWrap="wrap" gap={0.5}>
+                {component.chains.map(chain => (
+                  <Chip
+                    key={chain}
+                    label={formatChainName(chain)}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: "11px" }}
+                  />
+                ))}
+              </Box>
+            </Box>
+            {/* Shutdown Actions */}
+            <Box>
+              <Typography variant="body2" color="textSecondary" mb={0.5}>
+                Shutdown Actions: {component.calls.length}
+              </Typography>
+              <Box display="flex" flexWrap="wrap" gap={0.5}>
+                {component.calls.map((call, index) => (
+                  <Chip
+                    key={index}
+                    label={`${call.functionName}()`}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: "11px" }}
+                  />
+                ))}
+              </Box>
+            </Box>
+            {/* Mobile button */}
             <PrimaryButton
               fullWidth
               disabled={!canExecute || status.isShutdown || status.isLoading}
               onClick={() => setIsModalOpen(true)}
               sx={{
-                backgroundColor: canExecute && !status.isShutdown ? "error.main" : undefined,
+                mt: 1,
+                backgroundColor: status.isShutdown ? "action.disabledBackground" : canExecute ? "#F8CC82" : undefined,
+                color: status.isShutdown ? "text.secondary" : canExecute ? "#000" : undefined,
                 "&:hover": {
-                  backgroundColor: canExecute && !status.isShutdown ? "error.dark" : undefined,
+                  backgroundColor: status.isShutdown ? "action.disabledBackground" : canExecute ? "#e6b96e" : undefined,
                 },
               }}
             >
-              {status.isShutdown
-                ? "Already Disabled"
-                : canExecute
-                  ? "Initiate Shutdown"
-                  : `Requires ${ownerLabel} Signer`}
+              {status.isShutdown ? "Disabled" : "Disable"}
             </PrimaryButton>
+          </Box>
+
+          {/* Desktop Layout */}
+          <Box display={{ xs: "none", md: "flex" }} flexDirection="column" gap={1.5}>
+            {/* Header Row */}
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
+                <Typography variant="h6" fontWeight={600}>
+                  {component.name}
+                </Typography>
+                <Chip
+                  label={ownerLabel}
+                  size="small"
+                  color={component.owner === "emergency_ms" ? "error" : "success"}
+                />
+                {getStatusChip()}
+              </Box>
+              <PrimaryButton
+                disabled={!canExecute || status.isShutdown || status.isLoading}
+                onClick={() => setIsModalOpen(true)}
+                sx={{
+                  minWidth: "100px",
+                  backgroundColor: status.isShutdown
+                    ? "action.disabledBackground"
+                    : canExecute
+                      ? "warning.main"
+                      : undefined,
+                  color: status.isShutdown ? "text.secondary" : canExecute ? "warning.contrastText" : undefined,
+                  "&:hover": {
+                    backgroundColor: status.isShutdown
+                      ? "action.disabledBackground"
+                      : canExecute
+                        ? "warning.dark"
+                        : undefined,
+                  },
+                }}
+              >
+                {status.isShutdown ? "Disabled" : "Disable"}
+              </PrimaryButton>
+            </Box>
+
+            {/* Description */}
+            <Typography variant="body2" color="textSecondary">
+              {component.description}
+            </Typography>
+
+            {/* Networks and Shutdown Actions Row */}
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={2}>
+              {/* Networks */}
+              <Box flex={1}>
+                <Typography variant="caption" color="textSecondary">
+                  Networks: {component.chains.length}
+                </Typography>
+                <Box display="flex" flexWrap="wrap" gap={0.5} mt={0.5}>
+                  {component.chains.map(chain => (
+                    <Chip
+                      key={chain}
+                      label={formatChainName(chain)}
+                      size="small"
+                      variant="outlined"
+                      sx={{ fontSize: "11px" }}
+                    />
+                  ))}
+                </Box>
+              </Box>
+
+              {/* Shutdown Actions */}
+              <Box>
+                <Typography variant="caption" color="textSecondary">
+                  Shutdown Actions: {component.calls.length}
+                </Typography>
+                <Box display="flex" flexWrap="wrap" gap={0.5} mt={0.5} justifyContent="flex-end">
+                  {component.calls.map((call, index) => (
+                    <Chip
+                      key={index}
+                      label={`${call.functionName}()`}
+                      size="small"
+                      variant="outlined"
+                      sx={{ fontSize: "11px" }}
+                    />
+                  ))}
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Paper>

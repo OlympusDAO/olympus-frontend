@@ -1,10 +1,22 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Box, Button, Chip, Grid, Link, Typography } from "@mui/material";
 import { InfoNotification, Paper } from "@olympusdao/component-library";
+import { useState } from "react";
 import PageTitle from "src/components/PageTitle";
-import { CHAIN_ID_TO_NAME, ChainId, EMERGENCY_ADDRESSES, EMERGENCY_COMPONENTS } from "src/generated/emergency";
+import {
+  CHAIN_ID_TO_NAME,
+  ChainId,
+  EMERGENCY_ADDRESSES,
+  EMERGENCY_COMPONENTS,
+  MultisigOwner,
+} from "src/generated/emergency";
 import { EmergencyComponentCard } from "src/views/EmergencyShutdown/components/EmergencyComponentCard";
 import { useComponentsStatus, useIsSafeSigner } from "src/views/EmergencyShutdown/hooks";
 import { useAccount, useNetwork } from "wagmi";
+
+type OwnerFilter = "all" | MultisigOwner;
 
 /**
  * Emergency Shutdown Dashboard
@@ -18,6 +30,8 @@ import { useAccount, useNetwork } from "wagmi";
 export const EmergencyShutdown = () => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
+  const [ownerFilter, setOwnerFilter] = useState<OwnerFilter>("all");
+  const [showWarning, setShowWarning] = useState(true);
 
   // Get current chain name for filtering
   const chainId = chain?.id || 1;
@@ -28,6 +42,10 @@ export const EmergencyShutdown = () => {
   const availableComponents = EMERGENCY_COMPONENTS.filter(component =>
     chainName ? component.chains.includes(chainName as ChainId) : false,
   );
+
+  // Apply owner filter
+  const filteredComponents =
+    ownerFilter === "all" ? availableComponents : availableComponents.filter(c => c.owner === ownerFilter);
 
   // Fetch on-chain status for all components
   const componentStatuses = useComponentsStatus(availableComponents, chainAddresses, chainId);
@@ -47,17 +65,48 @@ export const EmergencyShutdown = () => {
 
   return (
     <div id="emergency-shutdown-view">
-      <PageTitle name="Emergency Shutdown" />
+      <PageTitle name="Emergency Shutdown" noMargin />
       <Box width="97%" maxWidth="1200px">
         {/* Warning Banner */}
-        <Box mb="21px">
-          <InfoNotification>
-            <Typography fontWeight={600} color="error">
-              This dashboard is for emergency use only. Shutting down a component will disable critical protocol
-              functionality.
-            </Typography>
-          </InfoNotification>
-        </Box>
+        {showWarning && (
+          <Box
+            mb="21px"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              backgroundColor: "#272727",
+              borderRadius: "8px",
+              padding: "12px 20px",
+              overflow: "visible",
+            }}
+          >
+            <Box display="flex" alignItems="center" gap={1.5} sx={{ overflow: "visible" }}>
+              <ErrorOutlineIcon viewBox="0 0 25 25" sx={{ color: "#F8CC82", fontSize: 20, flexShrink: 0 }} />
+              <Typography fontSize={14}>
+                This dashboard is for emergency use only. Shutting down a component will disable critical protocol
+                functionality.
+              </Typography>
+            </Box>
+            <Button
+              variant="text"
+              onClick={() => setShowWarning(false)}
+              sx={{
+                color: "white",
+                textTransform: "none",
+                fontWeight: 400,
+                fontSize: 14,
+                whiteSpace: "nowrap",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              I Understand
+            </Button>
+          </Box>
+        )}
 
         {/* Connection Status */}
         {!isConnected && (
@@ -70,92 +119,121 @@ export const EmergencyShutdown = () => {
 
         {/* Network Info */}
         {isConnected && chainName && (
-          <Paper enableBackground fullWidth>
-            <Box mb={3}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
-                  <Typography variant="body2" color="textSecondary">
-                    Connected Network
-                  </Typography>
-                  <Typography variant="h6" fontWeight={600}>
-                    {chainName.charAt(0).toUpperCase() + chainName.slice(1)}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <Typography variant="body2" color="textSecondary">
-                    Emergency MS
-                  </Typography>
-                  <Typography variant="body2" fontFamily="monospace">
-                    {chainAddresses?.emergency_ms
-                      ? `${chainAddresses.emergency_ms.slice(0, 6)}...${chainAddresses.emergency_ms.slice(-4)}`
-                      : "Not configured"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <Typography variant="body2" color="textSecondary">
-                    DAO MS
-                  </Typography>
-                  <Typography variant="body2" fontFamily="monospace">
-                    {chainAddresses?.dao_ms
-                      ? `${chainAddresses.dao_ms.slice(0, 6)}...${chainAddresses.dao_ms.slice(-4)}`
-                      : "Not configured"}
-                  </Typography>
-                </Grid>
+          <Box
+            sx={{
+              backgroundColor: "#272727",
+              borderRadius: "12px",
+              padding: "24px 32px",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="body2" color="textSecondary" mb={1}>
+                  Connected Network
+                </Typography>
+                <Typography variant="h6" fontWeight={600}>
+                  {chainName.charAt(0).toUpperCase() + chainName.slice(1)}
+                </Typography>
               </Grid>
-            </Box>
-
-            {/* Signer Status */}
-            {isConnected && (
-              <Box p={2} borderRadius={1} bgcolor={isSigner ? "success.light" : "warning.light"} sx={{ opacity: 0.9 }}>
-                {isSignerLoading ? (
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <CircularProgress size={16} />
-                    <Typography>Checking signer status...</Typography>
-                  </Box>
-                ) : (
-                  <>
-                    <Typography fontWeight={600}>
-                      {isSigner
-                        ? `You are a ${
-                            isEmergencySigner && isDaoSigner
-                              ? "Emergency MS & DAO MS"
-                              : isEmergencySigner
-                                ? "Emergency MS"
-                                : "DAO MS"
-                          } signer`
-                        : "You are not a multisig signer on this network"}
+              <Grid item xs={12} md={4}>
+                <Typography variant="body2" color="textSecondary" mb={1}>
+                  Emergency MS
+                </Typography>
+                {chainAddresses?.emergency_ms ? (
+                  <Link
+                    href={`https://etherscan.io/address/${chainAddresses.emergency_ms}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                      color: "white",
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight={600} component="span">
+                      {`${chainAddresses.emergency_ms.slice(0, 6)}...${chainAddresses.emergency_ms.slice(-4)}`}
                     </Typography>
-                    {isSigner && (
-                      <Typography variant="body2" color="textSecondary" mt={0.5}>
-                        {isEmergencySigner &&
-                          emergencyThreshold &&
-                          `Emergency MS: ${emergencyThreshold}/${emergencyOwnerCount} signatures required`}
-                        {isEmergencySigner && isDaoSigner && " • "}
-                        {isDaoSigner && daoThreshold && `DAO MS: ${daoThreshold}/${daoOwnerCount} signatures required`}
-                      </Typography>
-                    )}
-                    {!isSigner && (
-                      <Typography variant="body2">
-                        Connect with an address that is a signer on the Emergency MS or DAO MS to execute shutdown
-                        transactions.
-                      </Typography>
-                    )}
-                  </>
+                    <OpenInNewIcon sx={{ fontSize: 16 }} />
+                  </Link>
+                ) : (
+                  <Typography variant="h6" fontWeight={600}>
+                    Not configured
+                  </Typography>
                 )}
-              </Box>
-            )}
-          </Paper>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="body2" color="textSecondary" mb={1}>
+                  DAO MS
+                </Typography>
+                {chainAddresses?.dao_ms ? (
+                  <Link
+                    href={`https://etherscan.io/address/${chainAddresses.dao_ms}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                      color: "white",
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight={600} component="span">
+                      {`${chainAddresses.dao_ms.slice(0, 6)}...${chainAddresses.dao_ms.slice(-4)}`}
+                    </Typography>
+                    <OpenInNewIcon sx={{ fontSize: 16 }} />
+                  </Link>
+                ) : (
+                  <Typography variant="h6" fontWeight={600}>
+                    Not configured
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+          </Box>
         )}
 
         {/* Components Grid */}
         {chainName && availableComponents.length > 0 ? (
           <Box mt={3}>
-            <Typography variant="h6" fontWeight={600} mb={2}>
-              Protocol Components ({availableComponents.length})
-            </Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+              <Typography variant="h6" fontWeight={600}>
+                Protocol Components
+              </Typography>
+              <Box display="flex" gap={1}>
+                <Chip
+                  label="All"
+                  size="small"
+                  onClick={() => setOwnerFilter("all")}
+                  variant={ownerFilter === "all" ? "filled" : "outlined"}
+                  icon={ownerFilter === "all" ? <CheckIcon fontSize="small" /> : undefined}
+                  sx={{ cursor: "pointer" }}
+                />
+                <Chip
+                  label="DAO MS"
+                  size="small"
+                  onClick={() => setOwnerFilter("dao_ms")}
+                  variant={ownerFilter === "dao_ms" ? "filled" : "outlined"}
+                  icon={ownerFilter === "dao_ms" ? <CheckIcon fontSize="small" /> : undefined}
+                  sx={{ cursor: "pointer" }}
+                />
+                <Chip
+                  label="Emergency MS"
+                  size="small"
+                  onClick={() => setOwnerFilter("emergency_ms")}
+                  variant={ownerFilter === "emergency_ms" ? "filled" : "outlined"}
+                  icon={ownerFilter === "emergency_ms" ? <CheckIcon fontSize="small" /> : undefined}
+                  sx={{ cursor: "pointer" }}
+                />
+              </Box>
+            </Box>
             <Grid container spacing={2}>
-              {availableComponents.map(component => (
-                <Grid item xs={12} md={6} lg={4} key={component.id}>
+              {filteredComponents.map(component => (
+                <Grid item xs={12} key={component.id}>
                   <EmergencyComponentCard
                     component={component}
                     chainName={chainName}
