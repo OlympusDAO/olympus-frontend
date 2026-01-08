@@ -31,7 +31,14 @@ export const EmergencyShutdown = () => {
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const [ownerFilter, setOwnerFilter] = useState<OwnerFilter>("all");
-  const [showWarning, setShowWarning] = useState(true);
+  const [showWarning, setShowWarning] = useState(() => {
+    return localStorage.getItem("emergency-warning-dismissed") !== "true";
+  });
+
+  const handleDismissWarning = () => {
+    setShowWarning(false);
+    localStorage.setItem("emergency-warning-dismissed", "true");
+  };
 
   // Get current chain name for filtering
   const chainId = chain?.id || 1;
@@ -66,7 +73,7 @@ export const EmergencyShutdown = () => {
   return (
     <div id="emergency-shutdown-view">
       <PageTitle name="Emergency Shutdown" noMargin />
-      <Box width="97%" maxWidth="1200px">
+      <Box maxWidth="1200px">
         {/* Warning Banner */}
         {showWarning && (
           <Box
@@ -75,7 +82,7 @@ export const EmergencyShutdown = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              backgroundColor: "#272727",
+              backgroundColor: theme => `${theme.colors.primary[300]}0D`,
               borderRadius: "8px",
               padding: "12px 20px",
               overflow: "visible",
@@ -90,9 +97,9 @@ export const EmergencyShutdown = () => {
             </Box>
             <Button
               variant="text"
-              onClick={() => setShowWarning(false)}
+              onClick={handleDismissWarning}
               sx={{
-                color: "white",
+                color: "text.primary",
                 textTransform: "none",
                 fontWeight: 400,
                 fontSize: 14,
@@ -119,24 +126,18 @@ export const EmergencyShutdown = () => {
 
         {/* Network Info */}
         {isConnected && chainName && (
-          <Box
-            sx={{
-              backgroundColor: "#272727",
-              borderRadius: "12px",
-              padding: "24px 32px",
-            }}
-          >
+          <Paper enableBackground fullWidth>
             <Grid container spacing={2}>
               <Grid item xs={12} md={4}>
-                <Typography variant="body2" color="textSecondary" mb={1}>
+                <Typography fontSize={15} color="textSecondary" mb={1}>
                   Connected Network
                 </Typography>
-                <Typography variant="h6" fontWeight={600}>
+                <Typography fontSize={18} fontWeight={600}>
                   {chainName.charAt(0).toUpperCase() + chainName.slice(1)}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={4}>
-                <Typography variant="body2" color="textSecondary" mb={1}>
+                <Typography fontSize={15} color="textSecondary" mb={1}>
                   Emergency MS
                 </Typography>
                 {chainAddresses?.emergency_ms ? (
@@ -148,24 +149,24 @@ export const EmergencyShutdown = () => {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 0.5,
-                      color: "white",
+                      color: "text.primary",
                       textDecoration: "none",
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
-                    <Typography variant="h6" fontWeight={600} component="span">
+                    <Typography fontSize={18} fontWeight={600} component="span">
                       {`${chainAddresses.emergency_ms.slice(0, 6)}...${chainAddresses.emergency_ms.slice(-4)}`}
                     </Typography>
                     <OpenInNewIcon sx={{ fontSize: 16 }} />
                   </Link>
                 ) : (
-                  <Typography variant="h6" fontWeight={600}>
+                  <Typography fontSize={18} fontWeight={600}>
                     Not configured
                   </Typography>
                 )}
               </Grid>
               <Grid item xs={12} md={4}>
-                <Typography variant="body2" color="textSecondary" mb={1}>
+                <Typography fontSize={15} color="textSecondary" mb={1}>
                   DAO MS
                 </Typography>
                 {chainAddresses?.dao_ms ? (
@@ -177,12 +178,12 @@ export const EmergencyShutdown = () => {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 0.5,
-                      color: "white",
+                      color: "text.primary",
                       textDecoration: "none",
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
-                    <Typography variant="h6" fontWeight={600} component="span">
+                    <Typography fontSize={18} fontWeight={600} component="span">
                       {`${chainAddresses.dao_ms.slice(0, 6)}...${chainAddresses.dao_ms.slice(-4)}`}
                     </Typography>
                     <OpenInNewIcon sx={{ fontSize: 16 }} />
@@ -194,7 +195,7 @@ export const EmergencyShutdown = () => {
                 )}
               </Grid>
             </Grid>
-          </Box>
+          </Paper>
         )}
 
         {/* Components Grid */}

@@ -76,7 +76,12 @@ export const EmergencyComponentCard = ({
             </Typography>
             {/* Chips */}
             <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
-              <Chip label={ownerLabel} size="small" color={component.owner === "emergency_ms" ? "error" : "success"} />
+              <Chip
+                label={ownerLabel}
+                size="small"
+                color={component.owner === "emergency_ms" ? "error" : undefined}
+                sx={component.owner === "dao_ms" ? { backgroundColor: "#A269D7", color: "white" } : undefined}
+              />
               {getStatusChip()}
             </Box>
             {/* Description */}
@@ -146,7 +151,8 @@ export const EmergencyComponentCard = ({
                 <Chip
                   label={ownerLabel}
                   size="small"
-                  color={component.owner === "emergency_ms" ? "error" : "success"}
+                  color={component.owner === "emergency_ms" ? "error" : undefined}
+                  sx={component.owner === "dao_ms" ? { backgroundColor: "#A269D7", color: "white" } : undefined}
                 />
                 {getStatusChip()}
               </Box>
