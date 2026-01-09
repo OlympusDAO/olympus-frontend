@@ -3,6 +3,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
 import { cdIcon } from "src/assets/cdIcon";
+import emergencyIcon from "src/assets/icons/emergency.svg?react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import rewardsIcon from "src/assets/icons/rewards.svg?react";
@@ -133,7 +134,13 @@ const NavContent: React.VFC = () => {
                 }
                 to="/rewards"
               />
-              {isAdmin && <NavItem icon="alert-circle" label="Emergency" to="/emergency" />}
+              {isAdmin && (
+                <NavItem
+                  customIcon={<SvgIcon component={emergencyIcon} viewBox="0 0 21 21" />}
+                  label="Emergency"
+                  to="/emergency"
+                />
+              )}
             </div>
           </div>
         </div>

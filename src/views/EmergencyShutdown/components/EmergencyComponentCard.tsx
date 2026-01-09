@@ -129,10 +129,15 @@ export const EmergencyComponentCard = ({
               onClick={() => setIsModalOpen(true)}
               sx={{
                 mt: 1,
-                backgroundColor: status.isShutdown ? "action.disabledBackground" : canExecute ? "#F8CC82" : undefined,
-                color: status.isShutdown ? "text.secondary" : canExecute ? "#000" : undefined,
+                backgroundColor: status.isShutdown ? "action.disabledBackground" : "#F8CC82",
+                color: status.isShutdown ? "text.secondary" : "#000",
                 "&:hover": {
-                  backgroundColor: status.isShutdown ? "action.disabledBackground" : canExecute ? "#e6b96e" : undefined,
+                  backgroundColor: status.isShutdown ? "action.disabledBackground" : "#e6b96e",
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: status.isShutdown ? "action.disabledBackground" : "#F8CC82",
+                  color: status.isShutdown ? "text.secondary" : "#000",
+                  opacity: status.isShutdown ? 1 : 0.6,
                 },
               }}
             >
@@ -161,18 +166,15 @@ export const EmergencyComponentCard = ({
                 onClick={() => setIsModalOpen(true)}
                 sx={{
                   minWidth: "100px",
-                  backgroundColor: status.isShutdown
-                    ? "action.disabledBackground"
-                    : canExecute
-                      ? "warning.main"
-                      : undefined,
-                  color: status.isShutdown ? "text.secondary" : canExecute ? "warning.contrastText" : undefined,
+                  backgroundColor: status.isShutdown ? "action.disabledBackground" : "#F8CC82",
+                  color: status.isShutdown ? "text.secondary" : "#000",
                   "&:hover": {
-                    backgroundColor: status.isShutdown
-                      ? "action.disabledBackground"
-                      : canExecute
-                        ? "warning.dark"
-                        : undefined,
+                    backgroundColor: status.isShutdown ? "action.disabledBackground" : "#e6b96e",
+                  },
+                  "&.Mui-disabled": {
+                    backgroundColor: status.isShutdown ? "action.disabledBackground" : "#F8CC82",
+                    color: status.isShutdown ? "text.secondary" : "#000",
+                    opacity: status.isShutdown ? 1 : 0.6,
                   },
                 }}
               >

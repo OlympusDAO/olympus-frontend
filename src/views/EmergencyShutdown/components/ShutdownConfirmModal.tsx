@@ -229,7 +229,7 @@ export const ShutdownConfirmModal = ({
                 },
               }}
             >
-              {isLoading ? "Signing..." : "Confirm Shutdown"}
+              {isLoading ? "Signing..." : "Submit Shutdown Proposal"}
             </PrimaryButton>
           </Box>
         </Box>

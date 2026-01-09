@@ -13,14 +13,14 @@ export const SAFE_TX_SERVICE_URLS: Record<number, string> = {
 };
 
 /**
- * Safe App URL for viewing transactions
+ * Safe App chain prefixes for URL construction
  */
-export const SAFE_APP_URLS: Record<number, string> = {
-  1: "https://app.safe.global/eth:",
-  11155111: "https://app.safe.global/sep:",
-  42161: "https://app.safe.global/arb1:",
-  8453: "https://app.safe.global/base:",
-  10: "https://app.safe.global/oeth:",
+export const SAFE_APP_CHAIN_PREFIX: Record<number, string> = {
+  1: "eth",
+  11155111: "sep",
+  42161: "arb1",
+  8453: "base",
+  10: "oeth",
 };
 
 /**
@@ -255,7 +255,7 @@ export async function proposeTransaction(
  * @returns URL to view transaction in Safe App
  */
 export function getSafeAppTxUrl(safeAddress: string, safeTxHash: string, chainId: number): string {
-  const baseUrl = SAFE_APP_URLS[chainId];
-  if (!baseUrl) return "";
-  return `${baseUrl}${safeAddress}/transactions/tx?id=multisig_${safeAddress}_${safeTxHash}`;
+  const chainPrefix = SAFE_APP_CHAIN_PREFIX[chainId];
+  if (!chainPrefix) return "";
+  return `https://app.safe.global/transactions/tx?safe=${chainPrefix}:${safeAddress}&id=multisig_${safeAddress}_${safeTxHash}`;
 }
