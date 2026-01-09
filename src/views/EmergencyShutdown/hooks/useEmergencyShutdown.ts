@@ -14,7 +14,7 @@ import {
   SAFE_TX_SERVICE_URLS,
   SafeTransactionData,
 } from "src/views/EmergencyShutdown/utils/safeTransaction";
-import { useAccount, useNetwork, useSignMessage } from "wagmi";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 /**
  * ABI mapping from abiKey to actual ABI
@@ -54,8 +54,8 @@ function encodeEmergencyCall(call: EmergencyCall): string {
   // @ts-ignore
   const iface = new ethers.utils.Interface(abi as ethers.ContractInterface);
 
-  // Handle args - filter out empty strings and convert as needed
-  const args = call.args.filter(arg => arg !== "");
+  // Handle args - convert empty strings to "0x" for bytes parameters
+  const args = call.args.map(arg => (arg === "" ? "0x" : arg));
 
   try {
     return iface.encodeFunctionData(call.functionName, args);
@@ -102,12 +102,13 @@ function buildMetaTransactions(component: EmergencyComponent, chainAddresses: Ch
 export const useEmergencyShutdown = ({ component, chainAddresses, safeAddress }: UseEmergencyShutdownParams) => {
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const { signMessageAsync } = useSignMessage();
+  const { data: signer } = useSigner();
 
   return useMutation<ShutdownResult, Error, void>({
     mutationFn: async () => {
       if (!address) throw new Error("Wallet not connected");
       if (!chain) throw new Error("Chain not detected");
+      if (!signer) throw new Error("Signer not available");
       if (!chainAddresses) throw new Error("Chain addresses not available");
       if (!SAFE_TX_SERVICE_URLS[chain.id])
         throw new Error(`Chain ${chain.id} not supported by Safe Transaction Service`);
@@ -152,19 +153,13 @@ export const useEmergencyShutdown = ({ component, chainAddresses, safeAddress }:
       const safeTxHash = calculateSafeTxHash(safeAddress, safeTxData, chainId);
       console.log("Safe transaction hash:", safeTxHash);
 
-      // Step 6: Sign the hash
-      // wagmi v0.12 expects message as string, we convert bytes to hex
-      console.log("Requesting signature...");
-      const signature = await signMessageAsync({
-        message: safeTxHash,
-      });
+      // Step 6: Sign the hash using eth_sign
+      const signature = await signer.signMessage(ethers.utils.arrayify(safeTxHash));
 
       // Adjust signature for Safe (add 4 to v for eth_sign)
       const adjustedSig = adjustSignatureForSafe(signature);
-      console.log("Signature obtained");
 
       // Step 7: Propose to Safe Transaction Service
-      console.log("Proposing transaction...");
       await proposeTransaction(safeAddress, safeTxData, safeTxHash, adjustedSig, address, chainId);
       console.log("Transaction proposed successfully!");
 
@@ -191,12 +186,16 @@ export const useEmergencyShutdown = ({ component, chainAddresses, safeAddress }:
  * Safe expects v to be adjusted for eth_sign signatures
  */
 function adjustSignatureForSafe(signature: string): string {
+  // Safe uses v + 4 for eth_sign signatures (v=31 or v=32 instead of v=27 or v=28)
+  // ethers.utils.joinSignature normalizes v back to 27/28, so we manually adjust the last byte
   const sig = ethers.utils.splitSignature(signature);
-  // Safe uses v + 4 for eth_sign signatures
-  const adjustedV = sig.v + 4;
-  return ethers.utils.joinSignature({
-    r: sig.r,
-    s: sig.s,
-    v: adjustedV,
-  });
+  const adjustedV = sig.v + 4; // 27 -> 31 or 28 -> 32
+
+  // Manually construct the signature with adjusted v
+  // Signature format: r (32 bytes) + s (32 bytes) + v (1 byte) = 65 bytes
+  const r = sig.r;
+  const s = sig.s;
+  const vHex = adjustedV.toString(16).padStart(2, "0");
+
+  return r + s.slice(2) + vHex;
 }

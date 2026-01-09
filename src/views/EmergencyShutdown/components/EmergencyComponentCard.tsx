@@ -227,14 +227,16 @@ export const EmergencyComponentCard = ({
         </Box>
       </Paper>
 
-      {/* Confirmation Modal */}
-      <ShutdownConfirmModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        component={component}
-        chainName={chainName}
-        chainAddresses={chainAddresses}
-      />
+      {/* Confirmation Modal - only mount when open to avoid FocusTrap ref warning */}
+      {isModalOpen && (
+        <ShutdownConfirmModal
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          component={component}
+          chainName={chainName}
+          chainAddresses={chainAddresses}
+        />
+      )}
     </>
   );
 };

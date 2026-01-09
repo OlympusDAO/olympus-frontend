@@ -54,30 +54,50 @@ export const ShutdownConfirmModal = ({
     return (
       <Modal open={open} onClose={handleClose} headerText="Transaction Proposed" minHeight="200px">
         <Box display="flex" flexDirection="column" gap={2} alignItems="center" textAlign="center">
-          <Box bgcolor="success.light" p={2} borderRadius={1} width="100%">
-            <Typography fontWeight={600} color="success.dark">
+          <Box
+            sx={{
+              bgcolor: "#EDF7ED",
+              border: "1px solid",
+              borderColor: "success.main",
+              p: 2,
+              borderRadius: 1,
+              width: "100%",
+            }}
+          >
+            <Typography fontWeight={600} sx={{ color: "#1E4620" }}>
               Shutdown transaction has been proposed to the Safe!
             </Typography>
           </Box>
 
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="body2" color="text.secondary">
             The transaction needs to be signed by other Safe owners and then executed.
           </Typography>
 
-          <Box bgcolor="grey.100" p={2} borderRadius={1} width="100%">
-            <Typography variant="caption" display="block" color="textSecondary">
+          <Box
+            sx={{
+              bgcolor: theme => (theme.palette.mode === "dark" ? "grey.800" : "grey.100"),
+              p: 2,
+              borderRadius: 1,
+              width: "100%",
+            }}
+          >
+            <Typography variant="caption" display="block" color="text.secondary">
               Safe Transaction Hash:
             </Typography>
-            <Typography variant="body2" fontFamily="monospace" sx={{ wordBreak: "break-all" }}>
+            <Typography variant="body2" fontFamily="monospace" color="text.primary" sx={{ wordBreak: "break-all" }}>
               {safeTxResult.safeTxHash}
             </Typography>
           </Box>
 
-          <Link href={safeTxResult.safeAppUrl} target="_blank" rel="noopener noreferrer">
-            <PrimaryButton>View in Safe App</PrimaryButton>
-          </Link>
+          <Box component="span">
+            <Link href={safeTxResult.safeAppUrl} target="_blank" rel="noopener noreferrer">
+              <PrimaryButton>View in Safe App</PrimaryButton>
+            </Link>
+          </Box>
 
-          <SecondaryButton onClick={handleClose}>Close</SecondaryButton>
+          <Box component="span">
+            <SecondaryButton onClick={handleClose}>Close</SecondaryButton>
+          </Box>
         </Box>
       </Modal>
     );
@@ -87,11 +107,19 @@ export const ShutdownConfirmModal = ({
     <Modal open={open} onClose={handleClose} headerText={`Shutdown ${component.name}?`} minHeight="300px">
       <Box display="flex" flexDirection="column" gap={2}>
         {/* Warning */}
-        <Box bgcolor="error.light" p={2} borderRadius={1}>
-          <Typography fontWeight={600} color="error.dark">
+        <Box
+          sx={{
+            bgcolor: "#FDEDED",
+            border: "1px solid",
+            borderColor: "error.main",
+            p: 2,
+            borderRadius: 1,
+          }}
+        >
+          <Typography fontWeight={600} sx={{ color: "#5F2120" }}>
             This action will disable critical protocol functionality
           </Typography>
-          <Typography variant="body2" color="error.dark">
+          <Typography variant="body2" sx={{ color: "#5F2120" }}>
             Only proceed if you are certain this is necessary for protocol safety.
           </Typography>
         </Box>
@@ -147,15 +175,25 @@ export const ShutdownConfirmModal = ({
             Transactions ({component.calls.length})
           </Typography>
           {component.calls.map((call, index) => (
-            <Box key={index} bgcolor="grey.100" p={1} borderRadius={1} mt={1} fontFamily="monospace" fontSize="12px">
-              <Typography variant="caption" display="block">
+            <Box
+              key={index}
+              sx={{
+                bgcolor: theme => (theme.palette.mode === "dark" ? "grey.800" : "grey.100"),
+                p: 1,
+                borderRadius: 1,
+                mt: 1,
+                fontFamily: "monospace",
+                fontSize: "12px",
+              }}
+            >
+              <Typography variant="caption" display="block" color="text.primary">
                 Contract: {call.contractKey}
               </Typography>
-              <Typography variant="caption" display="block">
+              <Typography variant="caption" display="block" color="text.primary">
                 Function: {call.functionName}({call.args.join(", ")})
               </Typography>
               {chainAddresses && chainAddresses[call.contractKey] && (
-                <Typography variant="caption" display="block" color="textSecondary">
+                <Typography variant="caption" display="block" color="text.secondary">
                   Address: {chainAddresses[call.contractKey]}
                 </Typography>
               )}
@@ -175,21 +213,25 @@ export const ShutdownConfirmModal = ({
               </Typography>
             </Box>
           )}
-          <SecondaryButton onClick={handleClose} disabled={isLoading}>
-            Cancel
-          </SecondaryButton>
-          <PrimaryButton
-            onClick={handleConfirm}
-            disabled={isLoading || !safeAddress}
-            sx={{
-              backgroundColor: "error.main",
-              "&:hover": {
-                backgroundColor: "error.dark",
-              },
-            }}
-          >
-            {isLoading ? "Signing..." : "Confirm Shutdown"}
-          </PrimaryButton>
+          <Box component="span">
+            <SecondaryButton onClick={handleClose} disabled={isLoading}>
+              Cancel
+            </SecondaryButton>
+          </Box>
+          <Box component="span">
+            <PrimaryButton
+              onClick={handleConfirm}
+              disabled={isLoading || !safeAddress}
+              sx={{
+                backgroundColor: "error.main",
+                "&:hover": {
+                  backgroundColor: "error.dark",
+                },
+              }}
+            >
+              {isLoading ? "Signing..." : "Confirm Shutdown"}
+            </PrimaryButton>
+          </Box>
         </Box>
       </Box>
     </Modal>
