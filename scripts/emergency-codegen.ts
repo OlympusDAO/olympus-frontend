@@ -14,37 +14,6 @@
  * 5. Fetches all ABIs from documentation/emergency/abis/
  * 6. Generates TypeScript files in src/generated/emergency/
  *
- * ============================================================================
- * CHANGELOG / FIXES:
- * ============================================================================
- *
- * Fix #1: Solidity Parsing - _envAddressNotZero() Pattern
- * --------------------------------------------------------
- * Problem: Original regex looked for `envAddress()` but actual Solidity files
- *          use `_envAddressNotZero("olympus.periphery.CCIPCrossChainBridge")`
- * Solution: Updated regex pattern to match the real function name
- *
- * Fix #2: Contract Key Extraction
- * --------------------------------
- * Problem: Was saving variable name ("bridgeAddress") instead of env path key
- *          ("CCIPCrossChainBridge"), causing chain matching to fail
- * Solution: Extract the last part of envPath and use it directly as contractKey
- *
- * Fix #3: Markdown Parsing - Component Headers
- * --------------------------------------------
- * Problem: Markdown uses "### [NAME] - Shutdown Steps" pattern, not "### NAME"
- * Solution: Updated regex to match actual header format in documentation
- *
- * Fix #4: Multisig Address Extraction
- * -----------------------------------
- * Problem: Multisig addresses are in olympus/multisig/ section, not at root
- * Solution: Added specific parsing for olympus.multisig.DAO and olympus.multisig.emergency
- *
- * Fix #5: Component Naming
- * ------------------------
- * Problem: "CCIPBridge.sol" → "ccipbridge" (consecutive caps lost)
- * Solution: Split on camelCase BEFORE lowercasing to preserve word boundaries
- *           Result: "CCIPBridge" → "CCIP Bridge"
  */
 
 import * as fs from "fs";
@@ -109,13 +78,13 @@ interface MarkdownComponentInfo {
   shutdownCriteria: string[];
 }
 
+
 interface EmergencyCall {
   contractKey: string;
   functionName: string;
   args: unknown[];
   abiKey: string;
 }
-
 interface EmergencyComponent {
   id: string;
   name: string;
@@ -183,8 +152,6 @@ function extractContractKeyFromEnvPath(envPath: string): string {
  * Handles consecutive capitals correctly:
  * - "CCIPBridge.sol" → "ccip-bridge"
  * - "CoolerV2.sol" → "cooler-v2"
- *
- * Fix #5: Split on camelCase BEFORE lowercasing
  */
 function fileNameToComponentId(fileName: string): string {
   return (
@@ -202,9 +169,6 @@ function fileNameToComponentId(fileName: string): string {
 
 /**
  * Parses a Solidity emergency shutdown script file
- *
- * Fix #1: Uses _envAddressNotZero() pattern (not envAddress())
- * Fix #2: Extracts contractKey from envPath for proper matching
  */
 function parseSolidityFile(content: string, fileName: string): ParsedSolidityFile {
   const componentId = fileNameToComponentId(fileName);
@@ -256,10 +220,6 @@ function parseSolidityFile(content: string, fileName: string): ParsedSolidityFil
 
 /**
  * Parses EMERGENCY_SHUTDOWN.md to extract component metadata
- *
- * Fix #3: Updated to match actual markdown format:
- * - Headers: "### [NAME] - Shutdown Steps" or "### Component Name"
- * - Uses batch script path to derive component ID
  */
 function parseMarkdown(content: string): Map<string, MarkdownComponentInfo> {
   const components = new Map<string, MarkdownComponentInfo>();
@@ -401,8 +361,6 @@ function interfaceToAbiKey(interfaceName: string): string {
 
 /**
  * Extract addresses from env.json
- *
- * Fix #4: Properly extracts multisig addresses from olympus/multisig/ section
  *
  * The env.json structure is:
  * {
@@ -550,11 +508,6 @@ function buildComponents(
 
 /**
  * Formats a component name from filename or ID
- *
- * Fix #5: Handles consecutive capitals and numbers correctly
- * - "CCIPBridge.sol" → "CCIP Bridge"
- * - "CoolerV2.sol" → "Cooler V2"
- * - "ccip-bridge" → "CCIP Bridge"
  */
 function formatComponentName(input: string): string {
   // Remove .sol extension if present
