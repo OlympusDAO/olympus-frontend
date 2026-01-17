@@ -136,7 +136,7 @@
     "type-graphql": "^1.1.1",
     "typechain": "^8.3.2",
     "url": "^0.11.1",
-    "vite": "^4.4.12",
+    "vite": "^4.5.2",
     "vite-plugin-svgr": "^4.2.0",
     "vite-plugin-transform": "^2.0.1",
     "vite-tsconfig-paths": "^4.2.2",
