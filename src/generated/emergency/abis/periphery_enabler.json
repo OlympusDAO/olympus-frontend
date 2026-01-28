@@ -37,27 +37,5 @@
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [],
-    "name": "Disabled",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [],
-    "name": "Enabled",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "NotDisabled",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotEnabled",
-    "type": "error"
   }
 ]

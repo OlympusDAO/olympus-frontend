@@ -22,21 +22,22 @@ The Emergency Shutdown Dashboard provides a UI for Olympus protocol signers to q
 │                                                                              │
 │   olympus-v3 repo (emergency branch)                                        │
 │   ┌──────────────────────────────────────────────────────────────────┐      │
-│   │  documentation/emergency/EMERGENCY_SHUTDOWN.md                    │      │
-│   │  documentation/emergency/abis/*.json                              │      │
-│   │  src/scripts/env.json                                             │      │
+│   │  documentation/emergency/emergency-config.json  (components,     │      │
+│   │                                                  chains, addrs)  │      │
+│   │  documentation/emergency/emergency-abis.json    (all ABIs)       │      │
 │   └──────────────────────────────────────────────────────────────────┘      │
 │                              │                                               │
 │                              │ yarn codegen:emergency                        │
 │                              ▼                                               │
 │   olympus-frontend                                                           │
 │   ┌──────────────────────────────────────────────────────────────────┐      │
-│   │  scripts/emergency-codegen.ts        (fetches & parses)          │      │
+│   │  scripts/emergency-codegen.ts        (fetches & converts)        │      │
 │   └──────────────────────────────────────────────────────────────────┘      │
 │                              │                                               │
 │                              ▼                                               │
 │   ┌──────────────────────────────────────────────────────────────────┐      │
 │   │  src/generated/emergency/                                         │      │
+│   │    ├── types.ts           (TypeScript types)                     │      │
 │   │    ├── components.ts      (component definitions)                 │      │
 │   │    ├── addresses.ts       (contract addresses by chain)           │      │
 │   │    ├── abis/              (contract ABIs)                         │      │
@@ -66,14 +67,12 @@ The codegen script fetches from the `olympus-v3` repository (`emergency` branch)
 
 | Source | URL | Purpose |
 |--------|-----|---------|
-| Solidity Scripts | `src/scripts/emergency/*.sol` | **Source of truth** for which functions to call and with what arguments |
-| Documentation | `documentation/emergency/EMERGENCY_SHUTDOWN.md` | Component descriptions, shutdown criteria, which multisig owns each |
-| Addresses | `src/scripts/env.json` | Contract addresses for all chains |
-| ABIs | `documentation/emergency/abis/*.json` | Contract interfaces for encoding calls |
+| Config | `documentation/emergency/emergency-config.json` | **Single source of truth**: components, chains, addresses, function calls |
+| ABIs | `documentation/emergency/emergency-abis.json` | All contract ABIs in one file |
 
 ### How Transaction Data is Sourced
 
-The transaction data (what function to call, with what arguments) comes from the **Solidity scripts** in olympus-v3, NOT from user input or hardcoded values.
+The transaction data (what function to call, with what arguments) comes from the **centralized JSON config** in olympus-v3. The config is maintained by the protocol team and validated by CI.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -83,21 +82,22 @@ The transaction data (what function to call, with what arguments) comes from the
 │   BUILD TIME (codegen)                        RUNTIME (UI)                   │
 │   ════════════════════                        ════════════                   │
 │                                                                              │
-│   Solidity Scripts (olympus-v3)               User clicks "SHUTDOWN"         │
+│   emergency-config.json (olympus-v3)          User clicks "SHUTDOWN"         │
 │   ┌────────────────────────────┐              ┌─────────────────────────┐   │
-│   │ // Treasury.sol            │              │                         │   │
-│   │ addToBatch(                │              │  1. Lookup component    │   │
-│   │   emergencyAddress,        │─── codegen ──→│     config from         │   │
-│   │   abi.encodeWithSelector(  │   generates  │     EMERGENCY_COMPONENTS│   │
-│   │     IEmergency             │              │                         │   │
-│   │     .shutdownWithdrawals   │              │  2. Get addresses for   │   │
-│   │     .selector              │              │     current chain from  │   │
-│   │   )                        │              │     EMERGENCY_ADDRESSES │   │
-│   │ );                         │              │                         │   │
-│   └────────────────────────────┘              │  3. Encode calls with   │   │
-│                                               │     viem/ethers         │   │
-│   env.json                                    │                         │   │
-│   ┌────────────────────────────┐              │  4. Create Safe tx      │   │
+│   │ {                          │              │                         │   │
+│   │   "components": [{         │              │  1. Lookup component    │   │
+│   │     "id": "treasury",      │─── codegen ──→│     config from         │   │
+│   │     "calls": [{            │   generates  │     EMERGENCY_COMPONENTS│   │
+│   │       "function":          │              │                         │   │
+│   │         "shutdownWithdraw" │              │  2. Get addresses for   │   │
+│   │       "args": []           │              │     current chain from  │   │
+│   │     }]                     │              │     EMERGENCY_ADDRESSES │   │
+│   │   }]                       │              │                         │   │
+│   │ }                          │              │  3. Encode calls with   │   │
+│   └────────────────────────────┘              │     viem/ethers         │   │
+│                                               │                         │   │
+│   emergency-abis.json                         │  4. Create Safe tx      │   │
+│   ┌────────────────────────────┐              │                         │   │
 │   │ {                          │              │                         │   │
 │   │   "mainnet": {             │─── codegen ──→│  5. Propose to Safe    │   │
 │   │     "emergency": "0x..."   │   extracts   │     Transaction Service │   │
@@ -110,36 +110,48 @@ The transaction data (what function to call, with what arguments) comes from the
 
 #### Example: Treasury Shutdown
 
-**Step 1: Solidity Script (source of truth)**
+**Step 1: JSON Config (source of truth in olympus-v3)**
 
-```solidity
-// olympus-v3/src/scripts/emergency/Treasury.sol
-function run(...) external {
-    address emergencyAddress = envAddress("olympus.policies.Emergency");
-
-    addToBatch(
-        emergencyAddress,
-        abi.encodeWithSelector(IEmergency.shutdownWithdrawals.selector)
-    );
-
-    proposeBatch();
+```json
+// olympus-v3/documentation/emergency/emergency-config.json
+{
+  "components": [
+    {
+      "id": "treasury",
+      "name": "Treasury Withdrawals",
+      "owner": "emergency",
+      "calls": [
+        {
+          "contractKey": "olympus.policies.Emergency",
+          "function": "shutdownWithdrawals",
+          "signature": "shutdownWithdrawals()",
+          "args": [],
+          "abi": "emergency"
+        }
+      ],
+      "availableOn": ["mainnet", "sepolia"]
+    }
+  ]
 }
 ```
 
-**Step 2: Codegen extracts this → `components.ts`**
+**Step 2: Codegen converts this → `components.ts`**
 
 ```typescript
 // src/generated/emergency/components.ts (GENERATED)
 {
   id: "treasury",
-  name: "Treasury (TRSRY)",
+  name: "Treasury Withdrawals",
+  owner: "emergency_ms",  // converted from "emergency"
   calls: [
     {
-      contractKey: "emergency",           // from envAddress("olympus.policies.Emergency")
-      functionName: "shutdownWithdrawals", // from selector
-      args: [],                            // no arguments
+      contractKey: "Emergency",           // extracted from dot-notation
+      functionName: "shutdownWithdrawals",
+      args: [],
+      abiKey: "emergency",
     },
   ],
+  chains: ["mainnet", "sepolia"],
 }
 ```
 
@@ -150,7 +162,7 @@ function run(...) external {
 const createShutdownTransaction = async (component: EmergencyComponent) => {
   // 1. Get addresses for current chain
   const addresses = EMERGENCY_ADDRESSES["mainnet"];
-  // addresses.emergency = "0x1234..."
+  // addresses.Emergency = "0x1234..."
 
   // 2. Get ABI
   const abi = emergencyAbi;
@@ -175,12 +187,17 @@ const createShutdownTransaction = async (component: EmergencyComponent) => {
 
 #### Example: Cooler V2 (Batch with 2 calls)
 
-**Solidity Script:**
+**JSON Config:**
 
-```solidity
-// CoolerV2.sol
-addToBatch(coolerV2Address, abi.encodeWithSelector(IMonoCooler.setBorrowPaused.selector, true));
-addToBatch(coolerV2Address, abi.encodeWithSelector(IMonoCooler.setLiquidationsPaused.selector, true));
+```json
+{
+  "id": "cooler-v2",
+  "name": "Cooler V2 Lending",
+  "calls": [
+    { "function": "setBorrowPaused", "args": [{"value": true}] },
+    { "function": "setLiquidationsPaused", "args": [{"value": true}] }
+  ]
+}
 ```
 
 **Generated Config:**
@@ -189,8 +206,8 @@ addToBatch(coolerV2Address, abi.encodeWithSelector(IMonoCooler.setLiquidationsPa
 {
   id: "cooler-v2",
   calls: [
-    { contractKey: "monoCooler", functionName: "setBorrowPaused", args: [true] },
-    { contractKey: "monoCooler", functionName: "setLiquidationsPaused", args: [true] },
+    { contractKey: "CoolerV2", functionName: "setBorrowPaused", args: [true] },
+    { contractKey: "CoolerV2", functionName: "setLiquidationsPaused", args: [true] },
   ],
 }
 ```
@@ -217,7 +234,7 @@ const transactions = [
 
 | Question | Answer |
 |----------|--------|
-| Is it hardcoded? | Yes, but **generated** from Solidity scripts |
+| Is it hardcoded? | Yes, but **generated** from centralized JSON config |
 | Does user specify the transaction? | **No**, user only clicks a button |
 | Where does data come from? | From `olympus-v3` repo via **codegen** |
 | When is it updated? | When someone runs `yarn codegen:emergency` |
@@ -232,7 +249,7 @@ const transactions = [
 - What arguments to pass
 - Which contract address to use
 
-All of this is pre-configured in generated files based on the Solidity scripts from olympus-v3.
+All of this is pre-configured in generated files based on the JSON config from olympus-v3.
 
 ### Running Codegen
 

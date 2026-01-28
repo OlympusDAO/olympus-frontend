@@ -6,7 +6,9 @@ export * from "./components";
 export * from "./addresses";
 
 // ABIs
+export { default as $commentAbi } from "./abis/$comment.json";
 export { default as bondManagerAbi } from "./abis/bond_manager.json";
+export { default as ccipLockReleasePoolAbi } from "./abis/ccip_lock_release_pool.json";
 export { default as coolerV2Abi } from "./abis/cooler_v2.json";
 export { default as crossChainBridgeAbi } from "./abis/cross_chain_bridge.json";
 export { default as emergencyAbi } from "./abis/emergency.json";
