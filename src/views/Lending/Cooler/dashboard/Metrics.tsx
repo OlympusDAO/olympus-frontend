@@ -8,6 +8,7 @@ import {
   useCoolerSnapshot,
   useCurrentCoolerSnapshot,
 } from "src/views/Lending/Cooler/hooks/useSnapshot";
+import { useMonoCoolerLtv } from "src/views/Lending/CoolerV2/hooks/useMonoCoolerLtv";
 
 export const CumulativeInterestIncome = ({ startDate }: { startDate?: Date }) => {
   const { data } = useCoolerSnapshot(startDate);
@@ -166,6 +167,19 @@ export const PrincipalMaturingInUnder = ({ days, previousBucket }: { days: numbe
       metric={formatCurrency(principalMaturing || 0, 0, "DAI")}
       isLoading={latestSnapshot === undefined}
       tooltip={`The value of principal that will mature in more than ${previousBucket} days but less than ${days} days`}
+    />
+  );
+};
+
+export const CoolerLTV = () => {
+  const { data } = useMonoCoolerLtv();
+
+  return (
+    <Metric
+      label="Borrow Per gOHM"
+      metric={data ? formatCurrency(data.maxOriginationLtv, 2, "USDS") : ""}
+      isLoading={!data}
+      tooltip="The maximum amount of USDS you can borrow per 1 gOHM deposited as collateral"
     />
   );
 };
