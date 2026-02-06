@@ -37,10 +37,10 @@ export class Environment {
       err: "Please provide an Google Analytics 4 API key in your .env file",
     });
 
-  public static getWundergraphNodeUrl = (): string | undefined =>
+  public static getTreasuryDashNodeUrl = (): string | undefined =>
     this._get({
       first: true,
-      key: "VITE_WG_PUBLIC_NODE_URL",
+      key: "VITE_TREASURY_DASH_PUBLIC_NODE_URL",
     });
 
   public static getSubgraphApiKey = (): string | undefined =>

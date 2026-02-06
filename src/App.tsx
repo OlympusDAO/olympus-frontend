@@ -210,7 +210,7 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
+  const protocolMetricsEnabled = Boolean(Environment.getTreasuryDashNodeUrl());
   const defaultRoute = protocolMetricsEnabled ? "/dashboard" : "/my-balances";
   return (
     <StyledDiv>
