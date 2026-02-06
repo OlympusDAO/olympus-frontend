@@ -3,9 +3,9 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-const wgNodeUrl: string | undefined = Environment.getWundergraphNodeUrl();
+const treasuryDashNodeUrl: string | undefined = Environment.getTreasuryDashNodeUrl();
 const client = createClient({
-  ...(wgNodeUrl ? { baseUrl: wgNodeUrl } : {}), // Override the client's API endpoint if the environment variable is present
+  ...(treasuryDashNodeUrl ? { baseUrl: treasuryDashNodeUrl } : {}), // Override the client's API endpoint if the environment variable is present
 }); // Typesafe TreasurySubgraphClient
 
 // Re-export types from the client for convenience
