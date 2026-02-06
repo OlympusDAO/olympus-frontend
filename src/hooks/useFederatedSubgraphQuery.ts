@@ -1,23 +1,47 @@
-import { createClient, Operations, Queries } from "@olympusdao/treasury-subgraph-client";
-import { createHooks } from "@wundergraph/react-query";
+import { createClient, Operations } from "@olympusdao/treasury-subgraph-client";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 const wgNodeUrl: string | undefined = Environment.getWundergraphNodeUrl();
 const client = createClient({
-  ...(wgNodeUrl ? { baseURL: wgNodeUrl } : {}), // Override the wundergraph client's API endpoint if the environment variable is present
-}); // Typesafe WunderGraph client
+  ...(wgNodeUrl ? { baseUrl: wgNodeUrl } : {}), // Override the client's API endpoint if the environment variable is present
+}); // Typesafe TreasurySubgraphClient
 
-type TokenRecordArray = Exclude<Queries["paginated/tokenRecords"]["response"]["data"], undefined>;
-export type TokenRecord = TokenRecordArray[0];
+// Re-export types from the client for convenience
+export type TokenRecord = Operations["paginated/tokenRecords"]["response"]["data"][number];
+export type TokenSupply = Operations["paginated/tokenSupplies"]["response"]["data"][number];
+export type ProtocolMetric = Operations["paginated/protocolMetrics"]["response"]["data"][number];
 
-type ProtocolMetricArray = Exclude<Queries["paginated/protocolMetrics"]["response"]["data"], undefined>;
-export type ProtocolMetric = ProtocolMetricArray[0];
-
-type TokenSupplyArray = Exclude<Queries["paginated/tokenSupplies"]["response"]["data"], undefined>;
-export type TokenSupply = TokenSupplyArray[0];
-
-export const { useQuery: useFederatedSubgraphQuery } = createHooks<Operations>(client);
+/**
+ * Custom hook wrapping @tanstack/react-query's useQuery.
+ *
+ * IMPORTANT: The v2.0.0 client returns { data: T }, but we UNWRAP it here
+ * to maintain backward compatibility with the old Wundergraph behavior.
+ *
+ * @returns UseQueryResult where data is the unwrapped value (e.g., Metric[], not { data: Metric[] })
+ */
+export const useFederatedSubgraphQuery = <K extends keyof Operations, TData = Operations[K]["response"]["data"]>({
+  operationName,
+  input,
+  ...options
+}: {
+  operationName: K;
+  input?: Operations[K]["input"];
+  enabled?: boolean;
+  retry?: number;
+  retryDelay?: number;
+} & Omit<UseQueryOptions<TData>, "queryKey" | "queryFn">) => {
+  return useQuery<TData>({
+    queryKey: [operationName, input] as const,
+    queryFn: async (): Promise<TData> => {
+      const response = await client.query({ operationName, input });
+      // UNWRAP: client returns { data: T }, we return T directly for backward compatibility
+      return response.data as TData;
+    },
+    ...options,
+  });
+};
 
 /**
  * Returns TokenRecord objects from the {startDate}.
