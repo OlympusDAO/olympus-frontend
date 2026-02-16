@@ -15,7 +15,12 @@ import { OHMTokenProps, PrimaryButton, SecondaryButton, Token } from "@olympusda
 import { ethers } from "ethers";
 import { useState } from "react";
 import usdsIcon from "src/assets/tokens/usds.svg?react";
-import { BorrowRate, CapacityRemaining, OutstandingPrincipal } from "src/views/Lending/Cooler/dashboard/Metrics";
+import {
+  BorrowRate,
+  CapacityRemaining,
+  CoolerLTV,
+  OutstandingPrincipal,
+} from "src/views/Lending/Cooler/dashboard/Metrics";
 import { useGetClearingHouse } from "src/views/Lending/Cooler/hooks/useGetClearingHouse";
 import { useGetCoolerForWallet } from "src/views/Lending/Cooler/hooks/useGetCoolerForWallet";
 import { useGetCoolerLoans } from "src/views/Lending/Cooler/hooks/useGetCoolerLoans";
@@ -161,13 +166,16 @@ export const CoolerPositions = () => {
     <div id="cooler-positions">
       <DevTools />
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <CapacityRemaining capacity={capacity?.globalBorrowingCapacity} reserveAsset={"USDS"} />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
+          <CoolerLTV />
+        </Grid>
+        <Grid item xs={12} sm={3}>
           <BorrowRate />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <OutstandingPrincipal />
         </Grid>
       </Grid>

@@ -10,9 +10,12 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { ChainValues } from "@olympusdao/treasury-subgraph-client";
 import { useEffect, useState } from "react";
-import { getISO8601String } from "src/helpers/DateHelper";
 import { TokenRecord, useTokenRecordsLatestQuery } from "src/hooks/useFederatedSubgraphQuery";
+
+// Expected blockchains for the treasury dashboard - derived from ChainValues type keys
+const EXPECTED_BLOCKCHAINS: (keyof ChainValues)[] = ["Arbitrum", "Base", "Berachain", "Ethereum", "Fantom", "Polygon"];
 
 const getDateFromTimestamp = (timestamp: string | number): Date => {
   return new Date(+timestamp * 1000);
@@ -34,33 +37,68 @@ const DataWarning = ({ ignoreCache }: { ignoreCache?: boolean }): JSX.Element =>
   // State variables
   const [isWarningEnabled, setIsWarningEnabled] = useState(false);
   const [latestCompleteDate, setLatestCompleteDate] = useState<string>();
+  const [latestDate, setLatestDate] = useState<string>();
   const [latestRecords, setLatestRecords] = useState<TokenRecord[]>([]);
 
   const laggingColorStyle = { background: "orange" };
 
   useEffect(() => {
     // Still loading
-    if (!latestRecordsQuery || !latestRecordsQuery.length) {
+    if (!latestRecordsQuery) {
       return;
     }
 
-    // If the date field on each record is the same, then we can assume that the data is up-to-date
-    const latestDate = latestRecordsQuery[0].date;
-    const isUpToDate = latestRecordsQuery.every(record => record.date === latestDate);
-    setIsWarningEnabled(!isUpToDate);
+    // Create a map of existing blockchain data for easy lookup
+    const recordsMap = new Map<string, TokenRecord>();
+    latestRecordsQuery.forEach(record => {
+      recordsMap.set(record.blockchain, record);
+    });
 
-    // Get the earliest date from the latest records
-    setLatestCompleteDate(
-      latestRecordsQuery.reduce((earliest, record) => {
+    // Build complete list of expected blockchains, using actual data or creating placeholders
+    const completeRecords: TokenRecord[] = EXPECTED_BLOCKCHAINS.map(blockchain => {
+      const existingRecord = recordsMap.get(blockchain);
+      if (existingRecord) {
+        return existingRecord;
+      }
+      // Create placeholder record for missing blockchain data
+      return {
+        id: `placeholder-${blockchain}`,
+        blockchain,
+        timestamp: "",
+        block: "",
+        date: "",
+      } as TokenRecord;
+    });
+
+    // Determine if all chains have data (non-empty timestamps)
+    const chainsWithData = completeRecords.filter(record => record.timestamp !== "");
+    const isAllDataComplete = chainsWithData.length === EXPECTED_BLOCKCHAINS.length;
+
+    // If we have data but not all chains are complete, enable warning
+    if (chainsWithData.length > 0) {
+      const maxDate = chainsWithData.reduce((latest, record) => {
+        if (record.date > latest) {
+          return record.date;
+        }
+        return latest;
+      }, chainsWithData[0].date);
+
+      const minDate = chainsWithData.reduce((earliest, record) => {
         if (record.date < earliest) {
           return record.date;
         }
         return earliest;
-      }, latestRecordsQuery[0].date),
-    );
+      }, chainsWithData[0].date);
+
+      const isUpToDate = chainsWithData.every(record => record.date === maxDate);
+      setIsWarningEnabled(!isUpToDate || !isAllDataComplete);
+
+      setLatestDate(maxDate);
+      setLatestCompleteDate(minDate);
+    }
 
     // Sort by the blockchain name
-    setLatestRecords(latestRecordsQuery.sort((a, b) => a.blockchain.localeCompare(b.blockchain)));
+    setLatestRecords(completeRecords.sort((a, b) => a.blockchain.localeCompare(b.blockchain)));
   }, [latestRecordsQuery]);
 
   return (
@@ -121,22 +159,26 @@ const DataWarning = ({ ignoreCache }: { ignoreCache?: boolean }): JSX.Element =>
             </TableHead>
             <TableBody>
               {latestRecords.length ? (
-                latestRecords.map(record => (
-                  <TableRow
-                    style={{
-                      // If the current timestamp is equal to the value of latestCompleteDate, then it is the lagging blockchain and should be highlighted
-                      ...(isWarningEnabled &&
-                      getISO8601String(getDateFromTimestamp(record.timestamp)) == latestCompleteDate
-                        ? laggingColorStyle
-                        : {}),
-                    }}
-                    key={record.id}
-                  >
-                    <TableCell>{record.blockchain}</TableCell>
-                    <TableCell>{getDateFromTimestamp(record.timestamp).toUTCString()}</TableCell>
-                    <TableCell>{record.block}</TableCell>
-                  </TableRow>
-                ))
+                latestRecords.map(record => {
+                  const hasData = record.timestamp !== "";
+                  const isLagging = hasData && isWarningEnabled && record.date !== latestDate;
+
+                  return (
+                    <TableRow
+                      style={{
+                        // Highlight lagging chains (with data but outdated) or missing data chains
+                        ...(isLagging || !hasData ? laggingColorStyle : {}),
+                      }}
+                      key={record.id}
+                    >
+                      <TableCell>{record.blockchain}</TableCell>
+                      <TableCell>
+                        {hasData ? getDateFromTimestamp(record.timestamp).toUTCString() : "No data"}
+                      </TableCell>
+                      <TableCell>{hasData ? record.block : "No data"}</TableCell>
+                    </TableRow>
+                  );
+                })
               ) : (
                 <TableRow>
                   <TableCell>

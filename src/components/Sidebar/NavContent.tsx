@@ -48,7 +48,7 @@ const NavContent: React.VFC = () => {
   );
   const isAdmin = isEmergencySigner || isDaoSigner;
 
-  const protocolMetricsEnabled = Boolean(Environment.getWundergraphNodeUrl());
+  const protocolMetricsEnabled = Boolean(Environment.getTreasuryDashNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
   const rbsDisabled = Environment.getRbsDisabled();
   return (
