@@ -1,17 +1,19 @@
 import { formatUnits } from "@ethersproject/units";
-import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
+import { Box, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Icon } from "@olympusdao/component-library";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
-import USDSIcon from "src/assets/icons/USDS.svg?react";
+import OhmIcon from "src/assets/tokens/token_OHM.svg?react";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
-import { LibChainId, useGETUserUserHistory, useGETUserUserUnits } from "src/generated/olympusUnits";
+import {
+  LibChainId,
+  useGETEpochsCurrentEpoch,
+  useGETUserUserHistory,
+  useGETUserUserUnits,
+} from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 import { NetworkId } from "src/networkDetails";
-import { ClaimRewardsModal } from "src/views/Rewards/components/ClaimRewardsModal";
-import { useClaimRewards } from "src/views/Rewards/hooks/useClaimRewards";
 import { useAccount, useContractReads, useNetwork } from "wagmi";
 
 export const UserRewards = () => {
@@ -21,6 +23,16 @@ export const UserRewards = () => {
   const networkId = chain.id as NetworkId;
 
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
+
+  // Fetch current epoch data
+  const { data: currentEpochData } = useGETEpochsCurrentEpoch(
+    { chainId },
+    {
+      query: {
+        enabled: true,
+      },
+    },
+  );
 
   // Fetch user units data from API
   const { data: userUnitsData } = useGETUserUserUnits(
@@ -58,6 +70,14 @@ export const UserRewards = () => {
 
   const totalUnits = userUnitsData?.units?.totalUnits ? parseFloat(userUnitsData.units.totalUnits) : 0;
 
+  // Calculate drachmas earned in the current epoch
+  const currentEpochDrachmas = useMemo(() => {
+    if (!userUnitsData?.units?.entries || !currentEpochData?.epochId) return 0;
+    return userUnitsData.units.entries
+      .filter(entry => entry.epochId === currentEpochData.epochId)
+      .reduce((sum, entry) => sum + parseFloat(entry.units), 0);
+  }, [userUnitsData?.units?.entries, currentEpochData?.epochId]);
+
   // Get contract address for checking claim status
   const contractAddress =
     DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES[networkId as keyof typeof DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES];
@@ -67,7 +87,6 @@ export const UserRewards = () => {
     () =>
       userHistoryData?.rewards?.entries?.map(entry => ({
         epochId: entry.epochId,
-        // endDate is already in Unix timestamp (seconds) from API
         epochEndDate: entry.endDate,
       })) || [],
     [userHistoryData?.rewards?.entries],
@@ -114,12 +133,9 @@ export const UserRewards = () => {
     const zeroBytes32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
     return epochData.map((epoch, index) => {
-      // In wagmi v0.12, useContractReads returns array where each item can be the result directly
-      // or an object with { result, status, error }
       const statusResult = claimStatusData[index] as any;
       const claimed = statusResult?.result !== undefined ? Boolean(statusResult.result) : Boolean(statusResult);
 
-      // Check if merkle root is set (not zero)
       const merkleResult = merkleRootData[index] as any;
       const merkleRoot = merkleResult?.result !== undefined ? merkleResult.result : merkleResult;
       const hasMerkleRoot = merkleRoot && merkleRoot !== zeroBytes32 && merkleRoot !== "0x0";
@@ -133,195 +149,155 @@ export const UserRewards = () => {
     });
   }, [claimStatusData, merkleRootData, epochData]);
 
-  // Get reward asset info from first entry (assuming all entries use same asset)
-  const firstEntry = userHistoryData?.rewards?.entries?.[0];
-  const rewardAssetDecimals = firstEntry?.rewardAssetDecimals ?? 18;
-  const rewardAssetSymbol = firstEntry?.rewardAssetSymbol ?? "USDS";
+  // Calculate claimed and unclaimed rewards
+  const { totalClaimed, totalUnclaimedRewards } = useMemo(() => {
+    const entries = userHistoryData?.rewards?.entries || [];
 
-  // Calculate claimed and unclaimed rewards (only epochs with active merkle roots are claimable)
-  const { totalClaimed, totalUnclaimedDrachmas, totalUnclaimedRewards, unclaimedEntries, claimableEntries } =
-    useMemo(() => {
-      const entries = userHistoryData?.rewards?.entries || [];
+    let claimed = 0;
+    let unclaimedRewards = 0;
 
-      let claimed = 0;
-      let unclaimedDrachmas = 0;
-      let unclaimedRewards = 0;
-      const unclaimed: typeof entries = [];
-      const claimable: typeof entries = [];
+    entries.forEach(entry => {
+      const claimStatus = claimStatuses.find(s => s.epochId === entry.epochId);
+      const rewardAmount = parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals));
 
-      entries.forEach(entry => {
-        const claimStatus = claimStatuses.find(s => s.epochId === entry.epochId);
-        const rewardAmount = parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals));
-        const drachmas = parseFloat(entry.totalUnits);
+      if (claimStatus?.claimed) {
+        claimed += rewardAmount;
+      } else {
+        unclaimedRewards += rewardAmount;
+      }
+    });
 
-        if (claimStatus?.claimed) {
-          claimed += rewardAmount;
-        } else {
-          unclaimedDrachmas += drachmas;
-          unclaimedRewards += rewardAmount;
-          unclaimed.push(entry);
+    return {
+      totalClaimed: claimed,
+      totalUnclaimedRewards: unclaimedRewards,
+    };
+  }, [userHistoryData?.rewards?.entries, claimStatuses]);
 
-          // Only add to claimable if merkle root is set and reward amount > 0
-          if (claimStatus?.hasMerkleRoot && rewardAmount > 0) {
-            claimable.push(entry);
-          }
-        }
-      });
+  const isDark = theme.palette.mode === "dark";
 
-      return {
-        totalClaimed: claimed,
-        totalUnclaimedDrachmas: unclaimedDrachmas,
-        totalUnclaimedRewards: unclaimedRewards,
-        unclaimedEntries: unclaimed,
-        claimableEntries: claimable,
-      };
-    }, [userHistoryData?.rewards?.entries, claimStatuses]);
-
-  // Modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const claimMutation = useClaimRewards();
-
-  const handleOpenModal = () => {
-    if (claimableEntries.length > 0) {
-      setIsModalOpen(true);
-    }
+  const cardSx = {
+    bgcolor: isDark ? "#2C2E37" : "#FFF",
+    borderRadius: "12px",
+    padding: "16px",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(20,23,34,0.1)"}`,
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleClaim = async (params: {
-    epochEndDates: number[];
-    amounts: string[];
-    proofs: string[][];
-    asVaultToken: boolean;
-  }) => {
-    try {
-      await claimMutation.mutateAsync(params);
-      handleCloseModal();
-    } catch (error) {
-      console.error("Failed to claim:", error);
-    }
+  const iconBadgeSx = {
+    width: "36px",
+    height: "36px",
+    borderRadius: "50%",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(20,23,34,0.1)"}`,
+    bgcolor: isDark ? "rgba(255,255,255,0.03)" : "rgba(20,23,34,0.03)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
     <Paper
       sx={{
         minWidth: "400px",
-        background: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
+        background: isDark ? "#20222A" : "#EFEAE0",
         padding: "24px",
         borderRadius: "24px",
+        boxShadow: "none",
+        flexShrink: 0,
       }}
     >
-      <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[10] }}>
-            Your Rewards
-          </Typography>
-        </Box>
-        <Box
-          my="24px"
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "12px",
-          }}
-        >
-          <Box
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
-              borderRadius: "12px",
-              padding: "16px",
-            }}
-          >
-            <Typography fontSize="12px" fontWeight={400} sx={{ color: theme.colors.gray[40], textAlign: "center" }}>
-              Total Earned
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <Typography fontSize="24px" fontWeight={700} sx={{ color: theme.colors.gray[10], mb: "4px" }}>
+          Your Stats
+        </Typography>
+
+        {/* Card 1 — Drachmas */}
+        <Box sx={cardSx}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
+            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
+              Drachmas
             </Typography>
-            <Box display="flex" alignItems="center" justifyContent="center" gap="4px" mt="8px">
-              <SvgIcon sx={{ fontSize: "16px" }} component={DrachmaIcon} />
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
+            <Box sx={iconBadgeSx}>
+              <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="column" gap="8px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                This Epoch
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                {formatNumber(currentEpochDrachmas, 0)}
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                Total
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
                 {formatNumber(totalUnits, 0)}
               </Typography>
             </Box>
           </Box>
-          <Box
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
-              borderRadius: "12px",
-              padding: "16px",
-            }}
-          >
-            <Typography fontSize="12px" fontWeight={400} sx={{ color: theme.colors.gray[40], textAlign: "center" }}>
-              Total Claimed
+        </Box>
+
+        {/* Card 2 — Convertible OHM */}
+        <Box sx={cardSx}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
+            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
+              Convertible OHM
             </Typography>
-            <Box display="flex" alignItems="center" justifyContent="center" gap="4px" mt="8px">
-              <SvgIcon sx={{ height: "16px", width: "16px" }} component={USDSIcon} />
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(totalClaimed, 2)} {rewardAssetSymbol}
+            <Box sx={iconBadgeSx}>
+              <SvgIcon sx={{ fontSize: "20px" }} component={OhmIcon} viewBox="0 0 32 32" />
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="column" gap="8px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                Available to Claim
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                {formatNumber(totalUnclaimedRewards, 2)}
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                Claimed
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                {formatNumber(totalClaimed, 2)}
               </Typography>
             </Box>
           </Box>
-          <Box
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
-              borderRadius: "12px",
-              padding: "16px",
-              gridColumn: "1 / -1",
-            }}
-          >
-            <Typography fontSize="12px" fontWeight={400} sx={{ color: theme.colors.gray[40], textAlign: "center" }}>
-              Available to Claim
+        </Box>
+
+        {/* Card 3 — OHM */}
+        <Box sx={cardSx}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
+            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
+              OHM
             </Typography>
-            <Box display="flex" alignItems="center" justifyContent="center" mt="8px" gap="4px">
-              <Box display="flex" alignItems="center" justifyContent="center" gap="4px">
-                <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
-                <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                  {formatNumber(totalUnclaimedDrachmas, 0)}
-                </Typography>
-              </Box>
-              <Icon name="arrow-right" sx={{ fontSize: "12px", color: theme.colors.gray[40] }} />
-              <Box display="flex" alignItems="center" justifyContent="center" gap="4px">
-                <SvgIcon sx={{ fontSize: "20px" }} component={USDSIcon} />
-                <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                  {formatNumber(totalUnclaimedRewards, 2)} {rewardAssetSymbol}
-                </Typography>
-              </Box>
+            <Box sx={iconBadgeSx}>
+              <SvgIcon sx={{ fontSize: "20px" }} component={OhmIcon} viewBox="0 0 32 32" />
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="column" gap="8px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                Available to Convert
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                0
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+                Converted
+              </Typography>
+              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                0
+              </Typography>
             </Box>
           </Box>
         </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleOpenModal}
-          disabled={claimableEntries.length === 0 || !address}
-          sx={{
-            width: "100%",
-            marginTop: "auto",
-            textTransform: "none",
-            fontSize: "15px",
-            fontWeight: 500,
-            padding: "12px 24px",
-          }}
-        >
-          Claim Rewards
-        </Button>
-
-        <ClaimRewardsModal
-          open={isModalOpen}
-          onClose={handleCloseModal}
-          epochEndDates={claimableEntries.map(entry => entry.endDate)}
-          amounts={claimableEntries.map(entry => entry.rewardAmount)}
-          proofs={claimableEntries.map(entry => entry.merkleProof)}
-          totalAmount={claimableEntries.reduce(
-            (sum, entry) => sum + parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals)),
-            0,
-          )}
-          onClaim={handleClaim}
-          isClaiming={claimMutation.isLoading}
-          rewardAssetDecimals={rewardAssetDecimals}
-          rewardAssetSymbol={rewardAssetSymbol}
-        />
       </Box>
     </Paper>
   );

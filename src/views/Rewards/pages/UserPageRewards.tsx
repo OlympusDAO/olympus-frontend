@@ -114,7 +114,7 @@ export const UserPageRewards = () => {
                   }}
                 >
                   <RiHistoryLine size={20} />
-                  History
+                  Your Activity
                 </Box>
               }
               sx={{

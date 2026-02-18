@@ -4,9 +4,9 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
-import { LibChainId, useGETEpochsCurrentEpoch, useGETUserUserUnits } from "src/generated/olympusUnits";
+import { LibChainId, useGETEpochsCurrentEpoch } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
-import { useAccount, useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 
 const useCountdown = (targetDate: Date) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
@@ -37,26 +37,12 @@ const useCountdown = (targetDate: Date) => {
 export const RewardsStats = () => {
   const theme = useTheme();
   const { chain } = useNetwork();
-  const { address } = useAccount();
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
   // Fetch current epoch data
   const { data: epochData } = useGETEpochsCurrentEpoch({
     chainId,
   });
-
-  // Fetch user units data from API
-  const { data: userUnitsData } = useGETUserUserUnits(
-    address || "",
-    {
-      chainId,
-    },
-    {
-      query: {
-        enabled: !!address,
-      },
-    },
-  );
 
   const targetDate = useMemo(() => {
     if (epochData?.endTimestamp) {
@@ -72,23 +58,17 @@ export const RewardsStats = () => {
     return parseFloat(epochData.totalUnits);
   }, [epochData?.totalUnits]);
 
-  // Calculate user's drachmas for the current epoch
-  const userEpochDrachmas = useMemo(() => {
-    if (!userUnitsData?.units?.entries || !epochData?.epochId) return 0;
-    const currentEpochEntries = userUnitsData.units.entries.filter(entry => entry.epochId === epochData.epochId);
-    return currentEpochEntries.reduce((sum, entry) => sum + parseFloat(entry.units), 0);
-  }, [userUnitsData?.units?.entries, epochData?.epochId]);
-
   return (
     <Paper
       sx={{
         background: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
         padding: "24px",
         borderRadius: "24px",
-        width: "100%",
+        flex: 1,
+        boxShadow: "none",
       }}
     >
-      <Box>
+      <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
           <Typography fontSize="18px" lineHeight="28px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
             Epoch {epochData?.epochNumber || 0}
@@ -152,11 +132,14 @@ export const RewardsStats = () => {
             </Box>
           </Box>
         </Box>
-        <Typography fontSize="15px" fontWeight={400} my="24px" sx={{ color: theme.colors.gray[10] }}>
-          Rewards are distributed each epoch. Earn Drachmas for activity in the protocol and claim your share of the
-          rewards.
+        <Typography fontSize="18px" lineHeight="28px" fontWeight={600} mt="24px" sx={{ color: theme.colors.gray[10] }}>
+          Earn Drachmas by engaging with Olympus products and governance.
         </Typography>
-        <Box display="grid" gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr" }} gap="12px">
+        <Typography fontSize="15px" fontWeight={400} mt="8px" mb="24px" sx={{ color: theme.colors.gray[40] }}>
+          Accumulated Drachmas can then be used to claim your proportional share of the Convertible OHM rewards pool,
+          aligning long-term participation with meaningful on-chain incentives.
+        </Typography>
+        <Box display="grid" gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr 1fr" }} gap="12px" mt="auto">
           <Box
             sx={{
               bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
@@ -164,37 +147,31 @@ export const RewardsStats = () => {
               padding: "16px",
             }}
           >
-            <Box display="flex" alignItems="center" gap="4px">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Epoch Drachmas
-              </Typography>
-              <InfoTooltip message="Total Drachmas accumulated during this epoch by all the participants." />
-            </Box>
+            <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+              Drachmas
+            </Typography>
             <Box display="flex" alignItems="center" gap="4px" mt="8px">
               <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
+              <Typography fontSize="18px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
                 {formatNumber(totalDrachmas, 0)}
               </Typography>
             </Box>
-          </Box>
-
-          <Box
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
-              borderRadius: "12px",
-              padding: "16px",
-            }}
-          >
-            <Box display="flex" alignItems="center" gap="4px">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Your Drachmas
-              </Typography>
-              <InfoTooltip message="The total Drachmas you've earned during this epoch from protocol activity." />
-            </Box>
-            <Box display="flex" alignItems="center" gap="4px" mt="8px">
-              <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                {address ? formatNumber(userEpochDrachmas, 0) : "—"}
+            <Box
+              mt="8px"
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "8px",
+                py: "2px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                width: "fit-content",
+              }}
+            >
+              <Typography fontWeight={600} fontSize="13px" sx={{ color: theme.colors.gray[40] }}>
+                by all participants
               </Typography>
             </Box>
           </Box>
@@ -208,30 +185,30 @@ export const RewardsStats = () => {
           >
             <Box display="flex" alignItems="center" gap="4px">
               <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Drachma Snapshot
+                Drachma Calculation
               </Typography>
-              <InfoTooltip message="Drachmas are calculated on a daily basis. The final snapshot of the protocol positions is taken at 23:59:59 UTC." />
+              <InfoTooltip message="Drachmas are calculated on a daily basis. The final snapshot of the protocol positions is taken at 11:59 PM EST." />
             </Box>
-            <Box display="flex" alignItems="center" gap="4px" mt="8px">
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                Daily
+            <Typography fontSize="18px" fontWeight={600} mt="8px" sx={{ color: theme.colors.gray[10] }}>
+              Daily
+            </Typography>
+            <Box
+              mt="8px"
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "8px",
+                py: "2px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                width: "fit-content",
+              }}
+            >
+              <Typography fontWeight={600} fontSize="13px" sx={{ color: theme.colors.gray[40] }}>
+                11:59 PM EST
               </Typography>
-              <Box
-                sx={{
-                  border:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.1)"
-                      : "1px solid rgba(20, 23, 34, 0.1)",
-                  px: "6px",
-                  py: "1px",
-                  bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
-                  borderRadius: "8px",
-                }}
-              >
-                <Typography fontWeight={600} fontSize="15px" sx={{ color: theme.colors.gray[40] }}>
-                  23:59:59 UTC
-                </Typography>
-              </Box>
             </Box>
           </Box>
 
@@ -248,26 +225,26 @@ export const RewardsStats = () => {
               </Typography>
               <InfoTooltip message="Rewards are distributed based on the Drachmas amount you have earned each epoch." />
             </Box>
-            <Box display="flex" alignItems="center" gap="4px" mt="8px">
-              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                Weekly
+            <Typography fontSize="18px" fontWeight={600} mt="8px" sx={{ color: theme.colors.gray[10] }}>
+              Weekly
+            </Typography>
+            <Box
+              mt="8px"
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "8px",
+                py: "2px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                width: "fit-content",
+              }}
+            >
+              <Typography fontWeight={600} fontSize="13px" sx={{ color: theme.colors.gray[40] }}>
+                Mon-Wed
               </Typography>
-              <Box
-                sx={{
-                  border:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.1)"
-                      : "1px solid rgba(20, 23, 34, 0.1)",
-                  px: "6px",
-                  py: "1px",
-                  bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
-                  borderRadius: "8px",
-                }}
-              >
-                <Typography fontWeight={600} fontSize="15px" sx={{ color: theme.colors.gray[40] }}>
-                  Tue-Wed
-                </Typography>
-              </Box>
             </Box>
           </Box>
         </Box>
