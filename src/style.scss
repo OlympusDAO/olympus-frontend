@@ -119,3 +119,8 @@ a:hover svg {
 .tooltip {
   z-index: 9999999;
 }
+
+.MuiModal-root .Paper-root {
+  max-height: calc(100vh - 32px);
+  overflow-y: auto !important;
+}
