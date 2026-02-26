@@ -1,4 +1,4 @@
-const baseURL = "%{OLYMPUS_UNITS_API_ENDPOINT}%";
+const baseURL = import.meta.env.VITE_OLYMPUS_UNITS_API_ENDPOINT ?? "";
 
 const AUTH_TOKEN_KEY = "olympus_auth_token";
 

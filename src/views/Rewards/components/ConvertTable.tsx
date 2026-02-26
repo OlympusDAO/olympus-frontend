@@ -1,71 +1,29 @@
+import { formatUnits } from "@ethersproject/units";
 import { Box, Button, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { useState } from "react";
+import { format } from "date-fns";
+import { useMemo, useState } from "react";
+import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import ConvOhmSmIcon from "src/assets/tokens/convOHMsm.svg?react";
+import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
+import { LibChainId, useGETUserUserHistory } from "src/generated/olympusUnits";
+import { formatNumber } from "src/helpers";
+import { NetworkId } from "src/networkDetails";
 import { ConvertModal } from "src/views/Rewards/components/ConvertModal";
 import { RewardsTablePagination } from "src/views/Rewards/components/RewardsTablePagination";
-import { MOCK_DATA } from "src/views/Rewards/constants";
 import { useRewardsTableStyles } from "src/views/Rewards/hooks/useRewardsTableStyles";
-import { useAccount } from "wagmi";
+import { useAccount, useContractReads, useNetwork } from "wagmi";
 
 type RowStatus = "convertible" | "converted";
 
 export interface ConvertRow {
   id: number;
   availableToConvert: number;
-  convertiblePrice: number;
+  convertiblePrice: number | null;
   discount: number | null;
   conversionWindow: string;
   netValue: number | null;
   status: RowStatus;
 }
-
-const mockData: ConvertRow[] = [
-  {
-    id: 1,
-    availableToConvert: 56,
-    convertiblePrice: 19.5,
-    discount: null,
-    conversionWindow: "Jun 1, 2026 - Jul 1, 2026",
-    netValue: -840,
-    status: "convertible",
-  },
-  {
-    id: 2,
-    availableToConvert: 35,
-    convertiblePrice: 18.99,
-    discount: null,
-    conversionWindow: "May 1, 2026 - Jun 1, 2026",
-    netValue: -600,
-    status: "convertible",
-  },
-  {
-    id: 3,
-    availableToConvert: 42,
-    convertiblePrice: 17.2,
-    discount: 8,
-    conversionWindow: "May 1, 2026 - Jun 1, 2026",
-    netValue: 320,
-    status: "convertible",
-  },
-  {
-    id: 4,
-    availableToConvert: 12,
-    convertiblePrice: 16.99,
-    discount: 13,
-    conversionWindow: "Apr 1, 2026 - May 1, 2026",
-    netValue: 600,
-    status: "converted",
-  },
-  {
-    id: 5,
-    availableToConvert: 9,
-    convertiblePrice: 16.5,
-    discount: 10,
-    conversionWindow: "Mar 1, 2026 - Apr 1, 2026",
-    netValue: 450,
-    status: "converted",
-  },
-];
 
 const statusConfig: Record<RowStatus, { label: string; active: boolean }> = {
   convertible: { label: "Convert to OHM", active: true },
@@ -76,7 +34,8 @@ const ROWS_PER_PAGE = 20;
 
 export const ConvertTable = () => {
   const { theme, colors, styles } = useRewardsTableStyles();
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
+  const { chain = { id: 11155111 } } = useNetwork();
   const [page, setPage] = useState(0);
   const [selectedRow, setSelectedRow] = useState<ConvertRow | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -84,8 +43,68 @@ export const ConvertTable = () => {
   const { secondaryText } = colors;
   const { headerSx, cellSx, valueSx, containerSx, tableSx, rowHoverSx, actionButtonSx, emptyStateCellSx } = styles;
 
-  // TODO: replace mockData with real API data
-  const data = isConnected || MOCK_DATA ? (MOCK_DATA ? mockData : []) : [];
+  const networkId = chain.id as NetworkId;
+  const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
+
+  const contractAddress =
+    DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES[networkId as keyof typeof DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES];
+
+  const { data: userHistoryData } = useGETUserUserHistory(
+    address || "",
+    { chainId },
+    { query: { enabled: !!address } },
+  );
+
+  const historyEntries = useMemo(() => userHistoryData?.rewards?.entries || [], [userHistoryData]);
+
+  // hasClaimed multicall to identify claimed (convertible) entries
+  const hasClaimedContracts = useMemo(
+    () =>
+      historyEntries.map(entry => ({
+        address: contractAddress as `0x${string}`,
+        abi: RewardDistributorABI,
+        functionName: "hasClaimed",
+        args: [address, entry.endDate],
+      })),
+    [historyEntries, contractAddress, address],
+  );
+
+  const { data: claimStatusData } = useContractReads({
+    contracts: hasClaimedContracts,
+    enabled: !!address && !!contractAddress && historyEntries.length > 0,
+  });
+
+  const data = useMemo<ConvertRow[]>(() => {
+    if (!isConnected) return [];
+
+    const rows: ConvertRow[] = [];
+
+    historyEntries.forEach((entry, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const statusResult = claimStatusData?.[index] as any;
+      const claimed = statusResult?.result !== undefined ? Boolean(statusResult.result) : Boolean(statusResult);
+      if (!claimed) return;
+
+      const availableToConvert = parseFloat(formatUnits(entry.rewardAmount, entry.rewardAssetDecimals));
+      const conversionWindow =
+        format(new Date(entry.startDate * 1000), "MMM d, yyyy") +
+        " - " +
+        format(new Date(entry.endDate * 1000), "MMM d, yyyy");
+
+      rows.push({
+        id: entry.epochId,
+        availableToConvert,
+        convertiblePrice: null,
+        discount: null,
+        conversionWindow,
+        netValue: null,
+        status: "convertible",
+      });
+    });
+
+    return rows;
+  }, [isConnected, historyEntries, claimStatusData]);
+
   const totalRows = data.length;
   const pageData = data.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE);
 
@@ -118,16 +137,22 @@ export const ConvertTable = () => {
                     <TableCell sx={{ ...cellSx, width: "160px", pl: "24px" }}>
                       <Box display="flex" alignItems="center" gap="4px">
                         <SvgIcon sx={{ fontSize: "16px" }} component={ConvOhmSmIcon} inheritViewBox />
-                        <Typography sx={valueSx}>{row.availableToConvert}</Typography>
+                        <Typography sx={valueSx}>{formatNumber(row.availableToConvert, 4)}</Typography>
                       </Box>
                     </TableCell>
 
                     {/* Convertible Price */}
                     <TableCell sx={cellSx}>
-                      <Box display="flex" alignItems="center" gap="4px">
-                        <Typography sx={{ ...valueSx, color: "#45BB78" }}>{row.convertiblePrice.toFixed(2)}</Typography>
-                        <Typography sx={valueSx}>USDS/OHM</Typography>
-                      </Box>
+                      {row.convertiblePrice !== null ? (
+                        <Box display="flex" alignItems="center" gap="4px">
+                          <Typography sx={{ ...valueSx, color: "#45BB78" }}>
+                            {row.convertiblePrice.toFixed(2)}
+                          </Typography>
+                          <Typography sx={valueSx}>USDS/OHM</Typography>
+                        </Box>
+                      ) : (
+                        <Typography sx={valueSx}>-</Typography>
+                      )}
                     </TableCell>
 
                     {/* Discount */}

@@ -25,29 +25,32 @@ export const ConvertModal = ({ open, onClose, row }: ConvertModalProps) => {
 
   const secondaryText = isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)";
 
+  const priceUnavailable = row.convertiblePrice === null;
   const parsedUsds = parseFloat(usdsAmount) || 0;
-  const ohmAmount = row.convertiblePrice > 0 ? parsedUsds / row.convertiblePrice : 0;
+  const ohmAmount = row.convertiblePrice !== null && row.convertiblePrice > 0 ? parsedUsds / row.convertiblePrice : 0;
   const maxOhm = row.availableToConvert;
-  const maxUsds = Math.min(MOCK_USDS_BALANCE, maxOhm * row.convertiblePrice);
+  const maxUsds = row.convertiblePrice !== null ? Math.min(MOCK_USDS_BALANCE, maxOhm * row.convertiblePrice) : 0;
 
   const discount = row.discount !== null ? row.discount : 0;
   const exceedsBalance = parsedUsds > MOCK_USDS_BALANCE;
   const exceedsAvailable = ohmAmount > maxOhm;
 
   const getButtonLabel = () => {
+    if (priceUnavailable) return "Price not available";
     if (parsedUsds === 0) return "Enter an amount";
     if (exceedsBalance) return "Insufficient USDS balance";
     if (exceedsAvailable) return "Amount exceeds available convOHM";
     return "Convert";
   };
 
-  const isDisabled = parsedUsds === 0 || exceedsBalance || exceedsAvailable;
+  const isDisabled = priceUnavailable || parsedUsds === 0 || exceedsBalance || exceedsAvailable;
 
   const handleUsdsMax = () => {
     setUsdsAmount(maxUsds.toString());
   };
 
   const handleOhmMax = () => {
+    if (row.convertiblePrice === null) return;
     const ohmMaxUsds = maxOhm * row.convertiblePrice;
     const capped = Math.min(MOCK_USDS_BALANCE, ohmMaxUsds);
     setUsdsAmount(capped.toString());
@@ -124,14 +127,20 @@ export const ConvertModal = ({ open, onClose, row }: ConvertModalProps) => {
           <DetailRow
             label="Conversion Price"
             value={
-              <Box display="flex" alignItems="center" gap="4px">
-                <Typography fontSize="12px" fontWeight={600} lineHeight="16px" letterSpacing="0.12px" color="#45BB78">
-                  {row.convertiblePrice.toFixed(2)}
-                </Typography>
+              row.convertiblePrice !== null ? (
+                <Box display="flex" alignItems="center" gap="4px">
+                  <Typography fontSize="12px" fontWeight={600} lineHeight="16px" letterSpacing="0.12px" color="#45BB78">
+                    {row.convertiblePrice.toFixed(2)}
+                  </Typography>
+                  <Typography fontSize="12px" fontWeight={600} lineHeight="16px" letterSpacing="0.12px">
+                    USDS/OHM
+                  </Typography>
+                </Box>
+              ) : (
                 <Typography fontSize="12px" fontWeight={600} lineHeight="16px" letterSpacing="0.12px">
-                  USDS/OHM
+                  -
                 </Typography>
-              </Box>
+              )
             }
             secondaryText={secondaryText}
           />
