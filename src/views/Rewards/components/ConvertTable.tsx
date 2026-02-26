@@ -1,6 +1,7 @@
 import { Box, Button, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 import ConvOhmSmIcon from "src/assets/tokens/convOHMsm.svg?react";
+import { ConvertModal } from "src/views/Rewards/components/ConvertModal";
 import { RewardsTablePagination } from "src/views/Rewards/components/RewardsTablePagination";
 import { MOCK_DATA } from "src/views/Rewards/constants";
 import { useRewardsTableStyles } from "src/views/Rewards/hooks/useRewardsTableStyles";
@@ -8,7 +9,7 @@ import { useAccount } from "wagmi";
 
 type RowStatus = "convertible" | "converted";
 
-interface ConvertRow {
+export interface ConvertRow {
   id: number;
   availableToConvert: number;
   convertiblePrice: number;
@@ -77,12 +78,14 @@ export const ConvertTable = () => {
   const { theme, colors, styles } = useRewardsTableStyles();
   const { isConnected } = useAccount();
   const [page, setPage] = useState(0);
+  const [selectedRow, setSelectedRow] = useState<ConvertRow | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { secondaryText } = colors;
   const { headerSx, cellSx, valueSx, containerSx, tableSx, rowHoverSx, actionButtonSx, emptyStateCellSx } = styles;
 
   // TODO: replace mockData with real API data
-  const data = isConnected ? (MOCK_DATA ? mockData : []) : [];
+  const data = isConnected || MOCK_DATA ? (MOCK_DATA ? mockData : []) : [];
   const totalRows = data.length;
   const pageData = data.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE);
 
@@ -157,7 +160,18 @@ export const ConvertTable = () => {
                     {/* Action */}
                     <TableCell sx={{ ...cellSx, width: "144px", pr: "24px" }}>
                       <Box display="flex" justifyContent="flex-end">
-                        <Button variant="contained" color="primary" disabled={!active} sx={actionButtonSx(active)}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          disabled={!active}
+                          sx={actionButtonSx(active)}
+                          onClick={() => {
+                            if (active) {
+                              setSelectedRow(row);
+                              setModalOpen(true);
+                            }
+                          }}
+                        >
                           {label}
                         </Button>
                       </Box>
@@ -197,6 +211,18 @@ export const ConvertTable = () => {
         paginationBtnBg={colors.paginationBtnBg}
         arrowColor={colors.arrowColor}
       />
+
+      {/* Convert Modal */}
+      {selectedRow && (
+        <ConvertModal
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedRow(null);
+          }}
+          row={selectedRow}
+        />
+      )}
     </Box>
   );
 };
