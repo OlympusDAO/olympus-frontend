@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import RewardDistributorABI from "src/abi/RewardDistributor.json";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
+import ConvOhmIcon from "src/assets/tokens/convOHM.svg?react";
 import OhmIcon from "src/assets/tokens/token_OHM.svg?react";
 import { DEPOSIT_REWARDS_DISTRIBUTOR_ADDRESSES } from "src/constants/addresses";
 import {
@@ -25,14 +26,7 @@ export const UserRewards = () => {
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
 
   // Fetch current epoch data
-  const { data: currentEpochData } = useGETEpochsCurrentEpoch(
-    { chainId },
-    {
-      query: {
-        enabled: true,
-      },
-    },
-  );
+  const { data: currentEpochData } = useGETEpochsCurrentEpoch({ chainId });
 
   // Fetch user units data from API
   const { data: userUnitsData } = useGETUserUserUnits(
@@ -48,7 +42,7 @@ export const UserRewards = () => {
   );
 
   // Fetch user history data from API
-  const { data: userHistoryData, error: historyError } = useGETUserUserHistory(
+  const { data: userHistoryData } = useGETUserUserHistory(
     address || "",
     {
       chainId,
@@ -56,17 +50,9 @@ export const UserRewards = () => {
     {
       query: {
         enabled: !!address,
-        onError: (error: any) => {
-          console.error("Error fetching user history:", error);
-        },
       },
     },
   );
-
-  // Log error if exists
-  if (historyError) {
-    console.error("User history error:", historyError);
-  }
 
   const totalUnits = userUnitsData?.units?.totalUnits ? parseFloat(userUnitsData.units.totalUnits) : 0;
 
@@ -177,124 +163,139 @@ export const UserRewards = () => {
 
   const cardSx = {
     bgcolor: isDark ? "#2C2E37" : "#FFF",
-    borderRadius: "12px",
-    padding: "16px",
-    border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(20,23,34,0.1)"}`,
-  };
-
-  const iconBadgeSx = {
-    width: "36px",
-    height: "36px",
-    borderRadius: "50%",
-    border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(20,23,34,0.1)"}`,
-    bgcolor: isDark ? "rgba(255,255,255,0.03)" : "rgba(20,23,34,0.03)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: "8px",
+    padding: "12px",
   };
 
   return (
     <Paper
       sx={{
-        minWidth: "400px",
+        width: { xs: "100%", md: "320px" },
         background: isDark ? "#20222A" : "#EFEAE0",
         padding: "24px",
-        borderRadius: "24px",
+        borderRadius: "12px",
         boxShadow: "none",
         flexShrink: 0,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <Typography fontSize="24px" fontWeight={700} sx={{ color: theme.colors.gray[10], mb: "4px" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Typography fontSize="20px" lineHeight="24px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
           Your Stats
         </Typography>
 
-        {/* Card 1 — Drachmas */}
-        <Box sx={cardSx}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
-            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
-              Drachmas
-            </Typography>
-            <Box sx={iconBadgeSx}>
+        <Box display="flex" flexDirection="column" gap="12px">
+          {/* Card 1 — Drachmas */}
+          <Box sx={cardSx}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb="8px">
+              <Typography fontSize="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                Drachmas
+              </Typography>
               <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
             </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" gap="8px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                This Epoch
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(currentEpochDrachmas, 0)}
-              </Typography>
+            <Box display="flex" flexDirection="column" gap="4px">
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  This Epoch
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(currentEpochDrachmas, 2)}
+                </Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  Total
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(totalUnits, 2)}
+                </Typography>
+              </Box>
             </Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Total
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(totalUnits, 0)}
-              </Typography>
-            </Box>
           </Box>
-        </Box>
 
-        {/* Card 2 — Convertible OHM */}
-        <Box sx={cardSx}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
-            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
-              Convertible OHM
-            </Typography>
-            <Box sx={iconBadgeSx}>
+          {/* Card 2 — Convertible OHM */}
+          <Box sx={cardSx}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb="8px">
+              <Typography fontSize="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                Convertible OHM
+              </Typography>
+              <SvgIcon sx={{ fontSize: "20px", color: "#A38257" }} component={ConvOhmIcon} inheritViewBox />
+            </Box>
+            <Box display="flex" flexDirection="column" gap="4px">
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  Available to Claim
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(totalUnclaimedRewards, 2)}
+                </Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  Claimed
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(totalClaimed, 2)}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Card 3 — OHM */}
+          {/* TODO: Wire up to actual conversion tracking data when available */}
+          <Box sx={cardSx}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb="8px">
+              <Typography fontSize="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                OHM
+              </Typography>
               <SvgIcon sx={{ fontSize: "20px" }} component={OhmIcon} viewBox="0 0 32 32" />
             </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" gap="8px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Available to Claim
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(totalUnclaimedRewards, 2)}
-              </Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Claimed
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                {formatNumber(totalClaimed, 2)}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        {/* Card 3 — OHM */}
-        <Box sx={cardSx}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb="12px">
-            <Typography fontSize="15px" fontWeight={700} sx={{ color: theme.colors.gray[10] }}>
-              OHM
-            </Typography>
-            <Box sx={iconBadgeSx}>
-              <SvgIcon sx={{ fontSize: "20px" }} component={OhmIcon} viewBox="0 0 32 32" />
-            </Box>
-          </Box>
-          <Box display="flex" flexDirection="column" gap="8px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Available to Convert
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                0
-              </Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-                Converted
-              </Typography>
-              <Typography fontSize="15px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
-                0
-              </Typography>
+            <Box display="flex" flexDirection="column" gap="4px">
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  Available to Convert
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(0, 2)}
+                </Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography
+                  fontSize="12px"
+                  lineHeight="16px"
+                  fontWeight={400}
+                  sx={{ color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+                >
+                  Converted
+                </Typography>
+                <Typography fontSize="12px" lineHeight="16px" fontWeight={600} sx={{ color: theme.colors.gray[10] }}>
+                  {formatNumber(0, 2)}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>

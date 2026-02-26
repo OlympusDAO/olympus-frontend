@@ -39,7 +39,13 @@ export const RewardsWalletNotConnected = () => {
               <Typography fontSize="18px" fontWeight={500} mb="8px">
                 Wallet Not Connected
               </Typography>
-              <Typography fontSize="15px" fontWeight={400} maxWidth="224px" sx={{ color: "#BBBDC0" }}>
+              <Typography
+                fontSize="16px"
+                lineHeight="24px"
+                fontWeight={400}
+                maxWidth="224px"
+                sx={{ color: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(20, 23, 34, 0.6)" }}
+              >
                 Connect your wallet to get access to the Rewards program.
               </Typography>
             </Box>

@@ -1,32 +1,25 @@
-import {
-  Box,
-  Link,
-  SvgIcon,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { Theme, useTheme } from "@mui/material/styles";
-import { Icon } from "@olympusdao/component-library";
+import { Box, Link, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Theme } from "@mui/material/styles";
 import { useState } from "react";
+import ArrowDownLineIcon from "src/assets/icons/arrow-down-line.svg?react";
+import ArrowUpLineIcon from "src/assets/icons/arrow-up-line.svg?react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
+import ExternalLinkLineIcon from "src/assets/icons/external-link-line.svg?react";
 import Medal1Icon from "src/assets/icons/medal-1.svg?react";
 import Medal2Icon from "src/assets/icons/medal-2.svg?react";
 import Medal3Icon from "src/assets/icons/medal-3.svg?react";
 import { LibChainId, useGETSeasonsLeaderboard } from "src/generated/olympusUnits";
 import { formatNumber, shorten } from "src/helpers";
+import { RewardsTablePagination } from "src/views/Rewards/components/RewardsTablePagination";
+import { MOCK_DATA } from "src/views/Rewards/constants";
+import { useRewardsTableStyles } from "src/views/Rewards/hooks/useRewardsTableStyles";
 import { useAccount, useNetwork } from "wagmi";
 
 const RankCell = ({ rank, theme }: { rank: number; theme: Theme }) => {
-  // Medal emojis for top 3
   const medals = [
-    <SvgIcon sx={{ fontSize: "24px", overflow: "visible" }} component={Medal1Icon} />,
-    <SvgIcon sx={{ fontSize: "24px", overflow: "visible" }} component={Medal2Icon} />,
-    <SvgIcon sx={{ fontSize: "24px", overflow: "visible" }} component={Medal3Icon} />,
+    <SvgIcon key="medal-1" sx={{ fontSize: "24px", overflow: "visible" }} component={Medal1Icon} />,
+    <SvgIcon key="medal-2" sx={{ fontSize: "24px", overflow: "visible" }} component={Medal2Icon} />,
+    <SvgIcon key="medal-3" sx={{ fontSize: "24px", overflow: "visible" }} component={Medal3Icon} />,
   ];
 
   if (rank <= 3) {
@@ -63,11 +56,9 @@ const RankCell = ({ rank, theme }: { rank: number; theme: Theme }) => {
   );
 };
 
-const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
-  const { address: userAddress } = useAccount();
-
+const AddressCell = ({ address, theme, userAddress }: { address: string; theme: Theme; userAddress?: string }) => {
   return (
-    <Box display="flex" alignItems="center" gap="4px">
+    <Box display="flex" alignItems="center" gap="16px">
       <Link
         href={`https://etherscan.io/address/${address}`}
         target="_blank"
@@ -83,10 +74,10 @@ const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
           },
         }}
       >
-        <Typography fontSize="15px" fontWeight={500}>
+        <Typography fontSize="12px" fontWeight={600}>
           {shorten(address)}
         </Typography>
-        <Icon name="arrow-up" sx={{ fontSize: "14px", color: theme.colors.gray[10] }} />
+        <SvgIcon sx={{ fontSize: "14px" }} component={ExternalLinkLineIcon} inheritViewBox />
       </Link>
       {userAddress?.toLowerCase() === address.toLowerCase() && (
         <Box
@@ -113,17 +104,30 @@ const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
   );
 };
 
+const mockEntries = [
+  { rank: 1, address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", totalUnits: "125430", positionChange: 0 },
+  { rank: 2, address: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B", totalUnits: "98210", positionChange: 2 },
+  { rank: 3, address: "0x1Db3439a222C519ab44bb1144fC28167b4Fa6EE6", totalUnits: "87654", positionChange: -1 },
+  { rank: 4, address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", totalUnits: "72100", positionChange: 1 },
+  { rank: 5, address: "0xDA9dfA130Df4dE4673b89022EE50ff26f6EA73Cf", totalUnits: "65430", positionChange: -2 },
+  { rank: 6, address: "0x0716a17FBAeE714f1E6aB0f9d59edbC5f09815C0", totalUnits: "54320", positionChange: 0 },
+  { rank: 7, address: "0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b", totalUnits: "43210", positionChange: 3 },
+  { rank: 8, address: "0xF977814e90dA44bFA03b6295A0616a897441aceC", totalUnits: "38900", positionChange: -1 },
+];
+
+const ROWS_PER_PAGE = 25;
+
 export const RewardsLeaderboardTable = () => {
-  const theme = useTheme();
+  const { theme, isDark, colors, styles } = useRewardsTableStyles();
   const { address: userAddress } = useAccount();
   const { chain } = useNetwork();
-
-  // Pagination state
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+
+  const { secondaryText } = colors;
+  const { headerSx, cellSx, valueSx } = styles;
 
   const chainId = (chain?.id || LibChainId.NUMBER_11155111) as LibChainId;
-  // Fetch leaderboard data from API
+
   const {
     data: leaderboardData,
     isLoading,
@@ -131,331 +135,169 @@ export const RewardsLeaderboardTable = () => {
   } = useGETSeasonsLeaderboard({
     userAddress,
     chainId,
-    limit: rowsPerPage,
-    offset: page * rowsPerPage,
-    daysAgo: 1, // Compare with 1 day ago
+    limit: ROWS_PER_PAGE,
+    offset: page * ROWS_PER_PAGE,
+    daysAgo: 1,
   });
 
-  const entries = leaderboardData?.entries || [];
-  const totalEntries = leaderboardData?.total || 0;
-
-  const handleChangePage = (_event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page when changing rows per page
-  };
+  const hasApiData = !!leaderboardData?.entries?.length;
+  const entries = hasApiData ? leaderboardData.entries : MOCK_DATA ? mockEntries : [];
+  const totalEntries = hasApiData ? leaderboardData.total || 0 : MOCK_DATA ? mockEntries.length : 0;
 
   return (
-    <Box
-      sx={{
-        margin: "0",
-        position: "relative",
-        width: "100%",
-        overflowX: "auto",
-        borderRadius: "24px",
-        boxShadow:
-          theme.palette.mode === "dark"
-            ? "0 4px 16px rgba(255,255,255,0.05), 0 0 0 0.5px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(20, 23, 34, 0.1)"
-            : "0 4px 16px rgba(20,23,34,0.05), 0 0 0 0.5px rgba(20,23,34,0.1), inset 1px 1px 2px #FFFFFF",
-      }}
-    >
-      <Table
+    <Box display="flex" flexDirection="column" gap="24px">
+      <Box
         sx={{
           width: "100%",
-          minWidth: "600px",
-          background: theme.colors.paper.card,
-          borderCollapse: "separate",
-          borderSpacing: 0,
-          margin: "0",
+          background: isDark ? "#20222A" : "#EFEAE0",
+          borderRadius: "12px",
+          overflowX: "auto",
         }}
       >
-        <TableHead>
-          <TableRow
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-            }}
-          >
-            <TableCell
-              sx={{
-                color: theme.colors.gray[40],
-                fontSize: "12px",
-                fontWeight: 400,
-                height: "40px",
-                padding: "12px",
-                paddingLeft: "24px",
-                textAlign: "left",
-                whiteSpace: "nowrap",
-                borderBottom:
-                  theme.palette.mode === "dark"
-                    ? "1px solid rgba(255, 255, 255, 0.05)"
-                    : "1px solid rgba(20, 23, 34, 0.05)",
-              }}
-            >
-              Rank
-            </TableCell>
-            <TableCell
-              sx={{
-                color: theme.colors.gray[40],
-                fontSize: "12px",
-                fontWeight: 400,
-                height: "40px",
-                padding: "12px",
-                textAlign: "left",
-                whiteSpace: "nowrap",
-                borderBottom:
-                  theme.palette.mode === "dark"
-                    ? "1px solid rgba(255, 255, 255, 0.05)"
-                    : "1px solid rgba(20, 23, 34, 0.05)",
-              }}
-            >
-              Address
-            </TableCell>
-            <TableCell
-              sx={{
-                color: theme.colors.gray[40],
-                fontSize: "12px",
-                fontWeight: 400,
-                height: "40px",
-                padding: "12px",
-                textAlign: "left",
-                whiteSpace: "nowrap",
-                borderBottom:
-                  theme.palette.mode === "dark"
-                    ? "1px solid rgba(255, 255, 255, 0.05)"
-                    : "1px solid rgba(20, 23, 34, 0.05)",
-              }}
-            >
-              Drachmas
-            </TableCell>
-            <TableCell
-              sx={{
-                color: theme.colors.gray[40],
-                fontSize: "12px",
-                fontWeight: 400,
-                height: "40px",
-                padding: "12px",
-                paddingRight: "24px",
-                textAlign: "right",
-                whiteSpace: "nowrap",
-                borderBottom:
-                  theme.palette.mode === "dark"
-                    ? "1px solid rgba(255, 255, 255, 0.05)"
-                    : "1px solid rgba(20, 23, 34, 0.05)",
-              }}
-            >
-              1D Change
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {isLoading ? (
-            <TableRow
-              sx={{
-                bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-                borderBottom: "none",
-              }}
-            >
-              <TableCell
-                colSpan={4}
-                sx={{
-                  textAlign: "center",
-                  height: "96px",
-                  color: theme.colors.gray[40],
-                  borderBottom: "none",
-                  padding: "12px",
-                }}
-              >
-                Loading...
-              </TableCell>
+        <Table
+          sx={{
+            width: "100%",
+            minWidth: "600px",
+            borderCollapse: "collapse",
+            margin: 0,
+          }}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ ...headerSx, pl: "24px" }}>Rank</TableCell>
+              <TableCell sx={{ ...headerSx }}>Address</TableCell>
+              <TableCell sx={{ ...headerSx }}>Drachmas</TableCell>
+              <TableCell sx={{ ...headerSx, textAlign: "right", pr: "24px" }}>1D Change</TableCell>
             </TableRow>
-          ) : error ? (
-            <TableRow
-              sx={{
-                bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-                borderBottom: "none",
-              }}
-            >
-              <TableCell
-                colSpan={4}
-                sx={{
-                  textAlign: "center",
-                  height: "96px",
-                  color: theme.palette.mode === "dark" ? "#f87171" : "#dc2626",
-                  borderBottom: "none",
-                  padding: "12px",
-                }}
-              >
-                Error loading leaderboard
-              </TableCell>
-            </TableRow>
-          ) : entries.length > 0 ? (
-            entries.map((row, index) => {
-              const isPositionUp = row.positionChange > 0;
-              const positionChangeAbs = Math.abs(row.positionChange);
-              const isCurrentUser = userAddress?.toLowerCase() === row.address.toLowerCase();
-
-              return (
-                <TableRow
-                  key={`${row.address}-${row.rank}`}
+          </TableHead>
+          <TableBody>
+            {isLoading && !entries.length ? (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
                   sx={{
-                    bgcolor: isCurrentUser
-                      ? theme.palette.mode === "dark"
-                        ? "rgba(248, 204, 130, 0.20)"
-                        : "rgba(248, 204, 130, 0.40)"
-                      : theme.palette.mode === "dark"
-                        ? "#20222A"
-                        : "#EFEAE0",
-                    transition: "background-color 0.2s",
-                    height: "64px",
-                    "&:hover": {
-                      bgcolor: isCurrentUser
-                        ? theme.palette.mode === "dark"
-                          ? "rgba(248, 204, 130, 0.30)"
-                          : "rgba(248, 204, 130, 0.50)"
-                        : theme.palette.mode === "dark"
-                          ? "rgba(255, 255, 255, 0.1)"
-                          : "rgba(20, 23, 34, 0.1)",
-                    },
-                    borderBottom:
-                      index === entries.length - 1
-                        ? "none"
-                        : theme.palette.mode === "dark"
-                          ? "1px solid rgba(255, 255, 255, 0.05)"
-                          : "1px solid rgba(20, 23, 34, 0.05)",
+                    textAlign: "center",
+                    height: "96px",
+                    color: secondaryText,
+                    borderBottom: "none",
+                    padding: "12px",
                   }}
                 >
-                  <TableCell
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : error && !entries.length ? (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  sx={{
+                    textAlign: "center",
+                    height: "96px",
+                    color: isDark ? "#f87171" : "#dc2626",
+                    borderBottom: "none",
+                    padding: "12px",
+                  }}
+                >
+                  Error loading leaderboard
+                </TableCell>
+              </TableRow>
+            ) : entries.length > 0 ? (
+              entries.map(row => {
+                const isPositionUp = row.positionChange > 0;
+                const positionChangeAbs = Math.abs(row.positionChange);
+                const isCurrentUser = userAddress?.toLowerCase() === row.address.toLowerCase();
+
+                return (
+                  <TableRow
+                    key={`${row.address}-${row.rank}`}
                     sx={{
-                      padding: "12px",
-                      paddingLeft: "24px",
-                      whiteSpace: "nowrap",
-                      borderBottom: "none",
+                      bgcolor: isCurrentUser
+                        ? isDark
+                          ? "rgba(248, 204, 130, 0.20)"
+                          : "rgba(248, 204, 130, 0.40)"
+                        : "transparent",
+                      transition: "background-color 0.2s",
+                      "&:hover": {
+                        bgcolor: isCurrentUser
+                          ? isDark
+                            ? "rgba(248, 204, 130, 0.30)"
+                            : "rgba(248, 204, 130, 0.50)"
+                          : isDark
+                            ? "rgba(255, 255, 255, 0.05)"
+                            : "rgba(20, 23, 34, 0.05)",
+                      },
+                      "&:last-child td": { borderBottom: "none" },
                     }}
                   >
-                    <RankCell rank={row.rank} theme={theme} />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      padding: "12px",
-                      whiteSpace: "nowrap",
-                      borderBottom: "none",
-                    }}
-                  >
-                    <AddressCell address={row.address} theme={theme} />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      padding: "12px",
-                      whiteSpace: "nowrap",
-                      borderBottom: "none",
-                    }}
-                  >
-                    <Box display="flex" alignItems="center" gap="4px">
-                      <SvgIcon sx={{ fontSize: "14px" }} component={DrachmaIcon} />
-                      <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                        {formatNumber(parseFloat(row.totalUnits), 0)}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      padding: "12px",
-                      paddingRight: "24px",
-                      whiteSpace: "nowrap",
-                      borderBottom: "none",
-                    }}
-                  >
-                    <Box display="flex" justifyContent="flex-end" alignItems="center" gap="4px">
-                      {row.positionChange !== 0 && (
-                        <Icon
-                          name={isPositionUp ? "arrow-up" : "arrow-down"}
+                    <TableCell sx={{ ...cellSx, pl: "24px" }}>
+                      <RankCell rank={row.rank} theme={theme} />
+                    </TableCell>
+                    <TableCell sx={cellSx}>
+                      <AddressCell address={row.address} theme={theme} userAddress={userAddress} />
+                    </TableCell>
+                    <TableCell sx={cellSx}>
+                      <Box display="flex" alignItems="center" gap="4px">
+                        <SvgIcon sx={{ fontSize: "14px" }} component={DrachmaIcon} />
+                        <Typography sx={valueSx}>{formatNumber(parseFloat(row.totalUnits), 0)}</Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={{ ...cellSx, pr: "24px" }}>
+                      <Box display="flex" justifyContent="flex-end" alignItems="center" gap="4px">
+                        {row.positionChange !== 0 && (
+                          <SvgIcon
+                            sx={{ fontSize: "14px" }}
+                            component={isPositionUp ? ArrowUpLineIcon : ArrowDownLineIcon}
+                            inheritViewBox
+                          />
+                        )}
+                        <Typography
                           sx={{
-                            fontSize: "14px",
-                            color: isPositionUp
-                              ? theme.palette.mode === "dark"
-                                ? "#4ade80"
-                                : "#16a34a"
-                              : theme.palette.mode === "dark"
-                                ? "#f87171"
-                                : "#dc2626",
+                            ...valueSx,
+                            color: row.positionChange === 0 ? secondaryText : isPositionUp ? "#45BB78" : "#F55B5B",
                           }}
-                        />
-                      )}
-                      <Typography
-                        fontSize="15px"
-                        fontWeight={500}
-                        sx={{
-                          color:
-                            row.positionChange === 0
-                              ? theme.colors.gray[40]
-                              : isPositionUp
-                                ? theme.palette.mode === "dark"
-                                  ? "#4ade80"
-                                  : "#16a34a"
-                                : theme.palette.mode === "dark"
-                                  ? "#f87171"
-                                  : "#dc2626",
-                        }}
-                      >
-                        {row.positionChange === 0 ? "-" : positionChangeAbs}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              );
-            })
-          ) : (
-            <TableRow
-              sx={{
-                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(20, 23, 34, 0.1)",
-                borderBottom: "none",
-              }}
-            >
-              <TableCell
-                colSpan={4}
-                sx={{
-                  textAlign: "center",
-                  height: "96px",
-                  color: theme.colors.gray[40],
-                  borderBottom: "none",
-                  padding: "12px",
-                }}
-              >
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[2, 3, 4, 100]}
-        component="div"
-        count={totalEntries}
-        rowsPerPage={rowsPerPage}
+                        >
+                          {row.positionChange === 0 ? "-" : positionChangeAbs}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  sx={{
+                    borderBottom: "none",
+                    padding: "56px 12px",
+                  }}
+                >
+                  <Box display="flex" flexDirection="column" alignItems="center" gap="4px" textAlign="center">
+                    <Typography
+                      sx={{ fontSize: "15px", fontWeight: 600, lineHeight: "20px", color: theme.colors.gray[10] }}
+                    >
+                      No Activity Yet
+                    </Typography>
+                    <Typography sx={{ fontSize: "12px", fontWeight: 500, lineHeight: "16px", color: secondaryText }}>
+                      Once the first epoch is complete, the leaderboard will appear here.
+                    </Typography>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </Box>
+
+      {/* Pagination */}
+      <RewardsTablePagination
         page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{
-          borderTop:
-            theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(20, 23, 34, 0.05)",
-          "& .MuiTablePagination-toolbar": {
-            color: theme.colors.gray[40],
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-select, & .MuiTablePagination-selectIcon":
-            {
-              display: "none",
-            },
-          "& .MuiTablePagination-actions button": {
-            color: theme.colors.gray[40],
-            "&.Mui-disabled": {
-              color: theme.colors.gray[40],
-              opacity: 0.3,
-            },
-          },
-        }}
+        totalRows={totalEntries}
+        rowsPerPage={ROWS_PER_PAGE}
+        onPageChange={setPage}
+        secondaryText={colors.secondaryText}
+        paginationBtnBg={colors.paginationBtnBg}
+        arrowColor={colors.arrowColor}
       />
     </Box>
   );
