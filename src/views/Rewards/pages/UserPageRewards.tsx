@@ -1,10 +1,11 @@
 import { Box, SvgIcon, Tab, Tabs, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { RiBarChart2Line, RiQuestionLine } from "@remixicon/react";
+import { RiBarChart2Line, RiQuestionLine, RiSurveyLine } from "@remixicon/react";
 import { useState } from "react";
 import ConvOhmIcon from "src/assets/tokens/convOHM.svg?react";
 import { ClaimTable } from "src/views/Rewards/components/ClaimTable";
 import { ConvertTable } from "src/views/Rewards/components/ConvertTable";
+import { RewardsActions } from "src/views/Rewards/components/RewardsActions";
 import { RewardsFaq } from "src/views/Rewards/components/RewardsFaq";
 import { RewardsLeaderboardTable } from "src/views/Rewards/components/RewardsLeaderboardTable";
 import { RewardsStats } from "src/views/Rewards/components/RewardsStats";
@@ -81,6 +82,15 @@ export const UserPageRewards = () => {
             <Tab
               label={
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <RiSurveyLine size={20} />
+                  Actions
+                </Box>
+              }
+              sx={tabSx}
+            />
+            <Tab
+              label={
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <RiBarChart2Line size={20} />
                   Leaderboard
                 </Box>
@@ -99,8 +109,9 @@ export const UserPageRewards = () => {
           </Tabs>
           {activeTab === 0 && <ClaimTable />}
           {activeTab === 1 && <ConvertTable />}
-          {activeTab === 2 && <RewardsLeaderboardTable />}
-          {activeTab === 3 && <RewardsFaq />}
+          {activeTab === 2 && <RewardsActions />}
+          {activeTab === 3 && <RewardsLeaderboardTable />}
+          {activeTab === 4 && <RewardsFaq />}
         </Box>
       </Box>
     </section>
