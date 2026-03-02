@@ -102,15 +102,12 @@ export const ManagerPageRewards = () => {
     setSelectedEpochIndex(newValue);
   };
 
-  // Derive the primary status from rewardStatuses array
-  // Priority: distributed > calculated > pending
   const getPrimaryStatus = (rewardStatuses: string[]): string => {
-    if (rewardStatuses.includes(SharedEpochRewardsStatus.distributed)) {
-      return SharedEpochRewardsStatus.distributed;
-    }
-    if (rewardStatuses.includes(SharedEpochRewardsStatus.calculated)) {
-      return SharedEpochRewardsStatus.calculated;
-    }
+    if (rewardStatuses.includes("executed")) return "executed";
+    if (rewardStatuses.includes(SharedEpochRewardsStatus.distributed)) return SharedEpochRewardsStatus.distributed;
+    if (rewardStatuses.includes("pending_signatures")) return "pending_signatures";
+    if (rewardStatuses.includes("not_submitted")) return "not_submitted";
+    if (rewardStatuses.includes(SharedEpochRewardsStatus.calculated)) return SharedEpochRewardsStatus.calculated;
     return SharedEpochRewardsStatus.pending;
   };
 
@@ -120,9 +117,15 @@ export const ManagerPageRewards = () => {
       case SharedEpochRewardsStatus.pending:
         return theme.colors.gray[40];
       case SharedEpochRewardsStatus.calculated:
-        return theme.palette.mode === "dark" ? "#F8CC82" : "#F8CC82";
+        return "#F8CC82";
       case SharedEpochRewardsStatus.distributed:
-        return theme.palette.mode === "dark" ? "#6FCF97" : "#6FCF97";
+        return "#6FCF97";
+      case "not_submitted":
+        return "#EB5757";
+      case "pending_signatures":
+        return "#F8CC82";
+      case "executed":
+        return "#6FCF97";
       default:
         return theme.colors.gray[40];
     }
@@ -244,7 +247,7 @@ export const ManagerPageRewards = () => {
             Rewards Manager
           </Typography>
         </Box>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="calc(100vh - 200px)">
           <Paper
             sx={{
               background: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
@@ -318,6 +321,11 @@ export const ManagerPageRewards = () => {
                 "& .MuiTabScrollButton-root.Mui-disabled": {
                   opacity: 0.5,
                 },
+                "& .MuiTab-root": {
+                  minWidth: "auto",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                },
                 "& .MuiTab-root.Mui-selected": {
                   textDecoration: "none",
                 },
@@ -347,7 +355,7 @@ export const ManagerPageRewards = () => {
             </Tabs>
           </Box>
           <Box mt="16px" display="flex" flexDirection={{ xs: "column", md: "row" }} gap="16px">
-            <Box width={{ xs: "100%", md: "344px" }} flexShrink={0}>
+            <Box width={{ xs: "100%", md: "400px" }} flexShrink={0}>
               {selectedEpoch ? (
                 <ManageEpochStats
                   epochNumber={selectedEpoch.epochNumber}
@@ -357,6 +365,10 @@ export const ManagerPageRewards = () => {
                     epochUsersData?.users?.reduce((sum, user) => sum + BigInt(user.units), BigInt(0)).toString() || "0"
                   }
                   totalYield={rewardAsset?.rewardAmount || "0"}
+                  totalConvOhm={rewardAsset?.rewardAmount || "0"}
+                  strikePrice="-"
+                  eligibleDate="-"
+                  expiryDate="-"
                   rewardStatuses={selectedEpoch.rewardStatuses}
                   chainId={chainId}
                   onSubmitProposal={handleButtonClick}

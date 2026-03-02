@@ -4,6 +4,7 @@ import { Box, Button, Paper, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
 import usdsIcon from "src/assets/icons/usds.svg?react";
+import ConvOhmSmIcon from "src/assets/tokens/convOHMsm.svg?react";
 import { LibChainId, SharedEpochRewardsStatus } from "src/generated/olympusUnits";
 import { formatNumber } from "src/helpers";
 
@@ -23,6 +24,10 @@ interface ManageEpochStatsProps {
   endTimestamp: number;
   totalUnits: string;
   totalYield: string;
+  totalConvOhm: string;
+  strikePrice: string;
+  eligibleDate: string;
+  expiryDate: string;
   rewardStatuses: string[];
   chainId: LibChainId;
   onSubmitProposal: () => void;
@@ -41,6 +46,10 @@ export const ManageEpochStats = ({
   endTimestamp,
   totalUnits,
   totalYield,
+  totalConvOhm,
+  strikePrice,
+  eligibleDate,
+  expiryDate,
   rewardStatuses,
   onSubmitProposal,
   isSubmitting,
@@ -77,12 +86,11 @@ export const ManageEpochStats = ({
   // Derive the primary status from rewardStatuses array
   // Priority: distributed > calculated > pending
   const getPrimaryStatus = (statuses: string[]): string => {
-    if (statuses.includes(SharedEpochRewardsStatus.distributed)) {
-      return SharedEpochRewardsStatus.distributed;
-    }
-    if (statuses.includes(SharedEpochRewardsStatus.calculated)) {
-      return SharedEpochRewardsStatus.calculated;
-    }
+    if (statuses.includes("executed")) return "executed";
+    if (statuses.includes(SharedEpochRewardsStatus.distributed)) return SharedEpochRewardsStatus.distributed;
+    if (statuses.includes("pending_signatures")) return "pending_signatures";
+    if (statuses.includes("not_submitted")) return "not_submitted";
+    if (statuses.includes(SharedEpochRewardsStatus.calculated)) return SharedEpochRewardsStatus.calculated;
     return SharedEpochRewardsStatus.pending;
   };
 
@@ -95,11 +103,34 @@ export const ManageEpochStats = ({
         return "Calculated";
       case SharedEpochRewardsStatus.distributed:
         return "Distributed";
+      case "not_submitted":
+        return "Not Submitted";
+      case "pending_signatures":
+        return "Pending Signatures";
+      case "executed":
+        return "Executed";
       default:
         return primaryStatus;
     }
   };
 
+  const getStatusColor = (statuses: string[]): string => {
+    const primaryStatus = getPrimaryStatus(statuses);
+    switch (primaryStatus) {
+      case "not_submitted":
+        return "#EB5757";
+      case "pending_signatures":
+      case SharedEpochRewardsStatus.calculated:
+        return "#F8CC82";
+      case "executed":
+      case SharedEpochRewardsStatus.distributed:
+        return "#6FCF97";
+      default:
+        return theme.colors.gray[40];
+    }
+  };
+
+  const statusColor = getStatusColor(rewardStatuses);
   const startDate = formatDate(startTimestamp);
   const endDate = formatDate(endTimestamp);
 
@@ -124,9 +155,9 @@ export const ManageEpochStats = ({
           justifyContent="center"
           borderRadius="4px"
           px="8px"
-          borderColor={theme.colors.gray[40]}
+          borderColor={statusColor}
         >
-          <Typography fontSize="12px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+          <Typography fontSize="12px" fontWeight={400} sx={{ color: statusColor }}>
             {getStatusLabel(rewardStatuses)}
           </Typography>
         </Box>
@@ -145,9 +176,10 @@ export const ManageEpochStats = ({
           <Typography fontSize="15px" mb="8px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
             Epoch Period
           </Typography>
-          <Box display="flex" alignItems="center" justifyContent="space-between" gap="4px">
+          <Box display="flex" alignItems="center" gap="4px">
             <Box
               sx={{
+                flex: 1,
                 border:
                   theme.palette.mode === "dark"
                     ? "1px solid rgba(255, 255, 255, 0.1)"
@@ -169,6 +201,7 @@ export const ManageEpochStats = ({
             -
             <Box
               sx={{
+                flex: 1,
                 border:
                   theme.palette.mode === "dark"
                     ? "1px solid rgba(255, 255, 255, 0.1)"
@@ -197,14 +230,16 @@ export const ManageEpochStats = ({
             my: "12px",
           }}
         >
-          <Typography fontSize="15px" mb="8px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-            Epoch Drachmas
-          </Typography>
-          <Box display="flex" alignItems="center" gap="4px" mt="8px">
-            <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
-            <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-              {formatNumber(parseFloat(totalUnits), 0)}
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+              Epoch Drachmas
             </Typography>
+            <Box display="flex" alignItems="center" gap="4px">
+              <SvgIcon sx={{ fontSize: "20px" }} component={DrachmaIcon} />
+              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
+                {formatNumber(parseFloat(totalUnits), 0)}
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box
@@ -215,14 +250,101 @@ export const ManageEpochStats = ({
             mb: "12px",
           }}
         >
-          <Typography fontSize="15px" mb="8px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
-            Epoch Yield
-          </Typography>
-          <Box display="flex" alignItems="center" gap="4px" mt="8px">
-            <SvgIcon sx={{ fontSize: "20px" }} component={usdsIcon} />
-            <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-              {formatTokenAmount(totalYield, rewardAssetDecimals)} {rewardAssetSymbol}
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+              Epoch Yield
             </Typography>
+            <Box display="flex" alignItems="center" gap="4px">
+              <SvgIcon sx={{ fontSize: "20px" }} component={usdsIcon} />
+              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
+                {formatTokenAmount(totalYield, rewardAssetDecimals)} {rewardAssetSymbol}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            bgcolor: theme.palette.mode === "dark" ? "#2C2E37" : "#FFF",
+            borderRadius: "12px",
+            padding: "16px",
+            mb: "12px",
+          }}
+        >
+          <Box display="flex" alignItems="center" justifyContent="space-between" mb="12px">
+            <Typography fontSize="15px" fontWeight={400} sx={{ color: theme.colors.gray[40] }}>
+              Epoch convOHM
+            </Typography>
+            <Box display="flex" alignItems="center" gap="4px">
+              <SvgIcon sx={{ fontSize: "20px" }} component={ConvOhmSmIcon} inheritViewBox />
+              <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
+                {formatTokenAmount(totalConvOhm, rewardAssetDecimals)}
+              </Typography>
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center" gap="8px">
+            <Box
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "10px",
+                py: "8px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                textAlign: "center",
+                flex: 1,
+              }}
+            >
+              <Typography fontSize="12px" fontWeight={400} lineHeight="16px" sx={{ color: theme.colors.gray[40] }}>
+                Strike Price
+              </Typography>
+              <Typography fontSize="13px" fontWeight={600} lineHeight="18px">
+                {strikePrice}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "10px",
+                py: "8px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                textAlign: "center",
+                flex: 1,
+              }}
+            >
+              <Typography fontSize="12px" fontWeight={400} lineHeight="16px" sx={{ color: theme.colors.gray[40] }}>
+                Eligible
+              </Typography>
+              <Typography fontSize="13px" fontWeight={600} lineHeight="18px">
+                {eligibleDate}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.1)"
+                    : "1px solid rgba(20, 23, 34, 0.1)",
+                px: "10px",
+                py: "8px",
+                bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(20, 23, 34, 0.03)",
+                borderRadius: "8px",
+                textAlign: "center",
+                flex: 1,
+              }}
+            >
+              <Typography fontSize="12px" fontWeight={400} lineHeight="16px" sx={{ color: theme.colors.gray[40] }}>
+                Expiry Date
+              </Typography>
+              <Typography fontSize="13px" fontWeight={600} lineHeight="18px">
+                {expiryDate}
+              </Typography>
+            </Box>
           </Box>
         </Box>
         {submissionSuccess && safeUrl && (

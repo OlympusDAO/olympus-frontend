@@ -1,23 +1,14 @@
 import { formatUnits } from "@ethersproject/units";
-import {
-  Box,
-  Link,
-  SvgIcon,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { Theme, useTheme } from "@mui/material/styles";
+import { Box, Link, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Theme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import { useState } from "react";
 import DrachmaIcon from "src/assets/icons/drachma.svg?react";
-import usdsIcon from "src/assets/icons/usds.svg?react";
+import ConvOhmSmIcon from "src/assets/tokens/convOHMsm.svg?react";
 import { EpochsEpochRewardUser } from "src/generated/olympusUnits";
 import { formatNumber, shorten } from "src/helpers";
+import { RewardsTablePagination } from "src/views/Rewards/components/RewardsTablePagination";
+import { useRewardsTableStyles } from "src/views/Rewards/hooks/useRewardsTableStyles";
 
 // Format token amount from wei to human-readable format
 const formatTokenAmount = (amount: string, decimals: number): string => {
@@ -54,7 +45,7 @@ const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
           },
         }}
       >
-        <Typography fontSize="15px" fontWeight={500}>
+        <Typography sx={{ fontSize: "12px", fontWeight: 600, lineHeight: "16px", letterSpacing: "0.12px" }}>
           {shorten(address)}
         </Typography>
         <Icon name="arrow-up" sx={{ fontSize: "14px", color: theme.colors.gray[10] }} />
@@ -63,298 +54,88 @@ const AddressCell = ({ address, theme }: { address: string; theme: Theme }) => {
   );
 };
 
-export const ManageEpochTable = ({
-  users,
-  totalUserCount,
-  rewardAssetDecimals,
-  rewardAssetSymbol,
-}: ManageEpochTableProps) => {
-  const theme = useTheme();
+const ROWS_PER_PAGE = 20;
 
-  // Pagination state
+export const ManageEpochTable = ({ users, totalUserCount, rewardAssetDecimals }: ManageEpochTableProps) => {
+  const { theme, colors, styles } = useRewardsTableStyles();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
 
-  const handleChangePage = (_event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+  const { headerSx, cellSx, valueSx, containerSx, tableSx, rowHoverSx, emptyStateCellSx } = styles;
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page when changing rows per page
-  };
+  const pageData = users.slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE);
 
   return (
-    <Box
-      sx={{
-        margin: "0",
-        position: "relative",
-        width: "100%",
-        borderRadius: "24px",
-        boxShadow:
-          theme.palette.mode === "dark"
-            ? "0 4px 16px rgba(255,255,255,0.05), 0 0 0 0.5px rgba(255,255,255,0.1), inset 1px 1px 2px rgba(20, 23, 34, 0.1)"
-            : "0 4px 16px rgba(20,23,34,0.05), 0 0 0 0.5px rgba(20,23,34,0.1), inset 1px 1px 2px #FFFFFF",
-      }}
-    >
-      <Box
-        sx={{
-          overflowX: "auto",
-          borderRadius: "24px 24px 0 0",
-        }}
-      >
-        <Table
-          sx={{
-            width: "100%",
-            minWidth: "600px",
-            background: theme.colors.paper.card,
-            borderCollapse: "separate",
-            borderSpacing: 0,
-            margin: "0",
-          }}
-        >
+    <Box display="flex" flexDirection="column" gap="24px">
+      <Box sx={containerSx}>
+        <Table sx={{ ...tableSx, minWidth: "600px" }}>
           <TableHead>
-            <TableRow
-              sx={{
-                bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-              }}
-            >
-              <TableCell
-                sx={{
-                  color: theme.colors.gray[40],
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  height: "40px",
-                  padding: "12px",
-                  paddingLeft: "24px",
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
-                  borderBottom:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.05)"
-                      : "1px solid rgba(20, 23, 34, 0.05)",
-                }}
-              >
-                User
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: theme.colors.gray[40],
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  height: "40px",
-                  padding: "12px",
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
-                  borderBottom:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.05)"
-                      : "1px solid rgba(20, 23, 34, 0.05)",
-                }}
-              >
-                Drachmas
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: theme.colors.gray[40],
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  height: "40px",
-                  padding: "12px",
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
-                  borderBottom:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.05)"
-                      : "1px solid rgba(20, 23, 34, 0.05)",
-                }}
-              >
-                Yield
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: theme.colors.gray[40],
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  height: "40px",
-                  padding: "12px",
-                  textAlign: "right",
-                  whiteSpace: "nowrap",
-                  borderBottom:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.05)"
-                      : "1px solid rgba(20, 23, 34, 0.05)",
-                }}
-              >
-                Share
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: theme.colors.gray[40],
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  height: "40px",
-                  padding: "12px",
-                  paddingRight: "24px",
-                  textAlign: "left",
-                  whiteSpace: "nowrap",
-                  borderBottom:
-                    theme.palette.mode === "dark"
-                      ? "1px solid rgba(255, 255, 255, 0.05)"
-                      : "1px solid rgba(20, 23, 34, 0.05)",
-                }}
-              >
-                Merkle Leaf
-              </TableCell>
+            <TableRow>
+              <TableCell sx={{ ...headerSx, pl: "24px" }}>User</TableCell>
+              <TableCell sx={headerSx}>Drachmas</TableCell>
+              <TableCell sx={headerSx}>convOHM</TableCell>
+              <TableCell sx={{ ...headerSx, textAlign: "right" }}>Share</TableCell>
+              <TableCell sx={{ ...headerSx, pr: "24px" }}>Merkle Leaf</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.length > 0 ? (
-              users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const paginatedEntries = users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-                return (
-                  <TableRow
-                    key={row.userAddress + row.rewardAssetId}
-                    sx={{
-                      bgcolor: theme.palette.mode === "dark" ? "#20222A" : "#EFEAE0",
-                      transition: "background-color 0.2s",
-                      "&:hover": {
-                        bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(20, 23, 34, 0.1)",
-                      },
-                      borderBottom:
-                        index === paginatedEntries.length - 1
-                          ? "none"
-                          : theme.palette.mode === "dark"
-                            ? "1px solid rgba(255, 255, 255, 0.05)"
-                            : "1px solid rgba(20, 23, 34, 0.05)",
-                    }}
-                  >
-                    <TableCell
-                      sx={{
-                        padding: "12px",
-                        paddingLeft: "24px",
-                        whiteSpace: "nowrap",
-                        borderBottom: "none",
-                      }}
-                    >
-                      <AddressCell address={row.userAddress} theme={theme} />
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        padding: "12px",
-                        whiteSpace: "nowrap",
-                        borderBottom: "none",
-                      }}
-                    >
-                      <Box display="flex" alignItems="center" gap="4px">
-                        <SvgIcon sx={{ fontSize: "14px" }} component={DrachmaIcon} />
-                        <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                          {formatNumber(parseFloat(row.units), 0)}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        padding: "12px",
-                        whiteSpace: "nowrap",
-                        borderBottom: "none",
-                      }}
-                    >
-                      <Box display="flex" alignItems="center" gap="4px">
-                        <SvgIcon sx={{ fontSize: "14px" }} component={usdsIcon} />
-                        <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                          {formatTokenAmount(row.rewardAmount, rewardAssetDecimals)} {rewardAssetSymbol}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        padding: "12px",
-                        whiteSpace: "nowrap",
-                        borderBottom: "none",
-                        textAlign: "right",
-                      }}
-                    >
-                      <Typography fontSize="15px" fontWeight={500} sx={{ color: theme.colors.gray[10] }}>
-                        {new Intl.NumberFormat("en-US", {
-                          style: "percent",
-                          maximumFractionDigits: 1,
-                        }).format(parseFloat(row.rewardShare))}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        padding: "12px",
-                        paddingRight: "24px",
-                        whiteSpace: "nowrap",
-                        borderBottom: "none",
-                      }}
-                    >
-                      <Typography
-                        fontSize="15px"
-                        fontWeight={500}
-                        sx={{
-                          color: theme.colors.gray[10],
-                          fontFamily: "monospace",
-                        }}
-                      >
-                        {typeof row.merkleLeaf === "string" ? row.merkleLeaf : "N/A"}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                );
-              })
+            {pageData.length > 0 ? (
+              pageData.map(row => (
+                <TableRow key={row.userAddress + row.rewardAssetId} sx={rowHoverSx}>
+                  <TableCell sx={{ ...cellSx, pl: "24px" }}>
+                    <AddressCell address={row.userAddress} theme={theme} />
+                  </TableCell>
+                  <TableCell sx={cellSx}>
+                    <Box display="flex" alignItems="center" gap="4px">
+                      <SvgIcon sx={{ fontSize: "14px" }} component={DrachmaIcon} />
+                      <Typography sx={valueSx}>{formatNumber(parseFloat(row.units), 0)}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={cellSx}>
+                    <Box display="flex" alignItems="center" gap="4px">
+                      <SvgIcon sx={{ fontSize: "14px" }} component={ConvOhmSmIcon} inheritViewBox />
+                      <Typography sx={valueSx}>{formatTokenAmount(row.rewardAmount, rewardAssetDecimals)}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ ...cellSx, textAlign: "right" }}>
+                    <Typography sx={valueSx}>
+                      {new Intl.NumberFormat("en-US", {
+                        style: "percent",
+                        maximumFractionDigits: 1,
+                      }).format(parseFloat(row.rewardShare))}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ ...cellSx, pr: "24px" }}>
+                    <Typography sx={{ ...valueSx, fontFamily: "monospace" }}>
+                      {typeof row.merkleLeaf === "string" ? row.merkleLeaf : "N/A"}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))
             ) : (
-              <TableRow
-                sx={{
-                  bgcolor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(20, 23, 34, 0.1)",
-                  borderBottom: "none",
-                }}
-              >
-                <TableCell
-                  colSpan={5}
-                  sx={{
-                    textAlign: "center",
-                    height: "96px",
-                    color: theme.colors.gray[40],
-                    borderBottom: "none",
-                    padding: "12px",
-                  }}
-                >
-                  No results.
+              <TableRow>
+                <TableCell colSpan={5} sx={emptyStateCellSx}>
+                  <Box display="flex" flexDirection="column" alignItems="center" gap="4px" textAlign="center">
+                    <Typography
+                      sx={{ fontSize: "15px", fontWeight: 600, lineHeight: "20px", color: theme.colors.gray[10] }}
+                    >
+                      No results.
+                    </Typography>
+                  </Box>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </Box>
-      <TablePagination
-        rowsPerPageOptions={[25, 50, 100]}
-        component="div"
-        count={totalUserCount}
-        rowsPerPage={rowsPerPage}
+
+      <RewardsTablePagination
         page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{
-          borderTop:
-            theme.palette.mode === "dark" ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(20, 23, 34, 0.05)",
-          "& .MuiTablePagination-toolbar": {
-            color: theme.colors.gray[40],
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-select, & .MuiTablePagination-selectIcon":
-            {
-              display: "none",
-            },
-          "& .MuiTablePagination-actions button": {
-            color: theme.colors.gray[40],
-            "&.Mui-disabled": {
-              color: theme.colors.gray[40],
-              opacity: 0.3,
-            },
-          },
-        }}
+        totalRows={totalUserCount}
+        rowsPerPage={ROWS_PER_PAGE}
+        onPageChange={setPage}
+        secondaryText={colors.secondaryText}
+        paginationBtnBg={colors.paginationBtnBg}
+        arrowColor={colors.arrowColor}
       />
     </Box>
   );
