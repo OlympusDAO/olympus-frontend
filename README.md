@@ -82,7 +82,7 @@ We use [Snapshot tests](https://vitest.dev/guide/snapshot.html) to make sure the
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
 
-[Here is an example](src/views/Stake/__tests__/Stake.unit.test.tsx) snapshot test and [here is the correspoding recorded snapshot](https://github.com/OlympusDAO/olympus-frontend/blob/develop/src/views/Stake/__tests__/__snapshots__/Stake.unit.test.tsx.snap). Keep in mind that for snapshot tests to be meaningful, they have to pre-populate components with variety of data sets (realistic, edge case, invalid).
+[Here is an example](src/views/Stake/__tests__/Stake.unit.test.tsx) snapshot test and [here is the corresponding recorded snapshot](https://github.com/OlympusDAO/olympus-frontend/blob/develop/src/views/Stake/__tests__/__snapshots__/Stake.unit.test.tsx.snap). Keep in mind that for snapshot tests to be meaningful, they have to pre-populate components with variety of data sets (realistic, edge case, invalid).
 
 [Here is a good blog post](https://dev.to/tobiastimm/property-based-testing-with-react-and-fast-check-3dce) about testing React components with generative data sets.
 
