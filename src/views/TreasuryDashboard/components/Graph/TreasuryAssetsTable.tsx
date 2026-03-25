@@ -50,8 +50,8 @@ export const TreasuryAssetsTable = ({
     // We need to flatten the tokenRecords from all of the pages arrays
     console.debug(`${chartName}: rebuilding by date token summary`);
 
-    // Filter out dust
-    const nonDustRecords = tokenRecordResults.filter(value => parseFloat(value.value) > 1);
+    // Filter out dust (|value| < $1)
+    const nonDustRecords = tokenRecordResults.filter(value => Math.abs(parseFloat(String(value.value))) > 1);
 
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive
