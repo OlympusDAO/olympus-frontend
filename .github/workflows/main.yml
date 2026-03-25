@@ -17,7 +17,7 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit --coverage.reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile base-report.json
       - name: Upload Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: base-report
           path: base-report.json
@@ -33,7 +33,7 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit --coverage.reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: branch-report
           path: branch-report.json
@@ -45,11 +45,11 @@ jobs:
       contents: write
     steps:
       - name: Download Base Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: base-report
       - name: Download Branch Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: branch-report
       - name: Generate Coverage Report
