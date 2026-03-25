@@ -16,7 +16,7 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit --reporter=json --outputFile=branch-report.json
       - name: Upload Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: branch-report
           path: branch-report.json
@@ -25,7 +25,7 @@ jobs:
     needs: [test-branch]
     steps:
       - name: Download Branch Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: branch-report
       - name: Prepare coverage badges
