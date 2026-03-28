@@ -157,7 +157,8 @@
     "postinstall": "yarn typechain:build",
     "prepare": "husky install",
     "codegen:bundle": "redocly bundle https://raw.githubusercontent.com/OlympusDAO/cooler-loans-api/main/apps/get/openapi/openapi.yml -o tmp/openapi.yaml",
-    "codegen": "yarn codegen:bundle && orval && yarn lint:fix"
+    "codegen:emergency": "npx tsx scripts/emergency-codegen.ts",
+    "codegen": "yarn codegen:bundle && orval && yarn codegen:emergency && yarn lint:fix"
   },
   "resolutions": {
     "**/prompts": "2.4.2",

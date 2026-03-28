@@ -3,16 +3,19 @@ import { styled, useTheme } from "@mui/material/styles";
 import { Icon } from "@olympusdao/component-library";
 import React from "react";
 import { cdIcon } from "src/assets/cdIcon";
+import emergencyIcon from "src/assets/icons/emergency.svg?react";
 import lendAndBorrowIcon from "src/assets/icons/lendAndBorrow.svg?react";
 import OlympusIcon from "src/assets/icons/olympus-nav-header.svg?react";
 import rewardsIcon from "src/assets/icons/rewards.svg?react";
 import NavItem from "src/components/library/NavItem";
+import { CHAIN_ID_TO_NAME, EMERGENCY_ADDRESSES } from "src/generated/emergency";
 import { formatCurrency } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useGohmPriceContract } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useIsSafeSigner } from "src/views/EmergencyShutdown/hooks";
 import { usePriceContractPrice } from "src/views/Range/hooks";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 const PREFIX = "NavContent";
 
@@ -28,10 +31,22 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const NavContent: React.VFC = () => {
   const { chain = { id: 1 } } = useNetwork();
+  const { address } = useAccount();
   const networks = useTestableNetworks();
   const { data: ohmPrice } = usePriceContractPrice();
   const { data: gohmPrice } = useGohmPriceContract();
   const theme = useTheme();
+
+  // Check if user is an admin (Safe signer) for Emergency page
+  const chainName = CHAIN_ID_TO_NAME[chain.id];
+  const chainAddresses = chainName ? EMERGENCY_ADDRESSES[chainName] : undefined;
+  const { isEmergencySigner, isDaoSigner } = useIsSafeSigner(
+    address,
+    chainAddresses?.emergency_ms,
+    chainAddresses?.dao_ms,
+    chain.id,
+  );
+  const isAdmin = isEmergencySigner || isDaoSigner;
 
   const protocolMetricsEnabled = Boolean(Environment.getTreasuryDashNodeUrl());
   const emissionsManagerEnabled = Environment.getEmissionsManagerEnabled();
@@ -119,6 +134,13 @@ const NavContent: React.VFC = () => {
                 }
                 to="/rewards"
               />
+              {isAdmin && (
+                <NavItem
+                  customIcon={<SvgIcon component={emergencyIcon} viewBox="0 0 21 21" />}
+                  label="Emergency"
+                  to="/emergency"
+                />
+              )}
             </div>
           </div>
         </div>
