@@ -13,9 +13,9 @@ jobs:
         with:
           ref: ${{ github.base_ref}}
       - name: Build UI
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Run unit tests
-        run: yarn test:unit --coverage.reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile base-report.json
+        run: pnpm test:unit --coverage.reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile base-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v4
         with:
@@ -29,9 +29,9 @@ jobs:
         with:
           ref: ${{ github.ref}}
       - name: Build UI
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Run unit tests
-        run: yarn test:unit --coverage.reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
+        run: pnpm test:unit --coverage.reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
         uses: actions/upload-artifact@v4
         with:
@@ -55,7 +55,7 @@ jobs:
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          test-script: yarn test:unit
+          test-script: pnpm test:unit
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-file: branch-report.json
