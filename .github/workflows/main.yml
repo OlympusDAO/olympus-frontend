@@ -19,9 +19,9 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v5
         with:
-          version: 9
+          version: 10.33.0
       - name: Build UI
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --config.package-manager-strict=false
       - name: Generate TypeChain artifacts
         run: pnpm exec typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json
       - name: Run unit tests
@@ -45,9 +45,9 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v5
         with:
-          version: 9
+          version: 10.33.0
       - name: Build UI
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --config.package-manager-strict=false
       - name: Generate TypeChain artifacts
         run: pnpm exec typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json
       - name: Run unit tests
