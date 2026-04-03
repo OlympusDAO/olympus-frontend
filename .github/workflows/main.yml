@@ -18,8 +18,12 @@ jobs:
           node-version: 22
       - name: Install pnpm
         uses: pnpm/action-setup@v5
+        with:
+          version: 9
       - name: Build UI
         run: pnpm install --frozen-lockfile
+      - name: Generate TypeChain artifacts
+        run: pnpm exec typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json
       - name: Run unit tests
         run: pnpm test:unit --coverage.reporter=json --outputFile=base-report.json && node ./scripts/fix-coverage-report.js --outputFile base-report.json
       - name: Upload Report
@@ -40,8 +44,12 @@ jobs:
           node-version: 22
       - name: Install pnpm
         uses: pnpm/action-setup@v5
+        with:
+          version: 9
       - name: Build UI
         run: pnpm install --frozen-lockfile
+      - name: Generate TypeChain artifacts
+        run: pnpm exec typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json
       - name: Run unit tests
         run: pnpm test:unit --coverage.reporter=json --outputFile=branch-report.json && node ./scripts/fix-coverage-report.js --outputFile branch-report.json
       - name: Upload Report
