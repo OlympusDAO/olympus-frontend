@@ -60,6 +60,29 @@ module.exports = tseslint.config(
     },
   },
   {
+    files: ["**/*.{test,spec}.{js,jsx,ts,tsx}", "**/__tests__/**/*.{js,jsx,ts,tsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+        afterEach: true,
+        beforeEach: true,
+        describe: true,
+        expect: true,
+        global: true,
+        it: true,
+        vi: true,
+      },
+    },
+    rules: {
+      "no-undef": "off",
+      "no-import-assign": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  {
     ignores: ["build/**", "node_modules/**", "src/typechain/**"],
   }
 );
