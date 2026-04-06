@@ -205,6 +205,7 @@
       "@babel/runtime": ">=7.26.10",
       "@orval/core": ">=7.19.0",
       "@orval/mock": ">=7.20.0",
+      "@stablelib/ed25519": "2.1.0",
       "@remix-run/router": "1.23.2",
       "@solana/web3.js": ">=1.75.1",
       "ajv@>=7.0.0-alpha.0 <8.18.0": ">=8.18.0",
