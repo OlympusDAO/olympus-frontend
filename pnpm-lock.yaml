@@ -156,6 +156,9 @@ importers:
       '@ethersproject/address':
         specifier: ^5.6.1
         version: 5.7.0
+      '@ethersproject/contracts':
+        specifier: ^5.7.0
+        version: 5.7.0
       '@ethersproject/providers':
         specifier: ^5.7.1
         version: 5.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.6)
@@ -255,6 +258,9 @@ importers:
       react-redux:
         specifier: ^8.0.5
         version: 8.0.5(@types/react-dom@18.2.18)(@types/react@18.2.45)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(redux@4.2.0)
+      react-router:
+        specifier: 6.30.2
+        version: 6.30.2(react@18.2.0)
       react-router-dom:
         specifier: ^6.21.1
         version: 6.21.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
