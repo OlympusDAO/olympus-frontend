@@ -168,6 +168,9 @@ importers:
       '@mui/system':
         specifier: ^5.15.1
         version: 5.15.1(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@emotion/styled@11.10.5(@babel/core@7.23.6)(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react@18.2.0)
+      '@mui/utils':
+        specifier: ^5.15.1
+        version: 5.15.1(@types/react@18.2.45)(react@18.2.0)
       '@mui/x-data-grid':
         specifier: ^6.18.5
         version: 6.18.5(@mui/material@5.15.1(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@emotion/styled@11.10.5(@babel/core@7.23.6)(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@mui/system@5.15.1(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@emotion/styled@11.10.5(@babel/core@7.23.6)(@emotion/react@11.11.1(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react@18.2.0))(@types/react@18.2.45)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -286,8 +289,14 @@ importers:
       '@ethersproject/abi':
         specifier: ^5.7.0
         version: 5.7.0
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
       '@ethersproject/bytes':
         specifier: ^5.6.1
+        version: 5.7.0
+      '@ethersproject/units':
+        specifier: ^5.7.0
         version: 5.7.0
       '@redocly/cli':
         specifier: ^1.6.0
@@ -355,6 +364,9 @@ importers:
       '@vitest/ui':
         specifier: ^0.34.7
         version: 0.34.7(vitest@0.34.6)
+      '@wagmi/core':
+        specifier: 0.10.17
+        version: 0.10.17(@types/react@18.2.45)(bufferutil@4.0.7)(ethers@5.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.6))(immer@9.0.21)(react@18.2.0)(typescript@5.3.3)(utf-8-validate@6.0.6)(zod@4.3.6)
       assert:
         specifier: ^2.1.0
         version: 2.1.0
@@ -2586,9 +2598,6 @@ packages:
 
   '@types/tinycolor2@1.4.6':
     resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
-
-  '@types/trusted-types@2.0.3':
-    resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -8307,7 +8316,7 @@ snapshots:
   '@metamask/utils@3.6.0':
     dependencies:
       '@types/debug': 4.1.7
-      debug: 4.3.4
+      debug: 4.4.3
       semver: 7.5.4
       superstruct: 1.0.3
     transitivePeerDependencies:
@@ -8318,7 +8327,7 @@ snapshots:
       '@motionone/easing': 10.15.1
       '@motionone/types': 10.15.1
       '@motionone/utils': 10.15.1
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/dom@10.16.2':
     dependencies:
@@ -8327,23 +8336,23 @@ snapshots:
       '@motionone/types': 10.15.1
       '@motionone/utils': 10.15.1
       hey-listen: 1.0.8
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/easing@10.15.1':
     dependencies:
       '@motionone/utils': 10.15.1
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/generators@10.15.1':
     dependencies:
       '@motionone/types': 10.15.1
       '@motionone/utils': 10.15.1
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/svelte@10.16.2':
     dependencies:
       '@motionone/dom': 10.16.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/types@10.15.1': {}
 
@@ -8351,12 +8360,12 @@ snapshots:
     dependencies:
       '@motionone/types': 10.15.1
       hey-listen: 1.0.8
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@motionone/vue@10.16.2':
     dependencies:
       '@motionone/dom': 10.16.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@mui/base@5.0.0-beta.28(@types/react@18.2.45)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -9390,10 +9399,7 @@ snapshots:
 
   '@types/tinycolor2@1.4.6': {}
 
-  '@types/trusted-types@2.0.3': {}
-
-  '@types/trusted-types@2.0.7':
-    optional: true
+  '@types/trusted-types@2.0.7': {}
 
   '@types/unist@2.0.6': {}
 
@@ -10121,7 +10127,7 @@ snapshots:
 
   async-mutex@0.2.6:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   asynciterator.prototype@1.0.0:
     dependencies:
@@ -12133,7 +12139,7 @@ snapshots:
 
   lit-html@2.8.0:
     dependencies:
-      '@types/trusted-types': 2.0.3
+      '@types/trusted-types': 2.0.7
 
   lit@2.8.0:
     dependencies:
