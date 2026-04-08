@@ -20,7 +20,7 @@ export const BridgeFees = ({
   recipientAddress: string;
 }) => {
   const { chain = { id: 1, nativeCurrency: { symbol: "ETH" } } } = useNetwork();
-  const { data: fee, isLoading: feeIsLoading } = useEstimateSendFee({
+  const { data: fee } = useEstimateSendFee({
     destinationChainId: receivingChain,
     recipientAddress,
     amount,
@@ -41,7 +41,7 @@ export const BridgeFees = ({
         id="receiving-chain-fees"
         tooltip="Paid on source chain. Used to cover the gas on the receiving chain."
         title={`${BRIDGE_CHAINS[receivingChain as keyof typeof BRIDGE_CHAINS].name} Bridge Fees`}
-        balance={!!fee?.nativeFee ? `${formatBalance(fee.nativeFee)} ${chain?.nativeCurrency?.symbol}` : `--`}
+        balance={fee?.nativeFee ? `${formatBalance(fee.nativeFee)} ${chain?.nativeCurrency?.symbol}` : `--`}
       />
       {!!fee?.gasFee && !!fee?.nativeFee && (
         <StyledDataRow

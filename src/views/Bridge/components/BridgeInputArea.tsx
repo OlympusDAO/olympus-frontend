@@ -124,7 +124,7 @@ export const BridgeInputArea = () => {
                     bridging.
                   </>
                 }
-                spendAmount={!!amount ? new DecimalBigNumber(amount, 9) : new DecimalBigNumber("0", 9)}
+                spendAmount={amount ? new DecimalBigNumber(amount, 9) : new DecimalBigNumber("0", 9)}
               >
                 <PrimaryButton
                   fullWidth
@@ -204,7 +204,7 @@ const SwitchChainBtn = () => {
   const theme = useTheme();
   return (
     <RainbowConnectButton.Custom>
-      {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
+      {({ chain, openChainModal }) => {
         if (!chain) return <></>;
         return (
           <PrimaryButton
