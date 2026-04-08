@@ -44,7 +44,7 @@ function V1Stake({ setMigrationModalOpen }) {
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
 
-  const [zoomed, setZoomed] = useState(false);
+  const [zoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
 
@@ -103,9 +103,7 @@ function V1Stake({ setMigrationModalOpen }) {
   };
 
   const onChangeStake = async action => {
-    // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
-      // eslint-disable-next-line no-alert
       return toast.error("Please enter a value!");
     }
 

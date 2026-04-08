@@ -21,7 +21,6 @@ export type GetSnapshots200 = {
 
 export type GetSnapshotsOrderBy = (typeof GetSnapshotsOrderBy)[keyof typeof GetSnapshotsOrderBy];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSnapshotsOrderBy = {
   ASC: "ASC",
   DESC: "DESC",
