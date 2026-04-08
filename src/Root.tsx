@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import { StyledEngineProvider } from "@mui/material/styles";
 import { FC } from "react";
 import { Provider } from "react-redux";
