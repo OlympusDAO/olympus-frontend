@@ -12,7 +12,7 @@ This is the front-end repo for Olympus.
 
 Required:
 
-- [Node v16.15.0](https://nodejs.org/download/release/latest-v16.x/)
+- [Node.js 24+](https://nodejs.org/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 - [Git](https://git-scm.com/downloads)
 
@@ -234,4 +234,3 @@ If editing the production content, opt to create a new branch and pull request, 
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FOlympusDAO%2Folympus-frontend&env=VITE_WALLETCONNECT_PROJECT_ID&envDescription=Please%20see%20.env.example%20for%20all%20other%20optional%20ENV%20variables&envLink=https%3A%2F%2Fgithub.com%2FOlympusDAO%2Folympus-frontend%2Fblob%2Fdevelop%2F.env.example)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/OlympusDAO/olympus-frontend)
-

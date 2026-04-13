@@ -8,15 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout front end code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.ref}}
-      - name: Build UI
-        run: pnpm install --frozen-lockfile
+
+      - name: Bootstrap
+        uses: ./.github/actions/bootstrap
       - name: Run unit tests
         run: pnpm test:unit --reporter=json --outputFile=branch-report.json
       - name: Upload Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: branch-report
           path: branch-report.json
@@ -25,7 +26,7 @@ jobs:
     needs: [test-branch]
     steps:
       - name: Download Branch Report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: branch-report
       - name: Prepare coverage badges
@@ -42,7 +43,7 @@ jobs:
           BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
           echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
       - name: Create coverage branches badge
-        uses: schneegans/dynamic-badges-action@v1.0.0
+        uses: schneegans/dynamic-badges-action@b90feefcb07693386596d07ff4b7b7f0c6e99bff # v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
@@ -53,7 +54,7 @@ jobs:
           namedLogo: jest
           logoColor: lightblue
       - name: Create coverage lines badge
-        uses: schneegans/dynamic-badges-action@v1.0.0
+        uses: schneegans/dynamic-badges-action@b90feefcb07693386596d07ff4b7b7f0c6e99bff # v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
@@ -64,7 +65,7 @@ jobs:
           namedLogo: jest
           logoColor: lightblue
       - name: Create coverage statements badge
-        uses: schneegans/dynamic-badges-action@v1.0.0
+        uses: schneegans/dynamic-badges-action@b90feefcb07693386596d07ff4b7b7f0c6e99bff # v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
@@ -75,7 +76,7 @@ jobs:
           namedLogo: jest
           logoColor: lightblue
       - name: Create coverage functions badge
-        uses: schneegans/dynamic-badges-action@v1.0.0
+        uses: schneegans/dynamic-badges-action@b90feefcb07693386596d07ff4b7b7f0c6e99bff # v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
