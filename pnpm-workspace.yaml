@@ -1,8 +1,19 @@
 minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - "axios"
+  - "dompurify"
 preferFrozenLockfile: true
 engineStrict: true
 strictDepBuilds: true
 blockExoticSubdeps: true
+onlyBuiltDependencies:
+  - "@swc/core"
+  - "bufferutil"
+  - "core-js"
+  - "esbuild"
+  - "keccak"
+  - "type-graphql"
+  - "utf-8-validate"
 packages:
   - "."
 
