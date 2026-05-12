@@ -185,11 +185,10 @@
       "prettier --write"
     ]
   },
-  "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">=18",
     "npm": "use-pnpm",
-    "pnpm": "10.33.0",
+    "pnpm": ">=10.33.0",
     "yarn": "use-pnpm"
   },
   "pnpm": {
