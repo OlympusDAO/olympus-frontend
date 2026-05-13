@@ -5,13 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  prompts: 2.4.2
-  shell-quote: 1.7.3
-  ejs: 3.1.8
-  node-forge: 1.3.1
-  url-parse: 1.5.10
-  async: 3.2.3
-  nth-check: 2.0.1
   '@babel/helpers': ^7.26.10
   '@babel/plugin-transform-modules-systemjs': ^7.29.4
   '@babel/runtime': ^7.26.10
@@ -22,6 +15,7 @@ overrides:
   '@stablelib/ed25519': 2.1.0
   '@tootallnate/once@<3.0.1': ^3.0.1
   ajv@>=7.0.0-alpha.0 <8.18.0: ^8.18.0
+  async: 3.2.3
   axios: ^1.15.2
   base-x: ^3.0.11
   bigint-buffer: 1.1.5
@@ -31,6 +25,7 @@ overrides:
   braces: ^3.0.3
   cross-spawn: ^7.0.5
   dompurify: ^3.4.0
+  ejs: 3.1.8
   elliptic: ^6.6.1
   esbuild: ^0.25.0
   fast-uri: ^3.1.2
@@ -52,13 +47,18 @@ overrides:
   minimatch@>=5.0.0 <5.1.8: ^5.1.8
   minimatch@>=6.0.0 <6.2.2: ^6.2.2
   nanoid: ^3.3.8
+  node-forge: 1.3.1
+  nth-check: 2.0.1
   picomatch: ^2.3.2
   postcss: ^8.5.10
   prismjs: ^1.30.0
+  prompts: 2.4.2
   qs: ^6.14.1
   react-router: 6.30.2
   redoc: ^2.4.0
   sha.js: ^2.4.12
+  shell-quote: 1.7.3
+  url-parse: 1.5.10
   uuid: ^11.1.1
   validator: ^13.15.22
   vite: 6.4.2
@@ -336,7 +336,7 @@ importers:
         version: 16.5.0
       happy-dom:
         specifier: ^20.8.9
-        version: 20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6)
+        version: 20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6)
       https-browserify:
         specifier: ^1.0.0
         version: 1.0.0
@@ -357,7 +357,7 @@ importers:
         version: 0.7.4
       orval:
         specifier: ^6.23.0
-        version: 6.23.0(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)
+        version: 6.23.0(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)
       os-browserify:
         specifier: ^0.3.0
         version: 0.3.0
@@ -417,7 +417,7 @@ importers:
         version: 4.2.2(typescript@5.3.3)(vite@6.4.2(@types/node@20.10.5)(jiti@2.6.1)(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3))
       vitest:
         specifier: ^0.34.4
-        version: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
+        version: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
 
 packages:
 
@@ -2734,9 +2734,6 @@ packages:
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
 
-  '@types/estree@1.0.5':
-    resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
-
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -2761,9 +2758,6 @@ packages:
 
   '@types/istanbul-lib-coverage@2.0.4':
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
-
-  '@types/json-schema@7.0.13':
-    resolution: {integrity: sha512-RbSSoHliUbnXj3ny0CNFOoxrIDV6SUGyStHsvDqosw6CkdPV8TtWGlfecuK4ToyMEAql6pzNxgCFKanovUzlgQ==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -3465,10 +3459,6 @@ packages:
 
   call-bind@1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
-
-  call-bind@1.0.8:
-    resolution: {integrity: sha512-oKlSFMcMwpUg2ednkhQ454wfWiU/ul3CkJe/PEHcTKuiX6RpbehUiFMXu13HalGZxfUwCQzZG747YXBn1im9ww==}
-    engines: {node: '>= 0.4'}
 
   call-bind@1.0.9:
     resolution: {integrity: sha512-a/hy+pNsFUTR+Iz8TCJvXudKVLAnz/DyeSUo10I5yvFDQJBFU2s9uqQpoSrJlroHUKoKqzg+epxyP9lqFdzfBQ==}
@@ -4499,8 +4489,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@20.8.9:
-    resolution: {integrity: sha512-Tz23LR9T9jOGVZm2x1EPdXqwA37G/owYMxRwU0E4miurAtFsPMQ1d2Jc2okUaSjZqAFz2oEn3FLXC5a0a+siyA==}
+  happy-dom@20.9.0:
+    resolution: {integrity: sha512-GZZ9mKe8r646NUAf/zemnGbjYh4Bt8/MqASJY+pSm5ZDtc3YQox+4gsLI7yi1hba6o+eCsGxpHn5+iEVn31/FQ==}
     engines: {node: '>=20.0.0'}
 
   has-bigints@1.0.2:
@@ -6870,8 +6860,8 @@ packages:
   typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
 
-  typedoc@0.28.18:
-    resolution: {integrity: sha512-NTWTUOFRQ9+SGKKTuWKUioUkjxNwtS3JDRPVKZAXGHZy2wCA8bdv2iJiyeePn0xkmK+TCCqZFT0X7+2+FLjngA==}
+  typedoc@0.28.19:
+    resolution: {integrity: sha512-wKh+lhdmMFivMlc6vRRcMGXeGEHGU2g8a2CkPTJjJlwRf1iXbimWIPcFolCqe4E0d/FRtGszpIrsp3WLpDB8Pw==}
     engines: {node: '>= 18', pnpm: '>= 10'}
     hasBin: true
     peerDependencies:
@@ -8251,7 +8241,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.23.6
       '@babel/types': 7.23.6
-      debug: 4.3.4
+      debug: 4.4.3
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -9213,7 +9203,7 @@ snapshots:
       micromatch: 4.0.8
       openapi3-ts: 4.5.0
       swagger2openapi: 7.0.8
-      typedoc: 0.28.18(typescript@5.3.3)
+      typedoc: 0.28.19(typescript@5.3.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
@@ -9230,11 +9220,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/query@6.23.0(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(openapi-types@12.1.3)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)':
+  '@orval/query@6.23.0(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(openapi-types@12.1.3)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)':
     dependencies:
       '@orval/core': 7.21.0(openapi-types@12.1.3)(typescript@5.3.3)
       lodash.omitby: 4.6.0
-      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
+      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -9281,11 +9271,11 @@ snapshots:
   '@pkgr/utils@2.4.2':
     dependencies:
       cross-spawn: 7.0.6
-      fast-glob: 3.3.1
+      fast-glob: 3.3.3
       is-glob: 4.0.3
       open: 9.1.0
       picocolors: 1.1.1
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@polka/url@1.0.0-next.21': {}
 
@@ -9409,7 +9399,7 @@ snapshots:
 
   '@rollup/pluginutils@5.1.0(rollup@4.60.1)':
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.8
       estree-walker: 2.0.2
       picomatch: 2.3.2
     optionalDependencies:
@@ -9701,7 +9691,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@types/urijs': 1.19.26
       dependency-graph: 0.11.0
       fast-memoize: 2.5.2
@@ -9714,7 +9704,7 @@ snapshots:
     dependencies:
       '@stoplight/ordered-object-literal': 1.0.5
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       jsonc-parser: 2.2.1
       lodash: 4.18.1
       safe-stable-stringify: 1.1.1
@@ -9815,7 +9805,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       abort-controller: 3.0.0
       lodash: 4.18.1
       node-fetch: 2.7.0
@@ -10122,9 +10112,7 @@ snapshots:
 
   '@types/estree-jsx@1.0.5':
     dependencies:
-      '@types/estree': 1.0.5
-
-  '@types/estree@1.0.5': {}
+      '@types/estree': 1.0.8
 
   '@types/estree@1.0.8': {}
 
@@ -10151,8 +10139,6 @@ snapshots:
       hoist-non-react-statics: 3.3.2
 
   '@types/istanbul-lib-coverage@2.0.4': {}
-
-  '@types/json-schema@7.0.13': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -10408,7 +10394,7 @@ snapshots:
       std-env: 3.4.3
       test-exclude: 6.0.0
       v8-to-istanbul: 9.1.0
-      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
+      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -10443,7 +10429,7 @@ snapshots:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
+      vitest: 0.34.6(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3)
 
   '@vitest/utils@0.34.6':
     dependencies:
@@ -10921,8 +10907,8 @@ snapshots:
 
   array-buffer-byte-length@1.0.0:
     dependencies:
-      call-bind: 1.0.2
-      is-array-buffer: 3.0.2
+      call-bind: 1.0.9
+      is-array-buffer: 3.0.5
 
   array-buffer-byte-length@1.0.2:
     dependencies:
@@ -10963,18 +10949,18 @@ snapshots:
 
   arraybuffer.prototype.slice@1.0.2:
     dependencies:
-      array-buffer-byte-length: 1.0.0
-      call-bind: 1.0.2
+      array-buffer-byte-length: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
       get-intrinsic: 1.3.0
-      is-array-buffer: 3.0.2
-      is-shared-array-buffer: 1.0.2
+      is-array-buffer: 3.0.5
+      is-shared-array-buffer: 1.0.4
 
   arraybuffer.prototype.slice@1.0.4:
     dependencies:
       array-buffer-byte-length: 1.0.2
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       define-properties: 1.2.1
       es-abstract: 1.24.2
       es-errors: 1.3.0
@@ -11148,13 +11134,6 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
       get-intrinsic: 1.2.1
-
-  call-bind@1.0.8:
-    dependencies:
-      call-bind-apply-helpers: 1.0.2
-      es-define-property: 1.0.1
-      get-intrinsic: 1.3.0
-      set-function-length: 1.2.2
 
   call-bind@1.0.9:
     dependencies:
@@ -11529,7 +11508,7 @@ snapshots:
     dependencies:
       get-intrinsic: 1.3.0
       gopd: 1.2.0
-      has-property-descriptors: 1.0.0
+      has-property-descriptors: 1.0.2
 
   define-data-property@1.1.4:
     dependencies:
@@ -11598,7 +11577,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   dotenv@16.3.1: {}
 
@@ -11699,7 +11678,7 @@ snapshots:
       array-buffer-byte-length: 1.0.2
       arraybuffer.prototype.slice: 1.0.4
       available-typed-arrays: 1.0.7
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       data-view-buffer: 1.0.2
       data-view-byte-length: 1.0.2
@@ -11812,14 +11791,14 @@ snapshots:
   es-to-primitive@1.2.1:
     dependencies:
       is-callable: 1.2.7
-      is-date-object: 1.0.5
-      is-symbol: 1.0.4
+      is-date-object: 1.1.0
+      is-symbol: 1.1.1
 
   es-to-primitive@1.3.0:
     dependencies:
       is-callable: 1.2.7
-      is-date-object: 1.0.5
-      is-symbol: 1.0.4
+      is-date-object: 1.1.0
+      is-symbol: 1.1.1
 
   es6-promise@3.3.1: {}
 
@@ -12305,14 +12284,14 @@ snapshots:
 
   function.prototype.name@1.1.6:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
       functions-have-names: 1.2.3
 
   function.prototype.name@1.1.8:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       define-properties: 1.2.1
       functions-have-names: 1.2.3
@@ -12360,7 +12339,7 @@ snapshots:
 
   get-symbol-description@1.0.0:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       get-intrinsic: 1.3.0
 
   get-symbol-description@1.1.0:
@@ -12465,7 +12444,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.17.4
 
-  happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6):
+  happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6):
     dependencies:
       '@types/node': 20.10.5
       '@types/whatwg-mimetype': 3.0.2
@@ -12524,7 +12503,7 @@ snapshots:
 
   hast-util-to-jsx-runtime@2.3.0:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.8
       '@types/hast': 3.0.4
       '@types/unist': 3.0.2
       comma-separated-tokens: 2.0.2
@@ -12667,7 +12646,7 @@ snapshots:
 
   is-array-buffer@3.0.5:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       get-intrinsic: 1.3.0
 
@@ -12691,7 +12670,7 @@ snapshots:
 
   is-boolean-object@1.1.2:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       has-tostringtag: 1.0.2
 
   is-boolean-object@1.2.2:
@@ -12730,7 +12709,7 @@ snapshots:
 
   is-finalizationregistry@1.0.2:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
 
   is-finalizationregistry@1.1.1:
     dependencies:
@@ -12845,7 +12824,7 @@ snapshots:
 
   is-weakref@1.0.2:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
 
   is-weakref@1.1.1:
     dependencies:
@@ -12853,7 +12832,7 @@ snapshots:
 
   is-weakset@2.0.2:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       get-intrinsic: 1.3.0
 
   is-weakset@2.0.4:
@@ -13238,7 +13217,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   lru-cache@5.1.1:
     dependencies:
@@ -13679,7 +13658,7 @@ snapshots:
 
   mlly@1.4.2:
     dependencies:
-      acorn: 8.11.2
+      acorn: 8.16.0
       pathe: 1.1.1
       pkg-types: 1.0.3
       ufo: 1.3.0
@@ -13738,7 +13717,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   node-addon-api@2.0.2: {}
 
@@ -13825,7 +13804,7 @@ snapshots:
 
   object.assign@4.1.7:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
@@ -13878,7 +13857,7 @@ snapshots:
 
   openapi-sampler@1.7.2:
     dependencies:
-      '@types/json-schema': 7.0.13
+      '@types/json-schema': 7.0.15
       fast-xml-parser: 5.7.3
       json-pointer: 0.6.2
 
@@ -13910,14 +13889,14 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  orval@6.23.0(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3):
+  orval@6.23.0(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3):
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
       '@orval/angular': 6.23.0(openapi-types@12.1.3)(typescript@5.3.3)
       '@orval/axios': 6.23.0(openapi-types@12.1.3)(typescript@5.3.3)
       '@orval/core': 7.21.0(openapi-types@12.1.3)(typescript@5.3.3)
       '@orval/mock': 7.21.0(openapi-types@12.1.3)(typescript@5.3.3)
-      '@orval/query': 6.23.0(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(openapi-types@12.1.3)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)
+      '@orval/query': 6.23.0(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(openapi-types@12.1.3)(sass@1.69.5)(typescript@5.3.3)(yaml@2.8.3)
       '@orval/swr': 6.23.0(openapi-types@12.1.3)(typescript@5.3.3)
       '@orval/zod': 6.23.0(openapi-types@12.1.3)(typescript@5.3.3)
       ajv: 8.18.0
@@ -14264,7 +14243,7 @@ snapshots:
     dependencies:
       react: 18.2.0
       react-style-singleton: 2.2.1(@types/react@18.2.45)(react@18.2.0)
-      tslib: 2.6.2
+      tslib: 2.8.1
     optionalDependencies:
       '@types/react': 18.2.45
 
@@ -14313,7 +14292,7 @@ snapshots:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.6.2
+      tslib: 2.8.1
     optionalDependencies:
       '@types/react': 18.2.45
 
@@ -14430,7 +14409,7 @@ snapshots:
 
   reflect.getprototypeof@1.0.10:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       define-properties: 1.2.1
       es-abstract: 1.24.2
       es-errors: 1.3.0
@@ -14441,11 +14420,11 @@ snapshots:
 
   reflect.getprototypeof@1.0.4:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
       get-intrinsic: 1.3.0
-      globalthis: 1.0.3
+      globalthis: 1.0.4
       which-builtin-type: 1.1.3
 
   reftools@1.1.9: {}
@@ -14468,7 +14447,7 @@ snapshots:
 
   regexp.prototype.flags@1.5.4:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       define-properties: 1.2.1
       es-errors: 1.3.0
       get-proto: 1.0.1
@@ -14664,9 +14643,9 @@ snapshots:
 
   safe-regex-test@1.0.0:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       get-intrinsic: 1.3.0
-      is-regex: 1.1.4
+      is-regex: 1.2.1
 
   safe-regex-test@1.1.0:
     dependencies:
@@ -14719,9 +14698,9 @@ snapshots:
 
   set-function-name@2.0.1:
     dependencies:
-      define-data-property: 1.1.0
+      define-data-property: 1.1.4
       functions-have-names: 1.2.3
-      has-property-descriptors: 1.0.0
+      has-property-descriptors: 1.0.2
 
   set-function-name@2.0.2:
     dependencies:
@@ -14822,7 +14801,7 @@ snapshots:
 
   simple-websocket@9.1.0(bufferutil@4.0.7)(utf-8-validate@6.0.6):
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.3
       queue-microtask: 1.2.3
       randombytes: 2.1.0
       readable-stream: 3.6.2
@@ -14852,7 +14831,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   sonic-boom@2.8.0:
     dependencies:
@@ -14936,7 +14915,7 @@ snapshots:
 
   string.prototype.trim@1.2.10:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       define-data-property: 1.1.4
       define-properties: 1.2.1
@@ -14946,32 +14925,32 @@ snapshots:
 
   string.prototype.trim@1.2.8:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
 
   string.prototype.trimend@1.0.7:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
 
   string.prototype.trimend@1.0.9:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
   string.prototype.trimstart@1.0.7:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       define-properties: 1.2.1
-      es-abstract: 1.22.2
+      es-abstract: 1.24.2
 
   string.prototype.trimstart@1.0.8:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
@@ -15028,7 +15007,7 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       shallowequal: 1.1.0
       stylis: 4.3.0
-      tslib: 2.6.2
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -15218,9 +15197,9 @@ snapshots:
 
   typed-array-buffer@1.0.0:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       get-intrinsic: 1.3.0
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.15
 
   typed-array-buffer@1.0.3:
     dependencies:
@@ -15230,14 +15209,14 @@ snapshots:
 
   typed-array-byte-length@1.0.0:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       for-each: 0.3.3
-      has-proto: 1.0.1
-      is-typed-array: 1.1.12
+      has-proto: 1.2.0
+      is-typed-array: 1.1.15
 
   typed-array-byte-length@1.0.3:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       for-each: 0.3.5
       gopd: 1.2.0
       has-proto: 1.2.0
@@ -15245,16 +15224,16 @@ snapshots:
 
   typed-array-byte-offset@1.0.0:
     dependencies:
-      available-typed-arrays: 1.0.5
-      call-bind: 1.0.2
+      available-typed-arrays: 1.0.7
+      call-bind: 1.0.9
       for-each: 0.3.3
-      has-proto: 1.0.1
-      is-typed-array: 1.1.12
+      has-proto: 1.2.0
+      is-typed-array: 1.1.15
 
   typed-array-byte-offset@1.0.4:
     dependencies:
       available-typed-arrays: 1.0.7
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       for-each: 0.3.5
       gopd: 1.2.0
       has-proto: 1.2.0
@@ -15263,13 +15242,13 @@ snapshots:
 
   typed-array-length@1.0.4:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       for-each: 0.3.3
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.15
 
   typed-array-length@1.0.7:
     dependencies:
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       for-each: 0.3.5
       gopd: 1.2.0
       is-typed-array: 1.1.15
@@ -15280,7 +15259,7 @@ snapshots:
     dependencies:
       is-typedarray: 1.0.0
 
-  typedoc@0.28.18(typescript@5.3.3):
+  typedoc@0.28.19(typescript@5.3.3):
     dependencies:
       '@gerrit0/mini-shiki': 3.23.0
       lunr: 2.3.9
@@ -15319,7 +15298,7 @@ snapshots:
 
   unbox-primitive@1.0.2:
     dependencies:
-      call-bind: 1.0.2
+      call-bind: 1.0.9
       has-bigints: 1.0.2
       has-symbols: 1.1.0
       which-boxed-primitive: 1.0.2
@@ -15417,7 +15396,7 @@ snapshots:
   use-callback-ref@1.3.0(@types/react@18.2.45)(react@18.2.0):
     dependencies:
       react: 18.2.0
-      tslib: 2.6.2
+      tslib: 2.8.1
     optionalDependencies:
       '@types/react': 18.2.45
 
@@ -15425,7 +15404,7 @@ snapshots:
     dependencies:
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.6.2
+      tslib: 2.8.1
     optionalDependencies:
       '@types/react': 18.2.45
 
@@ -15562,7 +15541,7 @@ snapshots:
       sass: 1.69.5
       yaml: 2.8.3
 
-  vitest@0.34.6(@vitest/ui@0.34.7)(happy-dom@20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3):
+  vitest@0.34.6(@vitest/ui@0.34.7)(happy-dom@20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6))(jiti@2.6.1)(jsdom@21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6))(lightningcss@1.32.0)(sass@1.69.5)(yaml@2.8.3):
     dependencies:
       '@types/chai': 4.3.6
       '@types/chai-subset': 1.3.3
@@ -15590,7 +15569,7 @@ snapshots:
       why-is-node-running: 2.2.2
     optionalDependencies:
       '@vitest/ui': 0.34.7(vitest@0.34.6)
-      happy-dom: 20.8.9(bufferutil@4.0.7)(utf-8-validate@6.0.6)
+      happy-dom: 20.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.6)
       jsdom: 21.1.1(bufferutil@4.0.7)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - jiti
@@ -15672,18 +15651,18 @@ snapshots:
 
   which-builtin-type@1.1.3:
     dependencies:
-      function.prototype.name: 1.1.6
+      function.prototype.name: 1.1.8
       has-tostringtag: 1.0.2
       is-async-function: 2.0.0
-      is-date-object: 1.0.5
+      is-date-object: 1.1.0
       is-finalizationregistry: 1.0.2
       is-generator-function: 1.0.10
-      is-regex: 1.1.4
-      is-weakref: 1.0.2
+      is-regex: 1.2.1
+      is-weakref: 1.1.1
       isarray: 2.0.5
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
-      which-typed-array: 1.1.11
+      which-typed-array: 1.1.20
 
   which-builtin-type@1.2.1:
     dependencies:
@@ -15728,7 +15707,7 @@ snapshots:
   which-typed-array@1.1.20:
     dependencies:
       available-typed-arrays: 1.0.7
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       for-each: 0.3.5
       get-proto: 1.0.1
