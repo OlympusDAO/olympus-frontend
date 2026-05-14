@@ -53,3 +53,5 @@ src/typechain
 package-lock.json
 
 tmp/
+
+.pnpm-store/
