@@ -1,3 +1,14 @@
+> [!IMPORTANT]
+> ## ⚠️ This repository is archived
+>
+> This repository is no longer maintained and has been archived. Active development of the Olympus frontend has moved to a new repository:
+>
+> ### 👉 [OlympusDAO/olympus-frontend-v2](https://github.com/OlympusDAO/olympus-frontend-v2)
+>
+> Please direct all new issues, pull requests, and contributions to the new repository. The contents below are preserved for historical reference only.
+
+---
+
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/OlympusDAO)
 ![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__branches__heads_develop.json)
 ![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__lines__heads_develop.json)
